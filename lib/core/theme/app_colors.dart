@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Authoritative Navy — CA App brand colors
+/// Authoritative Navy — CADesk brand colors
 class AppColors {
   AppColors._();
 

@@ -7,14 +7,14 @@ class CAApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CA App',
+      title: 'CADesk',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
       home: const Scaffold(
         body: Center(
-          child: Text('CA App'),
+          child: Text('CADesk'),
         ),
       ),
     );

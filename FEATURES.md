@@ -1,4 +1,4 @@
-# CA App — Complete Features & Modules
+# CADesk — Complete Features & Modules
 
 > Comprehensive CA practice management platform — 31 modules covering tax, compliance, audit, firm operations, AI automation & client engagement
 

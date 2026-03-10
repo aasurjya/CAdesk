@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/app.dart';
 
 void main() {
-  group('CAApp', () {
+  group('CADesk', () {
     testWidgets('renders correctly', (tester) async {
       await tester.pumpWidget(const CAApp());
-      expect(find.text('CA App'), findsOneWidget);
+      expect(find.text('CADesk'), findsOneWidget);
     });
 
     testWidgets('uses Material 3', (tester) async {

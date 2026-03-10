@@ -204,7 +204,7 @@ Development patterns and standards are documented in `guides/`:
 
 ## Notes
 
-- This is a CA (Chartered Accountant) practice management app for India
+- **CADesk** — Complete practice management for Chartered Accountants (India)
 - See FEATURES.md for all 31 modules to be built
 - Target platforms: iPhone, iPad, MacBook (macOS), Web
 - All code must follow immutable patterns — no mutation of state objects
