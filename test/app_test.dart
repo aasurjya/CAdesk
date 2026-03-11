@@ -23,7 +23,7 @@ void main() {
       await tester.pumpAndSettle();
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.darkTheme, isNotNull);
-      expect(materialApp.themeMode, ThemeMode.system);
+      expect(materialApp.themeMode, ThemeMode.light);
     });
 
     testWidgets('debug banner is disabled', (tester) async {

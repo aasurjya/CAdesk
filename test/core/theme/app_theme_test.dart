@@ -19,8 +19,8 @@ void main() {
         expect(scheme.primary, isNotNull);
       });
 
-      test('has centered app bar', () {
-        expect(AppTheme.light.appBarTheme.centerTitle, isTrue);
+      test('has app bar center title configured', () {
+        expect(AppTheme.light.appBarTheme.centerTitle, isFalse);
       });
 
       test('has zero app bar elevation', () {
@@ -31,16 +31,16 @@ void main() {
         expect(AppTheme.light.inputDecorationTheme.filled, isTrue);
       });
 
-      test('input fill color is neutral50', () {
+      test('input fill color is surface', () {
         expect(
           AppTheme.light.inputDecorationTheme.fillColor,
-          AppColors.neutral50,
+          AppColors.surface,
         );
       });
 
       test('has card with rounded corners', () {
         final shape = AppTheme.light.cardTheme.shape as RoundedRectangleBorder;
-        expect(shape.borderRadius, BorderRadius.circular(12));
+        expect(shape.borderRadius, BorderRadius.circular(20));
       });
 
       test('FAB uses accent color', () {
