@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/crypto_vda/data/providers/crypto_vda_providers.dart';
@@ -70,11 +69,11 @@ class _VdaScheduleSheet extends ConsumerWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     const SizedBox(height: 12),
-                    _SummaryCard(summary: summary),
+                    VdaScheduleSummaryCard(summary: summary),
                     const SizedBox(height: 16),
                     _LossDisallowedBanner(note: summary.lossDisallowedNote),
                     const SizedBox(height: 16),
-                    _TransactionListSection(transactions: transactions),
+                    VdaScheduleTransactionList(transactions: transactions),
                     const SizedBox(height: 16),
                     _LegalNoteCard(),
                     const SizedBox(height: 32),
@@ -90,7 +89,7 @@ class _VdaScheduleSheet extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Sub-widgets
+// Sheet chrome
 // ---------------------------------------------------------------------------
 
 class _SheetHandle extends StatelessWidget {
@@ -152,22 +151,28 @@ class _SheetHeader extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Summary card
+// Summary card — exported so it can be tested in isolation
 // ---------------------------------------------------------------------------
 
-class _SummaryCard extends StatelessWidget {
-  const _SummaryCard({required this.summary});
+/// Schedule VDA summary card with tax breakdown rows.
+class VdaScheduleSummaryCard extends StatelessWidget {
+  const VdaScheduleSummaryCard({super.key, required this.summary});
 
   final VdaScheduleSummary summary;
 
+  static String formatAmount(double amount) {
+    if (amount >= 10000000) {
+      return '₹${(amount / 10000000).toStringAsFixed(2)}Cr';
+    } else if (amount >= 100000) {
+      return '₹${(amount / 100000).toStringAsFixed(2)}L';
+    } else if (amount >= 1000) {
+      return '₹${(amount / 1000).toStringAsFixed(1)}K';
+    }
+    return '₹${amount.toStringAsFixed(0)}';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final NumberFormat fmt = NumberFormat.currency(
-      locale: 'en_IN',
-      symbol: '₹',
-      decimalDigits: 0,
-    );
-
     final double cess = summary.totalTaxPayable / 1.04 * 0.04;
 
     return Card(
@@ -181,61 +186,60 @@ class _SummaryCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Total Sale Value',
-              value: fmt.format(summary.totalSaleValue),
+              value: _fmt(summary.totalSaleValue),
             ),
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Total Cost of Acquisition',
-              value: fmt.format(summary.totalCost),
+              value: _fmt(summary.totalCost),
             ),
             const Divider(height: 20),
             if (summary.totalNetGains > 0)
-              _SummaryRow(
+              VdaScheduleRow(
                 label: 'Net Gains',
-                value: fmt.format(summary.totalNetGains),
+                value: _fmt(summary.totalNetGains),
                 valueColor: AppColors.success,
                 bold: true,
               ),
             if (summary.totalLosses > 0)
-              _SummaryRow(
+              VdaScheduleRow(
                 label: 'Net Losses (disallowed)',
-                value: fmt.format(summary.totalLosses),
+                value: _fmt(summary.totalLosses),
                 valueColor: AppColors.error,
                 bold: true,
                 trailingBadge: 'disallowed',
               ),
             const Divider(height: 20),
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Tax @ 30%',
-              value: fmt.format(summary.totalTaxPayable / 1.04),
-              valueColor: AppColors.neutral900,
+              value: _fmt(summary.totalTaxPayable / 1.04),
             ),
-            _SummaryRow(
+            VdaScheduleRow(
               label: '+ 4% Health & Education Cess',
-              value: fmt.format(cess),
-              valueColor: AppColors.neutral900,
+              value: _fmt(cess),
             ),
             const Divider(height: 12),
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Total Tax Payable',
-              value: fmt.format(summary.totalTaxPayable),
+              value: _fmt(summary.totalTaxPayable),
               valueColor: AppColors.error,
               bold: true,
               large: true,
             ),
             const SizedBox(height: 8),
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Less: TDS Deducted u/s 194S',
-              value: '– ${fmt.format(summary.totalTdsDeducted)}',
+              value: '– ${_fmt(summary.totalTdsDeducted)}',
               valueColor: AppColors.success,
             ),
             const Divider(height: 12),
-            _SummaryRow(
+            VdaScheduleRow(
               label: 'Net Tax Payable',
-              value: fmt.format(summary.netTaxAfterTds),
-              valueColor:
-                  summary.netTaxAfterTds > 0 ? AppColors.error : AppColors.success,
+              value: _fmt(summary.netTaxAfterTds),
+              valueColor: summary.netTaxAfterTds > 0
+                  ? AppColors.error
+                  : AppColors.success,
               bold: true,
               large: true,
             ),
@@ -244,10 +248,27 @@ class _SummaryCard extends StatelessWidget {
       ),
     );
   }
+
+  static String _fmt(double v) {
+    // Indian numbering format with ₹ prefix.
+    final int iv = v.round();
+    if (iv >= 10000000) {
+      return '₹${(iv / 10000000).toStringAsFixed(2)}Cr';
+    }
+    if (iv >= 100000) {
+      return '₹${(iv / 100000).toStringAsFixed(2)}L';
+    }
+    if (iv >= 1000) {
+      return '₹${(iv / 1000).toStringAsFixed(1)}K';
+    }
+    return '₹$iv';
+  }
 }
 
-class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
+/// Single label-value row in the schedule VDA summary card.
+class VdaScheduleRow extends StatelessWidget {
+  const VdaScheduleRow({
+    super.key,
     required this.label,
     required this.value,
     this.valueColor,
@@ -312,7 +333,7 @@ class _SummaryRow extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Loss disallowed banner
+// Loss disallowed banner + legal note
 // ---------------------------------------------------------------------------
 
 class _LossDisallowedBanner extends StatelessWidget {
@@ -354,12 +375,54 @@ class _LossDisallowedBanner extends StatelessWidget {
   }
 }
 
+class _LegalNoteCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.warning.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.warning,
+            size: 18,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              'VDA losses cannot be set off against salary, business, or '
+              'capital gains income under Section 115BBH of the Income Tax '
+              'Act, 1961. Each VDA gain is taxed at a flat 30% plus 4% '
+              'Health & Education Cess.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.warning,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
-// Transaction list section
+// Transaction list — extracted for reuse & line-count compliance
 // ---------------------------------------------------------------------------
 
-class _TransactionListSection extends StatelessWidget {
-  const _TransactionListSection({required this.transactions});
+/// Scrollable list of VDA transactions inside the Schedule VDA sheet.
+class VdaScheduleTransactionList extends StatelessWidget {
+  const VdaScheduleTransactionList({
+    super.key,
+    required this.transactions,
+  });
 
   final List<VdaTransaction> transactions;
 
@@ -393,13 +456,6 @@ class _ScheduleTransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final NumberFormat fmt = NumberFormat.currency(
-      locale: 'en_IN',
-      symbol: '₹',
-      decimalDigits: 0,
-    );
-    final DateFormat dateFmt = DateFormat('dd MMM yyyy');
-
     final double gain = transaction.sellPrice - transaction.buyPrice;
     final bool isGain = gain > 0;
     final bool isLoss = gain < 0;
@@ -436,9 +492,8 @@ class _ScheduleTransactionTile extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              '${transaction.exchange}  •  '
-              '${dateFmt.format(transaction.transactionDate)}  •  '
-              'Qty: ${transaction.quantity}',
+              '${transaction.exchange}  •  ${_date(transaction.transactionDate)}'
+              '  •  Qty: ${transaction.quantity}',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: AppColors.neutral400,
               ),
@@ -449,34 +504,18 @@ class _ScheduleTransactionTile extends StatelessWidget {
                 _MiniStat(
                   label: 'Sale Value',
                   value: transaction.sellPrice > 0
-                      ? fmt.format(transaction.sellPrice)
+                      ? VdaScheduleSummaryCard._fmt(transaction.sellPrice)
                       : '--',
                 ),
                 _MiniStat(
                   label: 'Gain / Loss',
                   value: gain != 0
-                      ? '${isGain ? '+' : ''}${fmt.format(gain)}'
+                      ? '${isGain ? '+' : ''}${VdaScheduleSummaryCard._fmt(gain.abs())}'
                       : '--',
                   color: gainColor,
                 ),
                 if (isLoss)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.error.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      'disallowed',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: AppColors.error,
-                        fontSize: 9,
-                      ),
-                    ),
-                  ),
+                  _DisallowedChip(),
               ],
             ),
           ],
@@ -484,6 +523,27 @@ class _ScheduleTransactionTile extends StatelessWidget {
       ),
     );
   }
+
+  static String _date(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')} '
+      '${_month(d.month)} '
+      '${d.year}';
+
+  static String _month(int m) => const [
+        '',
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ][m];
 }
 
 class _MiniStat extends StatelessWidget {
@@ -551,43 +611,21 @@ class _TxnTypeBadge extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Legal note card
-// ---------------------------------------------------------------------------
-
-class _LegalNoteCard extends StatelessWidget {
+class _DisallowedChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: AppColors.warning.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+        color: AppColors.error.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(4),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.warning_amber_rounded,
-            color: AppColors.warning,
-            size: 18,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              'VDA losses cannot be set off against salary, business, or '
-              'capital gains income under Section 115BBH of the Income Tax '
-              'Act, 1961. Each VDA gain is taxed at a flat 30% plus 4% '
-              'Health & Education Cess.',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: AppColors.warning,
-              ),
+      child: Text(
+        'disallowed',
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: AppColors.error,
+              fontSize: 9,
             ),
-          ),
-        ],
       ),
     );
   }
