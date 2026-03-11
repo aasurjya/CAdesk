@@ -7,8 +7,6 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/clients/domain/models/client.dart';
 import 'package:ca_app/features/clients/data/providers/client_providers.dart';
 import 'package:ca_app/features/clients/presentation/widgets/client_avatar.dart';
-import 'package:ca_app/features/clients/presentation/widgets/client_health_card.dart';
-import 'package:ca_app/features/clients/presentation/widgets/edit_client_sheet.dart';
 
 class ClientDetailScreen extends ConsumerWidget {
   const ClientDetailScreen({super.key, required this.clientId});
@@ -34,13 +32,11 @@ class ClientDetailScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                ClientHealthCard(clientId: client.id),
-                const SizedBox(height: 20),
                 _ContactSection(client: client),
                 const SizedBox(height: 20),
                 _ServicesSection(services: client.servicesAvailed),
                 const SizedBox(height: 20),
-                _QuickActionsSection(client: client),
+                _QuickActionsSection(),
                 const SizedBox(height: 20),
                 _DocumentsSection(),
                 const SizedBox(height: 20),
@@ -55,17 +51,7 @@ class ClientDetailScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'client_detail_fab',
-        onPressed: () {
-          showModalBottomSheet<void>(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            ),
-            builder: (_) => EditClientSheet(client: client),
-          );
-        },
+        onPressed: () {},
         child: const Icon(Icons.edit),
       ),
     );
@@ -401,20 +387,6 @@ class _ServicesSection extends StatelessWidget {
 }
 
 class _QuickActionsSection extends StatelessWidget {
-  const _QuickActionsSection({required this.client});
-
-  final Client client;
-
-  void _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -437,57 +409,28 @@ class _QuickActionsSection extends StatelessWidget {
           children: [
             Expanded(
               child: _QuickActionCard(
-                icon: Icons.email_outlined,
-                label: 'Send Email',
+                icon: Icons.receipt_long,
+                label: 'File ITR',
                 color: AppColors.primary,
-                onTap: client.email != null
-                    ? () => launchUrl(
-                          Uri(scheme: 'mailto', path: client.email),
-                        )
-                    : () => _showSnackBar(
-                          context,
-                          'No email on file for ${client.name}',
-                        ),
+                onTap: () {},
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: _QuickActionCard(
-                icon: Icons.phone_outlined,
-                label: 'Call',
+                icon: Icons.receipt,
+                label: 'File GST',
                 color: AppColors.secondary,
-                onTap: client.phone != null
-                    ? () => launchUrl(
-                          Uri(scheme: 'tel', path: client.phone),
-                        )
-                    : () => _showSnackBar(
-                          context,
-                          'No phone on file for ${client.name}',
-                        ),
+                onTap: () {},
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: _QuickActionCard(
-                icon: Icons.task_alt,
-                label: 'Add Task',
+                icon: Icons.description,
+                label: 'File TDS',
                 color: AppColors.accent,
-                onTap: () => _showSnackBar(
-                  context,
-                  'Task added for ${client.name}',
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: _QuickActionCard(
-                icon: Icons.receipt_long_outlined,
-                label: 'Invoice',
-                color: AppColors.success,
-                onTap: () => _showSnackBar(
-                  context,
-                  'Opening billing for ${client.name}',
-                ),
+                onTap: () {},
               ),
             ),
           ],
