@@ -8,10 +8,10 @@ CADesk is a Flutter application targeting iPhone, iPad, macOS, and Web. It cover
 
 ## Current Status
 
-**Overall completion: ~52%**
+**Overall completion: ~58%**
 
 - 51 modules, all with full UI shells, clean architecture, Riverpod state, and navigable flows
-- **10 modules** now have deep, real business logic (see Key Business Logic section below)
+- **16 modules** now have deep, real business logic (see Key Business Logic section below)
 - AI & Automation has a live investor-pitch simulation (OCR, reconciliation, anomaly detection) via "Live AI Demo" FAB
 - Zero modules have real API integration or automated tests yet
 
@@ -43,7 +43,7 @@ CADesk is a Flutter application targeting iPhone, iPad, macOS, and Web. It cover
 | 5 | MCA/ROC | `/mca` | 40% |
 | 6 | XBRL Filing | `/xbrl` | 35% |
 | 7 | Accounts & Balance Sheet | `/accounts` | 58% — 11 financial ratios, WDV depreciation, ratio benchmarks |
-| 8 | CMA / Financial Projections | `/cma` | 40% |
+| 8 | CMA / Financial Projections | `/cma` | 58% — EMI/NPV/IRR/MPBF/DSCR calculators, amortization schedule |
 | 9 | Payroll | `/payroll` | 60% — PF/ESI/PT/TDS computation, payslip detail, CTC breakdown |
 | 10 | Assessment Orders | `/assessment` | 58% — 234A/B/C/244A interest, demand vs refund, intimation detail |
 
