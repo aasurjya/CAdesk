@@ -13,11 +13,7 @@ final _inr = NumberFormat.currency(
 /// List tile showing an employee with designation, department, net salary
 /// and PF/ESI registration numbers.
 class EmployeeTile extends StatelessWidget {
-  const EmployeeTile({
-    super.key,
-    required this.employee,
-    this.onTap,
-  });
+  const EmployeeTile({super.key, required this.employee, this.onTap});
 
   final Employee employee;
   final VoidCallback? onTap;
@@ -187,10 +183,7 @@ class _SalaryChip extends StatelessWidget {
         children: [
           Text(
             '$label: ',
-            style: TextStyle(
-              fontSize: 11,
-              color: color.withValues(alpha: 0.7),
-            ),
+            style: TextStyle(fontSize: 11, color: color.withValues(alpha: 0.7)),
           ),
           Text(
             amount,
@@ -207,10 +200,7 @@ class _SalaryChip extends StatelessWidget {
 }
 
 class _StatutoryRow extends StatelessWidget {
-  const _StatutoryRow({
-    required this.pfNumber,
-    required this.esiNumber,
-  });
+  const _StatutoryRow({required this.pfNumber, required this.esiNumber});
 
   final String pfNumber;
   final String esiNumber;

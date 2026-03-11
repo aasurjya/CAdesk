@@ -40,8 +40,9 @@ class _VdaScheduleSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final VdaScheduleSummary summary =
-        ref.watch(vdaScheduleSummaryProvider(clientId));
+    final VdaScheduleSummary summary = ref.watch(
+      vdaScheduleSummaryProvider(clientId),
+    );
     final List<VdaTransaction> transactions = ref
         .watch(allVdaTransactionsProvider)
         .where((VdaTransaction t) => t.clientId == clientId)
@@ -113,10 +114,7 @@ class _SheetHandle extends StatelessWidget {
 }
 
 class _SheetHeader extends StatelessWidget {
-  const _SheetHeader({
-    required this.clientName,
-    required this.assessmentYear,
-  });
+  const _SheetHeader({required this.clientName, required this.assessmentYear});
 
   final String clientName;
   final String assessmentYear;
@@ -277,13 +275,12 @@ class VdaScheduleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final TextStyle valueStyle = (large
-            ? theme.textTheme.titleMedium
-            : theme.textTheme.bodyMedium)
-        ?.copyWith(
-          fontWeight: bold ? FontWeight.bold : FontWeight.w500,
-          color: valueColor ?? AppColors.neutral900,
-        ) ??
+    final TextStyle valueStyle =
+        (large ? theme.textTheme.titleMedium : theme.textTheme.bodyMedium)
+            ?.copyWith(
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+              color: valueColor ?? AppColors.neutral900,
+            ) ??
         const TextStyle();
 
     return Padding(

@@ -40,9 +40,9 @@ class AppearanceSection extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 'Select Currency',
-                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             RadioGroup<String>(
@@ -55,10 +55,7 @@ class AppearanceSection extends StatelessWidget {
               },
               child: Column(
                 children: _currencies
-                    .map((c) => RadioListTile<String>(
-                          value: c,
-                          title: Text(c),
-                        ))
+                    .map((c) => RadioListTile<String>(value: c, title: Text(c)))
                     .toList(),
               ),
             ),
@@ -80,9 +77,9 @@ class AppearanceSection extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 'Select Financial Year',
-                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             RadioGroup<String>(
@@ -95,10 +92,10 @@ class AppearanceSection extends StatelessWidget {
               },
               child: Column(
                 children: _financialYears
-                    .map((y) => RadioListTile<String>(
-                          value: y,
-                          title: Text('FY $y'),
-                        ))
+                    .map(
+                      (y) =>
+                          RadioListTile<String>(value: y, title: Text('FY $y')),
+                    )
                     .toList(),
               ),
             ),
@@ -176,11 +173,7 @@ class _TrailingValue extends StatelessWidget {
           value,
           style: const TextStyle(color: AppColors.neutral600, fontSize: 14),
         ),
-        const Icon(
-          Icons.chevron_right,
-          size: 18,
-          color: AppColors.neutral400,
-        ),
+        const Icon(Icons.chevron_right, size: 18, color: AppColors.neutral400),
       ],
     );
   }

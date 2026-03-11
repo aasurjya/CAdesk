@@ -106,10 +106,7 @@ class _DscVaultScreenState extends ConsumerState<DscVaultScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _DscCertificatesTab(),
-                _PortalCredentialsTab(),
-              ],
+              children: const [_DscCertificatesTab(), _PortalCredentialsTab()],
             ),
           ),
         ],
@@ -259,9 +256,9 @@ class _DscStatusFilterBar extends ConsumerWidget {
             label: Text(status.label),
             selected: isActive,
             onSelected: (_) {
-              ref.read(dscStatusFilterProvider.notifier).update(
-                    isActive ? null : status,
-                  );
+              ref
+                  .read(dscStatusFilterProvider.notifier)
+                  .update(isActive ? null : status);
             },
             labelStyle: TextStyle(
               fontSize: 12,

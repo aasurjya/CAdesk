@@ -32,11 +32,7 @@ class FirmOperationsScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _StaffTab(),
-            _KpiTab(),
-            _KnowledgeBaseTab(),
-          ],
+          children: [_StaffTab(), _KpiTab(), _KnowledgeBaseTab()],
         ),
       ),
     );
@@ -66,7 +62,9 @@ class _StaffTab extends ConsumerWidget {
               prefixIcon: const Icon(Icons.search, size: 20),
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 10),
+                horizontal: 12,
+                vertical: 10,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: AppColors.neutral200),
@@ -102,9 +100,7 @@ class _StaffTab extends ConsumerWidget {
                   label: d.label,
                   isSelected: selectedDesignation == d,
                   onTap: () {
-                    ref
-                        .read(staffDesignationFilterProvider.notifier)
-                        .update(d);
+                    ref.read(staffDesignationFilterProvider.notifier).update(d);
                   },
                 ),
               ),
@@ -115,7 +111,10 @@ class _StaffTab extends ConsumerWidget {
         Expanded(
           child: staff.isEmpty
               ? _buildEmptyState(
-                  context, Icons.people_outline, 'No staff found')
+                  context,
+                  Icons.people_outline,
+                  'No staff found',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 16),
                   itemCount: staff.length,
@@ -176,7 +175,10 @@ class _KpiTab extends ConsumerWidget {
 
     if (kpis.isEmpty) {
       return _buildEmptyState(
-          context, Icons.bar_chart_outlined, 'No KPI data available');
+        context,
+        Icons.bar_chart_outlined,
+        'No KPI data available',
+      );
     }
 
     return ListView.builder(
@@ -212,7 +214,9 @@ class _KnowledgeBaseTab extends ConsumerWidget {
               prefixIcon: const Icon(Icons.search, size: 20),
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 10),
+                horizontal: 12,
+                vertical: 10,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: AppColors.neutral200),
@@ -238,9 +242,7 @@ class _KnowledgeBaseTab extends ConsumerWidget {
                 label: 'All',
                 isSelected: selectedCategory == null,
                 onTap: () {
-                  ref
-                      .read(articleCategoryFilterProvider.notifier)
-                      .update(null);
+                  ref.read(articleCategoryFilterProvider.notifier).update(null);
                 },
               ),
               ...ArticleCategory.values.map(
@@ -248,9 +250,7 @@ class _KnowledgeBaseTab extends ConsumerWidget {
                   label: c.label,
                   isSelected: selectedCategory == c,
                   onTap: () {
-                    ref
-                        .read(articleCategoryFilterProvider.notifier)
-                        .update(c);
+                    ref.read(articleCategoryFilterProvider.notifier).update(c);
                   },
                 ),
               ),
@@ -261,7 +261,10 @@ class _KnowledgeBaseTab extends ConsumerWidget {
         Expanded(
           child: articles.isEmpty
               ? _buildEmptyState(
-                  context, Icons.article_outlined, 'No articles found')
+                  context,
+                  Icons.article_outlined,
+                  'No articles found',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 16),
                   itemCount: articles.length,

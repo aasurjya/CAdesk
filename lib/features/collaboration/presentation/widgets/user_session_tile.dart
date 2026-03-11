@@ -196,9 +196,9 @@ class _PresenceChip extends StatelessWidget {
           Text(
             presence.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: presence.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: presence.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

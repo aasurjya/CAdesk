@@ -179,9 +179,9 @@ class _FeedStatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -208,9 +208,9 @@ class _MetaItem extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w500,
-              ),
+            color: color,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

@@ -102,10 +102,7 @@ class _SebiScreenState extends ConsumerState<SebiScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _DisclosuresTab(),
-                _MaterialEventsTab(),
-              ],
+              children: const [_DisclosuresTab(), _MaterialEventsTab()],
             ),
           ),
         ],
@@ -201,9 +198,9 @@ class _DisclosuresTab extends ConsumerWidget {
                 label: Text(status.label),
                 selected: isActive,
                 onSelected: (_) {
-                  ref.read(disclosureStatusFilterProvider.notifier).update(
-                        status == selectedStatus ? null : status,
-                      );
+                  ref
+                      .read(disclosureStatusFilterProvider.notifier)
+                      .update(status == selectedStatus ? null : status);
                 },
                 labelStyle: TextStyle(
                   fontSize: 12,
@@ -212,9 +209,7 @@ class _DisclosuresTab extends ConsumerWidget {
                 ),
                 selectedColor: status.color,
                 backgroundColor: status.color.withValues(alpha: 0.08),
-                side: BorderSide(
-                  color: status.color.withValues(alpha: 0.3),
-                ),
+                side: BorderSide(color: status.color.withValues(alpha: 0.3)),
                 showCheckmark: false,
                 visualDensity: VisualDensity.compact,
               );
@@ -268,9 +263,9 @@ class _MaterialEventsTab extends ConsumerWidget {
                 label: Text(type.label),
                 selected: isActive,
                 onSelected: (_) {
-                  ref.read(materialEventTypeFilterProvider.notifier).update(
-                        type == selectedType ? null : type,
-                      );
+                  ref
+                      .read(materialEventTypeFilterProvider.notifier)
+                      .update(type == selectedType ? null : type);
                 },
                 labelStyle: TextStyle(
                   fontSize: 12,
@@ -279,9 +274,7 @@ class _MaterialEventsTab extends ConsumerWidget {
                 ),
                 selectedColor: type.color,
                 backgroundColor: type.color.withValues(alpha: 0.08),
-                side: BorderSide(
-                  color: type.color.withValues(alpha: 0.3),
-                ),
+                side: BorderSide(color: type.color.withValues(alpha: 0.3)),
                 showCheckmark: false,
                 visualDensity: VisualDensity.compact,
               );

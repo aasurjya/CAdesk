@@ -124,13 +124,13 @@ class LLPEntity {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        llpName,
-        llpin,
-        turnover,
-        capitalContribution,
-        isAuditRequired,
-      );
+    id,
+    llpName,
+    llpin,
+    turnover,
+    capitalContribution,
+    isAuditRequired,
+  );
 
   @override
   String toString() =>

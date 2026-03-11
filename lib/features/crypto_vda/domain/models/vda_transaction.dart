@@ -22,10 +22,7 @@ enum VdaTransactionType {
   staking(label: 'Staking', color: Color(0xFF00838F)),
   airdrop(label: 'Airdrop', color: Color(0xFFD4890E));
 
-  const VdaTransactionType({
-    required this.label,
-    required this.color,
-  });
+  const VdaTransactionType({required this.label, required this.color});
 
   final String label;
   final Color color;
@@ -127,20 +124,20 @@ class VdaTransaction {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        clientId,
-        assetType,
-        assetName,
-        transactionType,
-        quantity,
-        buyPrice,
-        sellPrice,
-        gainLoss,
-        taxAt30Percent,
-        tdsUnder194S,
-        exchange,
-        transactionDate,
-      );
+    id,
+    clientId,
+    assetType,
+    assetName,
+    transactionType,
+    quantity,
+    buyPrice,
+    sellPrice,
+    gainLoss,
+    taxAt30Percent,
+    tdsUnder194S,
+    exchange,
+    transactionDate,
+  );
 
   @override
   String toString() =>

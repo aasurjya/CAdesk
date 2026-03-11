@@ -86,10 +86,11 @@ class LLPFiling {
   int get daysOverdue {
     if (status != LLPFilingStatus.overdue) return 0;
     final now = DateTime.now();
-    return DateTime(now.year, now.month, now.day)
-        .difference(dueDate)
-        .inDays
-        .clamp(0, 9999);
+    return DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).difference(dueDate).inDays.clamp(0, 9999);
   }
 
   /// Returns a new [LLPFiling] with the given fields replaced.
@@ -137,14 +138,8 @@ class LLPFiling {
           financialYear == other.financialYear;
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        llpId,
-        formType,
-        dueDate,
-        status,
-        financialYear,
-      );
+  int get hashCode =>
+      Object.hash(id, llpId, formType, dueDate, status, financialYear);
 
   @override
   String toString() =>

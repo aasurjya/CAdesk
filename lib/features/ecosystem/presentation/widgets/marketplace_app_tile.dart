@@ -127,9 +127,9 @@ class _InstallStatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -151,9 +151,9 @@ class _CategoryChip extends StatelessWidget {
       child: Text(
         category.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.secondary,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.secondary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

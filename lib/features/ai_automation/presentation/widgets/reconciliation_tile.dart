@@ -159,8 +159,8 @@ class _ConfidenceBar extends StatelessWidget {
     final color = confidence >= 0.90
         ? AppColors.success
         : confidence >= 0.70
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return Row(
       mainAxisSize: MainAxisSize.min,

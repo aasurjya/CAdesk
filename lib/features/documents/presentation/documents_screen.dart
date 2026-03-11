@@ -151,10 +151,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
-                  _DocumentsTab(),
-                  _FoldersTab(),
-                ],
+                children: const [_DocumentsTab(), _FoldersTab()],
               ),
             ),
           ],
@@ -362,17 +359,19 @@ class _CategoryChips extends ConsumerWidget {
             onTap: () =>
                 ref.read(docCategoryFilterProvider.notifier).update(null),
           ),
-          ...DocumentCategory.values.map((cat) => Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: _chip(
-                  context,
-                  label: cat.label,
-                  isSelected: selected == cat,
-                  onTap: () => ref
-                      .read(docCategoryFilterProvider.notifier)
-                      .update(selected == cat ? null : cat),
-                ),
-              )),
+          ...DocumentCategory.values.map(
+            (cat) => Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: _chip(
+                context,
+                label: cat.label,
+                isSelected: selected == cat,
+                onTap: () => ref
+                    .read(docCategoryFilterProvider.notifier)
+                    .update(selected == cat ? null : cat),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -463,9 +462,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

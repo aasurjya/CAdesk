@@ -29,8 +29,9 @@ class TimeEntryTile extends StatelessWidget {
               Container(
                 width: 4,
                 decoration: BoxDecoration(
-                  color:
-                      entry.isBillable ? AppColors.success : AppColors.neutral400,
+                  color: entry.isBillable
+                      ? AppColors.success
+                      : AppColors.neutral400,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(12),
                     bottomLeft: Radius.circular(12),

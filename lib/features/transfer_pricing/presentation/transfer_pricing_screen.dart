@@ -103,10 +103,7 @@ class _TransferPricingScreenState extends ConsumerState<TransferPricingScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _TpStudiesTab(),
-                _TpFilingsTab(),
-              ],
+              children: const [_TpStudiesTab(), _TpFilingsTab()],
             ),
           ),
         ],
@@ -202,9 +199,9 @@ class _TpStudiesTab extends ConsumerWidget {
                 label: Text(status.label),
                 selected: isActive,
                 onSelected: (_) {
-                  ref.read(tpStudyStatusFilterProvider.notifier).update(
-                        status == selectedStatus ? null : status,
-                      );
+                  ref
+                      .read(tpStudyStatusFilterProvider.notifier)
+                      .update(status == selectedStatus ? null : status);
                 },
                 labelStyle: TextStyle(
                   fontSize: 12,
@@ -213,9 +210,7 @@ class _TpStudiesTab extends ConsumerWidget {
                 ),
                 selectedColor: status.color,
                 backgroundColor: status.color.withValues(alpha: 0.08),
-                side: BorderSide(
-                  color: status.color.withValues(alpha: 0.3),
-                ),
+                side: BorderSide(color: status.color.withValues(alpha: 0.3)),
                 showCheckmark: false,
                 visualDensity: VisualDensity.compact,
               );
@@ -269,9 +264,9 @@ class _TpFilingsTab extends ConsumerWidget {
                 label: Text(status.label),
                 selected: isActive,
                 onSelected: (_) {
-                  ref.read(tpFilingStatusFilterProvider.notifier).update(
-                        status == selectedStatus ? null : status,
-                      );
+                  ref
+                      .read(tpFilingStatusFilterProvider.notifier)
+                      .update(status == selectedStatus ? null : status);
                 },
                 labelStyle: TextStyle(
                   fontSize: 12,
@@ -280,9 +275,7 @@ class _TpFilingsTab extends ConsumerWidget {
                 ),
                 selectedColor: status.color,
                 backgroundColor: status.color.withValues(alpha: 0.08),
-                side: BorderSide(
-                  color: status.color.withValues(alpha: 0.3),
-                ),
+                side: BorderSide(color: status.color.withValues(alpha: 0.3)),
                 showCheckmark: false,
                 visualDensity: VisualDensity.compact,
               );

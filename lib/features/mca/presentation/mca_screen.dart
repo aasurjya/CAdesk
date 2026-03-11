@@ -89,10 +89,7 @@ class _McaScreenState extends ConsumerState<McaScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _CompaniesTab(),
-                _FilingsTab(),
-              ],
+              children: const [_CompaniesTab(), _FilingsTab()],
             ),
           ),
         ],
@@ -222,8 +219,7 @@ class _DeadlineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final daysLeft =
-        filing.dueDate.difference(DateTime(2026, 3, 10)).inDays;
+    final daysLeft = filing.dueDate.difference(DateTime(2026, 3, 10)).inDays;
 
     return Container(
       width: 160,
@@ -277,10 +273,7 @@ class _DeadlineCard extends StatelessWidget {
           ),
           Text(
             _dateFmt.format(filing.dueDate),
-            style: const TextStyle(
-              fontSize: 10,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
           ),
         ],
       ),
@@ -327,10 +320,7 @@ class _FilingsTab extends ConsumerWidget {
             SizedBox(height: 12),
             Text(
               'No filings match the current filters',
-              style: TextStyle(
-                color: AppColors.neutral400,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: AppColors.neutral400, fontSize: 14),
             ),
           ],
         ),
@@ -402,7 +392,10 @@ class _FiltersSheet extends ConsumerWidget {
                 prefixIcon: Icon(Icons.flag_rounded),
               ),
               items: [
-                const DropdownMenuItem(value: null, child: Text('All Statuses')),
+                const DropdownMenuItem(
+                  value: null,
+                  child: Text('All Statuses'),
+                ),
                 ...McaFilingStatus.values.map(
                   (s) => DropdownMenuItem(value: s, child: Text(s.label)),
                 ),
@@ -422,7 +415,9 @@ class _FiltersSheet extends ConsumerWidget {
               ),
               items: [
                 const DropdownMenuItem(
-                    value: null, child: Text('All Form Types')),
+                  value: null,
+                  child: Text('All Form Types'),
+                ),
                 ...McaFormType.values.map(
                   (t) => DropdownMenuItem(
                     value: t,
@@ -445,7 +440,9 @@ class _FiltersSheet extends ConsumerWidget {
               ),
               items: [
                 const DropdownMenuItem(
-                    value: null, child: Text('All Jurisdictions')),
+                  value: null,
+                  child: Text('All Jurisdictions'),
+                ),
                 ...rocOptions.map(
                   (r) => DropdownMenuItem(value: r, child: Text(r)),
                 ),
@@ -460,12 +457,8 @@ class _FiltersSheet extends ConsumerWidget {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () {
-                      ref
-                          .read(mcaStatusFilterProvider.notifier)
-                          .update(null);
-                      ref
-                          .read(mcaFormTypeFilterProvider.notifier)
-                          .update(null);
+                      ref.read(mcaStatusFilterProvider.notifier).update(null);
+                      ref.read(mcaFormTypeFilterProvider.notifier).update(null);
                       ref.read(mcaRocFilterProvider.notifier).update(null);
                     },
                     child: const Text('Clear All'),
@@ -551,10 +544,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
                 .map(
                   (c) => DropdownMenuItem(
                     value: c.id,
-                    child: Text(
-                      c.companyName,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    child: Text(c.companyName, overflow: TextOverflow.ellipsis),
                   ),
                 )
                 .toList(),

@@ -6,10 +6,7 @@ import 'package:ca_app/features/regulatory_intelligence/domain/models/client_imp
 /// List tile widget displaying a [ClientImpactAlert] with client details,
 /// impact description, required action, and status/urgency indicators.
 class ImpactAlertTile extends StatelessWidget {
-  const ImpactAlertTile({
-    super.key,
-    required this.alert,
-  });
+  const ImpactAlertTile({super.key, required this.alert});
 
   final ClientImpactAlert alert;
 
@@ -82,10 +79,7 @@ class ImpactAlertTile extends StatelessWidget {
 }
 
 class _TileHeader extends StatelessWidget {
-  const _TileHeader({
-    required this.alert,
-    required this.maskedPan,
-  });
+  const _TileHeader({required this.alert, required this.maskedPan});
 
   final ClientImpactAlert alert;
   final String maskedPan;
@@ -200,7 +194,9 @@ class _TileFooter extends StatelessWidget {
                 : AppColors.neutral100,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: isUrgent ? AppColors.error.withAlpha(60) : AppColors.neutral200,
+              color: isUrgent
+                  ? AppColors.error.withAlpha(60)
+                  : AppColors.neutral200,
             ),
           ),
           child: Row(

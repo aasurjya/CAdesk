@@ -13,10 +13,7 @@ import 'package:ca_app/features/tds/domain/models/tds_section_summary.dart';
 ///
 /// Displays three tabs: Challans, Sections, and Returns.
 class TdsDeductorDetailSheet extends ConsumerStatefulWidget {
-  const TdsDeductorDetailSheet({
-    super.key,
-    required this.deductor,
-  });
+  const TdsDeductorDetailSheet({super.key, required this.deductor});
 
   final TdsDeductor deductor;
 
@@ -25,8 +22,7 @@ class TdsDeductorDetailSheet extends ConsumerStatefulWidget {
       _TdsDeductorDetailSheetState();
 }
 
-class _TdsDeductorDetailSheetState
-    extends ConsumerState<TdsDeductorDetailSheet>
+class _TdsDeductorDetailSheetState extends ConsumerState<TdsDeductorDetailSheet>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -285,11 +281,7 @@ class _MiniDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 36,
-      color: AppColors.neutral200,
-    );
+    return Container(width: 1, height: 36, color: AppColors.neutral200);
   }
 }
 
@@ -337,8 +329,9 @@ class _ChallanCard extends StatelessWidget {
             Row(
               children: [
                 _AmountItem(
-                    label: 'TDS',
-                    value: CurrencyUtils.formatINRCompact(challan.tdsAmount)),
+                  label: 'TDS',
+                  value: CurrencyUtils.formatINRCompact(challan.tdsAmount),
+                ),
                 if (challan.interest > 0) ...[
                   const SizedBox(width: 12),
                   _AmountItem(
@@ -369,8 +362,11 @@ class _ChallanCard extends StatelessWidget {
             // Row 4: payment date + BSR
             Row(
               children: [
-                Icon(Icons.calendar_today_rounded,
-                    size: 12, color: AppColors.neutral400),
+                Icon(
+                  Icons.calendar_today_rounded,
+                  size: 12,
+                  color: AppColors.neutral400,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   challan.paymentDate,
@@ -475,8 +471,10 @@ class _SectionCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withAlpha(26),
                     borderRadius: BorderRadius.circular(6),
@@ -518,8 +516,8 @@ class _SectionCard extends StatelessWidget {
                 color: compliance >= 100
                     ? AppColors.success
                     : compliance >= 75
-                        ? AppColors.warning
-                        : AppColors.error,
+                    ? AppColors.warning
+                    : AppColors.error,
               ),
             ),
             const SizedBox(height: 6),
@@ -528,8 +526,9 @@ class _SectionCard extends StatelessWidget {
               children: [
                 _AmountItem(
                   label: 'Deducted',
-                  value:
-                      CurrencyUtils.formatINRCompact(section.totalTdsDeducted),
+                  value: CurrencyUtils.formatINRCompact(
+                    section.totalTdsDeducted,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 _AmountItem(
@@ -542,7 +541,8 @@ class _SectionCard extends StatelessWidget {
                   _AmountItem(
                     label: 'Outstanding',
                     value: CurrencyUtils.formatINRCompact(
-                        section.outstandingTds),
+                      section.outstandingTds,
+                    ),
                     valueColor: AppColors.error,
                   ),
               ],
@@ -551,8 +551,11 @@ class _SectionCard extends StatelessWidget {
             // Row 4: deductee count + compliance %
             Row(
               children: [
-                Icon(Icons.people_outline_rounded,
-                    size: 12, color: AppColors.neutral400),
+                Icon(
+                  Icons.people_outline_rounded,
+                  size: 12,
+                  color: AppColors.neutral400,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${section.deducteeCount} deductees',
@@ -564,7 +567,9 @@ class _SectionCard extends StatelessWidget {
                 Text(
                   '${compliance.toStringAsFixed(0)}% compliant',
                   style: theme.textTheme.labelSmall?.copyWith(
-                    color: hasOutstanding ? AppColors.warning : AppColors.success,
+                    color: hasOutstanding
+                        ? AppColors.warning
+                        : AppColors.success,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -582,10 +587,7 @@ class _SectionCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ReturnsTab extends ConsumerWidget {
-  const _ReturnsTab({
-    required this.deductorId,
-    required this.scrollController,
-  });
+  const _ReturnsTab({required this.deductorId, required this.scrollController});
 
   final String deductorId;
   final ScrollController scrollController;
@@ -625,8 +627,10 @@ class _ReturnCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.accent.withAlpha(26),
                     borderRadius: BorderRadius.circular(6),
@@ -657,13 +661,15 @@ class _ReturnCard extends StatelessWidget {
                 _AmountItem(
                   label: 'Deducted',
                   value: CurrencyUtils.formatINRCompact(
-                      tdsReturn.totalTaxDeducted),
+                    tdsReturn.totalTaxDeducted,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 _AmountItem(
                   label: 'Deposited',
-                  value:
-                      CurrencyUtils.formatINRCompact(tdsReturn.totalDeposited),
+                  value: CurrencyUtils.formatINRCompact(
+                    tdsReturn.totalDeposited,
+                  ),
                 ),
                 const Spacer(),
                 if (tdsReturn.filedDate != null)
@@ -691,8 +697,18 @@ class _ReturnCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = <String>[
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }

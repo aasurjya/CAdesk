@@ -98,7 +98,8 @@ final List<Lead> _mockLeads = [
     assignedTo: 'Anil Kumar',
     createdAt: DateTime(2026, 1, 20),
     lastContactedAt: DateTime(2026, 2, 10),
-    notes: 'Went with a Big-4 firm for audit due to MNC subsidiary requirement.',
+    notes:
+        'Went with a Big-4 firm for audit due to MNC subsidiary requirement.',
   ),
   Lead(
     id: 'lead-008',
@@ -137,7 +138,8 @@ final List<Lead> _mockLeads = [
     assignedTo: 'Sunita Rao',
     createdAt: DateTime(2026, 2, 25),
     lastContactedAt: DateTime(2026, 3, 3),
-    notes: 'NRI based in the US. Large property sale — capital gains + NRI ITR.',
+    notes:
+        'NRI based in the US. Large property sale — capital gains + NRI ITR.',
   ),
 ];
 
@@ -213,8 +215,9 @@ final List<Campaign> _mockCampaigns = [
 // ---------------------------------------------------------------------------
 
 /// All leads — mutable list managed by [AllLeadsNotifier].
-final allLeadsProvider =
-    NotifierProvider<AllLeadsNotifier, List<Lead>>(AllLeadsNotifier.new);
+final allLeadsProvider = NotifierProvider<AllLeadsNotifier, List<Lead>>(
+  AllLeadsNotifier.new,
+);
 
 class AllLeadsNotifier extends Notifier<List<Lead>> {
   @override
@@ -230,8 +233,8 @@ class AllLeadsNotifier extends Notifier<List<Lead>> {
 /// Selected [LeadStage] filter — null means show all.
 final leadStageFilterProvider =
     NotifierProvider<LeadStageFilterNotifier, LeadStage?>(
-  LeadStageFilterNotifier.new,
-);
+      LeadStageFilterNotifier.new,
+    );
 
 class LeadStageFilterNotifier extends Notifier<LeadStage?> {
   @override
@@ -255,8 +258,8 @@ final filteredLeadsProvider = Provider<List<Lead>>((ref) {
 /// All campaigns — mutable list managed by [AllCampaignsNotifier].
 final allCampaignsProvider =
     NotifierProvider<AllCampaignsNotifier, List<Campaign>>(
-  AllCampaignsNotifier.new,
-);
+      AllCampaignsNotifier.new,
+    );
 
 class AllCampaignsNotifier extends Notifier<List<Campaign>> {
   @override
@@ -281,16 +284,11 @@ final leadFunnelSummaryProvider = Provider<Map<String, dynamic>>((ref) {
   final weekAgo = now.subtract(const Duration(days: 7));
 
   final totalLeads = leads.length;
-  final newThisWeek =
-      leads.where((l) => l.createdAt.isAfter(weekAgo)).length;
+  final newThisWeek = leads.where((l) => l.createdAt.isAfter(weekAgo)).length;
   final won = leads.where((l) => l.stage == LeadStage.won).length;
 
   final pipelineValue = leads
-      .where(
-        (l) =>
-            l.stage != LeadStage.won &&
-            l.stage != LeadStage.lost,
-      )
+      .where((l) => l.stage != LeadStage.won && l.stage != LeadStage.lost)
       .fold<double>(0, (sum, l) => sum + l.estimatedValue);
 
   final String formattedPipeline;

@@ -29,8 +29,9 @@ class StaffCard extends ConsumerWidget {
               children: [
                 CircleAvatar(
                   radius: 22,
-                  backgroundColor:
-                      _designationColor(staff.designation).withValues(alpha: 0.15),
+                  backgroundColor: _designationColor(
+                    staff.designation,
+                  ).withValues(alpha: 0.15),
                   child: Text(
                     _initials(staff.name),
                     style: theme.textTheme.titleSmall?.copyWith(
@@ -70,19 +71,21 @@ class StaffCard extends ConsumerWidget {
               spacing: 6,
               runSpacing: 4,
               children: staff.skills
-                  .map((skill) => Chip(
-                        label: Text(skill),
-                        labelStyle: theme.textTheme.labelSmall?.copyWith(
-                          color: AppColors.primary,
-                        ),
-                        backgroundColor:
-                            AppColors.primary.withValues(alpha: 0.08),
-                        materialTapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap,
-                        visualDensity: VisualDensity.compact,
-                        padding: EdgeInsets.zero,
-                        side: BorderSide.none,
-                      ))
+                  .map(
+                    (skill) => Chip(
+                      label: Text(skill),
+                      labelStyle: theme.textTheme.labelSmall?.copyWith(
+                        color: AppColors.primary,
+                      ),
+                      backgroundColor: AppColors.primary.withValues(
+                        alpha: 0.08,
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      side: BorderSide.none,
+                    ),
+                  )
                   .toList(),
             ),
             const SizedBox(height: 12),
@@ -96,8 +99,11 @@ class StaffCard extends ConsumerWidget {
             // Contact row
             Row(
               children: [
-                Icon(Icons.email_outlined,
-                    size: 14, color: AppColors.neutral400),
+                Icon(
+                  Icons.email_outlined,
+                  size: 14,
+                  color: AppColors.neutral400,
+                ),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
@@ -109,8 +115,11 @@ class StaffCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Icon(Icons.phone_outlined,
-                    size: 14, color: AppColors.neutral400),
+                Icon(
+                  Icons.phone_outlined,
+                  size: 14,
+                  color: AppColors.neutral400,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   staff.phone,
@@ -163,8 +172,8 @@ class _UtilizationGauge extends StatelessWidget {
     final color = rate >= 0.80
         ? AppColors.success
         : rate >= 0.60
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return SizedBox(
       width: 48,
@@ -210,8 +219,8 @@ class _CpeProgressBar extends StatelessWidget {
     final color = progress >= 1.0
         ? AppColors.success
         : progress >= 0.5
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     if (required_ <= 0) {
       return Text(

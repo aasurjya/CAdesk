@@ -99,21 +99,21 @@ class MsmeSupplierPayment {
   final String financialYear;
 
   bool get isOverdue => MsmePaymentCalculator.isOverdue(
-        daysOutstanding,
-        agreedDays: agreedTermDays,
-      );
+    daysOutstanding,
+    agreedDays: agreedTermDays,
+  );
 
   double get disallowableAmount => MsmePaymentCalculator.disallowableAmount43Bh(
-        outstandingAmount: invoiceAmount,
-        daysOutstanding: daysOutstanding,
-        agreedTermDays: agreedTermDays,
-      );
+    outstandingAmount: invoiceAmount,
+    daysOutstanding: daysOutstanding,
+    agreedTermDays: agreedTermDays,
+  );
 
   double get interestLiability => MsmePaymentCalculator.delayedPaymentInterest(
-        amount: invoiceAmount,
-        daysDelayed: (daysOutstanding - agreedTermDays).clamp(0, 365),
-        bankRatePercent: 6.25,
-      );
+    amount: invoiceAmount,
+    daysDelayed: (daysOutstanding - agreedTermDays).clamp(0, 365),
+    bankRatePercent: 6.25,
+  );
 
   MsmeSupplierPayment copyWith({
     String? id,
@@ -180,12 +180,12 @@ final msme43BhSummaryProvider = Provider<Msme43BhSummary>((ref) {
   final totalOutstanding = payments
       .where((p) => !p.isPaid)
       .fold(0.0, (s, p) => s + p.invoiceAmount);
-  final totalDisallowable =
-      payments.fold(0.0, (s, p) => s + p.disallowableAmount);
-  final totalInterest =
-      payments.fold(0.0, (s, p) => s + p.interestLiability);
-  final overdueCount =
-      payments.where((p) => p.isOverdue && !p.isPaid).length;
+  final totalDisallowable = payments.fold(
+    0.0,
+    (s, p) => s + p.disallowableAmount,
+  );
+  final totalInterest = payments.fold(0.0, (s, p) => s + p.interestLiability);
+  final overdueCount = payments.where((p) => p.isOverdue && !p.isPaid).length;
   return Msme43BhSummary(
     totalOutstanding: totalOutstanding,
     totalDisallowable: totalDisallowable,
@@ -197,9 +197,9 @@ final msme43BhSummaryProvider = Provider<Msme43BhSummary>((ref) {
 /// Returns supplier payments filtered to a specific client.
 final msmePaymentsByClientProvider =
     Provider.family<List<MsmeSupplierPayment>, String>((ref, clientId) {
-  final payments = ref.watch(allMsmePaymentsProvider);
-  return payments.where((p) => p.clientId == clientId).toList();
-});
+      final payments = ref.watch(allMsmePaymentsProvider);
+      return payments.where((p) => p.clientId == clientId).toList();
+    });
 
 // ---------------------------------------------------------------------------
 // Mock supplier payment data — 12 payments across 4 clients
@@ -391,7 +391,8 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
 /// Filter by MSME classification (null = show all).
 final msmeClassificationFilterProvider =
     NotifierProvider<MsmeClassificationFilterNotifier, MsmeClassification?>(
-        MsmeClassificationFilterNotifier.new);
+      MsmeClassificationFilterNotifier.new,
+    );
 
 class MsmeClassificationFilterNotifier extends Notifier<MsmeClassification?> {
   @override
@@ -403,7 +404,8 @@ class MsmeClassificationFilterNotifier extends Notifier<MsmeClassification?> {
 /// Filter by payment status (null = show all).
 final msmePaymentStatusFilterProvider =
     NotifierProvider<MsmePaymentStatusFilterNotifier, MsmePaymentStatus?>(
-        MsmePaymentStatusFilterNotifier.new);
+      MsmePaymentStatusFilterNotifier.new,
+    );
 
 class MsmePaymentStatusFilterNotifier extends Notifier<MsmePaymentStatus?> {
   @override
@@ -413,8 +415,9 @@ class MsmePaymentStatusFilterNotifier extends Notifier<MsmePaymentStatus?> {
 }
 
 /// Toggle to show only 43B(h) at-risk vendors.
-final msme43BhOnlyProvider =
-    NotifierProvider<Msme43BhOnlyNotifier, bool>(Msme43BhOnlyNotifier.new);
+final msme43BhOnlyProvider = NotifierProvider<Msme43BhOnlyNotifier, bool>(
+  Msme43BhOnlyNotifier.new,
+);
 
 class Msme43BhOnlyNotifier extends Notifier<bool> {
   @override
@@ -429,7 +432,8 @@ class Msme43BhOnlyNotifier extends Notifier<bool> {
 
 final msmeVendorsProvider =
     NotifierProvider<MsmeVendorsNotifier, List<MsmeVendor>>(
-        MsmeVendorsNotifier.new);
+      MsmeVendorsNotifier.new,
+    );
 
 class MsmeVendorsNotifier extends Notifier<List<MsmeVendor>> {
   @override
@@ -449,7 +453,8 @@ class MsmeVendorsNotifier extends Notifier<List<MsmeVendor>> {
 
 final msmePaymentsProvider =
     NotifierProvider<MsmePaymentsNotifier, List<MsmePayment>>(
-        MsmePaymentsNotifier.new);
+      MsmePaymentsNotifier.new,
+    );
 
 class MsmePaymentsNotifier extends Notifier<List<MsmePayment>> {
   @override
@@ -511,10 +516,12 @@ final msmeSummaryProvider = Provider<MsmeSummary>((ref) {
     (sum, v) => sum + v.outstandingAmount,
   );
   final atRiskCount = vendors.where((v) => v.section43BhAtRisk).length;
-  final overduePayments =
-      payments.where((p) => p.status == MsmePaymentStatus.overdue).length;
-  final latePayments =
-      payments.where((p) => p.status == MsmePaymentStatus.paidLate).length;
+  final overduePayments = payments
+      .where((p) => p.status == MsmePaymentStatus.overdue)
+      .length;
+  final latePayments = payments
+      .where((p) => p.status == MsmePaymentStatus.paidLate)
+      .length;
 
   return MsmeSummary(
     totalVendors: vendors.length,

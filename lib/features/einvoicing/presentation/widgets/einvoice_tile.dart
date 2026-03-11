@@ -17,9 +17,7 @@ class EinvoiceTile extends StatelessWidget {
   // -------------------------------------------------------------------------
 
   Color _windowColor() {
-    return record.windowType == '3-day'
-        ? AppColors.error
-        : AppColors.warning;
+    return record.windowType == '3-day' ? AppColors.error : AppColors.warning;
   }
 
   Color _daysColor() {
@@ -144,7 +142,11 @@ class EinvoiceTile extends StatelessWidget {
   Widget _buildBuyerRow(TextTheme textTheme) {
     return Row(
       children: [
-        const Icon(Icons.business_outlined, size: 13, color: AppColors.neutral400),
+        const Icon(
+          Icons.business_outlined,
+          size: 13,
+          color: AppColors.neutral400,
+        ),
         const SizedBox(width: 4),
         Expanded(
           child: Text(
@@ -178,7 +180,11 @@ class EinvoiceTile extends StatelessWidget {
         const Spacer(),
         Row(
           children: [
-            const Icon(Icons.fingerprint_rounded, size: 13, color: AppColors.neutral400),
+            const Icon(
+              Icons.fingerprint_rounded,
+              size: 13,
+              color: AppColors.neutral400,
+            ),
             const SizedBox(width: 3),
             Text(
               _truncatedIrn(),
@@ -199,7 +205,11 @@ class EinvoiceTile extends StatelessWidget {
         _StatusChip(label: record.status, color: _statusColor()),
         const Spacer(),
         if (record.qrGenerated) ...[
-          const Icon(Icons.qr_code_2_rounded, size: 16, color: AppColors.success),
+          const Icon(
+            Icons.qr_code_2_rounded,
+            size: 16,
+            color: AppColors.success,
+          ),
           const SizedBox(width: 4),
           Text(
             'QR',

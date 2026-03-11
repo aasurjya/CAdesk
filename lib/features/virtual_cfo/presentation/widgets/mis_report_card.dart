@@ -51,8 +51,7 @@ class MisReportCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final statusColor = _statusColor(report.status);
-    final ebitdaFraction =
-        (report.ebitdaMarginPercent / 100).clamp(0.0, 1.0);
+    final ebitdaFraction = (report.ebitdaMarginPercent / 100).clamp(0.0, 1.0);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -147,8 +146,9 @@ class MisReportCard extends StatelessWidget {
                 value: ebitdaFraction,
                 minHeight: 6,
                 backgroundColor: AppColors.neutral200,
-                valueColor:
-                    const AlwaysStoppedAnimation<Color>(AppColors.secondary),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  AppColors.secondary,
+                ),
               ),
             ),
 
@@ -233,10 +233,10 @@ class _ReportTypeBadge extends StatelessWidget {
       child: Text(
         reportType,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.primary,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: AppColors.primary,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -269,9 +269,9 @@ class _StatusChip extends StatelessWidget {
           Text(
             status,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -355,10 +355,10 @@ class _CashPill extends StatelessWidget {
           Text(
             'Cash ₹${cashBalance.toStringAsFixed(0)}L',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.secondary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 11,
-                ),
+              color: AppColors.secondary,
+              fontWeight: FontWeight.w600,
+              fontSize: 11,
+            ),
           ),
         ],
       ),

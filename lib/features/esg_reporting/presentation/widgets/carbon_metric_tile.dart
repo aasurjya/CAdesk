@@ -5,10 +5,7 @@ import 'package:ca_app/features/esg_reporting/domain/models/carbon_metric.dart';
 
 /// ListTile-style widget displaying a single carbon metric with a progress bar.
 class CarbonMetricTile extends StatelessWidget {
-  const CarbonMetricTile({
-    super.key,
-    required this.metric,
-  });
+  const CarbonMetricTile({super.key, required this.metric});
 
   final CarbonMetric metric;
 
@@ -76,8 +73,9 @@ class CarbonMetricTile extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     metric.clientName,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: AppColors.neutral600),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.neutral600,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   _ProgressBar(
@@ -119,10 +117,7 @@ class _ScopeDot extends StatelessWidget {
       child: Container(
         width: 10,
         height: 10,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
     );
   }
@@ -161,8 +156,9 @@ class _ProgressBar extends StatelessWidget {
         Text(
           '${achievedPercent.toStringAsFixed(0)}% of '
           '${targetPercent.toStringAsFixed(0)}% reduction target achieved',
-          style: theme.textTheme.labelSmall
-              ?.copyWith(color: AppColors.neutral400),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: AppColors.neutral400,
+          ),
         ),
       ],
     );
@@ -194,8 +190,9 @@ class _EmissionsLabel extends StatelessWidget {
         ),
         Text(
           year,
-          style: theme.textTheme.labelSmall
-              ?.copyWith(color: AppColors.neutral400),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: AppColors.neutral400,
+          ),
         ),
       ],
     );

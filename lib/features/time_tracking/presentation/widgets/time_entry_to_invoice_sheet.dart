@@ -130,10 +130,14 @@ class _ClientGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalHours =
-        entries.fold<double>(0, (sum, e) => sum + e.durationMinutes / 60.0);
-    final totalAmount =
-        entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
+    final totalHours = entries.fold<double>(
+      0,
+      (sum, e) => sum + e.durationMinutes / 60.0,
+    );
+    final totalAmount = entries.fold<double>(
+      0,
+      (sum, e) => sum + e.billedAmount,
+    );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -251,10 +255,8 @@ class _GstSelector extends StatelessWidget {
               selectedColor: AppColors.primary.withAlpha(26),
               labelStyle: TextStyle(
                 fontSize: 12,
-                fontWeight:
-                    isSelected ? FontWeight.w700 : FontWeight.w400,
-                color:
-                    isSelected ? AppColors.primary : AppColors.neutral600,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                color: isSelected ? AppColors.primary : AppColors.neutral600,
               ),
             ),
           );
@@ -281,10 +283,11 @@ class _InvoiceTotals extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subtotal =
-        entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
-    final totalHours =
-        entries.fold<double>(0, (sum, e) => sum + e.durationMinutes / 60.0);
+    final subtotal = entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
+    final totalHours = entries.fold<double>(
+      0,
+      (sum, e) => sum + e.durationMinutes / 60.0,
+    );
     final cgst = subtotal * gstRate / 200; // half of GST
     final sgst = cgst;
     final invoiceTotal = subtotal + cgst + sgst;
@@ -395,29 +398,23 @@ class _CreateInvoiceButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final subtotal =
-        entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
+    final subtotal = entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
     final tax = subtotal * gstRate / 100;
     final invoiceTotal = subtotal + tax;
 
     // Determine primary client (most entries or alphabetically first)
-    final primaryClient =
-        grouped.isNotEmpty ? grouped.keys.first : 'Client';
+    final primaryClient = grouped.isNotEmpty ? grouped.keys.first : 'Client';
 
     final formattedTotal = invoiceTotal >= 100000
         ? '₹${(invoiceTotal / 100000).toStringAsFixed(1)}L'
         : invoiceTotal >= 1000
-            ? '₹${(invoiceTotal / 1000).toStringAsFixed(1)}K'
-            : '₹${invoiceTotal.toStringAsFixed(0)}';
+        ? '₹${(invoiceTotal / 1000).toStringAsFixed(1)}K'
+        : '₹${invoiceTotal.toStringAsFixed(0)}';
 
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
-        onPressed: () => _createInvoice(
-          context,
-          formattedTotal,
-          primaryClient,
-        ),
+        onPressed: () => _createInvoice(context, formattedTotal, primaryClient),
         icon: const Icon(Icons.receipt_long_rounded),
         label: const Text('Create Invoice'),
         style: FilledButton.styleFrom(

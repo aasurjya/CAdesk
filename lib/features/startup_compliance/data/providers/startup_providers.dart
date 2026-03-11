@@ -295,7 +295,8 @@ final startupFilingsProvider = Provider<List<StartupFiling>>((ref) {
 /// Selected startup filter. Null means all startups.
 final selectedStartupFilterProvider =
     NotifierProvider<SelectedStartupFilterNotifier, String?>(
-        SelectedStartupFilterNotifier.new);
+      SelectedStartupFilterNotifier.new,
+    );
 
 class SelectedStartupFilterNotifier extends Notifier<String?> {
   @override
@@ -307,7 +308,8 @@ class SelectedStartupFilterNotifier extends Notifier<String?> {
 /// Selected filing type filter. Null means all types.
 final selectedStartupFilingTypeProvider =
     NotifierProvider<SelectedStartupFilingTypeNotifier, StartupFilingType?>(
-        SelectedStartupFilingTypeNotifier.new);
+      SelectedStartupFilingTypeNotifier.new,
+    );
 
 class SelectedStartupFilingTypeNotifier extends Notifier<StartupFilingType?> {
   @override
@@ -319,7 +321,8 @@ class SelectedStartupFilingTypeNotifier extends Notifier<StartupFilingType?> {
 /// Selected recognition status filter. Null means all.
 final selectedRecognitionStatusProvider =
     NotifierProvider<SelectedRecognitionStatusNotifier, RecognitionStatus?>(
-        SelectedRecognitionStatusNotifier.new);
+      SelectedRecognitionStatusNotifier.new,
+    );
 
 class SelectedRecognitionStatusNotifier extends Notifier<RecognitionStatus?> {
   @override
@@ -331,7 +334,8 @@ class SelectedRecognitionStatusNotifier extends Notifier<RecognitionStatus?> {
 /// Currently selected tab index on the startup screen.
 final selectedStartupTabProvider =
     NotifierProvider<SelectedStartupTabNotifier, int>(
-        SelectedStartupTabNotifier.new);
+      SelectedStartupTabNotifier.new,
+    );
 
 class SelectedStartupTabNotifier extends Notifier<int> {
   @override
@@ -346,9 +350,7 @@ final filteredStartupsProvider = Provider<List<StartupEntity>>((ref) {
   final status = ref.watch(selectedRecognitionStatusProvider);
 
   if (status == null) return all;
-  return List.unmodifiable(
-    all.where((s) => s.recognitionStatus == status),
-  );
+  return List.unmodifiable(all.where((s) => s.recognitionStatus == status));
 });
 
 /// Filings filtered by startup and filing type.
@@ -369,27 +371,30 @@ final filteredStartupFilingsProvider = Provider<List<StartupFiling>>((ref) {
 /// Upcoming filings sorted by due date (pending only).
 final upcomingStartupFilingsProvider = Provider<List<StartupFiling>>((ref) {
   final all = ref.watch(startupFilingsProvider);
-  final pending = all
-      .where((f) =>
-          f.status == StartupFilingStatus.pending ||
-          f.status == StartupFilingStatus.overdue)
-      .toList()
-    ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  final pending =
+      all
+          .where(
+            (f) =>
+                f.status == StartupFilingStatus.pending ||
+                f.status == StartupFilingStatus.overdue,
+          )
+          .toList()
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
   return List.unmodifiable(pending);
 });
 
 /// Summary counts for the startup compliance dashboard.
-final startupComplianceSummaryProvider =
-    Provider<StartupComplianceSummary>((ref) {
+final startupComplianceSummaryProvider = Provider<StartupComplianceSummary>((
+  ref,
+) {
   final startups = ref.watch(startupEntitiesProvider);
   final filings = ref.watch(startupFilingsProvider);
 
-  final recognized =
-      startups.where((s) => s.recognitionStatus == RecognitionStatus.recognized);
-  final overdue =
-      filings.where((f) => f.status == StartupFilingStatus.overdue);
-  final pending =
-      filings.where((f) => f.status == StartupFilingStatus.pending);
+  final recognized = startups.where(
+    (s) => s.recognitionStatus == RecognitionStatus.recognized,
+  );
+  final overdue = filings.where((f) => f.status == StartupFilingStatus.overdue);
+  final pending = filings.where((f) => f.status == StartupFilingStatus.pending);
   final filed = filings.where((f) => f.status == StartupFilingStatus.filed);
 
   return StartupComplianceSummary(
@@ -573,8 +578,7 @@ final startupIacSummaryProvider = Provider<StartupIacSummary>((ref) {
     0,
     (sum, p) => sum + p.taxSavingCrore,
   );
-  final recognizedCount =
-      profiles.where((p) => p.isDpiitRecognized).length;
+  final recognizedCount = profiles.where((p) => p.isDpiitRecognized).length;
   return StartupIacSummary(
     total80IacDeductionCrore: total80Iac,
     totalTaxSavingCrore: totalTaxSaving,

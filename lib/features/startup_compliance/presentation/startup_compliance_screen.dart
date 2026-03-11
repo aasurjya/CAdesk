@@ -33,11 +33,7 @@ class StartupComplianceScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _StartupsTab(),
-            _FilingsTab(),
-            _CalendarTab(),
-          ],
+          children: [_StartupsTab(), _FilingsTab(), _CalendarTab()],
         ),
       ),
     );
@@ -75,12 +71,10 @@ class _StartupsTab extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final startup = startups[index];
                     // Find matching profile by entity name for detail tap.
-                    final profile = profiles
-                        .cast<StartupProfile?>()
-                        .firstWhere(
-                          (p) => p?.name == startup.entityName,
-                          orElse: () => null,
-                        );
+                    final profile = profiles.cast<StartupProfile?>().firstWhere(
+                      (p) => p?.name == startup.entityName,
+                      orElse: () => null,
+                    );
                     return GestureDetector(
                       onTap: profile != null
                           ? () => StartupDetailSheet.show(context, profile)
@@ -506,10 +500,7 @@ class _FilterChip extends StatelessWidget {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({
-    required this.icon,
-    required this.message,
-  });
+  const _EmptyState({required this.icon, required this.message});
 
   final IconData icon;
   final String message;

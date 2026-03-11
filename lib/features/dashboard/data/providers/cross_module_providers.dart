@@ -168,7 +168,5 @@ int _computeUpcomingDeadlines() {
     DateTime(2026, 3, 31), // GSTR-9
   ];
 
-  return dueDates
-      .where((d) => !d.isBefore(today) && !d.isAfter(cutoff))
-      .length;
+  return dueDates.where((d) => !d.isBefore(today) && !d.isAfter(cutoff)).length;
 }

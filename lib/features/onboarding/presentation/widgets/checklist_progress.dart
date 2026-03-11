@@ -16,8 +16,8 @@ class ChecklistProgress extends StatelessWidget {
     final progressColor = checklist.overallProgress >= 1.0
         ? AppColors.success
         : checklist.overallProgress >= 0.5
-            ? AppColors.accent
-            : AppColors.warning;
+        ? AppColors.accent
+        : AppColors.warning;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -61,8 +61,9 @@ class ChecklistProgress extends StatelessWidget {
                         value: checklist.overallProgress,
                         strokeWidth: 4,
                         backgroundColor: AppColors.neutral200,
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(progressColor),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          progressColor,
+                        ),
                       ),
                       Text(
                         '$progressPercent%',
@@ -90,17 +91,18 @@ class ChecklistProgress extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             // Checklist items
-            ...checklist.items.map(
-              (item) => _ChecklistItemRow(item: item),
-            ),
+            ...checklist.items.map((item) => _ChecklistItemRow(item: item)),
             // Footer
             if (checklist.completedAt != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(
                   children: [
-                    Icon(Icons.check_circle_rounded,
-                        size: 14, color: AppColors.success),
+                    Icon(
+                      Icons.check_circle_rounded,
+                      size: 14,
+                      color: AppColors.success,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       'Completed on ${_formatDate(checklist.completedAt!)}',
@@ -120,8 +122,18 @@ class ChecklistProgress extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -156,8 +168,9 @@ class _ChecklistItemRow extends StatelessWidget {
                 color: item.isCompleted
                     ? AppColors.neutral400
                     : AppColors.neutral900,
-                decoration:
-                    item.isCompleted ? TextDecoration.lineThrough : null,
+                decoration: item.isCompleted
+                    ? TextDecoration.lineThrough
+                    : null,
               ),
             ),
           ),

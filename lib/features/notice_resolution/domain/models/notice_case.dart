@@ -14,7 +14,11 @@ enum NoticeType {
 }
 
 enum NoticeStatus {
-  pendingReview('Pending Review', Color(0xFFD4890E), Icons.hourglass_top_rounded),
+  pendingReview(
+    'Pending Review',
+    Color(0xFFD4890E),
+    Icons.hourglass_top_rounded,
+  ),
   draftReady('Draft Ready', Color(0xFF1B3A5C), Icons.edit_document),
   submitted('Submitted', Color(0xFF0D7C7C), Icons.send_rounded),
   closed('Closed', Color(0xFF1A7A3A), Icons.check_circle_rounded),

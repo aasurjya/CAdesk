@@ -53,8 +53,10 @@ class TpFilingTile extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.primary.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),
@@ -259,9 +261,9 @@ class _StatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

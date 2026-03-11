@@ -102,10 +102,7 @@ class _CollaborationScreenState extends ConsumerState<CollaborationScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _ActiveSessionsTab(),
-                _GuestLinksTab(),
-              ],
+              children: const [_ActiveSessionsTab(), _GuestLinksTab()],
             ),
           ),
         ],
@@ -192,9 +189,9 @@ class _ActiveSessionsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(presenceStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(presenceStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -202,7 +199,8 @@ class _ActiveSessionsTab extends ConsumerWidget {
         Expanded(
           child: sessions.isEmpty
               ? const _EmptyState(
-                  message: 'No sessions match the selected filter')
+                  message: 'No sessions match the selected filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: sessions.length,
@@ -231,8 +229,7 @@ class _GuestLinksTab extends ConsumerWidget {
         : ListView.builder(
             padding: const EdgeInsets.only(top: 4, bottom: 80),
             itemCount: links.length,
-            itemBuilder: (context, index) =>
-                GuestLinkTile(link: links[index]),
+            itemBuilder: (context, index) => GuestLinkTile(link: links[index]),
           );
   }
 }

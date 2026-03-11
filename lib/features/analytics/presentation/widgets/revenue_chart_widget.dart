@@ -121,10 +121,7 @@ class _BarChartPainterWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxRevenue = months.fold<double>(
-      0,
-      (m, b) => max(m, b.totalRevenue),
-    );
+    final maxRevenue = months.fold<double>(0, (m, b) => max(m, b.totalRevenue));
 
     return CustomPaint(
       painter: _StackedBarPainter(months: months, maxRevenue: maxRevenue),
@@ -172,11 +169,7 @@ class _StackedBarPainter extends CustomPainter {
       final gridPaint = Paint()
         ..color = AppColors.neutral200
         ..strokeWidth = 0.5;
-      canvas.drawLine(
-        Offset(_yAxisWidth, y),
-        Offset(size.width, y),
-        gridPaint,
-      );
+      canvas.drawLine(Offset(_yAxisWidth, y), Offset(size.width, y), gridPaint);
 
       // Y label
       textPainter.text = TextSpan(
@@ -188,10 +181,7 @@ class _StackedBarPainter extends CustomPainter {
         ),
       );
       textPainter.layout(maxWidth: _yAxisWidth - 4);
-      textPainter.paint(
-        canvas,
-        Offset(0, y - textPainter.height / 2),
-      );
+      textPainter.paint(canvas, Offset(0, y - textPainter.height / 2));
     }
   }
 

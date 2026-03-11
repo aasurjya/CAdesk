@@ -15,8 +15,7 @@ class NoticeResolutionScreen extends ConsumerStatefulWidget {
       _NoticeResolutionScreenState();
 }
 
-class _NoticeResolutionScreenState
-    extends ConsumerState<NoticeResolutionScreen>
+class _NoticeResolutionScreenState extends ConsumerState<NoticeResolutionScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -68,10 +67,7 @@ class _NoticeResolutionScreenState
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _ActiveNoticesTab(),
-                _ResolvedNoticesTab(),
-              ],
+              children: const [_ActiveNoticesTab(), _ResolvedNoticesTab()],
             ),
           ),
         ],
@@ -103,9 +99,9 @@ class _ActiveNoticesTab extends ConsumerWidget {
           values: NoticeSeverity.values,
           selected: selectedSeverity,
           onSelected: (severity) {
-            ref.read(noticeSeverityFilterProvider.notifier).update(
-                  severity == selectedSeverity ? null : severity,
-                );
+            ref
+                .read(noticeSeverityFilterProvider.notifier)
+                .update(severity == selectedSeverity ? null : severity);
           },
         ),
 
@@ -223,10 +219,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message,
-            style: const TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

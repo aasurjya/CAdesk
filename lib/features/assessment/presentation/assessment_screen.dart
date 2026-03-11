@@ -68,10 +68,7 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _OrdersTab(),
-                _InterestTab(),
-              ],
+              children: const [_OrdersTab(), _InterestTab()],
             ),
           ),
         ],
@@ -210,8 +207,9 @@ class _OrdersTab extends ConsumerWidget {
     final allOrders = ref.watch(assessmentOrdersProvider);
 
     final currentAY = 'AY 2023-24';
-    final ordersThisAY =
-        allOrders.where((o) => o.assessmentYear == currentAY).length;
+    final ordersThisAY = allOrders
+        .where((o) => o.assessmentYear == currentAY)
+        .length;
     final totalDemand = allOrders.fold<double>(
       0,
       (sum, o) => sum + o.demandAmount,
@@ -245,10 +243,7 @@ class _OrdersTab extends ConsumerWidget {
                   itemCount: orders.length,
                   itemBuilder: (_, i) => AssessmentOrderTile(
                     order: orders[i],
-                    onTap: () => AssessmentDetailSheet.show(
-                      context,
-                      orders[i],
-                    ),
+                    onTap: () => AssessmentDetailSheet.show(context, orders[i]),
                   ),
                 ),
         ),
@@ -302,11 +297,7 @@ class _AySummaryCard extends StatelessWidget {
                 color: AppColors.error,
               ),
             ),
-            Container(
-              width: 1,
-              height: 36,
-              color: AppColors.neutral200,
-            ),
+            Container(width: 1, height: 36, color: AppColors.neutral200),
             Expanded(
               child: _AyStat(
                 theme: theme,
@@ -316,11 +307,7 @@ class _AySummaryCard extends StatelessWidget {
                 color: AppColors.success,
               ),
             ),
-            Container(
-              width: 1,
-              height: 36,
-              color: AppColors.neutral200,
-            ),
+            Container(width: 1, height: 36, color: AppColors.neutral200),
             Expanded(
               child: _AyStat(
                 theme: theme,
@@ -401,7 +388,8 @@ class _InterestTab extends ConsumerWidget {
     }
 
     // Sort: incorrect ones first for immediate attention.
-    final sorted = [...calcs]..sort((a, b) {
+    final sorted = [...calcs]
+      ..sort((a, b) {
         if (a.isCorrect == b.isCorrect) return 0;
         return a.isCorrect ? 1 : -1;
       });
@@ -456,8 +444,7 @@ class _OrderFilterRow extends StatelessWidget {
                   context,
                   label: 'Sec ${s.label}',
                   isSelected: sectionFilter == s,
-                  onTap: () =>
-                      onSectionChanged(sectionFilter == s ? null : s),
+                  onTap: () => onSectionChanged(sectionFilter == s ? null : s),
                 ),
               ),
             ),
@@ -468,8 +455,7 @@ class _OrderFilterRow extends StatelessWidget {
                   context,
                   label: s.label,
                   isSelected: statusFilter == s,
-                  onTap: () =>
-                      onStatusChanged(statusFilter == s ? null : s),
+                  onTap: () => onStatusChanged(statusFilter == s ? null : s),
                 ),
               ),
             ),
@@ -514,9 +500,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

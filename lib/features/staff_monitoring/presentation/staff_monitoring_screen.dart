@@ -17,8 +17,7 @@ class StaffMonitoringScreen extends ConsumerStatefulWidget {
       _StaffMonitoringScreenState();
 }
 
-class _StaffMonitoringScreenState
-    extends ConsumerState<StaffMonitoringScreen>
+class _StaffMonitoringScreenState extends ConsumerState<StaffMonitoringScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -66,11 +65,7 @@ class _StaffMonitoringScreenState
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          _ActivityTab(),
-          _RestrictionsTab(),
-          _AlertsTab(),
-        ],
+        children: const [_ActivityTab(), _RestrictionsTab(), _AlertsTab()],
       ),
     );
   }
@@ -98,9 +93,9 @@ class _ActivityTab extends ConsumerWidget {
               Text(
                 '${logs.length} log${logs.length == 1 ? '' : 's'}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral400,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  color: AppColors.neutral400,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
@@ -198,9 +193,9 @@ class _AlertsTab extends ConsumerWidget {
               Text(
                 '${alerts.length} alert${alerts.length == 1 ? '' : 's'}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral400,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  color: AppColors.neutral400,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),

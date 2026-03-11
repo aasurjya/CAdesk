@@ -47,9 +47,7 @@ class StartupCard extends StatelessWidget {
                         children: [
                           _DpiitBadge(number: startup.dpiitNumber),
                           const SizedBox(width: 8),
-                          _RecognitionBadge(
-                            status: startup.recognitionStatus,
-                          ),
+                          _RecognitionBadge(status: startup.recognitionStatus),
                         ],
                       ),
                     ],
@@ -64,10 +62,7 @@ class StartupCard extends StatelessWidget {
             // Info row
             Row(
               children: [
-                _InfoChip(
-                  icon: Icons.category_rounded,
-                  label: startup.sector,
-                ),
+                _InfoChip(icon: Icons.category_rounded, label: startup.sector),
                 const SizedBox(width: 12),
                 _InfoChip(
                   icon: Icons.calendar_today_rounded,
@@ -242,10 +237,7 @@ class _Section80IACBadge extends StatelessWidget {
           ),
           Text(
             status.label,
-            style: TextStyle(
-              color: status.color,
-              fontSize: 9,
-            ),
+            style: TextStyle(color: status.color, fontSize: 9),
           ),
         ],
       ),
@@ -269,10 +261,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: TextStyle(
-            color: AppColors.neutral600,
-            fontSize: 12,
-          ),
+          style: TextStyle(color: AppColors.neutral600, fontSize: 12),
         ),
       ],
     );

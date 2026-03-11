@@ -159,16 +159,16 @@ class StartupEntity {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        entityName,
-        dpiitNumber,
-        incorporationDate,
-        sector,
-        turnover,
-        isBelow100Cr,
-        section80IACStatus,
-        recognitionStatus,
-      );
+    id,
+    entityName,
+    dpiitNumber,
+    incorporationDate,
+    sector,
+    turnover,
+    isBelow100Cr,
+    section80IACStatus,
+    recognitionStatus,
+  );
 
   @override
   String toString() =>

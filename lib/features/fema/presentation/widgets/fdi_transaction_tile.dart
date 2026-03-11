@@ -188,9 +188,9 @@ class _InfoChip extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.neutral600,
-                  fontSize: 10,
-                ),
+              color: AppColors.neutral600,
+              fontSize: 10,
+            ),
           ),
         ],
       ),
@@ -218,10 +218,10 @@ class _ApprovalRouteBadge extends StatelessWidget {
       child: Text(
         route.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -249,9 +249,9 @@ class _StatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

@@ -1,25 +1,16 @@
 /// Sections under which interest on tax can be levied / claimed.
 enum InterestSection {
-  section234B(
-    label: '234B',
-    fullLabel: 'Section 234B — Advance Tax Default',
-  ),
+  section234B(label: '234B', fullLabel: 'Section 234B — Advance Tax Default'),
   section234C(
     label: '234C',
     fullLabel: 'Section 234C — Deferment of Advance Tax',
   ),
-  section234D(
-    label: '234D',
-    fullLabel: 'Section 234D — Excess Refund',
-  ),
+  section234D(label: '234D', fullLabel: 'Section 234D — Excess Refund'),
   section220_2(
     label: '220(2)',
     fullLabel: 'Section 220(2) — Failure to Pay Demand',
   ),
-  section244A(
-    label: '244A',
-    fullLabel: 'Section 244A — Interest on Refunds',
-  );
+  section244A(label: '244A', fullLabel: 'Section 244A — Interest on Refunds');
 
   const InterestSection({required this.label, required this.fullLabel});
 

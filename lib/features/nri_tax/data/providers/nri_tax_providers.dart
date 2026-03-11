@@ -249,20 +249,20 @@ class NriStatusFilterNotifier extends Notifier<NriClientStatus?> {
 /// All NRI clients.
 final allNriClientsProvider =
     NotifierProvider<NriClientsNotifier, List<NriClient>>(
-  NriClientsNotifier.new,
-);
+      NriClientsNotifier.new,
+    );
 
 /// All foreign assets.
 final allForeignAssetsProvider =
     NotifierProvider<ForeignAssetsNotifier, List<ForeignAsset>>(
-  ForeignAssetsNotifier.new,
-);
+      ForeignAssetsNotifier.new,
+    );
 
 /// Selected NRI client status filter; null means show all.
 final nriStatusFilterProvider =
     NotifierProvider<NriStatusFilterNotifier, NriClientStatus?>(
-  NriStatusFilterNotifier.new,
-);
+      NriStatusFilterNotifier.new,
+    );
 
 /// NRI clients filtered by the selected status.
 final filteredNriClientsProvider = Provider<List<NriClient>>((ref) {
@@ -278,9 +278,11 @@ final nriSummaryProvider = Provider<Map<String, int>>((ref) {
   return {
     'totalClients': clients.length,
     'dtaaApplicable': clients.where((c) => c.dtaaApplicable).length,
-    'pendingDocuments':
-        clients.where((c) => c.status == NriClientStatus.pendingDocuments).length,
-    'filingDue':
-        clients.where((c) => c.status == NriClientStatus.filingDue).length,
+    'pendingDocuments': clients
+        .where((c) => c.status == NriClientStatus.pendingDocuments)
+        .length,
+    'filingDue': clients
+        .where((c) => c.status == NriClientStatus.filingDue)
+        .length,
   };
 });

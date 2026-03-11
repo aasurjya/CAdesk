@@ -98,17 +98,17 @@ class RegulatoryCircular {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        circularNumber,
-        issuingBody,
-        title,
-        summary,
-        issueDate,
-        effectiveDate,
-        category,
-        impactLevel,
-        affectedClientsCount,
-      );
+    id,
+    circularNumber,
+    issuingBody,
+    title,
+    summary,
+    issueDate,
+    effectiveDate,
+    category,
+    impactLevel,
+    affectedClientsCount,
+  );
 
   @override
   String toString() =>

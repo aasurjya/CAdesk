@@ -7,26 +7,10 @@ import 'package:ca_app/core/theme/app_colors.dart';
 // ---------------------------------------------------------------------------
 
 enum ProposalStatus {
-  draft(
-    'Draft',
-    AppColors.neutral400,
-    Icons.edit_note_rounded,
-  ),
-  sent(
-    'Sent',
-    AppColors.secondary,
-    Icons.send_rounded,
-  ),
-  accepted(
-    'Accepted',
-    AppColors.success,
-    Icons.check_circle_rounded,
-  ),
-  rejected(
-    'Rejected',
-    AppColors.error,
-    Icons.cancel_rounded,
-  );
+  draft('Draft', AppColors.neutral400, Icons.edit_note_rounded),
+  sent('Sent', AppColors.secondary, Icons.send_rounded),
+  accepted('Accepted', AppColors.success, Icons.check_circle_rounded),
+  rejected('Rejected', AppColors.error, Icons.cancel_rounded);
 
   const ProposalStatus(this.label, this.color, this.icon);
 

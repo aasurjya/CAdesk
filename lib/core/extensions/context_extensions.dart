@@ -49,11 +49,7 @@ extension SnackBarExtensions on BuildContext {
     ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          duration: duration,
-          action: action,
-        ),
+        SnackBar(content: Text(message), duration: duration, action: action),
       );
   }
 }

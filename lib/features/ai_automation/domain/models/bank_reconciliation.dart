@@ -72,8 +72,8 @@ class BankReconciliation {
     final formatted = absolute >= 100000
         ? '${(absolute / 100000).toStringAsFixed(2)}L'
         : absolute >= 1000
-            ? '${(absolute / 1000).toStringAsFixed(1)}K'
-            : absolute.toStringAsFixed(2);
+        ? '${(absolute / 1000).toStringAsFixed(1)}K'
+        : absolute.toStringAsFixed(2);
     return '${isNegative ? "-" : ""}INR $formatted';
   }
 

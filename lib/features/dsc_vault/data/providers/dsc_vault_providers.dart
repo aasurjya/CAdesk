@@ -211,8 +211,8 @@ class _DscCertificatesNotifier extends Notifier<List<DscCertificate>> {
 
 final allDscCertificatesProvider =
     NotifierProvider<_DscCertificatesNotifier, List<DscCertificate>>(
-  _DscCertificatesNotifier.new,
-);
+      _DscCertificatesNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Portal Credentials — NotifierProvider
@@ -233,8 +233,8 @@ class _PortalCredentialsNotifier extends Notifier<List<PortalCredential>> {
 
 final allPortalCredentialsProvider =
     NotifierProvider<_PortalCredentialsNotifier, List<PortalCredential>>(
-  _PortalCredentialsNotifier.new,
-);
+      _PortalCredentialsNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // DSC Status filter
@@ -249,8 +249,8 @@ class _DscStatusFilterNotifier extends Notifier<DscStatus?> {
 
 final dscStatusFilterProvider =
     NotifierProvider<_DscStatusFilterNotifier, DscStatus?>(
-  _DscStatusFilterNotifier.new,
-);
+      _DscStatusFilterNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Filtered DSC list
@@ -272,10 +272,13 @@ final dscVaultSummaryProvider = Provider<DscVaultSummary>((ref) {
   final portals = ref.watch(allPortalCredentialsProvider);
 
   final totalDsc = certs.length;
-  final expiringSoon = certs.where((c) => c.status == DscStatus.expiringSoon).length;
+  final expiringSoon = certs
+      .where((c) => c.status == DscStatus.expiringSoon)
+      .length;
   final expired = certs.where((c) => c.status == DscStatus.expired).length;
-  final activePortals =
-      portals.where((p) => p.status == PortalCredStatus.active).length;
+  final activePortals = portals
+      .where((p) => p.status == PortalCredStatus.active)
+      .length;
 
   return DscVaultSummary(
     totalDsc: totalDsc,

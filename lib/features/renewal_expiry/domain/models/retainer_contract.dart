@@ -50,16 +50,16 @@ class RetainerContract {
   double get annualValue => monthlyFee * 12;
 
   String get formattedMonthlyFee => NumberFormat.currency(
-        locale: 'en_IN',
-        symbol: '₹',
-        decimalDigits: 0,
-      ).format(monthlyFee);
+    locale: 'en_IN',
+    symbol: '₹',
+    decimalDigits: 0,
+  ).format(monthlyFee);
 
   String get formattedAnnualValue => NumberFormat.currency(
-        locale: 'en_IN',
-        symbol: '₹',
-        decimalDigits: 0,
-      ).format(annualValue);
+    locale: 'en_IN',
+    symbol: '₹',
+    decimalDigits: 0,
+  ).format(annualValue);
 
   RetainerContract copyWith({
     String? id,

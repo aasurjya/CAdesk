@@ -181,21 +181,17 @@ class _DeadlineCountdown extends StatelessWidget {
     final color = isOverdue
         ? AppColors.error
         : daysLeft <= 7
-            ? AppColors.warning
-            : AppColors.neutral600;
+        ? AppColors.warning
+        : AppColors.neutral600;
     final label = isOverdue
         ? '${daysLeft.abs()}d overdue'
         : daysLeft == 0
-            ? 'Due today'
-            : '${daysLeft}d left';
+        ? 'Due today'
+        : '${daysLeft}d left';
 
     return Text(
       label,
-      style: TextStyle(
-        color: color,
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
-      ),
+      style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w600),
     );
   }
 }

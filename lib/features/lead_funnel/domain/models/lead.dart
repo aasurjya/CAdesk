@@ -15,41 +15,13 @@ enum LeadSource {
 }
 
 enum LeadStage {
-  newLead(
-    'New Lead',
-    Color(0xFF718096),
-    Icons.fiber_new_rounded,
-  ),
-  contacted(
-    'Contacted',
-    Color(0xFF0D7C7C),
-    Icons.phone_in_talk_rounded,
-  ),
-  qualified(
-    'Qualified',
-    Color(0xFF1B3A5C),
-    Icons.verified_rounded,
-  ),
-  proposalSent(
-    'Proposal Sent',
-    Color(0xFFE8890C),
-    Icons.description_rounded,
-  ),
-  negotiation(
-    'Negotiation',
-    Color(0xFFD4890E),
-    Icons.handshake_rounded,
-  ),
-  won(
-    'Won',
-    Color(0xFF1A7A3A),
-    Icons.emoji_events_rounded,
-  ),
-  lost(
-    'Lost',
-    Color(0xFFC62828),
-    Icons.cancel_rounded,
-  );
+  newLead('New Lead', Color(0xFF718096), Icons.fiber_new_rounded),
+  contacted('Contacted', Color(0xFF0D7C7C), Icons.phone_in_talk_rounded),
+  qualified('Qualified', Color(0xFF1B3A5C), Icons.verified_rounded),
+  proposalSent('Proposal Sent', Color(0xFFE8890C), Icons.description_rounded),
+  negotiation('Negotiation', Color(0xFFD4890E), Icons.handshake_rounded),
+  won('Won', Color(0xFF1A7A3A), Icons.emoji_events_rounded),
+  lost('Lost', Color(0xFFC62828), Icons.cancel_rounded);
 
   const LeadStage(this.label, this.color, this.icon);
   final String label;

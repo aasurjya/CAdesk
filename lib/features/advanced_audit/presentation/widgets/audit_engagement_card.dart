@@ -7,11 +7,7 @@ import 'package:ca_app/features/advanced_audit/domain/models/audit_engagement.da
 /// Card displaying an audit engagement with type icon, risk badge, and
 /// progress indicator.
 class AuditEngagementCard extends StatelessWidget {
-  const AuditEngagementCard({
-    super.key,
-    required this.engagement,
-    this.onTap,
-  });
+  const AuditEngagementCard({super.key, required this.engagement, this.onTap});
 
   final AuditEngagement engagement;
   final VoidCallback? onTap;
@@ -65,8 +61,11 @@ class AuditEngagementCard extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.person_outline, size: 14,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.person_outline,
+                    size: 14,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     engagement.assignedPartner,
@@ -76,8 +75,11 @@ class AuditEngagementCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(Icons.group_outlined, size: 14,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.group_outlined,
+                    size: 14,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     '${engagement.teamMembers.length} members',
@@ -103,7 +105,8 @@ class AuditEngagementCard extends StatelessWidget {
                   const SizedBox(width: 12),
                   _InfoChip(
                     icon: Icons.event,
-                    label: 'Due ${_dateFormat.format(engagement.reportDueDate)}',
+                    label:
+                        'Due ${_dateFormat.format(engagement.reportDueDate)}',
                   ),
                 ],
               ),
@@ -134,11 +137,7 @@ class _TypeIcon extends StatelessWidget {
         color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        auditType.icon,
-        size: 22,
-        color: AppColors.primary,
-      ),
+      child: Icon(auditType.icon, size: 22, color: AppColors.primary),
     );
   }
 }

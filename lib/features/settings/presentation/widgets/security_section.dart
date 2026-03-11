@@ -28,9 +28,9 @@ class SecuritySection extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 'Auto-Lock After',
-                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             RadioGroup<int>(
@@ -43,12 +43,14 @@ class SecuritySection extends StatelessWidget {
               },
               child: Column(
                 children: _lockOptions
-                    .map((minutes) => RadioListTile<int>(
-                          value: minutes,
-                          title: Text(
-                            '$minutes minute${minutes == 1 ? '' : 's'}',
-                          ),
-                        ))
+                    .map(
+                      (minutes) => RadioListTile<int>(
+                        value: minutes,
+                        title: Text(
+                          '$minutes minute${minutes == 1 ? '' : 's'}',
+                        ),
+                      ),
+                    )
                     .toList(),
               ),
             ),

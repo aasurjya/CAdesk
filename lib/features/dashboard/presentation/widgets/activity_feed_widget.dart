@@ -97,11 +97,7 @@ class _ActivityTile extends StatelessWidget {
           color: AppColors.primary.withAlpha(18),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: Icon(
-          activity.icon,
-          color: AppColors.primary,
-          size: 20,
-        ),
+        child: Icon(activity.icon, color: AppColors.primary, size: 20),
       ),
       title: Text(
         activity.title,

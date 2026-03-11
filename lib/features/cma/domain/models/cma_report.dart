@@ -70,11 +70,9 @@ class YearProjection {
   /// Maximum Permissible Bank Finance.
   final double mpbf;
 
-  double get grossMarginPct =>
-      sales > 0 ? (grossProfit / sales) * 100 : 0;
+  double get grossMarginPct => sales > 0 ? (grossProfit / sales) * 100 : 0;
 
-  double get netMarginPct =>
-      sales > 0 ? (netProfit / sales) * 100 : 0;
+  double get netMarginPct => sales > 0 ? (netProfit / sales) * 100 : 0;
 
   double get currentRatio =>
       currentLiabilities > 0 ? currentAssets / currentLiabilities : 0;
@@ -143,8 +141,7 @@ class CmaReport {
   final List<YearProjection> projections;
 
   /// DSCR from the latest projection year (or 0 if no projections).
-  double get latestDscr =>
-      projections.isEmpty ? 0 : projections.last.dscr;
+  double get latestDscr => projections.isEmpty ? 0 : projections.last.dscr;
 
   /// Whether DSCR meets the typical minimum threshold of 1.25.
   bool get dscrAcceptable => latestDscr >= 1.25;

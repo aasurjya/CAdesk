@@ -75,8 +75,10 @@ class ScenarioTile extends StatelessWidget {
                 const SizedBox(width: 8),
                 // Impact percentage badge
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 5,
+                  ),
                   decoration: BoxDecoration(
                     color: impactColor.withAlpha(20),
                     borderRadius: BorderRadius.circular(8),
@@ -130,8 +132,7 @@ class ScenarioTile extends StatelessWidget {
 
             // Row 3: Baseline → Projected
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.neutral50,
                 borderRadius: BorderRadius.circular(8),
@@ -216,10 +217,10 @@ class _CategoryChip extends StatelessWidget {
       child: Text(
         category,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }

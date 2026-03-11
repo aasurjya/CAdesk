@@ -68,7 +68,10 @@ class LlpFilingDetailSheet extends StatelessWidget {
                 theme: theme,
               ),
               const SizedBox(height: 16),
-              _TotalPenaltyCard(totalPenalty: record.totalPenalty, theme: theme),
+              _TotalPenaltyCard(
+                totalPenalty: record.totalPenalty,
+                theme: theme,
+              ),
               const SizedBox(height: 12),
               _Itr5DueDateRow(record: record, theme: theme),
               const SizedBox(height: 20),
@@ -210,10 +213,7 @@ class _StrikeOffWarning extends StatelessWidget {
 }
 
 class _AuditBadge extends StatelessWidget {
-  const _AuditBadge({
-    required this.requiresAudit,
-    required this.theme,
-  });
+  const _AuditBadge({required this.requiresAudit, required this.theme});
 
   final bool requiresAudit;
   final ThemeData theme;
@@ -221,10 +221,10 @@ class _AuditBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = requiresAudit ? AppColors.warning : AppColors.success;
-    final label =
-        requiresAudit ? 'Audit Required' : 'Audit Exempt';
-    final icon =
-        requiresAudit ? Icons.gavel_rounded : Icons.check_circle_outline_rounded;
+    final label = requiresAudit ? 'Audit Required' : 'Audit Exempt';
+    final icon = requiresAudit
+        ? Icons.gavel_rounded
+        : Icons.check_circle_outline_rounded;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -342,10 +342,7 @@ class _StatusChip extends StatelessWidget {
 }
 
 class _TotalPenaltyCard extends StatelessWidget {
-  const _TotalPenaltyCard({
-    required this.totalPenalty,
-    required this.theme,
-  });
+  const _TotalPenaltyCard({required this.totalPenalty, required this.theme});
 
   final double totalPenalty;
   final ThemeData theme;
@@ -362,8 +359,11 @@ class _TotalPenaltyCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.currency_rupee_rounded,
-              color: AppColors.error, size: 20),
+          const Icon(
+            Icons.currency_rupee_rounded,
+            color: AppColors.error,
+            size: 20,
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -403,8 +403,11 @@ class _Itr5DueDateRow extends StatelessWidget {
 
     return Row(
       children: [
-        const Icon(Icons.receipt_long_rounded,
-            size: 16, color: AppColors.neutral400),
+        const Icon(
+          Icons.receipt_long_rounded,
+          size: 16,
+          color: AppColors.neutral400,
+        ),
         const SizedBox(width: 8),
         Text(
           'ITR-5 due date: $dueDate',
@@ -430,9 +433,7 @@ class _ActionButtons extends StatelessWidget {
           child: FilledButton.icon(
             icon: const Icon(Icons.upload_file_rounded, size: 18),
             label: const Text('File Form 11'),
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.primary,
-            ),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
             onPressed: () {
               Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(

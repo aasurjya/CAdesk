@@ -93,8 +93,7 @@ class StatutoryReturn {
 
   bool get isOverdue {
     final today = DateTime.utc(2026, 3, 10);
-    return status == StatutoryReturnStatus.pending &&
-        dueDate.isBefore(today);
+    return status == StatutoryReturnStatus.pending && dueDate.isBefore(today);
   }
 
   StatutoryReturn copyWith({

@@ -29,11 +29,7 @@ class FacelessAssessmentScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _EProceedingsTab(),
-            _ItrUTab(),
-            _HearingsTab(),
-          ],
+          children: [_EProceedingsTab(), _ItrUTab(), _HearingsTab()],
         ),
       ),
     );
@@ -74,9 +70,8 @@ class _EProceedingsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
                   itemCount: proceedings.length,
-                  itemBuilder: (_, index) => EProceedingTile(
-                    proceeding: proceedings[index],
-                  ),
+                  itemBuilder: (_, index) =>
+                      EProceedingTile(proceeding: proceedings[index]),
                 ),
         ),
       ],
@@ -133,9 +128,8 @@ class _HearingsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
                   itemCount: hearings.length,
-                  itemBuilder: (_, index) => HearingTile(
-                    hearing: hearings[index],
-                  ),
+                  itemBuilder: (_, index) =>
+                      HearingTile(hearing: hearings[index]),
                 ),
         ),
       ],
@@ -155,10 +149,12 @@ class _UrgencyBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final urgent = proceedings
-        .where((p) =>
-            p.isUrgent &&
-            p.status != ProceedingStatus.orderPassed &&
-            p.status != ProceedingStatus.appealFiled)
+        .where(
+          (p) =>
+              p.isUrgent &&
+              p.status != ProceedingStatus.orderPassed &&
+              p.status != ProceedingStatus.appealFiled,
+        )
         .toList();
     final overdue = proceedings.where((p) => p.isOverdue).toList();
 
@@ -180,9 +176,9 @@ class _UrgencyBanner extends StatelessWidget {
             child: Text(
               _buildMessage(urgent.length, overdue.length),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.error,
-                    fontWeight: FontWeight.w600,
-                  ),
+                color: AppColors.error,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -224,14 +220,16 @@ class _ProceedingTypeChips extends StatelessWidget {
         child: Row(
           children: [
             _chip('All', selected == null, () => onSelected(null)),
-            ...ProceedingType.values.map((t) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _chip(
-                    t.label,
-                    selected == t,
-                    () => onSelected(selected == t ? null : t),
-                  ),
-                )),
+            ...ProceedingType.values.map(
+              (t) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _chip(
+                  t.label,
+                  selected == t,
+                  () => onSelected(selected == t ? null : t),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -273,14 +271,16 @@ class _ProceedingStatusChips extends StatelessWidget {
         child: Row(
           children: [
             _chip('All', selected == null, () => onSelected(null)),
-            ...ProceedingStatus.values.map((s) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _chip(
-                    s.label,
-                    selected == s,
-                    () => onSelected(selected == s ? null : s),
-                  ),
-                )),
+            ...ProceedingStatus.values.map(
+              (s) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _chip(
+                  s.label,
+                  selected == s,
+                  () => onSelected(selected == s ? null : s),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -305,10 +305,7 @@ class _ProceedingStatusChips extends StatelessWidget {
 }
 
 class _HearingStatusChips extends StatelessWidget {
-  const _HearingStatusChips({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _HearingStatusChips({required this.selected, required this.onSelected});
 
   final HearingStatus? selected;
   final ValueChanged<HearingStatus?> onSelected;
@@ -322,14 +319,16 @@ class _HearingStatusChips extends StatelessWidget {
         child: Row(
           children: [
             _chip('All', selected == null, () => onSelected(null)),
-            ...HearingStatus.values.map((s) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _chip(
-                    s.label,
-                    selected == s,
-                    () => onSelected(selected == s ? null : s),
-                  ),
-                )),
+            ...HearingStatus.values.map(
+              (s) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _chip(
+                  s.label,
+                  selected == s,
+                  () => onSelected(selected == s ? null : s),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -366,9 +365,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

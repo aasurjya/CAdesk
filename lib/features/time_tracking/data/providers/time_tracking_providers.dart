@@ -130,7 +130,8 @@ class ActiveTimerNotifier extends Notifier<ActiveTimerState> {
 
 final activeTimerProvider =
     NotifierProvider<ActiveTimerNotifier, ActiveTimerState>(
-        ActiveTimerNotifier.new);
+      ActiveTimerNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Realization calculator service
@@ -150,8 +151,10 @@ class RealizationCalculator {
   }
 
   /// Weekly utilization = billable hours / total available hours × 100.
-  static double weeklyUtilization(double billableHours,
-      {double availableHours = 40}) {
+  static double weeklyUtilization(
+    double billableHours, {
+    double availableHours = 40,
+  }) {
     return (billableHours / availableHours * 100).clamp(0.0, 150.0);
   }
 }
@@ -208,18 +211,19 @@ class RunningTimerState {
 
 final runningTimerProvider =
     NotifierProvider<RunningTimerNotifier, RunningTimerState>(
-        RunningTimerNotifier.new);
+      RunningTimerNotifier.new,
+    );
 
 class RunningTimerNotifier extends Notifier<RunningTimerState> {
   @override
   RunningTimerState build() => const RunningTimerState(
-        entryId: 'timer-active',
-        clientName: 'ABC Infra Pvt Ltd',
-        taskDescription: 'GST-3B reconciliation for Feb 2026',
-        startedAt: null,
-        isRunning: true,
-        elapsedSeconds: 2745, // 45m 45s
-      );
+    entryId: 'timer-active',
+    clientName: 'ABC Infra Pvt Ltd',
+    taskDescription: 'GST-3B reconciliation for Feb 2026',
+    startedAt: null,
+    isRunning: true,
+    elapsedSeconds: 2745, // 45m 45s
+  );
 
   void update(RunningTimerState value) => state = value;
 
@@ -274,7 +278,8 @@ enum TimeEntryFilter {
 
 final timeEntryFilterProvider =
     NotifierProvider<TimeEntryFilterNotifier, TimeEntryFilter>(
-        TimeEntryFilterNotifier.new);
+      TimeEntryFilterNotifier.new,
+    );
 
 class TimeEntryFilterNotifier extends Notifier<TimeEntryFilter> {
   @override
@@ -289,7 +294,8 @@ class TimeEntryFilterNotifier extends Notifier<TimeEntryFilter> {
 
 final timeEntriesProvider =
     NotifierProvider<TimeEntriesNotifier, List<TimeEntry>>(
-        TimeEntriesNotifier.new);
+      TimeEntriesNotifier.new,
+    );
 
 class TimeEntriesNotifier extends Notifier<List<TimeEntry>> {
   @override
@@ -543,7 +549,8 @@ final _mockEntries = <TimeEntry>[
 
 final billingSummariesProvider =
     NotifierProvider<BillingSummariesNotifier, List<BillingSummary>>(
-        BillingSummariesNotifier.new);
+      BillingSummariesNotifier.new,
+    );
 
 class BillingSummariesNotifier extends Notifier<List<BillingSummary>> {
   @override
@@ -554,77 +561,85 @@ class BillingSummariesNotifier extends Notifier<List<BillingSummary>> {
 
 const _mockBillingSummaries = <BillingSummary>[
   BillingSummary(
-      clientId: '1',
-      clientName: 'Rajesh Kumar Sharma',
-      totalHours: 12.5,
-      billableHours: 10.0,
-      nonBillableHours: 2.5,
-      totalBilled: 20000,
-      realizationRate: 80.0,
-      period: 'Mar 2026'),
+    clientId: '1',
+    clientName: 'Rajesh Kumar Sharma',
+    totalHours: 12.5,
+    billableHours: 10.0,
+    nonBillableHours: 2.5,
+    totalBilled: 20000,
+    realizationRate: 80.0,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '3',
-      clientName: 'ABC Infra Pvt Ltd',
-      totalHours: 45.0,
-      billableHours: 40.0,
-      nonBillableHours: 5.0,
-      totalBilled: 172000,
-      realizationRate: 88.9,
-      period: 'Mar 2026'),
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    totalHours: 45.0,
+    billableHours: 40.0,
+    nonBillableHours: 5.0,
+    totalBilled: 172000,
+    realizationRate: 88.9,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '4',
-      clientName: 'Mehta & Sons',
-      totalHours: 18.0,
-      billableHours: 16.0,
-      nonBillableHours: 2.0,
-      totalBilled: 25500,
-      realizationRate: 88.9,
-      period: 'Mar 2026'),
+    clientId: '4',
+    clientName: 'Mehta & Sons',
+    totalHours: 18.0,
+    billableHours: 16.0,
+    nonBillableHours: 2.0,
+    totalBilled: 25500,
+    realizationRate: 88.9,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '6',
-      clientName: 'TechVista Solutions LLP',
-      totalHours: 32.0,
-      billableHours: 28.0,
-      nonBillableHours: 4.0,
-      totalBilled: 47000,
-      realizationRate: 87.5,
-      period: 'Mar 2026'),
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    totalHours: 32.0,
+    billableHours: 28.0,
+    nonBillableHours: 4.0,
+    totalBilled: 47000,
+    realizationRate: 87.5,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '8',
-      clientName: 'Bharat Electronics Ltd',
-      totalHours: 68.0,
-      billableHours: 62.0,
-      nonBillableHours: 6.0,
-      totalBilled: 310000,
-      realizationRate: 91.2,
-      period: 'Mar 2026'),
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    totalHours: 68.0,
+    billableHours: 62.0,
+    nonBillableHours: 6.0,
+    totalBilled: 310000,
+    realizationRate: 91.2,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '9',
-      clientName: 'Deepak Patel',
-      totalHours: 8.0,
-      billableHours: 7.5,
-      nonBillableHours: 0.5,
-      totalBilled: 13000,
-      realizationRate: 93.8,
-      period: 'Mar 2026'),
+    clientId: '9',
+    clientName: 'Deepak Patel',
+    totalHours: 8.0,
+    billableHours: 7.5,
+    nonBillableHours: 0.5,
+    totalBilled: 13000,
+    realizationRate: 93.8,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '13',
-      clientName: 'GreenLeaf Organics LLP',
-      totalHours: 14.0,
-      billableHours: 12.0,
-      nonBillableHours: 2.0,
-      totalBilled: 17000,
-      realizationRate: 85.7,
-      period: 'Mar 2026'),
+    clientId: '13',
+    clientName: 'GreenLeaf Organics LLP',
+    totalHours: 14.0,
+    billableHours: 12.0,
+    nonBillableHours: 2.0,
+    totalBilled: 17000,
+    realizationRate: 85.7,
+    period: 'Mar 2026',
+  ),
   BillingSummary(
-      clientId: '14',
-      clientName: 'Vikram Singh Rathore',
-      totalHours: 22.0,
-      billableHours: 20.0,
-      nonBillableHours: 2.0,
-      totalBilled: 32000,
-      realizationRate: 90.9,
-      period: 'Mar 2026'),
+    clientId: '14',
+    clientName: 'Vikram Singh Rathore',
+    totalHours: 22.0,
+    billableHours: 20.0,
+    nonBillableHours: 2.0,
+    totalBilled: 32000,
+    realizationRate: 90.9,
+    period: 'Mar 2026',
+  ),
 ];
 
 // ---------------------------------------------------------------------------
@@ -644,15 +659,19 @@ final filteredTimeEntriesProvider = Provider<List<TimeEntry>>((ref) {
       return entries;
     case TimeEntryFilter.today:
       return entries
-          .where((e) =>
-              e.startTime.isAfter(todayStart) ||
-              e.startTime.isAtSameMomentAs(todayStart))
+          .where(
+            (e) =>
+                e.startTime.isAfter(todayStart) ||
+                e.startTime.isAtSameMomentAs(todayStart),
+          )
           .toList();
     case TimeEntryFilter.thisWeek:
       return entries
-          .where((e) =>
-              e.startTime.isAfter(weekStart) ||
-              e.startTime.isAtSameMomentAs(weekStart))
+          .where(
+            (e) =>
+                e.startTime.isAfter(weekStart) ||
+                e.startTime.isAtSameMomentAs(weekStart),
+          )
           .toList();
     case TimeEntryFilter.billable:
       return entries.where((e) => e.isBillable).toList();
@@ -664,8 +683,10 @@ final filteredTimeEntriesProvider = Provider<List<TimeEntry>>((ref) {
 /// Today's total hours worked.
 final todayTotalHoursProvider = Provider<double>((ref) {
   final entries = ref.watch(filteredTimeEntriesProvider);
-  final totalMinutes =
-      entries.fold<int>(0, (sum, e) => sum + e.durationMinutes);
+  final totalMinutes = entries.fold<int>(
+    0,
+    (sum, e) => sum + e.durationMinutes,
+  );
   return totalMinutes / 60.0;
 });
 
@@ -679,29 +700,35 @@ final todayTotalBilledProvider = Provider<double>((ref) {
 final weeklySummaryProvider = Provider<Map<String, double>>((ref) {
   final entries = ref.watch(timeEntriesProvider);
   final now = DateTime.now();
-  final weekStart =
-      DateTime(now.year, now.month, now.day - (now.weekday - 1));
+  final weekStart = DateTime(now.year, now.month, now.day - (now.weekday - 1));
 
   final weekEntries = entries
-      .where((e) =>
-          e.startTime.isAfter(weekStart) ||
-          e.startTime.isAtSameMomentAs(weekStart))
+      .where(
+        (e) =>
+            e.startTime.isAfter(weekStart) ||
+            e.startTime.isAtSameMomentAs(weekStart),
+      )
       .toList();
 
-  final totalMinutes =
-      weekEntries.fold<int>(0, (sum, e) => sum + e.durationMinutes);
+  final totalMinutes = weekEntries.fold<int>(
+    0,
+    (sum, e) => sum + e.durationMinutes,
+  );
   final billableMinutes = weekEntries
       .where((e) => e.isBillable)
       .fold<int>(0, (sum, e) => sum + e.durationMinutes);
-  final totalBilled =
-      weekEntries.fold<double>(0, (sum, e) => sum + e.billedAmount);
+  final totalBilled = weekEntries.fold<double>(
+    0,
+    (sum, e) => sum + e.billedAmount,
+  );
 
   return {
     'totalHours': totalMinutes / 60.0,
     'billableHours': billableMinutes / 60.0,
     'totalBilled': totalBilled,
-    'utilizationRate':
-        totalMinutes > 0 ? (billableMinutes / totalMinutes) * 100 : 0,
+    'utilizationRate': totalMinutes > 0
+        ? (billableMinutes / totalMinutes) * 100
+        : 0,
   };
 });
 
@@ -709,24 +736,24 @@ final weeklySummaryProvider = Provider<Map<String, double>>((ref) {
 final realizationSummaryProvider = Provider<Map<String, double>>((ref) {
   final summaries = ref.watch(billingSummariesProvider);
   if (summaries.isEmpty) {
-    return {
-      'utilizationPct': 0,
-      'effectiveRate': 0,
-      'totalBillable': 0,
-    };
+    return {'utilizationPct': 0, 'effectiveRate': 0, 'totalBillable': 0};
   }
 
-  final totalHours =
-      summaries.fold<double>(0, (sum, s) => sum + s.totalHours);
-  final billableHours =
-      summaries.fold<double>(0, (sum, s) => sum + s.billableHours);
-  final totalBilled =
-      summaries.fold<double>(0, (sum, s) => sum + s.totalBilled);
+  final totalHours = summaries.fold<double>(0, (sum, s) => sum + s.totalHours);
+  final billableHours = summaries.fold<double>(
+    0,
+    (sum, s) => sum + s.billableHours,
+  );
+  final totalBilled = summaries.fold<double>(
+    0,
+    (sum, s) => sum + s.totalBilled,
+  );
 
-  final utilizationPct =
-      RealizationCalculator.weeklyUtilization(billableHours);
-  final effectiveRate =
-      RealizationCalculator.effectiveHourlyRate(totalBilled, totalHours);
+  final utilizationPct = RealizationCalculator.weeklyUtilization(billableHours);
+  final effectiveRate = RealizationCalculator.effectiveHourlyRate(
+    totalBilled,
+    totalHours,
+  );
 
   return {
     'utilizationPct': utilizationPct,

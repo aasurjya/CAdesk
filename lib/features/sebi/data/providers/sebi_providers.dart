@@ -182,7 +182,8 @@ final materialEventsProvider = Provider<List<MaterialEvent>>(
 /// Selected disclosure status filter.
 final disclosureStatusFilterProvider =
     NotifierProvider<DisclosureStatusFilterNotifier, DisclosureStatus?>(
-        DisclosureStatusFilterNotifier.new);
+      DisclosureStatusFilterNotifier.new,
+    );
 
 class DisclosureStatusFilterNotifier extends Notifier<DisclosureStatus?> {
   @override
@@ -194,7 +195,8 @@ class DisclosureStatusFilterNotifier extends Notifier<DisclosureStatus?> {
 /// Selected material event type filter.
 final materialEventTypeFilterProvider =
     NotifierProvider<MaterialEventTypeFilterNotifier, MaterialEventType?>(
-        MaterialEventTypeFilterNotifier.new);
+      MaterialEventTypeFilterNotifier.new,
+    );
 
 class MaterialEventTypeFilterNotifier extends Notifier<MaterialEventType?> {
   @override
@@ -227,17 +229,19 @@ final sebiSummaryProvider = Provider<SebiSummary>((ref) {
 
   final totalDisclosures = disclosures.length;
   final pendingDisclosures = disclosures
-      .where((d) =>
-          d.status == DisclosureStatus.pending ||
-          d.status == DisclosureStatus.draft)
+      .where(
+        (d) =>
+            d.status == DisclosureStatus.pending ||
+            d.status == DisclosureStatus.draft,
+      )
       .length;
-  final overdueDisclosures =
-      disclosures.where((d) => d.status == DisclosureStatus.overdue).length;
-  final undisclosedEvents =
-      events.where((e) => !e.isDisclosed).length;
-  final urgentEvents =
-      events.where((e) => !e.isDisclosed && e.hoursUntilDeadline(now) < 48)
-          .length;
+  final overdueDisclosures = disclosures
+      .where((d) => d.status == DisclosureStatus.overdue)
+      .length;
+  final undisclosedEvents = events.where((e) => !e.isDisclosed).length;
+  final urgentEvents = events
+      .where((e) => !e.isDisclosed && e.hoursUntilDeadline(now) < 48)
+      .length;
 
   return SebiSummary(
     totalDisclosures: totalDisclosures,

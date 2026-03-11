@@ -33,11 +33,7 @@ class LLPComplianceScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _LLPsTab(),
-            _FilingsTab(),
-            _PenaltiesTab(),
-          ],
+          children: [_LLPsTab(), _FilingsTab(), _PenaltiesTab()],
         ),
       ),
     );
@@ -74,7 +70,9 @@ class _LLPsTab extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final entity = entities[index];
                     // Find matching filing record for tap action.
-                    final record = filingRecords.cast<LlpFilingRecord?>().firstWhere(
+                    final record = filingRecords
+                        .cast<LlpFilingRecord?>()
+                        .firstWhere(
                           (r) => r?.llpin == entity.llpin,
                           orElse: () => null,
                         );
@@ -159,10 +157,7 @@ class _FilingFilters extends ConsumerWidget {
                       isExpanded: true,
                       style: theme.textTheme.bodyMedium,
                       hint: const Text('All LLPs'),
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 20,
-                      ),
+                      icon: const Icon(Icons.keyboard_arrow_down, size: 20),
                       items: [
                         const DropdownMenuItem<String?>(
                           value: null,
@@ -201,10 +196,7 @@ class _FilingFilters extends ConsumerWidget {
                       isDense: true,
                       isExpanded: true,
                       style: theme.textTheme.bodyMedium,
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 20,
-                      ),
+                      icon: const Icon(Icons.keyboard_arrow_down, size: 20),
                       items: financialYears
                           .map(
                             (fy) => DropdownMenuItem(
@@ -267,10 +259,9 @@ class _PenaltiesTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final allFilings = ref.watch(llpFilingsProvider);
-    final overdueFilings = allFilings
-        .where((f) => f.status == LLPFilingStatus.overdue)
-        .toList()
-      ..sort((a, b) => b.currentPenalty.compareTo(a.currentPenalty));
+    final overdueFilings =
+        allFilings.where((f) => f.status == LLPFilingStatus.overdue).toList()
+          ..sort((a, b) => b.currentPenalty.compareTo(a.currentPenalty));
     final totalPenalty = ref.watch(totalPenaltyExposureProvider);
     final theme = Theme.of(context);
     final currencyFormat = NumberFormat.currency(
@@ -385,9 +376,7 @@ class _AuditThresholdWarnings extends ConsumerWidget {
         decoration: BoxDecoration(
           color: AppColors.warning.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: AppColors.warning.withValues(alpha: 0.2),
-          ),
+          border: Border.all(color: AppColors.warning.withValues(alpha: 0.2)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -540,9 +529,7 @@ class _SummaryBar extends StatelessWidget {
             const _VerticalDivider(),
             _MetricTile(
               label: 'Penalty',
-              value: _formatCompact(
-                summary.totalPenaltyExposure.toDouble(),
-              ),
+              value: _formatCompact(summary.totalPenaltyExposure.toDouble()),
               color: AppColors.error,
               icon: Icons.currency_rupee_rounded,
             ),
@@ -654,10 +641,7 @@ class _FilterChip extends StatelessWidget {
 }
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({
-    required this.icon,
-    required this.message,
-  });
+  const _EmptyState({required this.icon, required this.message});
 
   final IconData icon;
   final String message;

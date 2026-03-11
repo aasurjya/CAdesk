@@ -30,9 +30,7 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
     return List.generate(
       count,
       (i) => TextEditingController(
-        text: _cashFlowCtrls.length > i
-            ? _cashFlowCtrls[i].text
-            : '3000000',
+        text: _cashFlowCtrls.length > i ? _cashFlowCtrls[i].text : '3000000',
       ),
     );
   }
@@ -75,10 +73,10 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
 
   // --- Computed ---
   double get _npvVal => CmaCalculator.npv(
-        initialInvestment: _investment,
-        annualCashFlows: _cashFlows,
-        discountRatePercent: _discountRate,
-      );
+    initialInvestment: _investment,
+    annualCashFlows: _cashFlows,
+    discountRatePercent: _discountRate,
+  );
 
   double get _irrVal => _investment > 0
       ? CmaCalculator.irr(
@@ -88,9 +86,9 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
       : 0;
 
   double get _payback => CmaCalculator.paybackPeriod(
-        initialInvestment: _investment,
-        annualCashFlows: _cashFlows,
-      );
+    initialInvestment: _investment,
+    annualCashFlows: _cashFlows,
+  );
 
   String get _verdict {
     if (_npvVal > 0 && _irrVal > _discountRate) return 'Viable';
@@ -111,7 +109,8 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
   String _formatInr(double v) {
     final abs = v.abs();
     final prefix = v < 0 ? '-' : '';
-    if (abs >= 10000000) return '$prefix₹${(abs / 10000000).toStringAsFixed(2)} Cr';
+    if (abs >= 10000000)
+      return '$prefix₹${(abs / 10000000).toStringAsFixed(2)} Cr';
     if (abs >= 100000) return '$prefix₹${(abs / 100000).toStringAsFixed(2)} L';
     return '$prefix₹${abs.toStringAsFixed(0)}';
   }
@@ -249,15 +248,15 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
     return TextField(
       controller: controller,
       keyboardType: keyboard,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[\d.]'))],
       decoration: InputDecoration(
         labelText: label,
         suffixText: suffix,
         border: const OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 12,
+        ),
         isDense: true,
       ),
       onChanged: (_) => setState(() {}),
@@ -310,7 +309,9 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
                 label: 'NPV',
                 value: _formatInr(_npvVal),
                 color: _npvColor,
-                subtitle: _npvVal >= 0 ? 'Positive return' : 'Value destructive',
+                subtitle: _npvVal >= 0
+                    ? 'Positive return'
+                    : 'Value destructive',
               ),
               const SizedBox(width: 10),
               _MetricBox(
@@ -436,10 +437,7 @@ class _MetricBox extends StatelessWidget {
             ),
             Text(
               subtitle,
-              style: TextStyle(
-                fontSize: 10,
-                color: color.withAlpha(180),
-              ),
+              style: TextStyle(fontSize: 10, color: color.withAlpha(180)),
             ),
           ],
         ),
@@ -476,10 +474,7 @@ class _SingleMetric extends StatelessWidget {
           const SizedBox(width: 10),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 13,
-              color: AppColors.neutral600,
-            ),
+            style: const TextStyle(fontSize: 13, color: AppColors.neutral600),
           ),
           const Spacer(),
           Text(

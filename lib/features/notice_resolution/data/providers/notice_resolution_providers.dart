@@ -136,8 +136,8 @@ final List<NoticeCase> _mockNotices = [
 /// All notice cases (unmodifiable list).
 final allNoticeCasesProvider =
     NotifierProvider<AllNoticeCasesNotifier, List<NoticeCase>>(
-  AllNoticeCasesNotifier.new,
-);
+      AllNoticeCasesNotifier.new,
+    );
 
 class AllNoticeCasesNotifier extends Notifier<List<NoticeCase>> {
   @override
@@ -147,8 +147,8 @@ class AllNoticeCasesNotifier extends Notifier<List<NoticeCase>> {
 /// Selected severity filter (null = show all).
 final noticeSeverityFilterProvider =
     NotifierProvider<NoticeSeverityFilterNotifier, NoticeSeverity?>(
-  NoticeSeverityFilterNotifier.new,
-);
+      NoticeSeverityFilterNotifier.new,
+    );
 
 class NoticeSeverityFilterNotifier extends Notifier<NoticeSeverity?> {
   @override
@@ -171,16 +171,18 @@ final noticeSummaryProvider = Provider<Map<String, int>>((ref) {
   final now = DateTime(2026, 3, 11);
 
   final total = allCases.length;
-  final critical =
-      allCases.where((c) => c.severity == NoticeSeverity.critical).length;
-  final dueThisWeek = allCases
-      .where((c) =>
-          c.status != NoticeStatus.closed &&
-          c.dueDate.isAfter(now) &&
-          c.dueDate.difference(now).inDays <= 7)
+  final critical = allCases
+      .where((c) => c.severity == NoticeSeverity.critical)
       .length;
-  final closed =
-      allCases.where((c) => c.status == NoticeStatus.closed).length;
+  final dueThisWeek = allCases
+      .where(
+        (c) =>
+            c.status != NoticeStatus.closed &&
+            c.dueDate.isAfter(now) &&
+            c.dueDate.difference(now).inDays <= 7,
+      )
+      .length;
+  final closed = allCases.where((c) => c.status == NoticeStatus.closed).length;
 
   return {
     'total': total,

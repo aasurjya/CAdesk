@@ -23,7 +23,10 @@ void main() {
       });
 
       test('phoneMaxWidth is less than tabletMaxWidth', () {
-        expect(AppConstants.phoneMaxWidth, lessThan(AppConstants.tabletMaxWidth));
+        expect(
+          AppConstants.phoneMaxWidth,
+          lessThan(AppConstants.tabletMaxWidth),
+        );
       });
 
       test('breakpoints are positive', () {

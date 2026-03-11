@@ -56,10 +56,10 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
       double.tryParse(_amountController.text.trim()) ?? 0;
 
   InvoiceTax get _computedTax => GstInvoiceCalculator.compute(
-        taxableValue: _taxableValue,
-        gstRatePercent: _gstRate,
-        isInterState: _isInterState,
-      );
+    taxableValue: _taxableValue,
+    gstRatePercent: _gstRate,
+    isInterState: _isInterState,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +83,9 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
                     Text(
                       'New Invoice',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.neutral900,
-                          ),
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.neutral900,
+                      ),
                     ),
                     const Spacer(),
                     IconButton(
@@ -234,11 +234,8 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
               selectedColor: AppColors.primary.withAlpha(25),
               checkmarkColor: AppColors.primary,
               labelStyle: TextStyle(
-                fontWeight:
-                    isSelected ? FontWeight.w700 : FontWeight.w400,
-                color: isSelected
-                    ? AppColors.primary
-                    : AppColors.neutral600,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                color: isSelected ? AppColors.primary : AppColors.neutral600,
               ),
               onSelected: (_) => setState(() {
                 _gstRate = rate;
@@ -314,13 +311,10 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
             children: [
               _PreviewItem(label: 'Taxable', value: _currency.format(taxable)),
               if (_isInterState) ...[
-                _PreviewItem(
-                    label: 'IGST', value: _currency.format(tax.igst)),
+                _PreviewItem(label: 'IGST', value: _currency.format(tax.igst)),
               ] else ...[
-                _PreviewItem(
-                    label: 'CGST', value: _currency.format(tax.cgst)),
-                _PreviewItem(
-                    label: 'SGST', value: _currency.format(tax.sgst)),
+                _PreviewItem(label: 'CGST', value: _currency.format(tax.cgst)),
+                _PreviewItem(label: 'SGST', value: _currency.format(tax.sgst)),
               ],
               _PreviewItem(
                 label: 'Total',
@@ -353,8 +347,7 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
           spacing: 8,
           children: _dueDayOptions.map((days) {
             final isSelected = _dueDaysOffset == days;
-            final dueDate =
-                invoiceDate.add(Duration(days: days));
+            final dueDate = invoiceDate.add(Duration(days: days));
             return ChoiceChip(
               label: Text(
                 '+$days days\n(${DateFormat('dd MMM').format(dueDate)})',
@@ -365,11 +358,8 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
               checkmarkColor: AppColors.secondary,
               labelStyle: TextStyle(
                 fontSize: 11,
-                fontWeight:
-                    isSelected ? FontWeight.w700 : FontWeight.w400,
-                color: isSelected
-                    ? AppColors.secondary
-                    : AppColors.neutral600,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+                color: isSelected ? AppColors.secondary : AppColors.neutral600,
               ),
               onSelected: (_) => setState(() => _dueDaysOffset = days),
             );

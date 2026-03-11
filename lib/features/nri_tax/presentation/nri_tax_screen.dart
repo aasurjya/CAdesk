@@ -101,10 +101,7 @@ class _NriTaxScreenState extends ConsumerState<NriTaxScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _NriClientsTab(),
-                _ForeignAssetsTab(),
-              ],
+              children: const [_NriClientsTab(), _ForeignAssetsTab()],
             ),
           ),
         ],
@@ -191,9 +188,9 @@ class _NriClientsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(nriStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(nriStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 

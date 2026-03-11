@@ -11,11 +11,7 @@ String _formatCrore(double amount) {
 
 /// List tile for a CMA report showing bank, amounts, DSCR, and status badge.
 class CmaReportTile extends StatelessWidget {
-  const CmaReportTile({
-    super.key,
-    required this.report,
-    this.onTap,
-  });
+  const CmaReportTile({super.key, required this.report, this.onTap});
 
   final CmaReport report;
   final VoidCallback? onTap;
@@ -229,10 +225,7 @@ class _DscrIndicator extends StatelessWidget {
         Container(
           width: 8,
           height: 8,
-          decoration: BoxDecoration(
-            color: _color,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: _color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 5),
         Text(

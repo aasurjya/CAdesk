@@ -235,7 +235,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-001',
     title: 'SOP: Statutory Audit Engagement Workflow',
     category: ArticleCategory.sop,
-    content: 'Standard operating procedure for accepting and executing statutory audit engagements under SA 210.',
+    content:
+        'Standard operating procedure for accepting and executing statutory audit engagements under SA 210.',
     author: 'CA Rajesh Mehta',
     createdAt: DateTime(2025, 6, 10),
     updatedAt: DateTime(2025, 12, 1),
@@ -246,7 +247,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-002',
     title: 'Template: GST Annual Return (GSTR-9)',
     category: ArticleCategory.template,
-    content: 'Working paper template for preparing GSTR-9 annual returns with reconciliation checkpoints.',
+    content:
+        'Working paper template for preparing GSTR-9 annual returns with reconciliation checkpoints.',
     author: 'Amit Verma',
     createdAt: DateTime(2025, 7, 15),
     updatedAt: DateTime(2025, 11, 20),
@@ -257,7 +259,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-003',
     title: 'Guide: New Tax Regime vs Old Regime Comparison',
     category: ArticleCategory.guide,
-    content: 'Comprehensive comparison of old and new tax regimes under Section 115BAC for AY 2026-27.',
+    content:
+        'Comprehensive comparison of old and new tax regimes under Section 115BAC for AY 2026-27.',
     author: 'CA Priya Sharma',
     createdAt: DateTime(2025, 9, 1),
     updatedAt: DateTime(2026, 1, 15),
@@ -268,7 +271,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-004',
     title: 'CBDT Circular No. 15/2025: TDS on Virtual Digital Assets',
     category: ArticleCategory.circular,
-    content: 'Summary and analysis of CBDT Circular on TDS provisions under Section 194S for crypto transactions.',
+    content:
+        'Summary and analysis of CBDT Circular on TDS provisions under Section 194S for crypto transactions.',
     author: 'Rohit Gupta',
     createdAt: DateTime(2025, 10, 5),
     updatedAt: DateTime(2025, 10, 5),
@@ -279,7 +283,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-005',
     title: 'MCA Notification: CARO 2025 Amendments',
     category: ArticleCategory.notification,
-    content: 'Key amendments to Companies (Auditor Report) Order 2025 effective from 1st April 2026.',
+    content:
+        'Key amendments to Companies (Auditor Report) Order 2025 effective from 1st April 2026.',
     author: 'Sneha Kulkarni',
     createdAt: DateTime(2025, 11, 18),
     updatedAt: DateTime(2025, 11, 18),
@@ -290,7 +295,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-006',
     title: 'SOP: Client Engagement Letter Preparation',
     category: ArticleCategory.sop,
-    content: 'Step-by-step process for drafting engagement letters compliant with SA 210 and firm policy.',
+    content:
+        'Step-by-step process for drafting engagement letters compliant with SA 210 and firm policy.',
     author: 'CA Rajesh Mehta',
     createdAt: DateTime(2025, 5, 1),
     updatedAt: DateTime(2025, 8, 10),
@@ -301,7 +307,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-007',
     title: 'Template: Transfer Pricing Documentation',
     category: ArticleCategory.template,
-    content: 'Master file and local file template for transfer pricing documentation under Section 92D.',
+    content:
+        'Master file and local file template for transfer pricing documentation under Section 92D.',
     author: 'CA Priya Sharma',
     createdAt: DateTime(2025, 8, 20),
     updatedAt: DateTime(2026, 2, 1),
@@ -312,7 +319,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-008',
     title: 'Guide: GST E-Invoice Compliance Checklist',
     category: ArticleCategory.guide,
-    content: 'Complete checklist for GST e-invoice generation, validation, and IRN management.',
+    content:
+        'Complete checklist for GST e-invoice generation, validation, and IRN management.',
     author: 'Divya Nair',
     createdAt: DateTime(2025, 12, 5),
     updatedAt: DateTime(2026, 1, 10),
@@ -323,7 +331,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-009',
     title: 'ICAI Notification: Revised SA 600 Group Audits',
     category: ArticleCategory.notification,
-    content: 'Summary of revised Standard on Auditing 600 for group audit engagements effective April 2026.',
+    content:
+        'Summary of revised Standard on Auditing 600 for group audit engagements effective April 2026.',
     author: 'Sneha Kulkarni',
     createdAt: DateTime(2026, 1, 20),
     updatedAt: DateTime(2026, 1, 20),
@@ -334,7 +343,8 @@ final _mockArticles = <KnowledgeArticle>[
     id: 'kb-010',
     title: 'Guide: Digital Signature Certificate Renewal Process',
     category: ArticleCategory.guide,
-    content: 'Step-by-step guide for Class 2 and Class 3 DSC renewal with e-Mudhra and Sify portals.',
+    content:
+        'Step-by-step guide for Class 2 and Class 3 DSC renewal with e-Mudhra and Sify portals.',
     author: 'Arjun Patel',
     createdAt: DateTime(2026, 2, 10),
     updatedAt: DateTime(2026, 2, 10),
@@ -365,7 +375,8 @@ final knowledgeArticlesProvider = Provider<List<KnowledgeArticle>>((ref) {
 /// Staff search query.
 final staffSearchQueryProvider =
     NotifierProvider<StaffSearchQueryNotifier, String>(
-        StaffSearchQueryNotifier.new);
+      StaffSearchQueryNotifier.new,
+    );
 
 class StaffSearchQueryNotifier extends Notifier<String> {
   @override
@@ -377,7 +388,8 @@ class StaffSearchQueryNotifier extends Notifier<String> {
 /// Selected designation filter (null = all).
 final staffDesignationFilterProvider =
     NotifierProvider<StaffDesignationFilterNotifier, StaffDesignation?>(
-        StaffDesignationFilterNotifier.new);
+      StaffDesignationFilterNotifier.new,
+    );
 
 class StaffDesignationFilterNotifier extends Notifier<StaffDesignation?> {
   @override
@@ -394,7 +406,8 @@ final filteredStaffProvider = Provider<List<StaffMember>>((ref) {
 
   return List.unmodifiable(
     staff.where((s) {
-      final matchesQuery = query.isEmpty ||
+      final matchesQuery =
+          query.isEmpty ||
           s.name.toLowerCase().contains(query) ||
           s.department.toLowerCase().contains(query) ||
           s.email.toLowerCase().contains(query);
@@ -408,7 +421,8 @@ final filteredStaffProvider = Provider<List<StaffMember>>((ref) {
 /// Article search query.
 final articleSearchQueryProvider =
     NotifierProvider<ArticleSearchQueryNotifier, String>(
-        ArticleSearchQueryNotifier.new);
+      ArticleSearchQueryNotifier.new,
+    );
 
 class ArticleSearchQueryNotifier extends Notifier<String> {
   @override
@@ -420,7 +434,8 @@ class ArticleSearchQueryNotifier extends Notifier<String> {
 /// Selected article category filter (null = all).
 final articleCategoryFilterProvider =
     NotifierProvider<ArticleCategoryFilterNotifier, ArticleCategory?>(
-        ArticleCategoryFilterNotifier.new);
+      ArticleCategoryFilterNotifier.new,
+    );
 
 class ArticleCategoryFilterNotifier extends Notifier<ArticleCategory?> {
   @override
@@ -437,7 +452,8 @@ final filteredArticlesProvider = Provider<List<KnowledgeArticle>>((ref) {
 
   return List.unmodifiable(
     articles.where((a) {
-      final matchesQuery = query.isEmpty ||
+      final matchesQuery =
+          query.isEmpty ||
           a.title.toLowerCase().contains(query) ||
           a.tags.any((t) => t.toLowerCase().contains(query)) ||
           a.author.toLowerCase().contains(query);
@@ -448,8 +464,7 @@ final filteredArticlesProvider = Provider<List<KnowledgeArticle>>((ref) {
 });
 
 /// KPI for a specific staff member.
-final kpiForStaffProvider =
-    Provider.family<StaffKpi?, String>((ref, staffId) {
+final kpiForStaffProvider = Provider.family<StaffKpi?, String>((ref, staffId) {
   final kpis = ref.watch(staffKpisProvider);
   final matches = kpis.where((k) => k.staffId == staffId);
   return matches.isEmpty ? null : matches.first;

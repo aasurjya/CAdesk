@@ -200,12 +200,10 @@ class _TaxComparisonSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final oldTaxable =
-        (comparison.grossIncome - comparison.oldRegimeDeductions)
-            .clamp(0.0, double.infinity);
-    final newTaxable =
-        (comparison.grossIncome - comparison.newRegimeDeductions)
-            .clamp(0.0, double.infinity);
+    final oldTaxable = (comparison.grossIncome - comparison.oldRegimeDeductions)
+        .clamp(0.0, double.infinity);
+    final newTaxable = (comparison.grossIncome - comparison.newRegimeDeductions)
+        .clamp(0.0, double.infinity);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,8 +326,9 @@ class _RegimeCard extends StatelessWidget {
                   regime,
                   style: theme.textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    color:
-                        isRecommended ? AppColors.success : AppColors.neutral600,
+                    color: isRecommended
+                        ? AppColors.success
+                        : AppColors.neutral600,
                   ),
                 ),
               ),
@@ -403,10 +402,7 @@ class _Row extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 11,
-              color: AppColors.neutral400,
-            ),
+            style: TextStyle(fontSize: 11, color: AppColors.neutral400),
           ),
           Text(
             value,
@@ -473,7 +469,7 @@ class _AdvanceTaxSection extends StatelessWidget {
               final installmentAmt = index == 0
                   ? amount
                   : amount -
-                      (taxPayable * _installments[index - 1].cumulativePct);
+                        (taxPayable * _installments[index - 1].cumulativePct);
               final dueDate = inst.dueDate(today.year);
               final status = _installmentStatus(dueDate, today);
               return _InstallmentRow(
@@ -512,12 +508,7 @@ class _Installment {
   DateTime dueDate(int year) {
     final parts = label.split(' ');
     final day = int.parse(parts[0]);
-    const months = {
-      'Jun': 6,
-      'Sep': 9,
-      'Dec': 12,
-      'Mar': 3,
-    };
+    const months = {'Jun': 6, 'Sep': 9, 'Dec': 12, 'Mar': 3};
     final month = months[parts[1]]!;
     final effectiveYear = month == 3 ? year + 1 : year;
     return DateTime(effectiveYear, month, day);
@@ -567,9 +558,7 @@ class _InstallmentRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : Border(
-                bottom: BorderSide(color: AppColors.neutral200),
-              ),
+            : Border(bottom: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
@@ -657,8 +646,7 @@ class _FilingTimelineSection extends StatelessWidget {
     final theme = Theme.of(context);
     final currentIndex = _steps.indexOf(status);
     // If status is defective, treat it as failed after filed step.
-    final effectiveIndex =
-        status == FilingStatus.defective ? 2 : currentIndex;
+    final effectiveIndex = status == FilingStatus.defective ? 2 : currentIndex;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -696,10 +684,10 @@ class _FilingTimelineSection extends StatelessWidget {
                 color: isDefectiveCurrent
                     ? AppColors.error
                     : isCurrent
-                        ? step.color
-                        : isDone
-                            ? AppColors.success
-                            : AppColors.neutral300,
+                    ? step.color
+                    : isDone
+                    ? AppColors.success
+                    : AppColors.neutral300,
               );
             }),
           ),
@@ -749,7 +737,9 @@ class _TimelineStep extends StatelessWidget {
               Container(
                 width: 2,
                 height: 28,
-                color: isDone ? AppColors.success.withAlpha(128) : AppColors.neutral200,
+                color: isDone
+                    ? AppColors.success.withAlpha(128)
+                    : AppColors.neutral200,
               ),
           ],
         ),
@@ -781,7 +771,8 @@ class _ActionBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final canMarkFiled = client.filingStatus == FilingStatus.pending ||
+    final canMarkFiled =
+        client.filingStatus == FilingStatus.pending ||
         client.filingStatus == FilingStatus.inProgress;
 
     return Container(

@@ -30,10 +30,7 @@ class _CmaScreenState extends ConsumerState<CmaScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      length: _CmaTab.values.length,
-      vsync: this,
-    );
+    _tabController = TabController(length: _CmaTab.values.length, vsync: this);
   }
 
   @override
@@ -233,10 +230,7 @@ class _SummaryCell extends StatelessWidget {
             ),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 10,
-                color: AppColors.neutral400,
-              ),
+              style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
             ),
           ],
         ),
@@ -272,17 +266,18 @@ class _CmaReportsTab extends ConsumerWidget {
                     ref.read(cmaStatusFilterProvider.notifier).update(null),
               ),
               const SizedBox(width: 8),
-              ...CmaReportStatus.values.map((s) => Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: _FilterChip(
-                      label: s.label,
-                      selected: filter == s,
-                      color: s.color,
-                      onTap: () => ref
-                          .read(cmaStatusFilterProvider.notifier)
-                          .update(s),
-                    ),
-                  )),
+              ...CmaReportStatus.values.map(
+                (s) => Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: _FilterChip(
+                    label: s.label,
+                    selected: filter == s,
+                    color: s.color,
+                    onTap: () =>
+                        ref.read(cmaStatusFilterProvider.notifier).update(s),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -347,7 +342,8 @@ class _CalculatorToolsTab extends StatelessWidget {
         _ToolTile(
           icon: Icons.trending_up_rounded,
           title: 'NPV / IRR Analysis',
-          subtitle: 'Evaluate project viability using NPV, IRR & payback period',
+          subtitle:
+              'Evaluate project viability using NPV, IRR & payback period',
           color: AppColors.secondary,
           onTap: () => _CmaScreenState.showNpvIrr(context),
         ),
@@ -523,10 +519,7 @@ class _PortfolioMetric extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 10,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
           ),
         ],
       ),
@@ -561,9 +554,7 @@ class _FilterChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected ? color : AppColors.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: selected ? color : AppColors.neutral200,
-          ),
+          border: Border.all(color: selected ? color : AppColors.neutral200),
         ),
         child: Text(
           label,
@@ -597,10 +588,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message,
-            style: const TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),
@@ -683,27 +671,26 @@ class _NewCmaSheetState extends ConsumerState<_NewCmaSheet> {
             children: [
               const Text(
                 'Projection Years:',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.neutral600,
-                ),
+                style: TextStyle(fontSize: 14, color: AppColors.neutral600),
               ),
               const Spacer(),
-              ...[3, 5, 7].map((y) => Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: ChoiceChip(
-                      label: Text('$y Y'),
-                      selected: _projYears == y,
-                      onSelected: (_) => setState(() => _projYears = y),
-                      selectedColor: AppColors.primary,
-                      labelStyle: TextStyle(
-                        color: _projYears == y
-                            ? Colors.white
-                            : AppColors.neutral600,
-                        fontWeight: FontWeight.w600,
-                      ),
+              ...[3, 5, 7].map(
+                (y) => Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: ChoiceChip(
+                    label: Text('$y Y'),
+                    selected: _projYears == y,
+                    onSelected: (_) => setState(() => _projYears = y),
+                    selectedColor: AppColors.primary,
+                    labelStyle: TextStyle(
+                      color: _projYears == y
+                          ? Colors.white
+                          : AppColors.neutral600,
+                      fontWeight: FontWeight.w600,
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 24),

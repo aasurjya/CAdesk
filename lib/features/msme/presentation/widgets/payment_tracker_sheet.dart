@@ -16,10 +16,8 @@ void showPaymentTrackerSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => PaymentTrackerSheet(
-      clientId: clientId,
-      clientName: clientName,
-    ),
+    builder: (_) =>
+        PaymentTrackerSheet(clientId: clientId, clientName: clientName),
   );
 }
 
@@ -52,18 +50,21 @@ class PaymentTrackerSheet extends ConsumerWidget {
     final payments = ref.watch(msmePaymentsByClientProvider(clientId));
     final theme = Theme.of(context);
 
-    final overduePayments =
-        payments.where((p) => p.isOverdue && !p.isPaid).toList();
+    final overduePayments = payments
+        .where((p) => p.isOverdue && !p.isPaid)
+        .toList();
     final totalOutstanding = payments
         .where((p) => !p.isPaid)
         .fold(0.0, (s, p) => s + p.invoiceAmount);
-    final totalDisallowable =
-        payments.fold(0.0, (s, p) => s + p.disallowableAmount);
-    final totalInterest =
-        payments.fold(0.0, (s, p) => s + p.interestLiability);
+    final totalDisallowable = payments.fold(
+      0.0,
+      (s, p) => s + p.disallowableAmount,
+    );
+    final totalInterest = payments.fold(0.0, (s, p) => s + p.interestLiability);
     final taxImpact = totalDisallowable * 0.30;
-    final reportableCount =
-        payments.where((p) => p.isOverdue && !p.isPaid).length;
+    final reportableCount = payments
+        .where((p) => p.isOverdue && !p.isPaid)
+        .length;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.85,
@@ -73,9 +74,7 @@ class PaymentTrackerSheet extends ConsumerWidget {
         return Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(20),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
@@ -162,10 +161,7 @@ class _DragHandle extends StatelessWidget {
 }
 
 class _SheetHeader extends StatelessWidget {
-  const _SheetHeader({
-    required this.clientName,
-    required this.financialYear,
-  });
+  const _SheetHeader({required this.clientName, required this.financialYear});
 
   final String clientName;
   final String financialYear;
@@ -220,10 +216,7 @@ class _SheetHeader extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _OverdueBanner extends StatelessWidget {
-  const _OverdueBanner({
-    required this.count,
-    required this.disallowable,
-  });
+  const _OverdueBanner({required this.count, required this.disallowable});
 
   final int count;
   final double disallowable;
@@ -241,9 +234,7 @@ class _OverdueBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.error.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: AppColors.error.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
@@ -383,10 +374,7 @@ class _ImpactRow extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _PaymentRow extends StatelessWidget {
-  const _PaymentRow({
-    required this.payment,
-    required this.currencyFormat,
-  });
+  const _PaymentRow({required this.payment, required this.currencyFormat});
 
   final MsmeSupplierPayment payment;
   final NumberFormat currencyFormat;
@@ -432,9 +420,7 @@ class _PaymentRow extends StatelessWidget {
               children: [
                 _InfoPill(label: 'Invoice: ${payment.invoiceDate}'),
                 const SizedBox(width: 8),
-                _InfoPill(
-                  label: 'Terms: ${payment.agreedTermDays} days',
-                ),
+                _InfoPill(label: 'Terms: ${payment.agreedTermDays} days'),
               ],
             ),
             const SizedBox(height: 8),
@@ -576,10 +562,7 @@ class _InfoPill extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          fontSize: 11,
-          color: AppColors.neutral600,
-        ),
+        style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
       ),
     );
   }
@@ -638,9 +621,7 @@ class _FormMsme1Section extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dueDate = MsmePaymentCalculator.formMsme1DueDate(
-      isMarchHalf: true,
-    );
+    final dueDate = MsmePaymentCalculator.formMsme1DueDate(isMarchHalf: true);
 
     return Container(
       padding: const EdgeInsets.all(14),
@@ -654,8 +635,11 @@ class _FormMsme1Section extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.description_outlined,
-                  color: AppColors.accent, size: 18),
+              Icon(
+                Icons.description_outlined,
+                color: AppColors.accent,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Form MSME-1',
@@ -667,10 +651,7 @@ class _FormMsme1Section extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          _FormMsme1Row(
-            label: 'Next due date',
-            value: dueDate,
-          ),
+          _FormMsme1Row(label: 'Next due date', value: dueDate),
           const SizedBox(height: 4),
           _FormMsme1Row(
             label: 'Payments to be reported',
@@ -699,9 +680,7 @@ class _FormMsme1Section extends StatelessWidget {
   void _showGenerateSnackbar(BuildContext context, String clientName) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          'Form MSME-1 generated for $clientName',
-        ),
+        content: Text('Form MSME-1 generated for $clientName'),
         backgroundColor: AppColors.success,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 3),
@@ -739,4 +718,3 @@ class _FormMsme1Row extends StatelessWidget {
     );
   }
 }
-

@@ -33,7 +33,9 @@ void main() {
 
       test('input fill color is neutral50', () {
         expect(
-            AppTheme.light.inputDecorationTheme.fillColor, AppColors.neutral50);
+          AppTheme.light.inputDecorationTheme.fillColor,
+          AppColors.neutral50,
+        );
       });
 
       test('has card with rounded corners', () {
@@ -42,15 +44,21 @@ void main() {
       });
 
       test('FAB uses accent color', () {
-        expect(AppTheme.light.floatingActionButtonTheme.backgroundColor,
-            AppColors.accent);
-        expect(AppTheme.light.floatingActionButtonTheme.foregroundColor,
-            Colors.white);
+        expect(
+          AppTheme.light.floatingActionButtonTheme.backgroundColor,
+          AppColors.accent,
+        );
+        expect(
+          AppTheme.light.floatingActionButtonTheme.foregroundColor,
+          Colors.white,
+        );
       });
 
       test('navigation bar shows labels', () {
-        expect(AppTheme.light.navigationBarTheme.labelBehavior,
-            NavigationDestinationLabelBehavior.alwaysShow);
+        expect(
+          AppTheme.light.navigationBarTheme.labelBehavior,
+          NavigationDestinationLabelBehavior.alwaysShow,
+        );
       });
 
       test('has error color from AppColors', () {
@@ -76,8 +84,10 @@ void main() {
       });
 
       test('input fill color is dark surface variant', () {
-        expect(AppTheme.dark.inputDecorationTheme.fillColor,
-            AppColors.darkSurfaceVariant);
+        expect(
+          AppTheme.dark.inputDecorationTheme.fillColor,
+          AppColors.darkSurfaceVariant,
+        );
       });
 
       test('has card with rounded corners', () {
@@ -86,8 +96,10 @@ void main() {
       });
 
       test('FAB uses accent color', () {
-        expect(AppTheme.dark.floatingActionButtonTheme.backgroundColor,
-            AppColors.accent);
+        expect(
+          AppTheme.dark.floatingActionButtonTheme.backgroundColor,
+          AppColors.accent,
+        );
       });
     });
   });

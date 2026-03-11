@@ -10,11 +10,7 @@ import 'package:ca_app/features/msme/domain/models/msme_vendor.dart';
 /// must be made within 45 days (or the agreed period) to claim the expense
 /// as a deduction in the current financial year.
 class Section43BhAlert extends StatelessWidget {
-  const Section43BhAlert({
-    super.key,
-    required this.vendor,
-    this.onTap,
-  });
+  const Section43BhAlert({super.key, required this.vendor, this.onTap});
 
   final MsmeVendor vendor;
   final VoidCallback? onTap;
@@ -35,9 +31,7 @@ class Section43BhAlert extends StatelessWidget {
       color: AppColors.error.withValues(alpha: 0.05),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: AppColors.error.withValues(alpha: 0.3),
-        ),
+        side: BorderSide(color: AppColors.error.withValues(alpha: 0.3)),
       ),
       child: InkWell(
         onTap: onTap,

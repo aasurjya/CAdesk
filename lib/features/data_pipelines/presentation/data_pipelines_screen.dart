@@ -102,10 +102,7 @@ class _DataPipelinesScreenState extends ConsumerState<DataPipelinesScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _PipelinesTab(),
-                _BrokerFeedsTab(),
-              ],
+              children: const [_PipelinesTab(), _BrokerFeedsTab()],
             ),
           ),
         ],
@@ -192,9 +189,9 @@ class _PipelinesTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(pipelineStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(pipelineStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -202,7 +199,8 @@ class _PipelinesTab extends ConsumerWidget {
         Expanded(
           child: pipelines.isEmpty
               ? const _EmptyState(
-                  message: 'No pipelines match the selected filter')
+                  message: 'No pipelines match the selected filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: pipelines.length,
@@ -231,8 +229,7 @@ class _BrokerFeedsTab extends ConsumerWidget {
         : ListView.builder(
             padding: const EdgeInsets.only(top: 8, bottom: 80),
             itemCount: feeds.length,
-            itemBuilder: (context, index) =>
-                BrokerFeedTile(feed: feeds[index]),
+            itemBuilder: (context, index) => BrokerFeedTile(feed: feeds[index]),
           );
   }
 }

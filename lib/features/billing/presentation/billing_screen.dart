@@ -152,10 +152,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen>
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const [
-                  _InvoicesTab(),
-                  _PaymentsTab(),
-                ],
+                children: const [_InvoicesTab(), _PaymentsTab()],
               ),
             ),
           ],
@@ -250,8 +247,9 @@ class _BillingSummaryRow extends StatelessWidget {
     double totalBilled,
     double totalCollected,
     double outstanding,
-    int overdueCount
-  }) summary;
+    int overdueCount,
+  })
+  summary;
 
   static final _compact = NumberFormat.compactCurrency(
     locale: 'en_IN',
@@ -378,17 +376,19 @@ class _InvoiceStatusChips extends ConsumerWidget {
             onTap: () =>
                 ref.read(invoiceStatusFilterProvider.notifier).update(null),
           ),
-          ...InvoiceStatus.values.map((s) => Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: _chip(
-                  context,
-                  label: s.label,
-                  isSelected: selected == s,
-                  onTap: () => ref
-                      .read(invoiceStatusFilterProvider.notifier)
-                      .update(selected == s ? null : s),
-                ),
-              )),
+          ...InvoiceStatus.values.map(
+            (s) => Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: _chip(
+                context,
+                label: s.label,
+                isSelected: selected == s,
+                onTap: () => ref
+                    .read(invoiceStatusFilterProvider.notifier)
+                    .update(selected == s ? null : s),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -464,8 +464,7 @@ class _PaymentsTab extends ConsumerWidget {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 8, bottom: 96),
       itemCount: sorted.length,
-      itemBuilder: (_, index) =>
-          PaymentReceiptTile(receipt: sorted[index]),
+      itemBuilder: (_, index) => PaymentReceiptTile(receipt: sorted[index]),
     );
   }
 }
@@ -635,9 +634,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

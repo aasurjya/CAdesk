@@ -256,23 +256,25 @@ class _OpportunityTypeFilterNotifier extends Notifier<OpportunityType?> {
 /// All advisory opportunities (unfiltered).
 final allOpportunitiesProvider =
     NotifierProvider<_OpportunitiesNotifier, List<AdvisoryOpportunity>>(
-  _OpportunitiesNotifier.new,
-);
+      _OpportunitiesNotifier.new,
+    );
 
 /// All advisory proposals.
 final allProposalsProvider =
     NotifierProvider<_ProposalsNotifier, List<AdvisoryProposal>>(
-  _ProposalsNotifier.new,
-);
+      _ProposalsNotifier.new,
+    );
 
 /// Currently selected opportunity type filter (null = show all).
 final opportunityTypeFilterProvider =
     NotifierProvider<_OpportunityTypeFilterNotifier, OpportunityType?>(
-  _OpportunityTypeFilterNotifier.new,
-);
+      _OpportunityTypeFilterNotifier.new,
+    );
 
 /// Opportunities filtered by the selected OpportunityType.
-final filteredOpportunitiesProvider = Provider<List<AdvisoryOpportunity>>((ref) {
+final filteredOpportunitiesProvider = Provider<List<AdvisoryOpportunity>>((
+  ref,
+) {
   final filter = ref.watch(opportunityTypeFilterProvider);
   final all = ref.watch(allOpportunitiesProvider);
   if (filter == null) return all;
@@ -283,10 +285,12 @@ final filteredOpportunitiesProvider = Provider<List<AdvisoryOpportunity>>((ref) 
 final advisorySummaryProvider = Provider<Map<String, dynamic>>((ref) {
   final opportunities = ref.watch(allOpportunitiesProvider);
   final total = opportunities.length;
-  final highPriority =
-      opportunities.where((o) => o.priority == OpportunityPriority.high).length;
-  final converted =
-      opportunities.where((o) => o.status == OpportunityStatus.converted).length;
+  final highPriority = opportunities
+      .where((o) => o.priority == OpportunityPriority.high)
+      .length;
+  final converted = opportunities
+      .where((o) => o.status == OpportunityStatus.converted)
+      .length;
 
   final totalFeesPipeline = opportunities
       .where((o) => o.status != OpportunityStatus.dismissed)

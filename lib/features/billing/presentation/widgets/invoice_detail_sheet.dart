@@ -42,7 +42,8 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
   @override
   Widget build(BuildContext context) {
     final invoice = widget.invoice;
-    final payments = ref.watch(allPaymentRecordsProvider)
+    final payments = ref
+        .watch(allPaymentRecordsProvider)
         .where((p) => p.invoiceId == invoice.id)
         .toList();
 
@@ -195,10 +196,7 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
         children: [
-          const Expanded(
-            flex: 3,
-            child: Text('Description', style: style),
-          ),
+          const Expanded(flex: 3, child: Text('Description', style: style)),
           const _HeaderCell('Taxable'),
           const _HeaderCell('GST%'),
           const _HeaderCell('CGST'),
@@ -217,10 +215,7 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
       isInterState: item.igst > 0,
     );
 
-    const valueStyle = TextStyle(
-      fontSize: 10,
-      color: AppColors.neutral600,
-    );
+    const valueStyle = TextStyle(fontSize: 10, color: AppColors.neutral600);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -400,7 +395,8 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
   }
 
   Widget _buildActions(BuildContext context, Invoice invoice) {
-    final canMarkPaid = invoice.status == InvoiceStatus.sent ||
+    final canMarkPaid =
+        invoice.status == InvoiceStatus.sent ||
         invoice.status == InvoiceStatus.partial ||
         invoice.status == InvoiceStatus.overdue;
 
@@ -423,7 +419,8 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                    'Reminder sent to ${invoice.clientName.toLowerCase().replaceAll(' ', '.')}@example.com'),
+                  'Reminder sent to ${invoice.clientName.toLowerCase().replaceAll(' ', '.')}@example.com',
+                ),
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -489,10 +486,7 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
                         isDense: true,
                         items: modes
                             .map(
-                              (m) => DropdownMenuItem(
-                                value: m,
-                                child: Text(m),
-                              ),
+                              (m) => DropdownMenuItem(value: m, child: Text(m)),
                             )
                             .toList(),
                         onChanged: (v) {
@@ -545,7 +539,8 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            'Payment of \u20B9${amount.toStringAsFixed(0)} recorded.'),
+                          'Payment of \u20B9${amount.toStringAsFixed(0)} recorded.',
+                        ),
                         behavior: SnackBarBehavior.floating,
                       ),
                     );
@@ -562,7 +557,10 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
 
   void _applyPaymentToInvoice(Invoice invoice, double amount) {
     final invoices = ref.read(allInvoicesProvider);
-    final newPaid = (invoice.paidAmount + amount).clamp(0.0, invoice.grandTotal);
+    final newPaid = (invoice.paidAmount + amount).clamp(
+      0.0,
+      invoice.grandTotal,
+    );
     final newBalance = invoice.grandTotal - newPaid;
     final newStatus = newBalance <= 0
         ? InvoiceStatus.paid
@@ -722,9 +720,7 @@ class _TotalRow extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   color: AppColors.neutral900,
                 )
-              : theme.bodySmall?.copyWith(
-                  color: AppColors.neutral600,
-                ),
+              : theme.bodySmall?.copyWith(color: AppColors.neutral600),
         ),
         Text(
           value,
@@ -823,10 +819,7 @@ class _ActionButton extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: onTap,
       icon: Icon(icon, size: 16, color: color),
-      label: Text(
-        label,
-        style: TextStyle(fontSize: 12, color: color),
-      ),
+      label: Text(label, style: TextStyle(fontSize: 12, color: color)),
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: color.withAlpha(76)),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

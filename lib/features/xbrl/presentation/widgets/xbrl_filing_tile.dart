@@ -11,11 +11,7 @@ final _dateFmt = DateFormat('dd MMM yyyy');
 /// Card tile for a single [XbrlFiling] with a completion percentage ring,
 /// validation error count, and report type badge.
 class XbrlFilingTile extends StatelessWidget {
-  const XbrlFilingTile({
-    super.key,
-    required this.filing,
-    this.onTap,
-  });
+  const XbrlFilingTile({super.key, required this.filing, this.onTap});
 
   final XbrlFiling filing;
   final VoidCallback? onTap;
@@ -257,8 +253,7 @@ class _RingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RingPainter old) =>
-      old.percentage != percentage ||
-      old.ringColor != ringColor;
+      old.percentage != percentage || old.ringColor != ringColor;
 }
 
 // ---------------------------------------------------------------------------
@@ -371,10 +366,7 @@ class _MetaChip extends StatelessWidget {
         const SizedBox(width: 3),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppColors.neutral600,
-          ),
+          style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
         ),
       ],
     );

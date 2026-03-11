@@ -29,9 +29,7 @@ class MessageBubble extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: isClient
-              ? AppColors.primary.withAlpha(20)
-              : AppColors.surface,
+          color: isClient ? AppColors.primary.withAlpha(20) : AppColors.surface,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16),
             topRight: const Radius.circular(16),
@@ -45,8 +43,9 @@ class MessageBubble extends StatelessWidget {
           ),
         ),
         child: Column(
-          crossAxisAlignment:
-              isClient ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: isClient
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             Text(
               message.senderName,

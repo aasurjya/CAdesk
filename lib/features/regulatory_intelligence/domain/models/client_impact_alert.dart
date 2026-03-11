@@ -85,16 +85,16 @@ class ClientImpactAlert {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        circularId,
-        clientName,
-        clientPan,
-        impactDescription,
-        actionRequired,
-        dueDate,
-        status,
-        urgency,
-      );
+    id,
+    circularId,
+    clientName,
+    clientPan,
+    impactDescription,
+    actionRequired,
+    dueDate,
+    status,
+    urgency,
+  );
 
   @override
   String toString() =>

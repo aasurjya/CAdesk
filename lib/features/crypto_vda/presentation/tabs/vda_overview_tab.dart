@@ -11,8 +11,9 @@ class VdaOverviewTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final VdaTaxOverview overview = ref.watch(vdaTaxOverviewProvider);
-    final List<({String id, String name})> clients =
-        ref.watch(vdaClientNamesProvider);
+    final List<({String id, String name})> clients = ref.watch(
+      vdaClientNamesProvider,
+    );
 
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -24,7 +25,8 @@ class VdaOverviewTab extends ConsumerWidget {
           icon: Icons.percent_rounded,
           color: AppColors.error,
           title: '30% Flat Tax + 4% Cess',
-          body: 'All VDA gains are taxed at a flat 30% rate plus '
+          body:
+              'All VDA gains are taxed at a flat 30% rate plus '
               '4% Health & Education Cess. No deductions, no '
               'basic exemption limit benefit.',
         ),
@@ -32,7 +34,8 @@ class VdaOverviewTab extends ConsumerWidget {
           icon: Icons.block_rounded,
           color: AppColors.warning,
           title: 'Loss Disallowance',
-          body: 'Losses from VDA transfers cannot be set off '
+          body:
+              'Losses from VDA transfers cannot be set off '
               'against any other income — salary, business, '
               'LTCG, STCG or other VDA gains.',
         ),
@@ -40,7 +43,8 @@ class VdaOverviewTab extends ConsumerWidget {
           icon: Icons.account_balance_rounded,
           color: AppColors.secondary,
           title: 'TDS u/s 194S — 1% at Source',
-          body: 'Exchanges deduct 1% TDS on each transaction '
+          body:
+              'Exchanges deduct 1% TDS on each transaction '
               'above ₹50,000 p.a. (₹10,000 for specified '
               'persons). Credit appears in Form 26AS / AIS.',
         ),
@@ -55,10 +59,7 @@ class VdaOverviewTab extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 
 class _OverviewBanner extends StatelessWidget {
-  const _OverviewBanner({
-    required this.overview,
-    required this.clientCount,
-  });
+  const _OverviewBanner({required this.overview, required this.clientCount});
 
   final VdaTaxOverview overview;
   final int clientCount;
@@ -196,9 +197,9 @@ class _SectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: AppColors.neutral600,
-            ),
+          fontWeight: FontWeight.w600,
+          color: AppColors.neutral600,
+        ),
       ),
     );
   }

@@ -99,8 +99,8 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
                 child: Text(
                   'Sort by',
                   style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               ...ClientSortOption.values.map((option) {
@@ -180,14 +180,16 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
                     _typeFilterLabels[index],
                     style: TextStyle(
                       fontSize: 12,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                     ),
                   ),
                   selected: isSelected,
                   onSelected: (_) {
-                    ref.read(selectedTypeFilterProvider.notifier).update(
-                        filterType);
+                    ref
+                        .read(selectedTypeFilterProvider.notifier)
+                        .update(filterType);
                   },
                   selectedColor: AppColors.primary.withAlpha(30),
                   checkmarkColor: AppColors.primary,
@@ -215,7 +217,8 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
           Expanded(
             child: clients.isEmpty
                 ? _EmptyState(
-                    hasFilters: selectedType != null ||
+                    hasFilters:
+                        selectedType != null ||
                         selectedStatus != null ||
                         _searchController.text.isNotEmpty,
                   )
@@ -249,10 +252,7 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
 }
 
 class _SearchField extends StatelessWidget {
-  const _SearchField({
-    required this.controller,
-    required this.onChanged,
-  });
+  const _SearchField({required this.controller, required this.onChanged});
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
@@ -274,10 +274,7 @@ class _SearchField extends StatelessWidget {
 }
 
 class _StatusSegment extends StatelessWidget {
-  const _StatusSegment({
-    required this.selected,
-    required this.onChanged,
-  });
+  const _StatusSegment({required this.selected, required this.onChanged});
 
   final ClientStatus? selected;
   final ValueChanged<ClientStatus?> onChanged;

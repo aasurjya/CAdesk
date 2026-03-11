@@ -75,9 +75,7 @@ class _FeeLeakageScreenState extends ConsumerState<FeeLeakageScreen>
                   label: 'Total Leakage',
                   value: _formatLeakage(totalLeakage),
                   icon: Icons.money_off_rounded,
-                  color: totalLeakage > 0
-                      ? AppColors.error
-                      : AppColors.success,
+                  color: totalLeakage > 0 ? AppColors.error : AppColors.success,
                 ),
                 const SizedBox(width: 8),
                 _SummaryCard(
@@ -108,10 +106,7 @@ class _FeeLeakageScreenState extends ConsumerState<FeeLeakageScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _EngagementsTab(),
-                _ScopeItemsTab(),
-              ],
+              children: const [_EngagementsTab(), _ScopeItemsTab()],
             ),
           ),
         ],
@@ -207,9 +202,9 @@ class _EngagementsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(engagementStatusFilterProvider.notifier).update(
-                  s == selected ? null : s,
-                );
+            ref
+                .read(engagementStatusFilterProvider.notifier)
+                .update(s == selected ? null : s);
           },
         ),
 
@@ -245,8 +240,7 @@ class _ScopeItemsTab extends ConsumerWidget {
         : ListView.builder(
             padding: const EdgeInsets.only(top: 8, bottom: 80),
             itemCount: items.length,
-            itemBuilder: (context, index) =>
-                _ScopeItemTile(item: items[index]),
+            itemBuilder: (context, index) => _ScopeItemTile(item: items[index]),
           );
   }
 }
@@ -260,8 +254,9 @@ class _ScopeItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final dateFormat = DateFormat('dd MMM yyyy');
-    final inScopeColor =
-        item.isInScope ? AppColors.success : AppColors.neutral400;
+    final inScopeColor = item.isInScope
+        ? AppColors.success
+        : AppColors.neutral400;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -348,9 +343,9 @@ class _InScopeChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -370,9 +365,9 @@ class _BilledExtraChip extends StatelessWidget {
       child: Text(
         'Billed Extra',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.accent,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.accent,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -447,7 +442,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,

@@ -41,10 +41,15 @@ class _GrowthScoreTileState extends State<GrowthScoreTile> {
               if (_expanded) ...[
                 const SizedBox(height: 10),
                 _RecommendationsList(
-                    recommendations: gs.recommendations, theme: theme),
+                  recommendations: gs.recommendations,
+                  theme: theme,
+                ),
               ],
               const SizedBox(height: 4),
-              _ExpandToggle(expanded: _expanded, count: gs.recommendations.length),
+              _ExpandToggle(
+                expanded: _expanded,
+                count: gs.recommendations.length,
+              ),
             ],
           ),
         ),
@@ -187,7 +192,9 @@ class _ScoreBar extends StatelessWidget {
             painter: _ScoreBarPainter(
               scoreFraction: score.scoreFraction,
               peerFraction: score.peerAverageFraction,
-              color: score.isAbovePeerAverage ? AppColors.success : AppColors.warning,
+              color: score.isAbovePeerAverage
+                  ? AppColors.success
+                  : AppColors.warning,
             ),
           ),
         ),
@@ -215,7 +222,10 @@ class _ScoreBarPainter extends CustomPainter {
     // Track background
     final trackPaint = Paint()..color = AppColors.neutral200;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, size.width, size.height), radius),
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+        radius,
+      ),
       trackPaint,
     );
 

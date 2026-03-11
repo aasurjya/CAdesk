@@ -13,7 +13,8 @@ import 'package:ca_app/features/ai_automation/domain/models/anomaly_alert.dart';
 /// All OCR scan results.
 final allScanResultsProvider =
     NotifierProvider<AllScanResultsNotifier, List<AiScanResult>>(
-        AllScanResultsNotifier.new);
+      AllScanResultsNotifier.new,
+    );
 
 class AllScanResultsNotifier extends Notifier<List<AiScanResult>> {
   @override
@@ -25,7 +26,8 @@ class AllScanResultsNotifier extends Notifier<List<AiScanResult>> {
 /// Filter index for scan status: 0=All, 1=Completed, 2=Processing, 3=Review.
 final scanStatusFilterProvider =
     NotifierProvider<ScanStatusFilterNotifier, int>(
-        ScanStatusFilterNotifier.new);
+      ScanStatusFilterNotifier.new,
+    );
 
 class ScanStatusFilterNotifier extends Notifier<int> {
   @override
@@ -41,8 +43,7 @@ final scanCountsProvider = Provider<Map<String, int>>((ref) {
     'all': scans.length,
     'completed': scans.where((s) => s.status == ScanStatus.completed).length,
     'processing': scans.where((s) => s.status == ScanStatus.processing).length,
-    'review':
-        scans.where((s) => s.status == ScanStatus.reviewNeeded).length,
+    'review': scans.where((s) => s.status == ScanStatus.reviewNeeded).length,
     'failed': scans.where((s) => s.status == ScanStatus.failed).length,
   };
 });
@@ -71,7 +72,8 @@ final filteredScanResultsProvider = Provider<List<AiScanResult>>((ref) {
 /// All bank reconciliation entries.
 final allReconciliationsProvider =
     NotifierProvider<AllReconciliationsNotifier, List<BankReconciliation>>(
-        AllReconciliationsNotifier.new);
+      AllReconciliationsNotifier.new,
+    );
 
 class AllReconciliationsNotifier extends Notifier<List<BankReconciliation>> {
   @override
@@ -83,7 +85,8 @@ class AllReconciliationsNotifier extends Notifier<List<BankReconciliation>> {
 /// Filter index for match status: 0=All, 1=Auto, 2=Manual, 3=Unmatched, 4=Disputed.
 final reconStatusFilterProvider =
     NotifierProvider<ReconStatusFilterNotifier, int>(
-        ReconStatusFilterNotifier.new);
+      ReconStatusFilterNotifier.new,
+    );
 
 class ReconStatusFilterNotifier extends Notifier<int> {
   @override
@@ -97,19 +100,23 @@ final reconCountsProvider = Provider<Map<String, int>>((ref) {
   final recons = ref.watch(allReconciliationsProvider);
   return {
     'all': recons.length,
-    'autoMatched':
-        recons.where((r) => r.matchStatus == MatchStatus.autoMatched).length,
+    'autoMatched': recons
+        .where((r) => r.matchStatus == MatchStatus.autoMatched)
+        .length,
     'manual': recons.where((r) => r.matchStatus == MatchStatus.manual).length,
-    'unmatched':
-        recons.where((r) => r.matchStatus == MatchStatus.unmatched).length,
-    'disputed':
-        recons.where((r) => r.matchStatus == MatchStatus.disputed).length,
+    'unmatched': recons
+        .where((r) => r.matchStatus == MatchStatus.unmatched)
+        .length,
+    'disputed': recons
+        .where((r) => r.matchStatus == MatchStatus.disputed)
+        .length,
   };
 });
 
 /// Filtered reconciliation list.
-final filteredReconciliationsProvider =
-    Provider<List<BankReconciliation>>((ref) {
+final filteredReconciliationsProvider = Provider<List<BankReconciliation>>((
+  ref,
+) {
   final recons = ref.watch(allReconciliationsProvider);
   final filter = ref.watch(reconStatusFilterProvider);
 
@@ -119,9 +126,7 @@ final filteredReconciliationsProvider =
           .where((r) => r.matchStatus == MatchStatus.autoMatched)
           .toList();
     case 2:
-      return recons
-          .where((r) => r.matchStatus == MatchStatus.manual)
-          .toList();
+      return recons.where((r) => r.matchStatus == MatchStatus.manual).toList();
     case 3:
       return recons
           .where((r) => r.matchStatus == MatchStatus.unmatched)
@@ -142,7 +147,8 @@ final filteredReconciliationsProvider =
 /// All anomaly alerts.
 final allAnomalyAlertsProvider =
     NotifierProvider<AllAnomalyAlertsNotifier, List<AnomalyAlert>>(
-        AllAnomalyAlertsNotifier.new);
+      AllAnomalyAlertsNotifier.new,
+    );
 
 class AllAnomalyAlertsNotifier extends Notifier<List<AnomalyAlert>> {
   @override
@@ -152,8 +158,9 @@ class AllAnomalyAlertsNotifier extends Notifier<List<AnomalyAlert>> {
 }
 
 /// Filter: 0=All, 1=Unresolved, 2=Resolved.
-final anomalyFilterProvider =
-    NotifierProvider<AnomalyFilterNotifier, int>(AnomalyFilterNotifier.new);
+final anomalyFilterProvider = NotifierProvider<AnomalyFilterNotifier, int>(
+  AnomalyFilterNotifier.new,
+);
 
 class AnomalyFilterNotifier extends Notifier<int> {
   @override
@@ -169,8 +176,9 @@ final anomalyCountsProvider = Provider<Map<String, int>>((ref) {
     'all': alerts.length,
     'unresolved': alerts.where((a) => !a.isResolved).length,
     'resolved': alerts.where((a) => a.isResolved).length,
-    'critical':
-        alerts.where((a) => a.severity == AlertSeverity.critical).length,
+    'critical': alerts
+        .where((a) => a.severity == AlertSeverity.critical)
+        .length,
   };
 });
 
@@ -191,7 +199,8 @@ final filteredAnomalyAlertsProvider = Provider<List<AnomalyAlert>>((ref) {
 
 final automationInsightsProvider =
     NotifierProvider<AutomationInsightsNotifier, List<AutomationInsight>>(
-        AutomationInsightsNotifier.new);
+      AutomationInsightsNotifier.new,
+    );
 
 class AutomationInsightsNotifier extends Notifier<List<AutomationInsight>> {
   @override
@@ -207,10 +216,12 @@ final automationInsightCountsProvider = Provider<Map<String, int>>((ref) {
     'attention': insights
         .where((i) => i.status == AutomationInsightStatus.attentionNeeded)
         .length,
-    'blocked':
-        insights.where((i) => i.status == AutomationInsightStatus.blocked).length,
-    'onTrack':
-        insights.where((i) => i.status == AutomationInsightStatus.onTrack).length,
+    'blocked': insights
+        .where((i) => i.status == AutomationInsightStatus.blocked)
+        .length,
+    'onTrack': insights
+        .where((i) => i.status == AutomationInsightStatus.onTrack)
+        .length,
   };
 });
 
@@ -298,10 +309,7 @@ final _mockScanResults = <AiScanResult>[
     id: 'scan-006',
     documentName: 'Sharma_Enterprises_Aadhaar.jpg',
     documentType: DocumentType.aadhaarCard,
-    extractedData: {
-      'name': 'Vikram Sharma',
-      'aadhaarNo': 'XXXX XXXX 5678',
-    },
+    extractedData: {'name': 'Vikram Sharma', 'aadhaarNo': 'XXXX XXXX 5678'},
     confidence: 0.95,
     scannedAt: _now.subtract(const Duration(days: 1)),
     status: ScanStatus.completed,

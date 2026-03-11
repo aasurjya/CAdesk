@@ -5,8 +5,9 @@ import 'package:ca_app/features/tasks/domain/models/task_priority.dart';
 import 'package:ca_app/features/tasks/domain/models/task_status.dart';
 
 /// All tasks available in the system.
-final allTasksProvider =
-    NotifierProvider<AllTasksNotifier, List<Task>>(AllTasksNotifier.new);
+final allTasksProvider = NotifierProvider<AllTasksNotifier, List<Task>>(
+  AllTasksNotifier.new,
+);
 
 class AllTasksNotifier extends Notifier<List<Task>> {
   @override
@@ -18,7 +19,8 @@ class AllTasksNotifier extends Notifier<List<Task>> {
 /// Currently selected status filter chip index (0 = All).
 final taskStatusFilterProvider =
     NotifierProvider<TaskStatusFilterNotifier, int>(
-        TaskStatusFilterNotifier.new);
+      TaskStatusFilterNotifier.new,
+    );
 
 class TaskStatusFilterNotifier extends Notifier<int> {
   @override
@@ -30,7 +32,8 @@ class TaskStatusFilterNotifier extends Notifier<int> {
 /// Currently selected task type filter (null = all types).
 final taskTypeFilterProvider =
     NotifierProvider<TaskTypeFilterNotifier, TaskType?>(
-        TaskTypeFilterNotifier.new);
+      TaskTypeFilterNotifier.new,
+    );
 
 class TaskTypeFilterNotifier extends Notifier<TaskType?> {
   @override
@@ -42,7 +45,8 @@ class TaskTypeFilterNotifier extends Notifier<TaskType?> {
 /// Currently selected priority filter (null = all priorities).
 final taskPriorityFilterProvider =
     NotifierProvider<TaskPriorityFilterNotifier, TaskPriority?>(
-        TaskPriorityFilterNotifier.new);
+      TaskPriorityFilterNotifier.new,
+    );
 
 class TaskPriorityFilterNotifier extends Notifier<TaskPriority?> {
   @override
@@ -54,7 +58,8 @@ class TaskPriorityFilterNotifier extends Notifier<TaskPriority?> {
 /// Currently selected assignee filter (null = all assignees).
 final taskAssigneeFilterProvider =
     NotifierProvider<TaskAssigneeFilterNotifier, String?>(
-        TaskAssigneeFilterNotifier.new);
+      TaskAssigneeFilterNotifier.new,
+    );
 
 class TaskAssigneeFilterNotifier extends Notifier<String?> {
   @override
@@ -68,7 +73,8 @@ enum TaskSortOption { dueDate, priority, clientName }
 
 final taskSortOptionProvider =
     NotifierProvider<TaskSortOptionNotifier, TaskSortOption>(
-        TaskSortOptionNotifier.new);
+      TaskSortOptionNotifier.new,
+    );
 
 class TaskSortOptionNotifier extends Notifier<TaskSortOption> {
   @override
@@ -88,10 +94,10 @@ final taskAssigneesProvider = Provider<List<String>>((ref) {
 final taskCountsProvider = Provider<Map<String, int>>((ref) {
   final tasks = ref.watch(allTasksProvider);
   final all = tasks.length;
-  final pending =
-      tasks.where((t) => t.status == TaskStatus.todo).length;
-  final inProgress =
-      tasks.where((t) => t.status == TaskStatus.inProgress).length;
+  final pending = tasks.where((t) => t.status == TaskStatus.todo).length;
+  final inProgress = tasks
+      .where((t) => t.status == TaskStatus.inProgress)
+      .length;
   final overdue = tasks.where((t) => t.isOverdue).length;
   return {
     'all': all,
@@ -117,8 +123,9 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
     case 1:
       filtered = filtered.where((t) => t.status == TaskStatus.todo).toList();
     case 2:
-      filtered =
-          filtered.where((t) => t.status == TaskStatus.inProgress).toList();
+      filtered = filtered
+          .where((t) => t.status == TaskStatus.inProgress)
+          .toList();
     case 3:
       filtered = filtered.where((t) => t.isOverdue).toList();
     default:
@@ -134,8 +141,7 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
   }
 
   if (assigneeFilter != null) {
-    filtered =
-        filtered.where((t) => t.assignedTo == assigneeFilter).toList();
+    filtered = filtered.where((t) => t.assignedTo == assigneeFilter).toList();
   }
 
   // Sort
@@ -146,7 +152,9 @@ final filteredTasksProvider = Provider<List<Task>>((ref) {
       filtered.sort((a, b) => b.priority.index.compareTo(a.priority.index));
     case TaskSortOption.clientName:
       filtered.sort(
-          (a, b) => a.clientName.toLowerCase().compareTo(b.clientName.toLowerCase()));
+        (a, b) =>
+            a.clientName.toLowerCase().compareTo(b.clientName.toLowerCase()),
+      );
   }
 
   return filtered;
@@ -162,7 +170,8 @@ final _mockTasks = <Task>[
   Task(
     id: 'task-001',
     title: 'File ITR-1 for Rajesh Kumar',
-    description: 'Salaried individual, single house property. Documents collected.',
+    description:
+        'Salaried individual, single house property. Documents collected.',
     clientId: 'client-001',
     clientName: 'Rajesh Kumar',
     taskType: TaskType.itrFiling,
@@ -328,7 +337,8 @@ final _mockTasks = <Task>[
   Task(
     id: 'task-012',
     title: 'Update client KYC documents',
-    description: 'Collect updated PAN, Aadhaar, and address proof from all clients.',
+    description:
+        'Collect updated PAN, Aadhaar, and address proof from all clients.',
     clientId: 'client-000',
     clientName: 'All Clients',
     taskType: TaskType.other,

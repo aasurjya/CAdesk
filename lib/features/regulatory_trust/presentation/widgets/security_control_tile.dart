@@ -32,8 +32,9 @@ class SecurityControlTile extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundColor:
-                        _categoryColor(control.category).withValues(alpha: 0.12),
+                    backgroundColor: _categoryColor(
+                      control.category,
+                    ).withValues(alpha: 0.12),
                     child: Icon(
                       Icons.shield_outlined,
                       size: 20,
@@ -148,10 +149,10 @@ class _StatusChip extends StatelessWidget {
     return Chip(
       label: Text(status.label),
       labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: status.color,
-            fontWeight: FontWeight.w600,
-            fontSize: 11,
-          ),
+        color: status.color,
+        fontWeight: FontWeight.w600,
+        fontSize: 11,
+      ),
       backgroundColor: status.color.withValues(alpha: 0.10),
       side: BorderSide(color: status.color.withValues(alpha: 0.3)),
       padding: EdgeInsets.zero,
@@ -182,9 +183,9 @@ class _SeverityBadge extends StatelessWidget {
           Text(
             severity.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: severity.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: severity.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

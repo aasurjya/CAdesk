@@ -294,8 +294,8 @@ class SelectedDocStatusNotifier extends Notifier<String?> {
 
 final selectedDocStatusProvider =
     NotifierProvider<SelectedDocStatusNotifier, String?>(
-  SelectedDocStatusNotifier.new,
-);
+      SelectedDocStatusNotifier.new,
+    );
 
 final filteredDocumentJobsProvider = Provider<List<DocumentJob>>((ref) {
   final all = ref.watch(allDocumentJobsProvider);
@@ -306,8 +306,10 @@ final filteredDocumentJobsProvider = Provider<List<DocumentJob>>((ref) {
   return List.unmodifiable(all.where((j) => j.status == status).toList());
 });
 
-final fieldsForJobProvider =
-    Provider.family<List<ExtractedField>, String>((ref, jobId) {
+final fieldsForJobProvider = Provider.family<List<ExtractedField>, String>((
+  ref,
+  jobId,
+) {
   final all = ref.watch(allExtractedFieldsProvider);
   return List.unmodifiable(all.where((f) => f.jobId == jobId).toList());
 });

@@ -287,7 +287,8 @@ class SelectedBenchmarkCategoryNotifier extends Notifier<String?> {
 
 final selectedBenchmarkCategoryProvider =
     NotifierProvider<SelectedBenchmarkCategoryNotifier, String?>(
-        SelectedBenchmarkCategoryNotifier.new);
+      SelectedBenchmarkCategoryNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Derived: filtered benchmark metrics

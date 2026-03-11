@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 /// E-Form types under Companies Act 2013 filed with MCA.
 enum McaFormType {
-  mgt7(
-    label: 'MGT-7',
-    description: 'Annual Return',
-    color: Color(0xFF1B3A5C),
-  ),
+  mgt7(label: 'MGT-7', description: 'Annual Return', color: Color(0xFF1B3A5C)),
   mgt9(
     label: 'MGT-9',
     description: 'Extract of Annual Return',
@@ -143,8 +139,9 @@ class McaFiling {
   final String? certifyingProfessional;
 
   bool get isOverdue {
-    if (status == McaFilingStatus.filed ||
-        status == McaFilingStatus.approved) { return false; }
+    if (status == McaFilingStatus.filed || status == McaFilingStatus.approved) {
+      return false;
+    }
     return dueDate.isBefore(DateTime(2026, 3, 10));
   }
 
@@ -186,9 +183,7 @@ class McaFiling {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is McaFiling &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is McaFiling && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

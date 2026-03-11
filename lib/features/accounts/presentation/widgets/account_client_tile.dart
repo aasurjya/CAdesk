@@ -7,11 +7,7 @@ import '../../domain/models/account_client.dart';
 /// List tile showing an accounting client with business-type badge,
 /// turnover, audit status, and current ratio.
 class AccountClientTile extends StatelessWidget {
-  const AccountClientTile({
-    super.key,
-    required this.client,
-    this.onTap,
-  });
+  const AccountClientTile({super.key, required this.client, this.onTap});
 
   final AccountClient client;
   final VoidCallback? onTap;
@@ -180,7 +176,9 @@ class _AuditBadge extends StatelessWidget {
           ),
           const SizedBox(width: 3),
           Text(
-            auditorName != null ? 'Audit: ${_shortenName(auditorName!)}' : 'Audit',
+            auditorName != null
+                ? 'Audit: ${_shortenName(auditorName!)}'
+                : 'Audit',
             style: const TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w600,
@@ -265,10 +263,7 @@ class _FigureCell extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 10,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
           ),
         ],
       ),

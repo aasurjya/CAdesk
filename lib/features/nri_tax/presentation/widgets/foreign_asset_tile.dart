@@ -129,11 +129,7 @@ class _AssetTypeIcon extends StatelessWidget {
         color: AppColors.secondary.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        assetType.icon,
-        size: 20,
-        color: AppColors.secondary,
-      ),
+      child: Icon(assetType.icon, size: 20, color: AppColors.secondary),
     );
   }
 }
@@ -152,9 +148,9 @@ class _ScheduleFABadge extends StatelessWidget {
       child: Text(
         'Schedule FA',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.accent,
-              fontWeight: FontWeight.w700,
-            ),
+          color: AppColors.accent,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -169,8 +165,9 @@ class _ReportedIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = reported ? AppColors.success : AppColors.error;
     final label = reported ? 'Reported' : 'Unreported';
-    final icon =
-        reported ? Icons.check_circle_outline_rounded : Icons.cancel_outlined;
+    final icon = reported
+        ? Icons.check_circle_outline_rounded
+        : Icons.cancel_outlined;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -180,9 +177,9 @@ class _ReportedIndicator extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w600,
-              ),
+            color: color,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     );

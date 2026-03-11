@@ -11,7 +11,8 @@ import 'package:ca_app/features/faceless_assessment/domain/models/itr_u_filing.d
 /// Filter by proceeding type (null = show all).
 final proceedingTypeFilterProvider =
     NotifierProvider<ProceedingTypeFilterNotifier, ProceedingType?>(
-        ProceedingTypeFilterNotifier.new);
+      ProceedingTypeFilterNotifier.new,
+    );
 
 class ProceedingTypeFilterNotifier extends Notifier<ProceedingType?> {
   @override
@@ -23,7 +24,8 @@ class ProceedingTypeFilterNotifier extends Notifier<ProceedingType?> {
 /// Filter by proceeding status (null = show all).
 final proceedingStatusFilterProvider =
     NotifierProvider<ProceedingStatusFilterNotifier, ProceedingStatus?>(
-        ProceedingStatusFilterNotifier.new);
+      ProceedingStatusFilterNotifier.new,
+    );
 
 class ProceedingStatusFilterNotifier extends Notifier<ProceedingStatus?> {
   @override
@@ -35,7 +37,8 @@ class ProceedingStatusFilterNotifier extends Notifier<ProceedingStatus?> {
 /// Filter by hearing status (null = show all).
 final hearingStatusFilterProvider =
     NotifierProvider<HearingStatusFilterNotifier, HearingStatus?>(
-        HearingStatusFilterNotifier.new);
+      HearingStatusFilterNotifier.new,
+    );
 
 class HearingStatusFilterNotifier extends Notifier<HearingStatus?> {
   @override
@@ -50,7 +53,8 @@ class HearingStatusFilterNotifier extends Notifier<HearingStatus?> {
 
 final eProceedingsProvider =
     NotifierProvider<EProceedingsNotifier, List<EProceeding>>(
-        EProceedingsNotifier.new);
+      EProceedingsNotifier.new,
+    );
 
 class EProceedingsNotifier extends Notifier<List<EProceeding>> {
   @override
@@ -70,7 +74,8 @@ class EProceedingsNotifier extends Notifier<List<EProceeding>> {
 
 final itrUFilingsProvider =
     NotifierProvider<ItrUFilingsNotifier, List<ItrUFiling>>(
-        ItrUFilingsNotifier.new);
+      ItrUFilingsNotifier.new,
+    );
 
 class ItrUFilingsNotifier extends Notifier<List<ItrUFiling>> {
   @override
@@ -90,7 +95,8 @@ class ItrUFilingsNotifier extends Notifier<List<ItrUFiling>> {
 
 final hearingSchedulesProvider =
     NotifierProvider<HearingSchedulesNotifier, List<HearingSchedule>>(
-        HearingSchedulesNotifier.new);
+      HearingSchedulesNotifier.new,
+    );
 
 class HearingSchedulesNotifier extends Notifier<List<HearingSchedule>> {
   @override

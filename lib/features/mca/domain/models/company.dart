@@ -120,8 +120,7 @@ class Company {
   final List<Director> directors;
   final CompanyStatus status;
 
-  int get activeDirectorCount =>
-      directors.where((d) => d.isActive).length;
+  int get activeDirectorCount => directors.where((d) => d.isActive).length;
 
   Company copyWith({
     String? id,

@@ -11,9 +11,9 @@ import 'package:ca_app/features/income_tax/domain/models/itr_type.dart';
 // ---------------------------------------------------------------------------
 
 /// Currently selected ITR type filter (null = show all).
-final itrTypeFilterProvider =
-    NotifierProvider<ItrTypeFilterNotifier, ItrType?>(
-        ItrTypeFilterNotifier.new);
+final itrTypeFilterProvider = NotifierProvider<ItrTypeFilterNotifier, ItrType?>(
+  ItrTypeFilterNotifier.new,
+);
 
 class ItrTypeFilterNotifier extends Notifier<ItrType?> {
   @override
@@ -23,9 +23,9 @@ class ItrTypeFilterNotifier extends Notifier<ItrType?> {
 }
 
 /// Search query entered by the user.
-final itrSearchQueryProvider =
-    NotifierProvider<ItrSearchQueryNotifier, String>(
-        ItrSearchQueryNotifier.new);
+final itrSearchQueryProvider = NotifierProvider<ItrSearchQueryNotifier, String>(
+  ItrSearchQueryNotifier.new,
+);
 
 class ItrSearchQueryNotifier extends Notifier<String> {
   @override
@@ -35,9 +35,9 @@ class ItrSearchQueryNotifier extends Notifier<String> {
 }
 
 /// Currently selected assessment year.
-final assessmentYearProvider =
-    NotifierProvider<AssessmentYearNotifier, String>(
-        AssessmentYearNotifier.new);
+final assessmentYearProvider = NotifierProvider<AssessmentYearNotifier, String>(
+  AssessmentYearNotifier.new,
+);
 
 class AssessmentYearNotifier extends Notifier<String> {
   @override
@@ -52,7 +52,8 @@ class AssessmentYearNotifier extends Notifier<String> {
 
 final itrClientsProvider =
     NotifierProvider<ItrClientsNotifier, List<ItrClient>>(
-        ItrClientsNotifier.new);
+      ItrClientsNotifier.new,
+    );
 
 class ItrClientsNotifier extends Notifier<List<ItrClient>> {
   @override
@@ -101,15 +102,19 @@ final itrSummaryProvider = Provider<ItrSummary>((ref) {
 
   final total = clients.length;
   final filed = clients
-      .where((c) =>
-          c.filingStatus == FilingStatus.filed ||
-          c.filingStatus == FilingStatus.verified ||
-          c.filingStatus == FilingStatus.processed)
+      .where(
+        (c) =>
+            c.filingStatus == FilingStatus.filed ||
+            c.filingStatus == FilingStatus.verified ||
+            c.filingStatus == FilingStatus.processed,
+      )
       .length;
   final pending = clients
-      .where((c) =>
-          c.filingStatus == FilingStatus.pending ||
-          c.filingStatus == FilingStatus.inProgress)
+      .where(
+        (c) =>
+            c.filingStatus == FilingStatus.pending ||
+            c.filingStatus == FilingStatus.inProgress,
+      )
       .length;
 
   // Overdue: pending/inProgress and past the typical July 31 deadline.
@@ -118,10 +123,12 @@ final itrSummaryProvider = Provider<ItrSummary>((ref) {
   final deadlineDay = 31;
   final deadline = DateTime(now.year, deadlineMonth, deadlineDay);
   final overdue = clients
-      .where((c) =>
-          (c.filingStatus == FilingStatus.pending ||
-              c.filingStatus == FilingStatus.inProgress) &&
-          now.isAfter(deadline))
+      .where(
+        (c) =>
+            (c.filingStatus == FilingStatus.pending ||
+                c.filingStatus == FilingStatus.inProgress) &&
+            now.isAfter(deadline),
+      )
       .length;
 
   return ItrSummary(

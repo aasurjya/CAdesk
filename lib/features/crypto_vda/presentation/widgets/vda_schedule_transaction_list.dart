@@ -6,10 +6,7 @@ import 'package:ca_app/features/crypto_vda/presentation/widgets/vda_schedule_she
 
 /// Scrollable list of VDA transactions inside the Schedule VDA sheet.
 class VdaScheduleTransactionList extends StatelessWidget {
-  const VdaScheduleTransactionList({
-    super.key,
-    required this.transactions,
-  });
+  const VdaScheduleTransactionList({super.key, required this.transactions});
 
   final List<VdaTransaction> transactions;
 
@@ -49,8 +46,8 @@ class _ScheduleTransactionTile extends StatelessWidget {
     final Color gainColor = isGain
         ? AppColors.success
         : isLoss
-            ? AppColors.error
-            : AppColors.neutral400;
+        ? AppColors.error
+        : AppColors.neutral400;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
@@ -91,14 +88,16 @@ class _ScheduleTransactionTile extends StatelessWidget {
                 _MiniStat(
                   label: 'Sale Value',
                   value: transaction.sellPrice > 0
-                      ? VdaScheduleSummaryCard.formatAmount(transaction.sellPrice)
+                      ? VdaScheduleSummaryCard.formatAmount(
+                          transaction.sellPrice,
+                        )
                       : '--',
                 ),
                 _MiniStat(
                   label: 'Gain / Loss',
                   value: gain != 0
                       ? '${isGain ? '+' : ''}'
-                          '${VdaScheduleSummaryCard.formatAmount(gain.abs())}'
+                            '${VdaScheduleSummaryCard.formatAmount(gain.abs())}'
                       : '--',
                   color: gainColor,
                 ),
@@ -115,28 +114,24 @@ class _ScheduleTransactionTile extends StatelessWidget {
       '${d.day.toString().padLeft(2, '0')} ${_month(d.month)} ${d.year}';
 
   static String _month(int m) => const <String>[
-        '',
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-      ][m];
+    '',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ][m];
 }
 
 class _MiniStat extends StatelessWidget {
-  const _MiniStat({
-    required this.label,
-    required this.value,
-    this.color,
-  });
+  const _MiniStat({required this.label, required this.value, this.color});
 
   final String label;
   final String value;
@@ -207,10 +202,9 @@ class _DisallowedChip extends StatelessWidget {
       ),
       child: Text(
         'disallowed',
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.error,
-              fontSize: 9,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.labelSmall?.copyWith(color: AppColors.error, fontSize: 9),
       ),
     );
   }

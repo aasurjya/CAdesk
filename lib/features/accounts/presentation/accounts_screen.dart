@@ -233,13 +233,8 @@ class _ClientsTab extends ConsumerWidget {
     );
   }
 
-  void _onClientTap(
-    BuildContext context,
-    WidgetRef ref,
-    AccountClient client,
-  ) {
-    final snapshot =
-        ref.read(clientRatioSnapshotProvider(client.id));
+  void _onClientTap(BuildContext context, WidgetRef ref, AccountClient client) {
+    final snapshot = ref.read(clientRatioSnapshotProvider(client.id));
     if (snapshot != null) {
       showFinancialRatiosSheet(context, snapshot);
     } else {
@@ -317,8 +312,9 @@ class _DepreciationTab extends ConsumerWidget {
     DepreciationEntry entry,
   ) {
     final allEntries = ref.read(depreciationEntriesProvider);
-    final clientEntries =
-        allEntries.where((e) => e.clientId == entry.clientId).toList();
+    final clientEntries = allEntries
+        .where((e) => e.clientId == entry.clientId)
+        .toList();
 
     showModalBottomSheet<void>(
       context: context,
@@ -358,9 +354,9 @@ class _DepreciationTab extends ConsumerWidget {
                       entries: clientEntries,
                       clientName: clientEntries.isNotEmpty
                           ? clientEntries.first.assetName
-                              .split(' ')
-                              .take(3)
-                              .join(' ')
+                                .split(' ')
+                                .take(3)
+                                .join(' ')
                           : 'Client',
                       financialYear: entry.financialYear,
                     ),
@@ -402,10 +398,7 @@ class _RatiosTab extends ConsumerWidget {
 }
 
 class _RatioSnapshotTile extends StatelessWidget {
-  const _RatioSnapshotTile({
-    required this.snapshot,
-    required this.onTap,
-  });
+  const _RatioSnapshotTile({required this.snapshot, required this.onTap});
 
   final FinancialRatioSnapshot snapshot;
   final VoidCallback onTap;
@@ -646,8 +639,7 @@ class _FilterRow extends StatelessWidget {
                   context,
                   label: s.label,
                   isSelected: statusFilter == s,
-                  onTap: () =>
-                      onStatusChanged(statusFilter == s ? null : s),
+                  onTap: () => onStatusChanged(statusFilter == s ? null : s),
                 ),
               ),
             ),
@@ -703,9 +695,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

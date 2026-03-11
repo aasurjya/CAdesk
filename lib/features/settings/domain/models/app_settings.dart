@@ -116,20 +116,20 @@ class AppSettings {
 
   @override
   int get hashCode => Object.hashAll([
-        themeMode,
-        language,
-        notificationsEnabled,
-        emailNotifications,
-        smsNotifications,
-        whatsappNotifications,
-        biometricEnabled,
-        autoLockMinutes,
-        defaultCurrency,
-        defaultFinancialYear,
-        firmName,
-        firmAddress,
-        firmGstin,
-        caRegistrationNumber,
-        udinEnabled,
-      ]);
+    themeMode,
+    language,
+    notificationsEnabled,
+    emailNotifications,
+    smsNotifications,
+    whatsappNotifications,
+    biometricEnabled,
+    autoLockMinutes,
+    defaultCurrency,
+    defaultFinancialYear,
+    firmName,
+    firmAddress,
+    firmGstin,
+    caRegistrationNumber,
+    udinEnabled,
+  ]);
 }

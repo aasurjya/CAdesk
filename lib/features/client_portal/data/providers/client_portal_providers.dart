@@ -38,7 +38,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: '1',
     senderName: 'Rajesh Kumar Sharma',
     senderType: SenderType.client,
-    content: 'Uploaded both documents. Also, I had capital gains from '
+    content:
+        'Uploaded both documents. Also, I had capital gains from '
         'mutual fund redemption this year.',
     attachments: ['Form16_RajeshSharma.pdf', 'BankStatement_HDFC.pdf'],
     threadId: 'thread-1',
@@ -50,7 +51,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'staff-1',
     senderName: 'Amit Verma',
     senderType: SenderType.staff,
-    content: 'Noted. Please also share the mutual fund capital gains '
+    content:
+        'Noted. Please also share the mutual fund capital gains '
         'statement from your AMC or CAMS/KFintech.',
     threadId: 'thread-1',
     createdAt: DateTime(2026, 3, 5, 15, 30),
@@ -63,7 +65,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: '4',
     senderName: 'Suresh Mehta',
     senderType: SenderType.client,
-    content: 'Our GSTR-3B for February is due on 20th March. '
+    content:
+        'Our GSTR-3B for February is due on 20th March. '
         'Have you received all purchase invoices?',
     threadId: 'thread-2',
     createdAt: DateTime(2026, 3, 8, 9, 0),
@@ -74,7 +77,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'staff-2',
     senderName: 'Neha Kapoor',
     senderType: SenderType.staff,
-    content: 'We have reconciled most invoices. There are 3 mismatches '
+    content:
+        'We have reconciled most invoices. There are 3 mismatches '
         'in ITC claims. Sharing the reconciliation report now.',
     attachments: ['GSTR2B_Reconciliation_Feb2026.xlsx'],
     threadId: 'thread-2',
@@ -86,7 +90,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'system',
     senderName: 'System',
     senderType: SenderType.system,
-    content: 'Reminder: GSTR-3B filing deadline for February 2026 '
+    content:
+        'Reminder: GSTR-3B filing deadline for February 2026 '
         'is 20th March 2026.',
     threadId: 'thread-2',
     createdAt: DateTime(2026, 3, 9, 8, 0),
@@ -109,7 +114,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'staff-1',
     senderName: 'Amit Verma',
     senderType: SenderType.staff,
-    content: 'Yes, you can pay via UPI. Use the payment link shared '
+    content:
+        'Yes, you can pay via UPI. Use the payment link shared '
         'in the invoice email or pay directly through the portal.',
     threadId: 'thread-3',
     createdAt: DateTime(2026, 3, 7, 16, 30),
@@ -130,7 +136,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'system',
     senderName: 'AI Follow-up Bot',
     senderType: SenderType.system,
-    content: 'WhatsApp reminder sent with a secure magic upload link for '
+    content:
+        'WhatsApp reminder sent with a secure magic upload link for '
         'Aadhaar, PAN, and address proof.',
     threadId: 'thread-4',
     createdAt: DateTime(2026, 3, 9, 12, 5),
@@ -141,7 +148,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: '14',
     senderName: 'Vikram Singh Rathore',
     senderType: SenderType.client,
-    content: 'Used the magic link and uploaded Aadhaar + PAN. Address proof '
+    content:
+        'Used the magic link and uploaded Aadhaar + PAN. Address proof '
         'will be shared tonight.',
     attachments: ['aadhaar_vikram.pdf', 'pan_vikram.pdf'],
     threadId: 'thread-4',
@@ -153,7 +161,8 @@ final mockPortalMessages = <PortalMessage>[
     senderId: 'staff-2',
     senderName: 'Neha Kapoor',
     senderType: SenderType.staff,
-    content: 'Received. GST registration checklist is now 67% complete. '
+    content:
+        'Received. GST registration checklist is now 67% complete. '
         'Only address proof is pending.',
     threadId: 'thread-4',
     createdAt: DateTime(2026, 3, 9, 12, 25),
@@ -261,7 +270,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '1',
     clientName: 'Rajesh Kumar Sharma',
     subject: 'Capital gains computation for MF redemption',
-    description: 'Need help computing capital gains from mutual fund '
+    description:
+        'Need help computing capital gains from mutual fund '
         'redemption done in January 2026. Units were purchased across '
         'multiple SIPs.',
     category: QueryCategory.tax,
@@ -276,7 +286,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '4',
     clientName: 'Suresh Mehta (Mehta & Sons)',
     subject: 'ITC mismatch in GSTR-2B reconciliation',
-    description: '3 invoices from suppliers not reflecting in GSTR-2B. '
+    description:
+        '3 invoices from suppliers not reflecting in GSTR-2B. '
         'Total ITC difference of Rs 47,500.',
     category: QueryCategory.gst,
     priority: QueryPriority.urgent,
@@ -290,7 +301,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '9',
     clientName: 'Deepak Patel',
     subject: 'Invoice clarification for Q4 services',
-    description: 'Received invoice for Rs 15,000 but expected Rs 12,000 '
+    description:
+        'Received invoice for Rs 15,000 but expected Rs 12,000 '
         'as per the engagement letter. Need breakdown.',
     category: QueryCategory.billing,
     priority: QueryPriority.medium,
@@ -305,7 +317,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '6',
     clientName: 'TechVista Solutions LLP',
     subject: 'TDS rate for contractor payments',
-    description: 'We are paying a US-based contractor. What TDS rate '
+    description:
+        'We are paying a US-based contractor. What TDS rate '
         'applies under Section 195? Do we need a CA certificate?',
     category: QueryCategory.compliance,
     priority: QueryPriority.high,
@@ -319,7 +332,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '8',
     clientName: 'Bharat Electronics Ltd',
     subject: 'Board resolution format for AGM',
-    description: 'Need the correct format for board resolution to '
+    description:
+        'Need the correct format for board resolution to '
         'approve the annual accounts before the AGM scheduled in April.',
     category: QueryCategory.compliance,
     priority: QueryPriority.medium,
@@ -334,7 +348,8 @@ final mockClientQueries = <ClientQuery>[
     clientId: '14',
     clientName: 'Vikram Singh Rathore',
     subject: 'GST registration for hotel business',
-    description: 'Planning to register for GST. Need guidance on '
+    description:
+        'Planning to register for GST. Need guidance on '
         'applicable rate for hotel rooms below Rs 7,500 per night.',
     category: QueryCategory.gst,
     priority: QueryPriority.low,
@@ -354,7 +369,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '1',
     type: NotificationType.document,
     title: 'ITR-2 Draft Ready for Review',
-    body: 'Your ITR-2 draft for AY 2026-27 is ready. Please review '
+    body:
+        'Your ITR-2 draft for AY 2026-27 is ready. Please review '
         'and sign the document in the portal.',
     channel: NotificationChannel.email,
     sentAt: DateTime(2026, 3, 6, 10, 30),
@@ -364,7 +380,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '4',
     type: NotificationType.deadline,
     title: 'GSTR-3B Filing Deadline',
-    body: 'GSTR-3B for February 2026 is due on 20th March 2026. '
+    body:
+        'GSTR-3B for February 2026 is due on 20th March 2026. '
         'Please approve the return for filing.',
     channel: NotificationChannel.whatsapp,
     sentAt: DateTime(2026, 3, 9, 8, 0),
@@ -374,7 +391,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '9',
     type: NotificationType.payment,
     title: 'Payment Received - Rs 15,000',
-    body: 'We have received your payment of Rs 15,000 for Q4 2025-26 '
+    body:
+        'We have received your payment of Rs 15,000 for Q4 2025-26 '
         'services. Receipt has been generated.',
     channel: NotificationChannel.email,
     sentAt: DateTime(2026, 3, 7, 18, 0),
@@ -385,7 +403,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '6',
     type: NotificationType.reminder,
     title: 'Pending: TDS Certificate Required',
-    body: 'Please share the TDS certificate for payments made to the '
+    body:
+        'Please share the TDS certificate for payments made to the '
         'US-based contractor to proceed with Section 195 compliance.',
     channel: NotificationChannel.sms,
     sentAt: DateTime(2026, 3, 8, 14, 0),
@@ -395,7 +414,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '8',
     type: NotificationType.document,
     title: 'Board Resolution Needs Re-signing',
-    body: 'The board resolution document was rejected. Please review '
+    body:
+        'The board resolution document was rejected. Please review '
         'the comments and re-sign the updated version.',
     channel: NotificationChannel.inApp,
     sentAt: DateTime(2026, 3, 3, 9, 0),
@@ -405,7 +425,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '3',
     type: NotificationType.deadline,
     title: 'Advance Tax Due - 15th March',
-    body: 'Advance tax for Q4 (January-March 2026) is due on 15th '
+    body:
+        'Advance tax for Q4 (January-March 2026) is due on 15th '
         'March 2026. Estimated payable: Rs 4,50,000.',
     channel: NotificationChannel.whatsapp,
     sentAt: DateTime(2026, 3, 10, 8, 0),
@@ -415,7 +436,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '10',
     type: NotificationType.document,
     title: 'Form 10B Signed Successfully',
-    body: 'Form 10B for AY 2026-27 has been signed and submitted. '
+    body:
+        'Form 10B for AY 2026-27 has been signed and submitted. '
         'You can download the signed copy from the portal.',
     channel: NotificationChannel.email,
     sentAt: DateTime(2026, 3, 5, 16, 0),
@@ -426,7 +448,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '1',
     type: NotificationType.message,
     title: 'New Message from Your CA',
-    body: 'Amit Verma has sent you a message regarding your capital '
+    body:
+        'Amit Verma has sent you a message regarding your capital '
         'gains computation. Please check the portal.',
     channel: NotificationChannel.inApp,
     sentAt: DateTime(2026, 3, 5, 15, 35),
@@ -436,7 +459,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '14',
     type: NotificationType.reminder,
     title: 'GST Registration - Documents Needed',
-    body: 'To proceed with your GST registration, please upload '
+    body:
+        'To proceed with your GST registration, please upload '
         'Aadhaar, PAN card, and proof of business address.',
     channel: NotificationChannel.sms,
     sentAt: DateTime(2026, 3, 9, 12, 0),
@@ -446,7 +470,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '4',
     type: NotificationType.payment,
     title: 'Invoice Generated - Rs 25,000',
-    body: 'Invoice for GST filing and bookkeeping services for '
+    body:
+        'Invoice for GST filing and bookkeeping services for '
         'February 2026 has been generated. Due date: 25th March 2026.',
     channel: NotificationChannel.email,
     sentAt: DateTime(2026, 3, 10, 10, 0),
@@ -456,7 +481,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '14',
     type: NotificationType.reminder,
     title: 'AI Follow-up Sent on WhatsApp',
-    body: 'The bot sent a document request with a one-tap magic upload link '
+    body:
+        'The bot sent a document request with a one-tap magic upload link '
         'for GST registration KYC.',
     channel: NotificationChannel.whatsapp,
     sentAt: DateTime(2026, 3, 9, 12, 5),
@@ -466,7 +492,8 @@ final mockPortalNotifications = <PortalNotification>[
     clientId: '1',
     type: NotificationType.document,
     title: 'Magic Link Expires in 6 Hours',
-    body: 'Capital gains statement upload link will expire today at 10:00 PM. '
+    body:
+        'Capital gains statement upload link will expire today at 10:00 PM. '
         'Resend if the client has not completed submission.',
     channel: NotificationChannel.inApp,
     sentAt: DateTime(2026, 3, 10, 16, 0),
@@ -481,7 +508,8 @@ final mockPortalNotifications = <PortalNotification>[
 
 final allMessagesProvider =
     NotifierProvider<AllMessagesNotifier, List<PortalMessage>>(
-        AllMessagesNotifier.new);
+      AllMessagesNotifier.new,
+    );
 
 class AllMessagesNotifier extends Notifier<List<PortalMessage>> {
   @override
@@ -492,7 +520,8 @@ class AllMessagesNotifier extends Notifier<List<PortalMessage>> {
 
 final selectedThreadProvider =
     NotifierProvider<SelectedThreadNotifier, String?>(
-        SelectedThreadNotifier.new);
+      SelectedThreadNotifier.new,
+    );
 
 class SelectedThreadNotifier extends Notifier<String?> {
   @override
@@ -513,8 +542,10 @@ final threadIdsProvider = Provider<List<String>>((ref) {
   return List.unmodifiable(ids);
 });
 
-final messagesByThreadProvider =
-    Provider.family<List<PortalMessage>, String>((ref, threadId) {
+final messagesByThreadProvider = Provider.family<List<PortalMessage>, String>((
+  ref,
+  threadId,
+) {
   final messages = ref.watch(allMessagesProvider);
   return List.unmodifiable(
     messages.where((m) => m.threadId == threadId).toList()
@@ -526,7 +557,8 @@ final messagesByThreadProvider =
 
 final allDocumentsProvider =
     NotifierProvider<AllDocumentsNotifier, List<SharedDocument>>(
-        AllDocumentsNotifier.new);
+      AllDocumentsNotifier.new,
+    );
 
 class AllDocumentsNotifier extends Notifier<List<SharedDocument>> {
   @override
@@ -537,7 +569,8 @@ class AllDocumentsNotifier extends Notifier<List<SharedDocument>> {
 
 final documentFilterProvider =
     NotifierProvider<DocumentFilterNotifier, SignatureStatus?>(
-        DocumentFilterNotifier.new);
+      DocumentFilterNotifier.new,
+    );
 
 class DocumentFilterNotifier extends Notifier<SignatureStatus?> {
   @override
@@ -559,7 +592,8 @@ final filteredDocumentsProvider = Provider<List<SharedDocument>>((ref) {
 
 final allQueriesProvider =
     NotifierProvider<AllQueriesNotifier, List<ClientQuery>>(
-        AllQueriesNotifier.new);
+      AllQueriesNotifier.new,
+    );
 
 class AllQueriesNotifier extends Notifier<List<ClientQuery>> {
   @override
@@ -570,7 +604,8 @@ class AllQueriesNotifier extends Notifier<List<ClientQuery>> {
 
 final queryStatusFilterProvider =
     NotifierProvider<QueryStatusFilterNotifier, QueryStatus?>(
-        QueryStatusFilterNotifier.new);
+      QueryStatusFilterNotifier.new,
+    );
 
 class QueryStatusFilterNotifier extends Notifier<QueryStatus?> {
   @override
@@ -592,7 +627,8 @@ final filteredQueriesProvider = Provider<List<ClientQuery>>((ref) {
 
 final allNotificationsProvider =
     NotifierProvider<AllNotificationsNotifier, List<PortalNotification>>(
-        AllNotificationsNotifier.new);
+      AllNotificationsNotifier.new,
+    );
 
 class AllNotificationsNotifier extends Notifier<List<PortalNotification>> {
   @override
@@ -614,8 +650,9 @@ final portalAutomationSummaryProvider = Provider<Map<String, int>>((ref) {
     'followUps': notifications
         .where((n) => n.title.contains('AI Follow-up'))
         .length,
-    'magicLinks':
-        notifications.where((n) => n.title.contains('Magic Link')).length,
+    'magicLinks': notifications
+        .where((n) => n.title.contains('Magic Link'))
+        .length,
     'pendingSignatures': documents
         .where((d) => d.signatureStatus == SignatureStatus.pending)
         .length,

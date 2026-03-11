@@ -123,10 +123,7 @@ class AiDashboardScreen extends ConsumerWidget {
                 counts: automationCounts,
                 insights: automationInsights,
               ),
-              _ScansTab(
-                counts: scanCounts,
-                scans: recentScans,
-              ),
+              _ScansTab(counts: scanCounts, scans: recentScans),
               _ReconciliationTab(
                 counts: reconCounts,
                 reconciliations: recentRecons,
@@ -145,10 +142,7 @@ class AiDashboardScreen extends ConsumerWidget {
 }
 
 class _CoreAutomationTab extends StatelessWidget {
-  const _CoreAutomationTab({
-    required this.counts,
-    required this.insights,
-  });
+  const _CoreAutomationTab({required this.counts, required this.insights});
 
   final Map<String, int> counts;
   final List<AutomationInsight> insights;
@@ -178,10 +172,7 @@ class _CoreAutomationTab extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        _SectionHeader(
-          title: 'Live Automation Queue',
-          count: insights.length,
-        ),
+        _SectionHeader(title: 'Live Automation Queue', count: insights.length),
         const SizedBox(height: 8),
         ...insights.map(
           (insight) => Padding(
@@ -231,18 +222,17 @@ class _ScansTab extends StatelessWidget {
         const SizedBox(height: 20),
         const AiScanDemoCard(),
         const SizedBox(height: 20),
-        _SectionHeader(
-          title: 'Recent Scans',
-          count: scans.length,
-        ),
+        _SectionHeader(title: 'Recent Scans', count: scans.length),
         const SizedBox(height: 8),
-        ...scans.map((scan) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: ScanResultTile(
-                scanResult: scan,
-                onTap: () => _showScanDetail(context, scan),
-              ),
-            )),
+        ...scans.map(
+          (scan) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: ScanResultTile(
+              scanResult: scan,
+              onTap: () => _showScanDetail(context, scan),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -301,30 +291,32 @@ class _ScansTab extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  ...scan.extractedData.entries.map((e) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 130,
-                              child: Text(
-                                e.key,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: AppColors.neutral400,
-                                ),
+                  ...scan.extractedData.entries.map(
+                    (e) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 130,
+                            child: Text(
+                              e.key,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: AppColors.neutral400,
                               ),
                             ),
-                            Expanded(
-                              child: Text(
-                                e.value,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              e.value,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ],
-                        ),
-                      )),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -375,15 +367,14 @@ class _ReconciliationTab extends StatelessWidget {
         const SizedBox(height: 20),
         const AiReconDemoCard(),
         const SizedBox(height: 20),
-        _SectionHeader(
-          title: 'Recent Matches',
-          count: reconciliations.length,
-        ),
+        _SectionHeader(title: 'Recent Matches', count: reconciliations.length),
         const SizedBox(height: 8),
-        ...reconciliations.map((recon) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: ReconciliationTile(reconciliation: recon),
-            )),
+        ...reconciliations.map(
+          (recon) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: ReconciliationTile(reconciliation: recon),
+          ),
+        ),
       ],
     );
   }
@@ -431,18 +422,17 @@ class _AnomaliesTab extends StatelessWidget {
         const SizedBox(height: 20),
         const AiAnomalyDemoCard(),
         const SizedBox(height: 20),
-        _SectionHeader(
-          title: 'Recent Alerts',
-          count: alerts.length,
-        ),
+        _SectionHeader(title: 'Recent Alerts', count: alerts.length),
         const SizedBox(height: 8),
-        ...alerts.map((alert) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: AnomalyAlertTile(
-                alert: alert,
-                onResolve: () => _resolveAlert(context, alert),
-              ),
-            )),
+        ...alerts.map(
+          (alert) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: AnomalyAlertTile(
+              alert: alert,
+              onResolve: () => _resolveAlert(context, alert),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -459,8 +449,7 @@ class _AnomaliesTab extends StatelessWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-            'Alert for ${alert.clientName} resolved'),
+        content: Text('Alert for ${alert.clientName} resolved'),
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
@@ -503,10 +492,7 @@ class _InsightBanner extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            color.withAlpha(18),
-            AppColors.surface,
-          ],
+          colors: [color.withAlpha(18), AppColors.surface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -603,27 +589,29 @@ class _SummaryCard extends StatelessWidget {
             const SizedBox(height: 16),
             Row(
               children: stats
-                  .map((stat) => Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              stat.value,
-                              style: theme.textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.neutral900,
-                              ),
+                  .map(
+                    (stat) => Expanded(
+                      child: Column(
+                        children: [
+                          Text(
+                            stat.value,
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.neutral900,
                             ),
-                            const SizedBox(height: 2),
-                            Text(
-                              stat.label,
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: AppColors.neutral400,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            stat.label,
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: AppColors.neutral400,
+                              fontWeight: FontWeight.w600,
                             ),
-                          ],
-                        ),
-                      ))
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
             ),
           ],
@@ -722,8 +710,10 @@ class _AutomationInsightTile extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: insight.status.color.withAlpha(18),
                     borderRadius: BorderRadius.circular(999),
@@ -799,4 +789,3 @@ class _AutomationInsightTile extends StatelessWidget {
     );
   }
 }
-

@@ -7,11 +7,7 @@ import 'package:ca_app/features/msme/domain/models/msme_payment.dart';
 /// A list tile displaying an MSME payment record with 45-day compliance
 /// indicator.
 class MsmePaymentTile extends StatelessWidget {
-  const MsmePaymentTile({
-    super.key,
-    required this.payment,
-    this.onTap,
-  });
+  const MsmePaymentTile({super.key, required this.payment, this.onTap});
 
   final MsmePayment payment;
   final VoidCallback? onTap;
@@ -181,10 +177,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 11,
-            color: AppColors.neutral400,
-          ),
+          style: TextStyle(fontSize: 11, color: AppColors.neutral400),
         ),
       ],
     );

@@ -99,13 +99,21 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
 
     const step = 83;
     int tick = 0;
-    _timers.add(Timer.periodic(const Duration(milliseconds: 180), (t) {
-      if (!mounted) { t.cancel(); return; }
-      tick++;
-      final next = (tick * step).clamp(0, 1247);
-      n.setMatched(next);
-      if (next >= 1247) { n.complete(); t.cancel(); }
-    }));
+    _timers.add(
+      Timer.periodic(const Duration(milliseconds: 180), (t) {
+        if (!mounted) {
+          t.cancel();
+          return;
+        }
+        tick++;
+        final next = (tick * step).clamp(0, 1247);
+        n.setMatched(next);
+        if (next >= 1247) {
+          n.complete();
+          t.cancel();
+        }
+      }),
+    );
   }
 
   // ── Anomaly simulation ───────────────────────────────────────────────────
@@ -115,34 +123,44 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
     n.start();
 
     int tick = 0;
-    _timers.add(Timer.periodic(const Duration(milliseconds: 125), (t) {
-      if (!mounted) { t.cancel(); return; }
-      tick++;
-      final next = (tick * 142).clamp(0, 2847);
-      n.setScanned(next);
-      if (next >= 2847) {
-        t.cancel();
-        n.startTypewriting();
-        _typeAnomaly();
-      }
-    }));
+    _timers.add(
+      Timer.periodic(const Duration(milliseconds: 125), (t) {
+        if (!mounted) {
+          t.cancel();
+          return;
+        }
+        tick++;
+        final next = (tick * 142).clamp(0, 2847);
+        n.setScanned(next);
+        if (next >= 2847) {
+          t.cancel();
+          n.startTypewriting();
+          _typeAnomaly();
+        }
+      }),
+    );
   }
 
   void _typeAnomaly() {
     int chars = 0;
-    _timers.add(Timer.periodic(const Duration(milliseconds: 22), (t) {
-      if (!mounted) { t.cancel(); return; }
-      chars = (chars + 2).clamp(0, _anomalyDesc.length);
-      ref.read(anomalySimProvider.notifier).typeChar(chars);
-      if (chars >= _anomalyDesc.length) {
-        t.cancel();
-        Future.delayed(const Duration(milliseconds: 600), () {
-          if (!mounted) return;
-          ref.read(anomalySimProvider.notifier).complete();
-          _pushAnomaly();
-        });
-      }
-    }));
+    _timers.add(
+      Timer.periodic(const Duration(milliseconds: 22), (t) {
+        if (!mounted) {
+          t.cancel();
+          return;
+        }
+        chars = (chars + 2).clamp(0, _anomalyDesc.length);
+        ref.read(anomalySimProvider.notifier).typeChar(chars);
+        if (chars >= _anomalyDesc.length) {
+          t.cancel();
+          Future.delayed(const Duration(milliseconds: 600), () {
+            if (!mounted) return;
+            ref.read(anomalySimProvider.notifier).complete();
+            _pushAnomaly();
+          });
+        }
+      }),
+    );
   }
 
   void _pushAnomaly() {
@@ -163,7 +181,9 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
   }
 
   void _resetAll() {
-    for (final t in _timers) { t.cancel(); }
+    for (final t in _timers) {
+      t.cancel();
+    }
     _timers.clear();
     _started = false;
     ref.read(scanSimProvider.notifier).reset();
@@ -172,9 +192,11 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
   }
 
   void _at(int ms, VoidCallback fn) {
-    _timers.add(Timer(Duration(milliseconds: ms), () {
-      if (mounted) fn();
-    }));
+    _timers.add(
+      Timer(Duration(milliseconds: ms), () {
+        if (mounted) fn();
+      }),
+    );
   }
 
   @override
@@ -188,7 +210,9 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
 
   @override
   void dispose() {
-    for (final t in _timers) { t.cancel(); }
+    for (final t in _timers) {
+      t.cancel();
+    }
     super.dispose();
   }
 
@@ -231,8 +255,11 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
                     ),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Icon(Icons.smart_toy_rounded,
-                      color: Colors.white, size: 22),
+                  child: const Icon(
+                    Icons.smart_toy_rounded,
+                    color: Colors.white,
+                    size: 22,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -255,10 +282,15 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
                     ],
                   ),
                 ),
-                _ReplayButton(onReplay: () {
-                  _resetAll();
-                  Future.delayed(const Duration(milliseconds: 100), _startAll);
-                }),
+                _ReplayButton(
+                  onReplay: () {
+                    _resetAll();
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      _startAll,
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -371,19 +403,27 @@ class _Panel extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w700)),
-                      Text(subtitle,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                              color: AppColors.neutral400)),
+                      Text(
+                        title,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        subtitle,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: AppColors.neutral400,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 if (isDone)
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 4),
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.success.withAlpha(20),
                       borderRadius: BorderRadius.circular(20),
@@ -391,14 +431,20 @@ class _Panel extends StatelessWidget {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.check_circle_rounded,
-                            size: 12, color: AppColors.success),
+                        Icon(
+                          Icons.check_circle_rounded,
+                          size: 12,
+                          color: AppColors.success,
+                        ),
                         SizedBox(width: 4),
-                        Text('Done',
-                            style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.success)),
+                        Text(
+                          'Done',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.success,
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -409,10 +455,7 @@ class _Panel extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: child,
-          ),
+          Padding(padding: const EdgeInsets.all(16), child: child),
         ],
       ),
     );
@@ -439,8 +482,9 @@ class _PulsingDotState extends State<_PulsingDot>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 900))
-      ..repeat(reverse: true);
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
     _anim = Tween<double>(begin: 0.3, end: 1.0).animate(_ctrl);
   }
 
@@ -501,15 +545,21 @@ class _OcrPanel extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _OcrStep('Uploading document',
-              isDone: sim.step.index > ScanSimStep.uploading.index,
-              isActive: sim.step == ScanSimStep.uploading),
-          _OcrStep('Detecting document type (AI classifier)',
-              isDone: sim.step.index > ScanSimStep.detecting.index,
-              isActive: sim.step == ScanSimStep.detecting),
-          _OcrStep('Extracting fields',
-              isDone: sim.step.index > ScanSimStep.extracting.index,
-              isActive: sim.step == ScanSimStep.extracting),
+          _OcrStep(
+            'Uploading document',
+            isDone: sim.step.index > ScanSimStep.uploading.index,
+            isActive: sim.step == ScanSimStep.uploading,
+          ),
+          _OcrStep(
+            'Detecting document type (AI classifier)',
+            isDone: sim.step.index > ScanSimStep.detecting.index,
+            isActive: sim.step == ScanSimStep.detecting,
+          ),
+          _OcrStep(
+            'Extracting fields',
+            isDone: sim.step.index > ScanSimStep.extracting.index,
+            isActive: sim.step == ScanSimStep.extracting,
+          ),
 
           if (sim.visibleFieldCount > 0) ...[
             const SizedBox(height: 8),
@@ -522,28 +572,38 @@ class _OcrPanel extends ConsumerWidget {
               ),
               child: Column(
                 children: [
-                  for (int i = 0;
-                      i < sim.visibleFieldCount && i < fields.length;
-                      i++)
+                  for (
+                    int i = 0;
+                    i < sim.visibleFieldCount && i < fields.length;
+                    i++
+                  )
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 3),
                       child: Row(
                         children: [
                           Expanded(
                             flex: 2,
-                            child: Text(fields[i].key,
-                                style: theme.textTheme.labelSmall
-                                    ?.copyWith(color: AppColors.neutral400)),
+                            child: Text(
+                              fields[i].key,
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: AppColors.neutral400,
+                              ),
+                            ),
                           ),
                           Expanded(
                             flex: 3,
-                            child: Text(fields[i].value,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                    fontWeight: FontWeight.w600)),
+                            child: Text(
+                              fields[i].value,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                           ),
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.success.withAlpha(20),
                               borderRadius: BorderRadius.circular(6),
@@ -551,9 +611,10 @@ class _OcrPanel extends ConsumerWidget {
                             child: Text(
                               '${(97 - i).clamp(90, 99)}%',
                               style: const TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.success),
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.success,
+                              ),
                             ),
                           ),
                         ],
@@ -565,9 +626,11 @@ class _OcrPanel extends ConsumerWidget {
             const SizedBox(height: 4),
           ],
 
-          _OcrStep('Validating with confidence model',
-              isDone: sim.isDone,
-              isActive: sim.step == ScanSimStep.validating),
+          _OcrStep(
+            'Validating with confidence model',
+            isDone: sim.isDone,
+            isActive: sim.step == ScanSimStep.validating,
+          ),
 
           if (sim.isDone) ...[
             const SizedBox(height: 10),
@@ -579,8 +642,11 @@ class _OcrPanel extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.verified_rounded,
-                      color: AppColors.success, size: 18),
+                  const Icon(
+                    Icons.verified_rounded,
+                    color: AppColors.success,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     '${(sim.confidence * 100).toStringAsFixed(1)}% accuracy · 6 fields extracted',
@@ -616,31 +682,39 @@ class _OcrStep extends StatelessWidget {
             width: 20,
             height: 20,
             child: isDone
-                ? const Icon(Icons.check_circle_rounded,
-                    size: 18, color: AppColors.success)
+                ? const Icon(
+                    Icons.check_circle_rounded,
+                    size: 18,
+                    color: AppColors.success,
+                  )
                 : isActive
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: AppColors.primary,
-                        ),
-                      )
-                    : Icon(Icons.radio_button_unchecked_rounded,
-                        size: 18, color: AppColors.neutral300),
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary,
+                    ),
+                  )
+                : Icon(
+                    Icons.radio_button_unchecked_rounded,
+                    size: 18,
+                    color: AppColors.neutral300,
+                  ),
           ),
           const SizedBox(width: 10),
           Text(
             label,
             style: TextStyle(
               fontSize: 13,
-              fontWeight: isActive || isDone ? FontWeight.w600 : FontWeight.normal,
+              fontWeight: isActive || isDone
+                  ? FontWeight.w600
+                  : FontWeight.normal,
               color: isDone
                   ? AppColors.success
                   : isActive
-                      ? AppColors.neutral900
-                      : AppColors.neutral400,
+                  ? AppColors.neutral900
+                  : AppColors.neutral400,
             ),
           ),
         ],
@@ -671,13 +745,19 @@ class _ReconPanel extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Matching transactions...',
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: AppColors.neutral600)),
-              Text('${sim.matched} / ${sim.total}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.neutral900)),
+              Text(
+                'Matching transactions...',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: AppColors.neutral600,
+                ),
+              ),
+              Text(
+                '${sim.matched} / ${sim.total}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.neutral900,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -693,14 +773,29 @@ class _ReconPanel extends ConsumerWidget {
 
           if (sim.matched > 80) ...[
             const SizedBox(height: 14),
-            _ReconRow(Icons.check_circle_rounded, AppColors.success,
-                'Auto-matched by AI', sim.autoMatchedCount, sim.total),
+            _ReconRow(
+              Icons.check_circle_rounded,
+              AppColors.success,
+              'Auto-matched by AI',
+              sim.autoMatchedCount,
+              sim.total,
+            ),
             const SizedBox(height: 6),
-            _ReconRow(Icons.edit_rounded, AppColors.warning,
-                'Manual review', sim.manualCount, sim.total),
+            _ReconRow(
+              Icons.edit_rounded,
+              AppColors.warning,
+              'Manual review',
+              sim.manualCount,
+              sim.total,
+            ),
             const SizedBox(height: 6),
-            _ReconRow(Icons.help_outline_rounded, AppColors.neutral400,
-                'Unmatched', sim.unmatchedCount, sim.total),
+            _ReconRow(
+              Icons.help_outline_rounded,
+              AppColors.neutral400,
+              'Unmatched',
+              sim.unmatchedCount,
+              sim.total,
+            ),
           ],
 
           if (sim.isDone) ...[
@@ -713,13 +808,19 @@ class _ReconPanel extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.savings_rounded,
-                      color: AppColors.success, size: 18),
+                  const Icon(
+                    Icons.savings_rounded,
+                    color: AppColors.success,
+                    size: 18,
+                  ),
                   const SizedBox(width: 8),
-                  Text('AI saved ~8.4 hours of manual matching',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.success)),
+                  Text(
+                    'AI saved ~8.4 hours of manual matching',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.success,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -731,8 +832,7 @@ class _ReconPanel extends ConsumerWidget {
 }
 
 class _ReconRow extends StatelessWidget {
-  const _ReconRow(
-      this.icon, this.color, this.label, this.value, this.total);
+  const _ReconRow(this.icon, this.color, this.label, this.value, this.total);
 
   final IconData icon;
   final Color color;
@@ -748,13 +848,19 @@ class _ReconRow extends StatelessWidget {
         Icon(icon, size: 15, color: color),
         const SizedBox(width: 8),
         Expanded(
-            child: Text(label,
-                style: TextStyle(fontSize: 12, color: AppColors.neutral600))),
-        Text('$value  ($pct%)',
-            style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900)),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 12, color: AppColors.neutral600),
+          ),
+        ),
+        Text(
+          '$value  ($pct%)',
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
+        ),
       ],
     );
   }
@@ -782,12 +888,18 @@ class _AnomalyPanel extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Scanning transactions...',
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: AppColors.neutral600)),
-              Text('${sim.scannedCount} / ${sim.total}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w700)),
+              Text(
+                'Scanning transactions...',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: AppColors.neutral600,
+                ),
+              ),
+              Text(
+                '${sim.scannedCount} / ${sim.total}',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -810,27 +922,36 @@ class _AnomalyPanel extends ConsumerWidget {
                 color: const Color(0xFFC62828).withAlpha(10),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: const Color(0xFFC62828).withAlpha(60)),
+                  color: const Color(0xFFC62828).withAlpha(60),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.bolt_rounded,
-                          color: Color(0xFFC62828), size: 16),
+                      const Icon(
+                        Icons.bolt_rounded,
+                        color: Color(0xFFC62828),
+                        size: 16,
+                      ),
                       const SizedBox(width: 6),
-                      Text('CRITICAL anomaly detected!',
-                          style: theme.textTheme.labelMedium?.copyWith(
-                              fontWeight: FontWeight.w800,
-                              color: const Color(0xFFC62828))),
+                      Text(
+                        'CRITICAL anomaly detected!',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: const Color(0xFFC62828),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   Text(
                     sim.visibleText,
                     style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral900, height: 1.5),
+                      color: AppColors.neutral900,
+                      height: 1.5,
+                    ),
                   ),
                   if (sim.step == AnomalySimStep.typewriting)
                     const _BlinkCursor(),
@@ -859,8 +980,9 @@ class _BlinkCursorState extends State<_BlinkCursor>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500))
-      ..repeat(reverse: true);
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..repeat(reverse: true);
   }
 
   @override
@@ -873,11 +995,14 @@ class _BlinkCursorState extends State<_BlinkCursor>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _ctrl,
-      child: const Text('▋',
-          style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFFC62828))),
+      child: const Text(
+        '▋',
+        style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w700,
+          color: Color(0xFFC62828),
+        ),
+      ),
     );
   }
 }

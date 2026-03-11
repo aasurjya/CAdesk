@@ -127,7 +127,9 @@ void main() {
         expect(ResponsiveUtils.isTablet(captured), isTrue);
       });
 
-      testWidgets('returns true at width 1200 (upper boundary)', (tester) async {
+      testWidgets('returns true at width 1200 (upper boundary)', (
+        tester,
+      ) async {
         late BuildContext captured;
         await tester.pumpWidget(
           _buildWithWidth(

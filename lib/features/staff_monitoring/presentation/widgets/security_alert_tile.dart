@@ -151,7 +151,10 @@ class SecurityAlertTile extends ConsumerWidget {
                       else
                         TextButton.icon(
                           onPressed: () => _showResolveDialog(context, ref),
-                          icon: const Icon(Icons.check_circle_outline, size: 14),
+                          icon: const Icon(
+                            Icons.check_circle_outline,
+                            size: 14,
+                          ),
                           label: const Text('Resolve'),
                           style: TextButton.styleFrom(
                             foregroundColor: AppColors.success,

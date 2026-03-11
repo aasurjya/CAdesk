@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 /// Status of a DSC certificate.
 enum DscStatus {
   valid('Valid', Color(0xFF1A7A3A), Icons.verified_rounded),
-  expiringSoon(
-    'Expiring Soon',
-    Color(0xFFD4890E),
-    Icons.warning_amber_rounded,
-  ),
+  expiringSoon('Expiring Soon', Color(0xFFD4890E), Icons.warning_amber_rounded),
   expired('Expired', Color(0xFFC62828), Icons.cancel_rounded),
   revoked('Revoked', Color(0xFF718096), Icons.block_rounded);
 

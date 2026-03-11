@@ -2,30 +2,12 @@ import 'package:flutter/material.dart';
 
 /// Types of compliance filings required for DPIIT startups.
 enum StartupFilingType {
-  annualReturn(
-    label: 'Annual Return',
-    icon: Icons.assignment_rounded,
-  ),
-  boardMeetingMinutes(
-    label: 'Board Minutes',
-    icon: Icons.groups_rounded,
-  ),
-  dpiitUpdate(
-    label: 'DPIIT Update',
-    icon: Icons.update_rounded,
-  ),
-  form56(
-    label: 'Form 56',
-    icon: Icons.description_rounded,
-  ),
-  itr(
-    label: 'ITR',
-    icon: Icons.receipt_long_rounded,
-  ),
-  gst(
-    label: 'GST Return',
-    icon: Icons.account_balance_rounded,
-  );
+  annualReturn(label: 'Annual Return', icon: Icons.assignment_rounded),
+  boardMeetingMinutes(label: 'Board Minutes', icon: Icons.groups_rounded),
+  dpiitUpdate(label: 'DPIIT Update', icon: Icons.update_rounded),
+  form56(label: 'Form 56', icon: Icons.description_rounded),
+  itr(label: 'ITR', icon: Icons.receipt_long_rounded),
+  gst(label: 'GST Return', icon: Icons.account_balance_rounded);
 
   const StartupFilingType({required this.label, required this.icon});
 
@@ -132,14 +114,8 @@ class StartupFiling {
           status == other.status;
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        startupId,
-        filingType,
-        dueDate,
-        filedDate,
-        status,
-      );
+  int get hashCode =>
+      Object.hash(id, startupId, filingType, dueDate, filedDate, status);
 
   @override
   String toString() =>

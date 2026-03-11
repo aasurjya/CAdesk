@@ -47,9 +47,7 @@ class IndustryPlaybooksScreen extends ConsumerWidget {
       body: CustomScrollView(
         slivers: [
           // Summary card
-          SliverToBoxAdapter(
-            child: _SummaryCard(playbooks: allPlaybooks),
-          ),
+          SliverToBoxAdapter(child: _SummaryCard(playbooks: allPlaybooks)),
 
           // Horizontal filter chips
           SliverToBoxAdapter(
@@ -113,10 +111,14 @@ class _SummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalClients = playbooks.fold<int>(0, (sum, p) => sum + p.activeClients);
+    final totalClients = playbooks.fold<int>(
+      0,
+      (sum, p) => sum + p.activeClients,
+    );
     final avgWinRate = playbooks.isEmpty
         ? 0.0
-        : playbooks.fold<double>(0, (sum, p) => sum + p.winRate) / playbooks.length;
+        : playbooks.fold<double>(0, (sum, p) => sum + p.winRate) /
+              playbooks.length;
 
     final bestPlaybook = playbooks.isEmpty
         ? null
@@ -155,15 +157,9 @@ class _SummaryCard extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              _SummaryMetric(
-                label: 'Verticals',
-                value: '${playbooks.length}',
-              ),
+              _SummaryMetric(label: 'Verticals', value: '${playbooks.length}'),
               const _SummaryDivider(),
-              _SummaryMetric(
-                label: 'Total Clients',
-                value: '$totalClients',
-              ),
+              _SummaryMetric(label: 'Total Clients', value: '$totalClients'),
               const _SummaryDivider(),
               _SummaryMetric(
                 label: 'Avg Win Rate',
@@ -235,10 +231,7 @@ class _SummaryMetric extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
-              color: AppColors.neutral200,
-              fontSize: 11,
-            ),
+            style: const TextStyle(color: AppColors.neutral200, fontSize: 11),
             textAlign: TextAlign.center,
           ),
         ],

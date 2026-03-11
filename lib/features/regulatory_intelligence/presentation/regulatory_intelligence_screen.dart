@@ -45,14 +45,16 @@ class _ScreenBody extends ConsumerWidget {
     final todayCircularsCount = allCirculars
         .where((c) => c.issueDate.contains('2026'))
         .length;
-    final highImpactCount =
-        allCirculars.where((c) => c.impactLevel == 'High').length;
+    final highImpactCount = allCirculars
+        .where((c) => c.impactLevel == 'High')
+        .length;
     final totalAffectedClients = allCirculars.fold<int>(
       0,
       (sum, c) => sum + c.affectedClientsCount,
     );
-    final urgentAlertsCount =
-        allAlerts.where((a) => a.urgency == 'Urgent').length;
+    final urgentAlertsCount = allAlerts
+        .where((a) => a.urgency == 'Urgent')
+        .length;
 
     return TabBarView(
       children: [
@@ -138,10 +140,7 @@ class _CircularsTab extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 
 class _AlertsTab extends ConsumerWidget {
-  const _AlertsTab({
-    required this.urgentCount,
-    required this.totalAlerts,
-  });
+  const _AlertsTab({required this.urgentCount, required this.totalAlerts});
 
   final int urgentCount;
   final int totalAlerts;

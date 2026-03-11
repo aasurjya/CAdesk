@@ -47,9 +47,7 @@ class LLPEntityCard extends StatelessWidget {
                         children: [
                           _LLPINBadge(llpin: entity.llpin),
                           const SizedBox(width: 8),
-                          _AuditBadge(
-                            isRequired: entity.isAuditRequired,
-                          ),
+                          _AuditBadge(isRequired: entity.isAuditRequired),
                         ],
                       ),
                     ],
@@ -280,10 +278,7 @@ class _InfoItem extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: const TextStyle(
-            color: AppColors.neutral600,
-            fontSize: 12,
-          ),
+          style: const TextStyle(color: AppColors.neutral600, fontSize: 12),
         ),
       ],
     );

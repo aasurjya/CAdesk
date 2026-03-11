@@ -7,11 +7,7 @@ enum TaskPriority {
     color: Color(0xFF1565C0),
     icon: Icons.arrow_downward_rounded,
   ),
-  medium(
-    label: 'Medium',
-    color: Color(0xFFFFA000),
-    icon: Icons.remove_rounded,
-  ),
+  medium(label: 'Medium', color: Color(0xFFFFA000), icon: Icons.remove_rounded),
   high(
     label: 'High',
     color: Color(0xFFEF6C00),

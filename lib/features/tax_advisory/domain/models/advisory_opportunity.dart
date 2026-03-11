@@ -32,21 +32,9 @@ enum OpportunityType {
     Icons.receipt_long_rounded,
     AppColors.accent,
   ),
-  tdsPlanning(
-    'TDS Planning',
-    Icons.account_balance_rounded,
-    AppColors.primary,
-  ),
-  retainerUpsell(
-    'Retainer Upsell',
-    Icons.handshake_rounded,
-    AppColors.success,
-  ),
-  nriCompliance(
-    'NRI Compliance',
-    Icons.flight_rounded,
-    AppColors.secondary,
-  ),
+  tdsPlanning('TDS Planning', Icons.account_balance_rounded, AppColors.primary),
+  retainerUpsell('Retainer Upsell', Icons.handshake_rounded, AppColors.success),
+  nriCompliance('NRI Compliance', Icons.flight_rounded, AppColors.secondary),
   startupIncentive(
     'Startup Incentive',
     Icons.rocket_launch_rounded,
@@ -128,8 +116,9 @@ class AdvisoryOpportunity {
   String get formattedFee {
     if (estimatedFee >= 100000) {
       final lakhs = estimatedFee / 100000;
-      final formatted =
-          lakhs == lakhs.truncateToDouble() ? '${lakhs.toInt()}L' : '${lakhs.toStringAsFixed(1)}L';
+      final formatted = lakhs == lakhs.truncateToDouble()
+          ? '${lakhs.toInt()}L'
+          : '${lakhs.toStringAsFixed(1)}L';
       return '₹$formatted';
     }
     if (estimatedFee >= 1000) {

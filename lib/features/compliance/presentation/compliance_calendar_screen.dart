@@ -31,15 +31,14 @@ class ComplianceCalendarScreen extends ConsumerWidget {
             ),
             tooltip: isCalendarView ? 'List View' : 'Calendar View',
             onPressed: () {
-              ref.read(complianceViewModeProvider.notifier).update(
-                  !isCalendarView);
+              ref
+                  .read(complianceViewModeProvider.notifier)
+                  .update(!isCalendarView);
             },
           ),
         ],
       ),
-      body: isCalendarView
-          ? const _CalendarView()
-          : const _ListView(),
+      body: isCalendarView ? const _CalendarView() : const _ListView(),
     );
   }
 }
@@ -99,8 +98,11 @@ class _ListView extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.event_available_rounded,
-                size: 80, color: AppColors.neutral200),
+            Icon(
+              Icons.event_available_rounded,
+              size: 80,
+              color: AppColors.neutral200,
+            ),
             const SizedBox(height: 16),
             Text(
               'No upcoming deadlines',
@@ -148,8 +150,9 @@ class _MonthNavigation extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.chevron_left_rounded),
             onPressed: () {
-              ref.read(complianceMonthOffsetProvider.notifier).update(
-                  ref.read(complianceMonthOffsetProvider) - 1);
+              ref
+                  .read(complianceMonthOffsetProvider.notifier)
+                  .update(ref.read(complianceMonthOffsetProvider) - 1);
             },
           ),
           Text(
@@ -161,8 +164,9 @@ class _MonthNavigation extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.chevron_right_rounded),
             onPressed: () {
-              ref.read(complianceMonthOffsetProvider.notifier).update(
-                  ref.read(complianceMonthOffsetProvider) + 1);
+              ref
+                  .read(complianceMonthOffsetProvider.notifier)
+                  .update(ref.read(complianceMonthOffsetProvider) + 1);
             },
           ),
         ],
@@ -187,12 +191,14 @@ class _CalendarGrid extends StatelessWidget {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
 
-    final firstDayOfMonth =
-        DateTime(displayMonth.year, displayMonth.month, 1);
+    final firstDayOfMonth = DateTime(displayMonth.year, displayMonth.month, 1);
     // Monday = 1, Sunday = 7; shift so Monday is column 0
     final startWeekday = firstDayOfMonth.weekday; // 1=Mon
-    final daysInMonth =
-        DateTime(displayMonth.year, displayMonth.month + 1, 0).day;
+    final daysInMonth = DateTime(
+      displayMonth.year,
+      displayMonth.month + 1,
+      0,
+    ).day;
 
     final dayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -203,17 +209,19 @@ class _CalendarGrid extends StatelessWidget {
           // Weekday headers
           Row(
             children: dayLabels
-                .map((d) => Expanded(
-                      child: Center(
-                        child: Text(
-                          d,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: AppColors.neutral400,
-                            fontWeight: FontWeight.w600,
-                          ),
+                .map(
+                  (d) => Expanded(
+                    child: Center(
+                      child: Text(
+                        d,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: AppColors.neutral400,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ))
+                    ),
+                  ),
+                )
                 .toList(),
           ),
           const SizedBox(height: 4),
@@ -229,7 +237,10 @@ class _CalendarGrid extends StatelessWidget {
                 }
 
                 final cellDate = DateTime(
-                    displayMonth.year, displayMonth.month, dayNum);
+                  displayMonth.year,
+                  displayMonth.month,
+                  dayNum,
+                );
                 final isToday = cellDate.isAtSameMomentAs(today);
                 final dayDeadlines = dots[dayNum];
 
@@ -238,9 +249,7 @@ class _CalendarGrid extends StatelessWidget {
                     height: 44,
                     margin: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: isToday
-                          ? AppColors.primary.withAlpha(26)
-                          : null,
+                      color: isToday ? AppColors.primary.withAlpha(26) : null,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -249,8 +258,9 @@ class _CalendarGrid extends StatelessWidget {
                         Text(
                           '$dayNum',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            fontWeight:
-                                isToday ? FontWeight.w700 : FontWeight.w400,
+                            fontWeight: isToday
+                                ? FontWeight.w700
+                                : FontWeight.w400,
                             color: isToday
                                 ? AppColors.primary
                                 : AppColors.neutral900,
@@ -262,16 +272,19 @@ class _CalendarGrid extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: dayDeadlines
                                 .take(3)
-                                .map((d) => Container(
-                                      width: 5,
-                                      height: 5,
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 1),
-                                      decoration: BoxDecoration(
-                                        color: d.category.color,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ))
+                                .map(
+                                  (d) => Container(
+                                    width: 5,
+                                    height: 5,
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 1,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: d.category.color,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ],
@@ -314,8 +327,11 @@ class _EmptyDeadlines extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.event_available_rounded,
-                size: 64, color: AppColors.neutral200),
+            Icon(
+              Icons.event_available_rounded,
+              size: 64,
+              color: AppColors.neutral200,
+            ),
             const SizedBox(height: 12),
             Text(
               'No deadlines in $monthName',

@@ -47,8 +47,7 @@ class _ActiveTimerWidgetState extends ConsumerState<ActiveTimerWidget>
     final timer = ref.watch(activeTimerProvider);
     final theme = Theme.of(context);
 
-    final bool isIdle =
-        timer.startedAt == null && timer.elapsedSeconds == 0;
+    final bool isIdle = timer.startedAt == null && timer.elapsedSeconds == 0;
 
     if (isIdle) {
       return _IdleCard(theme: theme);
@@ -282,9 +281,7 @@ class _TimerControls extends ConsumerWidget {
           : '₹${billedAmount.toStringAsFixed(0)}';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Saved $formatted for ${timerState.clientName}',
-          ),
+          content: Text('Saved $formatted for ${timerState.clientName}'),
           behavior: SnackBarBehavior.floating,
         ),
       );

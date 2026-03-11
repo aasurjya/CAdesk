@@ -6,11 +6,7 @@ import 'package:ca_app/features/advanced_audit/domain/models/audit_finding.dart'
 
 /// A tile displaying an audit finding with severity color and status.
 class AuditFindingTile extends StatelessWidget {
-  const AuditFindingTile({
-    super.key,
-    required this.finding,
-    this.onTap,
-  });
+  const AuditFindingTile({super.key, required this.finding, this.onTap});
 
   final AuditFinding finding;
   final VoidCallback? onTap;
@@ -89,11 +85,7 @@ class AuditFindingTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.reply,
-                        size: 14,
-                        color: AppColors.neutral400,
-                      ),
+                      Icon(Icons.reply, size: 14, color: AppColors.neutral400),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(

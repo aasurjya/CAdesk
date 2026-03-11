@@ -154,11 +154,7 @@ class _ItemTypeIcon extends StatelessWidget {
         color: AppColors.primary.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        itemType.icon,
-        size: 22,
-        color: AppColors.primary,
-      ),
+      child: Icon(itemType.icon, size: 22, color: AppColors.primary),
     );
   }
 }
@@ -184,9 +180,9 @@ class _StatusChip extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -230,10 +226,10 @@ class _DaysBadge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: badgeColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 10,
-            ),
+          color: badgeColor,
+          fontWeight: FontWeight.w700,
+          fontSize: 10,
+        ),
       ),
     );
   }

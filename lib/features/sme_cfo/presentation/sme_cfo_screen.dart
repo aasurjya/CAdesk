@@ -101,10 +101,7 @@ class _SmeCfoScreenState extends ConsumerState<SmeCfoScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _RetainersTab(),
-                _DeliverablesTab(),
-              ],
+              children: const [_RetainersTab(), _DeliverablesTab()],
             ),
           ),
         ],

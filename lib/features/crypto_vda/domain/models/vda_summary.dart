@@ -81,17 +81,17 @@ class VdaSummary {
 
   @override
   int get hashCode => Object.hash(
-        clientId,
-        assessmentYear,
-        totalTransactions,
-        totalGains,
-        totalLosses,
-        netTaxableGain,
-        taxLiability,
-        tdsCollected,
-        tdsShortfall,
-        hasLossRestrictionViolation,
-      );
+    clientId,
+    assessmentYear,
+    totalTransactions,
+    totalGains,
+    totalLosses,
+    netTaxableGain,
+    taxLiability,
+    tdsCollected,
+    tdsShortfall,
+    hasLossRestrictionViolation,
+  );
 
   @override
   String toString() =>

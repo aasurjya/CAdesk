@@ -5,50 +5,53 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/roadmap_modules/domain/models/roadmap_module_models.dart';
 
 final roadmapModulesProvider =
-    NotifierProvider<RoadmapModulesNotifier, Map<String, RoadmapModuleDefinition>>(
-  RoadmapModulesNotifier.new,
-);
+    NotifierProvider<
+      RoadmapModulesNotifier,
+      Map<String, RoadmapModuleDefinition>
+    >(RoadmapModulesNotifier.new);
 
-final roadmapModuleProvider =
-    Provider.family<RoadmapModuleDefinition?, String>((ref, moduleId) {
-  final modules = ref.watch(roadmapModulesProvider);
-  return modules[moduleId];
-});
+final roadmapModuleProvider = Provider.family<RoadmapModuleDefinition?, String>(
+  (ref, moduleId) {
+    final modules = ref.watch(roadmapModulesProvider);
+    return modules[moduleId];
+  },
+);
 
 final roadmapModuleSummaryProvider =
     Provider.family<RoadmapModuleSummary?, String>((ref, moduleId) {
-  final module = ref.watch(roadmapModuleProvider(moduleId));
-  if (module == null) {
-    return null;
-  }
+      final module = ref.watch(roadmapModuleProvider(moduleId));
+      if (module == null) {
+        return null;
+      }
 
-  final activeItems = module.workItems
-      .where((item) =>
-          item.status == RoadmapItemStatus.onTrack ||
-          item.status == RoadmapItemStatus.planned ||
-          item.status == RoadmapItemStatus.atRisk)
-      .length;
-  final atRiskItems = module.workItems
-      .where((item) => item.status == RoadmapItemStatus.atRisk)
-      .length;
-  final enabledAutomations =
-      module.automations.where((automation) => automation.enabled).length;
+      final activeItems = module.workItems
+          .where(
+            (item) =>
+                item.status == RoadmapItemStatus.onTrack ||
+                item.status == RoadmapItemStatus.planned ||
+                item.status == RoadmapItemStatus.atRisk,
+          )
+          .length;
+      final atRiskItems = module.workItems
+          .where((item) => item.status == RoadmapItemStatus.atRisk)
+          .length;
+      final enabledAutomations = module.automations
+          .where((automation) => automation.enabled)
+          .length;
 
-  return RoadmapModuleSummary(
-    totalItems: module.workItems.length,
-    activeItems: activeItems,
-    atRiskItems: atRiskItems,
-    enabledAutomations: enabledAutomations,
-  );
-});
+      return RoadmapModuleSummary(
+        totalItems: module.workItems.length,
+        activeItems: activeItems,
+        atRiskItems: atRiskItems,
+        enabledAutomations: enabledAutomations,
+      );
+    });
 
 class RoadmapModulesNotifier
     extends Notifier<Map<String, RoadmapModuleDefinition>> {
   @override
   Map<String, RoadmapModuleDefinition> build() {
-    return {
-      for (final module in _moduleDefinitions) module.id: module,
-    };
+    return {for (final module in _moduleDefinitions) module.id: module};
   }
 
   void toggleAutomation(String moduleId, String automationId, bool enabled) {
@@ -58,9 +61,11 @@ class RoadmapModulesNotifier
     }
 
     final updatedAutomations = module.automations
-        .map((automation) => automation.id == automationId
-            ? automation.copyWith(enabled: enabled)
-            : automation)
+        .map(
+          (automation) => automation.id == automationId
+              ? automation.copyWith(enabled: enabled)
+              : automation,
+        )
         .toList(growable: false);
 
     state = {
@@ -74,7 +79,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '4',
     title: 'TDS.AI',
-    subtitle: 'AI-assisted TDS extraction, section detection, and return preparation',
+    subtitle:
+        'AI-assisted TDS extraction, section detection, and return preparation',
     heroTitle: 'Accelerate TDS workflows with AI-assisted preparation',
     heroDescription:
         'Turn ledger data into TDS-ready work queues, surface section mismatches early, and keep reviewer checkpoints visible before returns are generated.',
@@ -116,7 +122,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '4-a1',
         title: 'Smart section classifier',
-        description: 'Predict the likely TDS section and rate from narration and vendor metadata.',
+        description:
+            'Predict the likely TDS section and rate from narration and vendor metadata.',
         trigger: 'When voucher batches are imported',
         outcome: 'Suggested section, rate, and confidence score',
         enabled: true,
@@ -124,7 +131,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '4-a2',
         title: 'Exception bucket creation',
-        description: 'Create reviewer buckets for mismatched PAN, thresholds, and rates.',
+        description:
+            'Create reviewer buckets for mismatched PAN, thresholds, and rates.',
         trigger: 'When confidence falls below review threshold',
         outcome: 'Assigned exception queue with reason tags',
         enabled: true,
@@ -132,16 +140,32 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '4-a3',
         title: 'Certificate readiness alerts',
-        description: 'Alert teams when quarter data is ready for certificate and return generation.',
+        description:
+            'Alert teams when quarter data is ready for certificate and return generation.',
         trigger: 'When batch validation reaches ready state',
         outcome: 'In-app reminders and task creation',
         enabled: false,
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Imported Entries', value: '18.4K', delta: '+2.1K today', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'AI Match Rate', value: '88%', delta: '6% need review', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Open Exceptions', value: '54', delta: '9 critical', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Imported Entries',
+        value: '18.4K',
+        delta: '+2.1K today',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'AI Match Rate',
+        value: '88%',
+        delta: '6% need review',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Open Exceptions',
+        value: '54',
+        delta: '9 critical',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Link classifier output into TDS/TCS filing queues',
@@ -152,8 +176,10 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '13',
     title: 'Cloud & Remote Access',
-    subtitle: 'Cloud workspace access, backup health, and remote usage controls',
-    heroTitle: 'Keep the practice available from anywhere with safer remote access',
+    subtitle:
+        'Cloud workspace access, backup health, and remote usage controls',
+    heroTitle:
+        'Keep the practice available from anywhere with safer remote access',
     heroDescription:
         'Track cloud availability, backup health, and branch access posture while making remote work readiness visible across the firm.',
     icon: Icons.cloud_outlined,
@@ -172,7 +198,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '13-2',
         title: 'Backup retention console',
-        subtitle: 'Daily snapshots, restore points, and offsite retention checks',
+        subtitle:
+            'Daily snapshots, restore points, and offsite retention checks',
         owner: 'Ops Security',
         dueLabel: 'Restore drill due Friday',
         status: RoadmapItemStatus.planned,
@@ -194,15 +221,18 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '13-a1',
         title: 'Backup failure escalation',
-        description: 'Escalate failed backup jobs and missing snapshots to admins.',
+        description:
+            'Escalate failed backup jobs and missing snapshots to admins.',
         trigger: 'When scheduled backup verification fails',
-        outcome: 'Escalation alert with affected clients and restore point gaps',
+        outcome:
+            'Escalation alert with affected clients and restore point gaps',
         enabled: true,
       ),
       RoadmapAutomation(
         id: '13-a2',
         title: 'Remote session policy checker',
-        description: 'Detect sessions that violate device trust or MFA expectations.',
+        description:
+            'Detect sessions that violate device trust or MFA expectations.',
         trigger: 'When remote sessions are initiated',
         outcome: 'Risk score and remediation recommendation',
         enabled: true,
@@ -210,16 +240,32 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '13-a3',
         title: 'Disaster recovery drill reminders',
-        description: 'Prompt scheduled recovery drills and log completion evidence.',
+        description:
+            'Prompt scheduled recovery drills and log completion evidence.',
         trigger: 'Monthly drill calendar',
         outcome: 'Tasks, reminders, and audit trail entries',
         enabled: false,
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Cloud Uptime', value: '99.4%', delta: '2 incidents this month', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Protected Clients', value: '312', delta: 'Full backup coverage', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Risky Sessions', value: '7', delta: '3 need MFA reset', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Cloud Uptime',
+        value: '99.4%',
+        delta: '2 incidents this month',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Protected Clients',
+        value: '312',
+        delta: 'Full backup coverage',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Risky Sessions',
+        value: '7',
+        delta: '3 need MFA reset',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add restore-point visibility per client',
@@ -272,7 +318,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '36-a1',
         title: 'AI notice severity tagging',
-        description: 'Auto-classify urgency, section, and likely business impact.',
+        description:
+            'Auto-classify urgency, section, and likely business impact.',
         trigger: 'When a notice is uploaded or imported',
         outcome: 'Priority score + owner recommendation',
         enabled: true,
@@ -295,9 +342,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Open Notices', value: '28', delta: '+4 this week', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Draft Ready', value: '17', delta: '61% prepared', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Hearings Scheduled', value: '6', delta: '2 urgent', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Open Notices',
+        value: '28',
+        delta: '+4 this week',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Draft Ready',
+        value: '17',
+        delta: '61% prepared',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Hearings Scheduled',
+        value: '6',
+        delta: '2 urgent',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add category-specific response templates',
@@ -350,7 +412,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '37-a1',
         title: 'Expiry reminder engine',
-        description: 'Remind staff before DSC, DIN KYC, and credential expiries.',
+        description:
+            'Remind staff before DSC, DIN KYC, and credential expiries.',
         trigger: '30/15/7 day windows',
         outcome: 'Renewal task creation',
         enabled: true,
@@ -373,9 +436,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Tracked DSCs', value: '74', delta: '9 expiring soon', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Masked Vault Entries', value: '116', delta: '92% classified', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'OTP Consents', value: '34', delta: '5 pending', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Tracked DSCs',
+        value: '74',
+        delta: '9 expiring soon',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Masked Vault Entries',
+        value: '116',
+        delta: '92% classified',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'OTP Consents',
+        value: '34',
+        delta: '5 pending',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add client-to-device mapping chips',
@@ -428,7 +506,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '38-a1',
         title: 'Renewal campaign engine',
-        description: 'Trigger reminder campaigns across email, SMS, and portal.',
+        description:
+            'Trigger reminder campaigns across email, SMS, and portal.',
         trigger: 'Before configured expiry windows',
         outcome: 'Campaign and owner task creation',
         enabled: true,
@@ -436,7 +515,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '38-a2',
         title: 'Monthly retainer work orders',
-        description: 'Auto-create recurring service packs from signed retainers.',
+        description:
+            'Auto-create recurring service packs from signed retainers.',
         trigger: 'New billing period start',
         outcome: 'Task bundle + checklist',
         enabled: true,
@@ -451,9 +531,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Renewals This Month', value: '53', delta: '11 high priority', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Retainers Active', value: '38', delta: '4 new', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'At-Risk Accounts', value: '7', delta: '-2 vs last week', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Renewals This Month',
+        value: '53',
+        delta: '11 high priority',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Retainers Active',
+        value: '38',
+        delta: '4 new',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'At-Risk Accounts',
+        value: '7',
+        delta: '-2 vs last week',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add expiry heatmap widget',
@@ -529,9 +624,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Leakage Flags', value: '19', delta: '₹2.8L exposed', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Discount Requests', value: '8', delta: '3 pending', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Recovery Focus', value: '12', delta: 'Top priority accounts', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Leakage Flags',
+        value: '19',
+        delta: '₹2.8L exposed',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Discount Requests',
+        value: '8',
+        delta: '3 pending',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Recovery Focus',
+        value: '12',
+        delta: 'Top priority accounts',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add margin chips to Billing cards',
@@ -607,9 +717,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Indexed Precedents', value: '126', delta: '+18 this month', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Template Reuse', value: '68%', delta: '+9 pts', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Pending Reviews', value: '14', delta: 'Need classification', trend: RoadmapMetricTrend.steady),
+      RoadmapMetric(
+        label: 'Indexed Precedents',
+        value: '126',
+        delta: '+18 this month',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Template Reuse',
+        value: '68%',
+        delta: '+9 pts',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Pending Reviews',
+        value: '14',
+        delta: 'Need classification',
+        trend: RoadmapMetricTrend.steady,
+      ),
     ],
     quickWins: [
       'Add section-wise filter chips',
@@ -662,7 +787,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '41-a1',
         title: 'Advisory task generation',
-        description: 'Create follow-up tasks for high-confidence opportunities.',
+        description:
+            'Create follow-up tasks for high-confidence opportunities.',
         trigger: 'When opportunity score crosses threshold',
         outcome: 'Advisory task + owner assignment',
         enabled: true,
@@ -685,9 +811,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Open Opportunities', value: '31', delta: '₹12L pipeline', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Partner Reviewed', value: '14', delta: '45% reviewed', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Proposal Ready', value: '9', delta: '+3 this week', trend: RoadmapMetricTrend.up),
+      RoadmapMetric(
+        label: 'Open Opportunities',
+        value: '31',
+        delta: '₹12L pipeline',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Partner Reviewed',
+        value: '14',
+        delta: '45% reviewed',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Proposal Ready',
+        value: '9',
+        delta: '+3 this week',
+        trend: RoadmapMetricTrend.up,
+      ),
     ],
     quickWins: [
       'Push scored opportunities into CRM',
@@ -740,7 +881,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '42-a1',
         title: 'Lead qualification scoring',
-        description: 'Score leads by case complexity, urgency, and ticket size.',
+        description:
+            'Score leads by case complexity, urgency, and ticket size.',
         trigger: 'When new lead is created',
         outcome: 'Priority bucket + specialist routing',
         enabled: true,
@@ -748,7 +890,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '42-a2',
         title: 'Consultation slot booking',
-        description: 'Auto-book consultation slots with reminders and document request packs.',
+        description:
+            'Auto-book consultation slots with reminders and document request packs.',
         trigger: 'When lead reaches qualified state',
         outcome: 'Meeting + reminder sequence',
         enabled: true,
@@ -756,16 +899,32 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '42-a3',
         title: 'Dormant client campaigns',
-        description: 'Send reactivation nudges based on service gaps and missed filings.',
+        description:
+            'Send reactivation nudges based on service gaps and missed filings.',
         trigger: 'Dormancy criteria satisfied',
         outcome: 'Targeted campaign launch',
         enabled: false,
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Fresh Leads', value: '57', delta: '+12 this week', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Consults Booked', value: '22', delta: '39% conversion', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Campaign ROI', value: '3.6x', delta: 'Referral strongest', trend: RoadmapMetricTrend.up),
+      RoadmapMetric(
+        label: 'Fresh Leads',
+        value: '57',
+        delta: '+12 this week',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Consults Booked',
+        value: '22',
+        delta: '39% conversion',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Campaign ROI',
+        value: '3.6x',
+        delta: 'Referral strongest',
+        trend: RoadmapMetricTrend.up,
+      ),
     ],
     quickWins: [
       'Add source-wise ROI chart',
@@ -841,9 +1000,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Cross-Border Cases', value: '16', delta: '5 premium', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'DTAA Notes Ready', value: '9', delta: '56% prepared', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'FTC Reviews', value: '7', delta: '2 overdue', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Cross-Border Cases',
+        value: '16',
+        delta: '5 premium',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'DTAA Notes Ready',
+        value: '9',
+        delta: '56% prepared',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'FTC Reviews',
+        value: '7',
+        delta: '2 overdue',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add treaty-country quick filters',
@@ -896,7 +1070,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '44-a1',
         title: 'Upcoming risk alerts',
-        description: 'Surface upcoming tax risks before statutory deadlines hit.',
+        description:
+            'Surface upcoming tax risks before statutory deadlines hit.',
         trigger: 'When projected liabilities cross threshold',
         outcome: 'Advisory alert + review task',
         enabled: true,
@@ -919,9 +1094,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Active CFO Retainers', value: '11', delta: '2 expansion opportunities', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Review Packs Sent', value: '26', delta: '93% on SLA', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Forecast Variances', value: '8', delta: 'Need commentary', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Active CFO Retainers',
+        value: '11',
+        delta: '2 expansion opportunities',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Review Packs Sent',
+        value: '26',
+        delta: '93% on SLA',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Forecast Variances',
+        value: '8',
+        delta: 'Need commentary',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add entity-structure comparison cards',
@@ -932,7 +1122,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '45',
     title: 'Industry Vertical Tax Playbooks',
-    subtitle: 'Sector playbooks, pricing bundles, and productized service flows',
+    subtitle:
+        'Sector playbooks, pricing bundles, and productized service flows',
     heroTitle: 'Productize service delivery by industry vertical',
     heroDescription:
         'Standardize onboarding, pricing, templates, and compliance calendars for target industries to scale repeatable growth.',
@@ -974,7 +1165,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '45-a1',
         title: 'Playbook cloning',
-        description: 'Clone onboarding, proposal, and compliance setups by vertical.',
+        description:
+            'Clone onboarding, proposal, and compliance setups by vertical.',
         trigger: 'When new client industry is selected',
         outcome: 'Preset setup package',
         enabled: true,
@@ -997,9 +1189,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Published Playbooks', value: '8', delta: '3 in draft', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Bundle Reuse', value: '61%', delta: '+6 pts', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Niche Margin Index', value: '1.28x', delta: 'Best in SaaS', trend: RoadmapMetricTrend.steady),
+      RoadmapMetric(
+        label: 'Published Playbooks',
+        value: '8',
+        delta: '3 in draft',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Bundle Reuse',
+        value: '61%',
+        delta: '+6 pts',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Niche Margin Index',
+        value: '1.28x',
+        delta: 'Best in SaaS',
+        trend: RoadmapMetricTrend.steady,
+      ),
     ],
     quickWins: [
       'Add vertical filter chips in CRM',
@@ -1010,7 +1217,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '46',
     title: 'ESG Reporting',
-    subtitle: 'BRSR preparation, carbon tax tracking, and sustainability metrics',
+    subtitle:
+        'BRSR preparation, carbon tax tracking, and sustainability metrics',
     heroTitle: 'Help clients meet SEBI ESG disclosure mandates',
     heroDescription:
         'Prepare BRSR reports, track carbon taxes and green incentives, and build ESG-compliant audit workpapers aligned with SEBI 2026 norms.',
@@ -1020,7 +1228,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '46-1',
         title: 'BRSR report builder',
-        subtitle: 'Template-driven BRSR preparation per SEBI format for listed companies',
+        subtitle:
+            'Template-driven BRSR preparation per SEBI format for listed companies',
         owner: 'ESG Desk',
         dueLabel: 'Template v1 ready',
         status: RoadmapItemStatus.onTrack,
@@ -1030,7 +1239,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '46-2',
         title: 'Carbon tax & green incentive tracker',
-        subtitle: 'Finance Act carbon provisions and green credit eligibility per client',
+        subtitle:
+            'Finance Act carbon provisions and green credit eligibility per client',
         owner: 'Tax Advisory',
         dueLabel: 'Rule library pending',
         status: RoadmapItemStatus.planned,
@@ -1040,7 +1250,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '46-3',
         title: 'Scope 1/2/3 emissions data workflow',
-        subtitle: 'Collect and validate emissions data from client operations and supply chain',
+        subtitle:
+            'Collect and validate emissions data from client operations and supply chain',
         owner: 'Data Team',
         dueLabel: 'Blocked on client data formats',
         status: RoadmapItemStatus.atRisk,
@@ -1052,7 +1263,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '46-a1',
         title: 'ESG regulation change alerts',
-        description: 'Notify when SEBI, EU CSRD, or carbon credit rules change.',
+        description:
+            'Notify when SEBI, EU CSRD, or carbon credit rules change.',
         trigger: 'When regulatory feed detects ESG-tagged changes',
         outcome: 'Impact alert with affected client list',
         enabled: true,
@@ -1060,7 +1272,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '46-a2',
         title: 'BRSR section auto-populate',
-        description: 'Pre-fill BRSR sections from prior year data and available metrics.',
+        description:
+            'Pre-fill BRSR sections from prior year data and available metrics.',
         trigger: 'When new BRSR engagement is opened',
         outcome: 'Draft report with carry-forward data',
         enabled: true,
@@ -1075,9 +1288,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'BRSR Engagements', value: '8', delta: '+3 this quarter', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'ESG KPIs Tracked', value: '42', delta: '6 pending validation', trend: RoadmapMetricTrend.steady),
-      RoadmapMetric(label: 'Green Incentives Found', value: '₹14L', delta: 'Across 5 clients', trend: RoadmapMetricTrend.up),
+      RoadmapMetric(
+        label: 'BRSR Engagements',
+        value: '8',
+        delta: '+3 this quarter',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'ESG KPIs Tracked',
+        value: '42',
+        delta: '6 pending validation',
+        trend: RoadmapMetricTrend.steady,
+      ),
+      RoadmapMetric(
+        label: 'Green Incentives Found',
+        value: '₹14L',
+        delta: 'Across 5 clients',
+        trend: RoadmapMetricTrend.up,
+      ),
     ],
     quickWins: [
       'Add ESG readiness checklist for listed company clients',
@@ -1088,7 +1316,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '47',
     title: 'Virtual CFO Platform',
-    subtitle: 'MIS dashboards, scenario planning, board packs, and advisory retainers',
+    subtitle:
+        'MIS dashboards, scenario planning, board packs, and advisory retainers',
     heroTitle: 'Scale advisory services with a technology-backed CFO platform',
     heroDescription:
         'Deliver monthly MIS, cash-flow forecasts, board-ready packs, and what-if simulations to SME clients through a structured advisory workflow.',
@@ -1098,7 +1327,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '47-1',
         title: 'CFO dashboard builder',
-        subtitle: 'Real-time MIS, cash flow, working capital, and receivables views',
+        subtitle:
+            'Real-time MIS, cash flow, working capital, and receivables views',
         owner: 'CFO Platform',
         dueLabel: 'Widget library ready',
         status: RoadmapItemStatus.onTrack,
@@ -1108,7 +1338,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '47-2',
         title: 'Scenario planning engine',
-        subtitle: 'What-if models for pricing, hiring, capex, and tax regime changes',
+        subtitle:
+            'What-if models for pricing, hiring, capex, and tax regime changes',
         owner: 'Advisory Desk',
         dueLabel: 'Needs calculation models',
         status: RoadmapItemStatus.planned,
@@ -1130,7 +1361,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '47-a1',
         title: 'Monthly MIS auto-assembly',
-        description: 'Pull data from accounting, billing, and compliance modules for MIS.',
+        description:
+            'Pull data from accounting, billing, and compliance modules for MIS.',
         trigger: 'Monthly close calendar',
         outcome: 'Draft MIS dashboard + variance highlights',
         enabled: true,
@@ -1138,7 +1370,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '47-a2',
         title: 'Cash-flow projection refresh',
-        description: 'Update advance tax, GST outflow, and TDS projections weekly.',
+        description:
+            'Update advance tax, GST outflow, and TDS projections weekly.',
         trigger: 'Weekly sync from tax modules',
         outcome: 'Updated forecast with change commentary',
         enabled: true,
@@ -1146,16 +1379,32 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '47-a3',
         title: 'Board pack deadline reminders',
-        description: 'Alert team when board pack deadline approaches with completion status.',
+        description:
+            'Alert team when board pack deadline approaches with completion status.',
         trigger: 'T-5 / T-2 before board meeting',
         outcome: 'Completion checklist + escalation',
         enabled: false,
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Active vCFO Clients', value: '14', delta: '+3 this month', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Board Packs Delivered', value: '31', delta: '96% on time', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Scenario Runs', value: '47', delta: 'Most used: tax regime', trend: RoadmapMetricTrend.steady),
+      RoadmapMetric(
+        label: 'Active vCFO Clients',
+        value: '14',
+        delta: '+3 this month',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Board Packs Delivered',
+        value: '31',
+        delta: '96% on time',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Scenario Runs',
+        value: '47',
+        delta: 'Most used: tax regime',
+        trend: RoadmapMetricTrend.steady,
+      ),
     ],
     quickWins: [
       'Add client-facing simplified dashboard view',
@@ -1166,7 +1415,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '48',
     title: 'E-Invoicing Compliance Hub',
-    subtitle: 'IRP API, reporting windows, bulk generation, and penalty prevention',
+    subtitle:
+        'IRP API, reporting windows, bulk generation, and penalty prevention',
     heroTitle: 'Stay ahead of e-invoicing mandates with zero penalty risk',
     heroDescription:
         'Generate e-invoices via IRP API, enforce 30-day/3-day reporting windows, track 2FA compliance, and prevent the ₹25K/invoice penalty.',
@@ -1186,7 +1436,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '48-2',
         title: 'Reporting window enforcer',
-        subtitle: '30-day and 3-day countdown per invoice with auto-block and escalation',
+        subtitle:
+            '30-day and 3-day countdown per invoice with auto-block and escalation',
         owner: 'Compliance Ops',
         dueLabel: 'Rule engine ready',
         status: RoadmapItemStatus.planned,
@@ -1208,7 +1459,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '48-a1',
         title: 'Pre-validation engine',
-        description: 'Check GSTIN, HSN codes, and values before IRP submission.',
+        description:
+            'Check GSTIN, HSN codes, and values before IRP submission.',
         trigger: 'When invoice is queued for e-invoice generation',
         outcome: 'Pass/fail with fix suggestions',
         enabled: true,
@@ -1224,16 +1476,32 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '48-a3',
         title: 'Client readiness assessor',
-        description: 'Monitor client turnover vs threshold to pre-alert on mandate applicability.',
+        description:
+            'Monitor client turnover vs threshold to pre-alert on mandate applicability.',
         trigger: 'Quarterly turnover check',
         outcome: 'Readiness card + migration checklist',
         enabled: false,
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'E-Invoices Generated', value: '4.2K', delta: '+680 today', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'IRP Rejection Rate', value: '1.8%', delta: '-0.4% vs last week', trend: RoadmapMetricTrend.down),
-      RoadmapMetric(label: 'At-Risk Invoices', value: '12', delta: '3 in 24hr window', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'E-Invoices Generated',
+        value: '4.2K',
+        delta: '+680 today',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'IRP Rejection Rate',
+        value: '1.8%',
+        delta: '-0.4% vs last week',
+        trend: RoadmapMetricTrend.down,
+      ),
+      RoadmapMetric(
+        label: 'At-Risk Invoices',
+        value: '12',
+        delta: '3 in 24hr window',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add QR code verification tool for physical audits',
@@ -1254,7 +1522,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '49-1',
         title: 'Form 16 / 16A PDF extractor',
-        subtitle: 'Extract salary, TDS, deductions with field-level confidence scores',
+        subtitle:
+            'Extract salary, TDS, deductions with field-level confidence scores',
         owner: 'AI Team',
         dueLabel: 'Model trained on 500+ samples',
         status: RoadmapItemStatus.onTrack,
@@ -1264,7 +1533,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '49-2',
         title: 'Bank statement parser',
-        subtitle: 'All major Indian banks → categorized transactions with GST/TDS tagging',
+        subtitle:
+            'All major Indian banks → categorized transactions with GST/TDS tagging',
         owner: 'Data Team',
         dueLabel: 'SBI, HDFC, ICICI complete',
         status: RoadmapItemStatus.planned,
@@ -1286,7 +1556,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '49-a1',
         title: 'WhatsApp photo → auto-process',
-        description: 'Accept document photos via WhatsApp and auto-extract data.',
+        description:
+            'Accept document photos via WhatsApp and auto-extract data.',
         trigger: 'When client sends photo to upload channel',
         outcome: 'Extracted data + filed to correct client folder',
         enabled: true,
@@ -1309,9 +1580,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Documents Processed', value: '2.8K', delta: '+340 today', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Extraction Accuracy', value: '97.2%', delta: '+0.8% vs last month', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Manual Review Queue', value: '23', delta: '8 urgent', trend: RoadmapMetricTrend.down),
+      RoadmapMetric(
+        label: 'Documents Processed',
+        value: '2.8K',
+        delta: '+340 today',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Extraction Accuracy',
+        value: '97.2%',
+        delta: '+0.8% vs last month',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Manual Review Queue',
+        value: '23',
+        delta: '8 urgent',
+        trend: RoadmapMetricTrend.down,
+      ),
     ],
     quickWins: [
       'Add rent agreement and property deed OCR templates',
@@ -1322,7 +1608,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
   RoadmapModuleDefinition(
     id: '50',
     title: 'Regulatory Intelligence',
-    subtitle: 'Daily circular digest, client-impact analysis, and section tracker',
+    subtitle:
+        'Daily circular digest, client-impact analysis, and section tracker',
     heroTitle: 'Never miss a regulatory change that affects your clients',
     heroDescription:
         'Auto-digest CBDT, CBIC, MCA, RBI, and SEBI updates daily, highlight client-specific impact, and keep a searchable amendment history.',
@@ -1342,7 +1629,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '50-2',
         title: 'Client-impact analysis engine',
-        subtitle: 'Map circular changes to affected client profiles and compliance items',
+        subtitle:
+            'Map circular changes to affected client profiles and compliance items',
         owner: 'AI Team',
         dueLabel: 'NLP model training',
         status: RoadmapItemStatus.planned,
@@ -1352,7 +1640,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '50-3',
         title: 'Section amendment diff viewer',
-        subtitle: 'Track text changes across Finance Acts with old vs new comparison',
+        subtitle:
+            'Track text changes across Finance Acts with old vs new comparison',
         owner: 'Knowledge Desk',
         dueLabel: 'Data normalization pending',
         status: RoadmapItemStatus.atRisk,
@@ -1364,7 +1653,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '50-a1',
         title: 'Morning digest builder',
-        description: 'Compile overnight regulatory changes into categorized digest.',
+        description:
+            'Compile overnight regulatory changes into categorized digest.',
         trigger: 'Daily at 7 AM',
         outcome: 'Digest card with priority-sorted items',
         enabled: true,
@@ -1372,7 +1662,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '50-a2',
         title: 'Client-specific alerts',
-        description: 'Push notifications when changes affect specific client profiles.',
+        description:
+            'Push notifications when changes affect specific client profiles.',
         trigger: 'When impact analysis matches client attributes',
         outcome: 'Alert to assigned staff + compliance calendar update',
         enabled: true,
@@ -1387,9 +1678,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Circulars This Month', value: '34', delta: '+8 this week', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Client Impacts Found', value: '67', delta: '19 high priority', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Sections Tracked', value: '1,240', delta: '12 amended recently', trend: RoadmapMetricTrend.steady),
+      RoadmapMetric(
+        label: 'Circulars This Month',
+        value: '34',
+        delta: '+8 this week',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Client Impacts Found',
+        value: '67',
+        delta: '19 high priority',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Sections Tracked',
+        value: '1,240',
+        delta: '12 amended recently',
+        trend: RoadmapMetricTrend.steady,
+      ),
     ],
     quickWins: [
       'Add semantic search across all historical circulars',
@@ -1410,7 +1716,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '51-1',
         title: 'Peer benchmarking engine',
-        subtitle: 'Anonymous comparison of billing rate, utilization, and realization vs similar firms',
+        subtitle:
+            'Anonymous comparison of billing rate, utilization, and realization vs similar firms',
         owner: 'Analytics Team',
         dueLabel: 'Benchmark dataset curation',
         status: RoadmapItemStatus.onTrack,
@@ -1420,7 +1727,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '51-2',
         title: 'Pricing intelligence module',
-        subtitle: 'Suggested fee ranges by service type, city tier, and client segment',
+        subtitle:
+            'Suggested fee ranges by service type, city tier, and client segment',
         owner: 'Commercial Desk',
         dueLabel: 'Market data collection',
         status: RoadmapItemStatus.planned,
@@ -1430,7 +1738,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapWorkItem(
         id: '51-3',
         title: 'Growth score & health report',
-        subtitle: 'Composite metric combining acquisition, retention, revenue, and NPS',
+        subtitle:
+            'Composite metric combining acquisition, retention, revenue, and NPS',
         owner: 'Strategy Team',
         dueLabel: 'Score formula review',
         status: RoadmapItemStatus.atRisk,
@@ -1442,7 +1751,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '51-a1',
         title: 'Client concentration risk alert',
-        description: 'Flag when revenue concentration exceeds 20% from single client.',
+        description:
+            'Flag when revenue concentration exceeds 20% from single client.',
         trigger: 'Monthly revenue analysis',
         outcome: 'Risk alert + diversification suggestions',
         enabled: true,
@@ -1450,7 +1760,8 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       RoadmapAutomation(
         id: '51-a2',
         title: 'Quarterly firm health report',
-        description: 'Auto-generate firm health scorecard with actionable recommendations.',
+        description:
+            'Auto-generate firm health scorecard with actionable recommendations.',
         trigger: 'Quarter close',
         outcome: 'Report card + improvement action items',
         enabled: true,
@@ -1465,9 +1776,24 @@ const _moduleDefinitions = <RoadmapModuleDefinition>[
       ),
     ],
     metrics: [
-      RoadmapMetric(label: 'Growth Score', value: '7.2/10', delta: '+0.4 vs last quarter', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Billing Rate Index', value: '1.12x', delta: 'Above peer median', trend: RoadmapMetricTrend.up),
-      RoadmapMetric(label: 'Concentration Risk', value: '14%', delta: 'Healthy range', trend: RoadmapMetricTrend.steady),
+      RoadmapMetric(
+        label: 'Growth Score',
+        value: '7.2/10',
+        delta: '+0.4 vs last quarter',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Billing Rate Index',
+        value: '1.12x',
+        delta: 'Above peer median',
+        trend: RoadmapMetricTrend.up,
+      ),
+      RoadmapMetric(
+        label: 'Concentration Risk',
+        value: '14%',
+        delta: 'Healthy range',
+        trend: RoadmapMetricTrend.steady,
+      ),
     ],
     quickWins: [
       'Add productivity benchmark per staff member',

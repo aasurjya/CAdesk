@@ -419,7 +419,8 @@ final _mockFolders = <DocumentFolder>[
 
 final allDocumentsProvider =
     NotifierProvider<AllDocumentsNotifier, List<Document>>(
-        AllDocumentsNotifier.new);
+      AllDocumentsNotifier.new,
+    );
 
 class AllDocumentsNotifier extends Notifier<List<Document>> {
   @override
@@ -430,20 +431,20 @@ class AllDocumentsNotifier extends Notifier<List<Document>> {
 
 final allFoldersProvider =
     NotifierProvider<AllFoldersNotifier, List<DocumentFolder>>(
-        AllFoldersNotifier.new);
+      AllFoldersNotifier.new,
+    );
 
 class AllFoldersNotifier extends Notifier<List<DocumentFolder>> {
   @override
   List<DocumentFolder> build() => List.unmodifiable(_mockFolders);
 
-  void update(List<DocumentFolder> value) =>
-      state = List.unmodifiable(value);
+  void update(List<DocumentFolder> value) => state = List.unmodifiable(value);
 }
 
 // Filter: search query
-final docSearchQueryProvider =
-    NotifierProvider<DocSearchQueryNotifier, String>(
-        DocSearchQueryNotifier.new);
+final docSearchQueryProvider = NotifierProvider<DocSearchQueryNotifier, String>(
+  DocSearchQueryNotifier.new,
+);
 
 class DocSearchQueryNotifier extends Notifier<String> {
   @override
@@ -455,7 +456,8 @@ class DocSearchQueryNotifier extends Notifier<String> {
 // Filter: selected category
 final docCategoryFilterProvider =
     NotifierProvider<DocCategoryFilterNotifier, DocumentCategory?>(
-        DocCategoryFilterNotifier.new);
+      DocCategoryFilterNotifier.new,
+    );
 
 class DocCategoryFilterNotifier extends Notifier<DocumentCategory?> {
   @override
@@ -467,7 +469,8 @@ class DocCategoryFilterNotifier extends Notifier<DocumentCategory?> {
 // Filter: selected client id
 final docClientFilterProvider =
     NotifierProvider<DocClientFilterNotifier, String?>(
-        DocClientFilterNotifier.new);
+      DocClientFilterNotifier.new,
+    );
 
 class DocClientFilterNotifier extends Notifier<String?> {
   @override
@@ -483,19 +486,21 @@ final filteredDocumentsProvider = Provider<List<Document>>((ref) {
   final category = ref.watch(docCategoryFilterProvider);
   final clientId = ref.watch(docClientFilterProvider);
 
-  return List.unmodifiable(docs.where((doc) {
-    if (category != null && doc.category != category) return false;
-    if (clientId != null && doc.clientId != clientId) return false;
-    if (query.isNotEmpty) {
-      final matchesTitle = doc.title.toLowerCase().contains(query);
-      final matchesClient = doc.clientName.toLowerCase().contains(query);
-      final matchesTags =
-          doc.tags.any((t) => t.toLowerCase().contains(query));
-      return matchesTitle || matchesClient || matchesTags;
-    }
-    return true;
-  }).toList()
-    ..sort((a, b) => b.uploadedAt.compareTo(a.uploadedAt)));
+  return List.unmodifiable(
+    docs.where((doc) {
+      if (category != null && doc.category != category) return false;
+      if (clientId != null && doc.clientId != clientId) return false;
+      if (query.isNotEmpty) {
+        final matchesTitle = doc.title.toLowerCase().contains(query);
+        final matchesClient = doc.clientName.toLowerCase().contains(query);
+        final matchesTags = doc.tags.any(
+          (t) => t.toLowerCase().contains(query),
+        );
+        return matchesTitle || matchesClient || matchesTags;
+      }
+      return true;
+    }).toList()..sort((a, b) => b.uploadedAt.compareTo(a.uploadedAt)),
+  );
 });
 
 /// Filtered folders matching current client filter and search query.
@@ -504,20 +509,23 @@ final filteredFoldersProvider = Provider<List<DocumentFolder>>((ref) {
   final query = ref.watch(docSearchQueryProvider).toLowerCase().trim();
   final clientId = ref.watch(docClientFilterProvider);
 
-  return List.unmodifiable(folders.where((folder) {
-    if (clientId != null && folder.clientId != clientId) return false;
-    if (query.isNotEmpty) {
-      final matchesName = folder.folderName.toLowerCase().contains(query);
-      final matchesClient = folder.clientName.toLowerCase().contains(query);
-      return matchesName || matchesClient;
-    }
-    return true;
-  }).toList()
-    ..sort((a, b) => b.lastModified.compareTo(a.lastModified)));
+  return List.unmodifiable(
+    folders.where((folder) {
+      if (clientId != null && folder.clientId != clientId) return false;
+      if (query.isNotEmpty) {
+        final matchesName = folder.folderName.toLowerCase().contains(query);
+        final matchesClient = folder.clientName.toLowerCase().contains(query);
+        return matchesName || matchesClient;
+      }
+      return true;
+    }).toList()..sort((a, b) => b.lastModified.compareTo(a.lastModified)),
+  );
 });
 
 /// Summary counts for the documents screen header.
-final docSummaryProvider = Provider<({int total, int shared, int folders})>((ref) {
+final docSummaryProvider = Provider<({int total, int shared, int folders})>((
+  ref,
+) {
   final docs = ref.watch(allDocumentsProvider);
   final folders = ref.watch(allFoldersProvider);
   final shared = docs.where((d) => d.isSharedWithClient).length;

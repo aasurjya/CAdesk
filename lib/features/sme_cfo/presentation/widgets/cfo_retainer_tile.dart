@@ -120,8 +120,8 @@ class CfoRetainerTile extends StatelessWidget {
                     color: daysLeft < 0
                         ? AppColors.error
                         : daysLeft <= 14
-                            ? AppColors.warning
-                            : AppColors.neutral400,
+                        ? AppColors.warning
+                        : AppColors.neutral400,
                   ),
                   const SizedBox(width: 4),
                   Text(
@@ -131,8 +131,8 @@ class CfoRetainerTile extends StatelessWidget {
                       color: daysLeft < 0
                           ? AppColors.error
                           : daysLeft <= 14
-                              ? AppColors.warning
-                              : AppColors.neutral400,
+                          ? AppColors.warning
+                          : AppColors.neutral400,
                       fontWeight: daysLeft < 0
                           ? FontWeight.w600
                           : FontWeight.normal,
@@ -280,9 +280,9 @@ class _RetainerStatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

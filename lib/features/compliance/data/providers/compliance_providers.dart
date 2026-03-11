@@ -5,7 +5,8 @@ import 'package:ca_app/features/compliance/domain/models/compliance_deadline.dar
 /// All compliance deadlines.
 final allComplianceDeadlinesProvider =
     NotifierProvider<AllComplianceDeadlinesNotifier, List<ComplianceDeadline>>(
-        AllComplianceDeadlinesNotifier.new);
+      AllComplianceDeadlinesNotifier.new,
+    );
 
 class AllComplianceDeadlinesNotifier
     extends Notifier<List<ComplianceDeadline>> {
@@ -18,7 +19,8 @@ class AllComplianceDeadlinesNotifier
 /// Selected month offset from the current month (0 = current, 1 = next, etc.).
 final complianceMonthOffsetProvider =
     NotifierProvider<ComplianceMonthOffsetNotifier, int>(
-        ComplianceMonthOffsetNotifier.new);
+      ComplianceMonthOffsetNotifier.new,
+    );
 
 class ComplianceMonthOffsetNotifier extends Notifier<int> {
   @override
@@ -30,7 +32,8 @@ class ComplianceMonthOffsetNotifier extends Notifier<int> {
 /// Whether the user is viewing calendar mode (true) or list mode (false).
 final complianceViewModeProvider =
     NotifierProvider<ComplianceViewModeNotifier, bool>(
-        ComplianceViewModeNotifier.new);
+      ComplianceViewModeNotifier.new,
+    );
 
 class ComplianceViewModeNotifier extends Notifier<bool> {
   @override
@@ -47,15 +50,18 @@ final complianceDisplayMonthProvider = Provider<DateTime>((ref) {
 });
 
 /// Deadlines filtered to the currently displayed month.
-final complianceMonthDeadlinesProvider =
-    Provider<List<ComplianceDeadline>>((ref) {
+final complianceMonthDeadlinesProvider = Provider<List<ComplianceDeadline>>((
+  ref,
+) {
   final deadlines = ref.watch(allComplianceDeadlinesProvider);
   final displayMonth = ref.watch(complianceDisplayMonthProvider);
 
   return deadlines
-      .where((d) =>
-          d.dueDate.year == displayMonth.year &&
-          d.dueDate.month == displayMonth.month)
+      .where(
+        (d) =>
+            d.dueDate.year == displayMonth.year &&
+            d.dueDate.month == displayMonth.month,
+      )
       .toList()
     ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 });
@@ -67,9 +73,11 @@ final upcomingDeadlinesProvider = Provider<List<ComplianceDeadline>>((ref) {
   final today = DateTime(now.year, now.month, now.day);
 
   return deadlines
-      .where((d) =>
-          d.status != ComplianceStatus.completed &&
-          d.dueDate.isAfter(today.subtract(const Duration(days: 1))))
+      .where(
+        (d) =>
+            d.status != ComplianceStatus.completed &&
+            d.dueDate.isAfter(today.subtract(const Duration(days: 1))),
+      )
       .toList()
     ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 });
@@ -77,13 +85,13 @@ final upcomingDeadlinesProvider = Provider<List<ComplianceDeadline>>((ref) {
 /// Map of day -> list of deadlines for calendar dot rendering.
 final complianceCalendarDotsProvider =
     Provider<Map<int, List<ComplianceDeadline>>>((ref) {
-  final deadlines = ref.watch(complianceMonthDeadlinesProvider);
-  final Map<int, List<ComplianceDeadline>> result = {};
-  for (final d in deadlines) {
-    result.putIfAbsent(d.dueDate.day, () => []).add(d);
-  }
-  return result;
-});
+      final deadlines = ref.watch(complianceMonthDeadlinesProvider);
+      final Map<int, List<ComplianceDeadline>> result = {};
+      for (final d in deadlines) {
+        result.putIfAbsent(d.dueDate.day, () => []).add(d);
+      }
+      return result;
+    });
 
 // ---------------------------------------------------------------------------
 // Mock Indian tax compliance deadlines for current month + next 3 months
@@ -98,8 +106,7 @@ final _mockDeadlines = <ComplianceDeadline>[
   ComplianceDeadline(
     id: 'cd-001',
     title: 'TDS/TCS Payment',
-    description:
-        'Payment of TDS/TCS deducted/collected in the previous month.',
+    description: 'Payment of TDS/TCS deducted/collected in the previous month.',
     category: ComplianceCategory.tds,
     dueDate: DateTime(_year, _month, 7),
     applicableTo: ['All Deductors'],
@@ -110,8 +117,7 @@ final _mockDeadlines = <ComplianceDeadline>[
   ComplianceDeadline(
     id: 'cd-002',
     title: 'GST-1 (Outward Supplies)',
-    description:
-        'GSTR-1 return for outward supplies of the previous month.',
+    description: 'GSTR-1 return for outward supplies of the previous month.',
     category: ComplianceCategory.gst,
     dueDate: DateTime(_year, _month, 11),
     applicableTo: ['Regular Taxpayers'],
@@ -170,7 +176,8 @@ final _mockDeadlines = <ComplianceDeadline>[
   ComplianceDeadline(
     id: 'cd-007',
     title: 'TDS/TCS Payment',
-    description: 'Monthly TDS/TCS payment for deductions in the previous month.',
+    description:
+        'Monthly TDS/TCS payment for deductions in the previous month.',
     category: ComplianceCategory.tds,
     dueDate: DateTime(_year, _month + 1, 7),
     applicableTo: ['All Deductors'],
@@ -203,8 +210,7 @@ final _mockDeadlines = <ComplianceDeadline>[
   ComplianceDeadline(
     id: 'cd-010',
     title: 'TDS Certificate - Form 16A (Q4)',
-    description:
-        'Issue TDS certificates to deductees for Q4 FY 2025-26.',
+    description: 'Issue TDS certificates to deductees for Q4 FY 2025-26.',
     category: ComplianceCategory.tds,
     dueDate: DateTime(_year, _month + 1, 15),
     applicableTo: ['All Deductors'],

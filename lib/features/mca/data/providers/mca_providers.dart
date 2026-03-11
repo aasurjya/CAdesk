@@ -16,7 +16,8 @@ final List<Company> _mockCompanies = [
     category: CompanyCategory.privateLimited,
     paidUpCapital: 5000000,
     authorisedCapital: 10000000,
-    registeredAddress: '401, Lotus Corporate Park, Goregaon East, Mumbai 400063',
+    registeredAddress:
+        '401, Lotus Corporate Park, Goregaon East, Mumbai 400063',
     rocJurisdiction: 'ROC Mumbai',
     status: CompanyStatus.active,
     directors: [
@@ -547,8 +548,8 @@ final mcaFilingsProvider = Provider<List<McaFiling>>(
 
 final mcaStatusFilterProvider =
     NotifierProvider<McaStatusFilterNotifier, McaFilingStatus?>(
-  McaStatusFilterNotifier.new,
-);
+      McaStatusFilterNotifier.new,
+    );
 
 class McaStatusFilterNotifier extends Notifier<McaFilingStatus?> {
   @override
@@ -561,8 +562,8 @@ class McaStatusFilterNotifier extends Notifier<McaFilingStatus?> {
 
 final mcaFormTypeFilterProvider =
     NotifierProvider<McaFormTypeFilterNotifier, McaFormType?>(
-  McaFormTypeFilterNotifier.new,
-);
+      McaFormTypeFilterNotifier.new,
+    );
 
 class McaFormTypeFilterNotifier extends Notifier<McaFormType?> {
   @override
@@ -573,8 +574,7 @@ class McaFormTypeFilterNotifier extends Notifier<McaFormType?> {
 
 // --- ROC jurisdiction filter ---
 
-final mcaRocFilterProvider =
-    NotifierProvider<McaRocFilterNotifier, String?>(
+final mcaRocFilterProvider = NotifierProvider<McaRocFilterNotifier, String?>(
   McaRocFilterNotifier.new,
 );
 
@@ -623,18 +623,22 @@ final mcaUpcomingFilingsProvider = Provider<List<McaFiling>>((ref) {
   final now = DateTime(2026, 3, 10);
   final cutoff = now.add(const Duration(days: 30));
   return filings
-      .where((f) =>
-          f.status != McaFilingStatus.approved &&
-          f.status != McaFilingStatus.filed &&
-          f.dueDate.isAfter(now) &&
-          f.dueDate.isBefore(cutoff))
+      .where(
+        (f) =>
+            f.status != McaFilingStatus.approved &&
+            f.status != McaFilingStatus.filed &&
+            f.dueDate.isAfter(now) &&
+            f.dueDate.isBefore(cutoff),
+      )
       .toList()
     ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 });
 
 /// Filings grouped per company (for the Companies tab).
-final mcaFilingsByCompanyProvider =
-    Provider.family<List<McaFiling>, String>((ref, companyId) {
+final mcaFilingsByCompanyProvider = Provider.family<List<McaFiling>, String>((
+  ref,
+  companyId,
+) {
   final filings = ref.watch(mcaFilingsProvider);
   return filings.where((f) => f.companyId == companyId).toList();
 });

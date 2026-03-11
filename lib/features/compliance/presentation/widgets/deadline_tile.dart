@@ -6,11 +6,7 @@ import 'package:ca_app/features/compliance/domain/models/compliance_deadline.dar
 
 /// A list tile for a compliance deadline, showing a category badge and countdown.
 class DeadlineTile extends StatelessWidget {
-  const DeadlineTile({
-    super.key,
-    required this.deadline,
-    this.onTap,
-  });
+  const DeadlineTile({super.key, required this.deadline, this.onTap});
 
   final ComplianceDeadline deadline;
   final VoidCallback? onTap;

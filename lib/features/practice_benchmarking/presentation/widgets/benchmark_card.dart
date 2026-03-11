@@ -135,14 +135,16 @@ class _TrendBadge extends StatelessWidget {
     final color = trend == 'Up'
         ? AppColors.success
         : trend == 'Down'
-            ? AppColors.error
-            : AppColors.neutral400;
+        ? AppColors.error
+        : AppColors.neutral400;
     final icon = trend == 'Up'
         ? Icons.trending_up_rounded
         : trend == 'Down'
-            ? Icons.trending_down_rounded
-            : Icons.trending_flat_rounded;
-    final label = trend == 'Stable' ? 'Stable' : '${trendPercent.toStringAsFixed(0)}% YoY';
+        ? Icons.trending_down_rounded
+        : Icons.trending_flat_rounded;
+    final label = trend == 'Stable'
+        ? 'Stable'
+        : '${trendPercent.toStringAsFixed(0)}% YoY';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -184,8 +186,8 @@ class _ComparisonRow extends StatelessWidget {
     final yourColor = metric.isAboveMedian
         ? AppColors.success
         : metric.isSignificantlyBelowMedian
-            ? AppColors.error
-            : AppColors.warning;
+        ? AppColors.error
+        : AppColors.warning;
 
     return Row(
       children: [
@@ -354,11 +356,7 @@ class _ScalePainter extends CustomPainter {
     final midY = size.height / 2;
 
     // Draw track
-    canvas.drawLine(
-      Offset(0, midY),
-      Offset(size.width, midY),
-      trackPaint,
-    );
+    canvas.drawLine(Offset(0, midY), Offset(size.width, midY), trackPaint);
 
     // Draw top-quartile end marker
     final topPaint = Paint()..color = AppColors.primary.withAlpha(80);

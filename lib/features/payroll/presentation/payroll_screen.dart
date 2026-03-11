@@ -54,9 +54,10 @@ class _PayrollScreenState extends ConsumerState<PayrollScreen>
     );
 
     if (picked != null) {
-      ref.read(payrollSelectedPeriodProvider.notifier).update(
-            (month: picked.month, year: picked.year),
-          );
+      ref.read(payrollSelectedPeriodProvider.notifier).update((
+        month: picked.month,
+        year: picked.year,
+      ));
     }
   }
 
@@ -64,8 +65,9 @@ class _PayrollScreenState extends ConsumerState<PayrollScreen>
   Widget build(BuildContext context) {
     final summary = ref.watch(payrollSummaryProvider);
     final period = ref.watch(payrollSelectedPeriodProvider);
-    final periodLabel =
-        DateFormat('MMM yyyy').format(DateTime(period.year, period.month));
+    final periodLabel = DateFormat(
+      'MMM yyyy',
+    ).format(DateTime(period.year, period.month));
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -173,7 +175,8 @@ class _TotalPayrollCard extends StatelessWidget {
           const SizedBox(width: 8),
           _SummaryTile(
             label: 'Gross Payout',
-            value: '₹${(summary.totalGrossPayout / 100000).toStringAsFixed(1)}L',
+            value:
+                '₹${(summary.totalGrossPayout / 100000).toStringAsFixed(1)}L',
             icon: Icons.account_balance_wallet_rounded,
             color: AppColors.primaryVariant,
           ),
@@ -236,10 +239,7 @@ class _SummaryTile extends StatelessWidget {
             ),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 10,
-                color: AppColors.neutral400,
-              ),
+              style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
             ),
           ],
         ),
@@ -302,8 +302,11 @@ class _PeriodSelector extends StatelessWidget {
 class _EmployeesTab extends ConsumerWidget {
   const _EmployeesTab();
 
-  void _openPayslip(BuildContext context, Employee employee,
-      ({int month, int year}) period) {
+  void _openPayslip(
+    BuildContext context,
+    Employee employee,
+    ({int month, int year}) period,
+  ) {
     PayslipDetailSheet.show(
       context,
       employee: employee,
@@ -344,7 +347,9 @@ class _MonthlyPayrollTab extends ConsumerWidget {
     PayrollMonth record,
   ) {
     final employees = ref.read(employeesProvider);
-    final employee = employees.where((e) => e.id == record.employeeId).firstOrNull;
+    final employee = employees
+        .where((e) => e.id == record.employeeId)
+        .firstOrNull;
     if (employee == null) {
       return;
     }
@@ -390,9 +395,7 @@ class _MonthlyPayrollTab extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: s.color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: s.color.withValues(alpha: 0.3),
-                    ),
+                    border: Border.all(color: s.color.withValues(alpha: 0.3)),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -455,9 +458,7 @@ class _StatutoryReturnsTab extends ConsumerWidget {
             decoration: BoxDecoration(
               color: AppColors.error.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: AppColors.error.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
             ),
             child: Row(
               children: [
@@ -506,14 +507,15 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,
-            style: const TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),
@@ -540,8 +542,9 @@ class _RunPayrollSheetState extends ConsumerState<_RunPayrollSheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final period = ref.watch(payrollSelectedPeriodProvider);
-    final periodLabel = DateFormat('MMMM yyyy')
-        .format(DateTime(period.year, period.month));
+    final periodLabel = DateFormat(
+      'MMMM yyyy',
+    ).format(DateTime(period.year, period.month));
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -592,7 +595,9 @@ class _RunPayrollSheetState extends ConsumerState<_RunPayrollSheet> {
             value: _generateChallan,
             onChanged: (v) => setState(() => _generateChallan = v),
             title: const Text('Auto-generate PF/ESI Challan'),
-            subtitle: const Text('Generate statutory challans after processing'),
+            subtitle: const Text(
+              'Generate statutory challans after processing',
+            ),
             activeTrackColor: AppColors.primary,
             contentPadding: EdgeInsets.zero,
           ),

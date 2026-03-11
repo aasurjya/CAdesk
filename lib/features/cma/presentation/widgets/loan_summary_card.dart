@@ -13,11 +13,7 @@ String _formatCrore(double amount) {
 
 /// Card showing loan summary with EMI, total interest, and tenure progress.
 class LoanSummaryCard extends StatelessWidget {
-  const LoanSummaryCard({
-    super.key,
-    required this.loan,
-    this.onTap,
-  });
+  const LoanSummaryCard({super.key, required this.loan, this.onTap});
 
   final LoanCalculator loan;
   final VoidCallback? onTap;
@@ -31,8 +27,7 @@ class LoanSummaryCard extends StatelessWidget {
       decimalDigits: 0,
     );
 
-    final yearsLeft =
-        ((loan.tenureMonths - loan.monthsElapsed) / 12).ceil();
+    final yearsLeft = ((loan.tenureMonths - loan.monthsElapsed) / 12).ceil();
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
@@ -91,8 +86,10 @@ class LoanSummaryCard extends StatelessWidget {
                   ),
                   // EMI badge
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accent.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
@@ -232,10 +229,7 @@ class _TenureProgressBar extends StatelessWidget {
           children: [
             Text(
               '$monthsElapsed of $tenureMonths months elapsed',
-              style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.neutral400,
-              ),
+              style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
             ),
             Text(
               yearsLeft > 0 ? '$yearsLeft yr(s) remaining' : 'Completed',

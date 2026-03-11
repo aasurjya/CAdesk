@@ -118,8 +118,8 @@ class RetainerContractTile extends StatelessWidget {
                             fontSize: 11,
                             fontWeight:
                                 contract.status == RetainerStatus.expired
-                                    ? FontWeight.w600
-                                    : FontWeight.normal,
+                                ? FontWeight.w600
+                                : FontWeight.normal,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -155,11 +155,7 @@ class _RetainerIcon extends StatelessWidget {
         color: status.color.withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        Icons.handshake_rounded,
-        size: 22,
-        color: status.color,
-      ),
+      child: Icon(Icons.handshake_rounded, size: 22, color: status.color),
     );
   }
 }
@@ -180,9 +176,9 @@ class _StatusBadge extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -236,8 +232,7 @@ class _ExpiryBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (contract.status == RetainerStatus.active &&
-        !contract.isExpiringSoon) {
+    if (contract.status == RetainerStatus.active && !contract.isExpiringSoon) {
       return const SizedBox.shrink();
     }
     if (contract.status == RetainerStatus.paused) {
@@ -267,10 +262,10 @@ class _ExpiryBadge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w700,
-              fontSize: 10,
-            ),
+          color: color,
+          fontWeight: FontWeight.w700,
+          fontSize: 10,
+        ),
       ),
     );
   }

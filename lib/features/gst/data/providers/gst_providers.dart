@@ -121,108 +121,118 @@ List<GstReturn> _buildMockReturns() {
     // GSTR-1 for Feb 2026
     final gstr1Due = DateTime(2026, 3, 11);
     final gstr1Filed = client.returnsPending.contains('GSTR-1');
-    returns.add(GstReturn(
-      id: 'ret-${++seq}',
-      clientId: client.id,
-      gstin: client.gstin,
-      returnType: GstReturnType.gstr1,
-      periodMonth: 2,
-      periodYear: 2026,
-      dueDate: gstr1Due,
-      status: gstr1Filed ? GstReturnStatus.pending : GstReturnStatus.filed,
-      filedDate: gstr1Filed ? null : now.subtract(const Duration(days: 5)),
-      taxableValue: 850000 + seq * 120000,
-      igst: 42500 + seq * 6000,
-      cgst: 21250 + seq * 3000,
-      sgst: 21250 + seq * 3000,
-      cess: 0,
-      itcClaimed: 15000 + seq * 2000,
-    ));
+    returns.add(
+      GstReturn(
+        id: 'ret-${++seq}',
+        clientId: client.id,
+        gstin: client.gstin,
+        returnType: GstReturnType.gstr1,
+        periodMonth: 2,
+        periodYear: 2026,
+        dueDate: gstr1Due,
+        status: gstr1Filed ? GstReturnStatus.pending : GstReturnStatus.filed,
+        filedDate: gstr1Filed ? null : now.subtract(const Duration(days: 5)),
+        taxableValue: 850000 + seq * 120000,
+        igst: 42500 + seq * 6000,
+        cgst: 21250 + seq * 3000,
+        sgst: 21250 + seq * 3000,
+        cess: 0,
+        itcClaimed: 15000 + seq * 2000,
+      ),
+    );
 
     // GSTR-3B for Feb 2026
     final gstr3bDue = DateTime(2026, 3, 20);
     final gstr3bPending = client.returnsPending.contains('GSTR-3B');
-    returns.add(GstReturn(
-      id: 'ret-${++seq}',
-      clientId: client.id,
-      gstin: client.gstin,
-      returnType: GstReturnType.gstr3b,
-      periodMonth: 2,
-      periodYear: 2026,
-      dueDate: gstr3bDue,
-      status: gstr3bPending ? GstReturnStatus.pending : GstReturnStatus.filed,
-      filedDate: gstr3bPending ? null : now.subtract(const Duration(days: 3)),
-      taxableValue: 920000 + seq * 95000,
-      igst: 46000 + seq * 4750,
-      cgst: 23000 + seq * 2375,
-      sgst: 23000 + seq * 2375,
-      cess: 500,
-      itcClaimed: 18000 + seq * 1500,
-    ));
+    returns.add(
+      GstReturn(
+        id: 'ret-${++seq}',
+        clientId: client.id,
+        gstin: client.gstin,
+        returnType: GstReturnType.gstr3b,
+        periodMonth: 2,
+        periodYear: 2026,
+        dueDate: gstr3bDue,
+        status: gstr3bPending ? GstReturnStatus.pending : GstReturnStatus.filed,
+        filedDate: gstr3bPending ? null : now.subtract(const Duration(days: 3)),
+        taxableValue: 920000 + seq * 95000,
+        igst: 46000 + seq * 4750,
+        cgst: 23000 + seq * 2375,
+        sgst: 23000 + seq * 2375,
+        cess: 500,
+        itcClaimed: 18000 + seq * 1500,
+      ),
+    );
 
     // GSTR-9 annual (only for some clients)
     if (client.returnsPending.contains('GSTR-9') ||
         client.complianceScore > 80) {
       final gstr9Due = DateTime(2026, 12, 31);
       final gstr9Pending = client.returnsPending.contains('GSTR-9');
-      returns.add(GstReturn(
-        id: 'ret-${++seq}',
-        clientId: client.id,
-        gstin: client.gstin,
-        returnType: GstReturnType.gstr9,
-        periodMonth: 3,
-        periodYear: 2025,
-        dueDate: gstr9Due,
-        status:
-            gstr9Pending ? GstReturnStatus.pending : GstReturnStatus.filed,
-        filedDate:
-            gstr9Pending ? null : DateTime(2026, 1, 15),
-        taxableValue: 10200000 + seq * 500000,
-        igst: 510000 + seq * 25000,
-        cgst: 255000 + seq * 12500,
-        sgst: 255000 + seq * 12500,
-        cess: 5000,
-        itcClaimed: 200000 + seq * 10000,
-      ));
+      returns.add(
+        GstReturn(
+          id: 'ret-${++seq}',
+          clientId: client.id,
+          gstin: client.gstin,
+          returnType: GstReturnType.gstr9,
+          periodMonth: 3,
+          periodYear: 2025,
+          dueDate: gstr9Due,
+          status: gstr9Pending
+              ? GstReturnStatus.pending
+              : GstReturnStatus.filed,
+          filedDate: gstr9Pending ? null : DateTime(2026, 1, 15),
+          taxableValue: 10200000 + seq * 500000,
+          igst: 510000 + seq * 25000,
+          cgst: 255000 + seq * 12500,
+          sgst: 255000 + seq * 12500,
+          cess: 5000,
+          itcClaimed: 200000 + seq * 10000,
+        ),
+      );
     }
   }
 
   // Add a couple of late-filed returns for realism.
-  returns.add(GstReturn(
-    id: 'ret-${++seq}',
-    clientId: 'gst-006',
-    gstin: '33AABCC3456K1ZQ',
-    returnType: GstReturnType.gstr1,
-    periodMonth: 1,
-    periodYear: 2026,
-    dueDate: DateTime(2026, 2, 11),
-    filedDate: DateTime(2026, 2, 25),
-    status: GstReturnStatus.lateFiled,
-    taxableValue: 780000,
-    igst: 39000,
-    cgst: 19500,
-    sgst: 19500,
-    cess: 0,
-    itcClaimed: 12000,
-  ));
+  returns.add(
+    GstReturn(
+      id: 'ret-${++seq}',
+      clientId: 'gst-006',
+      gstin: '33AABCC3456K1ZQ',
+      returnType: GstReturnType.gstr1,
+      periodMonth: 1,
+      periodYear: 2026,
+      dueDate: DateTime(2026, 2, 11),
+      filedDate: DateTime(2026, 2, 25),
+      status: GstReturnStatus.lateFiled,
+      taxableValue: 780000,
+      igst: 39000,
+      cgst: 19500,
+      sgst: 19500,
+      cess: 0,
+      itcClaimed: 12000,
+    ),
+  );
 
-  returns.add(GstReturn(
-    id: 'ret-${++seq}',
-    clientId: 'gst-003',
-    gstin: '09AAFFS5678G1Z3',
-    returnType: GstReturnType.gstr3b,
-    periodMonth: 1,
-    periodYear: 2026,
-    dueDate: DateTime(2026, 2, 20),
-    filedDate: DateTime(2026, 3, 2),
-    status: GstReturnStatus.lateFiled,
-    taxableValue: 540000,
-    igst: 27000,
-    cgst: 13500,
-    sgst: 13500,
-    cess: 0,
-    itcClaimed: 9500,
-  ));
+  returns.add(
+    GstReturn(
+      id: 'ret-${++seq}',
+      clientId: 'gst-003',
+      gstin: '09AAFFS5678G1Z3',
+      returnType: GstReturnType.gstr3b,
+      periodMonth: 1,
+      periodYear: 2026,
+      dueDate: DateTime(2026, 2, 20),
+      filedDate: DateTime(2026, 3, 2),
+      status: GstReturnStatus.lateFiled,
+      taxableValue: 540000,
+      igst: 27000,
+      cgst: 13500,
+      sgst: 13500,
+      cess: 0,
+      itcClaimed: 9500,
+    ),
+  );
 
   return List.unmodifiable(returns);
 }
@@ -244,7 +254,8 @@ final gstReturnsProvider = Provider<List<GstReturn>>(
 /// Currently selected period (month, year).
 final gstSelectedPeriodProvider =
     NotifierProvider<GstSelectedPeriodNotifier, ({int month, int year})>(
-        GstSelectedPeriodNotifier.new);
+      GstSelectedPeriodNotifier.new,
+    );
 
 class GstSelectedPeriodNotifier extends Notifier<({int month, int year})> {
   @override
@@ -267,14 +278,16 @@ final gstFilteredReturnsProvider = Provider<List<GstReturn>>((ref) {
 /// Returns filtered by period AND return type.
 final gstReturnsByTypeProvider =
     Provider.family<List<GstReturn>, GstReturnType?>((ref, type) {
-  final filtered = ref.watch(gstFilteredReturnsProvider);
-  if (type == null) return filtered;
-  return filtered.where((r) => r.returnType == type).toList();
-});
+      final filtered = ref.watch(gstFilteredReturnsProvider);
+      if (type == null) return filtered;
+      return filtered.where((r) => r.returnType == type).toList();
+    });
 
 /// Returns for a specific client in the selected period.
-final gstReturnsForClientProvider =
-    Provider.family<List<GstReturn>, String>((ref, clientId) {
+final gstReturnsForClientProvider = Provider.family<List<GstReturn>, String>((
+  ref,
+  clientId,
+) {
   final filtered = ref.watch(gstFilteredReturnsProvider);
   return filtered.where((r) => r.clientId == clientId).toList();
 });
@@ -286,8 +299,9 @@ final gstSummaryProvider = Provider<GstSummary>((ref) {
   final now = DateTime(2026, 3, 10);
 
   final totalGstins = clients.length;
-  final returnsDue =
-      returns.where((r) => r.status == GstReturnStatus.pending).length;
+  final returnsDue = returns
+      .where((r) => r.status == GstReturnStatus.pending)
+      .length;
   final filedThisMonth = returns
       .where(
         (r) =>
@@ -299,9 +313,7 @@ final gstSummaryProvider = Provider<GstSummary>((ref) {
       .length;
   final overdue = returns
       .where(
-        (r) =>
-            r.status == GstReturnStatus.pending &&
-            r.dueDate.isBefore(now),
+        (r) => r.status == GstReturnStatus.pending && r.dueDate.isBefore(now),
       )
       .length;
 
@@ -449,8 +461,10 @@ final allItcReconciliationsProvider = Provider<List<ItcReconciliation>>(
 );
 
 /// ITC reconciliation record for a specific client.
-final itcReconForClientProvider =
-    Provider.family<ItcReconciliation?, String>((ref, clientId) {
+final itcReconForClientProvider = Provider.family<ItcReconciliation?, String>((
+  ref,
+  clientId,
+) {
   final recs = ref.watch(allItcReconciliationsProvider);
   try {
     return recs.firstWhere((r) => r.clientId == clientId);

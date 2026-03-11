@@ -66,13 +66,11 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    final income =
-        double.tryParse(_incomeCtrl.text.replaceAll(',', '')) ?? 0.0;
+    final income = double.tryParse(_incomeCtrl.text.replaceAll(',', '')) ?? 0.0;
     final comparison = TaxComputationService.compare(income);
-    final recommendedTax =
-        comparison.recommendedRegime == 'New'
-            ? comparison.newRegimeTax
-            : comparison.oldRegimeTax;
+    final recommendedTax = comparison.recommendedRegime == 'New'
+        ? comparison.newRegimeTax
+        : comparison.oldRegimeTax;
 
     final newClient = ItrClient(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -111,8 +109,7 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
         return Container(
           decoration: BoxDecoration(
             color: theme.scaffoldBackgroundColor,
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(
             children: [
@@ -167,7 +164,8 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
                           maxLength: 10,
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
-                                RegExp('[A-Za-z0-9]')),
+                              RegExp('[A-Za-z0-9]'),
+                            ),
                             UpperCaseTextFormatter(),
                           ],
                           validator: (v) {
@@ -175,8 +173,7 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
                               return 'PAN is required';
                             }
                             final pan = v.trim().toUpperCase();
-                            final panRegex =
-                                RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]$');
+                            final panRegex = RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]$');
                             if (!panRegex.hasMatch(pan)) {
                               return 'Enter a valid 10-character PAN';
                             }
@@ -246,8 +243,7 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
                             onPressed: _submit,
                             style: FilledButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 14),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
                             child: const Text(
                               'Add Filing',
@@ -306,12 +302,12 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         counterText: '',
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
       ),
     );
   }
@@ -327,11 +323,11 @@ class _NewFilingSheetState extends ConsumerState<NewFilingSheet> {
       initialValue: value,
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
         ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       ),
       isExpanded: true,
       items: items
@@ -379,11 +375,7 @@ class _LiveTaxPreviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
-                Icons.calculate_rounded,
-                size: 16,
-                color: AppColors.primary,
-              ),
+              Icon(Icons.calculate_rounded, size: 16, color: AppColors.primary),
               const SizedBox(width: 6),
               Text(
                 'Live Tax Preview',

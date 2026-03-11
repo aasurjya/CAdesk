@@ -94,8 +94,10 @@ class PipelineTile extends StatelessWidget {
               if (pipeline.errorMessage != null) ...[
                 const SizedBox(height: 6),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.error.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(6),
@@ -191,9 +193,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -220,9 +222,9 @@ class _MetaItem extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w500,
-              ),
+            color: color,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );

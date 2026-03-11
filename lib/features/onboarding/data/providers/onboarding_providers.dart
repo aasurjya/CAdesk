@@ -116,12 +116,40 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Patel Electronics',
     serviceType: 'GST Registration & Filing',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 18)),
-      ChecklistItem(name: 'PAN Card Copy', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 19)),
-      ChecklistItem(name: 'Aadhaar Copy (Authorised Signatory)', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 19)),
-      ChecklistItem(name: 'Address Proof of Business', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 20)),
-      ChecklistItem(name: 'Bank Statement / Cancelled Cheque', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Photograph of Signatory', isRequired: false, isCompleted: false),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 18),
+      ),
+      ChecklistItem(
+        name: 'PAN Card Copy',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 19),
+      ),
+      ChecklistItem(
+        name: 'Aadhaar Copy (Authorised Signatory)',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 19),
+      ),
+      ChecklistItem(
+        name: 'Address Proof of Business',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 20),
+      ),
+      ChecklistItem(
+        name: 'Bank Statement / Cancelled Cheque',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Photograph of Signatory',
+        isRequired: false,
+        isCompleted: false,
+      ),
     ],
     overallProgress: 0.67,
     createdAt: DateTime(2026, 2, 15),
@@ -132,11 +160,32 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Gupta & Sons Trading Co',
     serviceType: 'Income Tax & TDS',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 28)),
-      ChecklistItem(name: 'PAN Card Copy', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Previous Year ITR Copies', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Bank Statements (All Accounts)', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'TDS Certificates (Form 16/16A)', isRequired: true, isCompleted: false),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 28),
+      ),
+      ChecklistItem(
+        name: 'PAN Card Copy',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Previous Year ITR Copies',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Bank Statements (All Accounts)',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'TDS Certificates (Form 16/16A)',
+        isRequired: true,
+        isCompleted: false,
+      ),
     ],
     overallProgress: 0.20,
     createdAt: DateTime(2026, 2, 25),
@@ -147,12 +196,36 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Nair Constructions LLP',
     serviceType: 'Statutory Audit',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'LLP Agreement Copy', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Certificate of Incorporation', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Previous Audit Report', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Trial Balance & Financials', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Bank Reconciliation Statements', isRequired: false, isCompleted: false),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'LLP Agreement Copy',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Certificate of Incorporation',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Previous Audit Report',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Trial Balance & Financials',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Bank Reconciliation Statements',
+        isRequired: false,
+        isCompleted: false,
+      ),
     ],
     overallProgress: 0.0,
     createdAt: DateTime(2026, 3, 5),
@@ -163,12 +236,41 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Mehta IT Solutions',
     serviceType: 'Company Incorporation & ROC',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 25)),
-      ChecklistItem(name: 'Director KYC (DIN)', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 26)),
-      ChecklistItem(name: 'Digital Signature Certificate', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 27)),
-      ChecklistItem(name: 'Name Reservation (RUN)', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 2, 28)),
-      ChecklistItem(name: 'MOA & AOA Drafting', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 3, 1)),
-      ChecklistItem(name: 'SPICe+ Form Filed', isRequired: true, isCompleted: false),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 25),
+      ),
+      ChecklistItem(
+        name: 'Director KYC (DIN)',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 26),
+      ),
+      ChecklistItem(
+        name: 'Digital Signature Certificate',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 27),
+      ),
+      ChecklistItem(
+        name: 'Name Reservation (RUN)',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 2, 28),
+      ),
+      ChecklistItem(
+        name: 'MOA & AOA Drafting',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 3, 1),
+      ),
+      ChecklistItem(
+        name: 'SPICe+ Form Filed',
+        isRequired: true,
+        isCompleted: false,
+      ),
     ],
     overallProgress: 0.83,
     createdAt: DateTime(2026, 2, 22),
@@ -179,11 +281,36 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Sharma Textiles Pvt Ltd',
     serviceType: 'GST Registration & Filing',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: true, completedAt: DateTime(2025, 6, 10)),
-      ChecklistItem(name: 'PAN Card Copy', isRequired: true, isCompleted: true, completedAt: DateTime(2025, 6, 10)),
-      ChecklistItem(name: 'Aadhaar Copy', isRequired: true, isCompleted: true, completedAt: DateTime(2025, 6, 11)),
-      ChecklistItem(name: 'Address Proof', isRequired: true, isCompleted: true, completedAt: DateTime(2025, 6, 12)),
-      ChecklistItem(name: 'Bank Details', isRequired: true, isCompleted: true, completedAt: DateTime(2025, 6, 13)),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2025, 6, 10),
+      ),
+      ChecklistItem(
+        name: 'PAN Card Copy',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2025, 6, 10),
+      ),
+      ChecklistItem(
+        name: 'Aadhaar Copy',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2025, 6, 11),
+      ),
+      ChecklistItem(
+        name: 'Address Proof',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2025, 6, 12),
+      ),
+      ChecklistItem(
+        name: 'Bank Details',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2025, 6, 13),
+      ),
     ],
     overallProgress: 1.0,
     createdAt: DateTime(2025, 6, 8),
@@ -195,10 +322,28 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Joshi Automotive Services',
     serviceType: 'Income Tax & TDS',
     items: [
-      ChecklistItem(name: 'Engagement Letter Signed', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 1, 10)),
-      ChecklistItem(name: 'PAN Card Copy', isRequired: true, isCompleted: false),
-      ChecklistItem(name: 'Previous Year ITR', isRequired: true, isCompleted: true, completedAt: DateTime(2026, 1, 12)),
-      ChecklistItem(name: 'Bank Statements', isRequired: true, isCompleted: false),
+      ChecklistItem(
+        name: 'Engagement Letter Signed',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 1, 10),
+      ),
+      ChecklistItem(
+        name: 'PAN Card Copy',
+        isRequired: true,
+        isCompleted: false,
+      ),
+      ChecklistItem(
+        name: 'Previous Year ITR',
+        isRequired: true,
+        isCompleted: true,
+        completedAt: DateTime(2026, 1, 12),
+      ),
+      ChecklistItem(
+        name: 'Bank Statements',
+        isRequired: true,
+        isCompleted: false,
+      ),
     ],
     overallProgress: 0.50,
     createdAt: DateTime(2026, 1, 8),
@@ -335,7 +480,8 @@ final documentExpiriesProvider = Provider<List<DocumentExpiry>>((ref) {
 /// KYC status filter (null = all).
 final kycStatusFilterProvider =
     NotifierProvider<KycStatusFilterNotifier, KycStatus?>(
-        KycStatusFilterNotifier.new);
+      KycStatusFilterNotifier.new,
+    );
 
 class KycStatusFilterNotifier extends Notifier<KycStatus?> {
   @override
@@ -357,7 +503,8 @@ final filteredKycRecordsProvider = Provider<List<KycRecord>>((ref) {
 /// Expiry status filter (null = all).
 final expiryStatusFilterProvider =
     NotifierProvider<ExpiryStatusFilterNotifier, ExpiryStatus?>(
-        ExpiryStatusFilterNotifier.new);
+      ExpiryStatusFilterNotifier.new,
+    );
 
 class ExpiryStatusFilterNotifier extends Notifier<ExpiryStatus?> {
   @override
@@ -379,9 +526,7 @@ final filteredDocumentExpiriesProvider = Provider<List<DocumentExpiry>>((ref) {
 /// Active (incomplete) onboarding checklists.
 final activeChecklistsProvider = Provider<List<OnboardingChecklist>>((ref) {
   final checklists = ref.watch(onboardingChecklistsProvider);
-  return List.unmodifiable(
-    checklists.where((c) => c.completedAt == null),
-  );
+  return List.unmodifiable(checklists.where((c) => c.completedAt == null));
 });
 
 /// KYC summary counts.
@@ -391,10 +536,14 @@ final kycSummaryProvider = Provider<KycSummary>((ref) {
   return KycSummary(
     total: records.length,
     verified: records.where((r) => r.kycStatus == KycStatus.verified).length,
-    pending: records.where((r) =>
-        r.kycStatus == KycStatus.pending ||
-        r.kycStatus == KycStatus.documentsSubmitted ||
-        r.kycStatus == KycStatus.underVerification).length,
+    pending: records
+        .where(
+          (r) =>
+              r.kycStatus == KycStatus.pending ||
+              r.kycStatus == KycStatus.documentsSubmitted ||
+              r.kycStatus == KycStatus.underVerification,
+        )
+        .length,
     rejected: records.where((r) => r.kycStatus == KycStatus.rejected).length,
     expired: records.where((r) => r.kycStatus == KycStatus.expired).length,
   );

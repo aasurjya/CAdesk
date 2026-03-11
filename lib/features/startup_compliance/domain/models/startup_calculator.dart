@@ -115,17 +115,17 @@ class StartupProfile {
   final StartupStatus status;
 
   bool get isDpiitEligible => StartupCalculator.isDpiitEligible(
-        annualTurnoverCrore: annualTurnoverCrore,
-        yearsFromIncorporation: DateTime.now().year - incorporationYear,
-        isInnovativeOrScalable: true,
-        isNewEntity: true,
-      );
+    annualTurnoverCrore: annualTurnoverCrore,
+    yearsFromIncorporation: DateTime.now().year - incorporationYear,
+    isInnovativeOrScalable: true,
+    isNewEntity: true,
+  );
 
   /// 80-IAC deduction amount in crores.
   double get deduction80IACCrore => StartupCalculator.deduction80IAC(
-        profit: currentYearProfit,
-        isEligible: has80IacCertificate,
-      );
+    profit: currentYearProfit,
+    isEligible: has80IacCertificate,
+  );
 
   /// Tax saving at 25% rate in crores.
   double get taxSavingCrore => deduction80IACCrore * 0.25;
@@ -136,9 +136,9 @@ class StartupProfile {
       StartupCalculator.canCarryForwardLoss(isDpiitRecognized);
 
   String get nextComplianceDue => StartupCalculator.nextComplianceDue(
-        has80IacCert: has80IacCertificate,
-        hasDpiitRecognition: isDpiitRecognized,
-      );
+    has80IacCert: has80IacCertificate,
+    hasDpiitRecognition: isDpiitRecognized,
+  );
 
   StartupProfile copyWith({
     String? id,

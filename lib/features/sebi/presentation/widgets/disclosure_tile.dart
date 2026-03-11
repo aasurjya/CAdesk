@@ -76,10 +76,9 @@ class DisclosureTile extends StatelessWidget {
                       color: disclosure.status == DisclosureStatus.overdue
                           ? AppColors.error
                           : AppColors.neutral400,
-                      fontWeight:
-                          disclosure.status == DisclosureStatus.overdue
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                      fontWeight: disclosure.status == DisclosureStatus.overdue
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
                   if (disclosure.filedDate != null) ...[
@@ -132,10 +131,7 @@ class DisclosureTile extends StatelessWidget {
 
 /// Deadline countdown chip.
 class _DeadlineCountdown extends StatelessWidget {
-  const _DeadlineCountdown({
-    required this.daysUntilDue,
-    required this.isFiled,
-  });
+  const _DeadlineCountdown({required this.daysUntilDue, required this.isFiled});
 
   final int daysUntilDue;
   final bool isFiled;
@@ -152,9 +148,9 @@ class _DeadlineCountdown extends StatelessWidget {
         child: Text(
           'Filed',
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: AppColors.success,
-                fontWeight: FontWeight.w600,
-              ),
+            color: AppColors.success,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       );
     }
@@ -182,9 +178,9 @@ class _DeadlineCountdown extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -207,10 +203,10 @@ class _DisclosureTypeBadge extends StatelessWidget {
       child: Text(
         type.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.secondary,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: AppColors.secondary,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -239,10 +235,10 @@ class _ExchangeBadge extends StatelessWidget {
       child: Text(
         exchange.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: color,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: color,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -270,9 +266,9 @@ class _StatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

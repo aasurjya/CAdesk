@@ -11,10 +11,7 @@ class AboutSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SettingsSectionHeader(
-          title: 'ABOUT',
-          icon: Icons.info_outlined,
-        ),
+        const SettingsSectionHeader(title: 'ABOUT', icon: Icons.info_outlined),
         const ListTile(
           leading: Icon(Icons.apps, size: 22),
           title: Text('App Version'),
@@ -74,9 +71,9 @@ class AboutSection extends StatelessWidget {
         Center(
           child: Text(
             '© 2026 CADesk. Made with love for Indian CAs.',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.neutral400,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
           ),
         ),
         const SizedBox(height: 16),

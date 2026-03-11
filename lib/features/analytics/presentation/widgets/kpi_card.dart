@@ -128,13 +128,13 @@ class _TrendBadge extends StatelessWidget {
     final color = metric.trend == KpiTrend.flat
         ? AppColors.neutral400
         : isPositive
-            ? AppColors.success
-            : AppColors.error;
+        ? AppColors.success
+        : AppColors.error;
     final icon = metric.trend == KpiTrend.up
         ? Icons.trending_up_rounded
         : metric.trend == KpiTrend.down
-            ? Icons.trending_down_rounded
-            : Icons.trending_flat_rounded;
+        ? Icons.trending_down_rounded
+        : Icons.trending_flat_rounded;
     final percent = metric.changePercent.abs().toStringAsFixed(1);
 
     return Container(
@@ -182,8 +182,8 @@ class _ProgressIndicator extends StatelessWidget {
     final color = fraction >= 0.8
         ? AppColors.success
         : fraction >= 0.5
-            ? AppColors.accent
-            : AppColors.error;
+        ? AppColors.accent
+        : AppColors.error;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),

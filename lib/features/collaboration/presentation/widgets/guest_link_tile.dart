@@ -161,9 +161,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -185,9 +185,9 @@ class _AccessLevelBadge extends StatelessWidget {
       child: Text(
         accessLevel.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.secondary,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.secondary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

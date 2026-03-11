@@ -73,9 +73,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
                   }).toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      ref
-                          .read(analyticsPeriodProvider.notifier)
-                          .update(value);
+                      ref.read(analyticsPeriodProvider.notifier).update(value);
                     }
                   },
                 ),
@@ -137,10 +135,7 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               icon: Icons.schedule_rounded,
             ),
             const SizedBox(height: 10),
-            AgingBar(
-              bucketTotals: bucketTotals,
-              grandTotal: totalReceivables,
-            ),
+            AgingBar(bucketTotals: bucketTotals, grandTotal: totalReceivables),
             const SizedBox(height: 24),
             _SectionHeader(
               title: 'Tax Practice Growth',
@@ -453,8 +448,10 @@ class _GrowthPipelineCard extends StatelessWidget {
               children: GrowthOpportunityStage.values.map((stage) {
                 final count = growthCounts[stage] ?? 0;
                 return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: stage.color.withAlpha(18),
                     borderRadius: BorderRadius.circular(999),
@@ -576,8 +573,10 @@ class _GrowthOpportunityTile extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: opportunity.stage.color.withAlpha(18),
                     borderRadius: BorderRadius.circular(999),

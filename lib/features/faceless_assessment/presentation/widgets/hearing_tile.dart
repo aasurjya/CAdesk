@@ -6,11 +6,7 @@ import 'package:ca_app/features/faceless_assessment/domain/models/hearing_schedu
 
 /// A tile displaying a hearing schedule with date/time and document checklist.
 class HearingTile extends StatelessWidget {
-  const HearingTile({
-    super.key,
-    required this.hearing,
-    this.onTap,
-  });
+  const HearingTile({super.key, required this.hearing, this.onTap});
 
   final HearingSchedule hearing;
   final VoidCallback? onTap;
@@ -23,11 +19,8 @@ class HearingTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: hearing.isImminent &&
-                hearing.status == HearingStatus.scheduled
-            ? BorderSide(
-                color: AppColors.warning.withValues(alpha: 0.5),
-              )
+        side: hearing.isImminent && hearing.status == HearingStatus.scheduled
+            ? BorderSide(color: AppColors.warning.withValues(alpha: 0.5))
             : BorderSide.none,
       ),
       child: InkWell(
@@ -64,8 +57,11 @@ class HearingTile extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(Icons.videocam_outlined, size: 14,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.videocam_outlined,
+                    size: 14,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     hearing.platform.label,
@@ -75,8 +71,11 @@ class HearingTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Icon(Icons.person_outline, size: 14,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.person_outline,
+                    size: 14,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     hearing.representativeName,
@@ -112,8 +111,11 @@ class HearingTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.info_outline, size: 14,
-                          color: AppColors.warning),
+                      Icon(
+                        Icons.info_outline,
+                        size: 14,
+                        color: AppColors.warning,
+                      ),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
@@ -180,10 +182,7 @@ class _DateTimeRow extends StatelessWidget {
           const Spacer(),
           if (hearing.status == HearingStatus.scheduled && daysLeft >= 0)
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 6,
-                vertical: 2,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
                 color: daysLeft <= 3
                     ? AppColors.error.withValues(alpha: 0.12)
@@ -194,13 +193,12 @@ class _DateTimeRow extends StatelessWidget {
                 daysLeft == 0
                     ? 'Today'
                     : daysLeft == 1
-                        ? 'Tomorrow'
-                        : 'In $daysLeft days',
+                    ? 'Tomorrow'
+                    : 'In $daysLeft days',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
-                  color:
-                      daysLeft <= 3 ? AppColors.error : AppColors.success,
+                  color: daysLeft <= 3 ? AppColors.error : AppColors.success,
                 ),
               ),
             ),
@@ -231,7 +229,9 @@ class _DocumentChecklist extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        ...documents.take(3).map(
+        ...documents
+            .take(3)
+            .map(
               (doc) => Padding(
                 padding: const EdgeInsets.only(bottom: 2),
                 child: Row(

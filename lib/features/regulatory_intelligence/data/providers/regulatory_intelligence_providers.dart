@@ -93,8 +93,7 @@ final _mockCirculars = <RegulatoryCircular>[
     id: 'rc-005',
     circularNumber: 'SEBI/HO/CFD/CMD/CIR/P/2026/14',
     issuingBody: 'SEBI',
-    title:
-        'BRSR Core Mandatory for Top 150 Listed Entities from FY 2026-27',
+    title: 'BRSR Core Mandatory for Top 150 Listed Entities from FY 2026-27',
     summary:
         'SEBI extends mandatory Business Responsibility and Sustainability '
         'Reporting (BRSR) Core framework to top 150 listed entities by '
@@ -440,14 +439,14 @@ final allImpactAlertsProvider = Provider<List<ClientImpactAlert>>((ref) {
 /// Currently selected category filter. Null means all categories.
 final selectedCategoryProvider =
     NotifierProvider<SelectedCategoryNotifier, String?>(
-  SelectedCategoryNotifier.new,
-);
+      SelectedCategoryNotifier.new,
+    );
 
 /// Currently selected urgency filter. Null means all urgencies.
 final selectedUrgencyProvider =
     NotifierProvider<SelectedUrgencyNotifier, String?>(
-  SelectedUrgencyNotifier.new,
-);
+      SelectedUrgencyNotifier.new,
+    );
 
 /// Circulars filtered by the selected category.
 final filteredCircularsProvider = Provider<List<RegulatoryCircular>>((ref) {
@@ -472,8 +471,8 @@ final filteredAlertsProvider = Provider<List<ClientImpactAlert>>((ref) {
 /// Client impact alerts for a specific circular identified by its [circularId].
 final alertsForCircularProvider =
     Provider.family<List<ClientImpactAlert>, String>((ref, circularId) {
-  return ref
-      .watch(allImpactAlertsProvider)
-      .where((a) => a.circularId == circularId)
-      .toList();
-});
+      return ref
+          .watch(allImpactAlertsProvider)
+          .where((a) => a.circularId == circularId)
+          .toList();
+    });

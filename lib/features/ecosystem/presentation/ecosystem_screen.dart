@@ -101,10 +101,7 @@ class _EcosystemScreenState extends ConsumerState<EcosystemScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _ConnectorsTab(),
-                _MarketplaceTab(),
-              ],
+              children: const [_ConnectorsTab(), _MarketplaceTab()],
             ),
           ),
         ],
@@ -191,9 +188,9 @@ class _ConnectorsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(connectorStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(connectorStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -201,7 +198,8 @@ class _ConnectorsTab extends ConsumerWidget {
         Expanded(
           child: connectors.isEmpty
               ? const _EmptyState(
-                  message: 'No connectors match the selected filter')
+                  message: 'No connectors match the selected filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: connectors.length,

@@ -35,8 +35,9 @@ class StartTimerSheet extends ConsumerStatefulWidget {
 class _StartTimerSheetState extends ConsumerState<StartTimerSheet> {
   final _formKey = GlobalKey<FormState>();
   final _taskController = TextEditingController();
-  final _rateController =
-      TextEditingController(text: _kDefaultBillingRate.toStringAsFixed(0));
+  final _rateController = TextEditingController(
+    text: _kDefaultBillingRate.toStringAsFixed(0),
+  );
 
   String _selectedClient = _kClients.first;
 
@@ -91,10 +92,7 @@ class _StartTimerSheetState extends ConsumerState<StartTimerSheet> {
               items: _kClients.map((client) {
                 return DropdownMenuItem<String>(
                   value: client,
-                  child: Text(
-                    client,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text(client, overflow: TextOverflow.ellipsis),
                 );
               }).toList(),
               onChanged: (value) {
@@ -174,10 +172,12 @@ class _StartTimerSheetState extends ConsumerState<StartTimerSheet> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
-    final rate = double.tryParse(_rateController.text.trim()) ??
-        _kDefaultBillingRate;
+    final rate =
+        double.tryParse(_rateController.text.trim()) ?? _kDefaultBillingRate;
 
-    ref.read(activeTimerProvider.notifier).start(
+    ref
+        .read(activeTimerProvider.notifier)
+        .start(
           clientName: _selectedClient,
           taskDescription: _taskController.text.trim(),
           billingRate: rate,

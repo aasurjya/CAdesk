@@ -21,11 +21,7 @@ final _currencyFmt = NumberFormat.compactCurrency(
 /// Card tile for a single [Company] showing CIN, category badge, director
 /// count, and capital details.
 class CompanyTile extends StatelessWidget {
-  const CompanyTile({
-    super.key,
-    required this.company,
-    this.onTap,
-  });
+  const CompanyTile({super.key, required this.company, this.onTap});
 
   final Company company;
   final VoidCallback? onTap;
@@ -151,10 +147,7 @@ class _StatusDot extends StatelessWidget {
         width: 10,
         height: 10,
         margin: const EdgeInsets.only(top: 3),
-        decoration: BoxDecoration(
-          color: status.color,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: status.color, shape: BoxShape.circle),
       ),
     );
   }
@@ -230,10 +223,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 3),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppColors.neutral400,
-          ),
+          style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
         ),
       ],
     );

@@ -92,7 +92,9 @@ class AnomalyAlertTile extends StatelessWidget {
                   if (alert.isResolved)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.success.withAlpha(26),
                         borderRadius: BorderRadius.circular(6),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 /// FEMA form types for RBI filings.
 enum FemaFormType {
-  fcGpr(label: 'FC-GPR', description: 'Foreign Currency - Gross Provisional Return'),
+  fcGpr(
+    label: 'FC-GPR',
+    description: 'Foreign Currency - Gross Provisional Return',
+  ),
   fcTrs(label: 'FC-TRS', description: 'Foreign Currency - Transfer of Shares'),
   apr(label: 'APR', description: 'Annual Performance Report'),
   fla(label: 'FLA', description: 'Foreign Liabilities & Assets'),
@@ -118,9 +121,7 @@ class FemaFiling {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FemaFiling &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is FemaFiling && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

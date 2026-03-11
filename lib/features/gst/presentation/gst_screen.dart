@@ -64,8 +64,10 @@ class _GstScreenState extends ConsumerState<GstScreen>
     );
 
     if (picked != null) {
-      ref.read(gstSelectedPeriodProvider.notifier).update(
-          (month: picked.month, year: picked.year));
+      ref.read(gstSelectedPeriodProvider.notifier).update((
+        month: picked.month,
+        year: picked.year,
+      ));
     }
   }
 
@@ -77,8 +79,9 @@ class _GstScreenState extends ConsumerState<GstScreen>
   Widget build(BuildContext context) {
     final summary = ref.watch(gstSummaryProvider);
     final period = ref.watch(gstSelectedPeriodProvider);
-    final periodLabel = DateFormat('MMM yyyy')
-        .format(DateTime(period.year, period.month));
+    final periodLabel = DateFormat(
+      'MMM yyyy',
+    ).format(DateTime(period.year, period.month));
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -107,10 +110,7 @@ class _GstScreenState extends ConsumerState<GstScreen>
       body: Column(
         children: [
           // Period selector
-          _PeriodSelector(
-            label: periodLabel,
-            onTap: _pickPeriod,
-          ),
+          _PeriodSelector(label: periodLabel, onTap: _pickPeriod),
 
           // Summary row
           Padding(
@@ -261,27 +261,18 @@ class _ReturnListTab extends ConsumerWidget {
     // or show all clients if "All Returns" tab.
     final visibleClients = returnType == null
         ? clients
-        : clients
-            .where((c) => returnsByClient.containsKey(c.id))
-            .toList();
+        : clients.where((c) => returnsByClient.containsKey(c.id)).toList();
 
     if (visibleClients.isEmpty) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.inbox_rounded,
-              size: 48,
-              color: AppColors.neutral200,
-            ),
+            Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
             const SizedBox(height: 12),
             Text(
               'No returns found for this period',
-              style: TextStyle(
-                color: AppColors.neutral400,
-                fontSize: 14,
-              ),
+              style: TextStyle(color: AppColors.neutral400, fontSize: 14),
             ),
           ],
         ),

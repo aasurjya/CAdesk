@@ -6,11 +6,7 @@ import 'package:ca_app/features/client_portal/domain/models/shared_document.dart
 
 /// Tile widget for displaying a shared document with signature status indicator.
 class SharedDocumentTile extends StatelessWidget {
-  const SharedDocumentTile({
-    super.key,
-    required this.document,
-    this.onTap,
-  });
+  const SharedDocumentTile({super.key, required this.document, this.onTap});
 
   final SharedDocument document;
   final VoidCallback? onTap;

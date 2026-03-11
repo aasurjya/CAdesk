@@ -165,23 +165,23 @@ class TdsChallan {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        deductorId,
-        challanNumber,
-        bsrCode,
-        section,
-        deducteeCount,
-        tdsAmount,
-        surcharge,
-        educationCess,
-        interest,
-        penalty,
-        totalAmount,
-        paymentDate,
-        month,
-        financialYear,
-        status,
-      );
+    id,
+    deductorId,
+    challanNumber,
+    bsrCode,
+    section,
+    deducteeCount,
+    tdsAmount,
+    surcharge,
+    educationCess,
+    interest,
+    penalty,
+    totalAmount,
+    paymentDate,
+    month,
+    financialYear,
+    status,
+  );
 
   @override
   String toString() =>

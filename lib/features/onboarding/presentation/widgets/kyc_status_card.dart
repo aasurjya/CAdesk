@@ -74,8 +74,11 @@ class KycStatusCard extends StatelessWidget {
             // Footer: dates
             Row(
               children: [
-                Icon(Icons.calendar_today_outlined,
-                    size: 12, color: AppColors.neutral400),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 12,
+                  color: AppColors.neutral400,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   'Submitted: ${_formatDate(record.submittedAt)}',
@@ -85,8 +88,11 @@ class KycStatusCard extends StatelessWidget {
                 ),
                 if (record.verifiedAt != null) ...[
                   const SizedBox(width: 12),
-                  Icon(Icons.check_circle_outline,
-                      size: 12, color: AppColors.success),
+                  Icon(
+                    Icons.check_circle_outline,
+                    size: 12,
+                    color: AppColors.success,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     'Verified: ${_formatDate(record.verifiedAt!)}',
@@ -97,8 +103,11 @@ class KycStatusCard extends StatelessWidget {
                 ],
                 if (record.expiryDate != null) ...[
                   const Spacer(),
-                  Icon(Icons.event_outlined,
-                      size: 12, color: AppColors.warning),
+                  Icon(
+                    Icons.event_outlined,
+                    size: 12,
+                    color: AppColors.warning,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     'Expires: ${_formatDate(record.expiryDate!)}',
@@ -117,8 +126,18 @@ class KycStatusCard extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }

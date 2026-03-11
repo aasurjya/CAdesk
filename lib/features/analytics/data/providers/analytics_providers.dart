@@ -28,7 +28,8 @@ enum AnalyticsPeriod {
 
 final analyticsPeriodProvider =
     NotifierProvider<AnalyticsPeriodNotifier, AnalyticsPeriod>(
-        AnalyticsPeriodNotifier.new);
+      AnalyticsPeriodNotifier.new,
+    );
 
 class AnalyticsPeriodNotifier extends Notifier<AnalyticsPeriod> {
   @override
@@ -43,7 +44,8 @@ class AnalyticsPeriodNotifier extends Notifier<AnalyticsPeriod> {
 
 final kpiMetricsProvider =
     NotifierProvider<KpiMetricsNotifier, List<KpiMetric>>(
-        KpiMetricsNotifier.new);
+      KpiMetricsNotifier.new,
+    );
 
 class KpiMetricsNotifier extends Notifier<List<KpiMetric>> {
   @override
@@ -215,7 +217,8 @@ final _mockKpis = <KpiMetric>[
 
 final revenueDataProvider =
     NotifierProvider<RevenueDataNotifier, List<RevenueData>>(
-        RevenueDataNotifier.new);
+      RevenueDataNotifier.new,
+    );
 
 class RevenueDataNotifier extends Notifier<List<RevenueData>> {
   @override
@@ -225,26 +228,166 @@ class RevenueDataNotifier extends Notifier<List<RevenueData>> {
 }
 
 final _mockRevenue = <RevenueData>[
-  const RevenueData(clientId: '1', clientName: 'Rajesh Kumar Sharma', serviceType: 'ITR Filing', amount: 15000, month: 1, year: 2026),
-  const RevenueData(clientId: '1', clientName: 'Rajesh Kumar Sharma', serviceType: 'GST Filing', amount: 8000, month: 2, year: 2026),
-  const RevenueData(clientId: '3', clientName: 'ABC Infra Pvt Ltd', serviceType: 'Audit', amount: 150000, month: 1, year: 2026),
-  const RevenueData(clientId: '3', clientName: 'ABC Infra Pvt Ltd', serviceType: 'GST Filing', amount: 12000, month: 2, year: 2026),
-  const RevenueData(clientId: '3', clientName: 'ABC Infra Pvt Ltd', serviceType: 'TDS Return', amount: 10000, month: 3, year: 2026),
-  const RevenueData(clientId: '4', clientName: 'Mehta & Sons', serviceType: 'Bookkeeping', amount: 18000, month: 1, year: 2026),
-  const RevenueData(clientId: '4', clientName: 'Mehta & Sons', serviceType: 'GST Filing', amount: 7500, month: 2, year: 2026),
-  const RevenueData(clientId: '6', clientName: 'TechVista Solutions LLP', serviceType: 'Payroll', amount: 25000, month: 1, year: 2026),
-  const RevenueData(clientId: '6', clientName: 'TechVista Solutions LLP', serviceType: 'TDS Return', amount: 12000, month: 2, year: 2026),
-  const RevenueData(clientId: '6', clientName: 'TechVista Solutions LLP', serviceType: 'GST Filing', amount: 10000, month: 3, year: 2026),
-  const RevenueData(clientId: '8', clientName: 'Bharat Electronics Ltd', serviceType: 'Audit', amount: 250000, month: 1, year: 2026),
-  const RevenueData(clientId: '8', clientName: 'Bharat Electronics Ltd', serviceType: 'Payroll', amount: 45000, month: 2, year: 2026),
-  const RevenueData(clientId: '8', clientName: 'Bharat Electronics Ltd', serviceType: 'GST Filing', amount: 15000, month: 3, year: 2026),
-  const RevenueData(clientId: '9', clientName: 'Deepak Patel', serviceType: 'ITR Filing', amount: 8000, month: 1, year: 2026),
-  const RevenueData(clientId: '9', clientName: 'Deepak Patel', serviceType: 'GST Filing', amount: 5000, month: 2, year: 2026),
-  const RevenueData(clientId: '13', clientName: 'GreenLeaf Organics LLP', serviceType: 'GST Filing', amount: 9000, month: 1, year: 2026),
-  const RevenueData(clientId: '13', clientName: 'GreenLeaf Organics LLP', serviceType: 'TDS Return', amount: 8000, month: 2, year: 2026),
-  const RevenueData(clientId: '14', clientName: 'Vikram Singh Rathore', serviceType: 'ITR Filing', amount: 12000, month: 1, year: 2026),
-  const RevenueData(clientId: '14', clientName: 'Vikram Singh Rathore', serviceType: 'Bookkeeping', amount: 20000, month: 2, year: 2026),
-  const RevenueData(clientId: '2', clientName: 'Priya Mehta', serviceType: 'ITR Filing', amount: 10000, month: 3, year: 2026),
+  const RevenueData(
+    clientId: '1',
+    clientName: 'Rajesh Kumar Sharma',
+    serviceType: 'ITR Filing',
+    amount: 15000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '1',
+    clientName: 'Rajesh Kumar Sharma',
+    serviceType: 'GST Filing',
+    amount: 8000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    serviceType: 'Audit',
+    amount: 150000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    serviceType: 'GST Filing',
+    amount: 12000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    serviceType: 'TDS Return',
+    amount: 10000,
+    month: 3,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '4',
+    clientName: 'Mehta & Sons',
+    serviceType: 'Bookkeeping',
+    amount: 18000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '4',
+    clientName: 'Mehta & Sons',
+    serviceType: 'GST Filing',
+    amount: 7500,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    serviceType: 'Payroll',
+    amount: 25000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    serviceType: 'TDS Return',
+    amount: 12000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    serviceType: 'GST Filing',
+    amount: 10000,
+    month: 3,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    serviceType: 'Audit',
+    amount: 250000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    serviceType: 'Payroll',
+    amount: 45000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    serviceType: 'GST Filing',
+    amount: 15000,
+    month: 3,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '9',
+    clientName: 'Deepak Patel',
+    serviceType: 'ITR Filing',
+    amount: 8000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '9',
+    clientName: 'Deepak Patel',
+    serviceType: 'GST Filing',
+    amount: 5000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '13',
+    clientName: 'GreenLeaf Organics LLP',
+    serviceType: 'GST Filing',
+    amount: 9000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '13',
+    clientName: 'GreenLeaf Organics LLP',
+    serviceType: 'TDS Return',
+    amount: 8000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '14',
+    clientName: 'Vikram Singh Rathore',
+    serviceType: 'ITR Filing',
+    amount: 12000,
+    month: 1,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '14',
+    clientName: 'Vikram Singh Rathore',
+    serviceType: 'Bookkeeping',
+    amount: 20000,
+    month: 2,
+    year: 2026,
+  ),
+  const RevenueData(
+    clientId: '2',
+    clientName: 'Priya Mehta',
+    serviceType: 'ITR Filing',
+    amount: 10000,
+    month: 3,
+    year: 2026,
+  ),
 ];
 
 // ---------------------------------------------------------------------------
@@ -253,7 +396,8 @@ final _mockRevenue = <RevenueData>[
 
 final agingReceivablesProvider =
     NotifierProvider<AgingReceivablesNotifier, List<AgingReceivable>>(
-        AgingReceivablesNotifier.new);
+      AgingReceivablesNotifier.new,
+    );
 
 class AgingReceivablesNotifier extends Notifier<List<AgingReceivable>> {
   @override
@@ -265,25 +409,144 @@ class AgingReceivablesNotifier extends Notifier<List<AgingReceivable>> {
 final _now = DateTime.now();
 
 final _mockReceivables = <AgingReceivable>[
-  AgingReceivable(clientId: '1', clientName: 'Rajesh Kumar Sharma', invoiceId: 'INV-2026-001', amount: 15000, dueDate: _now, daysPastDue: 0, bucket: AgingBucket.current),
-  AgingReceivable(clientId: '3', clientName: 'ABC Infra Pvt Ltd', invoiceId: 'INV-2026-002', amount: 75000, dueDate: _now.subtract(const Duration(days: 10)), daysPastDue: 10, bucket: AgingBucket.days30),
-  AgingReceivable(clientId: '3', clientName: 'ABC Infra Pvt Ltd', invoiceId: 'INV-2026-003', amount: 45000, dueDate: _now.subtract(const Duration(days: 25)), daysPastDue: 25, bucket: AgingBucket.days30),
-  AgingReceivable(clientId: '4', clientName: 'Mehta & Sons', invoiceId: 'INV-2026-004', amount: 18000, dueDate: _now.subtract(const Duration(days: 5)), daysPastDue: 5, bucket: AgingBucket.days30),
-  AgingReceivable(clientId: '6', clientName: 'TechVista Solutions LLP', invoiceId: 'INV-2026-005', amount: 25000, dueDate: _now.subtract(const Duration(days: 35)), daysPastDue: 35, bucket: AgingBucket.days60),
-  AgingReceivable(clientId: '6', clientName: 'TechVista Solutions LLP', invoiceId: 'INV-2026-006', amount: 12000, dueDate: _now.subtract(const Duration(days: 42)), daysPastDue: 42, bucket: AgingBucket.days60),
-  AgingReceivable(clientId: '8', clientName: 'Bharat Electronics Ltd', invoiceId: 'INV-2026-007', amount: 95000, dueDate: _now.subtract(const Duration(days: 65)), daysPastDue: 65, bucket: AgingBucket.days90),
-  AgingReceivable(clientId: '8', clientName: 'Bharat Electronics Ltd', invoiceId: 'INV-2026-008', amount: 45000, dueDate: _now.subtract(const Duration(days: 72)), daysPastDue: 72, bucket: AgingBucket.days90),
-  AgingReceivable(clientId: '9', clientName: 'Deepak Patel', invoiceId: 'INV-2026-009', amount: 8000, dueDate: _now.subtract(const Duration(days: 15)), daysPastDue: 15, bucket: AgingBucket.days30),
-  AgingReceivable(clientId: '13', clientName: 'GreenLeaf Organics LLP', invoiceId: 'INV-2026-010', amount: 17000, dueDate: _now.subtract(const Duration(days: 50)), daysPastDue: 50, bucket: AgingBucket.days60),
-  AgingReceivable(clientId: '14', clientName: 'Vikram Singh Rathore', invoiceId: 'INV-2026-011', amount: 12000, dueDate: _now.subtract(const Duration(days: 95)), daysPastDue: 95, bucket: AgingBucket.over90),
-  AgingReceivable(clientId: '2', clientName: 'Priya Mehta', invoiceId: 'INV-2026-012', amount: 10000, dueDate: _now.subtract(const Duration(days: 8)), daysPastDue: 8, bucket: AgingBucket.days30),
-  AgingReceivable(clientId: '7', clientName: 'Anil Gupta HUF', invoiceId: 'INV-2026-013', amount: 6000, dueDate: _now.subtract(const Duration(days: 100)), daysPastDue: 100, bucket: AgingBucket.over90),
-  AgingReceivable(clientId: '10', clientName: 'Sharma Charitable Trust', invoiceId: 'INV-2026-014', amount: 22000, dueDate: _now.subtract(const Duration(days: 55)), daysPastDue: 55, bucket: AgingBucket.days60),
-  AgingReceivable(clientId: '12', clientName: 'Hindustan Traders AOP', invoiceId: 'INV-2026-015', amount: 20000, dueDate: _now.subtract(const Duration(days: 88)), daysPastDue: 88, bucket: AgingBucket.days90),
+  AgingReceivable(
+    clientId: '1',
+    clientName: 'Rajesh Kumar Sharma',
+    invoiceId: 'INV-2026-001',
+    amount: 15000,
+    dueDate: _now,
+    daysPastDue: 0,
+    bucket: AgingBucket.current,
+  ),
+  AgingReceivable(
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    invoiceId: 'INV-2026-002',
+    amount: 75000,
+    dueDate: _now.subtract(const Duration(days: 10)),
+    daysPastDue: 10,
+    bucket: AgingBucket.days30,
+  ),
+  AgingReceivable(
+    clientId: '3',
+    clientName: 'ABC Infra Pvt Ltd',
+    invoiceId: 'INV-2026-003',
+    amount: 45000,
+    dueDate: _now.subtract(const Duration(days: 25)),
+    daysPastDue: 25,
+    bucket: AgingBucket.days30,
+  ),
+  AgingReceivable(
+    clientId: '4',
+    clientName: 'Mehta & Sons',
+    invoiceId: 'INV-2026-004',
+    amount: 18000,
+    dueDate: _now.subtract(const Duration(days: 5)),
+    daysPastDue: 5,
+    bucket: AgingBucket.days30,
+  ),
+  AgingReceivable(
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    invoiceId: 'INV-2026-005',
+    amount: 25000,
+    dueDate: _now.subtract(const Duration(days: 35)),
+    daysPastDue: 35,
+    bucket: AgingBucket.days60,
+  ),
+  AgingReceivable(
+    clientId: '6',
+    clientName: 'TechVista Solutions LLP',
+    invoiceId: 'INV-2026-006',
+    amount: 12000,
+    dueDate: _now.subtract(const Duration(days: 42)),
+    daysPastDue: 42,
+    bucket: AgingBucket.days60,
+  ),
+  AgingReceivable(
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    invoiceId: 'INV-2026-007',
+    amount: 95000,
+    dueDate: _now.subtract(const Duration(days: 65)),
+    daysPastDue: 65,
+    bucket: AgingBucket.days90,
+  ),
+  AgingReceivable(
+    clientId: '8',
+    clientName: 'Bharat Electronics Ltd',
+    invoiceId: 'INV-2026-008',
+    amount: 45000,
+    dueDate: _now.subtract(const Duration(days: 72)),
+    daysPastDue: 72,
+    bucket: AgingBucket.days90,
+  ),
+  AgingReceivable(
+    clientId: '9',
+    clientName: 'Deepak Patel',
+    invoiceId: 'INV-2026-009',
+    amount: 8000,
+    dueDate: _now.subtract(const Duration(days: 15)),
+    daysPastDue: 15,
+    bucket: AgingBucket.days30,
+  ),
+  AgingReceivable(
+    clientId: '13',
+    clientName: 'GreenLeaf Organics LLP',
+    invoiceId: 'INV-2026-010',
+    amount: 17000,
+    dueDate: _now.subtract(const Duration(days: 50)),
+    daysPastDue: 50,
+    bucket: AgingBucket.days60,
+  ),
+  AgingReceivable(
+    clientId: '14',
+    clientName: 'Vikram Singh Rathore',
+    invoiceId: 'INV-2026-011',
+    amount: 12000,
+    dueDate: _now.subtract(const Duration(days: 95)),
+    daysPastDue: 95,
+    bucket: AgingBucket.over90,
+  ),
+  AgingReceivable(
+    clientId: '2',
+    clientName: 'Priya Mehta',
+    invoiceId: 'INV-2026-012',
+    amount: 10000,
+    dueDate: _now.subtract(const Duration(days: 8)),
+    daysPastDue: 8,
+    bucket: AgingBucket.days30,
+  ),
+  AgingReceivable(
+    clientId: '7',
+    clientName: 'Anil Gupta HUF',
+    invoiceId: 'INV-2026-013',
+    amount: 6000,
+    dueDate: _now.subtract(const Duration(days: 100)),
+    daysPastDue: 100,
+    bucket: AgingBucket.over90,
+  ),
+  AgingReceivable(
+    clientId: '10',
+    clientName: 'Sharma Charitable Trust',
+    invoiceId: 'INV-2026-014',
+    amount: 22000,
+    dueDate: _now.subtract(const Duration(days: 55)),
+    daysPastDue: 55,
+    bucket: AgingBucket.days60,
+  ),
+  AgingReceivable(
+    clientId: '12',
+    clientName: 'Hindustan Traders AOP',
+    invoiceId: 'INV-2026-015',
+    amount: 20000,
+    dueDate: _now.subtract(const Duration(days: 88)),
+    daysPastDue: 88,
+    bucket: AgingBucket.days90,
+  ),
 ];
 
-final growthOpportunitiesProvider =
-    Provider<List<GrowthOpportunity>>((ref) {
+final growthOpportunitiesProvider = Provider<List<GrowthOpportunity>>((ref) {
   return List.unmodifiable(_mockGrowthOpportunities);
 });
 
@@ -292,8 +555,10 @@ final growthOpportunitiesProvider =
 // ---------------------------------------------------------------------------
 
 /// KPIs filtered by a specific category.
-final kpisByCategoryProvider =
-    Provider.family<List<KpiMetric>, KpiCategory>((ref, category) {
+final kpisByCategoryProvider = Provider.family<List<KpiMetric>, KpiCategory>((
+  ref,
+  category,
+) {
   final all = ref.watch(kpiMetricsProvider);
   return all.where((k) => k.category == category).toList();
 });
@@ -315,8 +580,7 @@ final revenueByServiceProvider = Provider<Map<String, double>>((ref) {
 });
 
 /// Total outstanding receivables by aging bucket.
-final receivablesByBucketProvider =
-    Provider<Map<AgingBucket, double>>((ref) {
+final receivablesByBucketProvider = Provider<Map<AgingBucket, double>>((ref) {
   final records = ref.watch(agingReceivablesProvider);
   final map = <AgingBucket, double>{};
   for (final r in records) {
@@ -333,13 +597,13 @@ final totalReceivablesProvider = Provider<double>((ref) {
 
 final growthOpportunitiesByStageProvider =
     Provider<Map<GrowthOpportunityStage, int>>((ref) {
-  final records = ref.watch(growthOpportunitiesProvider);
-  final counts = <GrowthOpportunityStage, int>{};
-  for (final item in GrowthOpportunityStage.values) {
-    counts[item] = records.where((r) => r.stage == item).length;
-  }
-  return Map.unmodifiable(counts);
-});
+      final records = ref.watch(growthOpportunitiesProvider);
+      final counts = <GrowthOpportunityStage, int>{};
+      for (final item in GrowthOpportunityStage.values) {
+        counts[item] = records.where((r) => r.stage == item).length;
+      }
+      return Map.unmodifiable(counts);
+    });
 
 final totalGrowthPipelineValueProvider = Provider<double>((ref) {
   final records = ref.watch(growthOpportunitiesProvider);
@@ -527,28 +791,31 @@ final practiceKpiProvider = Provider<PracticeKpi>((ref) {
       .fold<double>(0, (sum, inv) => sum + inv.paidAmount);
 
   // Outstanding receivables = sum of balance due
-  final outstandingReceivables =
-      invoices.fold<double>(0, (sum, inv) => sum + inv.balanceDue);
+  final outstandingReceivables = invoices.fold<double>(
+    0,
+    (sum, inv) => sum + inv.balanceDue,
+  );
 
   // Total billed (excl cancelled) — for collection efficiency
   final totalBilled = invoices
       .where((inv) => inv.status != InvoiceStatus.cancelled)
       .fold<double>(0, (sum, inv) => sum + inv.grandTotal);
 
-  final collectionEfficiency =
-      totalBilled > 0 ? (totalRevenue / totalBilled * 100) : 0.0;
+  final collectionEfficiency = totalBilled > 0
+      ? (totalRevenue / totalBilled * 100)
+      : 0.0;
 
   // Client counts
-  final activeClients =
-      clients.where((c) => c.status == ClientStatus.active).length;
-  final inactiveCount =
-      clients.where((c) => c.status == ClientStatus.inactive).length;
+  final activeClients = clients
+      .where((c) => c.status == ClientStatus.active)
+      .length;
+  final inactiveCount = clients
+      .where((c) => c.status == ClientStatus.inactive)
+      .length;
 
   // New clients this month — created in Mar 2026 (current month)
   final newClientsThisMonth = clients
-      .where(
-        (c) => c.createdAt.month == 3 && c.createdAt.year == 2026,
-      )
+      .where((c) => c.createdAt.month == 3 && c.createdAt.year == 2026)
       .length;
 
   // ITR filing completion: % of clients with filed/verified/processed status
@@ -561,15 +828,15 @@ final practiceKpiProvider = Provider<PracticeKpi>((ref) {
       )
       .length;
   final itrTotal = itrClients.length;
-  final itrFilingCompletion =
-      itrTotal > 0 ? (itrFiled / itrTotal * 100) : 0.0;
+  final itrFilingCompletion = itrTotal > 0 ? (itrFiled / itrTotal * 100) : 0.0;
 
   // GST compliance: from mock — 10 out of 13 GST-registered clients compliant
   const gstComplianceRate = 76.9;
 
   // Avg revenue per client (active)
-  final avgRevenuePerClient =
-      activeClients > 0 ? totalRevenue / activeClients : 0.0;
+  final avgRevenuePerClient = activeClients > 0
+      ? totalRevenue / activeClients
+      : 0.0;
 
   // Revenue growth vs last year — hardcoded 14.2% YoY based on CA firm norms
   const revenueGrowthPercent = 14.2;
@@ -662,8 +929,9 @@ const _mockRevenueBreakdown = <RevenueBreakdown>[
 // clientHealthDistributionProvider — from _mockHealthScores data
 // ---------------------------------------------------------------------------
 
-final clientHealthDistributionProvider =
-    Provider<ClientHealthDistribution>((ref) {
+final clientHealthDistributionProvider = Provider<ClientHealthDistribution>((
+  ref,
+) {
   // Scores from client_providers.dart _mockHealthScores:
   // >= 80 = Healthy: 1(92), 4(85), 6(88), 7(80), 9(83), 10(90), 13(81) = 7
   // >= 60 = Attention: 2(78), 3(61), 8(72), 12(76), 14(79) = 5

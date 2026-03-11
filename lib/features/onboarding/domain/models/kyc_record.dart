@@ -89,16 +89,16 @@ class KycRecord {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        clientId,
-        kycStatus,
-        aadhaarVerified,
-        panVerified,
-        ckycKin,
-        submittedAt,
-        verifiedAt,
-        expiryDate,
-      );
+    id,
+    clientId,
+    kycStatus,
+    aadhaarVerified,
+    panVerified,
+    ckycKin,
+    submittedAt,
+    verifiedAt,
+    expiryDate,
+  );
 
   @override
   String toString() =>

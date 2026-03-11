@@ -18,10 +18,7 @@ enum DisclosureType {
     label: 'Material Event',
     description: 'Material event disclosure',
   ),
-  shareholding(
-    label: 'Shareholding',
-    description: 'Shareholding pattern',
-  );
+  shareholding(label: 'Shareholding', description: 'Shareholding pattern');
 
   const DisclosureType({required this.label, required this.description});
 

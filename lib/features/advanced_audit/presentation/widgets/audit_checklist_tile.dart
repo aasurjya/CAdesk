@@ -5,11 +5,7 @@ import 'package:ca_app/features/advanced_audit/domain/models/audit_checklist.dar
 
 /// A tile displaying an audit checklist with completion progress bar.
 class AuditChecklistTile extends StatelessWidget {
-  const AuditChecklistTile({
-    super.key,
-    required this.checklist,
-    this.onTap,
-  });
+  const AuditChecklistTile({super.key, required this.checklist, this.onTap});
 
   final AuditChecklist checklist;
   final VoidCallback? onTap;
@@ -19,8 +15,9 @@ class AuditChecklistTile extends StatelessWidget {
     final theme = Theme.of(context);
     final percent = checklist.completionPercent;
     final isComplete = percent >= 1.0;
-    final progressColor =
-        isComplete ? AppColors.success : AppColors.primaryVariant;
+    final progressColor = isComplete
+        ? AppColors.success
+        : AppColors.primaryVariant;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -60,10 +57,7 @@ class AuditChecklistTile extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: AppColors.secondary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(4),
@@ -136,8 +130,7 @@ class _RecentItems extends StatelessWidget {
     if (incompleteItems.isEmpty) {
       return Row(
         children: [
-          Icon(Icons.check_circle_outline, size: 14,
-              color: AppColors.success),
+          Icon(Icons.check_circle_outline, size: 14, color: AppColors.success),
           const SizedBox(width: 6),
           Text(
             'All items completed',

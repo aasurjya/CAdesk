@@ -66,26 +66,33 @@ class ArticleTile extends StatelessWidget {
                       runSpacing: 4,
                       children: article.tags
                           .take(3)
-                          .map((tag) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: AppColors.neutral200,
-                                  borderRadius: BorderRadius.circular(4),
+                          .map(
+                            (tag) => Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.neutral200,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                tag,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: AppColors.neutral600,
+                                  fontSize: 10,
                                 ),
-                                child: Text(
-                                  tag,
-                                  style: theme.textTheme.labelSmall?.copyWith(
-                                    color: AppColors.neutral600,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ))
+                              ),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
-                  Icon(Icons.person_outline,
-                      size: 14, color: AppColors.neutral400),
+                  Icon(
+                    Icons.person_outline,
+                    size: 14,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     article.author,
@@ -162,19 +169,21 @@ class ArticleTile extends StatelessWidget {
                     spacing: 6,
                     runSpacing: 4,
                     children: article.tags
-                        .map((tag) => Chip(
-                              label: Text(tag),
-                              labelStyle:
-                                  theme.textTheme.labelSmall?.copyWith(
-                                color: AppColors.primary,
-                              ),
-                              backgroundColor:
-                                  AppColors.primary.withValues(alpha: 0.08),
-                              side: BorderSide.none,
-                              visualDensity: VisualDensity.compact,
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                            ))
+                        .map(
+                          (tag) => Chip(
+                            label: Text(tag),
+                            labelStyle: theme.textTheme.labelSmall?.copyWith(
+                              color: AppColors.primary,
+                            ),
+                            backgroundColor: AppColors.primary.withValues(
+                              alpha: 0.08,
+                            ),
+                            side: BorderSide.none,
+                            visualDensity: VisualDensity.compact,
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                          ),
+                        )
                         .toList(),
                   ),
                 ],
@@ -188,8 +197,18 @@ class ArticleTile extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }

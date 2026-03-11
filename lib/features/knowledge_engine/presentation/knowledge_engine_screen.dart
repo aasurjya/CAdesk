@@ -106,10 +106,7 @@ class _KnowledgeEngineScreenState extends ConsumerState<KnowledgeEngineScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _ArticlesTab(),
-                _SopsTab(),
-              ],
+              children: const [_ArticlesTab(), _SopsTab()],
             ),
           ),
         ],
@@ -193,9 +190,9 @@ class _ArticlesTab extends ConsumerWidget {
         _CategoryFilterBar(
           selected: selected,
           onSelected: (cat) {
-            ref.read(knowledgeCategoryFilterProvider.notifier).update(
-                  cat == selected ? null : cat,
-                );
+            ref
+                .read(knowledgeCategoryFilterProvider.notifier)
+                .update(cat == selected ? null : cat);
           },
         ),
 
@@ -324,7 +321,12 @@ class _SopDocumentTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 4),
-              ...sop.steps.take(3).toList().asMap().entries.map(
+              ...sop.steps
+                  .take(3)
+                  .toList()
+                  .asMap()
+                  .entries
+                  .map(
                     (entry) => Padding(
                       padding: const EdgeInsets.only(bottom: 2),
                       child: Row(
@@ -389,9 +391,9 @@ class _VersionChip extends StatelessWidget {
       child: Text(
         version,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.neutral600,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.neutral600,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -411,9 +413,9 @@ class _ActiveChip extends StatelessWidget {
       child: Text(
         'Active',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.success,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.success,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -424,10 +426,7 @@ class _ActiveChip extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _CategoryFilterBar extends StatelessWidget {
-  const _CategoryFilterBar({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _CategoryFilterBar({required this.selected, required this.onSelected});
 
   final KnowledgeCategory? selected;
   final ValueChanged<KnowledgeCategory> onSelected;
@@ -484,7 +483,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,

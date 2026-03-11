@@ -5,10 +5,7 @@ import 'package:ca_app/features/regulatory_intelligence/domain/models/regulatory
 
 /// Card widget displaying the key details of a [RegulatoryCircular].
 class CircularCard extends StatelessWidget {
-  const CircularCard({
-    super.key,
-    required this.circular,
-  });
+  const CircularCard({super.key, required this.circular});
 
   final RegulatoryCircular circular;
 
@@ -167,8 +164,9 @@ class _KeyChangesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final displayChanges =
-        keyChanges.length > 2 ? keyChanges.sublist(0, 2) : keyChanges;
+    final displayChanges = keyChanges.length > 2
+        ? keyChanges.sublist(0, 2)
+        : keyChanges;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

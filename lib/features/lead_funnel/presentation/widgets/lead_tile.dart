@@ -28,11 +28,7 @@ class LeadTile extends StatelessWidget {
               // Row 1: source icon + name + stage badge
               Row(
                 children: [
-                  Icon(
-                    lead.source.icon,
-                    size: 18,
-                    color: AppColors.secondary,
-                  ),
+                  Icon(lead.source.icon, size: 18, color: AppColors.secondary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -184,9 +180,9 @@ class _StageBadge extends StatelessWidget {
           Text(
             stage.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: stage.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: stage.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

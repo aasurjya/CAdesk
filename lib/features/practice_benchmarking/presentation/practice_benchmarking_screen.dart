@@ -47,7 +47,10 @@ class _PracticeBenchmarkingScreenState
         backgroundColor: AppColors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.neutral900),
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            color: AppColors.neutral900,
+          ),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
         title: Column(
@@ -99,10 +102,7 @@ class _PracticeBenchmarkingScreenState
         },
         body: TabBarView(
           controller: _tabController,
-          children: const [
-            _BenchmarksTab(),
-            _GrowthScoresTab(),
-          ],
+          children: const [_BenchmarksTab(), _GrowthScoresTab()],
         ),
       ),
     );
@@ -121,7 +121,9 @@ class _OverallScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scoreColor = overall.isAbovePeerAverage ? AppColors.success : AppColors.warning;
+    final scoreColor = overall.isAbovePeerAverage
+        ? AppColors.success
+        : AppColors.warning;
 
     return Container(
       margin: const EdgeInsets.all(16),
@@ -272,8 +274,11 @@ class _ScoreSummary extends StatelessWidget {
         const SizedBox(height: 6),
         Row(
           children: [
-            const Icon(Icons.people_alt_outlined,
-                size: 13, color: AppColors.neutral400),
+            const Icon(
+              Icons.people_alt_outlined,
+              size: 13,
+              color: AppColors.neutral400,
+            ),
             const SizedBox(width: 4),
             Text(
               'Peer avg: ${overall.peerAverage.toInt()}',
@@ -410,14 +415,14 @@ class _CategoryFilterChips extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
           final cat = categories[index];
-          final isActive = (cat == 'All' && selected == null) ||
+          final isActive =
+              (cat == 'All' && selected == null) ||
               (cat != 'All' && selected == cat);
           return GestureDetector(
             onTap: () => onSelected(cat),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
               decoration: BoxDecoration(
                 color: isActive ? AppColors.primary : AppColors.surface,
                 borderRadius: BorderRadius.circular(20),
@@ -490,10 +495,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(
-      color: AppColors.surface,
-      child: tabBar,
-    );
+    return Container(color: AppColors.surface, child: tabBar);
   }
 
   @override

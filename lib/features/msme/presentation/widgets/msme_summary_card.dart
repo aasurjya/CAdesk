@@ -36,9 +36,7 @@ class MsmeSummaryCard extends ConsumerWidget {
       color: AppColors.primary.withValues(alpha: 0.03),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
-        side: BorderSide(
-          color: AppColors.primary.withValues(alpha: 0.18),
-        ),
+        side: BorderSide(color: AppColors.primary.withValues(alpha: 0.18)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14),
@@ -142,8 +140,7 @@ class _AlertBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.warning_amber_rounded,
-              color: AppColors.error, size: 12),
+          Icon(Icons.warning_amber_rounded, color: AppColors.error, size: 12),
           const SizedBox(width: 4),
           Text(
             '$count overdue',

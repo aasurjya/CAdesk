@@ -81,9 +81,7 @@ class EngagementTile extends StatelessWidget {
                   const SizedBox(width: 16),
 
                   // Utilization bar
-                  Expanded(
-                    child: _UtilizationBar(engagement: engagement),
-                  ),
+                  Expanded(child: _UtilizationBar(engagement: engagement)),
                 ],
               ),
             ],
@@ -119,9 +117,9 @@ class _StatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

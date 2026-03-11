@@ -181,9 +181,7 @@ class _ReturnTypeBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: returnType.color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: returnType.color.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: returnType.color.withValues(alpha: 0.3)),
       ),
       child: Text(
         returnType.label,
@@ -253,10 +251,7 @@ class _DetailItem extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 10,
-                color: AppColors.neutral400,
-              ),
+              style: const TextStyle(fontSize: 10, color: AppColors.neutral400),
             ),
           ],
         ),

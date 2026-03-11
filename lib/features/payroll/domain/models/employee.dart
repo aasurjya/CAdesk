@@ -44,15 +44,15 @@ class Employee {
   final double grossSalary;
 
   // Statutory deductions (monthly)
-  final double pfContribution;   // Employee PF 12% of basic
-  final double esiContribution;  // Employee ESI 0.75% of gross (if gross ≤ 21k)
-  final double tdsMonthly;       // TDS under 115BAC
+  final double pfContribution; // Employee PF 12% of basic
+  final double esiContribution; // Employee ESI 0.75% of gross (if gross ≤ 21k)
+  final double tdsMonthly; // TDS under 115BAC
 
   final double netSalary;
 
   // Statutory registration numbers
-  final String pfNumber;   // e.g. MH/12345/12345
-  final String esiNumber;  // e.g. 31-12345-678
+  final String pfNumber; // e.g. MH/12345/12345
+  final String esiNumber; // e.g. 31-12345-678
 
   // Bank details
   final String bankAccount;

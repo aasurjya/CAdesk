@@ -25,8 +25,9 @@ class TdsScreen extends ConsumerWidget {
           final tabController = DefaultTabController.of(context);
           tabController.addListener(() {
             if (!tabController.indexIsChanging) {
-              ref.read(selectedFormTabProvider.notifier).update(
-                  tabController.index);
+              ref
+                  .read(selectedFormTabProvider.notifier)
+                  .update(tabController.index);
             }
           });
 
@@ -155,8 +156,9 @@ class _ChallanSummaryRow extends ConsumerWidget {
           if (summary.overdue > 0) ...[
             Text(
               ' · ',
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: AppColors.neutral400),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.neutral400,
+              ),
             ),
             Text(
               '${summary.overdue} overdue',
@@ -169,8 +171,9 @@ class _ChallanSummaryRow extends ConsumerWidget {
           if (summary.due > 0) ...[
             Text(
               ' · ',
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: AppColors.neutral400),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: AppColors.neutral400,
+              ),
             ),
             Text(
               '${summary.due} due',
@@ -223,15 +226,16 @@ class _FilterRow extends ConsumerWidget {
                 style: theme.textTheme.bodyMedium,
                 icon: const Icon(Icons.keyboard_arrow_down, size: 20),
                 items: financialYears
-                    .map((fy) => DropdownMenuItem(
-                          value: fy,
-                          child: Text('FY $fy'),
-                        ))
+                    .map(
+                      (fy) =>
+                          DropdownMenuItem(value: fy, child: Text('FY $fy')),
+                    )
                     .toList(),
                 onChanged: (value) {
                   if (value != null) {
-                    ref.read(selectedFinancialYearProvider.notifier).update(
-                        value);
+                    ref
+                        .read(selectedFinancialYearProvider.notifier)
+                        .update(value);
                   }
                 },
               ),
@@ -388,13 +392,15 @@ class _NewReturnSheetState extends ConsumerState<_NewReturnSheet> {
               prefixIcon: Icon(Icons.business_rounded),
             ),
             items: deductors
-                .map((d) => DropdownMenuItem(
-                      value: d.id,
-                      child: Text(
-                        d.deductorName,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ))
+                .map(
+                  (d) => DropdownMenuItem(
+                    value: d.id,
+                    child: Text(
+                      d.deductorName,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                )
                 .toList(),
             onChanged: (value) {
               setState(() => _selectedDeductorId = value);
@@ -412,10 +418,9 @@ class _NewReturnSheetState extends ConsumerState<_NewReturnSheet> {
                     prefixIcon: Icon(Icons.description_rounded),
                   ),
                   items: TdsFormType.values
-                      .map((f) => DropdownMenuItem(
-                            value: f,
-                            child: Text(f.label),
-                          ))
+                      .map(
+                        (f) => DropdownMenuItem(value: f, child: Text(f.label)),
+                      )
                       .toList(),
                   onChanged: (value) {
                     if (value != null) {
@@ -433,10 +438,12 @@ class _NewReturnSheetState extends ConsumerState<_NewReturnSheet> {
                     prefixIcon: Icon(Icons.date_range_rounded),
                   ),
                   items: TdsQuarter.values
-                      .map((q) => DropdownMenuItem(
-                            value: q,
-                            child: Text('${q.label} (${q.description})'),
-                          ))
+                      .map(
+                        (q) => DropdownMenuItem(
+                          value: q,
+                          child: Text('${q.label} (${q.description})'),
+                        ),
+                      )
                       .toList(),
                   onChanged: (value) {
                     if (value != null) {

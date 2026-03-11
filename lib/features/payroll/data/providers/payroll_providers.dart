@@ -207,8 +207,7 @@ Employee _employee({
     ifscCode: ifsc,
     pan: pan,
     isActive: active,
-    leaveBalance: leaveBalance ??
-        const {'CL': 8, 'PL': 12, 'SL': 7, 'ML': 0},
+    leaveBalance: leaveBalance ?? const {'CL': 8, 'PL': 12, 'SL': 7, 'ML': 0},
   );
 }
 
@@ -234,13 +233,18 @@ double _tax115BAC(double income) {
 
 final List<Employee> _mockEmployees = [
   _employee(
-    id: 'emp-001', code: 'EMP001',
+    id: 'emp-001',
+    code: 'EMP001',
     name: 'Amit Kumar Sharma',
     designation: 'Senior Manager',
     department: 'Finance',
     joiningDate: DateTime(2019, 4, 1),
-    basic: 75000, hra: 30000, da: 5000,
-    conveyance: 2000, medical: 1250, special: 11750,
+    basic: 75000,
+    hra: 30000,
+    da: 5000,
+    conveyance: 2000,
+    medical: 1250,
+    special: 11750,
     pfNumber: 'MH/34521/12345',
     esiNumber: '31-00123-456',
     bankAccount: '12345678901234',
@@ -249,13 +253,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 6, 'PL': 18, 'SL': 5, 'ML': 0},
   ),
   _employee(
-    id: 'emp-002', code: 'EMP002',
+    id: 'emp-002',
+    code: 'EMP002',
     name: 'Priya Mehta',
     designation: 'Accounts Executive',
     department: 'Finance',
     joiningDate: DateTime(2021, 7, 15),
-    basic: 28000, hra: 11200, da: 2000,
-    conveyance: 1600, medical: 1250, special: 3950,
+    basic: 28000,
+    hra: 11200,
+    da: 2000,
+    conveyance: 1600,
+    medical: 1250,
+    special: 3950,
     pfNumber: 'MH/34521/12346',
     esiNumber: '31-00123-457',
     bankAccount: '98765432100001',
@@ -263,13 +272,18 @@ final List<Employee> _mockEmployees = [
     pan: 'BVNPM7654B',
   ),
   _employee(
-    id: 'emp-003', code: 'EMP003',
+    id: 'emp-003',
+    code: 'EMP003',
     name: 'Rajesh Verma',
     designation: 'HR Manager',
     department: 'Human Resources',
     joiningDate: DateTime(2018, 1, 10),
-    basic: 55000, hra: 22000, da: 4000,
-    conveyance: 2000, medical: 1250, special: 6750,
+    basic: 55000,
+    hra: 22000,
+    da: 4000,
+    conveyance: 2000,
+    medical: 1250,
+    special: 6750,
     pfNumber: 'MH/34521/12347',
     esiNumber: '31-00123-458',
     bankAccount: '11223344556677',
@@ -278,13 +292,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 8, 'PL': 10, 'SL': 7, 'ML': 0},
   ),
   _employee(
-    id: 'emp-004', code: 'EMP004',
+    id: 'emp-004',
+    code: 'EMP004',
     name: 'Sunita Gupta',
     designation: 'Software Engineer',
     department: 'IT',
     joiningDate: DateTime(2022, 3, 1),
-    basic: 45000, hra: 18000, da: 3000,
-    conveyance: 2000, medical: 1250, special: 7750,
+    basic: 45000,
+    hra: 18000,
+    da: 3000,
+    conveyance: 2000,
+    medical: 1250,
+    special: 7750,
     pfNumber: 'MH/34521/12348',
     esiNumber: '31-00123-459',
     bankAccount: '55667788990011',
@@ -292,13 +311,18 @@ final List<Employee> _mockEmployees = [
     pan: 'DKPSG9876D',
   ),
   _employee(
-    id: 'emp-005', code: 'EMP005',
+    id: 'emp-005',
+    code: 'EMP005',
     name: 'Vikram Singh Yadav',
     designation: 'Sales Manager',
     department: 'Sales',
     joiningDate: DateTime(2020, 6, 1),
-    basic: 50000, hra: 20000, da: 3500,
-    conveyance: 2000, medical: 1250, special: 5250,
+    basic: 50000,
+    hra: 20000,
+    da: 3500,
+    conveyance: 2000,
+    medical: 1250,
+    special: 5250,
     pfNumber: 'MH/34521/12349',
     esiNumber: '31-00123-460',
     bankAccount: '22334455667788',
@@ -307,13 +331,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 4, 'PL': 15, 'SL': 3, 'ML': 0},
   ),
   _employee(
-    id: 'emp-006', code: 'EMP006',
+    id: 'emp-006',
+    code: 'EMP006',
     name: 'Kavitha Nair',
     designation: 'Operations Executive',
     department: 'Operations',
     joiningDate: DateTime(2023, 1, 2),
-    basic: 22000, hra: 8800, da: 1500,
-    conveyance: 1600, medical: 1250, special: 2850,
+    basic: 22000,
+    hra: 8800,
+    da: 1500,
+    conveyance: 1600,
+    medical: 1250,
+    special: 2850,
     pfNumber: 'MH/34521/12350',
     esiNumber: '31-00123-461',
     bankAccount: '99001122334455',
@@ -321,13 +350,18 @@ final List<Employee> _mockEmployees = [
     pan: 'FGAKN5678F',
   ),
   _employee(
-    id: 'emp-007', code: 'EMP007',
+    id: 'emp-007',
+    code: 'EMP007',
     name: 'Deepak Joshi',
     designation: 'Senior Accountant',
     department: 'Finance',
     joiningDate: DateTime(2017, 9, 1),
-    basic: 60000, hra: 24000, da: 4500,
-    conveyance: 2000, medical: 1250, special: 8250,
+    basic: 60000,
+    hra: 24000,
+    da: 4500,
+    conveyance: 2000,
+    medical: 1250,
+    special: 8250,
     pfNumber: 'MH/34521/12351',
     esiNumber: '31-00123-462',
     bankAccount: '44556677889900',
@@ -336,13 +370,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 8, 'PL': 20, 'SL': 7, 'ML': 0},
   ),
   _employee(
-    id: 'emp-008', code: 'EMP008',
+    id: 'emp-008',
+    code: 'EMP008',
     name: 'Ananya Krishnan',
     designation: 'Marketing Executive',
     department: 'Marketing',
     joiningDate: DateTime(2022, 8, 15),
-    basic: 32000, hra: 12800, da: 2200,
-    conveyance: 1600, medical: 1250, special: 4150,
+    basic: 32000,
+    hra: 12800,
+    da: 2200,
+    conveyance: 1600,
+    medical: 1250,
+    special: 4150,
     pfNumber: 'MH/34521/12352',
     esiNumber: '31-00123-463',
     bankAccount: '66778899001122',
@@ -350,13 +389,18 @@ final List<Employee> _mockEmployees = [
     pan: 'HLMAK4567H',
   ),
   _employee(
-    id: 'emp-009', code: 'EMP009',
+    id: 'emp-009',
+    code: 'EMP009',
     name: 'Suresh Babu Reddy',
     designation: 'Operations Manager',
     department: 'Operations',
     joiningDate: DateTime(2016, 5, 1),
-    basic: 70000, hra: 28000, da: 5000,
-    conveyance: 2000, medical: 1250, special: 9750,
+    basic: 70000,
+    hra: 28000,
+    da: 5000,
+    conveyance: 2000,
+    medical: 1250,
+    special: 9750,
     pfNumber: 'MH/34521/12353',
     esiNumber: '31-00123-464',
     bankAccount: '33445566778899',
@@ -365,13 +409,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 8, 'PL': 25, 'SL': 7, 'ML': 0},
   ),
   _employee(
-    id: 'emp-010', code: 'EMP010',
+    id: 'emp-010',
+    code: 'EMP010',
     name: 'Pooja Agarwal',
     designation: 'HR Executive',
     department: 'Human Resources',
     joiningDate: DateTime(2023, 4, 3),
-    basic: 20000, hra: 8000, da: 1400,
-    conveyance: 1600, medical: 1250, special: 2750,
+    basic: 20000,
+    hra: 8000,
+    da: 1400,
+    conveyance: 1600,
+    medical: 1250,
+    special: 2750,
     pfNumber: 'MH/34521/12354',
     esiNumber: '31-00123-465',
     bankAccount: '77889900112233',
@@ -379,13 +428,18 @@ final List<Employee> _mockEmployees = [
     pan: 'JNYPA3456J',
   ),
   _employee(
-    id: 'emp-011', code: 'EMP011',
+    id: 'emp-011',
+    code: 'EMP011',
     name: 'Nikhil Malhotra',
     designation: 'IT Lead',
     department: 'IT',
     joiningDate: DateTime(2020, 11, 1),
-    basic: 80000, hra: 32000, da: 6000,
-    conveyance: 2000, medical: 1250, special: 11750,
+    basic: 80000,
+    hra: 32000,
+    da: 6000,
+    conveyance: 2000,
+    medical: 1250,
+    special: 11750,
     pfNumber: 'MH/34521/12355',
     esiNumber: '31-00123-466',
     bankAccount: '11001100220033',
@@ -394,13 +448,18 @@ final List<Employee> _mockEmployees = [
     leaveBalance: const {'CL': 8, 'PL': 14, 'SL': 7, 'ML': 0},
   ),
   _employee(
-    id: 'emp-012', code: 'EMP012',
+    id: 'emp-012',
+    code: 'EMP012',
     name: 'Ritu Saxena',
     designation: 'Accounts Payable',
     department: 'Finance',
     joiningDate: DateTime(2024, 2, 1),
-    basic: 18000, hra: 7200, da: 1200,
-    conveyance: 1600, medical: 1250, special: 1750,
+    basic: 18000,
+    hra: 7200,
+    da: 1200,
+    conveyance: 1600,
+    medical: 1250,
+    special: 1750,
     pfNumber: 'MH/34521/12356',
     esiNumber: '31-00123-467',
     bankAccount: '44330022001199',
@@ -427,8 +486,12 @@ PayrollMonth _payrollEntry({
   final lopFactor = presentDays / workingDays;
 
   final basicPaid = emp.basicSalary * lopFactor;
-  final allowances = (emp.hra + emp.da + emp.conveyance +
-          emp.medicalAllowance + emp.specialAllowance) *
+  final allowances =
+      (emp.hra +
+          emp.da +
+          emp.conveyance +
+          emp.medicalAllowance +
+          emp.specialAllowance) *
       lopFactor;
   final gross = basicPaid + allowances;
   final pf = basicPaid * 0.12;
@@ -462,15 +525,17 @@ List<PayrollMonth> _buildPayrollMonths() {
   // Feb 2026 — all disbursed
   for (var i = 0; i < _mockEmployees.length; i++) {
     final emp = _mockEmployees[i];
-    entries.add(_payrollEntry(
-      id: 'pay-feb-${emp.id}',
-      emp: emp,
-      month: 2,
-      year: 2026,
-      presentDays: 22 + (i % 4),
-      status: PayrollStatus.disbursed,
-      disbursedDate: DateTime(2026, 3, 1),
-    ));
+    entries.add(
+      _payrollEntry(
+        id: 'pay-feb-${emp.id}',
+        emp: emp,
+        month: 2,
+        year: 2026,
+        presentDays: 22 + (i % 4),
+        status: PayrollStatus.disbursed,
+        disbursedDate: DateTime(2026, 3, 1),
+      ),
+    );
   }
   // Mar 2026 — mixed statuses
   const statuses = [
@@ -489,14 +554,16 @@ List<PayrollMonth> _buildPayrollMonths() {
   ];
   for (var i = 0; i < _mockEmployees.length; i++) {
     final emp = _mockEmployees[i];
-    entries.add(_payrollEntry(
-      id: 'pay-mar-${emp.id}',
-      emp: emp,
-      month: 3,
-      year: 2026,
-      presentDays: 20 + (i % 5),
-      status: statuses[i],
-    ));
+    entries.add(
+      _payrollEntry(
+        id: 'pay-mar-${emp.id}',
+        emp: emp,
+        month: 3,
+        year: 2026,
+        presentDays: 20 + (i % 5),
+        status: statuses[i],
+      ),
+    );
   }
   return List.unmodifiable(entries);
 }
@@ -612,8 +679,8 @@ final statutoryReturnsProvider = Provider<List<StatutoryReturn>>(
 /// Selected month/year for payroll filter (defaults to Mar 2026).
 final payrollSelectedPeriodProvider =
     NotifierProvider<PayrollPeriodNotifier, ({int month, int year})>(
-  PayrollPeriodNotifier.new,
-);
+      PayrollPeriodNotifier.new,
+    );
 
 class PayrollPeriodNotifier extends Notifier<({int month, int year})> {
   @override
@@ -637,16 +704,11 @@ final payrollSummaryProvider = Provider<PayrollSummary>((ref) {
   final records = ref.watch(filteredPayrollMonthsProvider);
   final returns = ref.watch(statutoryReturnsProvider);
 
-  final totalGross =
-      records.fold<double>(0, (s, r) => s + r.grossPaid);
-  final totalNet =
-      records.fold<double>(0, (s, r) => s + r.netPaid);
-  final totalPf =
-      records.fold<double>(0, (s, r) => s + r.pfDeducted);
-  final totalEsi =
-      records.fold<double>(0, (s, r) => s + r.esiDeducted);
-  final totalTds =
-      records.fold<double>(0, (s, r) => s + r.tdsDeducted);
+  final totalGross = records.fold<double>(0, (s, r) => s + r.grossPaid);
+  final totalNet = records.fold<double>(0, (s, r) => s + r.netPaid);
+  final totalPf = records.fold<double>(0, (s, r) => s + r.pfDeducted);
+  final totalEsi = records.fold<double>(0, (s, r) => s + r.esiDeducted);
+  final totalTds = records.fold<double>(0, (s, r) => s + r.tdsDeducted);
   final pendingReturns = returns
       .where((r) => r.status == StatutoryReturnStatus.pending)
       .length;

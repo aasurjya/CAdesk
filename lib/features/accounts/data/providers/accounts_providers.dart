@@ -579,13 +579,13 @@ final ratioSnapshotsProvider = Provider<List<FinancialRatioSnapshot>>(
 /// Ratio snapshot for a specific client ID. Returns null if not found.
 final clientRatioSnapshotProvider =
     Provider.family<FinancialRatioSnapshot?, String>((ref, clientId) {
-  final snapshots = ref.watch(ratioSnapshotsProvider);
-  try {
-    return snapshots.firstWhere((s) => s.clientId == clientId);
-  } on StateError {
-    return null;
-  }
-});
+      final snapshots = ref.watch(ratioSnapshotsProvider);
+      try {
+        return snapshots.firstWhere((s) => s.clientId == clientId);
+      } on StateError {
+        return null;
+      }
+    });
 
 // ---------------------------------------------------------------------------
 // Filter notifiers
@@ -594,8 +594,8 @@ final clientRatioSnapshotProvider =
 /// Filter by client status.
 final accountStatusFilterProvider =
     NotifierProvider<_StatusFilterNotifier, AccountClientStatus?>(
-  _StatusFilterNotifier.new,
-);
+      _StatusFilterNotifier.new,
+    );
 
 class _StatusFilterNotifier extends Notifier<AccountClientStatus?> {
   @override
@@ -607,8 +607,8 @@ class _StatusFilterNotifier extends Notifier<AccountClientStatus?> {
 /// Filter by business type.
 final businessTypeFilterProvider =
     NotifierProvider<_BusinessTypeFilterNotifier, BusinessType?>(
-  _BusinessTypeFilterNotifier.new,
-);
+      _BusinessTypeFilterNotifier.new,
+    );
 
 class _BusinessTypeFilterNotifier extends Notifier<BusinessType?> {
   @override
@@ -619,9 +619,7 @@ class _BusinessTypeFilterNotifier extends Notifier<BusinessType?> {
 
 /// Filter by financial year (for statements).
 final statementYearFilterProvider =
-    NotifierProvider<_YearFilterNotifier, String?>(
-  _YearFilterNotifier.new,
-);
+    NotifierProvider<_YearFilterNotifier, String?>(_YearFilterNotifier.new);
 
 class _YearFilterNotifier extends Notifier<String?> {
   @override
@@ -661,13 +659,16 @@ final accountsSummaryProvider = Provider<AccountsSummary>((ref) {
   final clients = ref.watch(accountClientsProvider);
   final statements = ref.watch(financialStatementsProvider);
 
-  final finalized =
-      clients.where((c) => c.status == AccountClientStatus.finalized).length;
-  final drafts =
-      clients.where((c) => c.status == AccountClientStatus.draft).length;
+  final finalized = clients
+      .where((c) => c.status == AccountClientStatus.finalized)
+      .length;
+  final drafts = clients
+      .where((c) => c.status == AccountClientStatus.draft)
+      .length;
   final totalAssets = clients.fold<double>(0, (sum, c) => sum + c.totalAssets);
-  final pendingApproval =
-      statements.where((s) => s.status == StatementStatus.prepared).length;
+  final pendingApproval = statements
+      .where((s) => s.status == StatementStatus.prepared)
+      .length;
 
   return AccountsSummary(
     finalized: finalized,

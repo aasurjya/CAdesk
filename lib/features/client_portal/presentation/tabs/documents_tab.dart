@@ -17,12 +17,7 @@ class DocumentsTab extends ConsumerWidget {
     SignatureStatus.rejected,
   ];
 
-  static const _filterLabels = <String>[
-    'All',
-    'Pending',
-    'Signed',
-    'Rejected',
-  ];
+  static const _filterLabels = <String>['All', 'Pending', 'Signed', 'Rejected'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,8 +36,7 @@ class DocumentsTab extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             itemCount: _filters.length,
-            separatorBuilder: (context, index) =>
-                const SizedBox(width: 8),
+            separatorBuilder: (context, index) => const SizedBox(width: 8),
             itemBuilder: (context, index) {
               final filter = _filters[index];
               final isSelected = activeFilter == filter;
@@ -51,7 +45,9 @@ class DocumentsTab extends ConsumerWidget {
                   _filterLabels[index],
                   style: TextStyle(
                     fontSize: 12,
-                    color: isSelected ? AppColors.surface : AppColors.neutral600,
+                    color: isSelected
+                        ? AppColors.surface
+                        : AppColors.neutral600,
                   ),
                 ),
                 selected: isSelected,
@@ -77,10 +73,8 @@ class DocumentsTab extends ConsumerWidget {
                   itemCount: documents.length,
                   itemBuilder: (context, index) => SharedDocumentTile(
                     document: documents[index],
-                    onTap: () => _showDocumentDetails(
-                      context,
-                      documents[index],
-                    ),
+                    onTap: () =>
+                        _showDocumentDetails(context, documents[index]),
                   ),
                 ),
         ),
@@ -187,9 +181,9 @@ class _EmptyDocuments extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             'No documents found',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.neutral600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.neutral600),
           ),
         ],
       ),
@@ -253,9 +247,7 @@ class _DocumentDetailSheet extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Icons.download),
               label: const Text('Download Document'),
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.primary,
-              ),
+              style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
             ),
           ),
           if (document.isSignatureRequired &&
@@ -300,17 +292,17 @@ class _DetailRow extends StatelessWidget {
             width: 100,
             child: Text(
               label,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral400,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
         ],

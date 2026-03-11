@@ -162,8 +162,9 @@ class MaterialEventTile extends StatelessWidget {
                     'Deadline: ${dateFormat.format(event.disclosureDeadline)}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: isOverdue ? AppColors.error : AppColors.neutral400,
-                      fontWeight:
-                          isOverdue ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isOverdue
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
                 ],
@@ -243,10 +244,10 @@ class _UrgencyIndicator extends StatelessWidget {
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 11,
-                ),
+              color: color,
+              fontWeight: FontWeight.w700,
+              fontSize: 11,
+            ),
           ),
         ],
       ),
@@ -276,9 +277,9 @@ class _EventTypeBadge extends StatelessWidget {
           Text(
             eventType.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: eventType.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: eventType.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

@@ -82,7 +82,11 @@ class _TrendBadge extends StatelessWidget {
         const SizedBox(width: 2),
         Text(
           '${isUp ? '+' : ''}$trend',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: color),
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
         ),
       ],
     );

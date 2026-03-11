@@ -207,8 +207,9 @@ class _EditClientSheetState extends ConsumerState<EditClientSheet> {
                           if (value == null || value.trim().isEmpty) {
                             return null;
                           }
-                          final emailRegex =
-                              RegExp(r'^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$');
+                          final emailRegex = RegExp(
+                            r'^[\w.+-]+@[\w-]+\.[a-zA-Z]{2,}$',
+                          );
                           if (!emailRegex.hasMatch(value.trim())) {
                             return 'Enter a valid email address';
                           }
@@ -330,18 +331,15 @@ class _SectionLabel extends StatelessWidget {
     return Text(
       label,
       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: AppColors.primary,
-            fontWeight: FontWeight.w700,
-          ),
+        color: AppColors.primary,
+        fontWeight: FontWeight.w700,
+      ),
     );
   }
 }
 
 class _StatusChoiceChips extends StatelessWidget {
-  const _StatusChoiceChips({
-    required this.selected,
-    required this.onChanged,
-  });
+  const _StatusChoiceChips({required this.selected, required this.onChanged});
 
   final ClientStatus selected;
   final ValueChanged<ClientStatus> onChanged;

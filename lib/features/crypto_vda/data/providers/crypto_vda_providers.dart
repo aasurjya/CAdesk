@@ -30,8 +30,7 @@ final vdaSummariesProvider = Provider<List<VdaSummary>>((ref) {
 });
 
 /// Computed Schedule VDA summary for a given [clientId].
-final vdaScheduleSummaryProvider =
-    Provider.family<VdaScheduleSummary, String>((
+final vdaScheduleSummaryProvider = Provider.family<VdaScheduleSummary, String>((
   Ref ref,
   String clientId,
 ) {
@@ -49,8 +48,8 @@ final vdaScheduleSummaryProvider =
 /// Selected client filter. Null means all clients.
 final selectedVdaClientProvider =
     NotifierProvider<SelectedVdaClientNotifier, String?>(
-  SelectedVdaClientNotifier.new,
-);
+      SelectedVdaClientNotifier.new,
+    );
 
 class SelectedVdaClientNotifier extends Notifier<String?> {
   @override
@@ -62,8 +61,8 @@ class SelectedVdaClientNotifier extends Notifier<String?> {
 /// Selected asset type filter. Null means all types.
 final selectedAssetTypeProvider =
     NotifierProvider<SelectedAssetTypeNotifier, VdaAssetType?>(
-  SelectedAssetTypeNotifier.new,
-);
+      SelectedAssetTypeNotifier.new,
+    );
 
 class SelectedAssetTypeNotifier extends Notifier<VdaAssetType?> {
   @override
@@ -75,8 +74,8 @@ class SelectedAssetTypeNotifier extends Notifier<VdaAssetType?> {
 /// Selected transaction type filter. Null means all types.
 final selectedTransactionTypeProvider =
     NotifierProvider<SelectedTransactionTypeNotifier, VdaTransactionType?>(
-  SelectedTransactionTypeNotifier.new,
-);
+      SelectedTransactionTypeNotifier.new,
+    );
 
 class SelectedTransactionTypeNotifier extends Notifier<VdaTransactionType?> {
   @override
@@ -86,8 +85,9 @@ class SelectedTransactionTypeNotifier extends Notifier<VdaTransactionType?> {
 }
 
 /// Currently selected tab index on the crypto VDA screen.
-final selectedVdaTabProvider =
-    NotifierProvider<SelectedVdaTabNotifier, int>(SelectedVdaTabNotifier.new);
+final selectedVdaTabProvider = NotifierProvider<SelectedVdaTabNotifier, int>(
+  SelectedVdaTabNotifier.new,
+);
 
 class SelectedVdaTabNotifier extends Notifier<int> {
   @override
@@ -105,8 +105,9 @@ final filteredVdaTransactionsProvider = Provider<List<VdaTransaction>>((ref) {
   final List<VdaTransaction> all = ref.watch(vdaTransactionsProvider);
   final String? client = ref.watch(selectedVdaClientProvider);
   final VdaAssetType? assetType = ref.watch(selectedAssetTypeProvider);
-  final VdaTransactionType? txnType =
-      ref.watch(selectedTransactionTypeProvider);
+  final VdaTransactionType? txnType = ref.watch(
+    selectedTransactionTypeProvider,
+  );
 
   return List.unmodifiable(
     all.where((VdaTransaction t) {
@@ -119,8 +120,9 @@ final filteredVdaTransactionsProvider = Provider<List<VdaTransaction>>((ref) {
 });
 
 /// Unique client names for the filter dropdown.
-final vdaClientNamesProvider =
-    Provider<List<({String id, String name})>>((ref) {
+final vdaClientNamesProvider = Provider<List<({String id, String name})>>((
+  ref,
+) {
   final List<VdaTransaction> all = ref.watch(vdaTransactionsProvider);
   final Set<String> seen = <String>{};
   final List<({String id, String name})> result =

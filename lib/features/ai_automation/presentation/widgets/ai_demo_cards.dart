@@ -55,31 +55,39 @@ class _StepRow extends StatelessWidget {
             width: 20,
             height: 20,
             child: isDone
-                ? const Icon(Icons.check_circle_rounded,
-                    size: 18, color: AppColors.success)
+                ? const Icon(
+                    Icons.check_circle_rounded,
+                    size: 18,
+                    color: AppColors.success,
+                  )
                 : isActive
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: AppColors.primary,
-                        ),
-                      )
-                    : const Icon(Icons.radio_button_unchecked_rounded,
-                        size: 18, color: AppColors.neutral300),
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primary,
+                    ),
+                  )
+                : const Icon(
+                    Icons.radio_button_unchecked_rounded,
+                    size: 18,
+                    color: AppColors.neutral300,
+                  ),
           ),
           const SizedBox(width: 10),
           Text(
             label,
             style: TextStyle(
               fontSize: 13,
-              fontWeight: isActive || isDone ? FontWeight.w600 : FontWeight.normal,
+              fontWeight: isActive || isDone
+                  ? FontWeight.w600
+                  : FontWeight.normal,
               color: isDone
                   ? AppColors.success
                   : isActive
-                      ? AppColors.neutral900
-                      : AppColors.neutral400,
+                  ? AppColors.neutral900
+                  : AppColors.neutral400,
             ),
           ),
         ],
@@ -113,38 +121,46 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
     final notifier = ref.read(scanSimProvider.notifier);
     notifier.start();
 
-    _timers.add(Timer(const Duration(milliseconds: 1200), () {
-      notifier.advance(ScanSimStep.detecting);
-    }));
-    _timers.add(Timer(const Duration(milliseconds: 2200), () {
-      notifier.advance(ScanSimStep.extracting);
-    }));
+    _timers.add(
+      Timer(const Duration(milliseconds: 1200), () {
+        notifier.advance(ScanSimStep.detecting);
+      }),
+    );
+    _timers.add(
+      Timer(const Duration(milliseconds: 2200), () {
+        notifier.advance(ScanSimStep.extracting);
+      }),
+    );
     for (int i = 0; i < _mockFields.length; i++) {
-      _timers.add(Timer(Duration(milliseconds: 2700 + i * 420), () {
-        notifier.showFields(i + 1);
-      }));
-    }
-    _timers.add(Timer(Duration(milliseconds: 2700 + _mockFields.length * 420 + 200), () {
-      notifier.advance(ScanSimStep.validating);
-    }));
-    _timers.add(Timer(Duration(milliseconds: 2700 + _mockFields.length * 420 + 1000), () {
-      notifier.complete(0.974);
-      // Push new scan into the list
-      final scans = ref.read(allScanResultsProvider);
-      final newScan = AiScanResult(
-        id: 'scan-demo-${DateTime.now().millisecondsSinceEpoch}',
-        documentName: 'Arjun_Kapoor_Form16_2026.pdf',
-        documentType: DocumentType.form16,
-        extractedData: {
-          for (final e in _mockFields) e.key: e.value,
-        },
-        confidence: 0.974,
-        scannedAt: DateTime.now(),
-        status: ScanStatus.completed,
-        clientName: 'Arjun Kapoor',
+      _timers.add(
+        Timer(Duration(milliseconds: 2700 + i * 420), () {
+          notifier.showFields(i + 1);
+        }),
       );
-      ref.read(allScanResultsProvider.notifier).update([newScan, ...scans]);
-    }));
+    }
+    _timers.add(
+      Timer(Duration(milliseconds: 2700 + _mockFields.length * 420 + 200), () {
+        notifier.advance(ScanSimStep.validating);
+      }),
+    );
+    _timers.add(
+      Timer(Duration(milliseconds: 2700 + _mockFields.length * 420 + 1000), () {
+        notifier.complete(0.974);
+        // Push new scan into the list
+        final scans = ref.read(allScanResultsProvider);
+        final newScan = AiScanResult(
+          id: 'scan-demo-${DateTime.now().millisecondsSinceEpoch}',
+          documentName: 'Arjun_Kapoor_Form16_2026.pdf',
+          documentType: DocumentType.form16,
+          extractedData: {for (final e in _mockFields) e.key: e.value},
+          confidence: 0.974,
+          scannedAt: DateTime.now(),
+          status: ScanStatus.completed,
+          clientName: 'Arjun Kapoor',
+        );
+        ref.read(allScanResultsProvider.notifier).update([newScan, ...scans]);
+      }),
+    );
   }
 
   @override
@@ -173,8 +189,11 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
                   color: AppColors.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.smart_toy_rounded,
-                    size: 20, color: AppColors.primary),
+                child: const Icon(
+                  Icons.smart_toy_rounded,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -200,7 +219,9 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
               if (sim.isDone)
                 TextButton(
                   onPressed: () {
-                    for (final t in _timers) { t.cancel(); }
+                    for (final t in _timers) {
+                      t.cancel();
+                    }
                     _timers.clear();
                     ref.read(scanSimProvider.notifier).reset();
                   },
@@ -220,7 +241,8 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
@@ -257,7 +279,11 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
                 ),
                 child: Column(
                   children: [
-                    for (int i = 0; i < sim.visibleFieldCount && i < _mockFields.length; i++)
+                    for (
+                      int i = 0;
+                      i < sim.visibleFieldCount && i < _mockFields.length;
+                      i++
+                    )
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 3),
                         child: Row(
@@ -283,7 +309,9 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
                             ),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 6, vertical: 2),
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.success.withAlpha(20),
                                 borderRadius: BorderRadius.circular(6),
@@ -315,16 +343,21 @@ class _AiScanDemoCardState extends ConsumerState<AiScanDemoCard> {
             if (sim.isDone) ...[
               const SizedBox(height: 12),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.success.withAlpha(18),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.verified_rounded,
-                        color: AppColors.success, size: 20),
+                    const Icon(
+                      Icons.verified_rounded,
+                      color: AppColors.success,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Extraction complete — ${(sim.confidence * 100).toStringAsFixed(1)}% accuracy',
@@ -408,8 +441,11 @@ class _AiReconDemoCardState extends ConsumerState<AiReconDemoCard> {
                   color: AppColors.secondary.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.account_balance_rounded,
-                    size: 20, color: AppColors.secondary),
+                child: Icon(
+                  Icons.account_balance_rounded,
+                  size: 20,
+                  color: AppColors.secondary,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -454,7 +490,8 @@ class _AiReconDemoCardState extends ConsumerState<AiReconDemoCard> {
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.secondary,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
@@ -529,8 +566,11 @@ class _AiReconDemoCardState extends ConsumerState<AiReconDemoCard> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.savings_rounded,
-                        color: AppColors.success, size: 20),
+                    const Icon(
+                      Icons.savings_rounded,
+                      color: AppColors.success,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -612,16 +652,21 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
     // Scan counter: 0 → 2847 over ~2.5 seconds, step ~142 every 125ms
     const scanStep = 142;
     int tick = 0;
-    _timers.add(Timer.periodic(const Duration(milliseconds: 125), (t) {
-      if (!mounted) { t.cancel(); return; }
-      tick++;
-      final next = (tick * scanStep).clamp(0, 2847);
-      ref.read(anomalySimProvider.notifier).setScanned(next);
-      if (next >= 2847) {
-        t.cancel();
-        _startTypewriting();
-      }
-    }));
+    _timers.add(
+      Timer.periodic(const Duration(milliseconds: 125), (t) {
+        if (!mounted) {
+          t.cancel();
+          return;
+        }
+        tick++;
+        final next = (tick * scanStep).clamp(0, 2847);
+        ref.read(anomalySimProvider.notifier).setScanned(next);
+        if (next >= 2847) {
+          t.cancel();
+          _startTypewriting();
+        }
+      }),
+    );
   }
 
   void _startTypewriting() {
@@ -630,19 +675,24 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
 
     final full = ref.read(anomalySimProvider).description;
     int chars = 0;
-    _timers.add(Timer.periodic(const Duration(milliseconds: 22), (t) {
-      if (!mounted) { t.cancel(); return; }
-      chars = (chars + 2).clamp(0, full.length);
-      notifier.typeChar(chars);
-      if (chars >= full.length) {
-        t.cancel();
-        Future.delayed(const Duration(milliseconds: 600), () {
-          if (!mounted) return;
-          notifier.complete();
-          _addAnomalyToList();
-        });
-      }
-    }));
+    _timers.add(
+      Timer.periodic(const Duration(milliseconds: 22), (t) {
+        if (!mounted) {
+          t.cancel();
+          return;
+        }
+        chars = (chars + 2).clamp(0, full.length);
+        notifier.typeChar(chars);
+        if (chars >= full.length) {
+          t.cancel();
+          Future.delayed(const Duration(milliseconds: 600), () {
+            if (!mounted) return;
+            notifier.complete();
+            _addAnomalyToList();
+          });
+        }
+      }),
+    );
   }
 
   void _addAnomalyToList() {
@@ -667,7 +717,9 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
 
   @override
   void dispose() {
-    for (final t in _timers) { t.cancel(); }
+    for (final t in _timers) {
+      t.cancel();
+    }
     super.dispose();
   }
 
@@ -689,8 +741,11 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
                   color: AppColors.accent.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(Icons.warning_amber_rounded,
-                    size: 20, color: AppColors.accent),
+                child: Icon(
+                  Icons.warning_amber_rounded,
+                  size: 20,
+                  color: AppColors.accent,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -716,7 +771,9 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
               if (sim.isDone)
                 TextButton(
                   onPressed: () {
-                    for (final t in _timers) { t.cancel(); }
+                    for (final t in _timers) {
+                      t.cancel();
+                    }
                     _timers.clear();
                     ref.read(anomalySimProvider.notifier).reset();
                   },
@@ -736,7 +793,8 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.accent,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
             ),
@@ -783,15 +841,19 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
                 color: const Color(0xFFC62828).withAlpha(12),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                    color: const Color(0xFFC62828).withAlpha(60)),
+                  color: const Color(0xFFC62828).withAlpha(60),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      const Icon(Icons.bolt_rounded,
-                          color: Color(0xFFC62828), size: 18),
+                      const Icon(
+                        Icons.bolt_rounded,
+                        color: Color(0xFFC62828),
+                        size: 18,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         'CRITICAL anomaly detected!',

@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 
-enum RoadmapItemStatus {
-  onTrack,
-  planned,
-  atRisk,
-  blocked,
-  completed,
-}
+enum RoadmapItemStatus { onTrack, planned, atRisk, blocked, completed }
 
-enum RoadmapMetricTrend {
-  up,
-  steady,
-  down,
-}
+enum RoadmapMetricTrend { up, steady, down }
 
 class RoadmapWorkItem {
   const RoadmapWorkItem({

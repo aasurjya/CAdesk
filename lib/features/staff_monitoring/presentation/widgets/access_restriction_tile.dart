@@ -33,10 +33,8 @@ class AccessRestrictionTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final icon =
-        _typeIcons[restriction.restrictionType] ?? Icons.block;
-    final color =
-        _typeColors[restriction.restrictionType] ?? AppColors.primary;
+    final icon = _typeIcons[restriction.restrictionType] ?? Icons.block;
+    final color = _typeColors[restriction.restrictionType] ?? AppColors.primary;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

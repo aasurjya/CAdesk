@@ -249,8 +249,8 @@ class SelectedStatusNotifier extends Notifier<String?> {
 /// Provider for the currently selected invoice status filter.
 final selectedInvoiceStatusProvider =
     NotifierProvider<SelectedStatusNotifier, String?>(
-  SelectedStatusNotifier.new,
-);
+      SelectedStatusNotifier.new,
+    );
 
 /// Returns [allEinvoiceRecordsProvider] filtered by [selectedInvoiceStatusProvider].
 final filteredEinvoiceRecordsProvider = Provider<List<EinvoiceRecord>>((ref) {

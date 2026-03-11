@@ -45,8 +45,9 @@ class StaffMember {
   final bool isActive;
 
   /// CPE completion ratio (0.0 to 1.0).
-  double get cpeProgress =>
-      cpeHoursRequired > 0 ? (cpeHoursCompleted / cpeHoursRequired).clamp(0.0, 1.0) : 0.0;
+  double get cpeProgress => cpeHoursRequired > 0
+      ? (cpeHoursCompleted / cpeHoursRequired).clamp(0.0, 1.0)
+      : 0.0;
 
   /// Returns a new [StaffMember] with the given fields replaced.
   StaffMember copyWith({
@@ -98,18 +99,18 @@ class StaffMember {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        name,
-        email,
-        phone,
-        designation,
-        department,
-        joiningDate,
-        billableTarget,
-        cpeHoursRequired,
-        cpeHoursCompleted,
-        isActive,
-      );
+    id,
+    name,
+    email,
+    phone,
+    designation,
+    department,
+    joiningDate,
+    billableTarget,
+    cpeHoursRequired,
+    cpeHoursCompleted,
+    isActive,
+  );
 
   @override
   String toString() =>

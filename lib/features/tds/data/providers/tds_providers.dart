@@ -671,7 +671,8 @@ final tdsReturnsProvider = Provider<List<TdsReturn>>((ref) {
 /// Currently selected financial year.
 final selectedFinancialYearProvider =
     NotifierProvider<SelectedFinancialYearNotifier, String>(
-        SelectedFinancialYearNotifier.new);
+      SelectedFinancialYearNotifier.new,
+    );
 
 class SelectedFinancialYearNotifier extends Notifier<String> {
   @override
@@ -688,7 +689,8 @@ final financialYearsProvider = Provider<List<String>>((ref) {
 /// Currently selected quarter filter. Null means all quarters.
 final selectedQuarterProvider =
     NotifierProvider<SelectedQuarterNotifier, TdsQuarter?>(
-        SelectedQuarterNotifier.new);
+      SelectedQuarterNotifier.new,
+    );
 
 class SelectedQuarterNotifier extends Notifier<TdsQuarter?> {
   @override
@@ -698,9 +700,9 @@ class SelectedQuarterNotifier extends Notifier<TdsQuarter?> {
 }
 
 /// Currently selected form type tab index.
-final selectedFormTabProvider =
-    NotifierProvider<SelectedFormTabNotifier, int>(
-        SelectedFormTabNotifier.new);
+final selectedFormTabProvider = NotifierProvider<SelectedFormTabNotifier, int>(
+  SelectedFormTabNotifier.new,
+);
 
 class SelectedFormTabNotifier extends Notifier<int> {
   @override
@@ -744,13 +746,17 @@ final filteredReturnsProvider = Provider<List<TdsReturn>>((ref) {
 });
 
 /// Returns for a specific deductor filtered by FY.
-final returnsForDeductorProvider =
-    Provider.family<List<TdsReturn>, String>((ref, deductorId) {
+final returnsForDeductorProvider = Provider.family<List<TdsReturn>, String>((
+  ref,
+  deductorId,
+) {
   final allReturns = ref.watch(tdsReturnsProvider);
   final fy = ref.watch(selectedFinancialYearProvider);
 
   return List.unmodifiable(
-    allReturns.where((r) => r.deductorId == deductorId && r.financialYear == fy),
+    allReturns.where(
+      (r) => r.deductorId == deductorId && r.financialYear == fy,
+    ),
   );
 });
 
@@ -760,9 +766,7 @@ final deductorsForCurrentTabProvider = Provider<List<TdsDeductor>>((ref) {
   final deductors = ref.watch(tdsDeductorsProvider);
 
   final deductorIds = returns.map((r) => r.deductorId).toSet();
-  return List.unmodifiable(
-    deductors.where((d) => deductorIds.contains(d.id)),
-  );
+  return List.unmodifiable(deductors.where((d) => deductorIds.contains(d.id)));
 });
 
 /// Summary statistics for the dashboard cards.
@@ -773,14 +777,18 @@ final tdsSummaryProvider = Provider<TdsSummary>((ref) {
 
   final fyReturns = allReturns.where((r) => r.financialYear == fy).toList();
 
-  final filed =
-      fyReturns.where((r) => r.status == TdsReturnStatus.filed).length;
-  final pending =
-      fyReturns.where((r) => r.status == TdsReturnStatus.pending).length;
+  final filed = fyReturns
+      .where((r) => r.status == TdsReturnStatus.filed)
+      .length;
+  final pending = fyReturns
+      .where((r) => r.status == TdsReturnStatus.pending)
+      .length;
   final overdue = fyReturns
-      .where((r) =>
-          r.status == TdsReturnStatus.pending &&
-          r.totalTaxDeducted > r.totalDeposited)
+      .where(
+        (r) =>
+            r.status == TdsReturnStatus.pending &&
+            r.totalTaxDeducted > r.totalDeposited,
+      )
       .length;
 
   return TdsSummary(
@@ -821,8 +829,10 @@ final allSectionSummariesProvider = Provider<List<TdsSectionSummary>>((ref) {
 });
 
 /// Challans for a specific deductor.
-final challanForDeductorProvider =
-    Provider.family<List<TdsChallan>, String>((ref, deductorId) {
+final challanForDeductorProvider = Provider.family<List<TdsChallan>, String>((
+  ref,
+  deductorId,
+) {
   return ref
       .watch(allChallanProvider)
       .where((c) => c.deductorId == deductorId)

@@ -2,8 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/features/settings/domain/models/app_settings.dart';
 
-final settingsProvider =
-    NotifierProvider<SettingsNotifier, AppSettings>(SettingsNotifier.new);
+final settingsProvider = NotifierProvider<SettingsNotifier, AppSettings>(
+  SettingsNotifier.new,
+);
 
 class SettingsNotifier extends Notifier<AppSettings> {
   @override
@@ -32,8 +33,7 @@ class SettingsNotifier extends Notifier<AppSettings> {
   }
 
   void toggleWhatsappNotifications() {
-    state =
-        state.copyWith(whatsappNotifications: !state.whatsappNotifications);
+    state = state.copyWith(whatsappNotifications: !state.whatsappNotifications);
   }
 
   void toggleBiometric() {

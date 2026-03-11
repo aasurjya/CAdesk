@@ -84,16 +84,15 @@ class LlpFilingRecord {
 
   double get form11Penalty =>
       LlpPenaltyCalculator.form11LateFee(form11DaysLate);
-  double get form8Penalty =>
-      LlpPenaltyCalculator.form8LateFee(form8DaysLate);
+  double get form8Penalty => LlpPenaltyCalculator.form8LateFee(form8DaysLate);
   double get totalPenalty => form11Penalty + form8Penalty;
   bool get requiresAudit => LlpPenaltyCalculator.requiresAudit(
-        turnoverLakhs: turnoverLakhs,
-        contributionLakhs: contributionLakhs,
-      );
+    turnoverLakhs: turnoverLakhs,
+    contributionLakhs: contributionLakhs,
+  );
   bool get hasStrikeOffRisk => LlpPenaltyCalculator.hasStrikeOffRisk(
-        yearsSinceLastFiling: yearsSinceLastFiling,
-      );
+    yearsSinceLastFiling: yearsSinceLastFiling,
+  );
 
   LlpFilingRecord copyWith({
     String? id,

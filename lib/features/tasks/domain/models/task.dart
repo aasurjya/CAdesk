@@ -55,9 +55,7 @@ class Task {
     if (parts.length >= 2) {
       return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
     }
-    return parts[0]
-        .substring(0, parts[0].length >= 2 ? 2 : 1)
-        .toUpperCase();
+    return parts[0].substring(0, parts[0].length >= 2 ? 2 : 1).toUpperCase();
   }
 
   /// True when the task is past due and not yet completed.

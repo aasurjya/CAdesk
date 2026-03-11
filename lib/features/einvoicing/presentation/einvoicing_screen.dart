@@ -71,15 +71,16 @@ class _EinvoicingScreenState extends ConsumerState<EinvoicingScreen>
     final batches = ref.watch(allIrnBatchesProvider);
     final selectedStatus = ref.watch(selectedInvoiceStatusProvider);
 
-    final overdueRecords =
-        allRecords.where((r) => r.daysRemaining < 0).toList();
+    final overdueRecords = allRecords
+        .where((r) => r.daysRemaining < 0)
+        .toList();
     final overdueCount = overdueRecords.length;
     final penaltyExposure = overdueCount * _penaltyPerInvoice;
 
-    final generatedCount =
-        allRecords.where((r) => r.status == 'Generated').length;
-    final pendingCount =
-        allRecords.where((r) => r.status == 'Pending').length;
+    final generatedCount = allRecords
+        .where((r) => r.status == 'Generated')
+        .length;
+    final pendingCount = allRecords.where((r) => r.status == 'Pending').length;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -130,9 +131,7 @@ class _EinvoicingScreenState extends ConsumerState<EinvoicingScreen>
             pendingCount: pendingCount,
             selectedStatus: selectedStatus,
             onStatusSelected: (status) {
-              ref
-                  .read(selectedInvoiceStatusProvider.notifier)
-                  .select(status);
+              ref.read(selectedInvoiceStatusProvider.notifier).select(status);
             },
           ),
           _BatchesTab(batches: batches),
@@ -346,7 +345,11 @@ class _SummaryRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          _SummaryItem(label: 'Total', value: '$total', color: AppColors.primary),
+          _SummaryItem(
+            label: 'Total',
+            value: '$total',
+            color: AppColors.primary,
+          ),
           const SizedBox(width: 8),
           _SummaryItem(
             label: 'Generated',
@@ -360,7 +363,11 @@ class _SummaryRow extends StatelessWidget {
             color: AppColors.warning,
           ),
           const SizedBox(width: 8),
-          _SummaryItem(label: 'Overdue', value: '$overdue', color: AppColors.error),
+          _SummaryItem(
+            label: 'Overdue',
+            value: '$overdue',
+            color: AppColors.error,
+          ),
         ],
       ),
     );
@@ -401,10 +408,7 @@ class _SummaryItem extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.neutral600,
-              ),
+              style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
             ),
           ],
         ),
@@ -449,9 +453,7 @@ class _FilterChipRow extends StatelessWidget {
                 color: isSelected ? AppColors.primary : AppColors.surface,
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
-                  color: isSelected
-                      ? AppColors.primary
-                      : AppColors.neutral300,
+                  color: isSelected ? AppColors.primary : AppColors.neutral300,
                 ),
               ),
               child: Text(
@@ -459,8 +461,7 @@ class _FilterChipRow extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color:
-                      isSelected ? AppColors.surface : AppColors.neutral600,
+                  color: isSelected ? AppColors.surface : AppColors.neutral600,
                 ),
               ),
             ),

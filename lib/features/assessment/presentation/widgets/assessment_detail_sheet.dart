@@ -11,10 +11,7 @@ import '../../domain/models/assessment_order.dart';
 /// Includes demand vs refund reconciliation and live interest
 /// computation via [InterestCalculator234].
 class AssessmentDetailSheet extends StatelessWidget {
-  const AssessmentDetailSheet({
-    super.key,
-    required this.order,
-  });
+  const AssessmentDetailSheet({super.key, required this.order});
 
   final AssessmentOrder order;
 
@@ -105,11 +102,7 @@ class _SheetContent extends StatelessWidget {
               controller: scrollController,
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
               children: [
-                _Header(
-                  order: order,
-                  dateFormat: dateFormat,
-                  theme: theme,
-                ),
+                _Header(order: order, dateFormat: dateFormat, theme: theme),
                 const SizedBox(height: 16),
                 _DemandRefundCard(
                   demandAmount: order.demandAmount,
@@ -259,10 +252,10 @@ class _DemandRefundCard extends StatelessWidget {
     final theme = Theme.of(context);
     final color = hasDemand ? AppColors.error : AppColors.success;
     final label = hasDemand ? 'Demand Outstanding' : 'Refund Due';
-    final icon =
-        hasDemand ? Icons.warning_amber_rounded : Icons.savings_rounded;
-    final amount =
-        hasDemand ? demandAmount : interest.refund;
+    final icon = hasDemand
+        ? Icons.warning_amber_rounded
+        : Icons.savings_rounded;
+    final amount = hasDemand ? demandAmount : interest.refund;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -309,10 +302,7 @@ class _DemandRefundCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _TaxComputationCard extends StatelessWidget {
-  const _TaxComputationCard({
-    required this.order,
-    required this.interest,
-  });
+  const _TaxComputationCard({required this.order, required this.interest});
 
   final AssessmentOrder order;
   final AssessmentInterestSummary interest;
@@ -367,8 +357,9 @@ class _TaxComputationCard extends StatelessWidget {
         _ComputationRow(
           label: 'Net tax before interest',
           value: CurrencyUtils.formatINR(netBeforeInterest),
-          valueColor:
-              netBeforeInterest > 0 ? AppColors.error : AppColors.success,
+          valueColor: netBeforeInterest > 0
+              ? AppColors.error
+              : AppColors.success,
           bold: true,
         ),
         _ComputationRow(
@@ -510,10 +501,7 @@ class _ActionButton extends StatelessWidget {
       style: OutlinedButton.styleFrom(
         foregroundColor: color,
         side: BorderSide(color: color.withValues(alpha: 0.5)),
-        textStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
     );
@@ -563,16 +551,10 @@ class _SectionCard extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(
-            height: 1,
-            thickness: 1,
-            color: AppColors.neutral200,
-          ),
+          const Divider(height: 1, thickness: 1, color: AppColors.neutral200),
           Padding(
             padding: const EdgeInsets.fromLTRB(14, 8, 14, 12),
-            child: Column(
-              children: children,
-            ),
+            child: Column(children: children),
           ),
         ],
       ),
@@ -615,10 +597,7 @@ class _ComputationRow extends StatelessWidget {
               ),
             ),
           ),
-          if (trailing != null) ...[
-            trailing!,
-            const SizedBox(width: 6),
-          ],
+          if (trailing != null) ...[trailing!, const SizedBox(width: 6)],
           Text(
             value,
             style: TextStyle(

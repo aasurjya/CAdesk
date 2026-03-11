@@ -28,16 +28,14 @@ class DepreciationScheduleWidget extends StatelessWidget {
       return _buildEmpty(context);
     }
 
-    final totalOpeningWdv =
-        entries.fold<double>(0, (s, e) => s + e.openingWDV);
-    final totalAdditions =
-        entries.fold<double>(0, (s, e) => s + e.additions);
-    final totalDisposals =
-        entries.fold<double>(0, (s, e) => s + e.disposals);
-    final totalDepreciation =
-        entries.fold<double>(0, (s, e) => s + e.depreciation);
-    final totalClosingWdv =
-        entries.fold<double>(0, (s, e) => s + e.closingWDV);
+    final totalOpeningWdv = entries.fold<double>(0, (s, e) => s + e.openingWDV);
+    final totalAdditions = entries.fold<double>(0, (s, e) => s + e.additions);
+    final totalDisposals = entries.fold<double>(0, (s, e) => s + e.disposals);
+    final totalDepreciation = entries.fold<double>(
+      0,
+      (s, e) => s + e.depreciation,
+    );
+    final totalClosingWdv = entries.fold<double>(0, (s, e) => s + e.closingWDV);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +78,8 @@ class DepreciationScheduleWidget extends StatelessWidget {
 
               // Data rows
               ...entries.map(
-                (e) => _TableDataRow(entry: e, isEven: entries.indexOf(e).isEven),
+                (e) =>
+                    _TableDataRow(entry: e, isEven: entries.indexOf(e).isEven),
               ),
 
               const Divider(height: 1, color: AppColors.primary),
@@ -106,9 +105,9 @@ class DepreciationScheduleWidget extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Text(
           'No depreciation entries for this client.',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
         ),
       ),
     );
@@ -131,7 +130,11 @@ class _TableHeaderRow extends StatelessWidget {
       color: AppColors.primary.withValues(alpha: 0.06),
       child: Row(
         children: const [
-          _HeaderCell(label: 'Asset Block', width: _colAsset, align: TextAlign.left),
+          _HeaderCell(
+            label: 'Asset Block',
+            width: _colAsset,
+            align: TextAlign.left,
+          ),
           _HeaderCell(label: 'Opening\nWDV', width: _colAmount),
           _HeaderCell(label: 'Additions', width: _colAmount),
           _HeaderCell(label: 'Disposals', width: _colAmount),
@@ -177,10 +180,7 @@ class _HeaderCell extends StatelessWidget {
 }
 
 class _TableDataRow extends StatelessWidget {
-  const _TableDataRow({
-    required this.entry,
-    required this.isEven,
-  });
+  const _TableDataRow({required this.entry, required this.isEven});
 
   final DepreciationEntry entry;
   final bool isEven;
@@ -209,7 +209,9 @@ class _TableDataRow extends StatelessWidget {
                 ? CurrencyUtils.formatINRCompact(entry.additions)
                 : '—',
             width: _colAmount,
-            color: entry.additions > 0 ? AppColors.success : AppColors.neutral400,
+            color: entry.additions > 0
+                ? AppColors.success
+                : AppColors.neutral400,
           ),
           _DataCell(
             text: entry.disposals > 0

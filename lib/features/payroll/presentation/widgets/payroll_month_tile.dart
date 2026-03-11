@@ -13,11 +13,7 @@ final _inr = NumberFormat.currency(
 /// List tile for a monthly payroll record with status badge, gross vs net,
 /// and deductions summary.
 class PayrollMonthTile extends StatelessWidget {
-  const PayrollMonthTile({
-    super.key,
-    required this.record,
-    this.onTap,
-  });
+  const PayrollMonthTile({super.key, required this.record, this.onTap});
 
   final PayrollMonth record;
   final VoidCallback? onTap;
@@ -209,10 +205,7 @@ class _PayRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(
-              fontSize: 10,
-              color: color.withValues(alpha: 0.8),
-            ),
+            style: TextStyle(fontSize: 10, color: color.withValues(alpha: 0.8)),
           ),
           Text(
             amount,
@@ -281,10 +274,7 @@ class _DeductItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 9,
-            color: AppColors.neutral400,
-          ),
+          style: const TextStyle(fontSize: 9, color: AppColors.neutral400),
         ),
         Text(
           _inr.format(amount),

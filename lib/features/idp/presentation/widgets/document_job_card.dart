@@ -5,11 +5,7 @@ import 'package:ca_app/features/idp/domain/models/document_job.dart';
 
 /// Card widget that displays summary information for a [DocumentJob].
 class DocumentJobCard extends StatelessWidget {
-  const DocumentJobCard({
-    super.key,
-    required this.job,
-    this.onTap,
-  });
+  const DocumentJobCard({super.key, required this.job, this.onTap});
 
   final DocumentJob job;
   final VoidCallback? onTap;
@@ -189,10 +185,7 @@ class _StatsRow extends StatelessWidget {
         ] else ...[
           Text(
             'Waiting to start',
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.neutral400),
           ),
         ],
       ],
@@ -299,8 +292,11 @@ class _FooterRow extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       children: [
-        const Icon(Icons.calendar_today_outlined,
-            size: 12, color: AppColors.neutral400),
+        const Icon(
+          Icons.calendar_today_outlined,
+          size: 12,
+          color: AppColors.neutral400,
+        ),
         const SizedBox(width: 4),
         Text(
           job.submittedDate,
@@ -317,8 +313,11 @@ class _FooterRow extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(Icons.timer_outlined,
-                  size: 11, color: AppColors.neutral600),
+              const Icon(
+                Icons.timer_outlined,
+                size: 11,
+                color: AppColors.neutral600,
+              ),
               const SizedBox(width: 3),
               Text(
                 job.processingTime,

@@ -6,11 +6,7 @@ import 'package:ca_app/features/income_tax/domain/models/itr_client.dart';
 
 /// A list tile displaying a single ITR client entry.
 class ItrClientTile extends StatelessWidget {
-  const ItrClientTile({
-    super.key,
-    required this.client,
-    this.onTap,
-  });
+  const ItrClientTile({super.key, required this.client, this.onTap});
 
   final ItrClient client;
   final VoidCallback? onTap;
@@ -87,8 +83,10 @@ class ItrClientTile extends StatelessWidget {
                 children: [
                   // ITR type chip
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.secondary.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),
@@ -106,8 +104,10 @@ class ItrClientTile extends StatelessWidget {
 
                   // Status badge
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: status.color.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),

@@ -10,12 +10,7 @@ class AppConstants {
 
   // Compliance deadlines (common Indian tax dates)
   static const gstReturnDay = 20; // GSTR-3B due 20th
-  static const tdsReturnQuarters = [
-    'June 30',
-    'Sept 30',
-    'Dec 31',
-    'March 31',
-  ];
+  static const tdsReturnQuarters = ['June 30', 'Sept 30', 'Dec 31', 'March 31'];
   static const itrDueDate = 'July 31';
   static const taxAuditDueDate = 'September 30';
 

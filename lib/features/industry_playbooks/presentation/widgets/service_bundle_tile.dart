@@ -110,7 +110,11 @@ class ServiceBundleTile extends StatelessWidget {
   Widget _buildInclusionsCount() {
     return Row(
       children: [
-        const Icon(Icons.check_circle_outline, size: 14, color: AppColors.success),
+        const Icon(
+          Icons.check_circle_outline,
+          size: 14,
+          color: AppColors.success,
+        ),
         const SizedBox(width: 4),
         Text(
           '${bundle.inclusions.length} services included',

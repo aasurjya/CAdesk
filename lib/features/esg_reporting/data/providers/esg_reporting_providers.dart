@@ -37,9 +37,7 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 84.67,
     status: 'Published',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const [
-      'Third-party assurance certificate upload',
-    ],
+    pendingItems: const ['Third-party assurance certificate upload'],
   ),
   EsgDisclosure(
     id: 'esg-003',
@@ -271,7 +269,8 @@ final allCarbonMetricsProvider = Provider<List<CarbonMetric>>(
 /// Currently selected status filter; `null` means "All".
 final selectedEsgStatusProvider =
     NotifierProvider<SelectedEsgStatusNotifier, String?>(
-        SelectedEsgStatusNotifier.new);
+      SelectedEsgStatusNotifier.new,
+    );
 
 class SelectedEsgStatusNotifier extends Notifier<String?> {
   @override

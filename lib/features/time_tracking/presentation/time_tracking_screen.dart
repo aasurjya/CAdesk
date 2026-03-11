@@ -48,7 +48,10 @@ class TimeTrackingScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Filter chips
-          _SectionHeader(title: "Today's Entries", icon: Icons.list_alt_rounded),
+          _SectionHeader(
+            title: "Today's Entries",
+            icon: Icons.list_alt_rounded,
+          ),
           const SizedBox(height: 8),
           _FilterChips(selected: filter, ref: ref),
           const SizedBox(height: 12),
@@ -115,8 +118,8 @@ class _RealizationCard extends StatelessWidget {
     final utilizationColor = utilizationPct >= 80
         ? AppColors.success
         : utilizationPct >= 60
-            ? AppColors.accent
-            : AppColors.error;
+        ? AppColors.accent
+        : AppColors.error;
 
     return Card(
       clipBehavior: Clip.antiAlias,

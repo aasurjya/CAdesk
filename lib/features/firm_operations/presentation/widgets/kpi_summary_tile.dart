@@ -34,8 +34,10 @@ class KpiSummaryTile extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(12),
@@ -85,7 +87,8 @@ class KpiSummaryTile extends StatelessWidget {
               children: [
                 _StatChip(
                   icon: Icons.timer_outlined,
-                  label: '${kpi.billableHours.toInt()}/${kpi.totalHours.toInt()} hrs',
+                  label:
+                      '${kpi.billableHours.toInt()}/${kpi.totalHours.toInt()} hrs',
                   color: AppColors.secondary,
                 ),
                 const SizedBox(width: 12),
@@ -210,8 +213,8 @@ class _QualityBadge extends StatelessWidget {
     final color = score >= 90
         ? AppColors.success
         : score >= 75
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

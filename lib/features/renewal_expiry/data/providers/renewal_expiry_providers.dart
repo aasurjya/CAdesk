@@ -196,8 +196,7 @@ class AllRenewalItemsNotifier extends Notifier<List<RenewalItem>> {
   @override
   List<RenewalItem> build() => List.unmodifiable(_mockRenewalItems);
 
-  void update(List<RenewalItem> items) =>
-      state = List.unmodifiable(items);
+  void update(List<RenewalItem> items) => state = List.unmodifiable(items);
 }
 
 class AllRetainerContractsNotifier extends Notifier<List<RetainerContract>> {
@@ -222,20 +221,20 @@ class RenewalStatusFilterNotifier extends Notifier<RenewalStatus?> {
 /// All renewal items.
 final allRenewalItemsProvider =
     NotifierProvider<AllRenewalItemsNotifier, List<RenewalItem>>(
-  AllRenewalItemsNotifier.new,
-);
+      AllRenewalItemsNotifier.new,
+    );
 
 /// All retainer contracts.
 final allRetainerContractsProvider =
     NotifierProvider<AllRetainerContractsNotifier, List<RetainerContract>>(
-  AllRetainerContractsNotifier.new,
-);
+      AllRetainerContractsNotifier.new,
+    );
 
 /// Selected renewal status filter; null means show all.
 final renewalStatusFilterProvider =
     NotifierProvider<RenewalStatusFilterNotifier, RenewalStatus?>(
-  RenewalStatusFilterNotifier.new,
-);
+      RenewalStatusFilterNotifier.new,
+    );
 
 /// Renewal items filtered by the selected status.
 final filteredRenewalItemsProvider = Provider<List<RenewalItem>>((ref) {
@@ -249,12 +248,9 @@ final filteredRenewalItemsProvider = Provider<List<RenewalItem>>((ref) {
 final renewalSummaryProvider = Provider<Map<String, int>>((ref) {
   final all = ref.watch(allRenewalItemsProvider);
   final total = all.length;
-  final overdue =
-      all.where((i) => i.status == RenewalStatus.overdue).length;
-  final dueSoon =
-      all.where((i) => i.status == RenewalStatus.dueSoon).length;
-  final upToDate =
-      all.where((i) => i.status == RenewalStatus.upToDate).length;
+  final overdue = all.where((i) => i.status == RenewalStatus.overdue).length;
+  final dueSoon = all.where((i) => i.status == RenewalStatus.dueSoon).length;
+  final upToDate = all.where((i) => i.status == RenewalStatus.upToDate).length;
 
   return {
     'total': total,

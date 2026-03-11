@@ -33,42 +33,54 @@ void main() {
     group('currentFinancialYear', () {
       test('returns correct FY string for date in April-December', () {
         // August 2025 falls in FY 2025-26
-        final result = IndianDateUtils.currentFinancialYear(DateTime(2025, 8, 15));
+        final result = IndianDateUtils.currentFinancialYear(
+          DateTime(2025, 8, 15),
+        );
         expect(result, 'FY 2025-26');
       });
 
       test('returns correct FY string for date in January-March', () {
         // February 2026 falls in FY 2025-26
-        final result =
-            IndianDateUtils.currentFinancialYear(DateTime(2026, 2, 10));
+        final result = IndianDateUtils.currentFinancialYear(
+          DateTime(2026, 2, 10),
+        );
         expect(result, 'FY 2025-26');
       });
 
       test('returns correct FY for April 1 (FY start)', () {
-        final result = IndianDateUtils.currentFinancialYear(DateTime(2025, 4, 1));
+        final result = IndianDateUtils.currentFinancialYear(
+          DateTime(2025, 4, 1),
+        );
         expect(result, 'FY 2025-26');
       });
 
       test('returns correct FY for March 31 (FY end)', () {
-        final result =
-            IndianDateUtils.currentFinancialYear(DateTime(2026, 3, 31));
+        final result = IndianDateUtils.currentFinancialYear(
+          DateTime(2026, 3, 31),
+        );
         expect(result, 'FY 2025-26');
       });
 
       test('returns correct FY for January 1', () {
-        final result = IndianDateUtils.currentFinancialYear(DateTime(2026, 1, 1));
+        final result = IndianDateUtils.currentFinancialYear(
+          DateTime(2026, 1, 1),
+        );
         expect(result, 'FY 2025-26');
       });
     });
 
     group('financialYearStart', () {
       test('returns April 1 of same year for date in April-December', () {
-        final result = IndianDateUtils.financialYearStart(DateTime(2025, 7, 15));
+        final result = IndianDateUtils.financialYearStart(
+          DateTime(2025, 7, 15),
+        );
         expect(result, DateTime(2025, 4, 1));
       });
 
       test('returns April 1 of previous year for date in January-March', () {
-        final result = IndianDateUtils.financialYearStart(DateTime(2026, 2, 10));
+        final result = IndianDateUtils.financialYearStart(
+          DateTime(2026, 2, 10),
+        );
         expect(result, DateTime(2025, 4, 1));
       });
 
@@ -78,7 +90,9 @@ void main() {
       });
 
       test('returns previous year April 1 for March 31', () {
-        final result = IndianDateUtils.financialYearStart(DateTime(2026, 3, 31));
+        final result = IndianDateUtils.financialYearStart(
+          DateTime(2026, 3, 31),
+        );
         expect(result, DateTime(2025, 4, 1));
       });
     });
@@ -166,10 +180,7 @@ void main() {
     group('formatRelativeDate', () {
       test('returns "Today" for today\'s date', () {
         final today = DateTime(2025, 7, 15);
-        expect(
-          IndianDateUtils.formatRelativeDate(today, from: today),
-          'Today',
-        );
+        expect(IndianDateUtils.formatRelativeDate(today, from: today), 'Today');
       });
 
       test('returns "Yesterday" for yesterday\'s date', () {

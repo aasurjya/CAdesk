@@ -83,13 +83,8 @@ class DocumentExpiry {
           status == other.status;
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        clientId,
-        documentType,
-        expiryDate,
-        status,
-      );
+  int get hashCode =>
+      Object.hash(id, clientId, documentType, expiryDate, status);
 
   @override
   String toString() =>

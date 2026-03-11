@@ -46,13 +46,8 @@ class ChecklistItem {
           completedAt == other.completedAt;
 
   @override
-  int get hashCode => Object.hash(
-        name,
-        isRequired,
-        isCompleted,
-        documentUrl,
-        completedAt,
-      );
+  int get hashCode =>
+      Object.hash(name, isRequired, isCompleted, documentUrl, completedAt);
 }
 
 /// Immutable model representing a client onboarding checklist.
@@ -115,13 +110,13 @@ class OnboardingChecklist {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        clientId,
-        serviceType,
-        overallProgress,
-        createdAt,
-        completedAt,
-      );
+    id,
+    clientId,
+    serviceType,
+    overallProgress,
+    createdAt,
+    completedAt,
+  );
 
   @override
   String toString() =>

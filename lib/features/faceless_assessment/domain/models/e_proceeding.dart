@@ -130,8 +130,7 @@ class EProceeding {
       noticeDate: noticeDate ?? this.noticeDate,
       responseDeadline: responseDeadline ?? this.responseDeadline,
       status: status ?? this.status,
-      nfacReferenceNumber:
-          nfacReferenceNumber ?? this.nfacReferenceNumber,
+      nfacReferenceNumber: nfacReferenceNumber ?? this.nfacReferenceNumber,
       assignedOfficer: assignedOfficer ?? this.assignedOfficer,
       demandAmount: demandAmount ?? this.demandAmount,
       remarks: remarks ?? this.remarks,

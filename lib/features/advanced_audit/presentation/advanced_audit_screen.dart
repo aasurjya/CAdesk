@@ -33,11 +33,7 @@ class AdvancedAuditScreen extends ConsumerWidget {
             _AuditTypeFilterRow(),
             const Expanded(
               child: TabBarView(
-                children: [
-                  _EngagementsTab(),
-                  _FindingsTab(),
-                  _ChecklistsTab(),
-                ],
+                children: [_EngagementsTab(), _FindingsTab(), _ChecklistsTab()],
               ),
             ),
           ],
@@ -65,18 +61,16 @@ class _AuditTypeFilterRow extends ConsumerWidget {
             _buildChip('All', selected == null, () {
               ref.read(auditTypeFilterProvider.notifier).update(null);
             }),
-            ...AuditType.values.map((type) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _buildChip(
-                    type.label,
-                    selected == type,
-                    () {
-                      ref
-                          .read(auditTypeFilterProvider.notifier)
-                          .update(selected == type ? null : type);
-                    },
-                  ),
-                )),
+            ...AuditType.values.map(
+              (type) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _buildChip(type.label, selected == type, () {
+                  ref
+                      .read(auditTypeFilterProvider.notifier)
+                      .update(selected == type ? null : type);
+                }),
+              ),
+            ),
           ],
         ),
       ),
@@ -118,9 +112,8 @@ class _EngagementsTab extends ConsumerWidget {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 4, bottom: 80),
       itemCount: engagements.length,
-      itemBuilder: (_, index) => AuditEngagementCard(
-        engagement: engagements[index],
-      ),
+      itemBuilder: (_, index) =>
+          AuditEngagementCard(engagement: engagements[index]),
     );
   }
 }
@@ -151,9 +144,8 @@ class _FindingsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
                   itemCount: findings.length,
-                  itemBuilder: (_, index) => AuditFindingTile(
-                    finding: findings[index],
-                  ),
+                  itemBuilder: (_, index) =>
+                      AuditFindingTile(finding: findings[index]),
                 ),
         ),
       ],
@@ -162,10 +154,7 @@ class _FindingsTab extends ConsumerWidget {
 }
 
 class _SeverityFilterRow extends StatelessWidget {
-  const _SeverityFilterRow({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _SeverityFilterRow({required this.selected, required this.onSelected});
 
   final FindingSeverity? selected;
   final ValueChanged<FindingSeverity?> onSelected;
@@ -179,14 +168,16 @@ class _SeverityFilterRow extends StatelessWidget {
         child: Row(
           children: [
             _buildChip('All', selected == null, () => onSelected(null)),
-            ...FindingSeverity.values.map((s) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _buildChip(
-                    s.label,
-                    selected == s,
-                    () => onSelected(selected == s ? null : s),
-                  ),
-                )),
+            ...FindingSeverity.values.map(
+              (s) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _buildChip(
+                  s.label,
+                  selected == s,
+                  () => onSelected(selected == s ? null : s),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -228,9 +219,8 @@ class _ChecklistsTab extends ConsumerWidget {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 4, bottom: 80),
       itemCount: checklists.length,
-      itemBuilder: (_, index) => AuditChecklistTile(
-        checklist: checklists[index],
-      ),
+      itemBuilder: (_, index) =>
+          AuditChecklistTile(checklist: checklists[index]),
     );
   }
 }
@@ -248,9 +238,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

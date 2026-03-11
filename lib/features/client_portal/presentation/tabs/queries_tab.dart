@@ -45,8 +45,7 @@ class QueriesTab extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             itemCount: _filters.length,
-            separatorBuilder: (context, index) =>
-                const SizedBox(width: 8),
+            separatorBuilder: (context, index) => const SizedBox(width: 8),
             itemBuilder: (context, index) {
               final filter = _filters[index];
               final isSelected = activeFilter == filter;
@@ -68,9 +67,7 @@ class QueriesTab extends ConsumerWidget {
                 backgroundColor: AppColors.neutral50,
                 checkmarkColor: AppColors.surface,
                 side: BorderSide(
-                  color: isSelected
-                      ? AppColors.primary
-                      : AppColors.neutral200,
+                  color: isSelected ? AppColors.primary : AppColors.neutral200,
                 ),
               );
             },
@@ -83,9 +80,9 @@ class QueriesTab extends ConsumerWidget {
             children: [
               Text(
                 '${queries.length} ${queries.length == 1 ? 'query' : 'queries'}',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.neutral400,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.neutral400),
               ),
               const Spacer(),
               _OpenCountBadge(ref: ref),
@@ -99,9 +96,8 @@ class QueriesTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 16),
                   itemCount: queries.length,
-                  itemBuilder: (context, index) => QueryTile(
-                    query: queries[index],
-                  ),
+                  itemBuilder: (context, index) =>
+                      QueryTile(query: queries[index]),
                 ),
         ),
       ],
@@ -225,9 +221,9 @@ class _EmptyQueries extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             'No queries found',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.neutral600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppColors.neutral600),
           ),
         ],
       ),

@@ -73,7 +73,10 @@ class _EsgReportingScreenState extends ConsumerState<EsgReportingScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          _DisclosuresTab(statusFilters: _statusFilters, statusLabels: _statusLabels),
+          _DisclosuresTab(
+            statusFilters: _statusFilters,
+            statusLabels: _statusLabels,
+          ),
           const _CarbonMetricsTab(),
         ],
       ),
@@ -209,8 +212,7 @@ class _DisclosuresTab extends ConsumerWidget {
     final totalClients = all.length;
     final avgScore = all.isEmpty
         ? 0.0
-        : all.map((d) => d.overallScore).reduce((a, b) => a + b) /
-            all.length;
+        : all.map((d) => d.overallScore).reduce((a, b) => a + b) / all.length;
     final filedCount = all.where((d) => d.status == 'Filed').length;
 
     return CustomScrollView(
@@ -283,8 +285,7 @@ class _FilterChips extends StatelessWidget {
             labelStyle: TextStyle(
               color: isActive ? AppColors.primary : AppColors.neutral600,
               fontSize: 12,
-              fontWeight:
-                  isActive ? FontWeight.w600 : FontWeight.normal,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
             ),
             side: BorderSide(
               color: isActive ? AppColors.primary : AppColors.neutral300,
@@ -313,12 +314,15 @@ class _CarbonMetricsTab extends ConsumerWidget {
       0,
       (sum, m) => sum + m.emissionsTonnes,
     );
-    final scope1Count =
-        metrics.where((m) => m.scope.startsWith('Scope 1')).length;
-    final scope2Count =
-        metrics.where((m) => m.scope.startsWith('Scope 2')).length;
-    final scope3Count =
-        metrics.where((m) => m.scope.startsWith('Scope 3')).length;
+    final scope1Count = metrics
+        .where((m) => m.scope.startsWith('Scope 1'))
+        .length;
+    final scope2Count = metrics
+        .where((m) => m.scope.startsWith('Scope 2'))
+        .length;
+    final scope3Count = metrics
+        .where((m) => m.scope.startsWith('Scope 3'))
+        .length;
 
     return CustomScrollView(
       slivers: [
@@ -484,8 +488,9 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: AppColors.neutral400),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: AppColors.neutral400,
+            ),
           ),
         ],
       ),

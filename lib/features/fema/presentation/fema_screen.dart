@@ -102,10 +102,7 @@ class _FemaScreenState extends ConsumerState<FemaScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _FilingsTab(),
-                _FdiTrackerTab(),
-              ],
+              children: const [_FilingsTab(), _FdiTrackerTab()],
             ),
           ),
         ],
@@ -192,9 +189,9 @@ class _FilingsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(femaStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(femaStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -235,9 +232,9 @@ class _FdiTrackerTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(fdiStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(fdiStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -245,7 +242,8 @@ class _FdiTrackerTab extends ConsumerWidget {
         Expanded(
           child: transactions.isEmpty
               ? _EmptyState(
-                  message: 'No FDI transactions match the selected filter')
+                  message: 'No FDI transactions match the selected filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: transactions.length,

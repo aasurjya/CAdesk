@@ -79,15 +79,15 @@ class KnowledgeArticle {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        title,
-        category,
-        content,
-        author,
-        createdAt,
-        updatedAt,
-        isPublished,
-      );
+    id,
+    title,
+    category,
+    content,
+    author,
+    createdAt,
+    updatedAt,
+    isPublished,
+  );
 
   @override
   String toString() =>

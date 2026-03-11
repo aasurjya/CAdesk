@@ -101,10 +101,7 @@ class _TaxAdvisoryScreenState extends ConsumerState<TaxAdvisoryScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _OpportunitiesTab(),
-                _ProposalsTab(),
-              ],
+              children: const [_OpportunitiesTab(), _ProposalsTab()],
             ),
           ),
         ],
@@ -189,9 +186,9 @@ class _OpportunitiesTab extends ConsumerWidget {
           values: OpportunityType.values,
           selected: selectedType,
           onSelected: (type) {
-            ref.read(opportunityTypeFilterProvider.notifier).update(
-                  type == selectedType ? null : type,
-                );
+            ref
+                .read(opportunityTypeFilterProvider.notifier)
+                .update(type == selectedType ? null : type);
           },
         ),
 
@@ -312,10 +309,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             message,
-            style: const TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

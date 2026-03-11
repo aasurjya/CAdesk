@@ -107,8 +107,9 @@ class _IncomeTaxScreenState extends ConsumerState<IncomeTaxScreen> {
                           label: 'All',
                           selected: selectedType == null,
                           onSelected: (_) {
-                            ref.read(itrTypeFilterProvider.notifier).update(
-                                null);
+                            ref
+                                .read(itrTypeFilterProvider.notifier)
+                                .update(null);
                           },
                         ),
                         ..._visibleFilters.map((type) {
@@ -200,16 +201,16 @@ class _IncomeTaxScreenState extends ConsumerState<IncomeTaxScreen> {
           const SizedBox(height: 12),
           Text(
             'No filings found',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.neutral400,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
           ),
           const SizedBox(height: 4),
           Text(
             'Try adjusting your filters or add a new filing.',
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.neutral400,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),
@@ -250,10 +251,7 @@ class _IncomeTaxScreenState extends ConsumerState<IncomeTaxScreen> {
 // ---------------------------------------------------------------------------
 
 class _AssessmentYearDropdown extends StatelessWidget {
-  const _AssessmentYearDropdown({
-    required this.value,
-    required this.onChanged,
-  });
+  const _AssessmentYearDropdown({required this.value, required this.onChanged});
 
   final String value;
   final ValueChanged<String?> onChanged;
@@ -278,9 +276,9 @@ class _AssessmentYearDropdown extends StatelessWidget {
           value: value,
           isDense: true,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: AppColors.primary,
-              ),
+            fontWeight: FontWeight.w600,
+            color: AppColors.primary,
+          ),
           items: _years
               .map((y) => DropdownMenuItem(value: y, child: Text(y)))
               .toList(),

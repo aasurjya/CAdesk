@@ -66,7 +66,8 @@ class LoanCalculator {
   /// Months elapsed from disbursement to today (mocked as Mar 2026).
   int get monthsElapsed {
     final today = _mockToday;
-    final diff = (today.year - disbursementDate.year) * 12 +
+    final diff =
+        (today.year - disbursementDate.year) * 12 +
         today.month -
         disbursementDate.month;
     return diff.clamp(0, tenureMonths);
@@ -145,13 +146,15 @@ List<AmortizationEntry> buildAmortizationSchedule(
     final interest = balance * r;
     final principalPaid = emi - interest;
     balance = (balance - principalPaid).clamp(0, double.infinity);
-    entries.add(AmortizationEntry(
-      month: m,
-      emi: emi,
-      principal: principalPaid,
-      interest: interest,
-      balance: balance,
-    ));
+    entries.add(
+      AmortizationEntry(
+        month: m,
+        emi: emi,
+        principal: principalPaid,
+        interest: interest,
+        balance: balance,
+      ),
+    );
   }
   return List.unmodifiable(entries);
 }

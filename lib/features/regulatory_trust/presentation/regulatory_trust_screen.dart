@@ -102,10 +102,7 @@ class _RegulatoryTrustScreenState extends ConsumerState<RegulatoryTrustScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _ControlsTab(),
-                _VaptScansTab(),
-              ],
+              children: const [_ControlsTab(), _VaptScansTab()],
             ),
           ),
         ],
@@ -192,9 +189,9 @@ class _ControlsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(controlStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(controlStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 
@@ -232,8 +229,7 @@ class _VaptScansTab extends ConsumerWidget {
         : ListView.builder(
             padding: const EdgeInsets.only(top: 8, bottom: 80),
             itemCount: scans.length,
-            itemBuilder: (context, index) =>
-                VaptScanTile(scan: scans[index]),
+            itemBuilder: (context, index) => VaptScanTile(scan: scans[index]),
           );
   }
 }

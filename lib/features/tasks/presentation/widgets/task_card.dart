@@ -77,7 +77,8 @@ class TaskCard extends StatelessWidget {
                                 task.title,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  decoration: task.status == TaskStatus.completed
+                                  decoration:
+                                      task.status == TaskStatus.completed
                                       ? TextDecoration.lineThrough
                                       : null,
                                 ),
@@ -138,8 +139,7 @@ class TaskCard extends StatelessWidget {
                             // Assignee avatar
                             CircleAvatar(
                               radius: 14,
-                              backgroundColor:
-                                  AppColors.primary.withAlpha(26),
+                              backgroundColor: AppColors.primary.withAlpha(26),
                               child: Text(
                                 task.assigneeInitials,
                                 style: const TextStyle(

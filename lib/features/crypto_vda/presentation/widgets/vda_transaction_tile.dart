@@ -26,8 +26,8 @@ class VdaTransactionTile extends StatelessWidget {
     final gainLossColor = isGain
         ? AppColors.success
         : isLoss
-            ? AppColors.error
-            : AppColors.neutral600;
+        ? AppColors.error
+        : AppColors.neutral600;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -93,7 +93,7 @@ class VdaTransactionTile extends StatelessWidget {
                   label: 'Gain / Loss',
                   value: transaction.gainLoss != 0
                       ? '${isGain ? '+' : ''}'
-                          '${currencyFormat.format(transaction.gainLoss)}'
+                            '${currencyFormat.format(transaction.gainLoss)}'
                       : '--',
                   valueColor: gainLossColor,
                 ),
@@ -118,10 +118,7 @@ class VdaTransactionTile extends StatelessWidget {
                       ? currencyFormat.format(transaction.tdsUnder194S)
                       : '--',
                 ),
-                _DetailColumn(
-                  label: 'Exchange',
-                  value: transaction.exchange,
-                ),
+                _DetailColumn(label: 'Exchange', value: transaction.exchange),
                 const Expanded(child: SizedBox.shrink()),
               ],
             ),
@@ -129,10 +126,7 @@ class VdaTransactionTile extends StatelessWidget {
             if (transaction.remarks != null) ...[
               const SizedBox(height: 8),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.warning.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(4),
@@ -180,11 +174,7 @@ class _AssetIconPlaceholder extends StatelessWidget {
         color: AppColors.primaryVariant.withValues(alpha: 0.12),
         shape: BoxShape.circle,
       ),
-      child: Icon(
-        assetType.icon,
-        size: 20,
-        color: AppColors.primaryVariant,
-      ),
+      child: Icon(assetType.icon, size: 20, color: AppColors.primaryVariant),
     );
   }
 }

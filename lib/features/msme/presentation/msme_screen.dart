@@ -41,11 +41,7 @@ class MsmeScreen extends ConsumerWidget {
             ),
             const Expanded(
               child: TabBarView(
-                children: [
-                  _VendorsTab(),
-                  _PaymentsTab(),
-                  _AlertsTab(),
-                ],
+                children: [_VendorsTab(), _PaymentsTab(), _AlertsTab()],
               ),
             ),
           ],
@@ -227,9 +223,8 @@ class _PaymentsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
                   itemCount: payments.length,
-                  itemBuilder: (_, index) => MsmePaymentTile(
-                    payment: payments[index],
-                  ),
+                  itemBuilder: (_, index) =>
+                      MsmePaymentTile(payment: payments[index]),
                 ),
         ),
       ],
@@ -292,14 +287,16 @@ class _ClassificationChips extends StatelessWidget {
         child: Row(
           children: [
             _chip('All', selected == null, () => onSelected(null)),
-            ...MsmeClassification.values.map((c) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _chip(
-                    c.label,
-                    selected == c,
-                    () => onSelected(selected == c ? null : c),
-                  ),
-                )),
+            ...MsmeClassification.values.map(
+              (c) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _chip(
+                  c.label,
+                  selected == c,
+                  () => onSelected(selected == c ? null : c),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -324,10 +321,7 @@ class _ClassificationChips extends StatelessWidget {
 }
 
 class _PaymentStatusChips extends StatelessWidget {
-  const _PaymentStatusChips({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _PaymentStatusChips({required this.selected, required this.onSelected});
 
   final MsmePaymentStatus? selected;
   final ValueChanged<MsmePaymentStatus?> onSelected;
@@ -341,14 +335,16 @@ class _PaymentStatusChips extends StatelessWidget {
         child: Row(
           children: [
             _chip('All', selected == null, () => onSelected(null)),
-            ...MsmePaymentStatus.values.map((s) => Padding(
-                  padding: const EdgeInsets.only(left: 6),
-                  child: _chip(
-                    s.label,
-                    selected == s,
-                    () => onSelected(selected == s ? null : s),
-                  ),
-                )),
+            ...MsmePaymentStatus.values.map(
+              (s) => Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: _chip(
+                  s.label,
+                  selected == s,
+                  () => onSelected(selected == s ? null : s),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -402,9 +398,9 @@ Widget _buildEmpty(BuildContext context, String message) {
         const SizedBox(height: 12),
         Text(
           message,
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: AppColors.neutral400,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: AppColors.neutral400),
         ),
       ],
     ),

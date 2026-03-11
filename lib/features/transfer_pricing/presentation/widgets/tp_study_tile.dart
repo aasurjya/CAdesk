@@ -171,17 +171,10 @@ class _ProgressSteps extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: isCompleted ? color : Colors.transparent,
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: color,
-                    width: isCurrent ? 2 : 1.5,
-                  ),
+                  border: Border.all(color: color, width: isCurrent ? 2 : 1.5),
                 ),
                 child: isCurrent
-                    ? Icon(
-                        currentStatus.icon,
-                        size: 8,
-                        color: Colors.white,
-                      )
+                    ? Icon(currentStatus.icon, size: 8, color: Colors.white)
                     : null,
               ),
               // Connector line (except for last step)
@@ -219,9 +212,9 @@ class _StudyTypeBadge extends StatelessWidget {
       child: Text(
         type.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.secondary,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.secondary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -244,9 +237,9 @@ class _MethodBadge extends StatelessWidget {
       child: Text(
         method.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.primaryVariant,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.primaryVariant,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

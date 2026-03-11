@@ -132,11 +132,7 @@ class _CertIcon extends StatelessWidget {
         color: status.color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        Icons.verified_user_rounded,
-        size: 22,
-        color: status.color,
-      ),
+      child: Icon(Icons.verified_user_rounded, size: 22, color: status.color),
     );
   }
 }
@@ -173,10 +169,10 @@ class _DaysToExpiryBadge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: badgeColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 10,
-            ),
+          color: badgeColor,
+          fontWeight: FontWeight.w700,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -203,10 +199,10 @@ class _TokenTypeChip extends StatelessWidget {
           Text(
             tokenType.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.primaryVariant,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 10,
-                ),
+              color: AppColors.primaryVariant,
+              fontWeight: FontWeight.w600,
+              fontSize: 10,
+            ),
           ),
         ],
       ),

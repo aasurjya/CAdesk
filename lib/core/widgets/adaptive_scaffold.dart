@@ -11,11 +11,31 @@ class AdaptiveScaffold extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
   static const _destinations = <_NavDestination>[
-    _NavDestination(icon: Icons.dashboard_outlined, selectedIcon: Icons.dashboard, label: 'Dashboard'),
-    _NavDestination(icon: Icons.people_outlined, selectedIcon: Icons.people, label: 'Clients'),
-    _NavDestination(icon: Icons.verified_user_outlined, selectedIcon: Icons.verified_user, label: 'Compliance'),
-    _NavDestination(icon: Icons.task_alt_outlined, selectedIcon: Icons.task_alt, label: 'Tasks'),
-    _NavDestination(icon: Icons.more_horiz_outlined, selectedIcon: Icons.more_horiz, label: 'More'),
+    _NavDestination(
+      icon: Icons.dashboard_outlined,
+      selectedIcon: Icons.dashboard,
+      label: 'Dashboard',
+    ),
+    _NavDestination(
+      icon: Icons.people_outlined,
+      selectedIcon: Icons.people,
+      label: 'Clients',
+    ),
+    _NavDestination(
+      icon: Icons.verified_user_outlined,
+      selectedIcon: Icons.verified_user,
+      label: 'Compliance',
+    ),
+    _NavDestination(
+      icon: Icons.task_alt_outlined,
+      selectedIcon: Icons.task_alt,
+      label: 'Tasks',
+    ),
+    _NavDestination(
+      icon: Icons.more_horiz_outlined,
+      selectedIcon: Icons.more_horiz,
+      label: 'More',
+    ),
   ];
 
   _LayoutMode _layoutMode(double width) {
@@ -49,9 +69,7 @@ class AdaptiveScaffold extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: AppColors.surface,
-          border: Border(
-            top: BorderSide(color: AppColors.neutral100),
-          ),
+          border: Border(top: BorderSide(color: AppColors.neutral100)),
         ),
         child: NavigationBar(
           height: 72,

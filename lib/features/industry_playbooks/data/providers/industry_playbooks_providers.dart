@@ -252,7 +252,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-ecom-starter',
       verticalId: 'vp-ecommerce',
       name: 'Marketplace Starter Pack',
-      description: 'Monthly GST filings + TDS 194-O reconciliation for single-platform sellers.',
+      description:
+          'Monthly GST filings + TDS 194-O reconciliation for single-platform sellers.',
       inclusions: [
         'GSTR-1 & GSTR-3B monthly filing',
         'TDS 194-O credit reconciliation',
@@ -268,7 +269,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-ecom-pro',
       verticalId: 'vp-ecommerce',
       name: 'Multi-Platform Growth Pack',
-      description: 'Full compliance for sellers active on 3+ marketplaces with annual ITR.',
+      description:
+          'Full compliance for sellers active on 3+ marketplaces with annual ITR.',
       inclusions: [
         'GSTR-1, GSTR-3B & GSTR-9 annual',
         'Multi-platform TDS 194-O reconciliation',
@@ -285,7 +287,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-export-igst',
       verticalId: 'vp-exporters',
       name: 'Export Refund Pack',
-      description: 'LUT filing, IGST refund applications, and BRC follow-up for exporters.',
+      description:
+          'LUT filing, IGST refund applications, and BRC follow-up for exporters.',
       inclusions: [
         'Annual LUT filing on GST portal',
         'IGST refund application (RFD-01)',
@@ -302,7 +305,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-doctor-essentials',
       verticalId: 'vp-doctors',
       name: 'Clinic Essentials',
-      description: 'Annual ITR, advance tax, and staff TDS for individual doctors and clinics.',
+      description:
+          'Annual ITR, advance tax, and staff TDS for individual doctors and clinics.',
       inclusions: [
         '44ADA income computation',
         'Advance tax quarterly challans',
@@ -318,7 +322,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-saas-startup',
       verticalId: 'vp-saas',
       name: 'Startup Tax Shield',
-      description: 'DPIIT registration, Sec 80-IAC filing, ESOP perquisite tax management.',
+      description:
+          'DPIIT registration, Sec 80-IAC filing, ESOP perquisite tax management.',
       inclusions: [
         'DPIIT recognition application support',
         'Sec 80-IAC Form-1 filing',
@@ -335,7 +340,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-creator-basic',
       verticalId: 'vp-creators',
       name: 'Creator Compliance Basic',
-      description: 'GST registration, 44ADA ITR, and platform TDS reconciliation for creators.',
+      description:
+          'GST registration, 44ADA ITR, and platform TDS reconciliation for creators.',
       inclusions: [
         'GST registration & monthly GSTR-1/3B',
         '44ADA ITR-4 annual filing',
@@ -351,7 +357,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-mfg-gst',
       verticalId: 'vp-manufacturing',
       name: 'Manufacturing GST + Compliance',
-      description: 'End-to-end GST compliance including job work tracking and MSME registration.',
+      description:
+          'End-to-end GST compliance including job work tracking and MSME registration.',
       inclusions: [
         'Monthly GSTR-1 & GSTR-3B filing',
         'Job work challan tracking (Sec 143)',
@@ -368,7 +375,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
       id: 'sb-redev-full',
       verticalId: 'vp-redev',
       name: 'Developer Full Compliance',
-      description: 'Project-wise accounts, RERA filings, JDA taxation, and GST for developers.',
+      description:
+          'Project-wise accounts, RERA filings, JDA taxation, and GST for developers.',
       inclusions: [
         'Project-wise P&L under Ind AS 115 / POC',
         'RERA quarterly progress report filing',
@@ -390,7 +398,8 @@ final allServiceBundlesProvider = Provider<List<ServiceBundle>>((ref) {
 
 final selectedVerticalProvider =
     NotifierProvider<SelectedVerticalNotifier, String?>(
-        SelectedVerticalNotifier.new);
+      SelectedVerticalNotifier.new,
+    );
 
 class SelectedVerticalNotifier extends Notifier<String?> {
   @override
@@ -414,10 +423,11 @@ final filteredPlaybooksProvider = Provider<List<VerticalPlaybook>>((ref) {
   return all.where((p) => p.vertical == selected).toList();
 });
 
-final bundlesForVerticalProvider =
-    Provider.family<List<ServiceBundle>, String>((ref, verticalId) {
-  return ref
-      .watch(allServiceBundlesProvider)
-      .where((b) => b.verticalId == verticalId)
-      .toList();
-});
+final bundlesForVerticalProvider = Provider.family<List<ServiceBundle>, String>(
+  (ref, verticalId) {
+    return ref
+        .watch(allServiceBundlesProvider)
+        .where((b) => b.verticalId == verticalId)
+        .toList();
+  },
+);

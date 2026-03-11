@@ -54,7 +54,8 @@ class NotificationsTab extends ConsumerWidget {
                       children: [
                         Text(
                           'Alerts and follow-ups',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.neutral900,
                               ),
@@ -62,7 +63,8 @@ class NotificationsTab extends ConsumerWidget {
                         const SizedBox(height: 4),
                         Text(
                           'Track automated reminders, document requests, signatures, and client-facing notices in one calm view.',
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
                                 color: AppColors.neutral600,
                                 height: 1.4,
                               ),
@@ -81,9 +83,9 @@ class NotificationsTab extends ConsumerWidget {
             children: [
               Text(
                 '${notifications.length} notifications',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.neutral400,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.neutral400),
               ),
               const Spacer(),
               if (unreadCount > 0)
@@ -276,8 +278,7 @@ class _NotificationTile extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        DateFormat('d MMM, h:mm a')
-                            .format(notification.sentAt),
+                        DateFormat('d MMM, h:mm a').format(notification.sentAt),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: AppColors.neutral400,
                           fontSize: 10,
@@ -328,4 +329,3 @@ class _SummaryStat extends StatelessWidget {
     );
   }
 }
-

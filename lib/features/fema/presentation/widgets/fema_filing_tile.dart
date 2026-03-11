@@ -19,12 +19,13 @@ class FemaFilingTile extends StatelessWidget {
       symbol: filing.currency == 'USD'
           ? '\$'
           : filing.currency == 'EUR'
-              ? '\u20AC'
-              : '\u20B9',
+          ? '\u20AC'
+          : '\u20B9',
       decimalDigits: 1,
     );
 
-    final isOverdue = filing.status != FemaFilingStatus.approved &&
+    final isOverdue =
+        filing.status != FemaFilingStatus.approved &&
         filing.status != FemaFilingStatus.rejected &&
         filing.dueDate.isBefore(DateTime(2026, 3, 10));
 
@@ -107,8 +108,9 @@ class FemaFilingTile extends StatelessWidget {
                     'Due: ${dateFormat.format(filing.dueDate)}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: isOverdue ? AppColors.error : AppColors.neutral400,
-                      fontWeight:
-                          isOverdue ? FontWeight.w600 : FontWeight.normal,
+                      fontWeight: isOverdue
+                          ? FontWeight.w600
+                          : FontWeight.normal,
                     ),
                   ),
                   const Spacer(),
@@ -168,9 +170,9 @@ class _FormTypeBadge extends StatelessWidget {
       child: Text(
         formType.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.secondary,
-              fontWeight: FontWeight.w600,
-            ),
+          color: AppColors.secondary,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -198,9 +200,9 @@ class _StatusBadge extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

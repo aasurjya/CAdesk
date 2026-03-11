@@ -34,8 +34,9 @@ class StaffKpi {
   final double realizationRate;
 
   /// Task completion ratio (0.0 to 1.0).
-  double get taskCompletionRate =>
-      tasksAssigned > 0 ? (tasksCompleted / tasksAssigned).clamp(0.0, 1.0) : 0.0;
+  double get taskCompletionRate => tasksAssigned > 0
+      ? (tasksCompleted / tasksAssigned).clamp(0.0, 1.0)
+      : 0.0;
 
   /// Returns a new [StaffKpi] with the given fields replaced.
   StaffKpi copyWith({
@@ -81,16 +82,16 @@ class StaffKpi {
 
   @override
   int get hashCode => Object.hash(
-        staffId,
-        period,
-        billableHours,
-        totalHours,
-        tasksCompleted,
-        tasksAssigned,
-        qualityScore,
-        utilizationRate,
-        realizationRate,
-      );
+    staffId,
+    period,
+    billableHours,
+    totalHours,
+    tasksCompleted,
+    tasksAssigned,
+    qualityScore,
+    utilizationRate,
+    realizationRate,
+  );
 
   @override
   String toString() =>

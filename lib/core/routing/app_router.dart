@@ -60,11 +60,13 @@ import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final _dashboardNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'dashboard');
+final _dashboardNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'dashboard',
+);
 final _clientsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'clients');
-final _complianceNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'compliance');
+final _complianceNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'compliance',
+);
 final _tasksNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'tasks');
 final _moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
 

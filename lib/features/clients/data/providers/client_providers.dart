@@ -40,8 +40,11 @@ class ClientHealthScore {
   final String lastUpdated;
 
   /// Color grade: >=80 Healthy, >=60 Attention, <60 Critical.
-  String get grade =>
-      overallScore >= 80 ? 'Healthy' : overallScore >= 60 ? 'Attention' : 'Critical';
+  String get grade => overallScore >= 80
+      ? 'Healthy'
+      : overallScore >= 60
+      ? 'Attention'
+      : 'Critical';
 
   ClientHealthScore copyWith({
     String? clientId,
@@ -252,11 +255,12 @@ final _mockHealthScores = <String, ClientHealthScore>{
 };
 
 /// Returns the [ClientHealthScore] for a given client ID, or null if not found.
-final clientHealthScoreProvider =
-    Provider.family<ClientHealthScore?, String>((ref, clientId) {
+final clientHealthScoreProvider = Provider.family<ClientHealthScore?, String>((
+  ref,
+  clientId,
+) {
   return _mockHealthScores[clientId];
 });
-
 
 final mockClients = <Client>[
   Client(
@@ -442,10 +446,7 @@ final mockClients = <Client>[
     state: 'Gujarat',
     pincode: '380054',
     gstin: '24DLKPP3456I1Z4',
-    servicesAvailed: [
-      ServiceType.itrFiling,
-      ServiceType.gstFiling,
-    ],
+    servicesAvailed: [ServiceType.itrFiling, ServiceType.gstFiling],
     status: ClientStatus.active,
     createdAt: DateTime(2024, 8, 12),
     updatedAt: DateTime(2026, 2, 15),
@@ -592,9 +593,9 @@ enum ClientSortOption {
   final String label;
 }
 
-final allClientsProvider =
-    NotifierProvider<AllClientsNotifier, List<Client>>(
-        AllClientsNotifier.new);
+final allClientsProvider = NotifierProvider<AllClientsNotifier, List<Client>>(
+  AllClientsNotifier.new,
+);
 
 class AllClientsNotifier extends Notifier<List<Client>> {
   @override
@@ -614,8 +615,9 @@ class AllClientsNotifier extends Notifier<List<Client>> {
   }
 }
 
-final searchQueryProvider =
-    NotifierProvider<SearchQueryNotifier, String>(SearchQueryNotifier.new);
+final searchQueryProvider = NotifierProvider<SearchQueryNotifier, String>(
+  SearchQueryNotifier.new,
+);
 
 class SearchQueryNotifier extends Notifier<String> {
   @override
@@ -626,7 +628,8 @@ class SearchQueryNotifier extends Notifier<String> {
 
 final selectedStatusFilterProvider =
     NotifierProvider<SelectedStatusFilterNotifier, ClientStatus?>(
-        SelectedStatusFilterNotifier.new);
+      SelectedStatusFilterNotifier.new,
+    );
 
 class SelectedStatusFilterNotifier extends Notifier<ClientStatus?> {
   @override
@@ -637,7 +640,8 @@ class SelectedStatusFilterNotifier extends Notifier<ClientStatus?> {
 
 final selectedTypeFilterProvider =
     NotifierProvider<SelectedTypeFilterNotifier, ClientType?>(
-        SelectedTypeFilterNotifier.new);
+      SelectedTypeFilterNotifier.new,
+    );
 
 class SelectedTypeFilterNotifier extends Notifier<ClientType?> {
   @override
@@ -648,7 +652,8 @@ class SelectedTypeFilterNotifier extends Notifier<ClientType?> {
 
 final sortOptionProvider =
     NotifierProvider<SortOptionNotifier, ClientSortOption>(
-        SortOptionNotifier.new);
+      SortOptionNotifier.new,
+    );
 
 class SortOptionNotifier extends Notifier<ClientSortOption> {
   @override
@@ -675,10 +680,8 @@ final filteredClientsProvider = Provider<List<Client>>((ref) {
       final matchesName = client.name.toLowerCase().contains(query);
       final matchesPan = client.pan.toLowerCase().contains(query);
       final matchesPhone = client.phone?.contains(query) ?? false;
-      final matchesEmail =
-          client.email?.toLowerCase().contains(query) ?? false;
-      final matchesGstin =
-          client.gstin?.toLowerCase().contains(query) ?? false;
+      final matchesEmail = client.email?.toLowerCase().contains(query) ?? false;
+      final matchesGstin = client.gstin?.toLowerCase().contains(query) ?? false;
       return matchesName ||
           matchesPan ||
           matchesPhone ||
@@ -691,7 +694,8 @@ final filteredClientsProvider = Provider<List<Client>>((ref) {
   switch (sortOption) {
     case ClientSortOption.name:
       filtered.sort(
-          (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+      );
     case ClientSortOption.recent:
       filtered.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     case ClientSortOption.type:

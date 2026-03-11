@@ -77,10 +77,7 @@ class _HeroAppBar extends StatelessWidget {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                AppColors.primary,
-                AppColors.primaryVariant,
-              ],
+              colors: [AppColors.primary, AppColors.primaryVariant],
             ),
           ),
           child: SafeArea(
@@ -117,7 +114,9 @@ class _HeroAppBar extends StatelessWidget {
                     const SizedBox(width: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: client.clientType.color.withAlpha(60),
                         borderRadius: BorderRadius.circular(6),
@@ -134,7 +133,9 @@ class _HeroAppBar extends StatelessWidget {
                     const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: statusColor.withAlpha(60),
                         borderRadius: BorderRadius.circular(6),
@@ -199,24 +200,23 @@ class _ContactSection extends StatelessWidget {
                 icon: Icons.phone,
                 label: 'Phone',
                 value: client.phone!,
-                onTap: () => launchUrl(
-                    Uri(scheme: 'tel', path: client.phone)),
+                onTap: () => launchUrl(Uri(scheme: 'tel', path: client.phone)),
               ),
             if (client.alternatePhone != null)
               _ContactRow(
                 icon: Icons.phone_forwarded,
                 label: 'Alternate',
                 value: client.alternatePhone!,
-                onTap: () => launchUrl(
-                    Uri(scheme: 'tel', path: client.alternatePhone)),
+                onTap: () =>
+                    launchUrl(Uri(scheme: 'tel', path: client.alternatePhone)),
               ),
             if (client.email != null)
               _ContactRow(
                 icon: Icons.email,
                 label: 'Email',
                 value: client.email!,
-                onTap: () => launchUrl(
-                    Uri(scheme: 'mailto', path: client.email)),
+                onTap: () =>
+                    launchUrl(Uri(scheme: 'mailto', path: client.email)),
               ),
             if (client.fullAddress.isNotEmpty)
               _ContactRow(
@@ -231,11 +231,7 @@ class _ContactSection extends StatelessWidget {
                 value: client.gstin!,
               ),
             if (client.tan != null)
-              _ContactRow(
-                icon: Icons.badge,
-                label: 'TAN',
-                value: client.tan!,
-              ),
+              _ContactRow(icon: Icons.badge, label: 'TAN', value: client.tan!),
             if (client.aadhaar != null)
               _ContactRow(
                 icon: Icons.fingerprint,
@@ -291,20 +287,14 @@ class _ContactRow extends StatelessWidget {
                       value,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: onTap != null
-                            ? AppColors.primaryVariant
-                            : null,
+                        color: onTap != null ? AppColors.primaryVariant : null,
                       ),
                     ),
                   ],
                 ),
               ),
               if (onTap != null)
-                Icon(
-                  Icons.open_in_new,
-                  size: 14,
-                  color: AppColors.neutral400,
-                ),
+                Icon(Icons.open_in_new, size: 14, color: AppColors.neutral400),
             ],
           ),
         ),
@@ -521,8 +511,7 @@ class _DocumentsSection extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.upload_file, size: 16),
-                  label: const Text('Upload',
-                      style: TextStyle(fontSize: 12)),
+                  label: const Text('Upload', style: TextStyle(fontSize: 12)),
                 ),
               ],
             ),
@@ -539,8 +528,7 @@ class _DocumentsSection extends StatelessWidget {
                     color: AppColors.neutral50,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(doc.icon,
-                      size: 18, color: AppColors.neutral600),
+                  child: Icon(doc.icon, size: 18, color: AppColors.neutral600),
                 ),
                 title: Text(
                   doc.name,
@@ -548,8 +536,11 @@ class _DocumentsSection extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                trailing: Icon(Icons.download,
-                    size: 18, color: AppColors.neutral400),
+                trailing: Icon(
+                  Icons.download,
+                  size: 18,
+                  color: AppColors.neutral400,
+                ),
                 onTap: () {},
               );
             }),
@@ -606,8 +597,7 @@ class _NotesSection extends StatelessWidget {
                 color: notes != null
                     ? AppColors.neutral600
                     : AppColors.neutral400,
-                fontStyle:
-                    notes == null ? FontStyle.italic : FontStyle.normal,
+                fontStyle: notes == null ? FontStyle.italic : FontStyle.normal,
               ),
             ),
           ],

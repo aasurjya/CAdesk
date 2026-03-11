@@ -29,14 +29,22 @@ void main() {
     });
 
     test('neutral scale is ordered dark to light', () {
-      expect(AppColors.neutral900.computeLuminance(),
-          lessThan(AppColors.neutral600.computeLuminance()));
-      expect(AppColors.neutral600.computeLuminance(),
-          lessThan(AppColors.neutral400.computeLuminance()));
-      expect(AppColors.neutral400.computeLuminance(),
-          lessThan(AppColors.neutral200.computeLuminance()));
-      expect(AppColors.neutral200.computeLuminance(),
-          lessThan(AppColors.neutral50.computeLuminance()));
+      expect(
+        AppColors.neutral900.computeLuminance(),
+        lessThan(AppColors.neutral600.computeLuminance()),
+      );
+      expect(
+        AppColors.neutral600.computeLuminance(),
+        lessThan(AppColors.neutral400.computeLuminance()),
+      );
+      expect(
+        AppColors.neutral400.computeLuminance(),
+        lessThan(AppColors.neutral200.computeLuminance()),
+      );
+      expect(
+        AppColors.neutral200.computeLuminance(),
+        lessThan(AppColors.neutral50.computeLuminance()),
+      );
     });
 
     test('surface is white', () {
@@ -46,8 +54,10 @@ void main() {
     test('dark surface colors are defined', () {
       expect(AppColors.darkSurface, isNotNull);
       expect(AppColors.darkSurfaceVariant, isNotNull);
-      expect(AppColors.darkSurface.computeLuminance(),
-          lessThan(AppColors.darkSurfaceVariant.computeLuminance()));
+      expect(
+        AppColors.darkSurface.computeLuminance(),
+        lessThan(AppColors.darkSurfaceVariant.computeLuminance()),
+      );
     });
   });
 }

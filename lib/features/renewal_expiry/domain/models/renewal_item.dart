@@ -69,10 +69,10 @@ class RenewalItem {
   }
 
   String get formattedFee => NumberFormat.currency(
-        locale: 'en_IN',
-        symbol: '₹',
-        decimalDigits: 0,
-      ).format(fee);
+    locale: 'en_IN',
+    symbol: '₹',
+    decimalDigits: 0,
+  ).format(fee);
 
   RenewalItem copyWith({
     String? id,

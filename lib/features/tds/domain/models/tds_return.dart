@@ -142,19 +142,19 @@ class TdsReturn {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        deductorId,
-        tan,
-        formType,
-        quarter,
-        financialYear,
-        status,
-        totalDeductions,
-        totalTaxDeducted,
-        totalDeposited,
-        filedDate,
-        tokenNumber,
-      );
+    id,
+    deductorId,
+    tan,
+    formType,
+    quarter,
+    financialYear,
+    status,
+    totalDeductions,
+    totalTaxDeducted,
+    totalDeposited,
+    filedDate,
+    tokenNumber,
+  );
 
   @override
   String toString() =>

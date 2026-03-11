@@ -557,10 +557,7 @@ class _SectionTitle extends StatelessWidget {
         ),
         if (actionLabel != null) ...[
           const SizedBox(width: 12),
-          TextButton(
-            onPressed: () {},
-            child: Text(actionLabel!),
-          ),
+          TextButton(onPressed: () {}, child: Text(actionLabel!)),
         ],
       ],
     );

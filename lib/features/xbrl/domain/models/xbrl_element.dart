@@ -72,7 +72,8 @@ class XbrlElement {
   final String? validationMessage;
   final DateTime? lastUpdated;
 
-  bool get hasError => validationMessage != null && validationMessage!.isNotEmpty;
+  bool get hasError =>
+      validationMessage != null && validationMessage!.isNotEmpty;
 
   XbrlElement copyWith({
     String? id,

@@ -102,14 +102,15 @@ class _AccuracySummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final completed =
-        jobs.where((j) => j.status == 'Completed').toList();
+    final completed = jobs.where((j) => j.status == 'Completed').toList();
     final queued = jobs.where((j) => j.status == 'Queued').length;
 
     double avgConfidence = 0.0;
     if (completed.isNotEmpty) {
-      final total =
-          completed.fold<double>(0, (sum, j) => sum + j.confidenceScore);
+      final total = completed.fold<double>(
+        0,
+        (sum, j) => sum + j.confidenceScore,
+      );
       avgConfidence = total / completed.length;
     }
     final avgPercent = (avgConfidence * 100).round();
@@ -234,9 +235,7 @@ class _DocumentJobsTab extends StatelessWidget {
     final theme = Theme.of(context);
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: _AccuracySummaryCard(jobs: allJobs),
-        ),
+        SliverToBoxAdapter(child: _AccuracySummaryCard(jobs: allJobs)),
         SliverToBoxAdapter(
           child: _StatusFilterBar(
             selectedStatus: selectedStatus,
@@ -258,9 +257,7 @@ class _DocumentJobsTab extends StatelessWidget {
           ),
         ),
         if (filteredJobs.isEmpty)
-          const SliverFillRemaining(
-            child: _EmptyJobsState(),
-          )
+          const SliverFillRemaining(child: _EmptyJobsState())
         else
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -305,8 +302,7 @@ class _StatusFilterBar extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 12,
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
             selected: isSelected,
@@ -402,10 +398,7 @@ class _ExtractedFieldsTab extends StatelessWidget {
 }
 
 class _JobFieldsGroup extends ConsumerWidget {
-  const _JobFieldsGroup({
-    required this.jobId,
-    required this.fields,
-  });
+  const _JobFieldsGroup({required this.jobId, required this.fields});
 
   final String jobId;
   final List<ExtractedField> fields;

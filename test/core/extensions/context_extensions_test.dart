@@ -315,8 +315,9 @@ void main() {
         expect(find.text('Dismissible'), findsNothing);
       });
 
-      testWidgets('replaces existing snackbar when called again',
-          (tester) async {
+      testWidgets('replaces existing snackbar when called again', (
+        tester,
+      ) async {
         await tester.pumpWidget(
           MaterialApp(
             home: Scaffold(
@@ -325,8 +326,7 @@ void main() {
                   return Column(
                     children: [
                       ElevatedButton(
-                        onPressed: () =>
-                            context.showSnackBar('First snackbar'),
+                        onPressed: () => context.showSnackBar('First snackbar'),
                         child: const Text('Btn1'),
                       ),
                       ElevatedButton(

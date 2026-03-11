@@ -11,7 +11,8 @@ class RoadmapModuleScreen extends ConsumerStatefulWidget {
   final String moduleId;
 
   @override
-  ConsumerState<RoadmapModuleScreen> createState() => _RoadmapModuleScreenState();
+  ConsumerState<RoadmapModuleScreen> createState() =>
+      _RoadmapModuleScreenState();
 }
 
 class _RoadmapModuleScreenState extends ConsumerState<RoadmapModuleScreen>
@@ -295,28 +296,32 @@ class _WorkboardTab extends StatelessWidget {
         Text(
           'Key metrics',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
         ),
         const SizedBox(height: 10),
-        ...module.metrics.map((metric) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _MetricTile(metric: metric),
-            )),
+        ...module.metrics.map(
+          (metric) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _MetricTile(metric: metric),
+          ),
+        ),
         const SizedBox(height: 8),
         Text(
           'Delivery workboard',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
         ),
         const SizedBox(height: 10),
-        ...module.workItems.map((item) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _WorkItemTile(item: item),
-            )),
+        ...module.workItems.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _WorkItemTile(item: item),
+          ),
+        ),
       ],
     );
   }
@@ -335,36 +340,40 @@ class _AutomationsTab extends ConsumerWidget {
         Text(
           'Enabled automations',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
         ),
         const SizedBox(height: 10),
-        ...module.automations.map((automation) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _AutomationTile(
-                moduleId: module.id,
-                automation: automation,
-                onChanged: (enabled) {
-                  ref
-                      .read(roadmapModulesProvider.notifier)
-                      .toggleAutomation(module.id, automation.id, enabled);
-                },
-              ),
-            )),
+        ...module.automations.map(
+          (automation) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _AutomationTile(
+              moduleId: module.id,
+              automation: automation,
+              onChanged: (enabled) {
+                ref
+                    .read(roadmapModulesProvider.notifier)
+                    .toggleAutomation(module.id, automation.id, enabled);
+              },
+            ),
+          ),
+        ),
         const SizedBox(height: 8),
         Text(
           'Quick wins',
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
         ),
         const SizedBox(height: 10),
-        ...module.quickWins.map((win) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _QuickWinTile(text: win),
-            )),
+        ...module.quickWins.map(
+          (win) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: _QuickWinTile(text: win),
+          ),
+        ),
       ],
     );
   }
@@ -403,17 +412,17 @@ class _MetricTile extends StatelessWidget {
               children: [
                 Text(
                   metric.label,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral400,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   metric.value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.neutral900,
-                      ),
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.neutral900,
+                  ),
                 ),
               ],
             ),
@@ -432,9 +441,9 @@ class _MetricTile extends StatelessWidget {
                 Text(
                   metric.delta,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: trendColor,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: trendColor,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),
@@ -471,13 +480,16 @@ class _WorkItemTile extends StatelessWidget {
                 child: Text(
                   item.title,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.neutral900,
-                      ),
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.neutral900,
+                  ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: color.withAlpha(18),
                   borderRadius: BorderRadius.circular(999),
@@ -485,9 +497,9 @@ class _WorkItemTile extends StatelessWidget {
                 child: Text(
                   label,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: color,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -496,9 +508,9 @@ class _WorkItemTile extends StatelessWidget {
           Text(
             item.subtitle,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.neutral600,
-                  height: 1.4,
-                ),
+              color: AppColors.neutral600,
+              height: 1.4,
+            ),
           ),
           const SizedBox(height: 12),
           Row(
@@ -506,17 +518,17 @@ class _WorkItemTile extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Owner: ${item.owner}',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.neutral600,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelSmall?.copyWith(color: AppColors.neutral600),
                 ),
               ),
               Text(
                 item.dueLabel,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.neutral600,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: AppColors.neutral600,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -548,9 +560,9 @@ class _WorkItemTile extends StatelessWidget {
                     child: Text(
                       tag,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.neutral600,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        color: AppColors.neutral600,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 )
@@ -587,9 +599,9 @@ class _AutomationTile extends StatelessWidget {
         title: Text(
           automation.title,
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: AppColors.neutral900,
-              ),
+            fontWeight: FontWeight.w700,
+            color: AppColors.neutral900,
+          ),
         ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 6),
@@ -599,23 +611,23 @@ class _AutomationTile extends StatelessWidget {
               Text(
                 automation.description,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.neutral600,
-                      height: 1.4,
-                    ),
+                  color: AppColors.neutral600,
+                  height: 1.4,
+                ),
               ),
               const SizedBox(height: 10),
               Text(
                 'Trigger: ${automation.trigger}',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.neutral600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.neutral600),
               ),
               const SizedBox(height: 4),
               Text(
                 'Outcome: ${automation.outcome}',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.neutral600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: AppColors.neutral600),
               ),
             ],
           ),
@@ -660,9 +672,9 @@ class _QuickWinTile extends StatelessWidget {
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.neutral600,
-                    height: 1.4,
-                  ),
+                color: AppColors.neutral600,
+                height: 1.4,
+              ),
             ),
           ),
         ],

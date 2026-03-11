@@ -234,7 +234,8 @@ final marketplaceAppsProvider = Provider<List<MarketplaceApp>>(
 /// Selected connector status filter.
 final connectorStatusFilterProvider =
     NotifierProvider<ConnectorStatusFilterNotifier, ConnectorStatus?>(
-        ConnectorStatusFilterNotifier.new);
+      ConnectorStatusFilterNotifier.new,
+    );
 
 class ConnectorStatusFilterNotifier extends Notifier<ConnectorStatus?> {
   @override
@@ -257,12 +258,15 @@ final ecosystemSummaryProvider = Provider<EcosystemSummary>((ref) {
   final apps = ref.watch(marketplaceAppsProvider);
 
   final totalConnectors = connectors.length;
-  final connectedConnectors =
-      connectors.where((c) => c.status == ConnectorStatus.connected).length;
-  final errorConnectors =
-      connectors.where((c) => c.status == ConnectorStatus.error).length;
-  final installedApps =
-      apps.where((a) => a.installStatus == AppInstallStatus.installed).length;
+  final connectedConnectors = connectors
+      .where((c) => c.status == ConnectorStatus.connected)
+      .length;
+  final errorConnectors = connectors
+      .where((c) => c.status == ConnectorStatus.error)
+      .length;
+  final installedApps = apps
+      .where((a) => a.installStatus == AppInstallStatus.installed)
+      .length;
 
   return EcosystemSummary(
     totalConnectors: totalConnectors,

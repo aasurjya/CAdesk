@@ -162,10 +162,10 @@ class _StatusChip extends StatelessWidget {
     return Chip(
       label: Text(status.label),
       labelStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
-            color: status.color,
-            fontWeight: FontWeight.w600,
-            fontSize: 11,
-          ),
+        color: status.color,
+        fontWeight: FontWeight.w600,
+        fontSize: 11,
+      ),
       backgroundColor: status.color.withValues(alpha: 0.10),
       side: BorderSide(color: status.color.withValues(alpha: 0.3)),
       padding: EdgeInsets.zero,
@@ -201,18 +201,18 @@ class _FindingBadge extends StatelessWidget {
           Text(
             '$count',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           const SizedBox(width: 3),
           Text(
             label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 10,
-                ),
+              color: color,
+              fontWeight: FontWeight.w500,
+              fontSize: 10,
+            ),
           ),
         ],
       ),

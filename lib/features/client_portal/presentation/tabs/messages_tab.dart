@@ -125,8 +125,7 @@ class _ThreadPreviewTile extends ConsumerWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: InkWell(
-        onTap: () =>
-            ref.read(selectedThreadProvider.notifier).update(threadId),
+        onTap: () => ref.read(selectedThreadProvider.notifier).update(threadId),
         borderRadius: BorderRadius.circular(20),
         child: Padding(
           padding: const EdgeInsets.all(14),
@@ -292,9 +291,7 @@ class _ThreadView extends ConsumerWidget {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: AppColors.surface,
-            border: Border(
-              top: BorderSide(color: AppColors.neutral200),
-            ),
+            border: Border(top: BorderSide(color: AppColors.neutral200)),
           ),
           child: Row(
             children: [

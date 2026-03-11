@@ -172,7 +172,8 @@ final vaptScansProvider = Provider<List<VaptScan>>(
 /// Selected security control status filter.
 final controlStatusFilterProvider =
     NotifierProvider<ControlStatusFilterNotifier, SecurityControlStatus?>(
-        ControlStatusFilterNotifier.new);
+      ControlStatusFilterNotifier.new,
+    );
 
 class ControlStatusFilterNotifier extends Notifier<SecurityControlStatus?> {
   @override
@@ -190,15 +191,15 @@ final filteredControlsProvider = Provider<List<SecurityControl>>((ref) {
 });
 
 /// Regulatory trust summary statistics.
-final regulatoryTrustSummaryProvider =
-    Provider<RegulatoryTrustSummary>((ref) {
+final regulatoryTrustSummaryProvider = Provider<RegulatoryTrustSummary>((ref) {
   final controls = ref.watch(regulatoryControlsProvider);
   final scans = ref.watch(vaptScansProvider);
   final now = DateTime(2026, 3, 10);
 
   final totalControls = controls.length;
-  final compliantControls =
-      controls.where((c) => c.status == SecurityControlStatus.compliant).length;
+  final compliantControls = controls
+      .where((c) => c.status == SecurityControlStatus.compliant)
+      .length;
   final nonCompliantControls = controls
       .where((c) => c.status == SecurityControlStatus.nonCompliant)
       .length;

@@ -6,11 +6,7 @@ import '../../domain/models/xbrl_element.dart';
 /// List tile for a single [XbrlElement] with type color coding,
 /// value display, and validation status.
 class XbrlElementTile extends StatelessWidget {
-  const XbrlElementTile({
-    super.key,
-    required this.element,
-    this.onTap,
-  });
+  const XbrlElementTile({super.key, required this.element, this.onTap});
 
   final XbrlElement element;
   final VoidCallback? onTap;
@@ -29,8 +25,8 @@ class XbrlElementTile extends StatelessWidget {
           color: element.hasError
               ? AppColors.error.withValues(alpha: 0.35)
               : element.isCompleted
-                  ? AppColors.success.withValues(alpha: 0.2)
-                  : AppColors.neutral200,
+              ? AppColors.success.withValues(alpha: 0.2)
+              : AppColors.neutral200,
         ),
       ),
       child: InkWell(
@@ -67,7 +63,9 @@ class XbrlElementTile extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(left: 6),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 2),
+                              horizontal: 5,
+                              vertical: 2,
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.error.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
@@ -167,11 +165,7 @@ class _TypeIndicator extends StatelessWidget {
             color: elementType.color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Icon(
-            elementType.icon,
-            size: 16,
-            color: elementType.color,
-          ),
+          child: Icon(elementType.icon, size: 16, color: elementType.color),
         ),
         const SizedBox(height: 3),
         Text(
@@ -212,8 +206,8 @@ class _ValueDisplay extends StatelessWidget {
     final unit = element.unit;
 
     // Truncate long text blocks
-    final displayValue = element.elementType == XbrlElementType.textBlock &&
-            value.length > 120
+    final displayValue =
+        element.elementType == XbrlElementType.textBlock && value.length > 120
         ? '${value.substring(0, 120)}…'
         : value;
 
@@ -266,16 +260,16 @@ class _ValidationMessage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded,
-              size: 13, color: AppColors.error),
+          const Icon(
+            Icons.error_outline_rounded,
+            size: 13,
+            color: AppColors.error,
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               message,
-              style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.error,
-              ),
+              style: const TextStyle(fontSize: 11, color: AppColors.error),
             ),
           ),
         ],
@@ -285,10 +279,7 @@ class _ValidationMessage extends StatelessWidget {
 }
 
 class _CompletionIcon extends StatelessWidget {
-  const _CompletionIcon({
-    required this.isCompleted,
-    required this.hasError,
-  });
+  const _CompletionIcon({required this.isCompleted, required this.hasError});
 
   final bool isCompleted;
   final bool hasError;
@@ -296,11 +287,7 @@ class _CompletionIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (hasError) {
-      return const Icon(
-        Icons.error_rounded,
-        size: 18,
-        color: AppColors.error,
-      );
+      return const Icon(Icons.error_rounded, size: 18, color: AppColors.error);
     }
     if (isCompleted) {
       return const Icon(

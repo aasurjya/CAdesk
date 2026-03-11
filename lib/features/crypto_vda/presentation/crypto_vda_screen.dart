@@ -58,8 +58,9 @@ class _TransactionsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<VdaTransaction> transactions =
-        ref.watch(filteredVdaTransactionsProvider);
+    final List<VdaTransaction> transactions = ref.watch(
+      filteredVdaTransactionsProvider,
+    );
 
     return Column(
       children: [
@@ -75,9 +76,7 @@ class _TransactionsTab extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: 24),
                   itemCount: transactions.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return VdaTransactionTile(
-                      transaction: transactions[index],
-                    );
+                    return VdaTransactionTile(transaction: transactions[index]);
                   },
                 ),
         ),
@@ -92,11 +91,13 @@ class _TransactionFilters extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String? selectedClient = ref.watch(selectedVdaClientProvider);
-    final List<({String id, String name})> clientNames =
-        ref.watch(vdaClientNamesProvider);
+    final List<({String id, String name})> clientNames = ref.watch(
+      vdaClientNamesProvider,
+    );
     final VdaAssetType? selectedAsset = ref.watch(selectedAssetTypeProvider);
-    final VdaTransactionType? selectedTxn =
-        ref.watch(selectedTransactionTypeProvider);
+    final VdaTransactionType? selectedTxn = ref.watch(
+      selectedTransactionTypeProvider,
+    );
     final ThemeData theme = Theme.of(context);
 
     return Padding(
@@ -128,9 +129,9 @@ class _TransactionFilters extends ConsumerWidget {
                         ...clientNames.map(
                           (({String id, String name}) c) =>
                               DropdownMenuItem<String?>(
-                            value: c.id,
-                            child: Text(c.name),
-                          ),
+                                value: c.id,
+                                child: Text(c.name),
+                              ),
                         ),
                       ],
                       onChanged: (String? value) {

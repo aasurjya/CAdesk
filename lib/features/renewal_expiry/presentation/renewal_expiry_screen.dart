@@ -102,10 +102,7 @@ class _RenewalExpiryScreenState extends ConsumerState<RenewalExpiryScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _RenewalsTab(),
-                _RetainersTab(),
-              ],
+              children: const [_RenewalsTab(), _RetainersTab()],
             ),
           ),
         ],
@@ -192,9 +189,9 @@ class _RenewalsTab extends ConsumerWidget {
           labelOf: (s) => s.label,
           colorOf: (s) => s.color,
           onSelected: (s) {
-            ref.read(renewalStatusFilterProvider.notifier).update(
-                  s == selectedStatus ? null : s,
-                );
+            ref
+                .read(renewalStatusFilterProvider.notifier)
+                .update(s == selectedStatus ? null : s);
           },
         ),
 

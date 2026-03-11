@@ -452,7 +452,8 @@ final llpFilingsProvider = Provider<List<LLPFiling>>((ref) {
 /// Selected LLP filter. Null means all LLPs.
 final selectedLLPFilterProvider =
     NotifierProvider<SelectedLLPFilterNotifier, String?>(
-        SelectedLLPFilterNotifier.new);
+      SelectedLLPFilterNotifier.new,
+    );
 
 class SelectedLLPFilterNotifier extends Notifier<String?> {
   @override
@@ -464,7 +465,8 @@ class SelectedLLPFilterNotifier extends Notifier<String?> {
 /// Selected form type filter. Null means all types.
 final selectedLLPFormTypeProvider =
     NotifierProvider<SelectedLLPFormTypeNotifier, LLPFormType?>(
-        SelectedLLPFormTypeNotifier.new);
+      SelectedLLPFormTypeNotifier.new,
+    );
 
 class SelectedLLPFormTypeNotifier extends Notifier<LLPFormType?> {
   @override
@@ -474,9 +476,9 @@ class SelectedLLPFormTypeNotifier extends Notifier<LLPFormType?> {
 }
 
 /// Selected financial year filter.
-final selectedLLPFYProvider =
-    NotifierProvider<SelectedLLPFYNotifier, String>(
-        SelectedLLPFYNotifier.new);
+final selectedLLPFYProvider = NotifierProvider<SelectedLLPFYNotifier, String>(
+  SelectedLLPFYNotifier.new,
+);
 
 class SelectedLLPFYNotifier extends Notifier<String> {
   @override
@@ -486,9 +488,9 @@ class SelectedLLPFYNotifier extends Notifier<String> {
 }
 
 /// Currently selected tab index on the LLP screen.
-final selectedLLPTabProvider =
-    NotifierProvider<SelectedLLPTabNotifier, int>(
-        SelectedLLPTabNotifier.new);
+final selectedLLPTabProvider = NotifierProvider<SelectedLLPTabNotifier, int>(
+  SelectedLLPTabNotifier.new,
+);
 
 class SelectedLLPTabNotifier extends Notifier<int> {
   @override
@@ -539,12 +541,13 @@ final llpComplianceSummaryProvider = Provider<LLPComplianceSummary>((ref) {
   final filings = ref.watch(llpFilingsProvider);
 
   final auditRequired = entities.where((e) => e.isAuditRequired).length;
-  final filed =
-      filings.where((f) => f.status == LLPFilingStatus.filed).length;
-  final overdue =
-      filings.where((f) => f.status == LLPFilingStatus.overdue).length;
-  final pending =
-      filings.where((f) => f.status == LLPFilingStatus.pending).length;
+  final filed = filings.where((f) => f.status == LLPFilingStatus.filed).length;
+  final overdue = filings
+      .where((f) => f.status == LLPFilingStatus.overdue)
+      .length;
+  final pending = filings
+      .where((f) => f.status == LLPFilingStatus.pending)
+      .length;
   final totalPenalty = filings
       .where((f) => f.status == LLPFilingStatus.overdue)
       .fold<int>(0, (sum, f) => sum + f.currentPenalty);
@@ -712,8 +715,7 @@ final llpPenaltySummaryProvider = Provider<LlpPenaltySummary>((ref) {
             r.form8Status == LLPFilingStatus.overdue,
       )
       .length;
-  final strikeOffCount =
-      records.where((r) => r.hasStrikeOffRisk).length;
+  final strikeOffCount = records.where((r) => r.hasStrikeOffRisk).length;
   return LlpPenaltySummary(
     totalPenalty: totalPenalty,
     overdueCount: overdueCount,

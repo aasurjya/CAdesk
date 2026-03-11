@@ -156,9 +156,9 @@ class _StatusChip extends StatelessWidget {
           Text(
             status.label,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: status.color,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: status.color,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
@@ -183,9 +183,9 @@ class _ResidentialBadge extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -205,9 +205,9 @@ class _DtaaBadge extends StatelessWidget {
       child: Text(
         'DTAA',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.accent,
-              fontWeight: FontWeight.w700,
-            ),
+          color: AppColors.accent,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

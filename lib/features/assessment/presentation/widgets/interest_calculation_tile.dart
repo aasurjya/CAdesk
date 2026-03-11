@@ -10,11 +10,7 @@ import '../../domain/models/interest_calculation.dart';
 /// Green background = calculation matches (isCorrect = true).
 /// Red border = discrepancy found (isCorrect = false).
 class InterestCalculationTile extends StatelessWidget {
-  const InterestCalculationTile({
-    super.key,
-    required this.calc,
-    this.onTap,
-  });
+  const InterestCalculationTile({super.key, required this.calc, this.onTap});
 
   final InterestCalculation calc;
   final VoidCallback? onTap;
@@ -58,7 +54,7 @@ class InterestCalculationTile extends StatelessWidget {
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      ),
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Icon(
@@ -167,8 +163,8 @@ class _VarianceRow extends StatelessWidget {
     final varianceLabel = calc.variance < 0
         ? 'Over-charged by dept'
         : calc.variance > 0
-            ? 'Under-charged'
-            : 'Matches exactly';
+        ? 'Under-charged'
+        : 'Matches exactly';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -199,10 +195,7 @@ class _VarianceRow extends StatelessWidget {
           if (!isCorrect) ...[
             Text(
               'As per order: ${CurrencyUtils.formatINRCompact(calc.actualInterest)}',
-              style: TextStyle(
-                fontSize: 11,
-                color: AppColors.neutral600,
-              ),
+              style: TextStyle(fontSize: 11, color: AppColors.neutral600),
             ),
             const SizedBox(width: 8),
             Text(
@@ -221,11 +214,7 @@ class _VarianceRow extends StatelessWidget {
 }
 
 class _Cell extends StatelessWidget {
-  const _Cell({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _Cell({required this.label, required this.value, required this.color});
 
   final String label;
   final String value;
@@ -247,10 +236,7 @@ class _Cell extends StatelessWidget {
           ),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 9,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 9, color: AppColors.neutral400),
           ),
         ],
       ),

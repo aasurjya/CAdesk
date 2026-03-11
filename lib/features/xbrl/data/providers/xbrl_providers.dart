@@ -334,7 +334,8 @@ final List<XbrlElement> _mockElements = [
     elementName: 'in-bfin:SignificantAccountingPolicies',
     elementType: XbrlElementType.textBlock,
     label: 'Significant Accounting Policies',
-    value: 'The financial statements are prepared in accordance with Indian '
+    value:
+        'The financial statements are prepared in accordance with Indian '
         'Accounting Standards (Ind AS) notified under the Companies (Indian '
         'Accounting Standards) Rules, 2015...',
     isRequired: true,
@@ -372,8 +373,8 @@ final xbrlElementsProvider = Provider<List<XbrlElement>>(
 
 final xbrlStatusFilterProvider =
     NotifierProvider<XbrlStatusFilterNotifier, XbrlFilingStatus?>(
-  XbrlStatusFilterNotifier.new,
-);
+      XbrlStatusFilterNotifier.new,
+    );
 
 class XbrlStatusFilterNotifier extends Notifier<XbrlFilingStatus?> {
   @override
@@ -394,15 +395,15 @@ final xbrlFilteredFilingsProvider = Provider<List<XbrlFiling>>((ref) {
 /// Elements filtered by a specific filing id.
 final xbrlElementsForFilingProvider =
     Provider.family<List<XbrlElement>, String>((ref, filingId) {
-  final elements = ref.watch(xbrlElementsProvider);
-  return elements.where((e) => e.filingId == filingId).toList();
-});
+      final elements = ref.watch(xbrlElementsProvider);
+      return elements.where((e) => e.filingId == filingId).toList();
+    });
 
 /// Selected filing id (for elements tab drill-down).
 final xbrlSelectedFilingIdProvider =
     NotifierProvider<XbrlSelectedFilingNotifier, String?>(
-  XbrlSelectedFilingNotifier.new,
-);
+      XbrlSelectedFilingNotifier.new,
+    );
 
 class XbrlSelectedFilingNotifier extends Notifier<String?> {
   @override

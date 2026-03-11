@@ -22,8 +22,7 @@ class IndianDateUtils {
   static String currentFinancialYear([DateTime? date]) {
     final ref = date ?? DateTime.now();
     final startYear = ref.month >= 4 ? ref.year : ref.year - 1;
-    final endYearShort =
-        ((startYear + 1) % 100).toString().padLeft(2, '0');
+    final endYearShort = ((startYear + 1) % 100).toString().padLeft(2, '0');
     return 'FY $startYear-$endYearShort';
   }
 
@@ -52,8 +51,7 @@ class IndianDateUtils {
     final now = DateTime.now();
     final fyStartYear = now.month >= 4 ? now.year : now.year - 1;
     final ayStartYear = fyStartYear + 1;
-    final ayEndYearShort =
-        ((ayStartYear + 1) % 100).toString().padLeft(2, '0');
+    final ayEndYearShort = ((ayStartYear + 1) % 100).toString().padLeft(2, '0');
     return '$ayStartYear-$ayEndYearShort';
   }
 
@@ -64,8 +62,11 @@ class IndianDateUtils {
   static int daysUntilDeadline(DateTime deadline, {DateTime? from}) {
     final ref = from ?? DateTime.now();
     final refMidnight = DateTime(ref.year, ref.month, ref.day);
-    final deadlineMidnight =
-        DateTime(deadline.year, deadline.month, deadline.day);
+    final deadlineMidnight = DateTime(
+      deadline.year,
+      deadline.month,
+      deadline.day,
+    );
     return deadlineMidnight.difference(refMidnight).inDays;
   }
 

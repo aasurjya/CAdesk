@@ -72,11 +72,7 @@ class OnboardingScreen extends ConsumerWidget {
             ),
           ),
           child: TabBarView(
-            children: [
-              _OnboardingTab(),
-              _KycStatusTab(),
-              _DocumentExpiryTab(),
-            ],
+            children: [_OnboardingTab(), _KycStatusTab(), _DocumentExpiryTab()],
           ),
         ),
       ),
@@ -97,7 +93,10 @@ class _OnboardingTab extends ConsumerWidget {
 
     if (checklists.isEmpty) {
       return _buildEmptyState(
-          context, Icons.checklist_rounded, 'No active onboarding');
+        context,
+        Icons.checklist_rounded,
+        'No active onboarding',
+      );
     }
 
     return ListView.builder(
@@ -144,10 +143,7 @@ class _OnboardingBanner extends StatelessWidget {
                 color: AppColors.accent.withAlpha(18),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(
-                Icons.badge_outlined,
-                color: AppColors.accent,
-              ),
+              child: const Icon(Icons.badge_outlined, color: AppColors.accent),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -226,7 +222,10 @@ class _KycStatusTab extends ConsumerWidget {
         Expanded(
           child: records.isEmpty
               ? _buildEmptyState(
-                  context, Icons.verified_user_outlined, 'No KYC records')
+                  context,
+                  Icons.verified_user_outlined,
+                  'No KYC records',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 16),
                   itemCount: records.length,
@@ -336,11 +335,7 @@ class _VerticalDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 48,
-      color: AppColors.neutral200,
-    );
+    return Container(width: 1, height: 48, color: AppColors.neutral200);
   }
 }
 
@@ -377,9 +372,7 @@ class _DocumentExpiryTab extends ConsumerWidget {
                   label: s.label,
                   isSelected: selectedStatus == s,
                   onTap: () {
-                    ref
-                        .read(expiryStatusFilterProvider.notifier)
-                        .update(s);
+                    ref.read(expiryStatusFilterProvider.notifier).update(s);
                   },
                 ),
               ),
@@ -390,7 +383,10 @@ class _DocumentExpiryTab extends ConsumerWidget {
         Expanded(
           child: expiries.isEmpty
               ? _buildEmptyState(
-                  context, Icons.event_note_outlined, 'No document expiries')
+                  context,
+                  Icons.event_note_outlined,
+                  'No document expiries',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 16),
                   itemCount: expiries.length,

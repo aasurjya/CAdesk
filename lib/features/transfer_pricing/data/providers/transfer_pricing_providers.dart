@@ -233,7 +233,8 @@ final tpFilingsProvider = Provider<List<TpFiling>>(
 /// Selected TP study status filter.
 final tpStudyStatusFilterProvider =
     NotifierProvider<TpStudyStatusFilterNotifier, TpStudyStatus?>(
-        TpStudyStatusFilterNotifier.new);
+      TpStudyStatusFilterNotifier.new,
+    );
 
 class TpStudyStatusFilterNotifier extends Notifier<TpStudyStatus?> {
   @override
@@ -245,7 +246,8 @@ class TpStudyStatusFilterNotifier extends Notifier<TpStudyStatus?> {
 /// Selected TP filing status filter.
 final tpFilingStatusFilterProvider =
     NotifierProvider<TpFilingStatusFilterNotifier, TpFilingStatus?>(
-        TpFilingStatusFilterNotifier.new);
+      TpFilingStatusFilterNotifier.new,
+    );
 
 class TpFilingStatusFilterNotifier extends Notifier<TpFilingStatus?> {
   @override
@@ -277,14 +279,18 @@ final tpSummaryProvider = Provider<TpSummary>((ref) {
 
   final totalStudies = studies.length;
   final inProgress = studies
-      .where((s) =>
-          s.status != TpStudyStatus.notStarted &&
-          s.status != TpStudyStatus.final_)
+      .where(
+        (s) =>
+            s.status != TpStudyStatus.notStarted &&
+            s.status != TpStudyStatus.final_,
+      )
       .length;
-  final completed =
-      studies.where((s) => s.status == TpStudyStatus.final_).length;
-  final filingsPending =
-      filings.where((f) => f.status != TpFilingStatus.filed).length;
+  final completed = studies
+      .where((s) => s.status == TpStudyStatus.final_)
+      .length;
+  final filingsPending = filings
+      .where((f) => f.status != TpFilingStatus.filed)
+      .length;
 
   return TpSummary(
     totalStudies: totalStudies,

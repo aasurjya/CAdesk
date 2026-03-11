@@ -15,8 +15,8 @@ class BillingSummaryCard extends StatelessWidget {
     final rateColor = summary.realizationRate >= 90
         ? AppColors.success
         : summary.realizationRate >= 75
-            ? AppColors.accent
-            : AppColors.error;
+        ? AppColors.accent
+        : AppColors.error;
 
     return Card(
       clipBehavior: Clip.antiAlias,

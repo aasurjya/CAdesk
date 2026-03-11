@@ -114,8 +114,7 @@ class _KpiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final badgeColor =
-        item.badgePositive ? AppColors.success : AppColors.error;
+    final badgeColor = item.badgePositive ? AppColors.success : AppColors.error;
 
     return Card(
       clipBehavior: Clip.antiAlias,

@@ -7,10 +7,7 @@ class FinancialRatioCalculator {
   FinancialRatioCalculator._();
 
   /// Liquidity
-  static double currentRatio(
-    double currentAssets,
-    double currentLiabilities,
-  ) {
+  static double currentRatio(double currentAssets, double currentLiabilities) {
     if (currentLiabilities == 0) {
       return 0;
     }
@@ -132,8 +129,9 @@ class DepreciationCalculator {
     required double ratePercent,
     required bool isAdditionAfterOct3,
   }) {
-    final effectiveAdditions =
-        isAdditionAfterOct3 ? additionsDuringYear / 2 : additionsDuringYear;
+    final effectiveAdditions = isAdditionAfterOct3
+        ? additionsDuringYear / 2
+        : additionsDuringYear;
     final netBlock = openingWdv + effectiveAdditions - disposalsDuringYear;
     if (netBlock <= 0) {
       return 0;
@@ -147,7 +145,9 @@ class DepreciationCalculator {
     required double disposals,
     required double depreciation,
   }) {
-    return (openingWdv + additions - disposals - depreciation)
-        .clamp(0, double.infinity);
+    return (openingWdv + additions - disposals - depreciation).clamp(
+      0,
+      double.infinity,
+    );
   }
 }

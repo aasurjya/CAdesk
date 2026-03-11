@@ -2,22 +2,10 @@ import 'package:flutter/material.dart';
 
 /// Type of anomaly detected in a transaction.
 enum AlertType {
-  unusualAmount(
-    label: 'Unusual Amount',
-    icon: Icons.trending_up_rounded,
-  ),
-  duplicate(
-    label: 'Duplicate',
-    icon: Icons.content_copy_rounded,
-  ),
-  patternBreak(
-    label: 'Pattern Break',
-    icon: Icons.show_chart_rounded,
-  ),
-  missingEntry(
-    label: 'Missing Entry',
-    icon: Icons.playlist_remove_rounded,
-  );
+  unusualAmount(label: 'Unusual Amount', icon: Icons.trending_up_rounded),
+  duplicate(label: 'Duplicate', icon: Icons.content_copy_rounded),
+  patternBreak(label: 'Pattern Break', icon: Icons.show_chart_rounded),
+  missingEntry(label: 'Missing Entry', icon: Icons.playlist_remove_rounded);
 
   const AlertType({required this.label, required this.icon});
 
@@ -32,21 +20,9 @@ enum AlertSeverity {
     color: Color(0xFFC62828),
     icon: Icons.error_rounded,
   ),
-  high(
-    label: 'High',
-    color: Color(0xFFEF6C00),
-    icon: Icons.warning_rounded,
-  ),
-  medium(
-    label: 'Medium',
-    color: Color(0xFFD4890E),
-    icon: Icons.info_rounded,
-  ),
-  low(
-    label: 'Low',
-    color: Color(0xFF1565C0),
-    icon: Icons.info_outline_rounded,
-  );
+  high(label: 'High', color: Color(0xFFEF6C00), icon: Icons.warning_rounded),
+  medium(label: 'Medium', color: Color(0xFFD4890E), icon: Icons.info_rounded),
+  low(label: 'Low', color: Color(0xFF1565C0), icon: Icons.info_outline_rounded);
 
   const AlertSeverity({
     required this.label,

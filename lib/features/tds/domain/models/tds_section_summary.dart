@@ -100,15 +100,15 @@ class TdsSectionSummary {
 
   @override
   int get hashCode => Object.hash(
-        section,
-        sectionDescription,
-        ratePercent,
-        totalPayments,
-        totalTdsDeducted,
-        totalTdsPaid,
-        outstandingTds,
-        deducteeCount,
-      );
+    section,
+    sectionDescription,
+    ratePercent,
+    totalPayments,
+    totalTdsDeducted,
+    totalTdsPaid,
+    outstandingTds,
+    deducteeCount,
+  );
 
   @override
   String toString() =>

@@ -50,27 +50,24 @@ class TasksListScreen extends ConsumerWidget {
                   label: 'All',
                   count: counts['all'] ?? 0,
                   isSelected: selectedFilter == 0,
-                  onTap: () => ref
-                      .read(taskStatusFilterProvider.notifier)
-                      .update(0),
+                  onTap: () =>
+                      ref.read(taskStatusFilterProvider.notifier).update(0),
                 ),
                 const SizedBox(width: 8),
                 _SummaryChip(
                   label: 'Pending',
                   count: counts['pending'] ?? 0,
                   isSelected: selectedFilter == 1,
-                  onTap: () => ref
-                      .read(taskStatusFilterProvider.notifier)
-                      .update(1),
+                  onTap: () =>
+                      ref.read(taskStatusFilterProvider.notifier).update(1),
                 ),
                 const SizedBox(width: 8),
                 _SummaryChip(
                   label: 'In Progress',
                   count: counts['inProgress'] ?? 0,
                   isSelected: selectedFilter == 2,
-                  onTap: () => ref
-                      .read(taskStatusFilterProvider.notifier)
-                      .update(2),
+                  onTap: () =>
+                      ref.read(taskStatusFilterProvider.notifier).update(2),
                 ),
                 const SizedBox(width: 8),
                 _SummaryChip(
@@ -78,9 +75,8 @@ class TasksListScreen extends ConsumerWidget {
                   count: counts['overdue'] ?? 0,
                   isSelected: selectedFilter == 3,
                   isUrgent: true,
-                  onTap: () => ref
-                      .read(taskStatusFilterProvider.notifier)
-                      .update(3),
+                  onTap: () =>
+                      ref.read(taskStatusFilterProvider.notifier).update(3),
                 ),
               ],
             ),
@@ -220,12 +216,14 @@ class TasksListScreen extends ConsumerWidget {
                       spacing: 6,
                       runSpacing: 6,
                       children: task.tags
-                          .map((tag) => Chip(
-                                label: Text(tag),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                              ))
+                          .map(
+                            (tag) => Chip(
+                              label: Text(tag),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          )
                           .toList(),
                     ),
                   ],
@@ -275,18 +273,15 @@ class TasksListScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               Text(
                 'Sort By',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               ListTile(
                 title: const Text('Due Date'),
                 trailing: currentSort == TaskSortOption.dueDate
-                    ? const Icon(
-                        Icons.check_rounded,
-                        color: AppColors.primary,
-                      )
+                    ? const Icon(Icons.check_rounded, color: AppColors.primary)
                     : null,
                 onTap: () {
                   ref
@@ -298,10 +293,7 @@ class TasksListScreen extends ConsumerWidget {
               ListTile(
                 title: const Text('Priority'),
                 trailing: currentSort == TaskSortOption.priority
-                    ? const Icon(
-                        Icons.check_rounded,
-                        color: AppColors.primary,
-                      )
+                    ? const Icon(Icons.check_rounded, color: AppColors.primary)
                     : null,
                 onTap: () {
                   ref
@@ -313,10 +305,7 @@ class TasksListScreen extends ConsumerWidget {
               ListTile(
                 title: const Text('Client Name'),
                 trailing: currentSort == TaskSortOption.clientName
-                    ? const Icon(
-                        Icons.check_rounded,
-                        color: AppColors.primary,
-                      )
+                    ? const Icon(Icons.check_rounded, color: AppColors.primary)
                     : null,
                 onTap: () {
                   ref
@@ -375,8 +364,8 @@ class _SummaryChip extends StatelessWidget {
               color: isSelected
                   ? Colors.white.withAlpha(77)
                   : (isUrgent
-                      ? AppColors.error.withAlpha(26)
-                      : AppColors.neutral200),
+                        ? AppColors.error.withAlpha(26)
+                        : AppColors.neutral200),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
@@ -397,8 +386,9 @@ class _SummaryChip extends StatelessWidget {
       selectedColor: isUrgent
           ? AppColors.error.withAlpha(40)
           : colorScheme.primaryContainer,
-      checkmarkColor:
-          isUrgent ? AppColors.error : colorScheme.onPrimaryContainer,
+      checkmarkColor: isUrgent
+          ? AppColors.error
+          : colorScheme.onPrimaryContainer,
       labelStyle: TextStyle(
         color: isSelected
             ? (isUrgent ? AppColors.error : colorScheme.onPrimaryContainer)
@@ -528,8 +518,9 @@ class _FilterSheet extends StatelessWidget {
                   label: Text(type.label),
                   selected: selected,
                   onSelected: (val) {
-                    ref.read(taskTypeFilterProvider.notifier).update(
-                        val ? type : null);
+                    ref
+                        .read(taskTypeFilterProvider.notifier)
+                        .update(val ? type : null);
                   },
                 );
               }).toList(),
@@ -559,8 +550,9 @@ class _FilterSheet extends StatelessWidget {
                   ),
                   selected: selected,
                   onSelected: (val) {
-                    ref.read(taskPriorityFilterProvider.notifier).update(
-                        val ? p : null);
+                    ref
+                        .read(taskPriorityFilterProvider.notifier)
+                        .update(val ? p : null);
                   },
                 );
               }).toList(),
@@ -583,8 +575,9 @@ class _FilterSheet extends StatelessWidget {
                   label: Text(name),
                   selected: selected,
                   onSelected: (val) {
-                    ref.read(taskAssigneeFilterProvider.notifier).update(
-                        val ? name : null);
+                    ref
+                        .read(taskAssigneeFilterProvider.notifier)
+                        .update(val ? name : null);
                   },
                 );
               }).toList(),

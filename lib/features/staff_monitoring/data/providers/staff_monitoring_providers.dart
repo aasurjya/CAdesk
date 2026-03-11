@@ -11,14 +11,14 @@ import 'package:ca_app/features/staff_monitoring/data/providers/mock_data.dart';
 
 final allActivityLogsProvider =
     NotifierProvider<AllActivityLogsNotifier, List<ActivityLog>>(
-        AllActivityLogsNotifier.new);
+      AllActivityLogsNotifier.new,
+    );
 
 class AllActivityLogsNotifier extends Notifier<List<ActivityLog>> {
   @override
   List<ActivityLog> build() => mockActivityLogs;
 
-  void update(List<ActivityLog> value) =>
-      state = List.unmodifiable(value);
+  void update(List<ActivityLog> value) => state = List.unmodifiable(value);
 }
 
 // ---------------------------------------------------------------------------
@@ -27,7 +27,8 @@ class AllActivityLogsNotifier extends Notifier<List<ActivityLog>> {
 
 final allRestrictionsProvider =
     NotifierProvider<AllRestrictionsNotifier, List<AccessRestriction>>(
-        AllRestrictionsNotifier.new);
+      AllRestrictionsNotifier.new,
+    );
 
 class AllRestrictionsNotifier extends Notifier<List<AccessRestriction>> {
   @override
@@ -51,7 +52,8 @@ class AllRestrictionsNotifier extends Notifier<List<AccessRestriction>> {
 
 final allAlertsProvider =
     NotifierProvider<AllAlertsNotifier, List<SecurityAlert>>(
-        AllAlertsNotifier.new);
+      AllAlertsNotifier.new,
+    );
 
 class AllAlertsNotifier extends Notifier<List<SecurityAlert>> {
   @override
@@ -70,8 +72,7 @@ class AllAlertsNotifier extends Notifier<List<SecurityAlert>> {
     state = List.unmodifiable(updated);
   }
 
-  void update(List<SecurityAlert> value) =>
-      state = List.unmodifiable(value);
+  void update(List<SecurityAlert> value) => state = List.unmodifiable(value);
 }
 
 // ---------------------------------------------------------------------------
@@ -80,7 +81,8 @@ class AllAlertsNotifier extends Notifier<List<SecurityAlert>> {
 
 final activityTypeFilterProvider =
     NotifierProvider<ActivityTypeFilterNotifier, ActivityType?>(
-        ActivityTypeFilterNotifier.new);
+      ActivityTypeFilterNotifier.new,
+    );
 
 class ActivityTypeFilterNotifier extends Notifier<ActivityType?> {
   @override
@@ -91,7 +93,8 @@ class ActivityTypeFilterNotifier extends Notifier<ActivityType?> {
 
 final alertSeverityFilterProvider =
     NotifierProvider<AlertSeverityFilterNotifier, AlertSeverity?>(
-        AlertSeverityFilterNotifier.new);
+      AlertSeverityFilterNotifier.new,
+    );
 
 class AlertSeverityFilterNotifier extends Notifier<AlertSeverity?> {
   @override

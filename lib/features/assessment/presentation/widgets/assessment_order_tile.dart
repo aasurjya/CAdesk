@@ -8,11 +8,7 @@ import '../../domain/models/assessment_order.dart';
 /// Tile showing an assessment order with section badge,
 /// demand amount, and error indicator.
 class AssessmentOrderTile extends StatelessWidget {
-  const AssessmentOrderTile({
-    super.key,
-    required this.order,
-    this.onTap,
-  });
+  const AssessmentOrderTile({super.key, required this.order, this.onTap});
 
   final AssessmentOrder order;
   final VoidCallback? onTap;
@@ -184,8 +180,11 @@ class _NoBadge extends StatelessWidget {
       child: const Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.check_circle_outline_rounded,
-              size: 11, color: AppColors.success),
+          Icon(
+            Icons.check_circle_outline_rounded,
+            size: 11,
+            color: AppColors.success,
+          ),
           SizedBox(width: 3),
           Text(
             'No Errors',
@@ -306,7 +305,9 @@ class _FiguresRow extends StatelessWidget {
         _Cell(
           label: 'Disallowances',
           value: CurrencyUtils.formatINRCompact(order.disallowances),
-          color: order.disallowances > 0 ? AppColors.warning : AppColors.neutral400,
+          color: order.disallowances > 0
+              ? AppColors.warning
+              : AppColors.neutral400,
         ),
       ],
     );
@@ -314,11 +315,7 @@ class _FiguresRow extends StatelessWidget {
 }
 
 class _Cell extends StatelessWidget {
-  const _Cell({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _Cell({required this.label, required this.value, required this.color});
 
   final String label;
   final String value;

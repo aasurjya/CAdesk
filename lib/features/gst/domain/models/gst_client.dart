@@ -25,11 +25,11 @@ class GstClient {
     this.returnsPending = const [],
     this.lastFiledDate,
     this.complianceScore = 0,
-  })  : assert(gstin.length == 15, 'GSTIN must be exactly 15 characters'),
-        assert(
-          complianceScore >= 0 && complianceScore <= 100,
-          'Compliance score must be between 0 and 100',
-        );
+  }) : assert(gstin.length == 15, 'GSTIN must be exactly 15 characters'),
+       assert(
+         complianceScore >= 0 && complianceScore <= 100,
+         'Compliance score must be between 0 and 100',
+       );
 
   final String id;
   final String businessName;

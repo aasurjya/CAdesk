@@ -59,8 +59,18 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
 
   String get _monthLabel {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[widget.month - 1]} ${widget.year}';
   }
@@ -208,8 +218,7 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.primary,
                               side: const BorderSide(color: AppColors.primary),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                           ),
                         ),
@@ -224,8 +233,7 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
                             label: const Text('Send to Employee'),
                             style: FilledButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 12),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                           ),
                         ),
@@ -244,10 +252,7 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
   void _showSnackBar(BuildContext context, String message) {
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-      ),
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
 }
@@ -317,8 +322,10 @@ class _PayslipHeader extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
                   borderRadius: BorderRadius.circular(8),
@@ -348,10 +355,7 @@ class _PayslipHeader extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '${employee.employeeCode}  •  ${employee.department}',
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.neutral400,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.neutral400),
           ),
         ],
       ),
@@ -518,8 +522,7 @@ class _EmployerContributionsSection extends StatelessWidget {
             onTap: onToggle,
             borderRadius: BorderRadius.circular(10),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
               child: Row(
                 children: [
                   const Text(
@@ -545,8 +548,7 @@ class _EmployerContributionsSection extends StatelessWidget {
           if (expanded) ...[
             const Divider(height: 1, color: AppColors.neutral200),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               child: Column(
                 children: [
                   _PayslipRow(

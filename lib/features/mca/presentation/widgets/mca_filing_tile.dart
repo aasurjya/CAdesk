@@ -20,11 +20,7 @@ int _daysUntil(DateTime due) {
 /// Card tile for a single [McaFiling] showing form type badge, deadline
 /// countdown, and penalty indicator.
 class McaFilingTile extends StatelessWidget {
-  const McaFilingTile({
-    super.key,
-    required this.filing,
-    this.onTap,
-  });
+  const McaFilingTile({super.key, required this.filing, this.onTap});
 
   final McaFiling filing;
   final VoidCallback? onTap;
@@ -33,7 +29,8 @@ class McaFilingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final daysLeft = _daysUntil(filing.dueDate);
-    final isComplete = filing.status == McaFilingStatus.approved ||
+    final isComplete =
+        filing.status == McaFilingStatus.approved ||
         filing.status == McaFilingStatus.filed;
 
     return Card(
@@ -307,10 +304,7 @@ class _MetaChip extends StatelessWidget {
         const SizedBox(width: 3),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 11,
-            color: AppColors.neutral600,
-          ),
+          style: TextStyle(fontSize: 11, color: AppColors.neutral600),
         ),
       ],
     );

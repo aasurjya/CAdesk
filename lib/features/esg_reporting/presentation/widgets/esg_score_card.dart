@@ -5,10 +5,7 @@ import 'package:ca_app/features/esg_reporting/domain/models/esg_disclosure.dart'
 
 /// Card displaying the ESG pillar scores and metadata for a single disclosure.
 class EsgScoreCard extends StatelessWidget {
-  const EsgScoreCard({
-    super.key,
-    required this.disclosure,
-  });
+  const EsgScoreCard({super.key, required this.disclosure});
 
   final EsgDisclosure disclosure;
 
@@ -147,14 +144,19 @@ class EsgScoreCard extends StatelessWidget {
     }
     return Row(
       children: [
-        Icon(Icons.pending_actions_outlined,
-            size: 14, color: AppColors.warning),
+        Icon(
+          Icons.pending_actions_outlined,
+          size: 14,
+          color: AppColors.warning,
+        ),
         const SizedBox(width: 4),
         Text(
           '${disclosure.pendingItems.length} pending item'
           '${disclosure.pendingItems.length == 1 ? '' : 's'}',
-          style: theme.textTheme.labelSmall
-              ?.copyWith(color: AppColors.warning, fontWeight: FontWeight.w500),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: AppColors.warning,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );
@@ -295,8 +297,9 @@ class _OverallScore extends StatelessWidget {
         ),
         Text(
           '/100',
-          style: theme.textTheme.labelSmall
-              ?.copyWith(color: AppColors.neutral400),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: AppColors.neutral400,
+          ),
         ),
       ],
     );

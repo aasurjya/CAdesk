@@ -11,10 +11,7 @@ import 'package:ca_app/features/industry_playbooks/presentation/widgets/service_
 /// Tapping the card opens a modal bottom sheet with full playbook details
 /// and all associated service bundles.
 class PlaybookCard extends ConsumerWidget {
-  const PlaybookCard({
-    required this.playbook,
-    super.key,
-  });
+  const PlaybookCard({required this.playbook, super.key});
 
   final VerticalPlaybook playbook;
 
@@ -211,7 +208,9 @@ class PlaybookCard extends ConsumerWidget {
               icon: Icons.checklist_rounded,
               iconColor: AppColors.success,
               children: playbook.complianceChecklist
-                  .map((item) => _BulletItem(text: item, color: AppColors.success))
+                  .map(
+                    (item) => _BulletItem(text: item, color: AppColors.success),
+                  )
                   .toList(),
             ),
             const SizedBox(height: 16),

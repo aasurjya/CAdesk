@@ -145,8 +145,8 @@ class _ClientHeader extends StatelessWidget {
     final scoreColor = score >= 80
         ? AppColors.success
         : score >= 60
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
@@ -255,10 +255,7 @@ class _RegistrationBadge extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ReturnsTab extends ConsumerWidget {
-  const _ReturnsTab({
-    required this.clientId,
-    required this.scrollController,
-  });
+  const _ReturnsTab({required this.clientId, required this.scrollController});
 
   final String clientId;
   final ScrollController scrollController;
@@ -266,10 +263,9 @@ class _ReturnsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final allReturns = ref.watch(gstReturnsProvider);
-    final clientReturns = allReturns
-        .where((r) => r.clientId == clientId)
-        .toList()
-      ..sort((a, b) => b.dueDate.compareTo(a.dueDate));
+    final clientReturns =
+        allReturns.where((r) => r.clientId == clientId).toList()
+          ..sort((a, b) => b.dueDate.compareTo(a.dueDate));
 
     if (clientReturns.isEmpty) {
       return const Center(
@@ -337,10 +333,7 @@ class _ReturnCard extends StatelessWidget {
           Row(
             children: [
               // Return type chip
-              _Chip(
-                label: r.returnType.label,
-                color: AppColors.primary,
-              ),
+              _Chip(label: r.returnType.label, color: AppColors.primary),
               const SizedBox(width: 8),
               Text(
                 r.periodLabel,
@@ -371,8 +364,9 @@ class _ReturnCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   color: daysLate > 0 ? AppColors.error : AppColors.neutral400,
-                  fontWeight:
-                      daysLate > 0 ? FontWeight.w600 : FontWeight.normal,
+                  fontWeight: daysLate > 0
+                      ? FontWeight.w600
+                      : FontWeight.normal,
                 ),
               ),
               if (daysLate > 0 && isPending) ...[
@@ -467,10 +461,7 @@ class _ReturnCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ItcReconTab extends ConsumerWidget {
-  const _ItcReconTab({
-    required this.clientId,
-    required this.scrollController,
-  });
+  const _ItcReconTab({required this.clientId, required this.scrollController});
 
   final String clientId;
   final ScrollController scrollController;
@@ -491,9 +482,7 @@ class _ItcReconTab extends ConsumerWidget {
     return ListView(
       controller: scrollController,
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-      children: [
-        _ItcReconCard(recon: recon),
-      ],
+      children: [_ItcReconCard(recon: recon)],
     );
   }
 }
@@ -741,18 +730,12 @@ class _BreakdownRow extends StatelessWidget {
             Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-              ),
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             ),
             const SizedBox(width: 8),
             Text(
               label,
-              style: const TextStyle(
-                fontSize: 13,
-                color: AppColors.neutral600,
-              ),
+              style: const TextStyle(fontSize: 13, color: AppColors.neutral600),
             ),
           ],
         ),

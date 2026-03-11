@@ -7,11 +7,7 @@ import '../../domain/models/depreciation_entry.dart';
 /// Tile showing a depreciation entry with asset-block badge,
 /// WDV progression bar, and key amounts.
 class DepreciationTile extends StatelessWidget {
-  const DepreciationTile({
-    super.key,
-    required this.entry,
-    this.onTap,
-  });
+  const DepreciationTile({super.key, required this.entry, this.onTap});
 
   final DepreciationEntry entry;
   final VoidCallback? onTap;
@@ -208,11 +204,7 @@ class _AmountsRow extends StatelessWidget {
 }
 
 class _Cell extends StatelessWidget {
-  const _Cell({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _Cell({required this.label, required this.value, required this.color});
 
   final String label;
   final String value;

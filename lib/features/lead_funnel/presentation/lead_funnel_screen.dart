@@ -101,10 +101,7 @@ class _LeadFunnelScreenState extends ConsumerState<LeadFunnelScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _LeadsTab(),
-                _CampaignsTab(),
-              ],
+              children: const [_LeadsTab(), _CampaignsTab()],
             ),
           ),
         ],
@@ -190,9 +187,9 @@ class _LeadsTab extends ConsumerWidget {
         _StageFilterBar(
           selected: selectedStage,
           onSelected: (stage) {
-            ref.read(leadStageFilterProvider.notifier).update(
-                  stage == selectedStage ? null : stage,
-                );
+            ref
+                .read(leadStageFilterProvider.notifier)
+                .update(stage == selectedStage ? null : stage);
           },
         ),
 
@@ -203,8 +200,7 @@ class _LeadsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: leads.length,
-                  itemBuilder: (context, index) =>
-                      LeadTile(lead: leads[index]),
+                  itemBuilder: (context, index) => LeadTile(lead: leads[index]),
                 ),
         ),
       ],
@@ -239,10 +235,7 @@ class _CampaignsTab extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 
 class _StageFilterBar extends StatelessWidget {
-  const _StageFilterBar({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _StageFilterBar({required this.selected, required this.onSelected});
 
   final LeadStage? selected;
   final ValueChanged<LeadStage> onSelected;

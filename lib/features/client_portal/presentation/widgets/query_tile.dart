@@ -6,11 +6,7 @@ import 'package:ca_app/features/client_portal/domain/models/client_query.dart';
 
 /// Card widget for displaying a client query with status badge and priority.
 class QueryTile extends StatelessWidget {
-  const QueryTile({
-    super.key,
-    required this.query,
-    this.onTap,
-  });
+  const QueryTile({super.key, required this.query, this.onTap});
 
   final ClientQuery query;
   final VoidCallback? onTap;

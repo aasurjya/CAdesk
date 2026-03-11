@@ -6,11 +6,7 @@ import 'package:ca_app/features/ai_automation/domain/models/ai_scan_result.dart'
 
 /// Displays a single OCR scan result with a confidence indicator.
 class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({
-    super.key,
-    required this.scanResult,
-    this.onTap,
-  });
+  const ScanResultTile({super.key, required this.scanResult, this.onTap});
 
   final AiScanResult scanResult;
   final VoidCallback? onTap;
@@ -105,8 +101,8 @@ class _ConfidenceIndicator extends StatelessWidget {
     final color = confidence >= 0.90
         ? AppColors.success
         : confidence >= 0.75
-            ? AppColors.warning
-            : AppColors.error;
+        ? AppColors.warning
+        : AppColors.error;
 
     return Row(
       mainAxisSize: MainAxisSize.min,

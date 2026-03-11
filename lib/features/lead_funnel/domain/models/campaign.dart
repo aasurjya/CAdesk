@@ -15,22 +15,10 @@ enum CampaignType {
 }
 
 enum CampaignStatus {
-  planning(
-    'Planning',
-    Color(0xFF718096),
-  ),
-  active(
-    'Active',
-    Color(0xFF1A7A3A),
-  ),
-  paused(
-    'Paused',
-    Color(0xFFD4890E),
-  ),
-  completed(
-    'Completed',
-    Color(0xFF1B3A5C),
-  );
+  planning('Planning', Color(0xFF718096)),
+  active('Active', Color(0xFF1A7A3A)),
+  paused('Paused', Color(0xFFD4890E)),
+  completed('Completed', Color(0xFF1B3A5C));
 
   const CampaignStatus(this.label, this.color);
   final String label;

@@ -712,7 +712,8 @@ final _mockReceipts = <PaymentReceipt>[
 
 final allInvoicesProvider =
     NotifierProvider<AllInvoicesNotifier, List<Invoice>>(
-        AllInvoicesNotifier.new);
+      AllInvoicesNotifier.new,
+    );
 
 class AllInvoicesNotifier extends Notifier<List<Invoice>> {
   @override
@@ -723,20 +724,21 @@ class AllInvoicesNotifier extends Notifier<List<Invoice>> {
 
 final allReceiptsProvider =
     NotifierProvider<AllReceiptsNotifier, List<PaymentReceipt>>(
-        AllReceiptsNotifier.new);
+      AllReceiptsNotifier.new,
+    );
 
 class AllReceiptsNotifier extends Notifier<List<PaymentReceipt>> {
   @override
   List<PaymentReceipt> build() => List.unmodifiable(_mockReceipts);
 
-  void update(List<PaymentReceipt> value) =>
-      state = List.unmodifiable(value);
+  void update(List<PaymentReceipt> value) => state = List.unmodifiable(value);
 }
 
 // Filter: invoice status
 final invoiceStatusFilterProvider =
     NotifierProvider<InvoiceStatusFilterNotifier, InvoiceStatus?>(
-        InvoiceStatusFilterNotifier.new);
+      InvoiceStatusFilterNotifier.new,
+    );
 
 class InvoiceStatusFilterNotifier extends Notifier<InvoiceStatus?> {
   @override
@@ -748,7 +750,8 @@ class InvoiceStatusFilterNotifier extends Notifier<InvoiceStatus?> {
 // Filter: client id
 final billingClientFilterProvider =
     NotifierProvider<BillingClientFilterNotifier, String?>(
-        BillingClientFilterNotifier.new);
+      BillingClientFilterNotifier.new,
+    );
 
 class BillingClientFilterNotifier extends Notifier<String?> {
   @override
@@ -760,7 +763,8 @@ class BillingClientFilterNotifier extends Notifier<String?> {
 // Filter: search query for billing
 final billingSearchQueryProvider =
     NotifierProvider<BillingSearchQueryNotifier, String>(
-        BillingSearchQueryNotifier.new);
+      BillingSearchQueryNotifier.new,
+    );
 
 class BillingSearchQueryNotifier extends Notifier<String> {
   @override
@@ -776,18 +780,18 @@ final filteredInvoicesProvider = Provider<List<Invoice>>((ref) {
   final clientFilter = ref.watch(billingClientFilterProvider);
   final query = ref.watch(billingSearchQueryProvider).toLowerCase().trim();
 
-  return List.unmodifiable(invoices.where((inv) {
-    if (statusFilter != null && inv.status != statusFilter) return false;
-    if (clientFilter != null && inv.clientId != clientFilter) return false;
-    if (query.isNotEmpty) {
-      final matchesClient = inv.clientName.toLowerCase().contains(query);
-      final matchesNumber =
-          inv.invoiceNumber.toLowerCase().contains(query);
-      return matchesClient || matchesNumber;
-    }
-    return true;
-  }).toList()
-    ..sort((a, b) => b.invoiceDate.compareTo(a.invoiceDate)));
+  return List.unmodifiable(
+    invoices.where((inv) {
+      if (statusFilter != null && inv.status != statusFilter) return false;
+      if (clientFilter != null && inv.clientId != clientFilter) return false;
+      if (query.isNotEmpty) {
+        final matchesClient = inv.clientName.toLowerCase().contains(query);
+        final matchesNumber = inv.invoiceNumber.toLowerCase().contains(query);
+        return matchesClient || matchesNumber;
+      }
+      return true;
+    }).toList()..sort((a, b) => b.invoiceDate.compareTo(a.invoiceDate)),
+  );
 });
 
 /// Total receivables (sum of all balance-due invoices).
@@ -820,15 +824,21 @@ final overdueCountProvider = Provider<int>((ref) {
 
 /// Summary record for billing screen header.
 final billingSummaryProvider =
-    Provider<({double totalBilled, double totalCollected, double outstanding, int overdueCount})>(
-        (ref) {
-  return (
-    totalBilled: ref.watch(totalBilledProvider),
-    totalCollected: ref.watch(totalCollectedProvider),
-    outstanding: ref.watch(totalReceivablesProvider),
-    overdueCount: ref.watch(overdueCountProvider),
-  );
-});
+    Provider<
+      ({
+        double totalBilled,
+        double totalCollected,
+        double outstanding,
+        int overdueCount,
+      })
+    >((ref) {
+      return (
+        totalBilled: ref.watch(totalBilledProvider),
+        totalCollected: ref.watch(totalCollectedProvider),
+        outstanding: ref.watch(totalReceivablesProvider),
+        overdueCount: ref.watch(overdueCountProvider),
+      );
+    });
 
 // ---------------------------------------------------------------------------
 // Mock payment records — 8 records across multiple invoices
@@ -923,7 +933,8 @@ final _mockPaymentRecords = <PaymentRecord>[
 
 final allPaymentRecordsProvider =
     NotifierProvider<AllPaymentRecordsNotifier, List<PaymentRecord>>(
-        AllPaymentRecordsNotifier.new);
+      AllPaymentRecordsNotifier.new,
+    );
 
 class AllPaymentRecordsNotifier extends Notifier<List<PaymentRecord>> {
   @override

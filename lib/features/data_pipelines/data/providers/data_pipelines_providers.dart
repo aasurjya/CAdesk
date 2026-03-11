@@ -189,7 +189,8 @@ final brokerFeedsProvider = Provider<List<BrokerFeed>>(
 /// Selected pipeline status filter.
 final pipelineStatusFilterProvider =
     NotifierProvider<PipelineStatusFilterNotifier, PipelineStatus?>(
-        PipelineStatusFilterNotifier.new);
+      PipelineStatusFilterNotifier.new,
+    );
 
 class PipelineStatusFilterNotifier extends Notifier<PipelineStatus?> {
   @override
@@ -212,15 +213,18 @@ final dataPipelinesSummaryProvider = Provider<DataPipelinesSummary>((ref) {
   final now = DateTime(2026, 3, 10);
 
   final totalPipelines = pipelines.length;
-  final activePipelines =
-      pipelines.where((p) => p.status == PipelineStatus.active).length;
-  final errorPipelines =
-      pipelines.where((p) => p.status == PipelineStatus.error).length;
+  final activePipelines = pipelines
+      .where((p) => p.status == PipelineStatus.active)
+      .length;
+  final errorPipelines = pipelines
+      .where((p) => p.status == PipelineStatus.error)
+      .length;
   final todayStart = DateTime(now.year, now.month, now.day);
   final totalRecordsToday = pipelines
-      .where((p) =>
-          p.status == PipelineStatus.active &&
-          p.lastSync.isAfter(todayStart))
+      .where(
+        (p) =>
+            p.status == PipelineStatus.active && p.lastSync.isAfter(todayStart),
+      )
       .fold<int>(0, (sum, p) => sum + p.recordsProcessed);
 
   return DataPipelinesSummary(

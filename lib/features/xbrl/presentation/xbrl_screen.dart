@@ -171,13 +171,14 @@ class _ProgressSummaryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalTags = filings.fold<int>(0, (s, f) => s + f.totalTags);
-    final completedTags =
-        filings.fold<int>(0, (s, f) => s + f.completedTags);
-    final totalErrors =
-        filings.fold<int>(0, (s, f) => s + f.validationErrors);
-    final filed = filings.where((f) => f.status == XbrlFilingStatus.filed).length;
-    final overallPct =
-        totalTags > 0 ? (completedTags / totalTags).clamp(0.0, 1.0) : 0.0;
+    final completedTags = filings.fold<int>(0, (s, f) => s + f.completedTags);
+    final totalErrors = filings.fold<int>(0, (s, f) => s + f.validationErrors);
+    final filed = filings
+        .where((f) => f.status == XbrlFilingStatus.filed)
+        .length;
+    final overallPct = totalTags > 0
+        ? (completedTags / totalTags).clamp(0.0, 1.0)
+        : 0.0;
 
     return Container(
       color: AppColors.surface,
@@ -332,17 +333,18 @@ class _ElementsTab extends ConsumerWidget {
 
     final elements = ref.watch(xbrlActiveElementsProvider);
     final filings = ref.watch(xbrlFilingsProvider);
-    final filing = filings
-        .where((f) => f.id == selectedFilingId)
-        .firstOrNull;
+    final filing = filings.where((f) => f.id == selectedFilingId).firstOrNull;
 
     if (elements.isEmpty) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.inbox_rounded,
-                size: 48, color: AppColors.neutral200),
+            const Icon(
+              Icons.inbox_rounded,
+              size: 48,
+              color: AppColors.neutral200,
+            ),
             const SizedBox(height: 12),
             Text(
               'No elements available for this filing',
@@ -376,8 +378,7 @@ class _ElementsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completed =
-        (filing.completionPercentage * 100).round();
+    final completed = (filing.completionPercentage * 100).round();
 
     return Container(
       color: AppColors.surface,
@@ -420,10 +421,7 @@ class _ElementsHeader extends StatelessWidget {
               ),
               const Text(
                 'complete',
-                style: TextStyle(
-                  fontSize: 9,
-                  color: AppColors.neutral400,
-                ),
+                style: TextStyle(fontSize: 9, color: AppColors.neutral400),
               ),
             ],
           ),

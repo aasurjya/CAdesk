@@ -163,9 +163,9 @@ class _PriorityBadge extends StatelessWidget {
       child: Text(
         priority.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: priority.color,
-              fontWeight: FontWeight.w700,
-            ),
+          color: priority.color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }
@@ -203,10 +203,10 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: _color,
-              fontWeight: FontWeight.w600,
-              fontSize: 10,
-            ),
+          color: _color,
+          fontWeight: FontWeight.w600,
+          fontSize: 10,
+        ),
       ),
     );
   }
@@ -233,9 +233,9 @@ class _SignalChip extends StatelessWidget {
           Text(
             signal,
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: AppColors.neutral600,
-                  fontSize: 10,
-                ),
+              color: AppColors.neutral600,
+              fontSize: 10,
+            ),
           ),
         ],
       ),

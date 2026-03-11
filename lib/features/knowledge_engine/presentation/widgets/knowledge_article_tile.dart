@@ -187,9 +187,9 @@ class _TagChip extends StatelessWidget {
       child: Text(
         tag,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: AppColors.neutral600,
-              fontSize: 10,
-            ),
+          color: AppColors.neutral600,
+          fontSize: 10,
+        ),
       ),
     );
   }

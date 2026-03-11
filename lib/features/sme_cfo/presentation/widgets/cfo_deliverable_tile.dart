@@ -109,8 +109,8 @@ class CfoDeliverableTile extends StatelessWidget {
                       color: isOverdue
                           ? AppColors.error
                           : daysLeft <= 3
-                              ? AppColors.warning
-                              : AppColors.neutral400,
+                          ? AppColors.warning
+                          : AppColors.neutral400,
                       fontWeight: isOverdue || daysLeft <= 3
                           ? FontWeight.w600
                           : FontWeight.normal,
@@ -166,11 +166,7 @@ class _TypeIconBadge extends StatelessWidget {
         color: AppColors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        type.icon,
-        size: 20,
-        color: AppColors.primary,
-      ),
+      child: Icon(type.icon, size: 20, color: AppColors.primary),
     );
   }
 }
@@ -195,9 +191,9 @@ class _DeliverableStatusBadge extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

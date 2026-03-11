@@ -7,10 +7,7 @@ import '../../data/providers/accounts_providers.dart';
 ///
 /// Open via [showFinancialRatiosSheet].
 class FinancialRatiosSheet extends StatelessWidget {
-  const FinancialRatiosSheet({
-    super.key,
-    required this.snapshot,
-  });
+  const FinancialRatiosSheet({super.key, required this.snapshot});
 
   final FinancialRatioSnapshot snapshot;
 
@@ -75,22 +72,19 @@ class FinancialRatiosSheet extends StatelessWidget {
                       rows: [
                         _RatioRow(
                           label: 'Gross Margin',
-                          value:
-                              '${snapshot.grossMargin.toStringAsFixed(1)}%',
+                          value: '${snapshot.grossMargin.toStringAsFixed(1)}%',
                           benchmark: '>40% Good  |  20–40% OK  |  <20% Poor',
                           color: _marginColor(snapshot.grossMargin, 40, 20),
                         ),
                         _RatioRow(
                           label: 'Net Margin',
-                          value:
-                              '${snapshot.netMargin.toStringAsFixed(1)}%',
+                          value: '${snapshot.netMargin.toStringAsFixed(1)}%',
                           benchmark: '>15% Good  |  5–15% OK  |  <5% Poor',
                           color: _marginColor(snapshot.netMargin, 15, 5),
                         ),
                         _RatioRow(
                           label: 'EBITDA Margin',
-                          value:
-                              '${snapshot.ebitdaMargin.toStringAsFixed(1)}%',
+                          value: '${snapshot.ebitdaMargin.toStringAsFixed(1)}%',
                           benchmark: '>20% Good  |  10–20% OK  |  <10% Poor',
                           color: _marginColor(snapshot.ebitdaMargin, 20, 10),
                         ),
@@ -109,8 +103,7 @@ class FinancialRatiosSheet extends StatelessWidget {
                       rows: [
                         _RatioRow(
                           label: 'Debt / Equity',
-                          value:
-                              snapshot.debtToEquity.toStringAsFixed(2),
+                          value: snapshot.debtToEquity.toStringAsFixed(2),
                           benchmark: '<1 Good  |  1–2 Watch  |  >2 Concern',
                           color: _debtEquityColor(snapshot.debtToEquity),
                         ),
@@ -118,8 +111,7 @@ class FinancialRatiosSheet extends StatelessWidget {
                           label: 'Interest Coverage',
                           value: snapshot.interestCoverage.isInfinite
                               ? '∞'
-                              : snapshot.interestCoverage
-                                  .toStringAsFixed(1),
+                              : snapshot.interestCoverage.toStringAsFixed(1),
                           benchmark: '>3 Good  |  1–3 Watch  |  <1 Concern',
                           color: _interestColor(snapshot.interestCoverage),
                         ),
@@ -260,10 +252,7 @@ class _SheetHandle extends StatelessWidget {
 }
 
 class _SheetHeader extends StatelessWidget {
-  const _SheetHeader({
-    required this.snapshot,
-    required this.theme,
-  });
+  const _SheetHeader({required this.snapshot, required this.theme});
 
   final FinancialRatioSnapshot snapshot;
   final ThemeData theme;
@@ -416,10 +405,7 @@ class _RatioRow extends StatelessWidget {
           Container(
             width: 8,
             height: 8,
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           const SizedBox(width: 10),
 

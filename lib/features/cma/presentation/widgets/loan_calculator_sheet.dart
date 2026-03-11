@@ -51,35 +51,31 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
   double get _ebitda => double.tryParse(_ebitdaCtrl.text) ?? 0;
 
   // --- Computed values ---
-  double get _monthlyEmi =>
-      CmaCalculator.emi(
-        principal: _principal,
-        annualRatePercent: _rate,
-        tenureMonths: _tenure,
-      );
+  double get _monthlyEmi => CmaCalculator.emi(
+    principal: _principal,
+    annualRatePercent: _rate,
+    tenureMonths: _tenure,
+  );
 
-  double get _totalInterestVal =>
-      CmaCalculator.totalInterest(
-        principal: _principal,
-        annualRatePercent: _rate,
-        tenureMonths: _tenure,
-      );
+  double get _totalInterestVal => CmaCalculator.totalInterest(
+    principal: _principal,
+    annualRatePercent: _rate,
+    tenureMonths: _tenure,
+  );
 
   double get _totalPayment => _monthlyEmi * _tenure;
 
-  double get _mpbfVal =>
-      CmaCalculator.mpbf(
-        currentAssets: _currentAssets,
-        currentLiabilities: _currentLiab,
-        existingBankBorrowings: _bankBorrow,
-      );
+  double get _mpbfVal => CmaCalculator.mpbf(
+    currentAssets: _currentAssets,
+    currentLiabilities: _currentLiab,
+    existingBankBorrowings: _bankBorrow,
+  );
 
-  double get _dscrVal =>
-      CmaCalculator.dscr(
-        ebitda: _ebitda,
-        annualEmi: _monthlyEmi * 12,
-        annualInterest: _principal * _rate / 100,
-      );
+  double get _dscrVal => CmaCalculator.dscr(
+    ebitda: _ebitda,
+    annualEmi: _monthlyEmi * 12,
+    annualInterest: _principal * _rate / 100,
+  );
 
   String get _dscrStatusLabel => CmaCalculator.dscrStatus(_dscrVal);
 
@@ -90,12 +86,11 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
     return AppColors.error;
   }
 
-  List<AmortizationRow> get _schedule =>
-      CmaCalculator.amortizationSchedule(
-        principal: _principal,
-        annualRatePercent: _rate,
-        tenureMonths: _tenure,
-      );
+  List<AmortizationRow> get _schedule => CmaCalculator.amortizationSchedule(
+    principal: _principal,
+    annualRatePercent: _rate,
+    tenureMonths: _tenure,
+  );
 
   // --- Formatters ---
   String _formatInr(double v) {
@@ -241,16 +236,16 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
     return TextField(
       controller: controller,
       keyboardType: keyboard,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[\d.]')),
-      ],
+      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[\d.]'))],
       decoration: InputDecoration(
         labelText: label,
         prefixText: prefix,
         suffixText: suffix,
         border: const OutlineInputBorder(),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 12,
+        ),
         isDense: true,
       ),
       onChanged: (_) => setState(() {}),
@@ -266,10 +261,7 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.primaryVariant,
-          ],
+          colors: [AppColors.primary, AppColors.primaryVariant],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -346,17 +338,11 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
             children: [
               Flexible(
                 flex: (principalFraction * 1000).round(),
-                child: Container(
-                  height: 16,
-                  color: AppColors.primary,
-                ),
+                child: Container(height: 16, color: AppColors.primary),
               ),
               Flexible(
                 flex: (interestFraction * 1000).round(),
-                child: Container(
-                  height: 16,
-                  color: AppColors.error,
-                ),
+                child: Container(height: 16, color: AppColors.error),
               ),
             ],
           ),
@@ -449,10 +435,7 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
               children: [
                 const Text(
                   'DSCR (Debt Service Coverage Ratio)',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.neutral400,
-                  ),
+                  style: TextStyle(fontSize: 12, color: AppColors.neutral400),
                 ),
                 Text(
                   _ebitda > 0 ? _dscrVal.toStringAsFixed(2) : '—',
@@ -467,8 +450,7 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
           ),
           if (_ebitda > 0)
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: _dscrColor,
                 borderRadius: BorderRadius.circular(8),
@@ -544,13 +526,15 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
         ],
         rows: rows
             .map(
-              (r) => DataRow(cells: [
-                DataCell(Text(r.month.toString())),
-                DataCell(Text(inrFmt.format(r.emi))),
-                DataCell(Text(inrFmt.format(r.principal))),
-                DataCell(Text(inrFmt.format(r.interest))),
-                DataCell(Text(inrFmt.format(r.balance))),
-              ]),
+              (r) => DataRow(
+                cells: [
+                  DataCell(Text(r.month.toString())),
+                  DataCell(Text(inrFmt.format(r.emi))),
+                  DataCell(Text(inrFmt.format(r.principal))),
+                  DataCell(Text(inrFmt.format(r.interest))),
+                  DataCell(Text(inrFmt.format(r.balance))),
+                ],
+              ),
             )
             .toList(),
       ),
@@ -668,10 +652,7 @@ class _Legend extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppColors.neutral400,
-          ),
+          style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
         ),
       ],
     );

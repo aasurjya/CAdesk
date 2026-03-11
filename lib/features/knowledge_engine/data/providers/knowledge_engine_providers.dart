@@ -239,7 +239,8 @@ final allSopDocumentsProvider = Provider<List<SopDocument>>(
 /// Selected knowledge category filter.
 final knowledgeCategoryFilterProvider =
     NotifierProvider<KnowledgeCategoryFilterNotifier, KnowledgeCategory?>(
-        KnowledgeCategoryFilterNotifier.new);
+      KnowledgeCategoryFilterNotifier.new,
+    );
 
 class KnowledgeCategoryFilterNotifier extends Notifier<KnowledgeCategory?> {
   @override
@@ -262,13 +263,15 @@ final knowledgeSummaryProvider = Provider<Map<String, dynamic>>((ref) {
   final sops = ref.watch(allSopDocumentsProvider);
 
   final totalArticles = articles.length;
-  final circularsCount =
-      articles.where((a) => a.category == KnowledgeCategory.circulars).length;
+  final circularsCount = articles
+      .where((a) => a.category == KnowledgeCategory.circulars)
+      .length;
   final sopCount =
       articles.where((a) => a.category == KnowledgeCategory.sop).length +
-          sops.length;
-  final templatesCount =
-      articles.where((a) => a.category == KnowledgeCategory.templates).length;
+      sops.length;
+  final templatesCount = articles
+      .where((a) => a.category == KnowledgeCategory.templates)
+      .length;
 
   return <String, dynamic>{
     'totalArticles': totalArticles,

@@ -7,11 +7,7 @@ import 'package:ca_app/features/faceless_assessment/domain/models/itr_u_filing.d
 /// A tile displaying an ITR-U (Updated Return) filing with penalty
 /// calculation display.
 class ItrUTile extends StatelessWidget {
-  const ItrUTile({
-    super.key,
-    required this.filing,
-    this.onTap,
-  });
+  const ItrUTile({super.key, required this.filing, this.onTap});
 
   final ItrUFiling filing;
   final VoidCallback? onTap;
@@ -73,10 +69,7 @@ class ItrUTile extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 6,
-                  vertical: 2,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppColors.secondary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(4),
@@ -95,8 +88,11 @@ class ItrUTile extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(Icons.calendar_today, size: 12,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.calendar_today,
+                    size: 12,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     'Original filed: ${_dateFormat.format(filing.originalFilingDate)}',

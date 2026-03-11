@@ -98,12 +98,14 @@ class VdaTaxCalculator {
       totalTdsDeducted += t.tdsUnder194S;
     }
 
-    final double netTax =
-        (totalTax - totalTdsDeducted).clamp(0, double.infinity);
+    final double netTax = (totalTax - totalTdsDeducted).clamp(
+      0,
+      double.infinity,
+    );
 
     final String? lossNote = totalLosses > 0
         ? '₹${(totalLosses / 100000).toStringAsFixed(2)}L loss disallowed'
-            ' — cannot be set off u/s 115BBH'
+              ' — cannot be set off u/s 115BBH'
         : null;
 
     return VdaScheduleSummary(

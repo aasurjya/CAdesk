@@ -19,10 +19,7 @@ class ExpiryAlertTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: urgencyColor.withValues(alpha: 0.3),
-          width: 1,
-        ),
+        side: BorderSide(color: urgencyColor.withValues(alpha: 0.3), width: 1),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -65,8 +62,11 @@ class ExpiryAlertTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.event_outlined,
-                          size: 12, color: AppColors.neutral400),
+                      Icon(
+                        Icons.event_outlined,
+                        size: 12,
+                        color: AppColors.neutral400,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         _formatDate(expiry.expiryDate),
@@ -76,8 +76,11 @@ class ExpiryAlertTile extends StatelessWidget {
                       ),
                       if (expiry.reminderSentAt != null) ...[
                         const SizedBox(width: 10),
-                        Icon(Icons.notifications_outlined,
-                            size: 12, color: AppColors.accent),
+                        Icon(
+                          Icons.notifications_outlined,
+                          size: 12,
+                          color: AppColors.accent,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Reminded',
@@ -127,8 +130,18 @@ class ExpiryAlertTile extends StatelessWidget {
 
   String _formatDate(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -153,8 +166,8 @@ class _DaysRemainingBadge extends StatelessWidget {
     final label = status == ExpiryStatus.expired
         ? 'Expired'
         : days == 0
-            ? 'Today'
-            : '$days days';
+        ? 'Today'
+        : '$days days';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

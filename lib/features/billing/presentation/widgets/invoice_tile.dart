@@ -24,11 +24,7 @@ Color _statusColor(InvoiceStatus status) {
 
 /// List tile for a single [Invoice].
 class InvoiceTile extends StatelessWidget {
-  const InvoiceTile({
-    super.key,
-    required this.invoice,
-    this.onTap,
-  });
+  const InvoiceTile({super.key, required this.invoice, this.onTap});
 
   final Invoice invoice;
   final VoidCallback? onTap;
@@ -163,8 +159,9 @@ class InvoiceTile extends StatelessWidget {
                         _dateFormat.format(invoice.dueDate),
                         style: theme.textTheme.labelMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color:
-                              isOverdue ? AppColors.error : AppColors.neutral600,
+                          color: isOverdue
+                              ? AppColors.error
+                              : AppColors.neutral600,
                         ),
                       ),
                     ],

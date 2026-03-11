@@ -6,10 +6,7 @@ import 'package:ca_app/features/idp/domain/models/extracted_field.dart';
 /// ListTile widget that displays an [ExtractedField] with confidence badge,
 /// review status, and optional corrected-value indicator.
 class ExtractedFieldTile extends StatelessWidget {
-  const ExtractedFieldTile({
-    super.key,
-    required this.field,
-  });
+  const ExtractedFieldTile({super.key, required this.field});
 
   final ExtractedField field;
 

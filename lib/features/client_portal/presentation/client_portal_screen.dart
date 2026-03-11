@@ -59,7 +59,10 @@ class ClientPortalScreen extends ConsumerWidget {
                     fontWeight: FontWeight.w700,
                   ),
                   tabs: [
-                    const Tab(icon: Icon(Icons.chat_bubble_outline, size: 20), text: 'Messages'),
+                    const Tab(
+                      icon: Icon(Icons.chat_bubble_outline, size: 20),
+                      text: 'Messages',
+                    ),
                     const Tab(
                       icon: Icon(Icons.folder_shared_outlined, size: 20),
                       text: 'Documents',
@@ -75,7 +78,10 @@ class ClientPortalScreen extends ConsumerWidget {
                           '$unreadCount',
                           style: const TextStyle(fontSize: 9),
                         ),
-                        child: const Icon(Icons.notifications_none_rounded, size: 20),
+                        child: const Icon(
+                          Icons.notifications_none_rounded,
+                          size: 20,
+                        ),
                       ),
                       text: 'Alerts',
                     ),

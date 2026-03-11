@@ -190,7 +190,8 @@ final guestLinksProvider = Provider<List<GuestLink>>(
 /// Selected presence status filter.
 final presenceStatusFilterProvider =
     NotifierProvider<PresenceStatusFilterNotifier, PresenceStatus?>(
-        PresenceStatusFilterNotifier.new);
+      PresenceStatusFilterNotifier.new,
+    );
 
 class PresenceStatusFilterNotifier extends Notifier<PresenceStatus?> {
   @override
@@ -214,10 +215,12 @@ final collaborationSummaryProvider = Provider<CollaborationSummary>((ref) {
 
   final totalSessions = sessions.length;
   final onlineSessions = sessions.where((s) => s.isOnline).length;
-  final activeGuestLinks =
-      links.where((l) => l.status == GuestLinkStatus.active).length;
-  final expiredGuestLinks =
-      links.where((l) => l.status == GuestLinkStatus.expired).length;
+  final activeGuestLinks = links
+      .where((l) => l.status == GuestLinkStatus.active)
+      .length;
+  final expiredGuestLinks = links
+      .where((l) => l.status == GuestLinkStatus.expired)
+      .length;
 
   return CollaborationSummary(
     totalSessions: totalSessions,

@@ -10,11 +10,7 @@ import 'package:ca_app/features/tds/data/providers/tds_providers.dart';
 /// A list tile showing deductor info, TAN, quarterly filing status dots,
 /// and the total tax deducted amount for the selected form type and FY.
 class TdsDeductorTile extends ConsumerWidget {
-  const TdsDeductorTile({
-    super.key,
-    required this.deductor,
-    this.onTap,
-  });
+  const TdsDeductorTile({super.key, required this.deductor, this.onTap});
 
   final TdsDeductor deductor;
 
@@ -30,10 +26,12 @@ class TdsDeductorTile extends ConsumerWidget {
     final allReturns = ref.watch(tdsReturnsProvider);
 
     // Returns for this deductor, form type, and FY.
-    final deductorReturns = allReturns.where((r) =>
-        r.deductorId == deductor.id &&
-        r.formType == formType &&
-        r.financialYear == fy);
+    final deductorReturns = allReturns.where(
+      (r) =>
+          r.deductorId == deductor.id &&
+          r.formType == formType &&
+          r.financialYear == fy,
+    );
 
     // Build a map from quarter to status for the dot indicators.
     final quarterStatusMap = <TdsQuarter, TdsReturnStatus>{};
@@ -95,8 +93,10 @@ class TdsDeductorTile extends ConsumerWidget {
                   const SizedBox(width: 12),
                   // Form type chip
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.secondary.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),

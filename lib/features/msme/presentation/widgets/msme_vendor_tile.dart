@@ -7,11 +7,7 @@ import 'package:ca_app/features/msme/domain/models/msme_vendor.dart';
 /// A list tile displaying a single MSME vendor entry with classification
 /// badge and outstanding amount.
 class MsmeVendorTile extends StatelessWidget {
-  const MsmeVendorTile({
-    super.key,
-    required this.vendor,
-    this.onTap,
-  });
+  const MsmeVendorTile({super.key, required this.vendor, this.onTap});
 
   final MsmeVendor vendor;
   final VoidCallback? onTap;
@@ -86,9 +82,7 @@ class MsmeVendorTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _ClassificationBadge(
-                    classification: vendor.classification,
-                  ),
+                  _ClassificationBadge(classification: vendor.classification),
                   const SizedBox(height: 6),
                   Text(
                     _currencyFormat.format(vendor.outstandingAmount),

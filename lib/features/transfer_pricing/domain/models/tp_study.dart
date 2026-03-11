@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 /// Transfer Pricing study types.
 enum TpStudyType {
-  masterFile(label: 'Master File', description: 'Country-by-Country Master File'),
+  masterFile(
+    label: 'Master File',
+    description: 'Country-by-Country Master File',
+  ),
   localFile(label: 'Local File', description: 'Local TP Documentation'),
   cbcr(label: 'CbCR', description: 'Country-by-Country Report');
 
@@ -141,9 +144,7 @@ class TpStudy {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TpStudy &&
-          runtimeType == other.runtimeType &&
-          id == other.id;
+      other is TpStudy && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

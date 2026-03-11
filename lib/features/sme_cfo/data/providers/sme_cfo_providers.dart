@@ -70,10 +70,7 @@ final List<CfoRetainer> _mockRetainers = [
     monthlyFee: 8000,
     startDate: DateTime(2025, 6, 1),
     nextReviewDate: DateTime(2026, 6, 1),
-    deliverables: const [
-      'Monthly MIS Report',
-      'GST Outflow Analysis',
-    ],
+    deliverables: const ['Monthly MIS Report', 'GST Outflow Analysis'],
     status: CfoRetainerStatus.active,
     assignedPartner: 'Anil Kumar',
     healthScore: 82,
@@ -142,10 +139,7 @@ final List<CfoRetainer> _mockRetainers = [
     monthlyFee: 8000,
     startDate: DateTime(2024, 8, 1),
     nextReviewDate: DateTime(2026, 2, 1),
-    deliverables: const [
-      'Monthly MIS Report',
-      'Cash Flow Forecast',
-    ],
+    deliverables: const ['Monthly MIS Report', 'Cash Flow Forecast'],
     status: CfoRetainerStatus.churned,
     assignedPartner: 'Anil Kumar',
     healthScore: 28,
@@ -281,20 +275,20 @@ class RetainerStatusFilterNotifier extends Notifier<CfoRetainerStatus?> {
 /// All CFO retainers.
 final allCfoRetainersProvider =
     NotifierProvider<_CfoRetainersNotifier, List<CfoRetainer>>(
-  _CfoRetainersNotifier.new,
-);
+      _CfoRetainersNotifier.new,
+    );
 
 /// All deliverables across retainers.
 final allDeliverablesProvider =
     NotifierProvider<_CfoDeliverablesNotifier, List<CfoDeliverable>>(
-  _CfoDeliverablesNotifier.new,
-);
+      _CfoDeliverablesNotifier.new,
+    );
 
 /// Currently selected retainer status filter (null = show all).
 final retainerStatusFilterProvider =
     NotifierProvider<RetainerStatusFilterNotifier, CfoRetainerStatus?>(
-  RetainerStatusFilterNotifier.new,
-);
+      RetainerStatusFilterNotifier.new,
+    );
 
 /// Retainers filtered by the active status selection.
 final filteredRetainersProvider = Provider<List<CfoRetainer>>((ref) {
@@ -309,8 +303,9 @@ final cfoDashboardSummaryProvider = Provider<Map<String, dynamic>>((ref) {
   final retainers = ref.watch(allCfoRetainersProvider);
 
   final totalRetainers = retainers.length;
-  final activeRetainers =
-      retainers.where((r) => r.status == CfoRetainerStatus.active).length;
+  final activeRetainers = retainers
+      .where((r) => r.status == CfoRetainerStatus.active)
+      .length;
 
   final monthlyRevenue = retainers
       .where((r) => r.status == CfoRetainerStatus.active)
@@ -319,7 +314,7 @@ final cfoDashboardSummaryProvider = Provider<Map<String, dynamic>>((ref) {
   final avgHealthScore = retainers.isEmpty
       ? 0
       : (retainers.fold<int>(0, (sum, r) => sum + r.healthScore) ~/
-          retainers.length);
+            retainers.length);
 
   // Format monthly revenue in lakh notation
   final revenueInLakhs = monthlyRevenue / 100000;

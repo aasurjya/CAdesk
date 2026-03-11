@@ -18,8 +18,9 @@ class Tds194sWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<VdaTransaction> allTransactions =
-        ref.watch(allVdaTransactionsProvider);
+    final List<VdaTransaction> allTransactions = ref.watch(
+      allVdaTransactionsProvider,
+    );
 
     // Filter to only transactions that have a non-zero TDS value.
     final List<VdaTransaction> tdsTransactions = allTransactions
@@ -32,8 +33,8 @@ class Tds194sWidget extends ConsumerWidget {
     );
 
     final VdaTaxOverview overview = ref.watch(vdaTaxOverviewProvider);
-    final double advanceTaxNeeded =
-        (overview.totalTaxLiability - totalTds).clamp(0, double.infinity);
+    final double advanceTaxNeeded = (overview.totalTaxLiability - totalTds)
+        .clamp(0, double.infinity);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,8 +197,7 @@ class _Form26AsNote extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.primary.withValues(alpha: 0.06),
           borderRadius: BorderRadius.circular(8),
-          border:
-              Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
         ),
         child: Row(
           children: [
@@ -262,7 +262,8 @@ class _TableHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle headerStyle = theme.textTheme.labelSmall?.copyWith(
+    final TextStyle headerStyle =
+        theme.textTheme.labelSmall?.copyWith(
           color: AppColors.neutral400,
           fontSize: 10,
           fontWeight: FontWeight.w600,
@@ -273,10 +274,7 @@ class _TableHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Expanded(
-            flex: 3,
-            child: Text('Asset / Client', style: headerStyle),
-          ),
+          Expanded(flex: 3, child: Text('Asset / Client', style: headerStyle)),
           Expanded(
             flex: 2,
             child: Text(
@@ -308,10 +306,7 @@ class _TableHeader extends StatelessWidget {
 }
 
 class _TdsTransactionRow extends StatelessWidget {
-  const _TdsTransactionRow({
-    required this.transaction,
-    required this.isEven,
-  });
+  const _TdsTransactionRow({required this.transaction, required this.isEven});
 
   final VdaTransaction transaction;
   final bool isEven;
@@ -329,12 +324,8 @@ class _TdsTransactionRow extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: isEven
-            ? AppColors.neutral50
-            : AppColors.surface,
-        border: const Border(
-          bottom: BorderSide(color: AppColors.neutral200),
-        ),
+        color: isEven ? AppColors.neutral50 : AppColors.surface,
+        border: const Border(bottom: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [

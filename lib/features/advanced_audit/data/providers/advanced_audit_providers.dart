@@ -11,7 +11,8 @@ import 'package:ca_app/features/advanced_audit/domain/models/audit_finding.dart'
 /// Filter by audit type (null = show all).
 final auditTypeFilterProvider =
     NotifierProvider<AuditTypeFilterNotifier, AuditType?>(
-        AuditTypeFilterNotifier.new);
+      AuditTypeFilterNotifier.new,
+    );
 
 class AuditTypeFilterNotifier extends Notifier<AuditType?> {
   @override
@@ -23,7 +24,8 @@ class AuditTypeFilterNotifier extends Notifier<AuditType?> {
 /// Filter by finding severity (null = show all).
 final findingSeverityFilterProvider =
     NotifierProvider<FindingSeverityFilterNotifier, FindingSeverity?>(
-        FindingSeverityFilterNotifier.new);
+      FindingSeverityFilterNotifier.new,
+    );
 
 class FindingSeverityFilterNotifier extends Notifier<FindingSeverity?> {
   @override
@@ -38,7 +40,8 @@ class FindingSeverityFilterNotifier extends Notifier<FindingSeverity?> {
 
 final auditEngagementsProvider =
     NotifierProvider<AuditEngagementsNotifier, List<AuditEngagement>>(
-        AuditEngagementsNotifier.new);
+      AuditEngagementsNotifier.new,
+    );
 
 class AuditEngagementsNotifier extends Notifier<List<AuditEngagement>> {
   @override
@@ -58,7 +61,8 @@ class AuditEngagementsNotifier extends Notifier<List<AuditEngagement>> {
 
 final auditFindingsProvider =
     NotifierProvider<AuditFindingsNotifier, List<AuditFinding>>(
-        AuditFindingsNotifier.new);
+      AuditFindingsNotifier.new,
+    );
 
 class AuditFindingsNotifier extends Notifier<List<AuditFinding>> {
   @override
@@ -78,7 +82,8 @@ class AuditFindingsNotifier extends Notifier<List<AuditFinding>> {
 
 final auditChecklistsProvider =
     NotifierProvider<AuditChecklistsNotifier, List<AuditChecklist>>(
-        AuditChecklistsNotifier.new);
+      AuditChecklistsNotifier.new,
+    );
 
 class AuditChecklistsNotifier extends Notifier<List<AuditChecklist>> {
   @override
@@ -266,7 +271,8 @@ final _mockFindings = <AuditFinding>[
         'early recognition of INR 2.3 Cr.',
     category: FindingCategory.materialMisstatement,
     severity: FindingSeverity.critical,
-    recommendation: 'Adjust revenue to correct period and implement cut-off '
+    recommendation:
+        'Adjust revenue to correct period and implement cut-off '
         'procedures at quarter-end.',
     status: FindingStatus.open,
     reportedDate: DateTime(2026, 2, 10),
@@ -275,7 +281,8 @@ final _mockFindings = <AuditFinding>[
     id: 'af2',
     engagementId: 'ae1',
     title: 'Inventory Obsolescence Provision Inadequate',
-    description: 'Slow-moving inventory of INR 85 lakhs not adequately '
+    description:
+        'Slow-moving inventory of INR 85 lakhs not adequately '
         'provided for obsolescence.',
     category: FindingCategory.materialMisstatement,
     severity: FindingSeverity.high,
@@ -312,7 +319,8 @@ final _mockFindings = <AuditFinding>[
     id: 'af5',
     engagementId: 'ae2',
     title: 'Employee Expense Claims Without Receipts',
-    description: '12% of expense claims above INR 5,000 lack supporting '
+    description:
+        '12% of expense claims above INR 5,000 lack supporting '
         'documentation.',
     category: FindingCategory.controlWeakness,
     severity: FindingSeverity.medium,
@@ -350,11 +358,13 @@ final _mockFindings = <AuditFinding>[
     id: 'af8',
     engagementId: 'ae5',
     title: 'Suspicious Related Party Transactions',
-    description: 'Multiple transactions with shell entities lacking '
+    description:
+        'Multiple transactions with shell entities lacking '
         'business rationale, totalling INR 15 Cr.',
     category: FindingCategory.fraudIndicator,
     severity: FindingSeverity.critical,
-    recommendation: 'Escalate to Board Audit Committee and regulatory '
+    recommendation:
+        'Escalate to Board Audit Committee and regulatory '
         'authorities immediately.',
     status: FindingStatus.open,
     reportedDate: DateTime(2025, 12, 20),
@@ -363,11 +373,13 @@ final _mockFindings = <AuditFinding>[
     id: 'af9',
     engagementId: 'ae5',
     title: 'Fictitious Vendor Payments',
-    description: 'Three vendor accounts with identical bank details '
+    description:
+        'Three vendor accounts with identical bank details '
         'received payments of INR 4.5 Cr.',
     category: FindingCategory.fraudIndicator,
     severity: FindingSeverity.critical,
-    recommendation: 'Freeze vendor accounts and conduct detailed '
+    recommendation:
+        'Freeze vendor accounts and conduct detailed '
         'investigation with forensic evidence.',
     status: FindingStatus.open,
     reportedDate: DateTime(2025, 12, 22),
@@ -376,7 +388,8 @@ final _mockFindings = <AuditFinding>[
     id: 'af10',
     engagementId: 'ae5',
     title: 'Loan Evergreening Pattern Detected',
-    description: 'Systematic renewal of NPA accounts through fresh '
+    description:
+        'Systematic renewal of NPA accounts through fresh '
         'disbursements to conceal defaults.',
     category: FindingCategory.fraudIndicator,
     severity: FindingSeverity.critical,
@@ -400,7 +413,8 @@ final _mockFindings = <AuditFinding>[
     id: 'af12',
     engagementId: 'ae6',
     title: 'Interest Calculation Discrepancy',
-    description: 'System-calculated interest differs from manual '
+    description:
+        'System-calculated interest differs from manual '
         'calculation for 15 savings accounts.',
     category: FindingCategory.controlWeakness,
     severity: FindingSeverity.medium,
@@ -426,7 +440,8 @@ final _mockFindings = <AuditFinding>[
     description: 'Difference of INR 12 lakhs between GSTR-2B and books.',
     category: FindingCategory.complianceGap,
     severity: FindingSeverity.medium,
-    recommendation: 'Reconcile monthly and follow up with vendors for '
+    recommendation:
+        'Reconcile monthly and follow up with vendors for '
         'invoice corrections.',
     status: FindingStatus.open,
     reportedDate: DateTime(2026, 2, 18),

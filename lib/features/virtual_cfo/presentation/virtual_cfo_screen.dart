@@ -66,10 +66,7 @@ class _VirtualCfoScreenState extends ConsumerState<VirtualCfoScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                _MisReportsTab(),
-                _ScenariosTab(),
-              ],
+              children: const [_MisReportsTab(), _ScenariosTab()],
             ),
           ),
         ],
@@ -195,9 +192,9 @@ class _MisReportsTab extends ConsumerWidget {
             options: statuses,
             selected: selectedStatus ?? 'All',
             onSelected: (value) {
-              ref.read(selectedMisStatusProvider.notifier).update(
-                    value == 'All' ? null : value,
-                  );
+              ref
+                  .read(selectedMisStatusProvider.notifier)
+                  .update(value == 'All' ? null : value);
             },
           ),
         ),
@@ -209,12 +206,9 @@ class _MisReportsTab extends ConsumerWidget {
           )
         else
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return MisReportCard(report: reports[index]);
-              },
-              childCount: reports.length,
-            ),
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return MisReportCard(report: reports[index]);
+            }, childCount: reports.length),
           ),
 
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
@@ -252,9 +246,9 @@ class _ScenariosTab extends ConsumerWidget {
             options: categories,
             selected: selectedCategory ?? 'All',
             onSelected: (value) {
-              ref.read(selectedScenarioCategoryProvider.notifier).update(
-                    value == 'All' ? null : value,
-                  );
+              ref
+                  .read(selectedScenarioCategoryProvider.notifier)
+                  .update(value == 'All' ? null : value);
             },
           ),
         ),
@@ -266,12 +260,9 @@ class _ScenariosTab extends ConsumerWidget {
           )
         else
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return ScenarioTile(scenario: scenarios[index]);
-              },
-              childCount: scenarios.length,
-            ),
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return ScenarioTile(scenario: scenarios[index]);
+            }, childCount: scenarios.length),
           ),
 
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
@@ -311,26 +302,20 @@ class _FilterChipRow extends StatelessWidget {
             onTap: () => onSelected(option),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: isSelected ? AppColors.primary : AppColors.surface,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color:
-                      isSelected ? AppColors.primary : AppColors.neutral300,
+                  color: isSelected ? AppColors.primary : AppColors.neutral300,
                 ),
               ),
               child: Text(
                 option,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: isSelected
-                          ? AppColors.surface
-                          : AppColors.neutral600,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.normal,
-                    ),
+                  color: isSelected ? AppColors.surface : AppColors.neutral600,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                ),
               ),
             ),
           );
@@ -355,17 +340,13 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.inbox_rounded,
-            size: 48,
-            color: AppColors.neutral300,
-          ),
+          Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral300),
           const SizedBox(height: 12),
           Text(
             message,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.neutral400,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),

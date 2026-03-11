@@ -7,11 +7,7 @@ import 'package:ca_app/features/faceless_assessment/domain/models/e_proceeding.d
 /// A tile displaying an e-proceeding with type badge, deadline countdown,
 /// and demand amount.
 class EProceedingTile extends StatelessWidget {
-  const EProceedingTile({
-    super.key,
-    required this.proceeding,
-    this.onTap,
-  });
+  const EProceedingTile({super.key, required this.proceeding, this.onTap});
 
   final EProceeding proceeding;
   final VoidCallback? onTap;
@@ -33,9 +29,7 @@ class EProceedingTile extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: proceeding.isUrgent || proceeding.isOverdue
-            ? BorderSide(
-                color: AppColors.error.withValues(alpha: 0.4),
-              )
+            ? BorderSide(color: AppColors.error.withValues(alpha: 0.4))
             : BorderSide.none,
       ),
       child: InkWell(
@@ -104,8 +98,11 @@ class EProceedingTile extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(Icons.calendar_today, size: 12,
-                      color: AppColors.neutral400),
+                  Icon(
+                    Icons.calendar_today,
+                    size: 12,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     'Notice: ${_dateFormat.format(proceeding.noticeDate)}',

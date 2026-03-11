@@ -29,8 +29,7 @@ class ConnectorTile extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundColor:
-                        AppColors.primary.withValues(alpha: 0.1),
+                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                     child: Icon(
                       _categoryIcon(connector.category),
                       size: 20,
@@ -98,8 +97,9 @@ class ConnectorTile extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      DateFormat('dd MMM, HH:mm')
-                          .format(connector.lastHeartbeat!),
+                      DateFormat(
+                        'dd MMM, HH:mm',
+                      ).format(connector.lastHeartbeat!),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: AppColors.neutral400,
                       ),
@@ -148,9 +148,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         status.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: status.color,
-              fontWeight: FontWeight.w600,
-            ),
+          color: status.color,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

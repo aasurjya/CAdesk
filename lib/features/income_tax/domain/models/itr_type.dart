@@ -2,11 +2,13 @@
 enum ItrType {
   itr1(
     label: 'ITR-1',
-    description: 'Sahaj - Salary, one house property, other sources (up to 50L)',
+    description:
+        'Sahaj - Salary, one house property, other sources (up to 50L)',
   ),
   itr2(
     label: 'ITR-2',
-    description: 'Individuals/HUFs not having income from business or profession',
+    description:
+        'Individuals/HUFs not having income from business or profession',
   ),
   itr3(
     label: 'ITR-3',
@@ -22,7 +24,8 @@ enum ItrType {
   ),
   itr6(
     label: 'ITR-6',
-    description: 'Companies other than those claiming exemption under section 11',
+    description:
+        'Companies other than those claiming exemption under section 11',
   ),
   itr7(
     label: 'ITR-7',

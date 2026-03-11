@@ -186,7 +186,8 @@ final fdiTransactionsProvider = Provider<List<FdiTransaction>>(
 /// Selected FEMA filing status filter.
 final femaStatusFilterProvider =
     NotifierProvider<FemaStatusFilterNotifier, FemaFilingStatus?>(
-        FemaStatusFilterNotifier.new);
+      FemaStatusFilterNotifier.new,
+    );
 
 class FemaStatusFilterNotifier extends Notifier<FemaFilingStatus?> {
   @override
@@ -198,7 +199,8 @@ class FemaStatusFilterNotifier extends Notifier<FemaFilingStatus?> {
 /// Selected FDI status filter.
 final fdiStatusFilterProvider =
     NotifierProvider<FdiStatusFilterNotifier, FdiTransactionStatus?>(
-        FdiStatusFilterNotifier.new);
+      FdiStatusFilterNotifier.new,
+    );
 
 class FdiStatusFilterNotifier extends Notifier<FdiTransactionStatus?> {
   @override
@@ -231,18 +233,23 @@ final femaSummaryProvider = Provider<FemaSummary>((ref) {
 
   final totalFilings = filings.length;
   final pendingFilings = filings
-      .where((f) =>
-          f.status == FemaFilingStatus.draft ||
-          f.status == FemaFilingStatus.pendingClarification)
+      .where(
+        (f) =>
+            f.status == FemaFilingStatus.draft ||
+            f.status == FemaFilingStatus.pendingClarification,
+      )
       .length;
   final overdueFilings = filings
-      .where((f) =>
-          f.status != FemaFilingStatus.approved &&
-          f.status != FemaFilingStatus.rejected &&
-          f.dueDate.isBefore(now))
+      .where(
+        (f) =>
+            f.status != FemaFilingStatus.approved &&
+            f.status != FemaFilingStatus.rejected &&
+            f.dueDate.isBefore(now),
+      )
       .length;
-  final activeFdi =
-      fdi.where((t) => t.status != FdiTransactionStatus.completed).length;
+  final activeFdi = fdi
+      .where((t) => t.status != FdiTransactionStatus.completed)
+      .length;
 
   return FemaSummary(
     totalFilings: totalFilings,

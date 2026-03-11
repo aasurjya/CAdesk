@@ -205,8 +205,9 @@ class _DpiitStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color =
-        profile.isDpiitRecognized ? AppColors.success : AppColors.warning;
+    final color = profile.isDpiitRecognized
+        ? AppColors.success
+        : AppColors.warning;
     final label = profile.isDpiitRecognized
         ? 'DPIIT Recognised'
         : 'Not DPIIT Recognised';
@@ -249,8 +250,11 @@ class _DpiitStatusCard extends StatelessWidget {
             ),
           ),
           if (profile.isDpiitRecognized)
-            const Icon(Icons.shield_rounded,
-                color: AppColors.success, size: 18),
+            const Icon(
+              Icons.shield_rounded,
+              color: AppColors.success,
+              size: 18,
+            ),
         ],
       ),
     );
@@ -280,8 +284,11 @@ class _Section80IacCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.savings_rounded,
-                  color: AppColors.primary, size: 18),
+              const Icon(
+                Icons.savings_rounded,
+                color: AppColors.primary,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Section 80-IAC Deduction',
@@ -509,7 +516,10 @@ class _CapTableCard extends StatelessWidget {
           child: Row(
             children: [
               _CapBar(flex: profile.founderPercent, color: AppColors.primary),
-              _CapBar(flex: profile.investorPercent, color: AppColors.secondary),
+              _CapBar(
+                flex: profile.investorPercent,
+                color: AppColors.secondary,
+              ),
               _CapBar(flex: profile.esopPoolPercent, color: AppColors.accent),
             ],
           ),
@@ -599,8 +609,7 @@ class _NextActionCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.task_alt_rounded,
-              color: AppColors.accent, size: 18),
+          const Icon(Icons.task_alt_rounded, color: AppColors.accent, size: 18),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -623,9 +632,9 @@ class _ActionButtons extends StatelessWidget {
   final StartupProfile profile;
 
   void _snack(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -664,11 +673,13 @@ class _ActionButtons extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.of(context).pop();
-            _snack(context,
-                'Cap table for ${profile.name}: '
-                'Founders ${profile.founderPercent.toStringAsFixed(0)}% · '
-                'Investors ${profile.investorPercent.toStringAsFixed(0)}% · '
-                'ESOP ${profile.esopPoolPercent.toStringAsFixed(0)}%');
+            _snack(
+              context,
+              'Cap table for ${profile.name}: '
+              'Founders ${profile.founderPercent.toStringAsFixed(0)}% · '
+              'Investors ${profile.investorPercent.toStringAsFixed(0)}% · '
+              'ESOP ${profile.esopPoolPercent.toStringAsFixed(0)}%',
+            );
           },
         ),
       ],

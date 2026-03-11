@@ -82,18 +82,17 @@ class TdsDeductor {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        deductorName,
-        tan,
-        pan,
-        deductorType,
-        address,
-        email,
-        phone,
-        responsiblePerson,
-      );
+    id,
+    deductorName,
+    tan,
+    pan,
+    deductorType,
+    address,
+    email,
+    phone,
+    responsiblePerson,
+  );
 
   @override
-  String toString() =>
-      'TdsDeductor(id: $id, name: $deductorName, tan: $tan)';
+  String toString() => 'TdsDeductor(id: $id, name: $deductorName, tan: $tan)';
 }

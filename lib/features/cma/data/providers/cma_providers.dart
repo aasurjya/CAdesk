@@ -196,13 +196,15 @@ class CmaCalculator {
       final interest = balance * r;
       final principalPart = monthlyEmi - interest;
       balance = (balance - principalPart).clamp(0, double.infinity);
-      rows.add(AmortizationRow(
-        month: month,
-        emi: monthlyEmi,
-        principal: principalPart,
-        interest: interest,
-        balance: balance,
-      ));
+      rows.add(
+        AmortizationRow(
+          month: month,
+          emi: monthlyEmi,
+          principal: principalPart,
+          interest: interest,
+          balance: balance,
+        ),
+      );
     }
     return List.unmodifiable(rows);
   }
@@ -271,17 +273,19 @@ List<YearProjection> _growthProjections({
   var liabilities = baseCurrentLiabilities;
   var nw = netWorth;
   for (var i = 0; i < years; i++) {
-    list.add(_projection(
-      year: startYear + i,
-      sales: sales,
-      cogsPct: cogsPct,
-      opexPct: opexPct,
-      currentAssets: assets,
-      currentLiabilities: liabilities,
-      totalDebt: totalDebt,
-      netWorth: nw,
-      annualDebtService: annualDebtService,
-    ));
+    list.add(
+      _projection(
+        year: startYear + i,
+        sales: sales,
+        cogsPct: cogsPct,
+        opexPct: opexPct,
+        currentAssets: assets,
+        currentLiabilities: liabilities,
+        totalDebt: totalDebt,
+        netWorth: nw,
+        annualDebtService: annualDebtService,
+      ),
+    );
     sales *= (1 + growthRate);
     assets *= (1 + growthRate * 0.8);
     liabilities *= (1 + growthRate * 0.5);
@@ -462,8 +466,12 @@ LoanCalculator _buildLoan({
   required DateTime disbursementDate,
 }) {
   final emi = computeEmi(loanAmount, annualRate, tenureMonths);
-  final schedule =
-      buildAmortizationSchedule(loanAmount, annualRate, tenureMonths, emi);
+  final schedule = buildAmortizationSchedule(
+    loanAmount,
+    annualRate,
+    tenureMonths,
+    emi,
+  );
   final totalPayment = emi * tenureMonths;
   return LoanCalculator(
     id: id,
@@ -536,8 +544,8 @@ final loanCalculatorsProvider = Provider<List<LoanCalculator>>(
 /// Active status filter for CMA reports (null = all).
 final cmaStatusFilterProvider =
     NotifierProvider<CmaStatusFilterNotifier, CmaReportStatus?>(
-  CmaStatusFilterNotifier.new,
-);
+      CmaStatusFilterNotifier.new,
+    );
 
 class CmaStatusFilterNotifier extends Notifier<CmaReportStatus?> {
   @override
@@ -559,15 +567,17 @@ final cmaSummaryProvider = Provider<CmaSummary>((ref) {
   final reports = ref.watch(cmaReportsProvider);
   final loans = ref.watch(loanCalculatorsProvider);
 
-  final totalRequested =
-      reports.fold<double>(0, (sum, r) => sum + r.requestedAmount);
+  final totalRequested = reports.fold<double>(
+    0,
+    (sum, r) => sum + r.requestedAmount,
+  );
   final totalSanctioned = reports
       .where((r) => r.sanctionedAmount != null)
       .fold<double>(0, (sum, r) => sum + (r.sanctionedAmount ?? 0));
-  final pending =
-      reports.where((r) => r.status == CmaReportStatus.submitted).length;
-  final totalEmi =
-      loans.fold<double>(0, (sum, l) => sum + l.emi);
+  final pending = reports
+      .where((r) => r.status == CmaReportStatus.submitted)
+      .length;
+  final totalEmi = loans.fold<double>(0, (sum, l) => sum + l.emi);
 
   return CmaSummary(
     totalReports: reports.length,

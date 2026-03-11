@@ -13,10 +13,7 @@ class AppTheme {
       secondary: AppColors.secondary,
       error: AppColors.error,
     );
-    final base = ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-    );
+    final base = ThemeData(useMaterial3: true, colorScheme: colorScheme);
 
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.neutral50,
@@ -128,9 +125,7 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.neutral100,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       tabBarTheme: TabBarThemeData(
         dividerColor: Colors.transparent,
@@ -165,17 +160,13 @@ class AppTheme {
         foregroundColor: colorScheme.onSurface,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         filled: true,
         fillColor: AppColors.darkSurfaceVariant,
       ),
       cardTheme: CardThemeData(
         elevation: 1,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.accent,
@@ -186,9 +177,7 @@ class AppTheme {
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
       ),
       chipTheme: ChipThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

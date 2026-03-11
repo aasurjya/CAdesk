@@ -299,16 +299,15 @@ class _ScenarioCategoryNotifier extends Notifier<String?> {
 }
 
 /// Currently selected MIS report status filter (null = show all).
-final selectedMisStatusProvider =
-    NotifierProvider<_MisStatusNotifier, String?>(
+final selectedMisStatusProvider = NotifierProvider<_MisStatusNotifier, String?>(
   _MisStatusNotifier.new,
 );
 
 /// Currently selected scenario category filter (null = show all).
 final selectedScenarioCategoryProvider =
     NotifierProvider<_ScenarioCategoryNotifier, String?>(
-  _ScenarioCategoryNotifier.new,
-);
+      _ScenarioCategoryNotifier.new,
+    );
 
 /// MIS reports filtered by the active status selection.
 final filteredMisReportsProvider = Provider<List<MisReport>>((ref) {
@@ -334,8 +333,7 @@ final filteredCfoScenariosProvider = Provider<List<CfoScenario>>((ref) {
 final virtualCfoKpiProvider = Provider<Map<String, String>>((ref) {
   final reports = ref.watch(allMisReportsProvider);
 
-  final clientCount =
-      reports.map((r) => r.clientName).toSet().length;
+  final clientCount = reports.map((r) => r.clientName).toSet().length;
 
   final totalRevenue = reports.fold<double>(0, (sum, r) => sum + r.revenue);
   final totalRevenueCrore = totalRevenue / 100;
@@ -343,10 +341,11 @@ final virtualCfoKpiProvider = Provider<Map<String, String>>((ref) {
   final avgEbitda = reports.isEmpty
       ? 0.0
       : reports.fold<double>(0, (sum, r) => sum + r.ebitdaMarginPercent) /
-          reports.length;
+            reports.length;
 
-  final reportsThisMonth =
-      reports.where((r) => r.period.contains('Feb 2025')).length;
+  final reportsThisMonth = reports
+      .where((r) => r.period.contains('Feb 2025'))
+      .length;
 
   return {
     'clients': '$clientCount',

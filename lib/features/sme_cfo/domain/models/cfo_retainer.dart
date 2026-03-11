@@ -51,9 +51,9 @@ class CfoRetainer {
     required this.assignedPartner,
     required this.healthScore,
   }) : assert(
-          healthScore >= 0 && healthScore <= 100,
-          'healthScore must be between 0 and 100',
-        );
+         healthScore >= 0 && healthScore <= 100,
+         'healthScore must be between 0 and 100',
+       );
 
   final String id;
   final String clientId;

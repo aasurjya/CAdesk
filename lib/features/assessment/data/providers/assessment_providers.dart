@@ -43,8 +43,10 @@ class InterestCalculator234 {
     required double tdsCredited,
     required int monthsLate,
   }) {
-    final netTaxDue =
-        (taxPayable - advanceTaxPaid - tdsCredited).clamp(0.0, double.infinity);
+    final netTaxDue = (taxPayable - advanceTaxPaid - tdsCredited).clamp(
+      0.0,
+      double.infinity,
+    );
     return netTaxDue * 0.01 * monthsLate;
   }
 
@@ -58,8 +60,10 @@ class InterestCalculator234 {
     required double tdsCredited,
     required int months,
   }) {
-    final netAssessedTax =
-        (assessedTax - tdsCredited).clamp(0.0, double.infinity);
+    final netAssessedTax = (assessedTax - tdsCredited).clamp(
+      0.0,
+      double.infinity,
+    );
     final threshold = netAssessedTax * 0.90;
     if (advanceTaxPaid >= threshold) {
       return 0;
@@ -82,12 +86,18 @@ class InterestCalculator234 {
     final required45 = assessedTax * 0.45;
     final required75 = assessedTax * 0.75;
 
-    final junShortfall =
-        (required15 - advanceTaxByJun15).clamp(0.0, double.infinity);
-    final sepShortfall =
-        (required45 - advanceTaxBySep15).clamp(0.0, double.infinity);
-    final decShortfall =
-        (required75 - advanceTaxByDec15).clamp(0.0, double.infinity);
+    final junShortfall = (required15 - advanceTaxByJun15).clamp(
+      0.0,
+      double.infinity,
+    );
+    final sepShortfall = (required45 - advanceTaxBySep15).clamp(
+      0.0,
+      double.infinity,
+    );
+    final decShortfall = (required75 - advanceTaxByDec15).clamp(
+      0.0,
+      double.infinity,
+    );
 
     return (junShortfall + sepShortfall + decShortfall) * 0.01 * 3;
   }
@@ -132,8 +142,7 @@ class InterestCalculator234 {
       advanceTaxByDec15: advanceTaxByDec15,
       advanceTaxByMar15: advanceTaxPaid,
     );
-    final netDemand =
-        taxPayable - advanceTaxPaid - tdsCredited + a + b + c;
+    final netDemand = taxPayable - advanceTaxPaid - tdsCredited + a + b + c;
     return AssessmentInterestSummary(
       interest234A: a,
       interest234B: b,
@@ -164,7 +173,8 @@ final List<AssessmentOrder> _mockOrders = [
     hasErrors: true,
     verificationStatus: VerificationStatus.disputed,
     assignedTo: 'CA Suresh Agarwal',
-    remarks: 'Depreciation disallowance appears incorrect — submitting rectification',
+    remarks:
+        'Depreciation disallowance appears incorrect — submitting rectification',
   ),
   AssessmentOrder(
     id: 'ao-002',
@@ -483,8 +493,8 @@ final interestCalculationsProvider = Provider<List<InterestCalculation>>(
 /// Filter by assessment section.
 final assessmentSectionFilterProvider =
     NotifierProvider<_SectionFilterNotifier, AssessmentSection?>(
-  _SectionFilterNotifier.new,
-);
+      _SectionFilterNotifier.new,
+    );
 
 class _SectionFilterNotifier extends Notifier<AssessmentSection?> {
   @override
@@ -496,8 +506,8 @@ class _SectionFilterNotifier extends Notifier<AssessmentSection?> {
 /// Filter by verification status.
 final assessmentStatusFilterProvider =
     NotifierProvider<_StatusFilterNotifier, VerificationStatus?>(
-  _StatusFilterNotifier.new,
-);
+      _StatusFilterNotifier.new,
+    );
 
 class _StatusFilterNotifier extends Notifier<VerificationStatus?> {
   @override
@@ -508,9 +518,7 @@ class _StatusFilterNotifier extends Notifier<VerificationStatus?> {
 
 /// Filter by assessment year.
 final assessmentYearFilterProvider =
-    NotifierProvider<_YearFilterNotifier, String?>(
-  _YearFilterNotifier.new,
-);
+    NotifierProvider<_YearFilterNotifier, String?>(_YearFilterNotifier.new);
 
 class _YearFilterNotifier extends Notifier<String?> {
   @override
@@ -534,8 +542,7 @@ final filteredOrdersProvider = Provider<List<AssessmentOrder>>((ref) {
     final sectionMatch = sectionFilter == null || o.section == sectionFilter;
     final statusMatch =
         statusFilter == null || o.verificationStatus == statusFilter;
-    final yearMatch =
-        yearFilter == null || o.assessmentYear == yearFilter;
+    final yearMatch = yearFilter == null || o.assessmentYear == yearFilter;
     return sectionMatch && statusMatch && yearMatch;
   }).toList();
 });
@@ -546,10 +553,10 @@ final assessmentSummaryProvider = Provider<AssessmentSummary>((ref) {
   final interest = ref.watch(interestCalculationsProvider);
 
   final ordersWithErrors = orders.where((o) => o.hasErrors).length;
-  final pendingVerification =
-      orders.where((o) => o.verificationStatus == VerificationStatus.pending).length;
-  final interestErrors =
-      interest.where((i) => !i.isCorrect).length;
+  final pendingVerification = orders
+      .where((o) => o.verificationStatus == VerificationStatus.pending)
+      .length;
+  final interestErrors = interest.where((i) => !i.isCorrect).length;
   final totalDemand = orders.fold<double>(0, (sum, o) => sum + o.demandAmount);
 
   return AssessmentSummary(

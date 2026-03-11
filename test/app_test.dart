@@ -14,16 +14,14 @@ void main() {
     testWidgets('uses Material 3', (tester) async {
       await tester.pumpWidget(const ProviderScope(child: CAApp()));
       await tester.pumpAndSettle();
-      final materialApp =
-          tester.widget<MaterialApp>(find.byType(MaterialApp));
+      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.theme?.useMaterial3, isTrue);
     });
 
     testWidgets('has dark theme configured', (tester) async {
       await tester.pumpWidget(const ProviderScope(child: CAApp()));
       await tester.pumpAndSettle();
-      final materialApp =
-          tester.widget<MaterialApp>(find.byType(MaterialApp));
+      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.darkTheme, isNotNull);
       expect(materialApp.themeMode, ThemeMode.system);
     });
@@ -31,8 +29,7 @@ void main() {
     testWidgets('debug banner is disabled', (tester) async {
       await tester.pumpWidget(const ProviderScope(child: CAApp()));
       await tester.pumpAndSettle();
-      final materialApp =
-          tester.widget<MaterialApp>(find.byType(MaterialApp));
+      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(materialApp.debugShowCheckedModeBanner, isFalse);
     });
   });

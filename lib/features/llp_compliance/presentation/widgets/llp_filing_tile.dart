@@ -186,17 +186,17 @@ class _PenaltyCalculator extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final daysOverdue = filing.daysOverdue;
-    final penaltyProgress =
-        (filing.currentPenalty / filing.maxPenalty).clamp(0.0, 1.0);
+    final penaltyProgress = (filing.currentPenalty / filing.maxPenalty).clamp(
+      0.0,
+      1.0,
+    );
 
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: AppColors.error.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: AppColors.error.withValues(alpha: 0.2),
-        ),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,13 +223,9 @@ class _PenaltyCalculator extends StatelessWidget {
             children: [
               _PenaltyDetail(
                 label: 'Rate',
-                value:
-                    '\u20B9${filing.penaltyPerDay}/day',
+                value: '\u20B9${filing.penaltyPerDay}/day',
               ),
-              _PenaltyDetail(
-                label: 'Days',
-                value: '$daysOverdue',
-              ),
+              _PenaltyDetail(label: 'Days', value: '$daysOverdue'),
               _PenaltyDetail(
                 label: 'Current',
                 value: currencyFormat.format(filing.currentPenalty),

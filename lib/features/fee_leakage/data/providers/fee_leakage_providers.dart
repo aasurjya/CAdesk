@@ -186,7 +186,8 @@ final allScopeItemsProvider = Provider<List<ScopeItem>>(
 /// Selected engagement status filter.
 final engagementStatusFilterProvider =
     NotifierProvider<EngagementStatusFilterNotifier, EngagementStatus?>(
-        EngagementStatusFilterNotifier.new);
+      EngagementStatusFilterNotifier.new,
+    );
 
 class EngagementStatusFilterNotifier extends Notifier<EngagementStatus?> {
   @override
@@ -212,12 +213,15 @@ final feeLeakageSummaryProvider = Provider<Map<String, dynamic>>((ref) {
     (sum, e) => sum + e.leakageAmount,
   );
 
-  final onTrackCount =
-      engagements.where((e) => e.status == EngagementStatus.onTrack).length;
-  final overScopeCount =
-      engagements.where((e) => e.status == EngagementStatus.overScope).length;
-  final underBilledCount =
-      engagements.where((e) => e.status == EngagementStatus.underBilled).length;
+  final onTrackCount = engagements
+      .where((e) => e.status == EngagementStatus.onTrack)
+      .length;
+  final overScopeCount = engagements
+      .where((e) => e.status == EngagementStatus.overScope)
+      .length;
+  final underBilledCount = engagements
+      .where((e) => e.status == EngagementStatus.underBilled)
+      .length;
 
   return <String, dynamic>{
     'totalLeakage': totalLeakage,
