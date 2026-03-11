@@ -1,0 +1,60 @@
+import 'package:ca_app/features/staff_monitoring/domain/models/activity_log.dart';
+import 'package:ca_app/features/staff_monitoring/domain/models/access_restriction.dart';
+import 'package:ca_app/features/staff_monitoring/domain/models/security_alert.dart';
+
+// ---------------------------------------------------------------------------
+// Mock activity logs — 20 entries across 6 staff members
+// ---------------------------------------------------------------------------
+
+final mockActivityLogs = List<ActivityLog>.unmodifiable([
+  ActivityLog(id: 'al1', staffId: 's1', staffName: 'Arjun Nair', activityType: ActivityType.login, description: 'Logged in from Mumbai office', ipAddress: '192.168.1.10', deviceName: 'MacBook Pro – Arjun', location: 'Mumbai Branch', timestamp: DateTime(2026, 3, 10, 9, 5)),
+  ActivityLog(id: 'al2', staffId: 's1', staffName: 'Arjun Nair', activityType: ActivityType.clientView, description: 'Viewed client profile: ABC Infra Pvt Ltd', ipAddress: '192.168.1.10', deviceName: 'MacBook Pro – Arjun', location: 'Mumbai Branch', timestamp: DateTime(2026, 3, 10, 9, 22)),
+  ActivityLog(id: 'al3', staffId: 's1', staffName: 'Arjun Nair', activityType: ActivityType.documentDownload, description: 'Downloaded ITR-3 acknowledgement for ABCPS1234A', ipAddress: '192.168.1.10', deviceName: 'MacBook Pro – Arjun', location: 'Mumbai Branch', timestamp: DateTime(2026, 3, 10, 10, 45), isAnomalous: true),
+  ActivityLog(id: 'al4', staffId: 's2', staffName: 'Divya Krishnan', activityType: ActivityType.login, description: 'Logged in from Bengaluru office', ipAddress: '10.0.0.5', deviceName: 'Dell Laptop – Divya', location: 'Bengaluru Branch', timestamp: DateTime(2026, 3, 10, 8, 58)),
+  ActivityLog(id: 'al5', staffId: 's2', staffName: 'Divya Krishnan', activityType: ActivityType.reportGenerate, description: 'Generated GST R1 reconciliation report for Q4', ipAddress: '10.0.0.5', deviceName: 'Dell Laptop – Divya', location: 'Bengaluru Branch', timestamp: DateTime(2026, 3, 10, 11, 30)),
+  ActivityLog(id: 'al6', staffId: 's2', staffName: 'Divya Krishnan', activityType: ActivityType.fileAccess, description: 'Accessed TDS workings file for Bharat Electronics', ipAddress: '10.0.0.5', deviceName: 'Dell Laptop – Divya', location: 'Bengaluru Branch', timestamp: DateTime(2026, 3, 10, 14, 10)),
+  ActivityLog(id: 'al7', staffId: 's3', staffName: 'Rohan Verma', activityType: ActivityType.login, description: 'Logged in from unrecognised IP address', ipAddress: '203.88.12.44', deviceName: 'Unknown Device', location: 'Remote – Delhi', timestamp: DateTime(2026, 3, 10, 23, 47), isAnomalous: true),
+  ActivityLog(id: 'al8', staffId: 's3', staffName: 'Rohan Verma', activityType: ActivityType.documentDownload, description: 'Bulk downloaded 12 client documents', ipAddress: '203.88.12.44', deviceName: 'Unknown Device', location: 'Remote – Delhi', timestamp: DateTime(2026, 3, 10, 23, 52), isAnomalous: true),
+  ActivityLog(id: 'al9', staffId: 's3', staffName: 'Rohan Verma', activityType: ActivityType.logout, description: 'Logged out', ipAddress: '203.88.12.44', deviceName: 'Unknown Device', location: 'Remote – Delhi', timestamp: DateTime(2026, 3, 11, 0, 15)),
+  ActivityLog(id: 'al10', staffId: 's4', staffName: 'Sneha Pillai', activityType: ActivityType.login, description: 'Logged in from Chennai office', ipAddress: '172.16.0.8', deviceName: 'HP Laptop – Sneha', location: 'Chennai Branch', timestamp: DateTime(2026, 3, 10, 9, 30)),
+  ActivityLog(id: 'al11', staffId: 's4', staffName: 'Sneha Pillai', activityType: ActivityType.settingsChange, description: 'Modified notification settings for client portal', ipAddress: '172.16.0.8', deviceName: 'HP Laptop – Sneha', location: 'Chennai Branch', timestamp: DateTime(2026, 3, 10, 10, 5)),
+  ActivityLog(id: 'al12', staffId: 's4', staffName: 'Sneha Pillai', activityType: ActivityType.reportGenerate, description: 'Generated payroll summary for March 2026', ipAddress: '172.16.0.8', deviceName: 'HP Laptop – Sneha', location: 'Chennai Branch', timestamp: DateTime(2026, 3, 10, 12, 40)),
+  ActivityLog(id: 'al13', staffId: 's5', staffName: 'Kiran Desai', activityType: ActivityType.login, description: 'Logged in from Pune office', ipAddress: '192.168.5.20', deviceName: 'iMac – Kiran', location: 'Pune Branch', timestamp: DateTime(2026, 3, 10, 9, 15)),
+  ActivityLog(id: 'al14', staffId: 's5', staffName: 'Kiran Desai', activityType: ActivityType.clientView, description: 'Viewed compliance checklist for TechVista Solutions', ipAddress: '192.168.5.20', deviceName: 'iMac – Kiran', location: 'Pune Branch', timestamp: DateTime(2026, 3, 10, 10, 55)),
+  ActivityLog(id: 'al15', staffId: 's5', staffName: 'Kiran Desai', activityType: ActivityType.fileAccess, description: 'Accessed Form 16 folder for Bharat Electronics Ltd', ipAddress: '192.168.5.20', deviceName: 'iMac – Kiran', location: 'Pune Branch', timestamp: DateTime(2026, 3, 10, 15, 20)),
+  ActivityLog(id: 'al16', staffId: 's6', staffName: 'Meera Joshi', activityType: ActivityType.login, description: 'Logged in from Ahmedabad office', ipAddress: '10.10.0.3', deviceName: 'ThinkPad – Meera', location: 'Ahmedabad Branch', timestamp: DateTime(2026, 3, 10, 9, 0)),
+  ActivityLog(id: 'al17', staffId: 's6', staffName: 'Meera Joshi', activityType: ActivityType.documentDownload, description: 'Downloaded GSTR-9 for Mehta & Sons FY 2024-25', ipAddress: '10.10.0.3', deviceName: 'ThinkPad – Meera', location: 'Ahmedabad Branch', timestamp: DateTime(2026, 3, 10, 11, 0)),
+  ActivityLog(id: 'al18', staffId: 's6', staffName: 'Meera Joshi', activityType: ActivityType.reportGenerate, description: 'Generated aged receivables report', ipAddress: '10.10.0.3', deviceName: 'ThinkPad – Meera', location: 'Ahmedabad Branch', timestamp: DateTime(2026, 3, 10, 13, 45)),
+  ActivityLog(id: 'al19', staffId: 's6', staffName: 'Meera Joshi', activityType: ActivityType.logout, description: 'Logged out', ipAddress: '10.10.0.3', deviceName: 'ThinkPad – Meera', location: 'Ahmedabad Branch', timestamp: DateTime(2026, 3, 10, 18, 5)),
+  ActivityLog(id: 'al20', staffId: 's1', staffName: 'Arjun Nair', activityType: ActivityType.logout, description: 'Logged out', ipAddress: '192.168.1.10', deviceName: 'MacBook Pro – Arjun', location: 'Mumbai Branch', timestamp: DateTime(2026, 3, 10, 19, 30)),
+]);
+
+// ---------------------------------------------------------------------------
+// Mock access restrictions — 8 entries
+// ---------------------------------------------------------------------------
+
+final mockRestrictions = List<AccessRestriction>.unmodifiable([
+  AccessRestriction(id: 'ar1', staffId: 's3', staffName: 'Rohan Verma', restrictionType: RestrictionType.website, value: 'social media (Facebook, Instagram, Twitter)', reason: 'Productivity policy – no social browsing during work hours', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2026, 1, 15)),
+  AccessRestriction(id: 'ar2', staffId: 's3', staffName: 'Rohan Verma', restrictionType: RestrictionType.time, value: 'Access blocked 11 PM – 6 AM IST', reason: 'Security policy – restrict off-hours remote access', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2026, 2, 1)),
+  AccessRestriction(id: 'ar3', staffId: 's2', staffName: 'Divya Krishnan', restrictionType: RestrictionType.fileType, value: '.zip, .rar, .tar files', reason: 'Prevent bulk data exfiltration via compressed archives', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2026, 2, 10)),
+  AccessRestriction(id: 'ar4', staffId: 's4', staffName: 'Sneha Pillai', restrictionType: RestrictionType.module, value: 'Payroll – Edit access', reason: 'Junior staff – read-only until probation clears', appliedBy: 'Meera Joshi', appliedAt: DateTime(2026, 3, 1)),
+  AccessRestriction(id: 'ar5', staffId: 's5', staffName: 'Kiran Desai', restrictionType: RestrictionType.website, value: 'Torrent & P2P download sites', reason: 'Network security – prevent malware downloads', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2025, 11, 20)),
+  AccessRestriction(id: 'ar6', staffId: 's1', staffName: 'Arjun Nair', restrictionType: RestrictionType.module, value: 'Admin Settings – Full access', reason: 'Senior staff privilege escalation suspended pending review', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2026, 3, 5), isActive: false),
+  AccessRestriction(id: 'ar7', staffId: 's6', staffName: 'Meera Joshi', restrictionType: RestrictionType.time, value: 'Access limited to 8 AM – 8 PM IST', reason: 'Branch manager – standard business hours policy', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2025, 9, 1)),
+  AccessRestriction(id: 'ar8', staffId: 's3', staffName: 'Rohan Verma', restrictionType: RestrictionType.fileType, value: 'Client document bulk export (.pdf batch)', reason: 'Flagged after suspicious after-hours activity', appliedBy: 'CA Prakash Mehta', appliedAt: DateTime(2026, 3, 11)),
+]);
+
+// ---------------------------------------------------------------------------
+// Mock security alerts — 8 entries
+// ---------------------------------------------------------------------------
+
+final mockAlerts = List<SecurityAlert>.unmodifiable([
+  SecurityAlert(id: 'sa1', staffId: 's3', staffName: 'Rohan Verma', alertType: AlertType.offHoursAccess, severity: AlertSeverity.critical, description: 'Login at 11:47 PM from unrecognised IP 203.88.12.44 in Delhi. Bulk document download followed immediately.', timestamp: DateTime(2026, 3, 10, 23, 47)),
+  SecurityAlert(id: 'sa2', staffId: 's3', staffName: 'Rohan Verma', alertType: AlertType.sensitiveDownload, severity: AlertSeverity.high, description: '12 client documents downloaded in 5 minutes at midnight.', timestamp: DateTime(2026, 3, 10, 23, 52)),
+  SecurityAlert(id: 'sa3', staffId: 's1', staffName: 'Arjun Nair', alertType: AlertType.unusualLogin, severity: AlertSeverity.medium, description: 'Login from a new device not previously associated with this account.', timestamp: DateTime(2026, 3, 8, 10, 15), isResolved: true, resolvedBy: 'CA Prakash Mehta', resolvedAt: DateTime(2026, 3, 8, 11, 0)),
+  SecurityAlert(id: 'sa4', staffId: 's2', staffName: 'Divya Krishnan', alertType: AlertType.multipleFailedLogins, severity: AlertSeverity.medium, description: '5 consecutive failed login attempts between 8:50–8:57 AM.', timestamp: DateTime(2026, 3, 9, 8, 57), isResolved: true, resolvedBy: 'Meera Joshi', resolvedAt: DateTime(2026, 3, 9, 9, 30)),
+  SecurityAlert(id: 'sa5', staffId: 's5', staffName: 'Kiran Desai', alertType: AlertType.locationChange, severity: AlertSeverity.low, description: 'Login from Hyderabad; usual location is Pune.', timestamp: DateTime(2026, 3, 7, 14, 20), isResolved: true, resolvedBy: 'CA Prakash Mehta', resolvedAt: DateTime(2026, 3, 7, 15, 0)),
+  SecurityAlert(id: 'sa6', staffId: 's4', staffName: 'Sneha Pillai', alertType: AlertType.offHoursAccess, severity: AlertSeverity.low, description: 'System access at 9:30 PM on a Sunday (2026-03-08).', timestamp: DateTime(2026, 3, 8, 21, 30)),
+  SecurityAlert(id: 'sa7', staffId: 's6', staffName: 'Meera Joshi', alertType: AlertType.sensitiveDownload, severity: AlertSeverity.medium, description: 'Downloaded complete client list export (CSV) outside standard workflow.', timestamp: DateTime(2026, 3, 6, 17, 45), isResolved: true, resolvedBy: 'CA Prakash Mehta', resolvedAt: DateTime(2026, 3, 6, 18, 30)),
+  SecurityAlert(id: 'sa8', staffId: 's1', staffName: 'Arjun Nair', alertType: AlertType.unusualLogin, severity: AlertSeverity.high, description: 'Simultaneous active sessions detected from two different cities.', timestamp: DateTime(2026, 3, 10, 10, 45)),
+]);

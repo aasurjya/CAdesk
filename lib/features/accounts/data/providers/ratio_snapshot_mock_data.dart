@@ -1,0 +1,159 @@
+import '../../domain/models/financial_ratio_snapshot.dart';
+import '../../domain/services/financial_calculators.dart';
+
+/// Mock financial ratio snapshots computed via [FinancialRatioCalculator].
+final List<FinancialRatioSnapshot> mockRatioSnapshots = [
+  FinancialRatioSnapshot(
+    clientId: 'acc-001',
+    clientName: 'Mehta Textiles Pvt Ltd',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(8500000, 4594595),
+    quickRatio: FinancialRatioCalculator.quickRatio(8500000, 2100000, 4594595),
+    grossMargin:
+        FinancialRatioCalculator.grossMarginPercent(42500000, 35700000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(42500000, 3200000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(42500000, 5800000),
+    roe: FinancialRatioCalculator.returnOnEquity(3200000, 8500000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(5200000, 8500000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(5000000, 420000),
+    debtorDays: FinancialRatioCalculator.debtorDays(3500000, 42500000),
+    creditorDays: FinancialRatioCalculator.creditorDays(2800000, 35700000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(2100000, 35700000),
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-002',
+    clientName: 'Ramesh Kumar & Brothers',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(3360000, 1600000),
+    quickRatio: FinancialRatioCalculator.quickRatio(3360000, 900000, 1600000),
+    grossMargin: FinancialRatioCalculator.grossMarginPercent(9800000, 7850000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(9800000, 820000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(9800000, 1200000),
+    roe: FinancialRatioCalculator.returnOnEquity(820000, 1600000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(1000000, 1600000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(1050000, 130000),
+    debtorDays: FinancialRatioCalculator.debtorDays(800000, 9800000),
+    creditorDays: FinancialRatioCalculator.creditorDays(600000, 7850000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(900000, 7850000),
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-003',
+    clientName: 'Sunita Sharma',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(720000, 450000),
+    quickRatio: FinancialRatioCalculator.quickRatio(720000, 0, 450000),
+    grossMargin: FinancialRatioCalculator.grossMarginPercent(2400000, 1860000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(2400000, 310000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(2400000, 450000),
+    roe: FinancialRatioCalculator.returnOnEquity(310000, 530000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(200000, 530000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(380000, 0),
+    debtorDays: FinancialRatioCalculator.debtorDays(180000, 2400000),
+    creditorDays: FinancialRatioCalculator.creditorDays(90000, 1860000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(0, 1860000),
+    isServiceBusiness: true,
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-004',
+    clientName: 'Krishnamurthy Family Trust',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(4200000, 1312500),
+    quickRatio: FinancialRatioCalculator.quickRatio(4200000, 0, 1312500),
+    grossMargin: FinancialRatioCalculator.grossMarginPercent(6500000, 3500000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(6500000, 1800000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(6500000, 2400000),
+    roe: FinancialRatioCalculator.returnOnEquity(1800000, 23500000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(0, 23500000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(2200000, 0),
+    debtorDays: FinancialRatioCalculator.debtorDays(300000, 6500000),
+    creditorDays: FinancialRatioCalculator.creditorDays(120000, 3500000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(0, 3500000),
+    isServiceBusiness: true,
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-006',
+    clientName: 'Joshi Electronics Pvt Ltd',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(14400000, 7384615),
+    quickRatio:
+        FinancialRatioCalculator.quickRatio(14400000, 4800000, 7384615),
+    grossMargin:
+        FinancialRatioCalculator.grossMarginPercent(78000000, 66000000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(78000000, 5600000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(78000000, 9200000),
+    roe: FinancialRatioCalculator.returnOnEquity(5600000, 15600000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(9800000, 15600000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(8000000, 980000),
+    debtorDays: FinancialRatioCalculator.debtorDays(6200000, 78000000),
+    creditorDays: FinancialRatioCalculator.creditorDays(4900000, 66000000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(4800000, 66000000),
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-009',
+    clientName: 'Gupta Steel Industries Pvt Ltd',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(22500000, 13235294),
+    quickRatio:
+        FinancialRatioCalculator.quickRatio(22500000, 9800000, 13235294),
+    grossMargin:
+        FinancialRatioCalculator.grossMarginPercent(155000000, 133000000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(155000000, 9800000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(155000000, 18000000),
+    roe: FinancialRatioCalculator.returnOnEquity(9800000, 24000000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(18000000, 24000000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(15500000, 2100000),
+    debtorDays: FinancialRatioCalculator.debtorDays(12000000, 155000000),
+    creditorDays: FinancialRatioCalculator.creditorDays(8500000, 133000000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(9800000, 133000000),
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-005',
+    clientName: 'Patel & Sons HUF',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(3600000, 2571429),
+    quickRatio: FinancialRatioCalculator.quickRatio(3600000, 800000, 2571429),
+    grossMargin: FinancialRatioCalculator.grossMarginPercent(5100000, 3500000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(5100000, 980000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(5100000, 1400000),
+    roe: FinancialRatioCalculator.returnOnEquity(980000, 5200000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(2000000, 5200000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(1200000, 180000),
+    debtorDays: FinancialRatioCalculator.debtorDays(600000, 5100000),
+    creditorDays: FinancialRatioCalculator.creditorDays(350000, 3500000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(800000, 3500000),
+  ),
+  FinancialRatioSnapshot(
+    clientId: 'acc-007',
+    clientName: 'Banerjee Exports LLP',
+    period: 'FY 2024-25',
+    currentRatio: FinancialRatioCalculator.currentRatio(6500000, 2826087),
+    quickRatio:
+        FinancialRatioCalculator.quickRatio(6500000, 1800000, 2826087),
+    grossMargin:
+        FinancialRatioCalculator.grossMarginPercent(31000000, 26600000),
+    netMargin: FinancialRatioCalculator.netMarginPercent(31000000, 2100000),
+    ebitdaMargin:
+        FinancialRatioCalculator.ebitdaMarginPercent(31000000, 3500000),
+    roe: FinancialRatioCalculator.returnOnEquity(2100000, 6974000),
+    debtToEquity: FinancialRatioCalculator.debtToEquity(1826000, 6974000),
+    interestCoverage:
+        FinancialRatioCalculator.interestCoverageRatio(3000000, 300000),
+    debtorDays: FinancialRatioCalculator.debtorDays(4200000, 31000000),
+    creditorDays: FinancialRatioCalculator.creditorDays(2200000, 26600000),
+    inventoryDays: FinancialRatioCalculator.inventoryDays(1800000, 26600000),
+  ),
+];

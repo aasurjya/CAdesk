@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:ca_app/app.dart';
 
 void main() {
-  runApp(const CAApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: CAApp()));
 }

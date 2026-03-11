@@ -1,0 +1,442 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:ca_app/core/widgets/adaptive_scaffold.dart';
+import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
+import 'package:ca_app/features/clients/presentation/clients_screen.dart';
+import 'package:ca_app/features/clients/presentation/client_detail_screen.dart';
+import 'package:ca_app/features/compliance/presentation/compliance_screen.dart';
+import 'package:ca_app/features/tasks/presentation/tasks_screen.dart';
+import 'package:ca_app/features/more/presentation/more_screen.dart';
+import 'package:ca_app/features/client_portal/presentation/client_portal_screen.dart';
+import 'package:ca_app/features/ai_automation/presentation/ai_dashboard_screen.dart';
+import 'package:ca_app/features/analytics/presentation/analytics_dashboard_screen.dart';
+import 'package:ca_app/features/time_tracking/presentation/time_tracking_screen.dart';
+import 'package:ca_app/features/firm_operations/presentation/firm_operations_screen.dart';
+import 'package:ca_app/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:ca_app/features/fema/presentation/fema_screen.dart';
+import 'package:ca_app/features/sebi/presentation/sebi_screen.dart';
+import 'package:ca_app/features/transfer_pricing/presentation/transfer_pricing_screen.dart';
+import 'package:ca_app/features/crypto_vda/presentation/crypto_vda_screen.dart';
+import 'package:ca_app/features/startup_compliance/presentation/startup_compliance_screen.dart';
+import 'package:ca_app/features/llp_compliance/presentation/llp_compliance_screen.dart';
+import 'package:ca_app/features/msme/presentation/msme_screen.dart';
+import 'package:ca_app/features/advanced_audit/presentation/advanced_audit_screen.dart';
+import 'package:ca_app/features/faceless_assessment/presentation/faceless_assessment_screen.dart';
+import 'package:ca_app/features/income_tax/presentation/income_tax_screen.dart';
+import 'package:ca_app/features/gst/presentation/gst_screen.dart';
+import 'package:ca_app/features/tds/presentation/tds_screen.dart';
+import 'package:ca_app/features/mca/presentation/mca_screen.dart';
+import 'package:ca_app/features/xbrl/presentation/xbrl_screen.dart';
+import 'package:ca_app/features/cma/presentation/cma_screen.dart';
+import 'package:ca_app/features/payroll/presentation/payroll_screen.dart';
+import 'package:ca_app/features/staff_monitoring/presentation/staff_monitoring_screen.dart';
+import 'package:ca_app/features/settings/presentation/settings_screen.dart';
+import 'package:ca_app/features/accounts/presentation/accounts_screen.dart';
+import 'package:ca_app/features/assessment/presentation/assessment_screen.dart';
+import 'package:ca_app/features/documents/presentation/documents_screen.dart';
+import 'package:ca_app/features/billing/presentation/billing_screen.dart';
+import 'package:ca_app/features/regulatory_trust/presentation/regulatory_trust_screen.dart';
+import 'package:ca_app/features/data_pipelines/presentation/data_pipelines_screen.dart';
+import 'package:ca_app/features/collaboration/presentation/collaboration_screen.dart';
+import 'package:ca_app/features/ecosystem/presentation/ecosystem_screen.dart';
+import 'package:ca_app/features/roadmap_modules/presentation/roadmap_module_screen.dart';
+import 'package:ca_app/features/notice_resolution/presentation/notice_resolution_screen.dart';
+import 'package:ca_app/features/dsc_vault/presentation/dsc_vault_screen.dart';
+import 'package:ca_app/features/renewal_expiry/presentation/renewal_expiry_screen.dart';
+import 'package:ca_app/features/tax_advisory/presentation/tax_advisory_screen.dart';
+import 'package:ca_app/features/lead_funnel/presentation/lead_funnel_screen.dart';
+import 'package:ca_app/features/nri_tax/presentation/nri_tax_screen.dart';
+import 'package:ca_app/features/sme_cfo/presentation/sme_cfo_screen.dart';
+import 'package:ca_app/features/fee_leakage/presentation/fee_leakage_screen.dart';
+import 'package:ca_app/features/knowledge_engine/presentation/knowledge_engine_screen.dart';
+import 'package:ca_app/features/industry_playbooks/presentation/industry_playbooks_screen.dart';
+import 'package:ca_app/features/esg_reporting/presentation/esg_reporting_screen.dart';
+import 'package:ca_app/features/virtual_cfo/presentation/virtual_cfo_screen.dart';
+import 'package:ca_app/features/einvoicing/presentation/einvoicing_screen.dart';
+import 'package:ca_app/features/idp/presentation/idp_screen.dart';
+import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_intelligence_screen.dart';
+import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
+
+final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final _dashboardNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'dashboard');
+final _clientsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'clients');
+final _complianceNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'compliance');
+final _tasksNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'tasks');
+final _moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
+
+final appRouterProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: '/',
+    routes: [
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return AdaptiveScaffold(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: _dashboardNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'dashboard',
+                builder: (context, state) => const DashboardScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _clientsNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/clients',
+                name: 'clients',
+                builder: (context, state) => const ClientsScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':clientId',
+                    name: 'clientDetail',
+                    builder: (context, state) {
+                      final clientId = state.pathParameters['clientId']!;
+                      return ClientDetailScreen(clientId: clientId);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _complianceNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/compliance',
+                name: 'compliance',
+                builder: (context, state) => const ComplianceScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _tasksNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/tasks',
+                name: 'tasks',
+                builder: (context, state) => const TasksScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _moreNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/more',
+                name: 'more',
+                builder: (context, state) => const MoreScreen(),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/client-portal',
+        name: 'clientPortal',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ClientPortalScreen(),
+      ),
+      GoRoute(
+        path: '/income-tax',
+        name: 'incomeTax',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const IncomeTaxScreen(),
+      ),
+      GoRoute(
+        path: '/gst',
+        name: 'gst',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const GstScreen(),
+      ),
+      GoRoute(
+        path: '/tds',
+        name: 'tds',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TdsScreen(),
+      ),
+      GoRoute(
+        path: '/ai-automation',
+        name: 'aiAutomation',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AiDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/analytics',
+        name: 'analytics',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AnalyticsDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/time-tracking',
+        name: 'timeTracking',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TimeTrackingScreen(),
+      ),
+      GoRoute(
+        path: '/firm-operations',
+        name: 'firmOperations',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FirmOperationsScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding',
+        name: 'onboarding',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/fema',
+        name: 'fema',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FemaScreen(),
+      ),
+      GoRoute(
+        path: '/sebi',
+        name: 'sebi',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SebiScreen(),
+      ),
+      GoRoute(
+        path: '/transfer-pricing',
+        name: 'transferPricing',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TransferPricingScreen(),
+      ),
+      GoRoute(
+        path: '/crypto-vda',
+        name: 'cryptoVda',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CryptoVdaScreen(),
+      ),
+      GoRoute(
+        path: '/startup-compliance',
+        name: 'startupCompliance',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const StartupComplianceScreen(),
+      ),
+      GoRoute(
+        path: '/llp-compliance',
+        name: 'llpCompliance',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LLPComplianceScreen(),
+      ),
+      GoRoute(
+        path: '/msme',
+        name: 'msme',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const MsmeScreen(),
+      ),
+      GoRoute(
+        path: '/advanced-audit',
+        name: 'advancedAudit',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdvancedAuditScreen(),
+      ),
+      GoRoute(
+        path: '/faceless-assessment',
+        name: 'facelessAssessment',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FacelessAssessmentScreen(),
+      ),
+      GoRoute(
+        path: '/staff-monitoring',
+        name: 'staffMonitoring',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const StaffMonitoringScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        name: 'settings',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/accounts',
+        name: 'accounts',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AccountsScreen(),
+      ),
+      GoRoute(
+        path: '/assessment',
+        name: 'assessment',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AssessmentScreen(),
+      ),
+      GoRoute(
+        path: '/documents',
+        name: 'documents',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DocumentsScreen(),
+      ),
+      GoRoute(
+        path: '/billing',
+        name: 'billing',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const BillingScreen(),
+      ),
+      GoRoute(
+        path: '/cma',
+        name: 'cma',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CmaScreen(),
+      ),
+      GoRoute(
+        path: '/payroll',
+        name: 'payroll',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PayrollScreen(),
+      ),
+      GoRoute(
+        path: '/mca',
+        name: 'mca',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const McaScreen(),
+      ),
+      GoRoute(
+        path: '/xbrl',
+        name: 'xbrl',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const XbrlScreen(),
+      ),
+      GoRoute(
+        path: '/regulatory-trust',
+        name: 'regulatoryTrust',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RegulatoryTrustScreen(),
+      ),
+      GoRoute(
+        path: '/data-pipelines',
+        name: 'dataPipelines',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DataPipelinesScreen(),
+      ),
+      GoRoute(
+        path: '/collaboration',
+        name: 'collaboration',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CollaborationScreen(),
+      ),
+      GoRoute(
+        path: '/ecosystem',
+        name: 'ecosystem',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EcosystemScreen(),
+      ),
+      GoRoute(
+        path: '/notice-resolution',
+        name: 'noticeResolution',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NoticeResolutionScreen(),
+      ),
+      GoRoute(
+        path: '/dsc-vault',
+        name: 'dscVault',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DscVaultScreen(),
+      ),
+      GoRoute(
+        path: '/sme-cfo',
+        name: 'smeCfo',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SmeCfoScreen(),
+      ),
+      GoRoute(
+        path: '/nri-tax',
+        name: 'nriTax',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NriTaxScreen(),
+      ),
+      GoRoute(
+        path: '/lead-funnel',
+        name: 'leadFunnel',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LeadFunnelScreen(),
+      ),
+      GoRoute(
+        path: '/tax-advisory',
+        name: 'taxAdvisory',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TaxAdvisoryScreen(),
+      ),
+      GoRoute(
+        path: '/renewal-expiry',
+        name: 'renewalExpiry',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RenewalExpiryScreen(),
+      ),
+      GoRoute(
+        path: '/fee-leakage',
+        name: 'feeLeakage',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FeeLeakageScreen(),
+      ),
+      GoRoute(
+        path: '/knowledge-engine',
+        name: 'knowledgeEngine',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const KnowledgeEngineScreen(),
+      ),
+      GoRoute(
+        path: '/industry-playbooks',
+        name: 'industryPlaybooks',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const IndustryPlaybooksScreen(),
+      ),
+      GoRoute(
+        path: '/esg-reporting',
+        name: 'esgReporting',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EsgReportingScreen(),
+      ),
+      GoRoute(
+        path: '/virtual-cfo',
+        name: 'virtualCfo',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const VirtualCfoScreen(),
+      ),
+      GoRoute(
+        path: '/einvoicing',
+        name: 'einvoicing',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EinvoicingScreen(),
+      ),
+      GoRoute(
+        path: '/idp',
+        name: 'idp',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const IdpScreen(),
+      ),
+      GoRoute(
+        path: '/regulatory-intelligence',
+        name: 'regulatoryIntelligence',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RegulatoryIntelligenceScreen(),
+      ),
+      GoRoute(
+        path: '/practice-benchmarking',
+        name: 'practiceBenchmarking',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PracticeBenchmarkingScreen(),
+      ),
+      GoRoute(
+        path: '/roadmap/:moduleId',
+        name: 'roadmapModule',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final moduleId = state.pathParameters['moduleId']!;
+          return RoadmapModuleScreen(moduleId: moduleId);
+        },
+      ),
+    ],
+  );
+});

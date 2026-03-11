@@ -1,6 +1,10 @@
 # CADesk — Complete Features & Modules
 
-> Comprehensive CA practice management platform — 31 modules covering tax, compliance, audit, firm operations, AI automation & client engagement
+> Comprehensive CA practice management platform — 51 modules covering tax, compliance, audit, firm operations, AI automation & client engagement
+>
+> Delivery standard: Every module below should be considered complete only at **100% functional completion** with **production-ready quality**, including validations, approvals, audit trail, security, analytics, integrations, and mobile/web usability.
+>
+> **Overall codebase completion: ~52%** — 51 modules all have full UI shells with clean architecture, Riverpod state, mock data, and navigable flows. 10 modules now have deep business logic: tax regime computation (234A/B/C interest, advance tax), ITC reconciliation, challan tracking, GST invoice calculator, salary computation (PF/ESI/PT/TDS), financial ratio analysis (11 ratios, WDV depreciation), real running timer (start/pause/stop), client compliance health scores, and cross-module KPI aggregation. All roadmap stubs (modules 36-51) converted to dedicated screens. Zero modules have real API integration or automated tests.
 
 ---
 
@@ -40,6 +44,7 @@
 - Return filing for legal heirs
 - Old vs New tax regime comparison calculator
 - ITR-U (Updated Return) support with 4-year window
+- **AIS/TIS Reconciliation Engine:** Auto-matches declared income against AIS/TIS data and flags discrepancies before filing
 
 ### Portal Integration
 - DSC registration at ITD portal
@@ -74,9 +79,13 @@
 - Issue GST-compliant invoices
 - Auto-prepare GSTR-1 from invoice data
 - Auto invoice transfer between periods
-- E-invoicing (mandatory ≥ ₹5 crore)
+- E-invoicing (mandatory ≥ ₹5 crore; ≥ ₹2 crore from Oct 2025)
 - Invoice Management System (IMS)
 - B2C e-invoicing pilot support
+- **30-day / 3-day e-invoice reporting window enforcement** — Auto-blocks late uploads per threshold
+- **2FA enforcement for e-invoice & e-way bill** (mandatory April 2025)
+- **Enhanced QR code** with delivery place, payment status, and faster verification
+- **₹25,000/invoice penalty tracker** — Flags non-compliant invoices before filing deadline
 
 ### Data Input
 - Import from GST portal, Tally, Excel
@@ -157,6 +166,7 @@
 - CA registration & status tracking at portal
 - DSC auto-signing for attachments
 - PDF conversion of financial statements
+- **Clause-by-Clause AI Validation:** Cross-checks Form 3CD clauses against ledger data to prevent reporting mismatches
 
 ### Integration
 - Tally & Excel imports
@@ -297,6 +307,8 @@
 - Bottleneck identification & escalation alerts
 - Recurring task auto-creation (monthly, quarterly, annual)
 - Return filing dashboard (filed / pending / overdue)
+- **AI Workload Balancer:** Auto-assigns tasks based on staff skill matrix and current bandwidth
+- **Smart Dependency Triggers:** e.g., Auto-creates MCA filing tasks the moment a company audit is marked 'Complete'
 
 ---
 
@@ -325,6 +337,15 @@
 - Smart form auto-fill from scanned documents
 - AI-powered error detection before filing
 - Auto-extraction of data from Form 16, 26AS, bank statements
+- **AI Notice Analyzer:** Scans ITD/GST notices, identifies section & severity, calculates exact deadline, and drafts a preliminary response
+- **Agentic OTP & Login Manager:** Securely auto-fetches OTPs from client emails/SMS (with consent) to bypass portal login bottlenecks
+- **Missing Data Identifier:** AI scans uploaded documents and flags missing months/pages before assigning to human staff
+- **100% Transaction Analysis (not sampling):** MindBridge-style AI scans every entry for anomalies, duplicates, and unusual patterns — replaces traditional audit sampling
+- **Continuous Transaction Controls (CTC):** Real-time invoice validation at creation time via GSTN/IRP API — errors caught before filing, not after
+- **AI Meeting Transcription:** Auto-transcribes client calls (Zoom/Teams/Meet), extracts action items, and creates follow-up tasks in workflow
+- **CA GPT / Legal Research Engine:** RAG-based assistant trained on Income Tax Act, GST Act, Companies Act, RBI/FEMA circulars, ICAI standards — answers with source citations
+- **Predictive 143(1) Mismatch Detector:** Compares declared income against AIS/TIS in real-time, detects omissions and inconsistencies before submission to prevent intimations/demands
+- **RPA Bot Framework:** Configurable bots for repetitive portal tasks — bulk challan downloads, TRACES requests, MCA form prefill — without manual click-through
 
 ---
 
@@ -339,6 +360,11 @@
 - Client satisfaction surveys & NPS tracking
 - Task status visibility for clients
 - Query management with response tracking
+- **WhatsApp AI Follow-up Bot:** Conversational bot that automatically chases clients for pending documents, challan payments, and signatures without human intervention
+- **Magic Links:** Passwordless, OTP-secured links for clients to instantly upload specific requested files straight into the correct folder
+- **Bulk Due Date Reminders:** Automated WhatsApp/SMS/email reminders for upcoming GST, TDS, ITR deadlines across all clients in one click
+- **Invoice & Receipt Auto-Delivery:** Auto-send invoice copies and payment receipts via WhatsApp on generation
+- **Client Self-Service Tax Q&A Bot:** AI chatbot on portal answers common taxpayer queries (refund status, TDS certificate, ITR status) without staff intervention
 
 ---
 
@@ -352,6 +378,11 @@
 - Custom report builder (drag-and-drop)
 - Peer benchmarking comparisons
 - Exception alerts & threshold-based notifications
+- **Partner Profitability Dashboard:** Visualizes cost-to-serve vs. fixed-fee agreements to flag unprofitable clients/engagements
+- **Churn Risk Predictor:** AI flags clients at risk of leaving based on communication drops or missed deadlines
+- **ESG Compliance Metrics:** Track carbon taxes, green incentives, and sustainability tax contributions per SEBI 2026 norms
+- **Seasonal Load Forecaster:** Predicts staff demand spikes (ITR season, GST annual, TDS quarters) and suggests hiring/outsourcing windows
+- **Revenue per Hour Heatmap:** Identifies which services, clients, and staff yield highest/lowest revenue per billable hour
 
 ---
 
@@ -380,6 +411,8 @@
 - Assignment scheduling with milestone tracking
 - Performance reviews & ratings
 - Multi-branch office management
+- **Articled Assistant Training Tracker:** CPE hours, rotation schedule, mentor assignments, competency assessments per ICAI norms
+- **Outsourced Team Management:** SLA tracking, quality checks, and access controls for freelance/outsourced tax preparers
 
 ---
 
@@ -512,6 +545,9 @@
 - Digital evidence preservation & analysis
 - Investigation documentation & case file management
 - Employee misconduct investigation templates
+- **AI-powered Benford's Law analysis** on large transaction sets to detect fabricated entries
+- **Shell company / fake ITC detection** using GST analytics (aligned with govt RegTech enforcement)
+- **Duplicate vendor payment scanner** with fuzzy name/account matching
 
 ---
 
@@ -524,6 +560,318 @@
 - Penalty calculation for delayed ITR-U (25% / 50% / 60% / 70%)
 - Physical verification documentation tracking
 - E-assessment portal integration
+
+---
+
+# PART E — Trusted Infrastructure & Integrations
+
+---
+
+## 32. Regulatory Trust & Security
+
+- GSP / ASP certification workflow with automated readiness checklist
+- e-Return Intermediary (eRI) compliance artifacts & renewal reminders
+- SOC 2 Type II, ISO 27001, and RBI cyber-security control tracking
+- Quarterly VAPT scheduling with remediation task automation
+- 128-bit+ TLS enforcement, hardware-backed key management, field-level encryption
+- Data residency controls (India / multi-region) with audit logs
+- Privacy impact assessments and consent registry per client engagement
+
+---
+
+## 33. Data Pipelines & Broker Integrations
+
+- Bulk JSON client ingestion with schema validation & rollback
+- Form 16 / 16A, Form 26AS, AIS & TIS auto-import with delta detection
+- Direct connectors for broker / RTA feeds (Zerodha, CAMS, KFintech, Karvy, Groww, Angel One)
+- Capital gains normalization (equity, F&O, crypto) with rule-based tagging
+- Automated mapping from Tally, Zoho Books, QuickBooks, SAP, Oracle Fusion
+- Background isolate ingestion for massive files with progress reporting
+- Webhooks & APIs for third-party onboarding portals to push artifacts
+
+---
+
+## 34. Collaboration & Mobility Enhancements
+
+- Unlimited concurrent logins with activity indicators & presence
+- Field-level locking and conflict resolution for shared returns / workpapers
+- Offline-first mobile companion with bilingual UI (9 Indian languages + English)
+- In-app approvals, reminders, and push notifications synced across devices
+- Role-aware workspaces for partners, seniors, and outsourced teams
+- Secure guest links for auditors, bankers, investors with expiry policies
+- Auto-translated client summaries & alerts for vernacular preferences
+
+---
+
+## 35. Ecosystem Integrations & Marketplace
+
+- GSTN, MCA, TRACES, RBI and NSE/BSE API integrations exposed via unified connector hub
+- Plug-and-play widgets for payment gateways, e-sign, video KYC, WhatsApp Business
+- Marketplace SDK for third-party apps (valuation, legal, payroll) with revenue share controls
+- Event bus & webhook subscriptions for external automation (Zapier, Make, n8n)
+- GraphQL + REST APIs with fine-grained token scopes and per-client throttling
+- Integration health dashboard with heartbeat monitoring & auto-retry policies
+- Sandbox environment for partners to test against mock compliance data
+
+---
+
+# PART F — High-Impact CA Growth & Control Modules
+
+---
+
+## 36. Notice Resolution & Litigation Command Center
+
+- Central inbox for Income Tax, GST, MCA, EPFO, ESIC, and local authority notices
+- AI notice triage by section, urgency, risk, and probable business impact
+- Response playbooks for common notices with checklist-driven drafting workflow
+- Hearing preparation packs with chronology, facts, evidence bundle, and argument notes
+- Appeal ladder tracking (reply → rectification → CIT(A) → ITAT) with stage-wise deadlines
+- Counsel / client / internal assignment matrix with responsibility lock-in
+- Adjournment, submission, and order outcome register with reusable precedent tagging
+
+---
+
+## 37. DSC, Portal Credentials & Consent Vault
+
+- DSC inventory for clients, partners, directors, and authorized signatories
+- Expiry reminders for DSC, DIN KYC, PAN-Aadhaar, GST credentials, MSME, IEC, and licenses
+- Portal credential vault with role-based masked access and approval logs
+- Consent-based OTP capture workflows for ITD, GST, MCA, TRACES, EPFO, and bank portals
+- Device-to-client mapping for token-based signatures and USB DSC troubleshooting tracker
+- Failed login / captcha / lockout incident board with escalation workflow
+- Authorized signatory change history with downstream compliance impact alerts
+
+---
+
+## 38. Renewal, Retainer & Compliance Expiry Control
+
+- Master expiry calendar for GST LUT, FSSAI, IEC, trade licenses, professional tax, PF/ESI registrations, and contracts
+- Renewal pipelines with document checklist, owner assignment, and SLA countdown
+- Auto-generate monthly / quarterly / annual retainer work orders from signed engagements
+- Fixed-fee retainer tracking with scope consumed vs scope remaining
+- “At-risk renewal” alerts based on pending work, delayed responses, or unresolved complaints
+- Client-wise annual compliance heatmap to spot neglected entities early
+- Bulk renewal campaign engine over email, SMS, WhatsApp, and in-app alerts
+
+---
+
+## 39. Fee Leakage, Scope Control & Recovery
+
+- Scope creep tracker comparing promised deliverables vs extra requests actually serviced
+- Out-of-scope work capture from messages, calls, and task logs with billing recommendations
+- Partner approval flow for discounts, write-offs, credit notes, and urgent filing premiums
+- Recovery prioritization by aging, client importance, and probability of collection
+- Engagement margin tracker (fees billed vs team cost vs realization)
+- Auto-suggest revised retainers for chronically underpriced clients
+- Billing dispute workspace with document proof, engagement terms, and approval trail
+
+---
+
+## 40. Knowledge Engine & CA Precedent Library
+
+- Searchable library of prior replies, submissions, notices, and hearing outcomes
+- Clause / section-based knowledge retrieval for Income Tax, GST, TDS, FEMA, MCA, and audit matters
+- AI drafting assistant grounded on your own firm’s approved templates and prior submissions
+- Query-to-precedent linking so juniors can reuse similar solved cases safely
+- Internal review notes, partner comments, and “why this worked” knowledge capture
+- Topic-wise update digest for law changes, circulars, notifications, and portal changes
+- Training mode that converts completed cases into SOPs and article-assistant learning packs
+
+---
+
+# PART G — Tax Practice Growth Modules
+
+---
+
+## 41. Tax Advisory Opportunity Engine
+
+- AI scans ITR, GST, TDS, payroll, and audit data to identify advisory upsell opportunities
+- Missed deduction / refund / regime-switch / advance-tax optimization alerts
+- Capital gains harvesting, salary restructuring, and entity-level tax-saving suggestions
+- Opportunity scoring by urgency, estimated fee potential, and likelihood of conversion
+- Auto-generate advisory tasks, partner review notes, and client proposal drafts
+- Client-wise tax health score with quarterly / annual advisory review cycles
+- Compliance-to-advisory conversion dashboard by client, team, and service line
+
+---
+
+## 42. Lead Funnel & Seasonal Tax Campaigns
+
+- Lead capture from website forms, WhatsApp, referral links, webinars, and walk-ins
+- Seasonal campaign templates for ITR filing, advance tax, GST annual return, TDS correction, and ITR-U
+- AI lead qualification based on case complexity, urgency, ticket size, and required specialization
+- Auto-book consultation slots with reminder workflows and pre-consultation document requests
+- Dormant client reactivation campaigns for missed filings, pending notices, and updated return opportunities
+- Source-wise ROI tracking for referrals, ads, content, and partner channels
+- Conversion funnel from enquiry → consultation → proposal → engagement → recurring retainer
+
+---
+
+## 43. NRI, Expat & Cross-Border Tax Desk
+
+- Residential status determination engine with year-wise stay tracking
+- DTAA relief workflows, foreign tax credit computation, and treaty position notes
+- Foreign asset / foreign income schedule builder with country-wise mapping
+- ESOP / RSU / foreign payroll / overseas secondment tax treatment workflows
+- NRI property sale, lower TDS certificate, repatriation, and remittance checklists
+- FEMA-linked tax impact prompts for high-value remittances and overseas investments
+- Premium-case routing to cross-border specialists with turnaround SLAs and pricing bands
+
+---
+
+## 44. SME Tax CFO & Planning Retainers
+
+- Monthly / quarterly tax review packs for SME founders, CFOs, and controllers
+- Tax cash-flow forecasting with advance-tax, GST outflow, and TDS liability projections
+- Board-ready tax memos, CFO dashboards, and variance explanations
+- Entity-structure comparison (proprietorship / LLP / company) for tax efficiency planning
+- Budget, Finance Act, and circular impact simulations for each client business
+- Retainer packaging for monthly advisory subscriptions with scope, SLA, and escalation bands
+- “Upcoming tax risk” alerts that trigger paid advisory conversations before deadlines hit
+- Tax provisioning, deferred tax impact, and year-end closing advisory support for management teams
+- Working-capital vs tax-outflow visibility to help SMEs plan cash usage more intelligently
+- Group-entity and promoter-level tax view for businesses with multiple related entities
+
+### Delivery Tasks & Completion Target
+
+- **Completion Target:** 100%
+- **Definition of Done:** Fully functional and production-ready, not demo-only
+- End-to-end flow from lead / proposal → advisory workflow → document collection → partner review → client delivery → billing → renewal
+- Partner approval matrix, maker-checker review, and audit trail for pricing, tax advice, and final deliverables
+- Integration with CRM, Client Portal, Time Tracking, Billing, Document Management, and Analytics modules
+- Standardized templates, calculators, board-pack outputs, and industry presets for fast rollout
+- SLA tracking, escalation rules, renewal automation, and mobile notifications for every retainer client
+- Production checklist coverage: access control, logging, monitoring, exports, backups, QA, and rollback readiness
+
+---
+
+## 45. Industry Vertical Tax Playbooks & Productized Services
+
+- Ready-made tax playbooks for e-commerce, exporters, doctors, real estate, SaaS, creators, manufacturing, and hospitality
+- Industry-specific onboarding checklists, data request templates, and compliance calendars
+- Productized service bundles with fixed inclusions, turnaround SLAs, and pricing guardrails
+- Benchmark ratios and typical risk libraries by industry to speed reviews and recommendations
+- Vertical-wise win-rate, margin, and retention analytics to identify the best growth niches
+- Cloneable proposal decks, engagement letters, and marketing one-pagers for each vertical
+- Cross-sell triggers to move clients from filing-only to advisory, litigation, payroll, or CFO retainers
+
+---
+
+# PART H — AI-First & Future-Ready Modules
+
+> Based on 2026 industry research: EY AI Tax Hub, Deloitte Tech Trends, ClearTax CTC, ICAI AI roadmap, Karbon State of AI Report
+
+---
+
+## 46. ESG Reporting & Sustainability Compliance
+
+> **Pain point:** SEBI tightened ESG disclosure norms in 2026; CAs now play critical role in ESG-compliant reporting
+
+- BRSR (Business Responsibility & Sustainability Reporting) preparation per SEBI format
+- Carbon tax tracking & green incentive computation per Finance Act provisions
+- ESG KPI dashboard (emissions, energy, water, waste, social metrics)
+- Scope 1/2/3 emissions data collection workflow for listed company clients
+- ESG audit workpaper templates with evidence linkage
+- Sustainability tax contribution report for annual report disclosures
+- Regulatory change tracker for SEBI ESG, EU CSRD (for multinationals), and India carbon credit markets
+
+---
+
+## 47. Virtual CFO Advisory Platform
+
+> **Pain point:** 62%+ Indian CAs now offer advisory services beyond compliance; need technology platform to scale
+
+- Monthly/quarterly financial health check templates with automated data pull
+- CFO dashboard builder — real-time MIS, cash flow, working capital, receivables
+- Board meeting pack generator with variance analysis and management commentary
+- Scenario planning engine — what-if models for pricing, hiring, capex, tax regime changes
+- Startup-to-SME advisory ladder with milestone-based deliverables
+- Advisory retainer billing integration with time tracking and scope controls
+- Client-facing financial literacy portal with simplified dashboards
+- Tax cash-flow forecasting with advance tax, GST outflow, and TDS liability projections
+
+---
+
+## 48. AI-Powered E-Invoicing Compliance Hub
+
+> **Pain point:** ₹2 crore threshold from Oct 2025, 30-day then 3-day reporting windows, ₹25K/invoice penalty, 2FA mandatory
+
+- Real-time e-invoice generation via IRP API with instant IRN
+- Pre-validation engine: GSTIN, HSN codes, invoice values checked before IRP submission
+- 30-day / 3-day countdown tracker per invoice with escalation alerts
+- Bulk e-invoice generation for high-volume clients (10,000+ invoices)
+- Auto-retry on IRP rejection with error categorization and fix suggestions
+- E-way bill auto-generation linked to e-invoice data
+- 2FA token management for e-invoice portal access
+- Credit/debit note e-invoice correlation and amendment tracking
+- QR code verification tool for physical invoice audits
+- Client-wise e-invoice readiness assessment (turnover threshold monitoring)
+
+---
+
+## 49. Intelligent Document Processing (IDP) Hub
+
+> **Pain point:** 99%+ OCR accuracy now possible; CAs spend hours on manual data entry from Form 16, bank statements, invoices
+
+- AI OCR extraction from Form 16/16A PDFs → structured data with field-level confidence scores
+- Form 26AS / AIS / TIS auto-import with delta detection and mismatch highlighting
+- Bank statement parser (all major Indian banks) → categorized transactions with GST/TDS tagging
+- Invoice digitization with vendor name, amount, GST details, HSN extraction
+- Rent agreement, property document, and capital gains deed OCR
+- Batch processing: Drop folder of 500+ documents → auto-categorized, extracted, and routed
+- Human-in-the-loop review queue for low-confidence extractions
+- Integration with Dext, Nanonets, or custom vision models for India-specific document formats
+- Client document upload via WhatsApp photo → auto-processed and filed
+
+---
+
+## 50. Regulatory Intelligence & Circular Tracker
+
+> **Pain point:** CAs must track changes across IT Act, GST, Companies Act, RBI, SEBI, FEMA — circulars, notifications, press notes arrive daily
+
+- Daily automated digest of circulars, notifications, and press notes from CBDT, CBIC, MCA, RBI, SEBI
+- AI-powered impact analysis: "This circular affects 23 of your clients" with client list
+- Section-wise amendment history with diff view (old text vs new text)
+- Client-specific regulatory alert: "New 194T TDS rule impacts 8 of your partnership clients"
+- Searchable knowledge base of all circulars since 2000 with semantic search
+- Comparison tool: Show all changes to a specific section across Finance Acts
+- Auto-update compliance calendar when new due dates are notified
+- Integration with ICAI CA GPT and VIDUR AI for research augmentation
+
+---
+
+## 51. Practice Benchmarking & Growth Intelligence
+
+> **Pain point:** CA firms lack data on how they compare to peers; no industry benchmarks for pricing, utilization, or growth
+
+- Anonymous peer benchmarking: Compare your firm's billing rate, utilization, realization vs similar-sized firms
+- Service-mix optimization: Which services generate highest margins, lowest churn?
+- Pricing intelligence: Suggested fee ranges by service type, city tier, and client segment
+- Growth score: Composite metric of client acquisition, retention, revenue growth, and NPS
+- Staff productivity benchmarks: Billable hours, tasks completed, error rates vs industry median
+- Client concentration risk alert: Flag when >20% revenue comes from single client
+- Quarterly firm health report card with actionable recommendations
+
+---
+
+# PART I — Where AI Is Helping (2026 Industry Map)
+
+> Sources: EY AI Tax Hub, Deloitte Tech Trends 2026, Karbon State of AI Report, ClearTax, ICAI AI Roadmap
+
+| Area | AI Capability | Impact | Module |
+|---|---|---|---|
+| **GST Reconciliation** | AI matches 10,000+ invoices/min against GSTR-2B, flags mismatches | 70% reduction in manual reconciliation time | 2, 48 |
+| **Document Processing** | OCR + NLP extracts Form 16, 26AS, bank statements at 99%+ accuracy | Eliminates manual data entry for 80% of documents | 49, 33 |
+| **Fraud Detection** | 100% transaction analysis replaces sampling; Benford's Law, pattern recognition | Catches anomalies traditional audits miss entirely | 30, 17 |
+| **AIS/TIS Mismatch** | Compares declared income vs AIS in real-time before filing | Prevents 143(1) intimations, demands, and scrutiny | 1, 17 |
+| **Tax Advisory** | Scans client data for missed deductions, regime optimization, capital gains harvesting | Creates revenue from advisory that didn't exist before | 41, 44 |
+| **Compliance Calendar** | Predicts deadline risks, auto-cascades related tasks, suggests resource allocation | Zero missed deadlines, staff overload prevention | 15, 38 |
+| **Client Communication** | WhatsApp bots chase documents, send reminders, answer queries 24/7 | 50% reduction in staff time on follow-ups | 18, 42 |
+| **Notice Management** | AI triages notices by section, urgency, risk; drafts preliminary responses | 3-5x faster response turnaround | 36, 31 |
+| **Meeting Intelligence** | Auto-transcribes calls, extracts action items, creates tasks | No more lost follow-ups after client meetings | 17 |
+| **Regulatory Tracking** | Daily circular digest with client-specific impact analysis | CAs always current; no more "missed that notification" | 50 |
+| **Audit Analytics** | Complete journal entry testing, unusual amount/timing pattern detection | Evidence-based audit vs gut-feel sampling | 30, 5 |
+| **RPA for Portals** | Bots handle bulk TRACES downloads, MCA prefills, challan fetches | Reclaim 2-3 hours/day lost to portal clicking | 17 |
 
 ---
 
@@ -547,41 +895,77 @@
 | Slow support during peak season | AI-powered self-help + priority support |
 | Steep learning curve | Modern UI, contextual help, guided workflows |
 | No multi-currency support | Full multi-currency for international clients |
+| ClearTax: HSN rate bugs, JSON upload errors, unstable matching | Validated offline preparation with pre-submission checks |
+| CompuTax: IE-dependent, slow, no customized reports | Modern Flutter UI, instant rendering, custom report builder |
+| TallyPrime: Desktop-only, no real-time collaboration | Cloud-native with unlimited concurrent logins and presence |
+| No advisory/upsell — compliance-only mindset | AI-powered advisory opportunity engine (Module 41) |
+| Peak-season staff overload, no capacity visibility | AI workload balancer + seasonal load forecaster |
+| Fragmented tool switching (10+ portals per day) | Unified portal connector hub with single sign-on |
+| No fraud/anomaly detection in audits | AI 100% transaction analysis, Benford's Law, shell company detection |
+| No ESG/sustainability reporting | ESG compliance metrics aligned with SEBI 2026 norms |
+| Manual OTP/login for every govt portal | Agentic OTP manager with consent-based auto-capture |
 
 ---
 
 # Summary Table
 
-| # | Module | Purpose |
-|---|---|---|
-| 1 | Income Tax | ITR filing, e-returns, 26AS, advance tax, ITR-U |
-| 2 | GST | GSTR-1/3B/9, ITC, reconciliation, e-invoicing |
-| 3 | TDS/TCS | 24Q/26Q/27Q/27EQ, Form 16/16A/15G/26QB |
-| 4 | TDS.AI | AI-assisted TDS from accounting software |
-| 5 | Balance Sheet & Audit | Financials, Form 3CD/29B, cash flow |
-| 6 | Assessment Checker | Verify IT order calculations & interest |
-| 7 | MCA/ROC | Company filings, Companies Act 2013 |
-| 8 | XBRL | XBRL tagging & MCA filing |
-| 9 | CMA | Financial projections, bank loan data |
-| 10 | Payroll | Salary, PF/ESI, Form 16, 115BAC |
-| 11 | Document Mgmt | Client document storage & cloud access |
-| 12 | Staff Monitor | Remote monitoring, screen recording |
-| 13 | Cloud/Remote | Browser-based access, cloud backup |
-| 14 | Billing | GST invoicing & billing |
-| **15** | **Practice Mgmt** | **Workflow, tasks, deadlines, compliance calendar** |
-| **16** | **CRM** | **Client relationships, profitability, engagement** |
-| **17** | **AI & Automation** | **OCR, auto-categorization, predictive analytics** |
-| **18** | **Client Portal** | **Secure portal, messaging, WhatsApp, e-sign** |
-| **19** | **Analytics / BI** | **Dashboards, KPIs, custom reports** |
-| **20** | **Time Tracking** | **Billable hours, task-to-invoice, realization** |
-| **21** | **Firm Operations** | **Staff KPIs, CPE, SOPs, capacity planning** |
-| **22** | **Client Onboarding** | **KYC automation, CKYC, engagement letters** |
-| **23** | **FEMA / RBI** | **FEMA forms, FDI tracking, RBI compliance** |
-| **24** | **SEBI** | **Capital market disclosures, BSE/NSE filing** |
-| **25** | **Transfer Pricing** | **TP docs, Form 3CEB, ALP benchmarking, APA** |
-| **26** | **Crypto / VDA Tax** | **VDA schedule, 30% tax, TDS 194S, NFT** |
-| **27** | **Startup Compliance** | **DPIIT, 80-IAC, cap table, angel tax** |
-| **28** | **LLP Compliance** | **Form 11/8, audit threshold, ITR-5** |
-| **29** | **MSME Compliance** | **45-day payment, Form MSME-1, 43B(h)** |
-| **30** | **Advanced Audits** | **Statutory, internal, stock, cost, forensic** |
-| **31** | **Faceless Assessment** | **NFAC, virtual hearings, ITR-U, e-proceedings** |
+> **Completion analysis basis:** These percentages are **implementation coverage estimates from the current codebase**, not business-goal completion.  
+> - **45-55%**: Routed UI exists with dedicated screens, providers/state, multiple subviews, and usable demo flows  
+> - **30-44%**: Dedicated module exists with meaningful UI/state, but major production workflows/integrations are still missing  
+> - **10-25%**: Prototype or partially scaffolded module exists, often not yet fully integrated into routing/navigation  
+> - **0-5%**: Roadmap-only or no dedicated implementation found yet
+
+| # | Module | Purpose | Done | What Exists | What's Missing for 100% |
+|---|---|---|---|---|---|
+| Core | Platform Core | Dashboard, client base, navigation shell | **38%** | Adaptive scaffold, GoRouter, 5-tab nav, theme system, cross-module KPI aggregation, compliance deadline widget, activity feed, real derived stats from ITR/GST/TDS providers | Auth, RBAC, MFA, audit trail, offline sync, push notifications |
+| 1 | Income Tax | ITR filing, e-returns, 26AS, advance tax, ITR-U | **55%** | Screen, 3 models, 10 mock clients, filing detail sheet with **old vs new regime tax computation** (FY 2025-26 slabs + 4% cess), advance tax schedule (4 installments), filing timeline, new filing form with **live tax preview** as user types income, PAN validation | ITD portal API, Form 26AS import, AIS reconciliation, e-filing upload |
+| 2 | GST | GSTR-1/3B/9, ITC, reconciliation, e-invoicing | **55%** | Screen, tabbed GSTR interface, **ITC reconciliation model** (GSTR-2A vs books), 8 recon records, `LateFeesCalculator` (₹50/day, 18% interest), ITC summary banner, client detail sheet with Returns + ITC Recon tabs, compliance score ring | GSTN API, e-invoice IRP integration, Tally import |
+| 3 | TDS/TCS | 24Q/26Q/27Q/27EQ, Form 16/16A/15G/26QB | **55%** | Screen, **TdsChallan model** (12 records, sections 192/194A/194C/194J/195), **TdsSectionSummary** (6 sections with compliance %), `TdsInterestCalculator` (1%/1.5% per month), challan summary row, deductor detail sheet with Challans + Sections + Returns tabs | FVU generation, TRACES API, bulk PAN verification |
+| 4 | TDS.AI | AI-assisted TDS from accounting software | **0%** | No code exists | Entire module: AI extraction, section detection, rate application, form generation |
+| 5 | Balance Sheet & Audit | Financials, Form 3CD/29B, cash flow | **58%** | Screen, 3 models, **`FinancialRatioCalculator`** (11 ratios: CR, QR, gross/net/EBITDA margin, ROE, ROA, D/E, interest coverage, debtor/creditor/inventory days), **`DepreciationCalculator`** (WDV, IT Act rates, half-year convention), `FinancialRatioSnapshot` model (8 clients), Ratios tab with color-coded benchmarks, `DepreciationScheduleWidget` scrollable table | Schedule III engine, cash flow generator, Tally import, Form 3CD filing |
+| 6 | Assessment Checker | Verify IT order calculations & interest | **58%** | Screen, 2 models, **`InterestCalculator234`** (234A: 1%/month late filing, 234B: short advance tax, 234C: installment deferment, 244A: refund interest), `AssessmentInterestSummary`, detail sheet with demand vs refund card + full tax computation breakdown + interest rows, AY summary header card | Order import, e-assessment portal API, comparison logic |
+| 7 | MCA/ROC | Company filings, Companies Act 2013 | **40%** | Screen, 2 models (Company/Director), CIN/DIN views | MCA portal API, e-form generation, DSC registration, resolution templates |
+| 8 | XBRL | XBRL tagging & MCA filing | **35%** | Screen, 2 models, basic instance list | Color-coded input builder, CIN auto-populate, tag generator, MCA filing API |
+| 9 | CMA | Financial projections, bank loan data | **40%** | Screen, 2 models, projection list | Calculation engine (EMI/IRR/NPV/MPBF), projection auto-generation, comparative analysis |
+| 10 | Payroll | Salary, PF/ESI, Form 16, 115BAC | **60%** | Screen, 3 models, **`SalaryCalculator`** (employee/employer PF 12% capped ₹15K, ESI 0.75%/3.25% ≤₹21K, PT Maharashtra slabs, TDS Section 192 new regime), `NetPayResult` model, `PayslipDetailSheet` (Earnings/Deductions/Net Pay/Employer CTC), `PayrollSummaryWidget` (live PF/ESI/TDS aggregate) | EPFO API, PF/ESI challan generation, Form 16, attendance system |
+| 11 | Document Mgmt | Client document storage & cloud access | **40%** | Screen, 2 models, category/document tiles | Cloud storage backend, file upload/download, sharing, client portal access, search |
+| 12 | Staff Monitor | Remote monitoring, screen recording | **35%** | Screen, 3 models, 3 widgets | Screen capture system, website restrictions, activity logging, privacy controls |
+| 13 | Cloud/Remote | Browser-based access, cloud backup | **5%** | Roadmap stub only | Cloud infrastructure, backup system, remote access, session management |
+| 14 | Billing | GST invoicing & billing | **55%** | Screen, **GstInvoiceCalculator** (CGST/SGST/IGST compute, reverse-compute, 18% late interest), **PaymentRecord model** (8 mock records), invoice detail sheet with line-item GST breakdown + payment tracking, new invoice form with **live GST preview** (rate chips, inter-state toggle), aging summary card (0-30/31-60/61-90/90+ buckets) | Recurring invoices, payment collection API, time-tracking link |
+| **15** | **Practice Mgmt** | **Workflow, tasks, deadlines, compliance calendar** | **50%** | Screen + Kanban, 3 models (Task/Status/Workflow), compliance calendar | 70+ templates, dependency engine, bottleneck detection, recurring auto-creation |
+| **16** | **CRM** | **Client relationships, profitability, engagement** | **58%** | Screen, **`ClientHealthScore`** model (15 clients with ITR/GST/TDS status, pending actions, grade: Healthy/Attention/Critical), `ClientHealthCard` with score circle + status rows, `EditClientSheet` (full edit form with Indian states dropdown, validation), real Quick Actions (mailto/tel URL launch), client detail wired to edit | Profitability analysis, engagement letters, fee proposals, referral tracking |
+| **17** | **AI & Automation** | **OCR, reconciliation, anomaly detection, CA GPT** | **44%** | Screen, 3 models (Scan/Reconciliation/Anomaly), 4 widgets, **live investor demo** (OCR step-by-step, recon counter 0→1247, anomaly typewriter), simulation providers, `showLiveDemoSheet` FAB | Real OCR/ML engine, bank reconciliation API, AI meeting transcription, RPA bots, CA GPT |
+| **18** | **Client Portal** | **Secure portal, messaging, WhatsApp, e-sign** | **50%** | Screen, 4 models, 3 tabs (Messages/Docs/Queries) | WhatsApp API, e-signature, payment collection, NPS surveys, AI chatbot |
+| **19** | **Analytics / BI** | **Dashboards, KPIs, custom reports, ESG** | **38%** | Screen, 3 models, metric cards | Real-time calculation, custom report builder, ESG metrics, benchmarking, churn prediction |
+| **20** | **Time Tracking** | **Billable hours, task-to-invoice, realization** | **62%** | Screen, **`ActiveTimerNotifier`** (real `Timer.periodic` start/pause/resume/stop, HH:MM:SS display, live ₹ billable amount), `RealizationCalculator` (utilization %, effective rate, realization ratio), `StartTimerSheet` (client dropdown + rate field), `TimeEntryToInvoiceSheet` (grouped by client, GST ChoiceChip, live CGST/SGST), `_RealizationCard` summary | Budget vs actual tracking, invoice auto-linking API |
+| **21** | **Firm Operations** | **Staff KPIs, CPE, SOPs, capacity planning** | **45%** | Screen, 3 models, 3 widgets | CPE tracking, skill matrix, capacity planner, workpaper management, performance reviews |
+| **22** | **Client Onboarding** | **KYC automation, CKYC, engagement letters** | **45%** | Screen, 3 models, 3 widgets | CKYC API, Aadhaar/PAN verification, e-sign, expiry tracking, digital vault |
+| **23** | **FEMA / RBI** | **FEMA forms, FDI tracking, RBI compliance** | **40%** | Screen, 2 models, 2 widgets, filter/summary | RBI API, AD bank integration, penalty calc, export-import modules |
+| **24** | **SEBI** | **Capital market disclosures, BSE/NSE filing** | **38%** | Screen, 2 models, 2 widgets | BSE/NSE API, deadline engine, material events, secretarial auditor monitoring |
+| **25** | **Transfer Pricing** | **TP docs, Form 3CEB, ALP benchmarking, APA** | **38%** | Screen, 2 models, 2 widgets | Form 3CEB filing, benchmarking tools, safe harbour, APA/MAP management |
+| **26** | **Crypto / VDA Tax** | **VDA schedule, 30% tax, TDS 194S, NFT** | **40%** | Screen, 2 models, 2 widgets | 30% tax computation, exchange API, TDS 194S tracking, loss validation |
+| **27** | **Startup Compliance** | **DPIIT, 80-IAC, cap table, angel tax** | **40%** | Screen, 2 models, 2 widgets | DPIIT API, 80-IAC management, cap table engine, turnover monitoring |
+| **28** | **LLP Compliance** | **Form 11/8, audit threshold, ITR-5** | **38%** | Screen, 2 models, 2 widgets | MCA API, Form 11/8 filing, penalty calculator, audit threshold engine |
+| **29** | **MSME Compliance** | **45-day payment, Form MSME-1, 43B(h)** | **42%** | Screen, 2 models, 3 widgets (incl. aging chart) | 45-day alert engine, Form MSME-1 generation, 43B(h) deduction logic |
+| **30** | **Advanced Audits** | **Statutory, internal, stock, cost, forensic + AI** | **42%** | Screen, 3 models, 3 widgets | Audit-type-specific workflows, risk assessment, Benford's Law, fraud analytics |
+| **31** | **Faceless Assessment** | **NFAC, virtual hearings, ITR-U, e-proceedings** | **42%** | Screen, 3 models, 3 widgets | E-assessment portal API, video conferencing, ITR-U engine, penalty calculator |
+| **32** | **Regulatory Trust & Security** | **GSP/eRI readiness, SOC2/ISO, VAPT, privacy** | **40%** | Screen, 2 models, 2 widgets, 8 mock controls, 4 VAPT scans | Real compliance tracking, VAPT integration, encryption enforcement, privacy registry |
+| **33** | **Data Pipelines & Broker** | **Bulk JSON, Form 16/26AS, broker feeds** | **40%** | Screen, 2 models, 2 widgets, 8 pipelines, 6 broker feeds | Real API connectors (Zerodha/CAMS/etc), file ingestion engine, delta detection |
+| **34** | **Collaboration & Mobility** | **Concurrent logins, bilingual mobile, guest access** | **40%** | Screen, 2 models, 2 widgets, 8 sessions, 5 guest links | Real presence system, field locking, offline sync, i18n (9 languages), push notifications |
+| **35** | **Ecosystem Integrations** | **Marketplace, GSTN/MCA APIs, webhooks** | **40%** | Screen, 2 models, 2 widgets, 11 connectors, 6 marketplace apps | Real API integrations, GraphQL/REST layer, webhook system, marketplace SDK |
+| **36** | **Notice Resolution Center** | **Notice triage, hearings, appeals, precedent reuse** | **40%** | Full dedicated screen at `/notice-resolution`: 7 notice types, 5 severity levels, 8 mock notices (Indian clients), severity filter chips, Active/Resolved tabs, summary cards, `NoticeCase`+`NoticeReply` models | Real e-notice API, AI response drafting, appeal tracker, hearing scheduler, precedent DB |
+| **37** | **DSC & Credential Vault** | **DSC expiry, masked credentials, consent OTP** | **40%** | Full dedicated screen at `/dsc-vault`: 8 mock DSC certs (eMudhra/Sify/NSDL), 6 portal credentials (IT/GST/MCA21/TRACES), status filter chips, 4 summary cards, masked userID display, days-to-expiry badges | Real DSC expiry engine, consent OTP flow, automated renewal alerts, credential encryption at rest |
+| **38** | **Renewal & Expiry Control** | **Retainers, renewals, compliance expiry heatmaps** | **40%** | Full dedicated screen at `/renewal-expiry`: 10 mock items (DSC/GST reg/trademark/shop act/ISO), 6 retainer contracts, days-to-expiry badges, status filter chips, Renewals + Retainers tabs | Automated reminders engine, heatmap calendar, SLA countdown alerts, auto-renewal workflows |
+| **39** | **Fee Leakage & Scope Control** | **Scope creep, margins, recovery, revised retainers** | **40%** | Full dedicated screen at `/fee-leakage`: 8 mock engagements (ITR/GST/Audit/TDS/MCA/Payroll/TP/Startup), leakage amount + utilization bar, status filter chips, Engagements + Scope Items tabs | Real billing API, scope diff engine, margin tracking, automated recovery workflow |
+| **40** | **Knowledge Engine** | **Precedents, drafting, law updates, SOP generation** | **40%** | Full dedicated screen at `/knowledge-engine`: 8 mock articles (CBDT circulars, GST rulings, ITAT precedents), 5 SOPs with step-by-step preview, category filter chips, Articles + SOPs tabs | Semantic search, AI drafting assist, law update scraper, precedent DB |
+| **41** | **Tax Advisory Opportunity Engine** | **Upsell detection, tax health scoring, proposals** | **40%** | Full dedicated screen at `/tax-advisory`: 10 opportunity types, 8 mock opportunities (HRA ₹12L, regime switch ₹85K, capital gains harvesting ₹3.2L, NRI, Sec 80-IAC), 5 proposals, pipeline summary card, scrollable type filter chips | ML scoring engine, real client data signals, proposal PDF generator, CRM integration |
+| **42** | **Lead Funnel & Campaigns** | **Lead capture, reactivation, consultation conversion** | **40%** | Full dedicated screen at `/lead-funnel`: 7 lead stages, 6 campaign types, 10 mock leads (Indian clients, ITR/GST/NRI/Startup), 5 mock campaigns, pipeline value card, stage filter chips, Leads + Campaigns tabs | WhatsApp API, consultation booking, ROI analytics, dormant reactivation workflows |
+| **43** | **NRI & Cross-Border Tax** | **DTAA, FTC, foreign assets, NRI workflows** | **40%** | Full dedicated screen at `/nri-tax`: 8 mock NRI clients (USA/UK/UAE/Canada/Singapore/Australia/Germany), 10 foreign assets, flag emoji per country, DTAA badge, Schedule FA indicator, status filter chips, NRI Clients + Foreign Assets tabs | DTAA treaty engine, FTC computation, residential status calculator, Form 67 generator |
+| **44** | **SME Tax CFO Retainers** | **Forecasting, board memos, advisory subscriptions** | **40%** | Full dedicated screen at `/sme-cfo`: 8 mock CFO retainers (Indian SME clients), 10 deliverables, custom health ring `CustomPaint`, retainer value card, active/completed tabs, `CfoRetainer`+`CfoDeliverable` models | Real CFO dashboard, scenario planner, retainer billing, board pack generator |
+| **45** | **Industry Vertical Playbooks** | **Sector playbooks, productized services, niche growth** | **40%** | Full dedicated screen at `/industry-playbooks`: 10 sector playbooks (e-commerce, exporters, doctors, real estate, SaaS, creators, manufacturing, hospitality, CA firms, RE developers), 8 service bundles, summary card, horizontal filter chips, `PlaybookCard` with margin bar + modal bottom sheet, `ServiceBundleTile` | Vertical templates, bundle pricing engine, win-rate analytics, proposal deck generator |
+| **46** | **ESG Reporting** | **BRSR, carbon tax, sustainability metrics per SEBI 2026** | **40%** | Full dedicated screen at `/esg-reporting`: 8 mock ESG disclosures (TCS, Infosys, Reliance, HDFC Bank, Wipro, etc.), 10 carbon metrics across Scope 1/2/3, E/S/G score bars, SEBI category badges, `EsgScoreCard`+`CarbonMetricTile`, Disclosures + Carbon Metrics tabs | BRSR builder, SEBI filing engine, real carbon calculator, amendment diff viewer |
+| **47** | **Virtual CFO Platform** | **MIS dashboards, scenario planning, board packs** | **40%** | Full dedicated screen at `/virtual-cfo`: 8 mock MIS reports (P&L/Cash Flow/Balance Sheet/KPI/Board Pack), 10 CFO scenarios (Best/Base/Worst/Expansion/Cost), KPI summary row, EBITDA progress bars, `MisReportCard`+`ScenarioTile`, MIS Reports + Scenarios tabs | Real-time MIS engine, board pack generator, scenario engine, retainer billing |
+| **48** | **E-Invoicing Compliance Hub** | **IRP API, 30-day/3-day window, bulk generation** | **40%** | Full dedicated screen at `/einvoicing`: 10 mock e-invoice records (3 overdue with ₹75K penalty exposure banner), 6 IRN batches, window-type badges (30-day/3-day), countdown urgency coloring, `EinvoiceTile`+`IrnBatchCard`, E-Invoices + Batches tabs | IRP API integration, countdown timer, bulk IRN generator, QR code engine |
+| **49** | **Intelligent Document Processing** | **AI OCR for Form 16/26AS/bank statements, 99%+ accuracy** | **40%** | Full dedicated screen at `/idp`: 10 mock document jobs (Form 16/26AS/Bank Statement/AIS/P&L), 15 extracted fields, circular confidence indicator (`Stack`/`CircularProgressIndicator`), needs-review chips, `DocumentJobCard`+`ExtractedFieldTile`, Document Jobs + Extracted Fields tabs | Real OCR engine, batch processor, human-in-loop review queue, field correction workflow |
+| **50** | **Regulatory Intelligence** | **Daily circular digest, client-impact analysis, section tracker** | **40%** | Full dedicated screen at `/regulatory-intelligence`: 10 mock circulars (CBDT/GSTN/MCA/RBI/SEBI/ICAI/EPFO), 12 client impact alerts, gradient digest card, category filter chips (7 bodies), urgency filter chips, `CircularCard`+`ImpactAlertTile`, Circulars + Client Alerts tabs | Circular scraper, AI impact tagger, amendment diff viewer, auto-notify workflow |
+| **51** | **Practice Benchmarking** | **Peer comparison, pricing intelligence, growth score** | **40%** | Full dedicated screen at `/practice-benchmarking`: 15 mock benchmark metrics (Financial/Operational/Client/Technology/Team), 6 growth scores with grades (A+ to D), `CustomPainter` circular score ring + scale dot visualization, `BenchmarkCard`+`GrowthScoreTile`, Benchmarks + Growth Scores tabs | Anonymous peer DB, pricing engine, real growth score calculator, export reports |

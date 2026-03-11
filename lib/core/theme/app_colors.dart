@@ -23,9 +23,13 @@ class AppColors {
   static const neutral900 = Color(0xFF1A202C);
   static const neutral600 = Color(0xFF4A5568);
   static const neutral400 = Color(0xFF718096);
+  static const neutral300 = Color(0xFFCBD5E0);
   static const neutral200 = Color(0xFFE2E8F0);
+  static const neutral100 = Color(0xFFEDF2F7);
   static const neutral50 = Color(0xFFF7FAFC);
   static const surface = Color(0xFFFFFFFF);
+  static const surfaceAlt = Color(0xFFFDFEFF);
+  static const shadow = Color(0x14233B53);
 
   // Dark mode surfaces
   static const darkSurface = Color(0xFF1A202C);
