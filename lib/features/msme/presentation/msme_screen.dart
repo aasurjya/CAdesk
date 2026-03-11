@@ -7,7 +7,9 @@ import 'package:ca_app/features/msme/data/providers/msme_providers.dart';
 import 'package:ca_app/features/msme/domain/models/msme_vendor.dart';
 import 'package:ca_app/features/msme/domain/models/msme_payment.dart';
 import 'package:ca_app/features/msme/presentation/widgets/msme_payment_tile.dart';
+import 'package:ca_app/features/msme/presentation/widgets/msme_summary_card.dart';
 import 'package:ca_app/features/msme/presentation/widgets/msme_vendor_tile.dart';
+import 'package:ca_app/features/msme/presentation/widgets/payment_tracker_sheet.dart';
 import 'package:ca_app/features/msme/presentation/widgets/section_43bh_alert.dart';
 
 /// Main screen for Module 29: MSME Compliance.
@@ -32,6 +34,11 @@ class MsmeScreen extends ConsumerWidget {
         body: Column(
           children: [
             _SummaryRow(),
+            MsmeSummaryCard(
+              onViewDetails: () {
+                DefaultTabController.of(context).animateTo(2);
+              },
+            ),
             const Expanded(
               child: TabBarView(
                 children: [
@@ -176,9 +183,17 @@ class _VendorsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 80),
                   itemCount: vendors.length,
-                  itemBuilder: (_, index) => MsmeVendorTile(
-                    vendor: vendors[index],
-                  ),
+                  itemBuilder: (ctx, index) {
+                    final vendor = vendors[index];
+                    return MsmeVendorTile(
+                      vendor: vendor,
+                      onTap: () => showPaymentTrackerSheet(
+                        ctx,
+                        vendor.clientId,
+                        _clientName(vendor.clientId),
+                      ),
+                    );
+                  },
                 ),
         ),
       ],
@@ -240,7 +255,17 @@ class _AlertsTab extends ConsumerWidget {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 8, bottom: 80),
       itemCount: alerts.length,
-      itemBuilder: (_, index) => Section43BhAlert(vendor: alerts[index]),
+      itemBuilder: (ctx, index) {
+        final vendor = alerts[index];
+        return Section43BhAlert(
+          vendor: vendor,
+          onTap: () => showPaymentTrackerSheet(
+            ctx,
+            vendor.clientId,
+            _clientName(vendor.clientId),
+          ),
+        );
+      },
     );
   }
 }
@@ -345,6 +370,23 @@ class _PaymentStatusChips extends StatelessWidget {
       visualDensity: VisualDensity.compact,
     );
   }
+}
+
+// ---------------------------------------------------------------------------
+// Client name lookup
+// ---------------------------------------------------------------------------
+
+/// Returns a display name for a known client ID.
+/// In production this would come from a clients provider.
+String _clientName(String clientId) {
+  const names = <String, String>{
+    'c1': 'Arjun Enterprises Pvt Ltd',
+    'c2': 'Sunrise Industries Ltd',
+    'c3': 'Deccan Traders Co',
+    'c4': 'Northern Metals Pvt Ltd',
+    'c5': 'Sagar Technologies',
+  };
+  return names[clientId] ?? clientId;
 }
 
 // ---------------------------------------------------------------------------

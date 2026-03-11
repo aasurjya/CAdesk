@@ -7,6 +7,7 @@ import 'package:ca_app/features/startup_compliance/domain/models/startup_filing.
 import 'package:ca_app/features/startup_compliance/data/providers/startup_providers.dart';
 import 'package:ca_app/features/startup_compliance/presentation/widgets/startup_card.dart';
 import 'package:ca_app/features/startup_compliance/presentation/widgets/startup_filing_tile.dart';
+import 'package:ca_app/features/startup_compliance/presentation/widgets/startup_detail_sheet.dart';
 
 /// Main Startup Compliance screen (Module 27).
 /// Tabs: Startups, Filings, Calendar.
@@ -54,10 +55,13 @@ class _StartupsTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final startups = ref.watch(filteredStartupsProvider);
     final summary = ref.watch(startupComplianceSummaryProvider);
+    final iacSummary = ref.watch(startupIacSummaryProvider);
+    final profiles = ref.watch(startupProfilesProvider);
 
     return Column(
       children: [
         _SummaryBar(summary: summary),
+        _IacSummaryBanner(iacSummary: iacSummary),
         const _RecognitionFilter(),
         Expanded(
           child: startups.isEmpty
@@ -69,7 +73,20 @@ class _StartupsTab extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: 24),
                   itemCount: startups.length,
                   itemBuilder: (context, index) {
-                    return StartupCard(startup: startups[index]);
+                    final startup = startups[index];
+                    // Find matching profile by entity name for detail tap.
+                    final profile = profiles
+                        .cast<StartupProfile?>()
+                        .firstWhere(
+                          (p) => p?.name == startup.entityName,
+                          orElse: () => null,
+                        );
+                    return GestureDetector(
+                      onTap: profile != null
+                          ? () => StartupDetailSheet.show(context, profile)
+                          : null,
+                      child: StartupCard(startup: startup),
+                    );
                   },
                 ),
         ),
@@ -269,6 +286,80 @@ class _CalendarTab extends ConsumerWidget {
                 ),
         ),
       ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// IAC summary banner
+// ---------------------------------------------------------------------------
+
+class _IacSummaryBanner extends StatelessWidget {
+  const _IacSummaryBanner({required this.iacSummary});
+
+  final StartupIacSummary iacSummary;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.18)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.savings_rounded, color: AppColors.primary, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total 80-IAC deduction: '
+                  '₹${iacSummary.total80IacDeductionCrore.toStringAsFixed(2)}Cr',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Tax savings: '
+                  '₹${iacSummary.totalTaxSavingCrore.toStringAsFixed(2)}Cr',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: AppColors.success,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '${iacSummary.dpiitRecognizedCount}/'
+                '${iacSummary.totalStartups}',
+                style: theme.textTheme.titleSmall?.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'DPIIT',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: AppColors.neutral400,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

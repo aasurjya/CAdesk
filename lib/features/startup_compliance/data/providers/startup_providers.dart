@@ -1,7 +1,195 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/features/startup_compliance/domain/models/startup_entity.dart';
 import 'package:ca_app/features/startup_compliance/domain/models/startup_filing.dart';
+
+// ---------------------------------------------------------------------------
+// StartupCalculator
+// ---------------------------------------------------------------------------
+
+/// Pure calculator for DPIIT / Startup India compliance rules.
+class StartupCalculator {
+  StartupCalculator._();
+
+  /// DPIIT Startup eligibility criteria.
+  static bool isDpiitEligible({
+    required double annualTurnoverCrore,
+    required int yearsFromIncorporation,
+    required bool isInnovativeOrScalable,
+    required bool isNewEntity,
+  }) {
+    return annualTurnoverCrore <= 100 &&
+        yearsFromIncorporation <= 10 &&
+        isInnovativeOrScalable &&
+        isNewEntity;
+  }
+
+  /// Section 80-IAC: 100% deduction on profits for 3 years out of first 10.
+  static double deduction80IAC({
+    required double profit,
+    required bool isEligible,
+  }) {
+    if (!isEligible) return 0;
+    return profit;
+  }
+
+  /// Angel tax exemption under Sec 56(2)(viib) for DPIIT recognised startups.
+  static bool isAngelTaxExempt(bool isDpiitRecognized) => isDpiitRecognized;
+
+  /// Carry forward of losses allowed even if 51% shareholding changes
+  /// (Sec 79 relaxed for DPIIT recognised startups).
+  static bool canCarryForwardLoss(bool isDpiitRecognized) => isDpiitRecognized;
+
+  /// Returns the next compliance action required for the startup.
+  static String nextComplianceDue({
+    required bool has80IacCert,
+    required bool hasDpiitRecognition,
+  }) {
+    if (!hasDpiitRecognition) {
+      return 'Apply for DPIIT recognition (DPIIT-1)';
+    }
+    if (!has80IacCert) {
+      return 'Apply for 80-IAC certificate (Form DPIIT-2)';
+    }
+    return 'Annual compliance — DPIIT status renewal';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// StartupProfile model (augments StartupEntity with extra fields for detail)
+// ---------------------------------------------------------------------------
+
+/// Operational status of a startup.
+enum StartupStatus {
+  active('Active'),
+  dormant('Dormant'),
+  fundingRound('Funding Round'),
+  exited('Exited');
+
+  const StartupStatus(this.label);
+
+  final String label;
+}
+
+/// Extended immutable model used for the detail sheet and new mock data.
+@immutable
+class StartupProfile {
+  const StartupProfile({
+    required this.id,
+    required this.name,
+    required this.cin,
+    required this.sectorVertical,
+    required this.incorporationYear,
+    required this.isDpiitRecognized,
+    required this.has80IacCertificate,
+    required this.annualTurnoverCrore,
+    required this.currentYearProfit,
+    required this.raisedFundingCrore,
+    required this.esopPoolPercent,
+    required this.founderPercent,
+    required this.investorPercent,
+    required this.status,
+  });
+
+  final String id;
+  final String name;
+  final String cin;
+  final String sectorVertical;
+  final int incorporationYear;
+  final bool isDpiitRecognized;
+  final bool has80IacCertificate;
+
+  /// Annual turnover in crores.
+  final double annualTurnoverCrore;
+
+  /// Current year profit in crores (for 80-IAC calculation).
+  final double currentYearProfit;
+
+  /// Total funding raised in crores.
+  final double raisedFundingCrore;
+
+  final double esopPoolPercent;
+  final double founderPercent;
+  final double investorPercent;
+  final StartupStatus status;
+
+  bool get isDpiitEligible => StartupCalculator.isDpiitEligible(
+        annualTurnoverCrore: annualTurnoverCrore,
+        yearsFromIncorporation: DateTime.now().year - incorporationYear,
+        isInnovativeOrScalable: true,
+        isNewEntity: true,
+      );
+
+  /// 80-IAC deduction amount in crores.
+  double get deduction80IACCrore => StartupCalculator.deduction80IAC(
+        profit: currentYearProfit,
+        isEligible: has80IacCertificate,
+      );
+
+  /// Tax saving at 25% rate in crores.
+  double get taxSavingCrore => deduction80IACCrore * 0.25;
+
+  bool get isAngelTaxExempt =>
+      StartupCalculator.isAngelTaxExempt(isDpiitRecognized);
+  bool get canCarryForwardLoss =>
+      StartupCalculator.canCarryForwardLoss(isDpiitRecognized);
+
+  String get nextComplianceDue => StartupCalculator.nextComplianceDue(
+        has80IacCert: has80IacCertificate,
+        hasDpiitRecognition: isDpiitRecognized,
+      );
+
+  StartupProfile copyWith({
+    String? id,
+    String? name,
+    String? cin,
+    String? sectorVertical,
+    int? incorporationYear,
+    bool? isDpiitRecognized,
+    bool? has80IacCertificate,
+    double? annualTurnoverCrore,
+    double? currentYearProfit,
+    double? raisedFundingCrore,
+    double? esopPoolPercent,
+    double? founderPercent,
+    double? investorPercent,
+    StartupStatus? status,
+  }) {
+    return StartupProfile(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      cin: cin ?? this.cin,
+      sectorVertical: sectorVertical ?? this.sectorVertical,
+      incorporationYear: incorporationYear ?? this.incorporationYear,
+      isDpiitRecognized: isDpiitRecognized ?? this.isDpiitRecognized,
+      has80IacCertificate: has80IacCertificate ?? this.has80IacCertificate,
+      annualTurnoverCrore: annualTurnoverCrore ?? this.annualTurnoverCrore,
+      currentYearProfit: currentYearProfit ?? this.currentYearProfit,
+      raisedFundingCrore: raisedFundingCrore ?? this.raisedFundingCrore,
+      esopPoolPercent: esopPoolPercent ?? this.esopPoolPercent,
+      founderPercent: founderPercent ?? this.founderPercent,
+      investorPercent: investorPercent ?? this.investorPercent,
+      status: status ?? this.status,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StartupProfile &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          cin == other.cin &&
+          status == other.status;
+
+  @override
+  int get hashCode => Object.hash(id, cin, status);
+
+  @override
+  String toString() =>
+      'StartupProfile(name: $name, cin: $cin, status: ${status.label})';
+}
 
 // ---------------------------------------------------------------------------
 // Mock startups (5 realistic Indian startups)
@@ -413,4 +601,184 @@ class StartupComplianceSummary {
   final int overdueFilings;
   final int pendingFilings;
   final int filedCount;
+}
+
+// ---------------------------------------------------------------------------
+// Mock StartupProfiles (8)
+// ---------------------------------------------------------------------------
+
+final _mockStartupProfiles = <StartupProfile>[
+  StartupProfile(
+    id: 'sp-001',
+    name: 'NovaPay Fintech Pvt Ltd',
+    cin: 'U74999MH2021PTC123456',
+    sectorVertical: 'Fintech',
+    incorporationYear: 2021,
+    isDpiitRecognized: true,
+    has80IacCertificate: true,
+    annualTurnoverCrore: 4.5,
+    currentYearProfit: 1.2,
+    raisedFundingCrore: 8.5,
+    esopPoolPercent: 10,
+    founderPercent: 55,
+    investorPercent: 35,
+    status: StartupStatus.active,
+  ),
+  StartupProfile(
+    id: 'sp-002',
+    name: 'KisanMitra AgriTech Pvt Ltd',
+    cin: 'U01400DL2022PTC234567',
+    sectorVertical: 'AgriTech',
+    incorporationYear: 2022,
+    isDpiitRecognized: true,
+    has80IacCertificate: false,
+    annualTurnoverCrore: 1.8,
+    currentYearProfit: 0.3,
+    raisedFundingCrore: 0.2,
+    esopPoolPercent: 5,
+    founderPercent: 80,
+    investorPercent: 15,
+    status: StartupStatus.fundingRound,
+  ),
+  StartupProfile(
+    id: 'sp-003',
+    name: 'MedVault HealthTech Pvt Ltd',
+    cin: 'U85100KA2020PTC345678',
+    sectorVertical: 'HealthTech',
+    incorporationYear: 2020,
+    isDpiitRecognized: true,
+    has80IacCertificate: true,
+    annualTurnoverCrore: 9.2,
+    currentYearProfit: 2.4,
+    raisedFundingCrore: 56.0,
+    esopPoolPercent: 12,
+    founderPercent: 35,
+    investorPercent: 53,
+    status: StartupStatus.active,
+  ),
+  StartupProfile(
+    id: 'sp-004',
+    name: 'UrbanCraft D2C Pvt Ltd',
+    cin: 'U52100MH2023PTC456789',
+    sectorVertical: 'E-Commerce / D2C',
+    incorporationYear: 2023,
+    isDpiitRecognized: false,
+    has80IacCertificate: false,
+    annualTurnoverCrore: 0.65,
+    currentYearProfit: 0.05,
+    raisedFundingCrore: 0.0,
+    esopPoolPercent: 0,
+    founderPercent: 100,
+    investorPercent: 0,
+    status: StartupStatus.active,
+  ),
+  StartupProfile(
+    id: 'sp-005',
+    name: 'GreenGrid CleanTech Pvt Ltd',
+    cin: 'U40100TN2019PTC567890',
+    sectorVertical: 'CleanTech / Energy',
+    incorporationYear: 2019,
+    isDpiitRecognized: false,
+    has80IacCertificate: false,
+    annualTurnoverCrore: 12.5,
+    currentYearProfit: 1.8,
+    raisedFundingCrore: 20.8,
+    esopPoolPercent: 8,
+    founderPercent: 28,
+    investorPercent: 64,
+    status: StartupStatus.exited,
+  ),
+  StartupProfile(
+    id: 'sp-006',
+    name: 'EduSpark EdTech Pvt Ltd',
+    cin: 'U80301DL2021PTC678901',
+    sectorVertical: 'EdTech',
+    incorporationYear: 2021,
+    isDpiitRecognized: true,
+    has80IacCertificate: false,
+    annualTurnoverCrore: 3.1,
+    currentYearProfit: 0.6,
+    raisedFundingCrore: 4.0,
+    esopPoolPercent: 8,
+    founderPercent: 60,
+    investorPercent: 32,
+    status: StartupStatus.active,
+  ),
+  StartupProfile(
+    id: 'sp-007',
+    name: 'SafeVault SaaS Pvt Ltd',
+    cin: 'U72200KA2022PTC789012',
+    sectorVertical: 'SaaS / Cybersecurity',
+    incorporationYear: 2022,
+    isDpiitRecognized: true,
+    has80IacCertificate: true,
+    annualTurnoverCrore: 5.5,
+    currentYearProfit: 1.5,
+    raisedFundingCrore: 12.0,
+    esopPoolPercent: 15,
+    founderPercent: 45,
+    investorPercent: 40,
+    status: StartupStatus.fundingRound,
+  ),
+  StartupProfile(
+    id: 'sp-008',
+    name: 'LogiFlow Supply Pvt Ltd',
+    cin: 'U63090MH2020PTC890123',
+    sectorVertical: 'Logistics / Supply Chain',
+    incorporationYear: 2020,
+    isDpiitRecognized: true,
+    has80IacCertificate: true,
+    annualTurnoverCrore: 7.8,
+    currentYearProfit: 0.9,
+    raisedFundingCrore: 9.5,
+    esopPoolPercent: 10,
+    founderPercent: 50,
+    investorPercent: 40,
+    status: StartupStatus.active,
+  ),
+];
+
+// ---------------------------------------------------------------------------
+// New providers
+// ---------------------------------------------------------------------------
+
+/// All startup profiles.
+final startupProfilesProvider = Provider<List<StartupProfile>>((ref) {
+  return List.unmodifiable(_mockStartupProfiles);
+});
+
+/// Aggregated 80-IAC / DPIIT summary across all startup profiles.
+final startupIacSummaryProvider = Provider<StartupIacSummary>((ref) {
+  final profiles = ref.watch(startupProfilesProvider);
+  final total80Iac = profiles.fold<double>(
+    0,
+    (sum, p) => sum + p.deduction80IACCrore,
+  );
+  final totalTaxSaving = profiles.fold<double>(
+    0,
+    (sum, p) => sum + p.taxSavingCrore,
+  );
+  final recognizedCount =
+      profiles.where((p) => p.isDpiitRecognized).length;
+  return StartupIacSummary(
+    total80IacDeductionCrore: total80Iac,
+    totalTaxSavingCrore: totalTaxSaving,
+    dpiitRecognizedCount: recognizedCount,
+    totalStartups: profiles.length,
+  );
+});
+
+/// Immutable 80-IAC / DPIIT summary for the banner.
+class StartupIacSummary {
+  const StartupIacSummary({
+    required this.total80IacDeductionCrore,
+    required this.totalTaxSavingCrore,
+    required this.dpiitRecognizedCount,
+    required this.totalStartups,
+  });
+
+  final double total80IacDeductionCrore;
+  final double totalTaxSavingCrore;
+  final int dpiitRecognizedCount;
+  final int totalStartups;
 }

@@ -6,7 +6,10 @@ import 'package:ca_app/features/analytics/data/providers/analytics_providers.dar
 import 'package:ca_app/features/analytics/domain/models/growth_opportunity.dart';
 import 'package:ca_app/features/analytics/domain/models/kpi_metric.dart';
 import 'package:ca_app/features/analytics/presentation/widgets/aging_bar.dart';
+import 'package:ca_app/features/analytics/presentation/widgets/client_health_chart_widget.dart';
 import 'package:ca_app/features/analytics/presentation/widgets/kpi_card.dart';
+import 'package:ca_app/features/analytics/presentation/widgets/kpi_grid_widget.dart';
+import 'package:ca_app/features/analytics/presentation/widgets/revenue_chart_widget.dart';
 
 /// Main analytics dashboard showing KPIs, revenue summary, and aging chart.
 class AnalyticsDashboardScreen extends ConsumerWidget {
@@ -94,6 +97,27 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
           children: [
             const _AnalyticsBanner(),
             const SizedBox(height: 16),
+            _SectionHeader(
+              title: 'Practice KPIs',
+              icon: Icons.dashboard_customize_rounded,
+            ),
+            const SizedBox(height: 10),
+            const KpiGridWidget(),
+            const SizedBox(height: 24),
+            _SectionHeader(
+              title: 'Revenue Trend',
+              icon: Icons.bar_chart_rounded,
+            ),
+            const SizedBox(height: 10),
+            const RevenueChartWidget(),
+            const SizedBox(height: 24),
+            _SectionHeader(
+              title: 'Client Health Overview',
+              icon: Icons.health_and_safety_rounded,
+            ),
+            const SizedBox(height: 10),
+            const ClientHealthChartWidget(),
+            const SizedBox(height: 24),
             _SectionHeader(title: 'Key Metrics', icon: Icons.insights_rounded),
             const SizedBox(height: 10),
             _KpiGrid(kpis: kpis),

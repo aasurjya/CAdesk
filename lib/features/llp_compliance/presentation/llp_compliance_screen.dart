@@ -7,6 +7,7 @@ import 'package:ca_app/features/llp_compliance/domain/models/llp_filing.dart';
 import 'package:ca_app/features/llp_compliance/data/providers/llp_providers.dart';
 import 'package:ca_app/features/llp_compliance/presentation/widgets/llp_entity_card.dart';
 import 'package:ca_app/features/llp_compliance/presentation/widgets/llp_filing_tile.dart';
+import 'package:ca_app/features/llp_compliance/presentation/widgets/llp_filing_detail_sheet.dart';
 
 /// Main LLP Compliance screen (Module 28).
 /// Tabs: LLPs, Filings, Penalties.
@@ -54,10 +55,13 @@ class _LLPsTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final entities = ref.watch(llpEntitiesProvider);
     final summary = ref.watch(llpComplianceSummaryProvider);
+    final penaltySummary = ref.watch(llpPenaltySummaryProvider);
+    final filingRecords = ref.watch(allLlpFilingsProvider);
 
     return Column(
       children: [
         _SummaryBar(summary: summary),
+        _PenaltySummaryBanner(penaltySummary: penaltySummary),
         Expanded(
           child: entities.isEmpty
               ? const _EmptyState(
@@ -68,7 +72,18 @@ class _LLPsTab extends ConsumerWidget {
                   padding: const EdgeInsets.only(bottom: 24),
                   itemCount: entities.length,
                   itemBuilder: (context, index) {
-                    return LLPEntityCard(entity: entities[index]);
+                    final entity = entities[index];
+                    // Find matching filing record for tap action.
+                    final record = filingRecords.cast<LlpFilingRecord?>().firstWhere(
+                          (r) => r?.llpin == entity.llpin,
+                          orElse: () => null,
+                        );
+                    return GestureDetector(
+                      onTap: record != null
+                          ? () => LlpFilingDetailSheet.show(context, record)
+                          : null,
+                      child: LLPEntityCard(entity: entity),
+                    );
                   },
                 ),
         ),
@@ -409,6 +424,77 @@ class _AuditThresholdWarnings extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Penalty summary banner
+// ---------------------------------------------------------------------------
+
+class _PenaltySummaryBanner extends StatelessWidget {
+  const _PenaltySummaryBanner({required this.penaltySummary});
+
+  final LlpPenaltySummary penaltySummary;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (penaltySummary.totalPenalty == 0 &&
+        penaltySummary.strikeOffRiskCount == 0) {
+      return const SizedBox.shrink();
+    }
+
+    final formattedPenalty = penaltySummary.totalPenalty >= 100000
+        ? '₹${(penaltySummary.totalPenalty / 100000).toStringAsFixed(2)}L'
+        : '₹${penaltySummary.totalPenalty.toStringAsFixed(0)}';
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.error.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.warning_rounded, color: AppColors.error, size: 18),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total penalty exposure: $formattedPenalty',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: AppColors.error,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (penaltySummary.strikeOffRiskCount > 0) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    'LLPs at strike-off risk: '
+                    '${penaltySummary.strikeOffRiskCount}',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.neutral600,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          Text(
+            '${penaltySummary.overdueCount} overdue',
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: AppColors.error,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

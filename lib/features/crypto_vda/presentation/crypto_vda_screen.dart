@@ -6,23 +6,29 @@ import 'package:ca_app/features/crypto_vda/domain/models/vda_transaction.dart';
 import 'package:ca_app/features/crypto_vda/data/providers/crypto_vda_providers.dart';
 import 'package:ca_app/features/crypto_vda/presentation/widgets/vda_transaction_tile.dart';
 import 'package:ca_app/features/crypto_vda/presentation/widgets/vda_summary_card.dart';
+import 'package:ca_app/features/crypto_vda/presentation/widgets/vda_schedule_sheet.dart';
+import 'package:ca_app/features/crypto_vda/presentation/widgets/tds_194s_widget.dart';
 
 /// Main Crypto / VDA Taxation screen (Module 26).
-/// Tabs: Transactions, Client Summaries.
+/// Tabs: Overview, Transactions, Client Summaries, TDS 194S.
 class CryptoVdaScreen extends ConsumerWidget {
   const CryptoVdaScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Crypto / VDA Taxation'),
           bottom: const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs: [
+              Tab(text: 'Overview'),
               Tab(text: 'Transactions'),
-              Tab(text: 'Client Summaries'),
+              Tab(text: 'Clients'),
+              Tab(text: 'TDS 194S'),
             ],
             indicatorColor: AppColors.accent,
             labelColor: AppColors.accent,
@@ -31,9 +37,275 @@ class CryptoVdaScreen extends ConsumerWidget {
         ),
         body: const TabBarView(
           children: [
+            _OverviewTab(),
             _TransactionsTab(),
             _SummariesTab(),
+            _Tds194sTab(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Overview tab — summary banner + aggregate metrics
+// ---------------------------------------------------------------------------
+
+class _OverviewTab extends ConsumerWidget {
+  const _OverviewTab();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final VdaTaxOverview overview = ref.watch(vdaTaxOverviewProvider);
+    final List<({String id, String name})> clients =
+        ref.watch(vdaClientNamesProvider);
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      children: [
+        _OverviewBanner(overview: overview, clientCount: clients.length),
+        const SizedBox(height: 16),
+        _SectionTitle(title: 'Section 115BBH — Key Rules'),
+        _RuleCard(
+          icon: Icons.percent_rounded,
+          color: AppColors.error,
+          title: '30% Flat Tax + 4% Cess',
+          body: 'All VDA gains are taxed at a flat 30% rate plus '
+              '4% Health & Education Cess. No deductions, no '
+              'basic exemption limit benefit.',
+        ),
+        _RuleCard(
+          icon: Icons.block_rounded,
+          color: AppColors.warning,
+          title: 'Loss Disallowance',
+          body: 'Losses from VDA transfers cannot be set off '
+              'against any other income — salary, business, '
+              'LTCG, STCG or other VDA gains.',
+        ),
+        _RuleCard(
+          icon: Icons.account_balance_rounded,
+          color: AppColors.secondary,
+          title: 'TDS u/s 194S — 1% at Source',
+          body: 'Exchanges deduct 1% TDS on each transaction '
+              'above ₹50,000 p.a. (₹10,000 for specified '
+              'persons). Credit appears in Form 26AS / AIS.',
+        ),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+}
+
+class _OverviewBanner extends StatelessWidget {
+  const _OverviewBanner({
+    required this.overview,
+    required this.clientCount,
+  });
+
+  final VdaTaxOverview overview;
+  final int clientCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        elevation: 0,
+        color: AppColors.primary.withValues(alpha: 0.06),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: AppColors.primary.withValues(alpha: 0.15)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.currency_bitcoin_rounded,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'AY 2026-27 — VDA Portfolio',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  _BannerStat(
+                    label: 'Clients',
+                    value: clientCount.toString(),
+                    color: AppColors.primary,
+                  ),
+                  _BannerStat(
+                    label: 'Total Gains',
+                    value: _compact(overview.totalGains),
+                    color: AppColors.success,
+                  ),
+                  _BannerStat(
+                    label: 'Total Tax',
+                    value: _compact(overview.totalTaxLiability),
+                    color: AppColors.error,
+                  ),
+                  _BannerStat(
+                    label: 'TDS Credit',
+                    value: _compact(overview.totalTdsCollected),
+                    color: AppColors.secondary,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static String _compact(double value) {
+    if (value >= 100000) {
+      return '₹${(value / 100000).toStringAsFixed(2)}L';
+    }
+    if (value >= 1000) {
+      return '₹${(value / 1000).toStringAsFixed(1)}K';
+    }
+    return '₹${value.toStringAsFixed(0)}';
+  }
+}
+
+class _BannerStat extends StatelessWidget {
+  const _BannerStat({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  final String label;
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: AppColors.neutral400,
+              fontSize: 10,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: AppColors.neutral600,
+            ),
+      ),
+    );
+  }
+}
+
+class _RuleCard extends StatelessWidget {
+  const _RuleCard({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.body,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: const BorderSide(color: AppColors.neutral200),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: color, size: 18),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.neutral900,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      body,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.neutral600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -49,7 +321,8 @@ class _TransactionsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactions = ref.watch(filteredVdaTransactionsProvider);
+    final List<VdaTransaction> transactions =
+        ref.watch(filteredVdaTransactionsProvider);
 
     return Column(
       children: [
@@ -64,7 +337,7 @@ class _TransactionsTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 24),
                   itemCount: transactions.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (BuildContext context, int index) {
                     return VdaTransactionTile(
                       transaction: transactions[index],
                     );
@@ -81,11 +354,13 @@ class _TransactionFilters extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedClient = ref.watch(selectedVdaClientProvider);
-    final clientNames = ref.watch(vdaClientNamesProvider);
-    final selectedAsset = ref.watch(selectedAssetTypeProvider);
-    final selectedTxn = ref.watch(selectedTransactionTypeProvider);
-    final theme = Theme.of(context);
+    final String? selectedClient = ref.watch(selectedVdaClientProvider);
+    final List<({String id, String name})> clientNames =
+        ref.watch(vdaClientNamesProvider);
+    final VdaAssetType? selectedAsset = ref.watch(selectedAssetTypeProvider);
+    final VdaTransactionType? selectedTxn =
+        ref.watch(selectedTransactionTypeProvider);
+    final ThemeData theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -108,23 +383,21 @@ class _TransactionFilters extends ConsumerWidget {
                       isExpanded: true,
                       style: theme.textTheme.bodyMedium,
                       hint: const Text('All Clients'),
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 20,
-                      ),
+                      icon: const Icon(Icons.keyboard_arrow_down, size: 20),
                       items: [
                         const DropdownMenuItem<String?>(
                           value: null,
                           child: Text('All Clients'),
                         ),
                         ...clientNames.map(
-                          (c) => DropdownMenuItem<String?>(
+                          (({String id, String name}) c) =>
+                              DropdownMenuItem<String?>(
                             value: c.id,
                             child: Text(c.name),
                           ),
                         ),
                       ],
-                      onChanged: (value) {
+                      onChanged: (String? value) {
                         ref
                             .read(selectedVdaClientProvider.notifier)
                             .update(value);
@@ -144,17 +417,15 @@ class _TransactionFilters extends ConsumerWidget {
                 _FilterChip(
                   label: 'All Assets',
                   isSelected: selectedAsset == null,
-                  onTap: () => ref
-                      .read(selectedAssetTypeProvider.notifier)
-                      .update(null),
+                  onTap: () =>
+                      ref.read(selectedAssetTypeProvider.notifier).update(null),
                 ),
                 ...VdaAssetType.values.map(
-                  (a) => _FilterChip(
+                  (VdaAssetType a) => _FilterChip(
                     label: a.label,
                     isSelected: selectedAsset == a,
-                    onTap: () => ref
-                        .read(selectedAssetTypeProvider.notifier)
-                        .update(a),
+                    onTap: () =>
+                        ref.read(selectedAssetTypeProvider.notifier).update(a),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -168,7 +439,7 @@ class _TransactionFilters extends ConsumerWidget {
                       .update(null),
                 ),
                 ...VdaTransactionType.values.map(
-                  (t) => _FilterChip(
+                  (VdaTransactionType t) => _FilterChip(
                     label: t.label,
                     isSelected: selectedTxn == t,
                     onTap: () => ref
@@ -186,7 +457,7 @@ class _TransactionFilters extends ConsumerWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Summaries tab
+// Summaries tab — tap card to open Schedule VDA sheet
 // ---------------------------------------------------------------------------
 
 class _SummariesTab extends ConsumerWidget {
@@ -209,13 +480,35 @@ class _SummariesTab extends ConsumerWidget {
               : ListView.builder(
                   padding: const EdgeInsets.only(bottom: 24),
                   itemCount: summaries.length,
-                  itemBuilder: (context, index) {
-                    return VdaSummaryCard(summary: summaries[index]);
+                  itemBuilder: (BuildContext context, int index) {
+                    final summary = summaries[index];
+                    return GestureDetector(
+                      onTap: () => showVdaScheduleSheet(
+                        context,
+                        clientId: summary.clientId,
+                        clientName: summary.clientName,
+                        assessmentYear: summary.assessmentYear,
+                      ),
+                      child: VdaSummaryCard(summary: summary),
+                    );
                   },
                 ),
         ),
       ],
     );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// TDS 194S tab
+// ---------------------------------------------------------------------------
+
+class _Tds194sTab extends StatelessWidget {
+  const _Tds194sTab();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Tds194sWidget();
   }
 }
 
@@ -270,7 +563,7 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
 
     return Center(
       child: Column(

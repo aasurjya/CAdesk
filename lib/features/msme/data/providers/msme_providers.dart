@@ -4,6 +4,387 @@ import 'package:ca_app/features/msme/domain/models/msme_payment.dart';
 import 'package:ca_app/features/msme/domain/models/msme_vendor.dart';
 
 // ---------------------------------------------------------------------------
+// MsmePaymentCalculator — Section 43B(h) business logic
+// ---------------------------------------------------------------------------
+
+/// Stateless calculator for MSME 45-day payment rule enforcement.
+///
+/// Section 43B(h): Payment to MSME suppliers must be made within 45 days
+/// (or as per agreed terms, max 45 days). Unpaid amounts beyond the limit
+/// are DISALLOWED in the year of accrual; allowed only in the year of actual
+/// payment.
+class MsmePaymentCalculator {
+  MsmePaymentCalculator._();
+
+  /// Determines if a payment is overdue under MSME rules.
+  static bool isOverdue(int daysSinceInvoice, {int agreedDays = 45}) {
+    return daysSinceInvoice > agreedDays.clamp(0, 45);
+  }
+
+  /// Computes disallowable amount under 43B(h).
+  ///
+  /// If outstanding beyond the effective days at year end (March 31), the
+  /// full outstanding amount is disallowed.
+  static double disallowableAmount43Bh({
+    required double outstandingAmount,
+    required int daysOutstanding,
+    required int agreedTermDays,
+  }) {
+    final effectiveDays = agreedTermDays.clamp(0, 45);
+    if (daysOutstanding > effectiveDays) {
+      return outstandingAmount;
+    }
+    return 0;
+  }
+
+  /// Interest on delayed payment to MSME = 3× bank rate (RBI).
+  ///
+  /// Current bank rate: 6.25% → delayed payment interest = 18.75% p.a.
+  static double delayedPaymentInterest({
+    required double amount,
+    required int daysDelayed,
+    required double bankRatePercent,
+  }) {
+    if (daysDelayed <= 0) {
+      return 0;
+    }
+    final rate = bankRatePercent * 3 / 100;
+    return amount * rate * daysDelayed / 365;
+  }
+
+  /// Form MSME-1 due dates.
+  ///
+  /// For payments due but unpaid beyond 45 days:
+  /// - Half year ending Sep 30: due Oct 31
+  /// - Half year ending Mar 31: due Apr 30
+  static String formMsme1DueDate({required bool isMarchHalf}) {
+    return isMarchHalf ? '30 Apr' : '31 Oct';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// MsmeSupplierPayment model
+// ---------------------------------------------------------------------------
+
+/// Immutable model representing a supplier payment record for 43B(h) tracking.
+class MsmeSupplierPayment {
+  const MsmeSupplierPayment({
+    required this.id,
+    required this.clientId,
+    required this.clientName,
+    required this.supplierName,
+    required this.supplierUdyam,
+    required this.supplierCategory,
+    required this.invoiceDate,
+    required this.invoiceAmount,
+    required this.daysOutstanding,
+    required this.agreedTermDays,
+    required this.isPaid,
+    this.paidDate,
+    required this.financialYear,
+  });
+
+  final String id;
+  final String clientId;
+  final String clientName;
+  final String supplierName;
+  final String supplierUdyam;
+  final MsmeClassification supplierCategory;
+  final String invoiceDate;
+  final double invoiceAmount;
+  final int daysOutstanding;
+  final int agreedTermDays;
+  final bool isPaid;
+  final String? paidDate;
+  final String financialYear;
+
+  bool get isOverdue => MsmePaymentCalculator.isOverdue(
+        daysOutstanding,
+        agreedDays: agreedTermDays,
+      );
+
+  double get disallowableAmount => MsmePaymentCalculator.disallowableAmount43Bh(
+        outstandingAmount: invoiceAmount,
+        daysOutstanding: daysOutstanding,
+        agreedTermDays: agreedTermDays,
+      );
+
+  double get interestLiability => MsmePaymentCalculator.delayedPaymentInterest(
+        amount: invoiceAmount,
+        daysDelayed: (daysOutstanding - agreedTermDays).clamp(0, 365),
+        bankRatePercent: 6.25,
+      );
+
+  MsmeSupplierPayment copyWith({
+    String? id,
+    String? clientId,
+    String? clientName,
+    String? supplierName,
+    String? supplierUdyam,
+    MsmeClassification? supplierCategory,
+    String? invoiceDate,
+    double? invoiceAmount,
+    int? daysOutstanding,
+    int? agreedTermDays,
+    bool? isPaid,
+    String? paidDate,
+    String? financialYear,
+  }) {
+    return MsmeSupplierPayment(
+      id: id ?? this.id,
+      clientId: clientId ?? this.clientId,
+      clientName: clientName ?? this.clientName,
+      supplierName: supplierName ?? this.supplierName,
+      supplierUdyam: supplierUdyam ?? this.supplierUdyam,
+      supplierCategory: supplierCategory ?? this.supplierCategory,
+      invoiceDate: invoiceDate ?? this.invoiceDate,
+      invoiceAmount: invoiceAmount ?? this.invoiceAmount,
+      daysOutstanding: daysOutstanding ?? this.daysOutstanding,
+      agreedTermDays: agreedTermDays ?? this.agreedTermDays,
+      isPaid: isPaid ?? this.isPaid,
+      paidDate: paidDate ?? this.paidDate,
+      financialYear: financialYear ?? this.financialYear,
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Msme43BhSummary value object
+// ---------------------------------------------------------------------------
+
+/// Aggregated 43B(h) impact metrics.
+class Msme43BhSummary {
+  const Msme43BhSummary({
+    required this.totalOutstanding,
+    required this.totalDisallowable,
+    required this.totalInterest,
+    required this.overdueCount,
+  });
+
+  final double totalOutstanding;
+  final double totalDisallowable;
+  final double totalInterest;
+  final int overdueCount;
+}
+
+// ---------------------------------------------------------------------------
+// Supplier payment providers
+// ---------------------------------------------------------------------------
+
+final allMsmePaymentsProvider = Provider<List<MsmeSupplierPayment>>(
+  (ref) => _mockMsmePayments,
+);
+
+final msme43BhSummaryProvider = Provider<Msme43BhSummary>((ref) {
+  final payments = ref.watch(allMsmePaymentsProvider);
+  final totalOutstanding = payments
+      .where((p) => !p.isPaid)
+      .fold(0.0, (s, p) => s + p.invoiceAmount);
+  final totalDisallowable =
+      payments.fold(0.0, (s, p) => s + p.disallowableAmount);
+  final totalInterest =
+      payments.fold(0.0, (s, p) => s + p.interestLiability);
+  final overdueCount =
+      payments.where((p) => p.isOverdue && !p.isPaid).length;
+  return Msme43BhSummary(
+    totalOutstanding: totalOutstanding,
+    totalDisallowable: totalDisallowable,
+    totalInterest: totalInterest,
+    overdueCount: overdueCount,
+  );
+});
+
+/// Returns supplier payments filtered to a specific client.
+final msmePaymentsByClientProvider =
+    Provider.family<List<MsmeSupplierPayment>, String>((ref, clientId) {
+  final payments = ref.watch(allMsmePaymentsProvider);
+  return payments.where((p) => p.clientId == clientId).toList();
+});
+
+// ---------------------------------------------------------------------------
+// Mock supplier payment data — 12 payments across 4 clients
+// ---------------------------------------------------------------------------
+
+final _mockMsmePayments = <MsmeSupplierPayment>[
+  // Client c1 — Arjun Enterprises
+  MsmeSupplierPayment(
+    id: 'sp1',
+    clientId: 'c1',
+    clientName: 'Arjun Enterprises Pvt Ltd',
+    supplierName: 'Bharat Precision Tools Pvt Ltd',
+    supplierUdyam: 'UDYAM-MH-01-0012345',
+    supplierCategory: MsmeClassification.micro,
+    invoiceDate: '10 Nov 2025',
+    invoiceAmount: 245000,
+    daysOutstanding: 121,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp2',
+    clientId: 'c1',
+    clientName: 'Arjun Enterprises Pvt Ltd',
+    supplierName: 'Sharma & Sons Engineering Works',
+    supplierUdyam: 'UDYAM-RJ-02-0098765',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '05 Dec 2025',
+    invoiceAmount: 580000,
+    daysOutstanding: 96,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp3',
+    clientId: 'c1',
+    clientName: 'Arjun Enterprises Pvt Ltd',
+    supplierName: 'Sharma & Sons Engineering Works',
+    supplierUdyam: 'UDYAM-RJ-02-0098765',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '05 Oct 2025',
+    invoiceAmount: 310000,
+    daysOutstanding: 66,
+    agreedTermDays: 45,
+    isPaid: true,
+    paidDate: '10 Dec 2025',
+    financialYear: '2025-26',
+  ),
+  // Client c2 — Sunrise Industries
+  MsmeSupplierPayment(
+    id: 'sp4',
+    clientId: 'c2',
+    clientName: 'Sunrise Industries Ltd',
+    supplierName: 'Gurukrupa Chemicals',
+    supplierUdyam: 'UDYAM-GJ-03-0045678',
+    supplierCategory: MsmeClassification.medium,
+    invoiceDate: '15 Jan 2026',
+    invoiceAmount: 120000,
+    daysOutstanding: 55,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp5',
+    clientId: 'c2',
+    clientName: 'Sunrise Industries Ltd',
+    supplierName: 'Patel Textile Industries',
+    supplierUdyam: 'UDYAM-GJ-04-0067890',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '25 Oct 2025',
+    invoiceAmount: 375000,
+    daysOutstanding: 137,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp6',
+    clientId: 'c2',
+    clientName: 'Sunrise Industries Ltd',
+    supplierName: 'Patel Textile Industries',
+    supplierUdyam: 'UDYAM-GJ-04-0067890',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '15 Aug 2025',
+    invoiceAmount: 200000,
+    daysOutstanding: 76,
+    agreedTermDays: 45,
+    isPaid: true,
+    paidDate: '30 Oct 2025',
+    financialYear: '2025-26',
+  ),
+  // Client c3 — Deccan Traders
+  MsmeSupplierPayment(
+    id: 'sp7',
+    clientId: 'c3',
+    clientName: 'Deccan Traders Co',
+    supplierName: 'Lakshmi Auto Components',
+    supplierUdyam: 'UDYAM-TN-05-0023456',
+    supplierCategory: MsmeClassification.micro,
+    invoiceDate: '28 Jan 2026',
+    invoiceAmount: 89000,
+    daysOutstanding: 42,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp8',
+    clientId: 'c3',
+    clientName: 'Deccan Traders Co',
+    supplierName: 'Deccan Rubber Products',
+    supplierUdyam: 'UDYAM-KA-06-0034567',
+    supplierCategory: MsmeClassification.medium,
+    invoiceDate: '15 Nov 2025',
+    invoiceAmount: 142000,
+    daysOutstanding: 43,
+    agreedTermDays: 45,
+    isPaid: true,
+    paidDate: '28 Dec 2025',
+    financialYear: '2025-26',
+  ),
+  // Client c4 — Northern Metals
+  MsmeSupplierPayment(
+    id: 'sp9',
+    clientId: 'c4',
+    clientName: 'Northern Metals Pvt Ltd',
+    supplierName: 'Hindustan Fasteners Ltd',
+    supplierUdyam: 'UDYAM-PB-07-0056789',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '20 Nov 2025',
+    invoiceAmount: 450000,
+    daysOutstanding: 111,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp10',
+    clientId: 'c4',
+    clientName: 'Northern Metals Pvt Ltd',
+    supplierName: 'Narmada Packaging Solutions',
+    supplierUdyam: 'UDYAM-MP-08-0078901',
+    supplierCategory: MsmeClassification.micro,
+    invoiceDate: '01 Feb 2026',
+    invoiceAmount: 67000,
+    daysOutstanding: 38,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  // Client c5 — Sagar Tech (overdue + paid)
+  MsmeSupplierPayment(
+    id: 'sp11',
+    clientId: 'c5',
+    clientName: 'Sagar Technologies',
+    supplierName: 'Sagar IT Services',
+    supplierUdyam: 'UDYAM-MH-09-0089012',
+    supplierCategory: MsmeClassification.small,
+    invoiceDate: '18 Dec 2025',
+    invoiceAmount: 210000,
+    daysOutstanding: 83,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+  MsmeSupplierPayment(
+    id: 'sp12',
+    clientId: 'c5',
+    clientName: 'Sagar Technologies',
+    supplierName: 'Jaipur Handicrafts Co-op',
+    supplierUdyam: 'UDYAM-RJ-10-0090123',
+    supplierCategory: MsmeClassification.micro,
+    invoiceDate: '15 Feb 2026',
+    invoiceAmount: 34000,
+    daysOutstanding: 24,
+    agreedTermDays: 45,
+    isPaid: false,
+    financialYear: '2025-26',
+  ),
+];
+
+// ---------------------------------------------------------------------------
 // Filter notifiers
 // ---------------------------------------------------------------------------
 

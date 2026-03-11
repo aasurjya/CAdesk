@@ -6,13 +6,15 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import '../data/providers/cma_providers.dart';
 import '../domain/models/cma_report.dart';
 import 'widgets/cma_report_tile.dart';
+import 'widgets/loan_calculator_sheet.dart';
 import 'widgets/loan_summary_card.dart';
+import 'widgets/npv_irr_sheet.dart';
 
 // ---------------------------------------------------------------------------
 // Tab definitions
 // ---------------------------------------------------------------------------
 
-enum _CmaTab { reports, loanCalculator }
+enum _CmaTab { reports, loanCalculator, calculatorTools }
 
 class CmaScreen extends ConsumerStatefulWidget {
   const CmaScreen({super.key});
@@ -68,6 +70,7 @@ class _CmaScreenState extends ConsumerState<CmaScreen>
           tabs: const [
             Tab(text: 'CMA Reports'),
             Tab(text: 'Loan Calculator'),
+            Tab(text: 'Calculator Tools'),
           ],
         ),
       ),
@@ -83,6 +86,7 @@ class _CmaScreenState extends ConsumerState<CmaScreen>
               children: const [
                 _CmaReportsTab(),
                 _LoanCalculatorTab(),
+                _CalculatorToolsTab(),
               ],
             ),
           ),
@@ -107,6 +111,30 @@ class _CmaScreenState extends ConsumerState<CmaScreen>
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (_) => const _NewCmaSheet(),
+    );
+  }
+
+  static void showLoanCalculator(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const LoanCalculatorSheet(),
+    );
+  }
+
+  static void showNpvIrr(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const NpvIrrSheet(),
     );
   }
 }
@@ -292,6 +320,110 @@ class _LoanCalculatorTab extends ConsumerWidget {
         if (index == 0) return _BankwiseSummaryCard(loans: loans);
         return LoanSummaryCard(loan: loans[index - 1]);
       },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Calculator Tools tab
+// ---------------------------------------------------------------------------
+
+class _CalculatorToolsTab extends StatelessWidget {
+  const _CalculatorToolsTab();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+      children: [
+        _ToolTile(
+          icon: Icons.calculate_rounded,
+          title: 'EMI / Loan Calculator',
+          subtitle: 'Compute EMI, total interest, MPBF & DSCR for any loan',
+          color: AppColors.primary,
+          onTap: () => _CmaScreenState.showLoanCalculator(context),
+        ),
+        const SizedBox(height: 12),
+        _ToolTile(
+          icon: Icons.trending_up_rounded,
+          title: 'NPV / IRR Analysis',
+          subtitle: 'Evaluate project viability using NPV, IRR & payback period',
+          color: AppColors.secondary,
+          onTap: () => _CmaScreenState.showNpvIrr(context),
+        ),
+      ],
+    );
+  }
+}
+
+class _ToolTile extends StatelessWidget {
+  const _ToolTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+        side: BorderSide(color: color.withValues(alpha: 0.25)),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, size: 26, color: color),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.neutral900,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: AppColors.neutral400,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right_rounded, color: color),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

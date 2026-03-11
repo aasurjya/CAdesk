@@ -1,7 +1,147 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/features/llp_compliance/domain/models/llp_entity.dart';
 import 'package:ca_app/features/llp_compliance/domain/models/llp_filing.dart';
+
+// ---------------------------------------------------------------------------
+// LlpPenaltyCalculator
+// ---------------------------------------------------------------------------
+
+/// Pure calculator class for LLP compliance penalty rules (MCA).
+class LlpPenaltyCalculator {
+  LlpPenaltyCalculator._();
+
+  /// Form 11 (Annual Return) late filing fee: ₹100 per day (no cap).
+  static double form11LateFee(int daysLate) {
+    if (daysLate <= 0) return 0;
+    return daysLate * 100.0;
+  }
+
+  /// Form 8 (Statement of Accounts) late filing fee: ₹100 per day.
+  static double form8LateFee(int daysLate) {
+    if (daysLate <= 0) return 0;
+    return daysLate * 100.0;
+  }
+
+  /// Audit threshold: turnover > ₹40L or contribution > ₹25L requires audit.
+  static bool requiresAudit({
+    required double turnoverLakhs,
+    required double contributionLakhs,
+  }) {
+    return turnoverLakhs > 40 || contributionLakhs > 25;
+  }
+
+  /// ITR-5 due date for LLP (non-audit: Jul 31, audit: Oct 31, TP: Nov 30).
+  static String itr5DueDate({
+    required bool requiresAudit,
+    required bool hasTransferPricing,
+  }) {
+    if (hasTransferPricing) return '30 Nov';
+    if (requiresAudit) return '31 Oct';
+    return '31 Jul';
+  }
+
+  /// Strike-off risk: LLP with no filing for 3+ years.
+  static bool hasStrikeOffRisk({required int yearsSinceLastFiling}) {
+    return yearsSinceLastFiling >= 3;
+  }
+
+  static const double designatedPartnerMinPenalty = 10000;
+  static const double designatedPartnerMaxPenalty = 100000;
+}
+
+// ---------------------------------------------------------------------------
+// LlpFilingRecord model
+// ---------------------------------------------------------------------------
+
+/// Immutable model aggregating Form 11 / Form 8 compliance status for an LLP.
+@immutable
+class LlpFilingRecord {
+  const LlpFilingRecord({
+    required this.id,
+    required this.llpName,
+    required this.llpin,
+    required this.form11DaysLate,
+    required this.form8DaysLate,
+    required this.turnoverLakhs,
+    required this.contributionLakhs,
+    required this.form11Status,
+    required this.form8Status,
+    required this.yearsSinceLastFiling,
+    required this.assessmentYear,
+  });
+
+  final String id;
+  final String llpName;
+  final String llpin;
+  final int form11DaysLate;
+  final int form8DaysLate;
+  final double turnoverLakhs;
+  final double contributionLakhs;
+  final LLPFilingStatus form11Status;
+  final LLPFilingStatus form8Status;
+  final int yearsSinceLastFiling;
+  final String assessmentYear;
+
+  double get form11Penalty =>
+      LlpPenaltyCalculator.form11LateFee(form11DaysLate);
+  double get form8Penalty =>
+      LlpPenaltyCalculator.form8LateFee(form8DaysLate);
+  double get totalPenalty => form11Penalty + form8Penalty;
+  bool get requiresAudit => LlpPenaltyCalculator.requiresAudit(
+        turnoverLakhs: turnoverLakhs,
+        contributionLakhs: contributionLakhs,
+      );
+  bool get hasStrikeOffRisk => LlpPenaltyCalculator.hasStrikeOffRisk(
+        yearsSinceLastFiling: yearsSinceLastFiling,
+      );
+
+  LlpFilingRecord copyWith({
+    String? id,
+    String? llpName,
+    String? llpin,
+    int? form11DaysLate,
+    int? form8DaysLate,
+    double? turnoverLakhs,
+    double? contributionLakhs,
+    LLPFilingStatus? form11Status,
+    LLPFilingStatus? form8Status,
+    int? yearsSinceLastFiling,
+    String? assessmentYear,
+  }) {
+    return LlpFilingRecord(
+      id: id ?? this.id,
+      llpName: llpName ?? this.llpName,
+      llpin: llpin ?? this.llpin,
+      form11DaysLate: form11DaysLate ?? this.form11DaysLate,
+      form8DaysLate: form8DaysLate ?? this.form8DaysLate,
+      turnoverLakhs: turnoverLakhs ?? this.turnoverLakhs,
+      contributionLakhs: contributionLakhs ?? this.contributionLakhs,
+      form11Status: form11Status ?? this.form11Status,
+      form8Status: form8Status ?? this.form8Status,
+      yearsSinceLastFiling: yearsSinceLastFiling ?? this.yearsSinceLastFiling,
+      assessmentYear: assessmentYear ?? this.assessmentYear,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LlpFilingRecord &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          assessmentYear == other.assessmentYear &&
+          form11Status == other.form11Status &&
+          form8Status == other.form8Status;
+
+  @override
+  int get hashCode => Object.hash(id, assessmentYear, form11Status, form8Status);
+
+  @override
+  String toString() =>
+      'LlpFilingRecord(llpName: $llpName, penalty: $totalPenalty)';
+}
 
 // ---------------------------------------------------------------------------
 // Mock LLP entities (6)
@@ -573,4 +713,160 @@ class LLPComplianceSummary {
   final int overdueCount;
   final int pendingCount;
   final int totalPenaltyExposure;
+}
+
+// ---------------------------------------------------------------------------
+// Mock LlpFilingRecords (8)
+// ---------------------------------------------------------------------------
+
+final _mockLlpFilingRecords = <LlpFilingRecord>[
+  LlpFilingRecord(
+    id: 'lfr-001',
+    llpName: 'Sharma & Gupta Associates LLP',
+    llpin: 'AAB-4521',
+    form11DaysLate: 0,
+    form8DaysLate: 0,
+    turnoverLakhs: 75,
+    contributionLakhs: 30,
+    form11Status: LLPFilingStatus.filed,
+    form8Status: LLPFilingStatus.filed,
+    yearsSinceLastFiling: 0,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-002',
+    llpName: 'TechBridge Consulting LLP',
+    llpin: 'AAC-7832',
+    form11DaysLate: 0,
+    form8DaysLate: 131,
+    turnoverLakhs: 125,
+    contributionLakhs: 50,
+    form11Status: LLPFilingStatus.filed,
+    form8Status: LLPFilingStatus.overdue,
+    yearsSinceLastFiling: 0,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-003',
+    llpName: 'Bharat Infrastructure LLP',
+    llpin: 'AAD-1245',
+    form11DaysLate: 0,
+    form8DaysLate: 0,
+    turnoverLakhs: 450,
+    contributionLakhs: 150,
+    form11Status: LLPFilingStatus.filed,
+    form8Status: LLPFilingStatus.filed,
+    yearsSinceLastFiling: 0,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-004',
+    llpName: 'Pinnacle Legal Advisors LLP',
+    llpin: 'AAE-3367',
+    form11DaysLate: 285,
+    form8DaysLate: 0,
+    turnoverLakhs: 32,
+    contributionLakhs: 15,
+    form11Status: LLPFilingStatus.overdue,
+    form8Status: LLPFilingStatus.pending,
+    yearsSinceLastFiling: 1,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-005',
+    llpName: 'Dakshin Exports LLP',
+    llpin: 'AAF-5590',
+    form11DaysLate: 0,
+    form8DaysLate: 131,
+    turnoverLakhs: 280,
+    contributionLakhs: 80,
+    form11Status: LLPFilingStatus.filed,
+    form8Status: LLPFilingStatus.overdue,
+    yearsSinceLastFiling: 0,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-006',
+    llpName: 'NorthStar Ventures LLP',
+    llpin: 'AAG-8812',
+    form11DaysLate: 285,
+    form8DaysLate: 0,
+    turnoverLakhs: 18,
+    contributionLakhs: 8,
+    form11Status: LLPFilingStatus.overdue,
+    form8Status: LLPFilingStatus.pending,
+    yearsSinceLastFiling: 2,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-007',
+    llpName: 'Sunrise Agro LLP',
+    llpin: 'AAH-2234',
+    form11DaysLate: 420,
+    form8DaysLate: 182,
+    turnoverLakhs: 60,
+    contributionLakhs: 20,
+    form11Status: LLPFilingStatus.overdue,
+    form8Status: LLPFilingStatus.overdue,
+    yearsSinceLastFiling: 3,
+    assessmentYear: 'AY 2025-26',
+  ),
+  LlpFilingRecord(
+    id: 'lfr-008',
+    llpName: 'Metro Logistics LLP',
+    llpin: 'AAI-9901',
+    form11DaysLate: 0,
+    form8DaysLate: 45,
+    turnoverLakhs: 95,
+    contributionLakhs: 35,
+    form11Status: LLPFilingStatus.filed,
+    form8Status: LLPFilingStatus.overdue,
+    yearsSinceLastFiling: 0,
+    assessmentYear: 'AY 2025-26',
+  ),
+];
+
+// ---------------------------------------------------------------------------
+// New providers
+// ---------------------------------------------------------------------------
+
+/// All LlpFilingRecords.
+final allLlpFilingsProvider = Provider<List<LlpFilingRecord>>((ref) {
+  return List.unmodifiable(_mockLlpFilingRecords);
+});
+
+/// Penalty summary: total penalty, overdue count, strike-off risk count.
+final llpPenaltySummaryProvider = Provider<LlpPenaltySummary>((ref) {
+  final records = ref.watch(allLlpFilingsProvider);
+  final totalPenalty = records.fold<double>(
+    0,
+    (sum, r) => sum + r.totalPenalty,
+  );
+  final overdueCount = records
+      .where(
+        (r) =>
+            r.form11Status == LLPFilingStatus.overdue ||
+            r.form8Status == LLPFilingStatus.overdue,
+      )
+      .length;
+  final strikeOffCount =
+      records.where((r) => r.hasStrikeOffRisk).length;
+  return LlpPenaltySummary(
+    totalPenalty: totalPenalty,
+    overdueCount: overdueCount,
+    strikeOffRiskCount: strikeOffCount,
+  );
+});
+
+/// Immutable penalty summary for the banner.
+class LlpPenaltySummary {
+  const LlpPenaltySummary({
+    required this.totalPenalty,
+    required this.overdueCount,
+    required this.strikeOffRiskCount,
+  });
+
+  final double totalPenalty;
+  final int overdueCount;
+  final int strikeOffRiskCount;
 }

@@ -1,7 +1,212 @@
+import 'dart:math' show pow;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/models/cma_report.dart';
 import '../../domain/models/loan_calculator.dart';
+
+// ---------------------------------------------------------------------------
+// CmaCalculator — financial calculation service
+// ---------------------------------------------------------------------------
+
+/// Immutable row in a CmaCalculator amortization schedule.
+class AmortizationRow {
+  const AmortizationRow({
+    required this.month,
+    required this.emi,
+    required this.principal,
+    required this.interest,
+    required this.balance,
+  });
+
+  final int month;
+  final double emi;
+  final double principal;
+  final double interest;
+  final double balance;
+}
+
+/// Immutable result of a full loan analysis.
+class LoanAnalysisResult {
+  const LoanAnalysisResult({
+    required this.principal,
+    required this.annualRatePercent,
+    required this.tenureMonths,
+    required this.monthlyEmi,
+    required this.totalInterest,
+    required this.totalPayment,
+    required this.mpbf,
+    required this.dscr,
+    required this.dscrStatus,
+  });
+
+  final double principal;
+  final double annualRatePercent;
+  final int tenureMonths;
+  final double monthlyEmi;
+  final double totalInterest;
+  final double totalPayment;
+
+  /// Maximum Permissible Bank Finance.
+  final double mpbf;
+
+  /// Debt Service Coverage Ratio.
+  final double dscr;
+
+  /// 'Excellent' >=1.5, 'Acceptable' >=1.25, 'Marginal' >=1.0, 'Poor' <1.0
+  final String dscrStatus;
+}
+
+/// Pure financial calculation service — all methods are static and side-effect free.
+class CmaCalculator {
+  CmaCalculator._();
+
+  /// EMI = P × r × (1+r)^n / ((1+r)^n - 1)
+  static double emi({
+    required double principal,
+    required double annualRatePercent,
+    required int tenureMonths,
+  }) {
+    if (tenureMonths == 0) return 0;
+    if (annualRatePercent == 0) return principal / tenureMonths;
+    final r = annualRatePercent / 100 / 12;
+    final n = tenureMonths;
+    final factor = pow(1 + r, n);
+    return principal * r * factor / (factor - 1);
+  }
+
+  /// Total interest paid over loan tenure.
+  static double totalInterest({
+    required double principal,
+    required double annualRatePercent,
+    required int tenureMonths,
+  }) {
+    final monthlyEmi = emi(
+      principal: principal,
+      annualRatePercent: annualRatePercent,
+      tenureMonths: tenureMonths,
+    );
+    return monthlyEmi * tenureMonths - principal;
+  }
+
+  /// MPBF (Maximum Permissible Bank Finance) — Tandon Committee Method II.
+  /// MPBF = 75% of (Current Assets - Current Liabilities excl. bank borrowings)
+  static double mpbf({
+    required double currentAssets,
+    required double currentLiabilities,
+    required double existingBankBorrowings,
+  }) {
+    final workingCapitalGap =
+        currentAssets - (currentLiabilities - existingBankBorrowings);
+    final result = workingCapitalGap * 0.75;
+    return result < 0 ? 0 : result;
+  }
+
+  /// DSCR (Debt Service Coverage Ratio) = EBITDA / Total Debt Service.
+  /// Banks require >= 1.25 for project loans.
+  static double dscr({
+    required double ebitda,
+    required double annualEmi,
+    required double annualInterest,
+  }) {
+    final debtService = annualEmi + annualInterest;
+    if (debtService == 0) return 0;
+    return ebitda / debtService;
+  }
+
+  /// DSCR status label.
+  static String dscrStatus(double dscrValue) {
+    if (dscrValue >= 1.5) return 'Excellent';
+    if (dscrValue >= 1.25) return 'Acceptable';
+    if (dscrValue >= 1.0) return 'Marginal';
+    return 'Poor';
+  }
+
+  /// NPV = sum of (cashFlow[t] / (1+r)^t) - initialInvestment.
+  static double npv({
+    required double initialInvestment,
+    required List<double> annualCashFlows,
+    required double discountRatePercent,
+  }) {
+    final r = discountRatePercent / 100;
+    double sum = -initialInvestment;
+    for (int t = 1; t <= annualCashFlows.length; t++) {
+      sum += annualCashFlows[t - 1] / pow(1 + r, t);
+    }
+    return sum;
+  }
+
+  /// IRR approximation using the bisection method.
+  /// Returns the IRR as a percentage (e.g. 15.5 for 15.5%).
+  static double irr({
+    required double initialInvestment,
+    required List<double> annualCashFlows,
+  }) {
+    double low = -0.99;
+    double high = 10.0;
+    for (int i = 0; i < 100; i++) {
+      final mid = (low + high) / 2;
+      final n = npv(
+        initialInvestment: initialInvestment,
+        annualCashFlows: annualCashFlows,
+        discountRatePercent: mid * 100,
+      );
+      if (n > 0) {
+        low = mid;
+      } else {
+        high = mid;
+      }
+      if ((high - low).abs() < 0.0001) break;
+    }
+    return (low + high) / 2 * 100;
+  }
+
+  /// Approximate payback period in years.
+  static double paybackPeriod({
+    required double initialInvestment,
+    required List<double> annualCashFlows,
+  }) {
+    double cumulative = 0;
+    for (int i = 0; i < annualCashFlows.length; i++) {
+      cumulative += annualCashFlows[i];
+      if (cumulative >= initialInvestment) {
+        final prev = cumulative - annualCashFlows[i];
+        final fraction = (initialInvestment - prev) / annualCashFlows[i];
+        return i + fraction;
+      }
+    }
+    return double.infinity;
+  }
+
+  /// Full amortization schedule — one [AmortizationRow] per month.
+  static List<AmortizationRow> amortizationSchedule({
+    required double principal,
+    required double annualRatePercent,
+    required int tenureMonths,
+  }) {
+    final r = annualRatePercent / 100 / 12;
+    final monthlyEmi = emi(
+      principal: principal,
+      annualRatePercent: annualRatePercent,
+      tenureMonths: tenureMonths,
+    );
+    final rows = <AmortizationRow>[];
+    double balance = principal;
+    for (int month = 1; month <= tenureMonths; month++) {
+      final interest = balance * r;
+      final principalPart = monthlyEmi - interest;
+      balance = (balance - principalPart).clamp(0, double.infinity);
+      rows.add(AmortizationRow(
+        month: month,
+        emi: monthlyEmi,
+        principal: principalPart,
+        interest: interest,
+        balance: balance,
+      ));
+    }
+    return List.unmodifiable(rows);
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
