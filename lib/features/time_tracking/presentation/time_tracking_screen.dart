@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/time_tracking/data/providers/time_tracking_providers.dart';
+import 'package:ca_app/features/time_tracking/presentation/widgets/active_timer_widget.dart';
 import 'package:ca_app/features/time_tracking/presentation/widgets/billing_summary_card.dart';
 import 'package:ca_app/features/time_tracking/presentation/widgets/time_entry_tile.dart';
-import 'package:ca_app/features/time_tracking/presentation/widgets/timer_widget.dart';
+import 'package:ca_app/features/time_tracking/presentation/widgets/time_entry_to_invoice_sheet.dart';
 
 /// Time tracking screen with active timer, today's entries, and weekly summary.
 class TimeTrackingScreen extends ConsumerWidget {
@@ -17,18 +18,30 @@ class TimeTrackingScreen extends ConsumerWidget {
     final entries = ref.watch(filteredTimeEntriesProvider);
     final weeklySummary = ref.watch(weeklySummaryProvider);
     final billingSummaries = ref.watch(billingSummariesProvider);
+    final realization = ref.watch(realizationSummaryProvider);
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Time Tracking'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.receipt_long_rounded),
+            tooltip: 'Generate Invoice',
+            onPressed: () => _openInvoiceSheet(context),
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Active timer
-          const TimerWidget(),
+          // Active timer (real running timer)
+          const ActiveTimerWidget(),
           const SizedBox(height: 20),
+
+          // Realization summary card
+          _RealizationCard(realization: realization),
+          const SizedBox(height: 16),
 
           // Weekly summary card
           _WeeklySummaryCard(summary: weeklySummary),
@@ -47,7 +60,10 @@ class TimeTrackingScreen extends ConsumerWidget {
             ...entries.map(
               (entry) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: TimeEntryTile(entry: entry),
+                child: TimeEntryTile(
+                  entry: entry,
+                  onTap: () => _openInvoiceSheet(context),
+                ),
               ),
             ),
 
@@ -66,6 +82,143 @@ class TimeTrackingScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  void _openInvoiceSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => const TimeEntryToInvoiceSheet(),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Realization summary card
+// ---------------------------------------------------------------------------
+
+class _RealizationCard extends StatelessWidget {
+  const _RealizationCard({required this.realization});
+
+  final Map<String, double> realization;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final utilizationPct = realization['utilizationPct'] ?? 0;
+    final effectiveRate = realization['effectiveRate'] ?? 0;
+    final totalBillable = realization['totalBillable'] ?? 0;
+
+    final utilizationColor = utilizationPct >= 80
+        ? AppColors.success
+        : utilizationPct >= 60
+            ? AppColors.accent
+            : AppColors.error;
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.insights_rounded,
+                  size: 18,
+                  color: AppColors.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Realization',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.neutral900,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                _RealizationTile(
+                  label: 'Utilization',
+                  value: '${utilizationPct.toStringAsFixed(0)}%',
+                  color: utilizationColor,
+                  icon: Icons.pie_chart_outline_rounded,
+                ),
+                _RealizationTile(
+                  label: 'Effective Rate',
+                  value: '₹${effectiveRate.toStringAsFixed(0)}/hr',
+                  color: AppColors.secondary,
+                  icon: Icons.speed_rounded,
+                ),
+                _RealizationTile(
+                  label: 'Total Billed',
+                  value: _formatInr(totalBillable),
+                  color: AppColors.primary,
+                  icon: Icons.receipt_rounded,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static String _formatInr(double amount) {
+    if (amount >= 100000) {
+      return '₹${(amount / 100000).toStringAsFixed(1)}L';
+    }
+    if (amount >= 1000) {
+      return '₹${(amount / 1000).toStringAsFixed(1)}K';
+    }
+    return '₹${amount.toStringAsFixed(0)}';
+  }
+}
+
+class _RealizationTile extends StatelessWidget {
+  const _RealizationTile({
+    required this.label,
+    required this.value,
+    required this.color,
+    required this.icon,
+  });
+
+  final String label;
+  final String value;
+  final Color color;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Expanded(
+      child: Column(
+        children: [
+          Icon(icon, size: 20, color: color),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: AppColors.neutral900,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: AppColors.neutral400,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

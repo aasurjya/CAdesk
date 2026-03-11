@@ -1,10 +1,163 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/features/time_tracking/domain/models/billing_summary.dart';
 import 'package:ca_app/features/time_tracking/domain/models/time_entry.dart';
 
 // ---------------------------------------------------------------------------
-// Running timer state
+// Active timer state & notifier (real running timer)
+// ---------------------------------------------------------------------------
+
+/// Immutable state for the active timer.
+class ActiveTimerState {
+  const ActiveTimerState({
+    required this.isRunning,
+    required this.elapsedSeconds,
+    required this.clientName,
+    required this.taskDescription,
+    required this.billingRate,
+    required this.startedAt,
+  });
+
+  final bool isRunning;
+  final int elapsedSeconds;
+  final String clientName;
+  final String taskDescription;
+
+  /// Billing rate per hour in ₹.
+  final double billingRate;
+
+  /// Non-null when a session has been started (even if paused).
+  final DateTime? startedAt;
+
+  String get formattedTime {
+    final h = elapsedSeconds ~/ 3600;
+    final m = (elapsedSeconds % 3600) ~/ 60;
+    final s = elapsedSeconds % 60;
+    return '${h.toString().padLeft(2, '0')}:'
+        '${m.toString().padLeft(2, '0')}:'
+        '${s.toString().padLeft(2, '0')}';
+  }
+
+  double get billableAmount => (elapsedSeconds / 3600) * billingRate;
+
+  static const idle = ActiveTimerState(
+    isRunning: false,
+    elapsedSeconds: 0,
+    clientName: '',
+    taskDescription: '',
+    billingRate: 0,
+    startedAt: null,
+  );
+}
+
+class ActiveTimerNotifier extends Notifier<ActiveTimerState> {
+  Timer? _ticker;
+
+  @override
+  ActiveTimerState build() {
+    ref.onDispose(() => _ticker?.cancel());
+    return ActiveTimerState.idle;
+  }
+
+  void start({
+    required String clientName,
+    required String taskDescription,
+    required double billingRate,
+  }) {
+    _ticker?.cancel();
+    state = ActiveTimerState(
+      isRunning: true,
+      elapsedSeconds: state.elapsedSeconds,
+      clientName: clientName,
+      taskDescription: taskDescription,
+      billingRate: billingRate,
+      startedAt: DateTime.now(),
+    );
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      state = ActiveTimerState(
+        isRunning: true,
+        elapsedSeconds: state.elapsedSeconds + 1,
+        clientName: state.clientName,
+        taskDescription: state.taskDescription,
+        billingRate: state.billingRate,
+        startedAt: state.startedAt,
+      );
+    });
+  }
+
+  void pause() {
+    _ticker?.cancel();
+    state = ActiveTimerState(
+      isRunning: false,
+      elapsedSeconds: state.elapsedSeconds,
+      clientName: state.clientName,
+      taskDescription: state.taskDescription,
+      billingRate: state.billingRate,
+      startedAt: state.startedAt,
+    );
+  }
+
+  void resume() {
+    if (state.isRunning) return;
+    _ticker?.cancel();
+    state = ActiveTimerState(
+      isRunning: true,
+      elapsedSeconds: state.elapsedSeconds,
+      clientName: state.clientName,
+      taskDescription: state.taskDescription,
+      billingRate: state.billingRate,
+      startedAt: state.startedAt,
+    );
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      state = ActiveTimerState(
+        isRunning: true,
+        elapsedSeconds: state.elapsedSeconds + 1,
+        clientName: state.clientName,
+        taskDescription: state.taskDescription,
+        billingRate: state.billingRate,
+        startedAt: state.startedAt,
+      );
+    });
+  }
+
+  void stop() {
+    _ticker?.cancel();
+    state = ActiveTimerState.idle;
+  }
+}
+
+final activeTimerProvider =
+    NotifierProvider<ActiveTimerNotifier, ActiveTimerState>(
+        ActiveTimerNotifier.new);
+
+// ---------------------------------------------------------------------------
+// Realization calculator service
+// ---------------------------------------------------------------------------
+
+class RealizationCalculator {
+  /// Realization rate = amount billed / amount recorded × 100.
+  static double realizationRate(double billedAmount, double recordedAmount) {
+    if (recordedAmount == 0) return 0;
+    return (billedAmount / recordedAmount * 100).clamp(0.0, 200.0);
+  }
+
+  /// Effective hourly rate = billed amount / hours worked.
+  static double effectiveHourlyRate(double billedAmount, double hoursWorked) {
+    if (hoursWorked == 0) return 0;
+    return billedAmount / hoursWorked;
+  }
+
+  /// Weekly utilization = billable hours / total available hours × 100.
+  static double weeklyUtilization(double billableHours,
+      {double availableHours = 40}) {
+    return (billableHours / availableHours * 100).clamp(0.0, 150.0);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Running timer state (legacy — kept for backward compat with timer_widget)
 // ---------------------------------------------------------------------------
 
 /// Holds the state of the currently running timer (null = no active timer).
@@ -143,6 +296,11 @@ class TimeEntriesNotifier extends Notifier<List<TimeEntry>> {
   List<TimeEntry> build() => List.unmodifiable(_mockEntries);
 
   void update(List<TimeEntry> value) => state = value;
+
+  /// Adds a newly stopped timer entry to the top of the list (immutable).
+  void addEntry(TimeEntry entry) {
+    state = List.unmodifiable([entry, ...state]);
+  }
 }
 
 final _now = DateTime.now();
@@ -395,14 +553,78 @@ class BillingSummariesNotifier extends Notifier<List<BillingSummary>> {
 }
 
 const _mockBillingSummaries = <BillingSummary>[
-  BillingSummary(clientId: '1', clientName: 'Rajesh Kumar Sharma', totalHours: 12.5, billableHours: 10.0, nonBillableHours: 2.5, totalBilled: 20000, realizationRate: 80.0, period: 'Mar 2026'),
-  BillingSummary(clientId: '3', clientName: 'ABC Infra Pvt Ltd', totalHours: 45.0, billableHours: 40.0, nonBillableHours: 5.0, totalBilled: 172000, realizationRate: 88.9, period: 'Mar 2026'),
-  BillingSummary(clientId: '4', clientName: 'Mehta & Sons', totalHours: 18.0, billableHours: 16.0, nonBillableHours: 2.0, totalBilled: 25500, realizationRate: 88.9, period: 'Mar 2026'),
-  BillingSummary(clientId: '6', clientName: 'TechVista Solutions LLP', totalHours: 32.0, billableHours: 28.0, nonBillableHours: 4.0, totalBilled: 47000, realizationRate: 87.5, period: 'Mar 2026'),
-  BillingSummary(clientId: '8', clientName: 'Bharat Electronics Ltd', totalHours: 68.0, billableHours: 62.0, nonBillableHours: 6.0, totalBilled: 310000, realizationRate: 91.2, period: 'Mar 2026'),
-  BillingSummary(clientId: '9', clientName: 'Deepak Patel', totalHours: 8.0, billableHours: 7.5, nonBillableHours: 0.5, totalBilled: 13000, realizationRate: 93.8, period: 'Mar 2026'),
-  BillingSummary(clientId: '13', clientName: 'GreenLeaf Organics LLP', totalHours: 14.0, billableHours: 12.0, nonBillableHours: 2.0, totalBilled: 17000, realizationRate: 85.7, period: 'Mar 2026'),
-  BillingSummary(clientId: '14', clientName: 'Vikram Singh Rathore', totalHours: 22.0, billableHours: 20.0, nonBillableHours: 2.0, totalBilled: 32000, realizationRate: 90.9, period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '1',
+      clientName: 'Rajesh Kumar Sharma',
+      totalHours: 12.5,
+      billableHours: 10.0,
+      nonBillableHours: 2.5,
+      totalBilled: 20000,
+      realizationRate: 80.0,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '3',
+      clientName: 'ABC Infra Pvt Ltd',
+      totalHours: 45.0,
+      billableHours: 40.0,
+      nonBillableHours: 5.0,
+      totalBilled: 172000,
+      realizationRate: 88.9,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '4',
+      clientName: 'Mehta & Sons',
+      totalHours: 18.0,
+      billableHours: 16.0,
+      nonBillableHours: 2.0,
+      totalBilled: 25500,
+      realizationRate: 88.9,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '6',
+      clientName: 'TechVista Solutions LLP',
+      totalHours: 32.0,
+      billableHours: 28.0,
+      nonBillableHours: 4.0,
+      totalBilled: 47000,
+      realizationRate: 87.5,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '8',
+      clientName: 'Bharat Electronics Ltd',
+      totalHours: 68.0,
+      billableHours: 62.0,
+      nonBillableHours: 6.0,
+      totalBilled: 310000,
+      realizationRate: 91.2,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '9',
+      clientName: 'Deepak Patel',
+      totalHours: 8.0,
+      billableHours: 7.5,
+      nonBillableHours: 0.5,
+      totalBilled: 13000,
+      realizationRate: 93.8,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '13',
+      clientName: 'GreenLeaf Organics LLP',
+      totalHours: 14.0,
+      billableHours: 12.0,
+      nonBillableHours: 2.0,
+      totalBilled: 17000,
+      realizationRate: 85.7,
+      period: 'Mar 2026'),
+  BillingSummary(
+      clientId: '14',
+      clientName: 'Vikram Singh Rathore',
+      totalHours: 22.0,
+      billableHours: 20.0,
+      nonBillableHours: 2.0,
+      totalBilled: 32000,
+      realizationRate: 90.9,
+      period: 'Mar 2026'),
 ];
 
 // ---------------------------------------------------------------------------
@@ -422,12 +644,14 @@ final filteredTimeEntriesProvider = Provider<List<TimeEntry>>((ref) {
       return entries;
     case TimeEntryFilter.today:
       return entries
-          .where((e) => e.startTime.isAfter(todayStart) ||
+          .where((e) =>
+              e.startTime.isAfter(todayStart) ||
               e.startTime.isAtSameMomentAs(todayStart))
           .toList();
     case TimeEntryFilter.thisWeek:
       return entries
-          .where((e) => e.startTime.isAfter(weekStart) ||
+          .where((e) =>
+              e.startTime.isAfter(weekStart) ||
               e.startTime.isAtSameMomentAs(weekStart))
           .toList();
     case TimeEntryFilter.billable:
@@ -478,5 +702,35 @@ final weeklySummaryProvider = Provider<Map<String, double>>((ref) {
     'totalBilled': totalBilled,
     'utilizationRate':
         totalMinutes > 0 ? (billableMinutes / totalMinutes) * 100 : 0,
+  };
+});
+
+/// Realization summary derived from billing summaries.
+final realizationSummaryProvider = Provider<Map<String, double>>((ref) {
+  final summaries = ref.watch(billingSummariesProvider);
+  if (summaries.isEmpty) {
+    return {
+      'utilizationPct': 0,
+      'effectiveRate': 0,
+      'totalBillable': 0,
+    };
+  }
+
+  final totalHours =
+      summaries.fold<double>(0, (sum, s) => sum + s.totalHours);
+  final billableHours =
+      summaries.fold<double>(0, (sum, s) => sum + s.billableHours);
+  final totalBilled =
+      summaries.fold<double>(0, (sum, s) => sum + s.totalBilled);
+
+  final utilizationPct =
+      RealizationCalculator.weeklyUtilization(billableHours);
+  final effectiveRate =
+      RealizationCalculator.effectiveHourlyRate(totalBilled, totalHours);
+
+  return {
+    'utilizationPct': utilizationPct,
+    'effectiveRate': effectiveRate,
+    'totalBillable': totalBilled,
   };
 });
