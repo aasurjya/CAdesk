@@ -109,8 +109,9 @@ class _NpvIrrSheetState extends State<NpvIrrSheet> {
   String _formatInr(double v) {
     final abs = v.abs();
     final prefix = v < 0 ? '-' : '';
-    if (abs >= 10000000)
+    if (abs >= 10000000) {
       return '$prefix₹${(abs / 10000000).toStringAsFixed(2)} Cr';
+    }
     if (abs >= 100000) return '$prefix₹${(abs / 100000).toStringAsFixed(2)} L';
     return '$prefix₹${abs.toStringAsFixed(0)}';
   }
