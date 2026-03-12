@@ -87,10 +87,7 @@ class ComplianceCertificateService {
         'thereunder except as mentioned.',
   ];
 
-  List<String> _secretarialAuditDeclarations(
-    String companyName,
-    String fy,
-  ) => [
+  List<String> _secretarialAuditDeclarations(String companyName, String fy) => [
     'I have conducted the secretarial audit of the compliance of applicable '
         'statutory provisions and the adherence to good corporate practices '
         'by $companyName (hereinafter called the Company) for the audit '

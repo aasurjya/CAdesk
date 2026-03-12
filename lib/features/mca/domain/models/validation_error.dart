@@ -1,9 +1,6 @@
 /// A single validation error returned by form preparation services.
 class ValidationError {
-  const ValidationError({
-    required this.field,
-    required this.message,
-  });
+  const ValidationError({required this.field, required this.message});
 
   /// The model field name that failed validation (e.g. 'cin', 'agmDate').
   final String field;

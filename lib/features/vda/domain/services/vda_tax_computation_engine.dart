@@ -44,8 +44,7 @@ class VdaTaxComputationEngine {
     }
 
     // Tax = 30% of total gains only (losses cannot reduce tax liability)
-    final tax =
-        (totalGain * _taxRateNumerator) ~/ _taxRateDenominator;
+    final tax = (totalGain * _taxRateNumerator) ~/ _taxRateDenominator;
 
     // 1% TDS on total sale consideration
     final tds = totalSaleConsideration ~/ 100;

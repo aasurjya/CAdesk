@@ -65,12 +65,8 @@ void main() {
 
     test('increase in long-term assets is a use', () {
       // Fixed assets increase from 500 to 800 → Use of 300
-      final prev = CmaBalanceSheet.empty().copyWith(
-        netFixedAssets: 50000,
-      );
-      final curr = CmaBalanceSheet.empty().copyWith(
-        netFixedAssets: 80000,
-      );
+      final prev = CmaBalanceSheet.empty().copyWith(netFixedAssets: 50000);
+      final curr = CmaBalanceSheet.empty().copyWith(netFixedAssets: 80000);
       final result = FundFlowService.instance.computeFundFlow(curr, prev);
       final use = result.usesOfFunds.firstWhere(
         (f) => f.label == FundFlowLabel.increaseInLongTermAssets,

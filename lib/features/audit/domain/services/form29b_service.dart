@@ -91,44 +91,55 @@ class Form29BService {
 
     if (pnl.provisionForTax > 0) {
       bookProfit += pnl.provisionForTax;
-      adjustments.add(BookProfitAdjustment(
-        description: 'Add: Provision for income tax',
-        adjustmentPaise: pnl.provisionForTax,
-      ));
+      adjustments.add(
+        BookProfitAdjustment(
+          description: 'Add: Provision for income tax',
+          adjustmentPaise: pnl.provisionForTax,
+        ),
+      );
     }
 
     // Net deferred tax position: if DTL > provision, add the net; else deduct.
-    final deferredTaxNet = pnl.deferredTaxLiability - pnl.provisionForDeferredTax;
+    final deferredTaxNet =
+        pnl.deferredTaxLiability - pnl.provisionForDeferredTax;
     if (deferredTaxNet > 0) {
       bookProfit += deferredTaxNet;
-      adjustments.add(BookProfitAdjustment(
-        description: 'Add: Net deferred tax liability',
-        adjustmentPaise: deferredTaxNet,
-      ));
+      adjustments.add(
+        BookProfitAdjustment(
+          description: 'Add: Net deferred tax liability',
+          adjustmentPaise: deferredTaxNet,
+        ),
+      );
     } else if (deferredTaxNet < 0) {
       bookProfit += deferredTaxNet; // deferredTaxNet is negative here
-      adjustments.add(BookProfitAdjustment(
-        description: 'Less: Net deferred tax asset',
-        adjustmentPaise: deferredTaxNet,
-      ));
+      adjustments.add(
+        BookProfitAdjustment(
+          description: 'Less: Net deferred tax asset',
+          adjustmentPaise: deferredTaxNet,
+        ),
+      );
     }
 
     if (pnl.donationsAndCharities > 0) {
       bookProfit += pnl.donationsAndCharities;
-      adjustments.add(BookProfitAdjustment(
-        description: 'Add: Donations and charities',
-        adjustmentPaise: pnl.donationsAndCharities,
-      ));
+      adjustments.add(
+        BookProfitAdjustment(
+          description: 'Add: Donations and charities',
+          adjustmentPaise: pnl.donationsAndCharities,
+        ),
+      );
     }
 
     // ── Deductions ────────────────────────────────────────────────────────────
 
     if (pnl.capitalGainsExempt > 0) {
       bookProfit -= pnl.capitalGainsExempt;
-      adjustments.add(BookProfitAdjustment(
-        description: 'Less: Exempt capital gains',
-        adjustmentPaise: -pnl.capitalGainsExempt,
-      ));
+      adjustments.add(
+        BookProfitAdjustment(
+          description: 'Less: Exempt capital gains',
+          adjustmentPaise: -pnl.capitalGainsExempt,
+        ),
+      );
     }
 
     // Brought-forward losses: deduct lower of (BF losses + unabsorbed depr)
@@ -139,11 +150,13 @@ class Form29BService {
       final allowedDeduction = bfTotal < bookProfit ? bfTotal : bookProfit;
       if (allowedDeduction > 0) {
         bookProfit -= allowedDeduction;
-        adjustments.add(BookProfitAdjustment(
-          description:
-              'Less: Brought forward losses and unabsorbed depreciation',
-          adjustmentPaise: -allowedDeduction,
-        ));
+        adjustments.add(
+          BookProfitAdjustment(
+            description:
+                'Less: Brought forward losses and unabsorbed depreciation',
+            adjustmentPaise: -allowedDeduction,
+          ),
+        );
       }
     }
 
@@ -161,8 +174,9 @@ class Form29BService {
       matLiabilityPaise: matLiability,
       matCreditAvailablePaise: matLiability,
       matCreditCarryForwardYears: _matCreditCarryForwardYears,
-      bookProfitAdjustments:
-          List<BookProfitAdjustment>.unmodifiable(adjustments),
+      bookProfitAdjustments: List<BookProfitAdjustment>.unmodifiable(
+        adjustments,
+      ),
     );
   }
 }

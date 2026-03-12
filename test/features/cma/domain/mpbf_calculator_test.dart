@@ -113,14 +113,13 @@ void main() {
       expect(dp, 92500000);
     });
 
-    test('drawing power floored at zero when creditors exceed funded assets', () {
-      final dp = MpbfCalculator.instance.computeDrawingPower(
-        0,
-        0,
-        100000000,
-      );
-      expect(dp, 0);
-    });
+    test(
+      'drawing power floored at zero when creditors exceed funded assets',
+      () {
+        final dp = MpbfCalculator.instance.computeDrawingPower(0, 0, 100000000);
+        expect(dp, 0);
+      },
+    );
 
     test('zero stock and debtors gives zero DP before deducting creditors', () {
       final dp = MpbfCalculator.instance.computeDrawingPower(0, 0, 0);

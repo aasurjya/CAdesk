@@ -51,8 +51,7 @@ class XbrlValidationError {
   int get hashCode => Object.hash(field, message, severity);
 
   @override
-  String toString() =>
-      'XbrlValidationError(${severity.name}) $field: $message';
+  String toString() => 'XbrlValidationError(${severity.name}) $field: $message';
 }
 
 /// Stateless singleton that validates a completed [XbrlDocument] against MCA
@@ -104,10 +103,7 @@ class XbrlValidationService {
   // Private validation steps
   // ---------------------------------------------------------------------------
 
-  void _validateMetadata(
-    XbrlDocument doc,
-    List<XbrlValidationError> errors,
-  ) {
+  void _validateMetadata(XbrlDocument doc, List<XbrlValidationError> errors) {
     if (doc.companyName.trim().isEmpty) {
       errors.add(
         const XbrlValidationError(
@@ -165,8 +161,7 @@ class XbrlValidationService {
     XbrlDocument doc,
     List<XbrlValidationError> errors,
   ) {
-    final presentElements =
-        doc.facts.map((f) => f.elementName).toSet();
+    final presentElements = doc.facts.map((f) => f.elementName).toSet();
 
     for (final element in _mandatoryElements) {
       if (!presentElements.contains(element)) {

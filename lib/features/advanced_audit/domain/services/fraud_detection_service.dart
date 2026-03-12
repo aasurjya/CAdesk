@@ -91,8 +91,7 @@ class FraudDetectionService {
               '${flagged.length} transaction(s) are just below the '
               '₹${_paiseToRupees(threshold)} threshold, suggesting '
               'deliberate structuring to avoid regulatory reporting.',
-          transactions:
-              List.unmodifiable(flagged.map((t) => t.transactionId)),
+          transactions: List.unmodifiable(flagged.map((t) => t.transactionId)),
           severity: FraudIndicatorSeverity.high,
         ),
       );
@@ -130,8 +129,9 @@ class FraudDetectionService {
       final duplicateIds = <String>{};
       for (int i = 0; i < sorted.length; i++) {
         for (int j = i + 1; j < sorted.length; j++) {
-          final diff =
-              sorted[j].transactionDate.difference(sorted[i].transactionDate);
+          final diff = sorted[j].transactionDate.difference(
+            sorted[i].transactionDate,
+          );
           if (diff.inDays <= 30) {
             duplicateIds.add(sorted[i].transactionId);
             duplicateIds.add(sorted[j].transactionId);
@@ -224,9 +224,7 @@ class FraudDetectionService {
     return amountPaise % 100000 == 0;
   }
 
-  static FraudIndicatorSeverity _roundSeverity(
-    List<AuditTransaction> flagged,
-  ) {
+  static FraudIndicatorSeverity _roundSeverity(List<AuditTransaction> flagged) {
     final maxAmount = flagged.fold<int>(
       0,
       (max, t) => t.amountPaise > max ? t.amountPaise : max,
@@ -257,7 +255,7 @@ class FraudDetectionService {
     final list = values.toList();
     final variance =
         list.fold<double>(0, (sum, v) => sum + math.pow(v - mean, 2)) /
-            list.length;
+        list.length;
     return math.sqrt(variance);
   }
 

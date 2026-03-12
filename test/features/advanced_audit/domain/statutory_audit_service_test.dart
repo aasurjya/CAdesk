@@ -153,7 +153,10 @@ void main() {
         final program = StatutoryAuditService.generateAuditProgram(engagement);
         final areas = program.map((p) => p.area).toSet();
         expect(areas, containsAll(['Revenue', 'Expenses', 'Assets']));
-        expect(areas, containsAll(['Liabilities', 'Equity', 'Related Parties']));
+        expect(
+          areas,
+          containsAll(['Liabilities', 'Equity', 'Related Parties']),
+        );
       });
 
       test('all procedures start with planned status', () {
@@ -184,14 +187,16 @@ void main() {
         final highRiskEngagement = engagement.copyWith(
           riskLevel: AuditRiskLevel.critical,
         );
-        final lowProgram =
-            StatutoryAuditService.generateAuditProgram(lowRiskEngagement);
-        final highProgram =
-            StatutoryAuditService.generateAuditProgram(highRiskEngagement);
+        final lowProgram = StatutoryAuditService.generateAuditProgram(
+          lowRiskEngagement,
+        );
+        final highProgram = StatutoryAuditService.generateAuditProgram(
+          highRiskEngagement,
+        );
 
         final lowAvg =
             lowProgram.map((p) => p.plannedSampleSize).reduce((a, b) => a + b) /
-                lowProgram.length;
+            lowProgram.length;
         final highAvg =
             highProgram
                 .map((p) => p.plannedSampleSize)

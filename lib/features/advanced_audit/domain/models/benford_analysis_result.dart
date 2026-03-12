@@ -63,7 +63,8 @@ class BenfordAnalysisResult {
       chiSquareStatistic: chiSquareStatistic ?? this.chiSquareStatistic,
       degreesOfFreedom: degreesOfFreedom ?? this.degreesOfFreedom,
       pValue: pValue ?? this.pValue,
-      significantDeviations: significantDeviations ?? this.significantDeviations,
+      significantDeviations:
+          significantDeviations ?? this.significantDeviations,
       riskFlag: riskFlag ?? this.riskFlag,
     );
   }
@@ -81,10 +82,10 @@ class BenfordAnalysisResult {
 
   @override
   int get hashCode => Object.hash(
-        datasetName,
-        sampleCount,
-        chiSquareStatistic,
-        degreesOfFreedom,
-        riskFlag,
-      );
+    datasetName,
+    sampleCount,
+    chiSquareStatistic,
+    degreesOfFreedom,
+    riskFlag,
+  );
 }

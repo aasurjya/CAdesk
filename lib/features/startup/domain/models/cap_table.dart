@@ -44,6 +44,5 @@ class CapTable {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(companyName, cin, Object.hashAll(rounds));
+  int get hashCode => Object.hash(companyName, cin, Object.hashAll(rounds));
 }

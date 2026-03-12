@@ -76,8 +76,9 @@ void main() {
           facts: missingRevenueFacts,
         );
 
-        final errors =
-            XbrlValidationService.instance.validate(docWithoutRevenue);
+        final errors = XbrlValidationService.instance.validate(
+          docWithoutRevenue,
+        );
 
         expect(errors, isNotEmpty);
         expect(errors.any((e) => e.field.contains('Revenue')), isTrue);
@@ -91,8 +92,9 @@ void main() {
               .toList();
           final docWithoutCash = validDocument.copyWith(facts: facts);
 
-          final errors =
-              XbrlValidationService.instance.validate(docWithoutCash);
+          final errors = XbrlValidationService.instance.validate(
+            docWithoutCash,
+          );
 
           expect(
             errors.any((e) => e.field.contains('CashAndCashEquivalents')),
@@ -101,23 +103,27 @@ void main() {
         },
       );
 
-      test('returns error when mandatory element ProfitBeforeTax is missing',
-          () {
-        final facts = validDocument.facts
-            .where((f) => f.elementName != 'in-gaap:ProfitBeforeTax')
-            .toList();
-        final doc = validDocument.copyWith(facts: facts);
+      test(
+        'returns error when mandatory element ProfitBeforeTax is missing',
+        () {
+          final facts = validDocument.facts
+              .where((f) => f.elementName != 'in-gaap:ProfitBeforeTax')
+              .toList();
+          final doc = validDocument.copyWith(facts: facts);
 
-        final errors = XbrlValidationService.instance.validate(doc);
+          final errors = XbrlValidationService.instance.validate(doc);
 
-        expect(errors.any((e) => e.field.contains('ProfitBeforeTax')), isTrue);
-      });
+          expect(
+            errors.any((e) => e.field.contains('ProfitBeforeTax')),
+            isTrue,
+          );
+        },
+      );
 
       test('returns error when contexts list is empty', () {
         final docNoContexts = validDocument.copyWith(contexts: const []);
 
-        final errors =
-            XbrlValidationService.instance.validate(docNoContexts);
+        final errors = XbrlValidationService.instance.validate(docNoContexts);
 
         expect(errors, isNotEmpty);
         expect(errors.any((e) => e.field.contains('contexts')), isTrue);
@@ -134,8 +140,9 @@ void main() {
         final facts = [...validDocument.facts, orphanFact];
         final docWithOrphanFact = validDocument.copyWith(facts: facts);
 
-        final errors =
-            XbrlValidationService.instance.validate(docWithOrphanFact);
+        final errors = XbrlValidationService.instance.validate(
+          docWithOrphanFact,
+        );
 
         expect(errors, isNotEmpty);
         expect(
@@ -162,8 +169,7 @@ void main() {
         ];
         final docWithBadUnit = validDocument.copyWith(facts: facts);
 
-        final errors =
-            XbrlValidationService.instance.validate(docWithBadUnit);
+        final errors = XbrlValidationService.instance.validate(docWithBadUnit);
 
         expect(errors.any((e) => e.message.contains('USD')), isTrue);
       });

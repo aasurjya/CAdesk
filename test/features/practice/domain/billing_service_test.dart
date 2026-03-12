@@ -69,7 +69,10 @@ void main() {
   group('BillingService.generateInvoice', () {
     test('creates invoice with correct clientId and engagementId', () {
       final engagement = _makeEngagement();
-      final invoice = BillingService.instance.generateInvoice(engagement, _firm);
+      final invoice = BillingService.instance.generateInvoice(
+        engagement,
+        _firm,
+      );
       expect(invoice.clientId, 'client-001');
       expect(invoice.engagementId, 'eng-001');
     });
@@ -84,25 +87,31 @@ void main() {
 
     test('subtotal equals engagement billingAmount', () {
       final engagement = _makeEngagement(billingAmount: 500000);
-      final invoice = BillingService.instance.generateInvoice(engagement, _firm);
+      final invoice = BillingService.instance.generateInvoice(
+        engagement,
+        _firm,
+      );
       expect(invoice.subtotal, 500000);
     });
 
     test('line items have SAC code 998221 for tax advisory', () {
       final engagement = _makeEngagement();
-      final invoice = BillingService.instance.generateInvoice(engagement, _firm);
+      final invoice = BillingService.instance.generateInvoice(
+        engagement,
+        _firm,
+      );
       expect(invoice.lineItems, isNotEmpty);
       // SAC codes for CA services
       final sacCodes = invoice.lineItems.map((li) => li.sacCode).toList();
-      expect(
-        sacCodes.any((s) => s.startsWith('998')),
-        isTrue,
-      );
+      expect(sacCodes.any((s) => s.startsWith('998')), isTrue);
     });
 
     test('payment status defaults to pending', () {
       final engagement = _makeEngagement();
-      final invoice = BillingService.instance.generateInvoice(engagement, _firm);
+      final invoice = BillingService.instance.generateInvoice(
+        engagement,
+        _firm,
+      );
       expect(invoice.paymentStatus, PaymentStatus.pending);
     });
   });

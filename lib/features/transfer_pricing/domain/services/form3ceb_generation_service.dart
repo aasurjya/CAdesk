@@ -26,10 +26,7 @@ class Form3CEBGenerationService {
     List<InternationalTransaction> transactions,
     AssesseeData assessee,
   ) {
-    final total = transactions.fold<int>(
-      0,
-      (sum, t) => sum + t.amountPaise,
-    );
+    final total = transactions.fold<int>(0, (sum, t) => sum + t.amountPaise);
     return Form3CEB(
       assesseeDetails: assessee,
       authorizedRepresentative: '',

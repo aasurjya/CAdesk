@@ -53,15 +53,12 @@ class StatutoryAuditService {
   }) {
     final revenueBasis = (totalRevenue * _revenueRate).round();
     final assetBasis = (totalAssets * _assetRate).round();
-    final profitBasis =
-        profitBeforeTax > 0 ? (profitBeforeTax * _profitRate).round() : 0;
+    final profitBasis = profitBeforeTax > 0
+        ? (profitBeforeTax * _profitRate).round()
+        : 0;
 
     // Collect valid bases (exclude profit basis when PBT ≤ 0)
-    final bases = [
-      revenueBasis,
-      assetBasis,
-      if (profitBasis > 0) profitBasis,
-    ];
+    final bases = [revenueBasis, assetBasis, if (profitBasis > 0) profitBasis];
 
     final planning = bases.reduce((a, b) => a < b ? a : b);
     final performance = (planning * _performanceMaterialityRate).round();
@@ -98,9 +95,7 @@ class StatutoryAuditService {
   /// Creates one [AuditProcedure] per (area, assertion) pair from a fixed
   /// set of standard assertions per area.  Sample sizes are derived from
   /// the engagement's risk level.
-  static List<AuditProcedure> generateAuditProgram(
-    AuditEngagement engagement,
-  ) {
+  static List<AuditProcedure> generateAuditProgram(AuditEngagement engagement) {
     final procedures = <AuditProcedure>[];
     var seq = 1;
 
@@ -169,10 +164,7 @@ class StatutoryAuditService {
           AuditAssertion.cutoff,
         ];
       case 'Equity':
-        return [
-          AuditAssertion.existence,
-          AuditAssertion.completeness,
-        ];
+        return [AuditAssertion.existence, AuditAssertion.completeness];
       case 'Related Parties':
         return [
           AuditAssertion.completeness,

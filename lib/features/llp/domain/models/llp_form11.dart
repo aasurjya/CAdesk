@@ -62,11 +62,7 @@ class MeetingRecord {
   final String purpose;
   final String venue;
 
-  MeetingRecord copyWith({
-    DateTime? date,
-    String? purpose,
-    String? venue,
-  }) {
+  MeetingRecord copyWith({DateTime? date, String? purpose, String? venue}) {
     return MeetingRecord(
       date: date ?? this.date,
       purpose: purpose ?? this.purpose,
@@ -119,12 +115,12 @@ class LlpData {
 
   @override
   int get hashCode => Object.hash(
-        llpin,
-        name,
-        registeredOffice,
-        numberOfPartners,
-        totalContributionPaise,
-      );
+    llpin,
+    name,
+    registeredOffice,
+    numberOfPartners,
+    totalContributionPaise,
+  );
 }
 
 /// Immutable model for LLP Form-11 (Annual Return).
@@ -201,13 +197,13 @@ class LlpForm11 {
 
   @override
   int get hashCode => Object.hash(
-        llpin,
-        name,
-        registeredOffice,
-        numberOfPartners,
-        totalContributionPaise,
-        financialYear,
-        Object.hashAll(partners),
-        Object.hashAll(meetings),
-      );
+    llpin,
+    name,
+    registeredOffice,
+    numberOfPartners,
+    totalContributionPaise,
+    financialYear,
+    Object.hashAll(partners),
+    Object.hashAll(meetings),
+  );
 }

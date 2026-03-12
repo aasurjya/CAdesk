@@ -70,10 +70,10 @@ class ScheduleVDA {
 
   @override
   int get hashCode => Object.hash(
-        Object.hashAll(transactions),
-        totalGainPaise,
-        totalLossPaise,
-        taxAtFlatRatePaise,
-        tdsDeducted1PercentPaise,
-      );
+    Object.hashAll(transactions),
+    totalGainPaise,
+    totalLossPaise,
+    taxAtFlatRatePaise,
+    tdsDeducted1PercentPaise,
+  );
 }

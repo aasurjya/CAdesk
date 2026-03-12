@@ -80,9 +80,7 @@ void main() {
       });
 
       test('does not flag amounts far below threshold', () {
-        final txns = [
-          _txn('T1', 'VendorA', 1000000, _date(2024, 1, 10)),
-        ];
+        final txns = [_txn('T1', 'VendorA', 1000000, _date(2024, 1, 10))];
         final indicators = FraudDetectionService.detectJustBelowThreshold(
           txns,
           [5000000],
@@ -108,16 +106,25 @@ void main() {
 
       test('handles multiple thresholds', () {
         final txns = [
-          _txn('T1', 'A', 1999000, _date(2024, 1, 1)), // just below 200000 paise
-          _txn('T2', 'B', 4999000, _date(2024, 1, 2)), // just below 500000 paise
+          _txn(
+            'T1',
+            'A',
+            1999000,
+            _date(2024, 1, 1),
+          ), // just below 200000 paise
+          _txn(
+            'T2',
+            'B',
+            4999000,
+            _date(2024, 1, 2),
+          ), // just below 500000 paise
         ];
         final indicators = FraudDetectionService.detectJustBelowThreshold(
           txns,
           [2000000, 5000000],
         );
         // Each threshold may produce its own indicator group
-        final ids =
-            indicators.expand((ind) => ind.transactions).toSet();
+        final ids = indicators.expand((ind) => ind.transactions).toSet();
         expect(ids, containsAll(['T1', 'T2']));
       });
 
@@ -183,25 +190,29 @@ void main() {
     // --------------- detectVelocityAnomalies ---------------
 
     group('detectVelocityAnomalies', () {
-      test('flags month with spike > 3 std deviations above 6-month average',
-          () {
-        // 6 months at ₹10,000 then a spike month at ₹500,000
-        final txns = _buildMonthlyTransactions({
-          DateTime(2024, 1): 1000000,
-          DateTime(2024, 2): 1000000,
-          DateTime(2024, 3): 1000000,
-          DateTime(2024, 4): 1000000,
-          DateTime(2024, 5): 1000000,
-          DateTime(2024, 6): 1000000,
-          DateTime(2024, 7): 50000000, // spike
-        });
-        final indicators = FraudDetectionService.detectVelocityAnomalies(txns);
-        expect(indicators, isNotEmpty);
-        expect(
-          indicators.first.indicatorType,
-          equals(FraudIndicatorType.velocityAnomaly),
-        );
-      });
+      test(
+        'flags month with spike > 3 std deviations above 6-month average',
+        () {
+          // 6 months at ₹10,000 then a spike month at ₹500,000
+          final txns = _buildMonthlyTransactions({
+            DateTime(2024, 1): 1000000,
+            DateTime(2024, 2): 1000000,
+            DateTime(2024, 3): 1000000,
+            DateTime(2024, 4): 1000000,
+            DateTime(2024, 5): 1000000,
+            DateTime(2024, 6): 1000000,
+            DateTime(2024, 7): 50000000, // spike
+          });
+          final indicators = FraudDetectionService.detectVelocityAnomalies(
+            txns,
+          );
+          expect(indicators, isNotEmpty);
+          expect(
+            indicators.first.indicatorType,
+            equals(FraudIndicatorType.velocityAnomaly),
+          );
+        },
+      );
 
       test('does not flag consistent monthly amounts', () {
         final txns = _buildMonthlyTransactions({
@@ -233,12 +244,8 @@ void main() {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────
 
-AuditTransaction _txn(
-  String id,
-  String party,
-  int amount,
-  DateTime date,
-) => AuditTransaction(
+AuditTransaction _txn(String id, String party, int amount, DateTime date) =>
+    AuditTransaction(
       transactionId: id,
       partyName: party,
       amountPaise: amount,

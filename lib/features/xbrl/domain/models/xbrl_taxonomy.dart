@@ -25,13 +25,11 @@ class XbrlTaxonomy {
   final Map<String, String> labelLinkbase;
 
   /// Returns the [XbrlTaxonomyElement] for [localName], or null if not found.
-  XbrlTaxonomyElement? lookupElement(String localName) =>
-      elements[localName];
+  XbrlTaxonomyElement? lookupElement(String localName) => elements[localName];
 
   /// Returns the human-readable label for [localName], falling back to
   /// [localName] itself when no label is defined.
-  String labelFor(String localName) =>
-      labelLinkbase[localName] ?? localName;
+  String labelFor(String localName) => labelLinkbase[localName] ?? localName;
 
   @override
   bool operator ==(Object other) {

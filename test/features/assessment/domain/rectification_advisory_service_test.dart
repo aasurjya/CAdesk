@@ -65,24 +65,29 @@ void main() {
       );
     });
 
-    test('advance tax discrepancy → advisory has advance tax credit ground', () {
-      final v = makeVerification(
-        discrepancies: [
-          const OrderDiscrepancy(
-            section: 'Advance Tax Credit',
-            filedAmount: 60_000,
-            assessedAmount: 50_000,
-            difference: 10_000,
-            reason: 'Advance tax credit reduced',
+    test(
+      'advance tax discrepancy → advisory has advance tax credit ground',
+      () {
+        final v = makeVerification(
+          discrepancies: [
+            const OrderDiscrepancy(
+              section: 'Advance Tax Credit',
+              filedAmount: 60_000,
+              assessedAmount: 50_000,
+              difference: 10_000,
+              reason: 'Advance tax credit reduced',
+            ),
+          ],
+        );
+        final advisory = svc.generateAdvisory(v);
+        expect(
+          advisory.grounds.any(
+            (g) => g == RectificationGround.advanceTaxCredit,
           ),
-        ],
-      );
-      final advisory = svc.generateAdvisory(v);
-      expect(
-        advisory.grounds.any((g) => g == RectificationGround.advanceTaxCredit),
-        isTrue,
-      );
-    });
+          isTrue,
+        );
+      },
+    );
 
     test('arithmetical error discrepancy → arithmetical error ground', () {
       final v = makeVerification(
@@ -215,7 +220,10 @@ void main() {
   group('RectificationAdvisoryService.computeDeadline', () {
     test('143(3) order → deadline is 4 years from order date', () {
       final orderDate = DateTime(2023, 4, 1);
-      final deadline = svc.computeDeadline(orderDate, OrderType.assessment143_3);
+      final deadline = svc.computeDeadline(
+        orderDate,
+        OrderType.assessment143_3,
+      );
       expect(deadline, DateTime(2027, 4, 1));
     });
 
@@ -227,7 +235,10 @@ void main() {
 
     test('143(1) intimation → deadline is 4 years from order date', () {
       final orderDate = DateTime(2023, 9, 30);
-      final deadline = svc.computeDeadline(orderDate, OrderType.intimation143_1);
+      final deadline = svc.computeDeadline(
+        orderDate,
+        OrderType.intimation143_1,
+      );
       expect(deadline, DateTime(2027, 9, 30));
     });
   });

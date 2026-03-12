@@ -27,8 +27,8 @@ class VdaTransaction {
     required this.acquisitionCostPaise,
     required this.saleConsiderationPaise,
   }) : period = transferDate.difference(acquisitionDate).inDays > 1095
-            ? VdaPeriod.longTerm
-            : VdaPeriod.shortTerm;
+           ? VdaPeriod.longTerm
+           : VdaPeriod.shortTerm;
 
   /// Name or description of the VDA (e.g., 'Bitcoin', 'Ethereum', 'NFT #123').
   final String assetName;
@@ -77,10 +77,10 @@ class VdaTransaction {
 
   @override
   int get hashCode => Object.hash(
-        assetName,
-        acquisitionDate,
-        transferDate,
-        acquisitionCostPaise,
-        saleConsiderationPaise,
-      );
+    assetName,
+    acquisitionDate,
+    transferDate,
+    acquisitionCostPaise,
+    saleConsiderationPaise,
+  );
 }

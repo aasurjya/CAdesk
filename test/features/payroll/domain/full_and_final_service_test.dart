@@ -16,27 +16,30 @@ void main() {
     );
 
     group('compute', () {
-      test('computes full and final with 10 years service and 15 pending leaves', () {
-        final settlement = FullAndFinalService.compute(
-          employeeId: 'EMP001',
-          relievingDate: DateTime(2025, 3, 31),
-          joiningDate: DateTime(2015, 3, 1),
-          pendingLeaves: 15,
-          package: testPackage,
-        );
+      test(
+        'computes full and final with 10 years service and 15 pending leaves',
+        () {
+          final settlement = FullAndFinalService.compute(
+            employeeId: 'EMP001',
+            relievingDate: DateTime(2025, 3, 31),
+            joiningDate: DateTime(2015, 3, 1),
+            pendingLeaves: 15,
+            package: testPackage,
+          );
 
-        // Gratuity: Basic ₹30,000, 10 years
-        // = 3000000 * 15 * 10 / 26 = 450000000 / 26 = 17307692 paise
-        expect(settlement.gratuityAmountPaise, 17307692);
+          // Gratuity: Basic ₹30,000, 10 years
+          // = 3000000 * 15 * 10 / 26 = 450000000 / 26 = 17307692 paise
+          expect(settlement.gratuityAmountPaise, 17307692);
 
-        // Leave encashment: daily = 3000000 ~/ 26 = 115384 paise (integer truncation)
-        // 15 days = 15 * 115384 = 1730760 paise
-        expect(settlement.leaveEncashmentAmountPaise, 1730760);
+          // Leave encashment: daily = 3000000 ~/ 26 = 115384 paise (integer truncation)
+          // 15 days = 15 * 115384 = 1730760 paise
+          expect(settlement.leaveEncashmentAmountPaise, 1730760);
 
-        expect(settlement.employeeId, 'EMP001');
-        expect(settlement.relievingDate, DateTime(2025, 3, 31));
-        expect(settlement.pendingLeaves, 15);
-      });
+          expect(settlement.employeeId, 'EMP001');
+          expect(settlement.relievingDate, DateTime(2025, 3, 31));
+          expect(settlement.pendingLeaves, 15);
+        },
+      );
 
       test('computes no gratuity for less than 5 years service', () {
         final settlement = FullAndFinalService.compute(
@@ -66,21 +69,24 @@ void main() {
         expect(settlement.noticePayPaise, isNegative);
       });
 
-      test('computes positive notice pay when employer terminates without notice', () {
-        // noticePeriodDays = 30, daysServed = 0, employerInitiated = true
-        final settlement = FullAndFinalService.compute(
-          employeeId: 'EMP004',
-          relievingDate: DateTime(2025, 3, 1),
-          joiningDate: DateTime(2018, 1, 1),
-          pendingLeaves: 0,
-          package: testPackage,
-          noticePeriodDays: 30,
-          noticeDaysServed: 0,
-          employerInitiatedTermination: true,
-        );
-        // Employer owes 30 days notice pay → positive
-        expect(settlement.noticePayPaise, isPositive);
-      });
+      test(
+        'computes positive notice pay when employer terminates without notice',
+        () {
+          // noticePeriodDays = 30, daysServed = 0, employerInitiated = true
+          final settlement = FullAndFinalService.compute(
+            employeeId: 'EMP004',
+            relievingDate: DateTime(2025, 3, 1),
+            joiningDate: DateTime(2018, 1, 1),
+            pendingLeaves: 0,
+            package: testPackage,
+            noticePeriodDays: 30,
+            noticeDaysServed: 0,
+            employerInitiatedTermination: true,
+          );
+          // Employer owes 30 days notice pay → positive
+          expect(settlement.noticePayPaise, isPositive);
+        },
+      );
 
       test('computes total payable correctly', () {
         final settlement = FullAndFinalService.compute(

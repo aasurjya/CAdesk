@@ -33,7 +33,8 @@ class MsmePaymentEngine {
 
     // Disallowance risk: unpaid as of year-end (March 31) and beyond due date.
     final yearEnd = DateTime(ref.year, 3, 31);
-    final bool atRisk = !isPaid &&
+    final bool atRisk =
+        !isPaid &&
         (tracker.msmeCategory == MsmeCategory.micro ||
             tracker.msmeCategory == MsmeCategory.small) &&
         _normalizeDate(tracker.dueDate).isBefore(yearEnd) &&
@@ -88,8 +89,9 @@ class MsmePaymentEngine {
     List<MsmePaymentTracker> trackers,
     String halfYear,
   ) {
-    final unpaid =
-        trackers.where((t) => t.paymentDate == null).toList(growable: false);
+    final unpaid = trackers
+        .where((t) => t.paymentDate == null)
+        .toList(growable: false);
     return MsmeForm1(period: halfYear, unpaidEntries: unpaid);
   }
 

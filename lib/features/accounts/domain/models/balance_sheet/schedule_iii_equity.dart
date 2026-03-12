@@ -45,8 +45,7 @@ class ScheduleIIIEquity {
   int get totalNonCurrentLiabilities => longTermBorrowings;
 
   /// Total current liabilities.
-  int get totalCurrentLiabilities =>
-      tradePayables + otherCurrentLiabilities;
+  int get totalCurrentLiabilities => tradePayables + otherCurrentLiabilities;
 
   /// Grand total of equity and all liabilities.
   int get total =>

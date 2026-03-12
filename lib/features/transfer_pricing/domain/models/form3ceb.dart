@@ -116,10 +116,10 @@ class Form3CEB {
 
   @override
   int get hashCode => Object.hash(
-        assesseeDetails,
-        authorizedRepresentative,
-        Object.hashAll(internationalTransactions),
-        Object.hashAll(specifiedDomesticTransactions),
-        totalValueOfTransactionsPaise,
-      );
+    assesseeDetails,
+    authorizedRepresentative,
+    Object.hashAll(internationalTransactions),
+    Object.hashAll(specifiedDomesticTransactions),
+    totalValueOfTransactionsPaise,
+  );
 }

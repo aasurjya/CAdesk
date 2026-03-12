@@ -76,10 +76,7 @@ class FemaComplianceEngine {
 
     if (form.cin.trim().isEmpty) {
       errors.add(
-        const ValidationError(
-          field: 'cin',
-          message: 'CIN must not be empty.',
-        ),
+        const ValidationError(field: 'cin', message: 'CIN must not be empty.'),
       );
     }
 

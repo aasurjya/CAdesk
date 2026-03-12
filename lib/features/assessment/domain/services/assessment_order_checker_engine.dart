@@ -275,9 +275,7 @@ class AssessmentOrderCheckerEngine {
     if (discrepancies.isEmpty) return VerificationResult.correct;
 
     // TDS mismatch always requires rectification u/s 154.
-    final hasTdsMismatch = discrepancies.any(
-      (d) => d.section.contains('TDS'),
-    );
+    final hasTdsMismatch = discrepancies.any((d) => d.section.contains('TDS'));
     if (hasTdsMismatch) return VerificationResult.needsRectification;
 
     return VerificationResult.discrepancy;
@@ -287,11 +285,9 @@ class AssessmentOrderCheckerEngine {
   /// Returns 0 if [to] is on or before [from].
   int _monthsDelayed(DateTime from, DateTime to) {
     if (!to.isAfter(from)) return 0;
-    final wholeMonths =
-        (to.year - from.year) * 12 + (to.month - from.month);
+    final wholeMonths = (to.year - from.year) * 12 + (to.month - from.month);
     final hasPartialMonth =
-        to.day > from.day ||
-        (to.day == from.day && to.isAfter(from));
+        to.day > from.day || (to.day == from.day && to.isAfter(from));
     // If [to] lands exactly on from+wholeMonths, no extra month needed.
     final exactBoundary = DateTime(
       from.year + (from.month + wholeMonths - 1) ~/ 12,

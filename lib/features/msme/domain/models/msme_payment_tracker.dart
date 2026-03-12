@@ -32,10 +32,10 @@ class MsmePaymentTracker {
     bool? isOverdue,
     int? daysOverdue,
     bool? disallowanceRisk,
-  })  : referenceDate = referenceDate ?? DateTime.now(),
-        isOverdue = isOverdue ?? false,
-        daysOverdue = daysOverdue ?? 0,
-        disallowanceRisk = disallowanceRisk ?? false;
+  }) : referenceDate = referenceDate ?? DateTime.now(),
+       isOverdue = isOverdue ?? false,
+       daysOverdue = daysOverdue ?? 0,
+       disallowanceRisk = disallowanceRisk ?? false;
 
   final String vendorPan;
   final String vendorName;
@@ -110,16 +110,16 @@ class MsmePaymentTracker {
 
   @override
   int get hashCode => Object.hash(
-        vendorPan,
-        vendorName,
-        msmeCategory,
-        invoiceDate,
-        dueDate,
-        paymentDate,
-        amountPaise,
-        referenceDate,
-        isOverdue,
-        daysOverdue,
-        disallowanceRisk,
-      );
+    vendorPan,
+    vendorName,
+    msmeCategory,
+    invoiceDate,
+    dueDate,
+    paymentDate,
+    amountPaise,
+    referenceDate,
+    isOverdue,
+    daysOverdue,
+    disallowanceRisk,
+  );
 }

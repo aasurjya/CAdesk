@@ -35,9 +35,8 @@ class CmaBalanceSheet {
     // Optional aggregate overrides
     int? totalCurrentAssetsOverride,
     int? currentLiabilitiesExclBankOverride,
-  })  : _totalCurrentAssetsOverride = totalCurrentAssetsOverride,
-        _currentLiabilitiesExclBankOverride =
-            currentLiabilitiesExclBankOverride;
+  }) : _totalCurrentAssetsOverride = totalCurrentAssetsOverride,
+       _currentLiabilitiesExclBankOverride = currentLiabilitiesExclBankOverride;
 
   /// Returns a zero-filled balance sheet instance.
   factory CmaBalanceSheet.empty() => const CmaBalanceSheet(

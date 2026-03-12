@@ -3,10 +3,7 @@ import 'package:ca_app/features/transfer_pricing/domain/models/international_tra
 
 /// Comparable transaction data used in ALP benchmarking analysis.
 class ComparableData {
-  const ComparableData({
-    required this.name,
-    required this.valuePaise,
-  });
+  const ComparableData({required this.name, required this.valuePaise});
 
   final String name;
   final int valuePaise;

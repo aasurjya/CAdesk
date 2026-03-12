@@ -44,9 +44,11 @@ class FlaReturn {
       entityName: entityName ?? this.entityName,
       pan: pan ?? this.pan,
       reportingYear: reportingYear ?? this.reportingYear,
-      totalForeignEquityLiabilitiesPaise: totalForeignEquityLiabilitiesPaise ??
+      totalForeignEquityLiabilitiesPaise:
+          totalForeignEquityLiabilitiesPaise ??
           this.totalForeignEquityLiabilitiesPaise,
-      totalForeignDebtLiabilitiesPaise: totalForeignDebtLiabilitiesPaise ??
+      totalForeignDebtLiabilitiesPaise:
+          totalForeignDebtLiabilitiesPaise ??
           this.totalForeignDebtLiabilitiesPaise,
       totalForeignAssetsPaise:
           totalForeignAssetsPaise ?? this.totalForeignAssetsPaise,
@@ -69,11 +71,11 @@ class FlaReturn {
 
   @override
   int get hashCode => Object.hash(
-        entityName,
-        pan,
-        reportingYear,
-        totalForeignEquityLiabilitiesPaise,
-        totalForeignDebtLiabilitiesPaise,
-        totalForeignAssetsPaise,
-      );
+    entityName,
+    pan,
+    reportingYear,
+    totalForeignEquityLiabilitiesPaise,
+    totalForeignDebtLiabilitiesPaise,
+    totalForeignAssetsPaise,
+  );
 }

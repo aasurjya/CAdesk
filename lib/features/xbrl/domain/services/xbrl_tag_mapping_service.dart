@@ -501,10 +501,7 @@ class XbrlTagMappingService {
   }
 
   /// Maps [PnlStatement] fields to XBRL facts using duration context [contextId].
-  List<XbrlFact> mapPnlToXbrl(
-    PnlStatement pnl, {
-    required String contextId,
-  }) {
+  List<XbrlFact> mapPnlToXbrl(PnlStatement pnl, {required String contextId}) {
     return [
       XbrlFact(
         elementName: 'in-gaap:Revenue',

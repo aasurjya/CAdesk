@@ -13,10 +13,7 @@ class BookProfitAdjustment {
   /// Adjustment amount in paise. Positive = add back; negative = deduct.
   final int adjustmentPaise;
 
-  BookProfitAdjustment copyWith({
-    String? description,
-    int? adjustmentPaise,
-  }) {
+  BookProfitAdjustment copyWith({String? description, int? adjustmentPaise}) {
     return BookProfitAdjustment(
       description: description ?? this.description,
       adjustmentPaise: adjustmentPaise ?? this.adjustmentPaise,

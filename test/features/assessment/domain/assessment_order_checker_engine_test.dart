@@ -162,8 +162,9 @@ void main() {
   // ---------------------------------------------------------------------------
   group('AssessmentOrderCheckerEngine.checkSection143_1Adjustments', () {
     test('no adjustments → empty list', () {
-      final discrepancies =
-          engine.checkSection143_1Adjustments(makeIntimation(adjustments: []));
+      final discrepancies = engine.checkSection143_1Adjustments(
+        makeIntimation(adjustments: []),
+      );
       expect(discrepancies, isEmpty);
     });
 
@@ -179,10 +180,7 @@ void main() {
         makeIntimation(adjustments: adjustments),
       );
       expect(discrepancies, isNotEmpty);
-      expect(
-        discrepancies.any((d) => d.section.contains('14A')),
-        isTrue,
-      );
+      expect(discrepancies.any((d) => d.section.contains('14A')), isTrue);
     });
 
     test('incorrect depreciation adjustment → creates discrepancy', () {
@@ -196,7 +194,10 @@ void main() {
       final discrepancies = engine.checkSection143_1Adjustments(
         makeIntimation(adjustments: adjustments),
       );
-      expect(discrepancies.any((d) => d.section.contains('Depreciation')), isTrue);
+      expect(
+        discrepancies.any((d) => d.section.contains('Depreciation')),
+        isTrue,
+      );
     });
 
     test('multiple adjustments → multiple discrepancies', () {

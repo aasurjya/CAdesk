@@ -98,23 +98,12 @@ class KmpDetail {
   }
 
   @override
-  int get hashCode => Object.hash(
-    din,
-    name,
-    designation,
-    dateOfAppointment,
-    dateOfCessation,
-  );
+  int get hashCode =>
+      Object.hash(din, name, designation, dateOfAppointment, dateOfCessation);
 }
 
 /// Type of board / general meeting.
-enum MeetingType {
-  boardMeeting,
-  agm,
-  egm,
-  auditCommittee,
-  nominationCommittee,
-}
+enum MeetingType { boardMeeting, agm, egm, auditCommittee, nominationCommittee }
 
 /// A single meeting record for the year.
 class MeetingRecord {
@@ -198,8 +187,7 @@ class PenaltyRecord {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(section, description, amountInRupees, date);
+  int get hashCode => Object.hash(section, description, amountInRupees, date);
 }
 
 // ---------------------------------------------------------------------------
@@ -290,11 +278,6 @@ class Mgt7Return {
   }
 
   @override
-  int get hashCode => Object.hash(
-    cin,
-    companyName,
-    registeredOffice,
-    financialYear,
-    agmDate,
-  );
+  int get hashCode =>
+      Object.hash(cin, companyName, registeredOffice, financialYear, agmDate);
 }

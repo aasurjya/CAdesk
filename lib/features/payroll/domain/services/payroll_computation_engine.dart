@@ -46,9 +46,7 @@ class PayrollComputationEngine {
     final lopDays = attendance.lopDays;
 
     // LOP deduction (integer division, truncated)
-    final lopDeduction = lopDays > 0
-        ? (grossPay * lopDays) ~/ totalDays
-        : 0;
+    final lopDeduction = lopDays > 0 ? (grossPay * lopDays) ~/ totalDays : 0;
 
     final grossAfterLop = grossPay - lopDeduction;
 
@@ -115,8 +113,8 @@ class PayrollComputationEngine {
   /// ESI is not applicable when ESI wage exceeds [EsiContribution.wageCeilingPaise]
   /// (₹21,000/month).
   static EsiContribution _computeEsi(int esiWagePaise) {
-    final isApplicable = esiWagePaise > 0 &&
-        esiWagePaise <= EsiContribution.wageCeilingPaise;
+    final isApplicable =
+        esiWagePaise > 0 && esiWagePaise <= EsiContribution.wageCeilingPaise;
 
     if (!isApplicable) {
       return const EsiContribution(

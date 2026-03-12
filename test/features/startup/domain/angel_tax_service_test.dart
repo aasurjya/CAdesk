@@ -188,7 +188,10 @@ void main() {
       expect(a, equals(b));
       expect(a.hashCode, equals(b.hashCode));
 
-      final updated = a.copyWith(exemptionApplied: true, angelTaxPayablePaise: 0);
+      final updated = a.copyWith(
+        exemptionApplied: true,
+        angelTaxPayablePaise: 0,
+      );
       expect(updated.exemptionApplied, true);
       expect(a.exemptionApplied, false);
     });

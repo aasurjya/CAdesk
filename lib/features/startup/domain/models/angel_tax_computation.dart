@@ -67,11 +67,11 @@ class AngelTaxComputation {
 
   @override
   int get hashCode => Object.hash(
-        issuePricePaise,
-        fairMarketValuePaise,
-        amountRaisedPaise,
-        excessOverFmvPaise,
-        angelTaxPayablePaise,
-        exemptionApplied,
-      );
+    issuePricePaise,
+    fairMarketValuePaise,
+    amountRaisedPaise,
+    excessOverFmvPaise,
+    angelTaxPayablePaise,
+    exemptionApplied,
+  );
 }

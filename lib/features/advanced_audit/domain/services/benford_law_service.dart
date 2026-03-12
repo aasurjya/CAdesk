@@ -172,8 +172,7 @@ class BenfordLawService {
     const b4 = -1.821255978;
     const b5 = 1.330274429;
     final t = 1 / (1 + p * z.abs());
-    final poly =
-        t * (b1 + t * (b2 + t * (b3 + t * (b4 + t * b5))));
+    final poly = t * (b1 + t * (b2 + t * (b3 + t * (b4 + t * b5))));
     final phi = math.exp(-0.5 * z * z) / math.sqrt(2 * math.pi);
     final upper = phi * poly;
     return z >= 0 ? upper : 1 - upper;

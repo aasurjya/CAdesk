@@ -85,11 +85,6 @@ class WorkflowTask {
   }
 
   @override
-  int get hashCode => Object.hash(
-    taskId,
-    name,
-    description,
-    requiredRole,
-    estimatedHours,
-  );
+  int get hashCode =>
+      Object.hash(taskId, name, description, requiredRole, estimatedHours);
 }

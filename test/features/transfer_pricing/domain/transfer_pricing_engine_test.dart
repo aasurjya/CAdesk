@@ -14,7 +14,10 @@ void main() {
     });
 
     test('singleton returns same instance', () {
-      expect(TransferPricingEngine.instance, same(TransferPricingEngine.instance));
+      expect(
+        TransferPricingEngine.instance,
+        same(TransferPricingEngine.instance),
+      );
     });
 
     group('computeTransferPricingAdjustment', () {
@@ -38,7 +41,10 @@ void main() {
           interquartileUpperPaise: 10300000000, // +3%
           selectedAlpPaise: 10000000000,
         );
-        final adj = engine.computeTransferPricingAdjustment(transaction, benchmark);
+        final adj = engine.computeTransferPricingAdjustment(
+          transaction,
+          benchmark,
+        );
         expect(adj, 0);
       });
 
@@ -62,37 +68,46 @@ void main() {
           interquartileUpperPaise: 10300000000,
           selectedAlpPaise: 10000000000,
         );
-        final adj = engine.computeTransferPricingAdjustment(transaction, benchmark);
+        final adj = engine.computeTransferPricingAdjustment(
+          transaction,
+          benchmark,
+        );
         // Adjustment = ALP median - actual = 10Cr - 9Cr = 1Cr
         expect(adj, 1000000000);
       });
 
-      test('no adjustment when actual price > ALP upper bound (not penalized for overpricing on purchase)', () {
-        // For purchases from AE, buyer benefits if ALP is lower — check that
-        // downward adjustments are handled correctly
-        const transaction = InternationalTransaction(
-          description: 'Purchase of goods',
-          associatedEnterprise: 'AE Corp UK',
-          nature: TransactionNature.purchase,
-          amountPaise: 11000000000, // Rs 11 Cr (above upper bound)
-          currency: 'INR',
-          armLengthPaise: 11000000000,
-          method: AlpMethod.cup,
-          adjustmentPaise: 0,
-        );
-        const benchmark = AlpBenchmark(
-          method: AlpMethod.cup,
-          searchCriteria: 'Public databases',
-          comparableCount: 5,
-          interquartileLowerPaise: 9700000000,
-          interquartileMedianPaise: 10000000000,
-          interquartileUpperPaise: 10300000000,
-          selectedAlpPaise: 10000000000,
-        );
-        final adj = engine.computeTransferPricingAdjustment(transaction, benchmark);
-        // For purchase, if actual > ALP upper bound => upward adjustment (higher cost = lower income)
-        expect(adj, greaterThanOrEqualTo(0));
-      });
+      test(
+        'no adjustment when actual price > ALP upper bound (not penalized for overpricing on purchase)',
+        () {
+          // For purchases from AE, buyer benefits if ALP is lower — check that
+          // downward adjustments are handled correctly
+          const transaction = InternationalTransaction(
+            description: 'Purchase of goods',
+            associatedEnterprise: 'AE Corp UK',
+            nature: TransactionNature.purchase,
+            amountPaise: 11000000000, // Rs 11 Cr (above upper bound)
+            currency: 'INR',
+            armLengthPaise: 11000000000,
+            method: AlpMethod.cup,
+            adjustmentPaise: 0,
+          );
+          const benchmark = AlpBenchmark(
+            method: AlpMethod.cup,
+            searchCriteria: 'Public databases',
+            comparableCount: 5,
+            interquartileLowerPaise: 9700000000,
+            interquartileMedianPaise: 10000000000,
+            interquartileUpperPaise: 10300000000,
+            selectedAlpPaise: 10000000000,
+          );
+          final adj = engine.computeTransferPricingAdjustment(
+            transaction,
+            benchmark,
+          );
+          // For purchase, if actual > ALP upper bound => upward adjustment (higher cost = lower income)
+          expect(adj, greaterThanOrEqualTo(0));
+        },
+      );
     });
 
     group('determineMethod', () {
@@ -136,7 +151,10 @@ void main() {
     });
 
     test('singleton returns same instance', () {
-      expect(Form3CEBGenerationService.instance, same(Form3CEBGenerationService.instance));
+      expect(
+        Form3CEBGenerationService.instance,
+        same(Form3CEBGenerationService.instance),
+      );
     });
 
     test('generates Form3CEB with correct transaction list', () {

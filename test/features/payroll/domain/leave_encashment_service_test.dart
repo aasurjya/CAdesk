@@ -38,15 +38,18 @@ void main() {
         );
       });
 
-      test('does not cap at 30 days when not at retirement with < 30 leaves', () {
-        expect(
-          LeaveEncashmentService.compute(
-            basicPerDayPaise: 100000,
-            pendingLeaves: 25,
-          ),
-          2500000, // 25 * 100000
-        );
-      });
+      test(
+        'does not cap at 30 days when not at retirement with < 30 leaves',
+        () {
+          expect(
+            LeaveEncashmentService.compute(
+              basicPerDayPaise: 100000,
+              pendingLeaves: 25,
+            ),
+            2500000, // 25 * 100000
+          );
+        },
+      );
 
       test('computes for exactly 30 leaves without cap issue', () {
         expect(

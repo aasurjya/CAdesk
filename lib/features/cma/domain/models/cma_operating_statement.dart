@@ -107,8 +107,7 @@ class CmaOperatingStatement {
       otherManufacturing;
 
   /// Cost of goods sold = costOfProduction + openingStock - closingStock.
-  int get costOfGoodsSold =>
-      costOfProduction + openingStock - closingStock;
+  int get costOfGoodsSold => costOfProduction + openingStock - closingStock;
 
   /// Profit before tax = netSales - COGS - opex - financial charges - depreciation.
   int get profitBeforeTax =>

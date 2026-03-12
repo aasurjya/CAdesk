@@ -66,22 +66,28 @@ void main() {
     });
 
     group('computeSection43BhDisallowance', () {
-      test('disallows amount for MSME vendors unpaid beyond 45 days at year end', () {
-        final trackers = [
-          MsmePaymentTracker(
-            vendorPan: 'AAAAA0001A',
-            vendorName: 'Micro Co',
-            msmeCategory: MsmeCategory.micro,
-            invoiceDate: DateTime(2024, 1, 1),
-            dueDate: DateTime(2024, 2, 15),
-            paymentDate: null, // still unpaid at year end
-            amountPaise: 1000000,
-            referenceDate: DateTime(2024, 3, 31),
-          ),
-        ];
-        final disallowance = engine.computeSection43BhDisallowance(trackers, 2024);
-        expect(disallowance, 1000000);
-      });
+      test(
+        'disallows amount for MSME vendors unpaid beyond 45 days at year end',
+        () {
+          final trackers = [
+            MsmePaymentTracker(
+              vendorPan: 'AAAAA0001A',
+              vendorName: 'Micro Co',
+              msmeCategory: MsmeCategory.micro,
+              invoiceDate: DateTime(2024, 1, 1),
+              dueDate: DateTime(2024, 2, 15),
+              paymentDate: null, // still unpaid at year end
+              amountPaise: 1000000,
+              referenceDate: DateTime(2024, 3, 31),
+            ),
+          ];
+          final disallowance = engine.computeSection43BhDisallowance(
+            trackers,
+            2024,
+          );
+          expect(disallowance, 1000000);
+        },
+      );
 
       test('no disallowance if payment made before year end', () {
         final trackers = [
@@ -96,26 +102,35 @@ void main() {
             referenceDate: DateTime(2024, 3, 31),
           ),
         ];
-        final disallowance = engine.computeSection43BhDisallowance(trackers, 2024);
+        final disallowance = engine.computeSection43BhDisallowance(
+          trackers,
+          2024,
+        );
         expect(disallowance, 0);
       });
 
-      test('no disallowance for medium category (only micro/small covered)', () {
-        final trackers = [
-          MsmePaymentTracker(
-            vendorPan: 'BBBBB0002B',
-            vendorName: 'Medium Corp',
-            msmeCategory: MsmeCategory.medium,
-            invoiceDate: DateTime(2024, 1, 1),
-            dueDate: DateTime(2024, 2, 15),
-            paymentDate: null,
-            amountPaise: 2000000,
-            referenceDate: DateTime(2024, 3, 31),
-          ),
-        ];
-        final disallowance = engine.computeSection43BhDisallowance(trackers, 2024);
-        expect(disallowance, 0);
-      });
+      test(
+        'no disallowance for medium category (only micro/small covered)',
+        () {
+          final trackers = [
+            MsmePaymentTracker(
+              vendorPan: 'BBBBB0002B',
+              vendorName: 'Medium Corp',
+              msmeCategory: MsmeCategory.medium,
+              invoiceDate: DateTime(2024, 1, 1),
+              dueDate: DateTime(2024, 2, 15),
+              paymentDate: null,
+              amountPaise: 2000000,
+              referenceDate: DateTime(2024, 3, 31),
+            ),
+          ];
+          final disallowance = engine.computeSection43BhDisallowance(
+            trackers,
+            2024,
+          );
+          expect(disallowance, 0);
+        },
+      );
 
       test('sums disallowances across multiple micro/small vendors', () {
         final trackers = [
@@ -140,7 +155,10 @@ void main() {
             referenceDate: DateTime(2024, 3, 31),
           ),
         ];
-        final disallowance = engine.computeSection43BhDisallowance(trackers, 2024);
+        final disallowance = engine.computeSection43BhDisallowance(
+          trackers,
+          2024,
+        );
         expect(disallowance, 1500000);
       });
     });

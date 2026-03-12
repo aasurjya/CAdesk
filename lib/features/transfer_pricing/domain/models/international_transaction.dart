@@ -110,13 +110,13 @@ class InternationalTransaction {
 
   @override
   int get hashCode => Object.hash(
-        description,
-        associatedEnterprise,
-        nature,
-        amountPaise,
-        currency,
-        armLengthPaise,
-        method,
-        adjustmentPaise,
-      );
+    description,
+    associatedEnterprise,
+    nature,
+    amountPaise,
+    currency,
+    armLengthPaise,
+    method,
+    adjustmentPaise,
+  );
 }

@@ -118,53 +118,41 @@ void main() {
 
     test('nothing paid → interest on all 4 installments', () {
       final installments = [
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 6, 15),
-          amountPaid: 0,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 9, 15),
-          amountPaid: 0,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 12, 15),
-          amountPaid: 0,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2024, 3, 15),
-          amountPaid: 0,
-        ),
+        AdvanceTaxInstallment(dueDate: DateTime(2023, 6, 15), amountPaid: 0),
+        AdvanceTaxInstallment(dueDate: DateTime(2023, 9, 15), amountPaid: 0),
+        AdvanceTaxInstallment(dueDate: DateTime(2023, 12, 15), amountPaid: 0),
+        AdvanceTaxInstallment(dueDate: DateTime(2024, 3, 15), amountPaid: 0),
       ];
       final interest = svc.computeInterest234C(installments, 100_000);
       expect(interest, greaterThan(0));
     });
 
-    test('Jun installment missed (< 12% paid) → interest = 1% x 3 x shortfall', () {
-      // totalTaxDue = 100_000
-      // Jun: need 15%, need to have paid at least 12% = 12_000; paid = 0
-      // shortfall = 15_000 - 0 = 15_000
-      // interest = 1% * 3 months * 15_000 = 450
-      final installments = [
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 6, 15),
-          amountPaid: 0,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 9, 15),
-          amountPaid: 45_000,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 12, 15),
-          amountPaid: 30_000,
-        ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2024, 3, 15),
-          amountPaid: 25_000,
-        ),
-      ];
-      // Jun shortfall only: 15_000 * 3 * 1% = 450
-      expect(svc.computeInterest234C(installments, 100_000), 450);
-    });
+    test(
+      'Jun installment missed (< 12% paid) → interest = 1% x 3 x shortfall',
+      () {
+        // totalTaxDue = 100_000
+        // Jun: need 15%, need to have paid at least 12% = 12_000; paid = 0
+        // shortfall = 15_000 - 0 = 15_000
+        // interest = 1% * 3 months * 15_000 = 450
+        final installments = [
+          AdvanceTaxInstallment(dueDate: DateTime(2023, 6, 15), amountPaid: 0),
+          AdvanceTaxInstallment(
+            dueDate: DateTime(2023, 9, 15),
+            amountPaid: 45_000,
+          ),
+          AdvanceTaxInstallment(
+            dueDate: DateTime(2023, 12, 15),
+            amountPaid: 30_000,
+          ),
+          AdvanceTaxInstallment(
+            dueDate: DateTime(2024, 3, 15),
+            amountPaid: 25_000,
+          ),
+        ];
+        // Jun shortfall only: 15_000 * 3 * 1% = 450
+        expect(svc.computeInterest234C(installments, 100_000), 450);
+      },
+    );
 
     test('Sep installment missed (< 36% cumulative) → interest', () {
       // totalTaxDue = 100_000
@@ -176,10 +164,7 @@ void main() {
           dueDate: DateTime(2023, 6, 15),
           amountPaid: 15_000,
         ),
-        AdvanceTaxInstallment(
-          dueDate: DateTime(2023, 9, 15),
-          amountPaid: 0,
-        ),
+        AdvanceTaxInstallment(dueDate: DateTime(2023, 9, 15), amountPaid: 0),
         AdvanceTaxInstallment(
           dueDate: DateTime(2023, 12, 15),
           amountPaid: 60_000,

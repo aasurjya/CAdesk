@@ -45,18 +45,21 @@ void main() {
     );
 
     group('computePayroll', () {
-      test('computes gross pay correctly with full attendance (March 2025)', () {
-        final run = PayrollComputationEngine.computePayroll(
-          employeeId: 'EMP001',
-          attendance: fullAttendance,
-          package: testPackage,
-          month: 3,
-          year: 2025,
-          monthlyTds: 0,
-        );
-        // Gross = 3000000+1200000+500000+250000+125000+160000 = 5235000
-        expect(run.grossPayPaise, 5235000);
-      });
+      test(
+        'computes gross pay correctly with full attendance (March 2025)',
+        () {
+          final run = PayrollComputationEngine.computePayroll(
+            employeeId: 'EMP001',
+            attendance: fullAttendance,
+            package: testPackage,
+            month: 3,
+            year: 2025,
+            monthlyTds: 0,
+          );
+          // Gross = 3000000+1200000+500000+250000+125000+160000 = 5235000
+          expect(run.grossPayPaise, 5235000);
+        },
+      );
 
       test('applies LOP deduction correctly for March (31 days)', () {
         final run = PayrollComputationEngine.computePayroll(

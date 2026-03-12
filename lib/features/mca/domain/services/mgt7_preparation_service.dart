@@ -65,10 +65,7 @@ class Mgt7PreparationService {
 
     if (form.cin.trim().isEmpty) {
       errors.add(
-        const ValidationError(
-          field: 'cin',
-          message: 'CIN is required',
-        ),
+        const ValidationError(field: 'cin', message: 'CIN is required'),
       );
     }
 

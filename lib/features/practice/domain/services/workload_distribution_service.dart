@@ -128,10 +128,7 @@ class WorkloadDistributionService {
   /// 3. Fewest current engagements (lowest workload)
   ///
   /// Throws [ArgumentError] if [availableStaff] is empty.
-  Staff suggestAssignment(
-    WorkflowTask task,
-    List<Staff> availableStaff,
-  ) {
+  Staff suggestAssignment(WorkflowTask task, List<Staff> availableStaff) {
     if (availableStaff.isEmpty) {
       throw ArgumentError('availableStaff must not be empty');
     }
@@ -145,8 +142,7 @@ class WorkloadDistributionService {
 
     // Among candidates, prefer the one with fewest current engagements.
     return candidates.reduce((best, current) {
-      return current.currentEngagements.length <
-              best.currentEngagements.length
+      return current.currentEngagements.length < best.currentEngagements.length
           ? current
           : best;
     });
@@ -156,9 +152,7 @@ class WorkloadDistributionService {
   ///
   /// Returns a list of [WorkflowBottleneck] records for any staff member
   /// appearing in 3 or more engagement assignments simultaneously.
-  List<WorkflowBottleneck> detectBottlenecks(
-    List<Engagement> engagements,
-  ) {
+  List<WorkflowBottleneck> detectBottlenecks(List<Engagement> engagements) {
     final assignmentCount = <String, int>{};
     for (final engagement in engagements) {
       for (final assignment in engagement.assignedStaff) {

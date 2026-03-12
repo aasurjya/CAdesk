@@ -98,10 +98,10 @@ class FundingRound {
 
   @override
   int get hashCode => Object.hash(
-        roundName,
-        date,
-        preMoneyValuationPaise,
-        amountRaisedPaise,
-        Object.hashAll(investors),
-      );
+    roundName,
+    date,
+    preMoneyValuationPaise,
+    amountRaisedPaise,
+    Object.hashAll(investors),
+  );
 }

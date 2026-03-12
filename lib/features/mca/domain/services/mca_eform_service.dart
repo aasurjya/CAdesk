@@ -33,13 +33,9 @@ class McaEFormService {
     buffer.writeln(
       '    <registeredOffice>${_escape(form.registeredOffice)}</registeredOffice>',
     );
-    buffer.writeln(
-      '    <financialYear>${form.financialYear}</financialYear>',
-    );
+    buffer.writeln('    <financialYear>${form.financialYear}</financialYear>');
     if (form.agmDate != null) {
-      buffer.writeln(
-        '    <agmDate>${_formatDate(form.agmDate!)}</agmDate>',
-      );
+      buffer.writeln('    <agmDate>${_formatDate(form.agmDate!)}</agmDate>');
     }
     buffer.writeln('  </company>');
 
@@ -70,9 +66,7 @@ class McaEFormService {
       buffer.writeln(
         '      <numberOfShares>${entry.numberOfShares}</numberOfShares>',
       );
-      buffer.writeln(
-        '      <percentage>${entry.percentage}</percentage>',
-      );
+      buffer.writeln('      <percentage>${entry.percentage}</percentage>');
       buffer.writeln('    </entry>');
     }
     buffer.writeln('  </shareholdingPattern>');
@@ -80,9 +74,7 @@ class McaEFormService {
     buffer.writeln('  <meetings>');
     for (final meeting in form.meetings) {
       buffer.writeln('    <meeting>');
-      buffer.writeln(
-        '      <type>${_escape(meeting.meetingType.name)}</type>',
-      );
+      buffer.writeln('      <type>${_escape(meeting.meetingType.name)}</type>');
       buffer.writeln('      <date>${_formatDate(meeting.date)}</date>');
       buffer.writeln('    </meeting>');
     }
@@ -113,15 +105,11 @@ class McaEFormService {
     buffer.writeln('  <formType>AOC-4</formType>');
     buffer.writeln('  <company>');
     buffer.writeln('    <cin>${_escape(form.cin)}</cin>');
-    buffer.writeln(
-      '    <financialYear>${form.financialYear}</financialYear>',
-    );
+    buffer.writeln('    <financialYear>${form.financialYear}</financialYear>');
     buffer.writeln(
       '    <auditReportDate>${_formatDate(form.auditReportDate)}</auditReportDate>',
     );
-    buffer.writeln(
-      '    <agmDate>${_formatDate(form.agmDate)}</agmDate>',
-    );
+    buffer.writeln('    <agmDate>${_formatDate(form.agmDate)}</agmDate>');
     buffer.writeln('  </company>');
 
     buffer.writeln('  <financials>');
@@ -131,9 +119,7 @@ class McaEFormService {
     buffer.writeln(
       '    <profitAfterTax>${form.profitAfterTax}</profitAfterTax>',
     );
-    buffer.writeln(
-      '    <dividendPaid>${form.dividendPaid}</dividendPaid>',
-    );
+    buffer.writeln('    <dividendPaid>${form.dividendPaid}</dividendPaid>');
     buffer.writeln('  </financials>');
 
     buffer.writeln('  <auditQualifications>');

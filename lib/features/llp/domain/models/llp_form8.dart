@@ -36,11 +36,11 @@ class FinancialStatements {
 
   @override
   int get hashCode => Object.hash(
-        totalAssetsPaise,
-        totalLiabilitiesPaise,
-        turnoverPaise,
-        profitAfterTaxPaise,
-      );
+    totalAssetsPaise,
+    totalLiabilitiesPaise,
+    turnoverPaise,
+    profitAfterTaxPaise,
+  );
 }
 
 /// Immutable model for LLP Form-8 (Statement of Account and Solvency).
@@ -112,12 +112,12 @@ class LlpForm8 {
 
   @override
   int get hashCode => Object.hash(
-        llpin,
-        financialYear,
-        totalAssetsPaise,
-        totalLiabilitiesPaise,
-        turnoverPaise,
-        profitAfterTaxPaise,
-        solvencyDeclaration,
-      );
+    llpin,
+    financialYear,
+    totalAssetsPaise,
+    totalLiabilitiesPaise,
+    turnoverPaise,
+    profitAfterTaxPaise,
+    solvencyDeclaration,
+  );
 }

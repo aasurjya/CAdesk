@@ -91,7 +91,13 @@ class EngagementLetterService {
   ) {
     final now = DateTime.now();
     final start = now;
-    final end = DateTime(now.year + 1, now.month, now.day, now.hour, now.minute);
+    final end = DateTime(
+      now.year + 1,
+      now.month,
+      now.day,
+      now.hour,
+      now.minute,
+    );
     return EngagementLetter(
       letterId: _generateId('letter'),
       clientName: client.name,
@@ -180,8 +186,18 @@ ${letter.firmName}
 
   String _formatDate(DateTime date) {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
@@ -214,5 +230,4 @@ ${letter.firmName}
     if (paiseRem == 0) return '₹$rupees';
     return '₹$rupees.${paiseRem.toString().padLeft(2, '0')}';
   }
-
 }

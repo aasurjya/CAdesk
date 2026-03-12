@@ -74,10 +74,7 @@ void main() {
         letter.startDate.isAfter(before.subtract(const Duration(seconds: 1))),
         isTrue,
       );
-      expect(
-        letter.endDate.isAfter(letter.startDate),
-        isTrue,
-      );
+      expect(letter.endDate.isAfter(letter.startDate), isTrue);
       expect(
         letter.endDate.isBefore(after.add(const Duration(days: 366))),
         isTrue,

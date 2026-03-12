@@ -72,34 +72,37 @@ void main() {
         );
       });
 
-      test('brought forward losses reduce book profit (capped at book profit)', () {
-        final pnl = PnlData(
-          netProfitPaise: 2000000000, // 20 lakh in paise
-          depreciationAsPerBooks: 0,
-          provisionForTax: 0,
-          provisionForDeferredTax: 0,
-          deferredTaxLiability: 0,
-          donationsAndCharities: 0,
-          capitalGainsExempt: 0,
-          broughtForwardLosses: 1000000000, // 10 lakh in paise
-          broughtForwardUnabsorbedDepreciation: 500000000, // 5 lakh in paise
-        );
-        final bs = BalanceSheetData(
-          netWorthPaise: 10000000000,
-          paidUpCapitalPaise: 3000000000,
-          reservesAndSurplusPaise: 7000000000,
-        );
+      test(
+        'brought forward losses reduce book profit (capped at book profit)',
+        () {
+          final pnl = PnlData(
+            netProfitPaise: 2000000000, // 20 lakh in paise
+            depreciationAsPerBooks: 0,
+            provisionForTax: 0,
+            provisionForDeferredTax: 0,
+            deferredTaxLiability: 0,
+            donationsAndCharities: 0,
+            capitalGainsExempt: 0,
+            broughtForwardLosses: 1000000000, // 10 lakh in paise
+            broughtForwardUnabsorbedDepreciation: 500000000, // 5 lakh in paise
+          );
+          final bs = BalanceSheetData(
+            netWorthPaise: 10000000000,
+            paidUpCapitalPaise: 3000000000,
+            reservesAndSurplusPaise: 7000000000,
+          );
 
-        final result = Form29BService.computeMAT(
-          pnl: pnl,
-          bs: bs,
-          financialYear: 2025,
-        );
+          final result = Form29BService.computeMAT(
+            pnl: pnl,
+            bs: bs,
+            financialYear: 2025,
+          );
 
-        // Book profit = 20,00,000 - min(10,00,000 + 5,00,000, 20,00,000)
-        // = 20,00,000 - 15,00,000 = 5,00,000
-        expect(result.bookProfitPaise, equals(500000000));
-      });
+          // Book profit = 20,00,000 - min(10,00,000 + 5,00,000, 20,00,000)
+          // = 20,00,000 - 15,00,000 = 5,00,000
+          expect(result.bookProfitPaise, equals(500000000));
+        },
+      );
 
       test('brought forward losses cannot make book profit negative', () {
         final pnl = PnlData(
@@ -154,7 +157,10 @@ void main() {
         );
 
         // MAT credit is available for 15 years
-        expect(result.matCreditAvailablePaise, equals(result.matLiabilityPaise));
+        expect(
+          result.matCreditAvailablePaise,
+          equals(result.matLiabilityPaise),
+        );
         expect(result.matCreditCarryForwardYears, equals(15));
       });
 

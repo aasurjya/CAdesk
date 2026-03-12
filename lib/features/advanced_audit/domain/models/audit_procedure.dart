@@ -136,10 +136,10 @@ class AuditException {
 
   @override
   int get hashCode => Object.hash(
-        description,
-        amountPaise,
-        nature,
-        projectedErrorPaise,
-        auditResponse,
-      );
+    description,
+    amountPaise,
+    nature,
+    projectedErrorPaise,
+    auditResponse,
+  );
 }

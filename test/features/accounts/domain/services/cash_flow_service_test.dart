@@ -43,44 +43,50 @@ void main() {
     }
 
     group('computeCashFlow', () {
-      test('increase in trade payables is a cash inflow in operating activities', () {
-        final previous = makeBS(
-          shareCapital: 1000000,
-          cashAndCashEquivalents: 1000000,
-        );
-        final current = makeBS(
-          shareCapital: 1000000,
-          tradePayables: 200000,
-          cashAndCashEquivalents: 1200000,
-        );
+      test(
+        'increase in trade payables is a cash inflow in operating activities',
+        () {
+          final previous = makeBS(
+            shareCapital: 1000000,
+            cashAndCashEquivalents: 1000000,
+          );
+          final current = makeBS(
+            shareCapital: 1000000,
+            tradePayables: 200000,
+            cashAndCashEquivalents: 1200000,
+          );
 
-        final result = CashFlowService.computeCashFlow(
-          current: current,
-          previous: previous,
-        );
+          final result = CashFlowService.computeCashFlow(
+            current: current,
+            previous: previous,
+          );
 
-        expect(result.operatingActivitiesTotal, greaterThanOrEqualTo(0));
-      });
+          expect(result.operatingActivitiesTotal, greaterThanOrEqualTo(0));
+        },
+      );
 
-      test('increase in fixed assets is a cash outflow in investing activities', () {
-        final previous = makeBS(
-          shareCapital: 1000000,
-          cashAndCashEquivalents: 1000000,
-        );
-        final current = makeBS(
-          shareCapital: 1000000,
-          fixedAssets: 300000,
-          cashAndCashEquivalents: 700000,
-        );
+      test(
+        'increase in fixed assets is a cash outflow in investing activities',
+        () {
+          final previous = makeBS(
+            shareCapital: 1000000,
+            cashAndCashEquivalents: 1000000,
+          );
+          final current = makeBS(
+            shareCapital: 1000000,
+            fixedAssets: 300000,
+            cashAndCashEquivalents: 700000,
+          );
 
-        final result = CashFlowService.computeCashFlow(
-          current: current,
-          previous: previous,
-        );
+          final result = CashFlowService.computeCashFlow(
+            current: current,
+            previous: previous,
+          );
 
-        // Increase in fixed assets = investing outflow
-        expect(result.investingActivitiesTotal, lessThanOrEqualTo(0));
-      });
+          // Increase in fixed assets = investing outflow
+          expect(result.investingActivitiesTotal, lessThanOrEqualTo(0));
+        },
+      );
 
       test('increase in long-term borrowings is a financing inflow', () {
         final previous = makeBS(
@@ -141,7 +147,8 @@ void main() {
           previous: previous,
         );
 
-        final sumOfActivities = result.operatingActivitiesTotal +
+        final sumOfActivities =
+            result.operatingActivitiesTotal +
             result.investingActivitiesTotal +
             result.financingActivitiesTotal;
 

@@ -44,7 +44,8 @@ class LeaveEncashmentService {
     if (pendingLeaves <= 0) return 0;
     if (basicPerDayPaise <= 0) return 0;
 
-    final encashableDays = isRetirement && pendingLeaves > maxRetirementEncashableDays
+    final encashableDays =
+        isRetirement && pendingLeaves > maxRetirementEncashableDays
         ? maxRetirementEncashableDays
         : pendingLeaves;
 

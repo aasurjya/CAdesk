@@ -241,8 +241,7 @@ class Form3CDGenerationService {
   static Form3CDClause _clause06(BusinessData d) => Form3CDClause(
     clauseNumber: 6,
     description: 'Books of account and documents examined',
-    response:
-        'Cash book, ledger, journal, bills, vouchers, bank statements',
+    response: 'Cash book, ledger, journal, bills, vouchers, bank statements',
     disclosures: const [],
   );
 
@@ -256,7 +255,8 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause08(BusinessData d) => Form3CDClause(
     clauseNumber: 8,
-    description: 'Relevant clause of Section 44AB under which audit is conducted',
+    description:
+        'Relevant clause of Section 44AB under which audit is conducted',
     response: _auditClause(d.totalTurnover),
     disclosures: const [],
   );
@@ -270,15 +270,15 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause10(BusinessData d) => Form3CDClause(
     clauseNumber: 10,
-    description: 'Whether the assessee maintains books of account prescribed under Sec 44AA',
+    description:
+        'Whether the assessee maintains books of account prescribed under Sec 44AA',
     response: 'Yes',
     disclosures: const [],
   );
 
   static Form3CDClause _clause11(BusinessData d) => Form3CDClause(
     clauseNumber: 11,
-    description:
-        'List of books of account maintained and address where kept',
+    description: 'List of books of account maintained and address where kept',
     response: 'All prescribed books maintained at principal place of business',
     disclosures: const [],
   );
@@ -403,8 +403,7 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause24(BusinessData d) => Form3CDClause(
     clauseNumber: 24,
-    description:
-        'Any amount of profit chargeable to tax under section 41',
+    description: 'Any amount of profit chargeable to tax under section 41',
     response: 'Nil',
     disclosures: const [],
   );
@@ -433,7 +432,7 @@ class Form3CDGenerationService {
     final disclosures = d.relatedPartyPayments.map((p) {
       final excess = p.excessPaymentPaise > 0
           ? ' Excess over FMV: ${_formatPaise(p.excessPaymentPaise)} — '
-              'disallowable under Sec 40A(2)'
+                'disallowable under Sec 40A(2)'
           : ' Within FMV — no disallowance';
       return '${p.partyName} (${p.relationship}): '
           'Paid ${_formatPaise(p.amountPaidPaise)}, '
@@ -469,8 +468,7 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause29(BusinessData d) => Form3CDClause(
     clauseNumber: 29,
-    description:
-        'Whether any deduction is admissible under section 32AC',
+    description: 'Whether any deduction is admissible under section 32AC',
     response: 'N/A',
     disclosures: const [],
   );
@@ -485,32 +483,28 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause31(BusinessData d) => Form3CDClause(
     clauseNumber: 31,
-    description:
-        'Details of any amount borrowed in cash or on demand drafts',
+    description: 'Details of any amount borrowed in cash or on demand drafts',
     response: 'Nil',
     disclosures: const [],
   );
 
   static Form3CDClause _clause32(BusinessData d) => Form3CDClause(
     clauseNumber: 32,
-    description:
-        'Details of brought forward losses or depreciation',
+    description: 'Details of brought forward losses or depreciation',
     response: 'As per IT computation',
     disclosures: const [],
   );
 
   static Form3CDClause _clause33(BusinessData d) => Form3CDClause(
     clauseNumber: 33,
-    description:
-        'Section 80-IB / 80-IC deductions claimed',
+    description: 'Section 80-IB / 80-IC deductions claimed',
     response: 'Nil',
     disclosures: const [],
   );
 
   static Form3CDClause _clause34(BusinessData d) => Form3CDClause(
     clauseNumber: 34,
-    description:
-        'Whether the assessee has complied with TDS provisions',
+    description: 'Whether the assessee has complied with TDS provisions',
     response: 'Yes, TDS complied with',
     disclosures: const [],
   );
@@ -610,7 +604,8 @@ class Form3CDGenerationService {
       clauseNumber: 40,
       description:
           'Particulars of any loan or deposit taken or accepted in contravention of the provisions of section 269SS',
-      response: 'Cash loan receipts exceeding Rs 20,000 detected — see disclosures',
+      response:
+          'Cash loan receipts exceeding Rs 20,000 detected — see disclosures',
       disclosures: disclosures,
     );
   }
@@ -645,7 +640,8 @@ class Form3CDGenerationService {
       clauseNumber: 41,
       description:
           'Particulars of any repayment of loan or deposit in contravention of the provisions of section 269T',
-      response: 'Cash loan repayments exceeding Rs 20,000 detected — see disclosures',
+      response:
+          'Cash loan repayments exceeding Rs 20,000 detected — see disclosures',
       disclosures: disclosures,
     );
   }
@@ -654,16 +650,14 @@ class Form3CDGenerationService {
 
   static Form3CDClause _clause42(BusinessData d) => Form3CDClause(
     clauseNumber: 42,
-    description:
-        'Details of brought forward loss or depreciation allowance',
+    description: 'Details of brought forward loss or depreciation allowance',
     response: 'As per IT records',
     disclosures: const [],
   );
 
   static Form3CDClause _clause43(BusinessData d) => Form3CDClause(
     clauseNumber: 43,
-    description:
-        'Details of deductions under section 80P',
+    description: 'Details of deductions under section 80P',
     response: 'N/A',
     disclosures: const [],
   );

@@ -5,15 +5,33 @@ void main() {
   group('GratuityCalculator', () {
     group('compute', () {
       test('returns 0 when years of service is less than 5', () {
-        expect(GratuityCalculator.compute(yearsOfService: 4, lastBasicPaise: 3000000), 0);
+        expect(
+          GratuityCalculator.compute(
+            yearsOfService: 4,
+            lastBasicPaise: 3000000,
+          ),
+          0,
+        );
       });
 
       test('returns 0 when years of service is exactly 0', () {
-        expect(GratuityCalculator.compute(yearsOfService: 0, lastBasicPaise: 3000000), 0);
+        expect(
+          GratuityCalculator.compute(
+            yearsOfService: 0,
+            lastBasicPaise: 3000000,
+          ),
+          0,
+        );
       });
 
       test('returns 0 when negative years of service', () {
-        expect(GratuityCalculator.compute(yearsOfService: -1, lastBasicPaise: 3000000), 0);
+        expect(
+          GratuityCalculator.compute(
+            yearsOfService: -1,
+            lastBasicPaise: 3000000,
+          ),
+          0,
+        );
       });
 
       test('computes gratuity correctly at exactly 5 years', () {
@@ -48,7 +66,10 @@ void main() {
       });
 
       test('returns 0 when basic salary is 0', () {
-        expect(GratuityCalculator.compute(yearsOfService: 10, lastBasicPaise: 0), 0);
+        expect(
+          GratuityCalculator.compute(yearsOfService: 10, lastBasicPaise: 0),
+          0,
+        );
       });
 
       test('computes correctly for 7 years service', () {

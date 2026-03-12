@@ -56,10 +56,10 @@ class MaterialityResult {
 
   @override
   int get hashCode => Object.hash(
-        planningMateriality,
-        performanceMateriality,
-        revenueBasis,
-        assetBasis,
-        profitBasis,
-      );
+    planningMateriality,
+    performanceMateriality,
+    revenueBasis,
+    assetBasis,
+    profitBasis,
+  );
 }

@@ -105,11 +105,6 @@ class WorkflowTemplate {
   }
 
   @override
-  int get hashCode => Object.hash(
-    templateId,
-    name,
-    category,
-    estimatedHours,
-    deadline,
-  );
+  int get hashCode =>
+      Object.hash(templateId, name, category, estimatedHours, deadline);
 }

@@ -55,11 +55,6 @@ class OrderDiscrepancy {
   }
 
   @override
-  int get hashCode => Object.hash(
-    section,
-    filedAmount,
-    assessedAmount,
-    difference,
-    reason,
-  );
+  int get hashCode =>
+      Object.hash(section, filedAmount, assessedAmount, difference, reason);
 }

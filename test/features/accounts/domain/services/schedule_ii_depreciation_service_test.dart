@@ -51,28 +51,31 @@ void main() {
         expect(result.closingWdvPaise, equals(290000000));
       });
 
-      test('plant and machinery uses 15-year useful life under Schedule II', () {
-        const block = AssetBlock(
-          id: 'asset-3',
-          assetName: 'Manufacturing Plant',
-          category: AssetCategory.plantAndMachinery,
-          openingWdvPaise: 150000000, // 15 lakh in paise
-          additionsPaise: 0,
-          disposalsPaise: 0,
-          additionDate: null,
-          disposalDate: null,
-          depreciationMethod: DepreciationMethod.slm,
-        );
+      test(
+        'plant and machinery uses 15-year useful life under Schedule II',
+        () {
+          const block = AssetBlock(
+            id: 'asset-3',
+            assetName: 'Manufacturing Plant',
+            category: AssetCategory.plantAndMachinery,
+            openingWdvPaise: 150000000, // 15 lakh in paise
+            additionsPaise: 0,
+            disposalsPaise: 0,
+            additionDate: null,
+            disposalDate: null,
+            depreciationMethod: DepreciationMethod.slm,
+          );
 
-        final result = ScheduleIIDepreciationService.computeDepreciation(
-          block: block,
-          financialYear: 2025,
-        );
+          final result = ScheduleIIDepreciationService.computeDepreciation(
+            block: block,
+            financialYear: 2025,
+          );
 
-        // SLM: 15,00,000 / 15 years = 1,00,000 per year
-        expect(result.depreciationForYearPaise, equals(10000000));
-        expect(result.closingWdvPaise, equals(140000000));
-      });
+          // SLM: 15,00,000 / 15 years = 1,00,000 per year
+          expect(result.depreciationForYearPaise, equals(10000000));
+          expect(result.closingWdvPaise, equals(140000000));
+        },
+      );
 
       test('pro-rata depreciation for addition mid-year (after Oct 3)', () {
         // Addition on Oct 15 = 168 days remaining out of 365
@@ -97,9 +100,11 @@ void main() {
         // Days remaining = Oct 15 to Mar 31 = 168 days
         // Pro-rata = 12166666 * 168 / 365
         final fullYearDepr = 36500000 ~/ 3;
-        final daysRemaining = DateTime(2025, 3, 31)
-            .difference(DateTime(2024, 10, 15))
-            .inDays;
+        final daysRemaining = DateTime(
+          2025,
+          3,
+          31,
+        ).difference(DateTime(2024, 10, 15)).inDays;
         final proRata = (fullYearDepr * daysRemaining) ~/ 365;
         expect(result.depreciationForYearPaise, equals(proRata));
       });
@@ -126,9 +131,11 @@ void main() {
         // Full year depr on original: 30000000 / 3 = 10000000
         // Pro-rata: 10000000 * 183 / 365
         final fullYearDepr = 30000000 ~/ 3;
-        final daysUsed = DateTime(2024, 9, 30)
-            .difference(DateTime(2024, 4, 1))
-            .inDays;
+        final daysUsed = DateTime(
+          2024,
+          9,
+          30,
+        ).difference(DateTime(2024, 4, 1)).inDays;
         final proRata = (fullYearDepr * daysUsed) ~/ 365;
         expect(result.depreciationForYearPaise, equals(proRata));
       });

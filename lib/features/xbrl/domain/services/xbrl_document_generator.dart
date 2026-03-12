@@ -156,8 +156,7 @@ class XbrlDocumentGenerator {
 
     // Facts
     for (final fact in doc.facts) {
-      final unitAttr =
-          fact.unitRef != null ? ' unitRef="${fact.unitRef}"' : '';
+      final unitAttr = fact.unitRef != null ? ' unitRef="${fact.unitRef}"' : '';
       buf.writeln(
         '  <${fact.elementName}'
         ' contextRef="${fact.contextRef}"'

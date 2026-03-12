@@ -19,11 +19,10 @@ void main() {
       });
 
       test('all nine frequencies sum to approximately 1.0', () {
-        final total = List.generate(9, (i) => i + 1)
-            .fold<double>(
-              0,
-              (sum, d) => sum + BenfordLawService.getExpectedFrequency(d),
-            );
+        final total = List.generate(9, (i) => i + 1).fold<double>(
+          0,
+          (sum, d) => sum + BenfordLawService.getExpectedFrequency(d),
+        );
         expect(total, closeTo(1.0, 0.0001));
       });
 
@@ -45,10 +44,7 @@ void main() {
       });
 
       test('extracts leading digit from multi-digit number', () {
-        expect(
-          BenfordLawService.extractLeadingDigits([12345]),
-          equals([1]),
-        );
+        expect(BenfordLawService.extractLeadingDigits([12345]), equals([1]));
       });
 
       test('ignores zero and negative amounts', () {
@@ -59,8 +55,12 @@ void main() {
       });
 
       test('handles mixed amounts correctly', () {
-        final digits =
-            BenfordLawService.extractLeadingDigits([100, 200, 300, 900]);
+        final digits = BenfordLawService.extractLeadingDigits([
+          100,
+          200,
+          300,
+          900,
+        ]);
         expect(digits, equals([1, 2, 3, 9]));
       });
 
@@ -78,8 +78,11 @@ void main() {
             d: BenfordLawService.getExpectedFrequency(d),
         };
         // observed proportions identical to expected
-        final result =
-            BenfordLawService.computeChiSquare(expected, expected, 1000);
+        final result = BenfordLawService.computeChiSquare(
+          expected,
+          expected,
+          1000,
+        );
         expect(result, closeTo(0.0, 0.0001));
       });
 
@@ -100,33 +103,45 @@ void main() {
           8: 0.05,
           9: 0.60,
         };
-        final result =
-            BenfordLawService.computeChiSquare(observed, expected, 1000);
+        final result = BenfordLawService.computeChiSquare(
+          observed,
+          expected,
+          1000,
+        );
         expect(result, greaterThan(0));
       });
 
-      test('chi-square is symmetric in scale — larger N amplifies the stat',
-          () {
-        final expected = {
-          for (int d = 1; d <= 9; d++)
-            d: BenfordLawService.getExpectedFrequency(d),
-        };
-        final observed = <int, double>{
-          1: 0.25,
-          2: 0.17,
-          3: 0.13,
-          4: 0.10,
-          5: 0.09,
-          6: 0.07,
-          7: 0.07,
-          8: 0.06,
-          9: 0.06,
-        };
-        final low = BenfordLawService.computeChiSquare(observed, expected, 100);
-        final high =
-            BenfordLawService.computeChiSquare(observed, expected, 1000);
-        expect(high, greaterThan(low));
-      });
+      test(
+        'chi-square is symmetric in scale — larger N amplifies the stat',
+        () {
+          final expected = {
+            for (int d = 1; d <= 9; d++)
+              d: BenfordLawService.getExpectedFrequency(d),
+          };
+          final observed = <int, double>{
+            1: 0.25,
+            2: 0.17,
+            3: 0.13,
+            4: 0.10,
+            5: 0.09,
+            6: 0.07,
+            7: 0.07,
+            8: 0.06,
+            9: 0.06,
+          };
+          final low = BenfordLawService.computeChiSquare(
+            observed,
+            expected,
+            100,
+          );
+          final high = BenfordLawService.computeChiSquare(
+            observed,
+            expected,
+            1000,
+          );
+          expect(high, greaterThan(low));
+        },
+      );
     });
 
     // --------------- isSignificant ---------------
@@ -216,8 +231,10 @@ void main() {
 
       test('datasetName is stored on result', () {
         final amounts = _generateBenfordAmounts(200);
-        final result =
-            BenfordLawService.analyze(amounts, datasetName: 'Sales 2024');
+        final result = BenfordLawService.analyze(
+          amounts,
+          datasetName: 'Sales 2024',
+        );
         expect(result.datasetName, equals('Sales 2024'));
       });
     });

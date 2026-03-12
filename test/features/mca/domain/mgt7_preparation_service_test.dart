@@ -47,10 +47,7 @@ void main() {
   group('Mgt7PreparationService.prepareMgt7', () {
     test('returns Mgt7Return with correct CIN and company name', () {
       final company = _makeCompany();
-      final result = Mgt7PreparationService.instance.prepareMgt7(
-        company,
-        2024,
-      );
+      final result = Mgt7PreparationService.instance.prepareMgt7(company, 2024);
 
       expect(result.cin, 'U74999MH2018PTC123456');
       expect(result.companyName, 'Test Private Ltd');
@@ -58,20 +55,14 @@ void main() {
 
     test('financial year is set correctly', () {
       final company = _makeCompany();
-      final result = Mgt7PreparationService.instance.prepareMgt7(
-        company,
-        2024,
-      );
+      final result = Mgt7PreparationService.instance.prepareMgt7(company, 2024);
 
       expect(result.financialYear, 2024);
     });
 
     test('directors are populated from company directors', () {
       final company = _makeCompany();
-      final result = Mgt7PreparationService.instance.prepareMgt7(
-        company,
-        2024,
-      );
+      final result = Mgt7PreparationService.instance.prepareMgt7(company, 2024);
 
       expect(result.directors, hasLength(2));
       expect(result.directors.first.din, '12345678');
@@ -79,20 +70,14 @@ void main() {
 
     test('returns Mgt7Return with empty shareholding by default', () {
       final company = _makeCompany();
-      final result = Mgt7PreparationService.instance.prepareMgt7(
-        company,
-        2024,
-      );
+      final result = Mgt7PreparationService.instance.prepareMgt7(company, 2024);
 
       expect(result.shareholdingPattern, isEmpty);
     });
 
     test('returns Mgt7Return with registered office from company', () {
       final company = _makeCompany();
-      final result = Mgt7PreparationService.instance.prepareMgt7(
-        company,
-        2024,
-      );
+      final result = Mgt7PreparationService.instance.prepareMgt7(company, 2024);
 
       expect(result.registeredOffice, '123 MG Road, Mumbai');
     });
@@ -148,9 +133,7 @@ void main() {
       final company = _makeCompany();
       final form = Mgt7PreparationService.instance
           .prepareMgt7(company, 2024)
-          .copyWith(
-            directors: [badDirector],
-          );
+          .copyWith(directors: [badDirector]);
 
       final errors = Mgt7PreparationService.instance.validateMgt7(form);
       expect(errors.any((e) => e.field == 'directors'), isTrue);
@@ -169,10 +152,7 @@ void main() {
       final company = _makeCompany(directors: []);
       final form = Mgt7PreparationService.instance
           .prepareMgt7(company, 2024)
-          .copyWith(
-            cin: '',
-            agmDate: DateTime(2024, 11, 1),
-          );
+          .copyWith(cin: '', agmDate: DateTime(2024, 11, 1));
       final errors = Mgt7PreparationService.instance.validateMgt7(form);
       expect(errors.length, greaterThan(1));
     });

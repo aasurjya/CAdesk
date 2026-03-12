@@ -17,10 +17,7 @@ enum FundFlowLabel {
 ///
 /// All amounts are in **paise** (1/100 rupee).
 class FundFlowItem {
-  const FundFlowItem({
-    required this.label,
-    required this.amountPaise,
-  });
+  const FundFlowItem({required this.label, required this.amountPaise});
 
   /// Descriptive label identifying this line item.
   final FundFlowLabel label;
@@ -29,10 +26,7 @@ class FundFlowItem {
   /// in [FundFlowStatement.sourcesOfFunds] or [FundFlowStatement.usesOfFunds].
   final int amountPaise;
 
-  FundFlowItem copyWith({
-    FundFlowLabel? label,
-    int? amountPaise,
-  }) {
+  FundFlowItem copyWith({FundFlowLabel? label, int? amountPaise}) {
     return FundFlowItem(
       label: label ?? this.label,
       amountPaise: amountPaise ?? this.amountPaise,

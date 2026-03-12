@@ -87,11 +87,14 @@ void main() {
     });
 
     group('computeDeadline', () {
-      test('returns October 30 of the year following the financial year end', () {
-        // FY 2023-24 → deadline Oct 30, 2024
-        final deadline = service.computeDeadline(2024);
-        expect(deadline, DateTime(2024, 10, 30));
-      });
+      test(
+        'returns October 30 of the year following the financial year end',
+        () {
+          // FY 2023-24 → deadline Oct 30, 2024
+          final deadline = service.computeDeadline(2024);
+          expect(deadline, DateTime(2024, 10, 30));
+        },
+      );
 
       test('FY 2022-23 deadline is Oct 30 2023', () {
         final deadline = service.computeDeadline(2023);
@@ -255,8 +258,16 @@ void main() {
   group('MeetingRecord model', () {
     test('equality and copyWith', () {
       final date = DateTime(2024, 3, 15);
-      final a = MeetingRecord(date: date, purpose: 'Annual Review', venue: 'Office');
-      final b = MeetingRecord(date: date, purpose: 'Annual Review', venue: 'Office');
+      final a = MeetingRecord(
+        date: date,
+        purpose: 'Annual Review',
+        venue: 'Office',
+      );
+      final b = MeetingRecord(
+        date: date,
+        purpose: 'Annual Review',
+        venue: 'Office',
+      );
       expect(a, equals(b));
       final updated = a.copyWith(venue: 'Virtual');
       expect(updated.venue, 'Virtual');

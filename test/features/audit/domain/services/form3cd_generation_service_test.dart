@@ -58,38 +58,41 @@ void main() {
         expect(clause13!.response, contains('Mercantile'));
       });
 
-      test('clause 26 flags related party payments for disallowance under Sec 40A(2)', () {
-        final data = BusinessData(
-          clientName: 'XYZ Ltd',
-          pan: 'AAAXL5678B',
-          assessmentYear: '2025-26',
-          financialYear: 2025,
-          businessNature: 'Services',
-          accountingMethod: AccountingMethod.mercantile,
-          totalTurnover: 5000000000,
-          relatedPartyPayments: [
-            RelatedPartyPayment(
-              partyName: 'Related Co Ltd',
-              relationship: 'Subsidiary',
-              amountPaidPaise: 200000000,
-              fairMarketValuePaise: 150000000,
-              excessPaymentPaise: 50000000,
-            ),
-          ],
-          msmePaymentsBeyond45Days: const [],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
-          valuationMethod: InventoryValuationMethod.fifo,
-        );
+      test(
+        'clause 26 flags related party payments for disallowance under Sec 40A(2)',
+        () {
+          final data = BusinessData(
+            clientName: 'XYZ Ltd',
+            pan: 'AAAXL5678B',
+            assessmentYear: '2025-26',
+            financialYear: 2025,
+            businessNature: 'Services',
+            accountingMethod: AccountingMethod.mercantile,
+            totalTurnover: 5000000000,
+            relatedPartyPayments: [
+              RelatedPartyPayment(
+                partyName: 'Related Co Ltd',
+                relationship: 'Subsidiary',
+                amountPaidPaise: 200000000,
+                fairMarketValuePaise: 150000000,
+                excessPaymentPaise: 50000000,
+              ),
+            ],
+            msmePaymentsBeyond45Days: const [],
+            cashLoanReceipts: const [],
+            cashLoanRepayments: const [],
+            depreciationEntries: const [],
+            valuationMethod: InventoryValuationMethod.fifo,
+          );
 
-        final result = Form3CDGenerationService.generateForm3CD(data: data);
-        final clause26 = result.clauseByNumber(26);
+          final result = Form3CDGenerationService.generateForm3CD(data: data);
+          final clause26 = result.clauseByNumber(26);
 
-        expect(clause26, isNotNull);
-        expect(clause26!.hasDisclosures, isTrue);
-        expect(clause26.disclosures, isNotEmpty);
-      });
+          expect(clause26, isNotNull);
+          expect(clause26!.hasDisclosures, isTrue);
+          expect(clause26.disclosures, isNotEmpty);
+        },
+      );
 
       test('clause 36 flags MSME payments beyond 45 days under Sec 43B(h)', () {
         final data = BusinessData(

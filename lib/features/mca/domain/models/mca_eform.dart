@@ -144,6 +144,5 @@ class McaEForm {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, formType, status, xmlPayload, createdAt);
+  int get hashCode => Object.hash(id, formType, status, xmlPayload, createdAt);
 }

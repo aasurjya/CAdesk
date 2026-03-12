@@ -76,10 +76,7 @@ class BillingService {
   /// Sums [BillingInvoice.totalAmount] for all invoices where:
   /// - [BillingInvoice.clientId] matches [clientId]
   /// - [BillingInvoice.paymentStatus] is not [PaymentStatus.paid]
-  int computeOutstandingAmount(
-    String clientId,
-    List<BillingInvoice> invoices,
-  ) {
+  int computeOutstandingAmount(String clientId, List<BillingInvoice> invoices) {
     return invoices
         .where(
           (inv) =>
@@ -101,7 +98,8 @@ class BillingService {
     BillingInvoice invoice,
     DateTime today,
   ) {
-    final isPaid = invoice.paymentStatus == PaymentStatus.paid ||
+    final isPaid =
+        invoice.paymentStatus == PaymentStatus.paid ||
         invoice.paymentStatus == PaymentStatus.cancelled;
     if (isPaid || !today.isAfter(invoice.dueDate)) {
       return invoice;

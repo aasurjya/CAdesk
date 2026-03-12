@@ -66,12 +66,6 @@ class BillingLineItem {
   }
 
   @override
-  int get hashCode => Object.hash(
-    description,
-    sacCode,
-    quantity,
-    rate,
-    amount,
-    gstRate,
-  );
+  int get hashCode =>
+      Object.hash(description, sacCode, quantity, rate, amount, gstRate);
 }

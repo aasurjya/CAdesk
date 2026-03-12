@@ -94,15 +94,15 @@ class FcGpr {
 
   @override
   int get hashCode => Object.hash(
-        entityName,
-        cin,
-        fipbRouteApproval,
-        dateOfReceipt,
-        sharesAllotted,
-        faceValuePaise,
-        issuePricePaise,
-        premiumAmountPaise,
-        totalInflowPaise,
-        foreignInvestorCountry,
-      );
+    entityName,
+    cin,
+    fipbRouteApproval,
+    dateOfReceipt,
+    sharesAllotted,
+    faceValuePaise,
+    issuePricePaise,
+    premiumAmountPaise,
+    totalInflowPaise,
+    foreignInvestorCountry,
+  );
 }

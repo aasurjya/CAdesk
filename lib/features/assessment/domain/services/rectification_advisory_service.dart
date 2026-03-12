@@ -66,12 +66,8 @@ class RectificationAdvisory {
   }
 
   @override
-  int get hashCode => Object.hash(
-    requiresAction,
-    deadline,
-    summary,
-    Object.hashAll(grounds),
-  );
+  int get hashCode =>
+      Object.hash(requiresAction, deadline, summary, Object.hashAll(grounds));
 }
 
 /// Stateless service that analyses an [AssessmentOrderVerification] and
@@ -127,11 +123,7 @@ class RectificationAdvisoryService {
   /// - Section 143(1) intimation: 4 years from [orderDate].
   DateTime computeDeadline(DateTime orderDate, OrderType type) {
     // All supported order types have the same 4-year window.
-    return DateTime(
-      orderDate.year + 4,
-      orderDate.month,
-      orderDate.day,
-    );
+    return DateTime(orderDate.year + 4, orderDate.month, orderDate.day);
   }
 
   // -------------------------------------------------------------------------
@@ -142,33 +134,33 @@ class RectificationAdvisoryService {
     final s = disc.section.toLowerCase();
     if (s.contains('tds')) return RectificationGround.tdsMismatch;
     if (s.contains('advance tax')) return RectificationGround.advanceTaxCredit;
-    if (s.contains('arithmetical')) return RectificationGround.arithmeticalError;
+    if (s.contains('arithmetical'))
+      return RectificationGround.arithmeticalError;
     if (s.contains('assessment year') || s.contains('ay')) {
       return RectificationGround.incorrectAY;
     }
     return null;
   }
 
-  String _buildSummary(
-    bool requiresAction,
-    List<RectificationGround> grounds,
-  ) {
+  String _buildSummary(bool requiresAction, List<RectificationGround> grounds) {
     if (!requiresAction) {
       return 'No rectification required. The order appears correct.';
     }
 
-    final groundLabels = grounds.map((g) {
-      switch (g) {
-        case RectificationGround.tdsMismatch:
-          return 'TDS credit mismatch';
-        case RectificationGround.advanceTaxCredit:
-          return 'advance tax credit shortfall';
-        case RectificationGround.arithmeticalError:
-          return 'arithmetical error';
-        case RectificationGround.incorrectAY:
-          return 'incorrect assessment year';
-      }
-    }).join(', ');
+    final groundLabels = grounds
+        .map((g) {
+          switch (g) {
+            case RectificationGround.tdsMismatch:
+              return 'TDS credit mismatch';
+            case RectificationGround.advanceTaxCredit:
+              return 'advance tax credit shortfall';
+            case RectificationGround.arithmeticalError:
+              return 'arithmetical error';
+            case RectificationGround.incorrectAY:
+              return 'incorrect assessment year';
+          }
+        })
+        .join(', ');
 
     return 'File rectification u/s 154 on the following grounds: $groundLabels.';
   }

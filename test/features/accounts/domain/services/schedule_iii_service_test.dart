@@ -7,33 +7,36 @@ import 'package:ca_app/features/accounts/domain/services/schedule_iii_service.da
 void main() {
   group('ScheduleIIIService', () {
     group('computeBalanceSheet', () {
-      test('returns balanced sheet where total equity+liabilities equals total assets', () {
-        // Simple set of journal entries: capital injection and asset purchase
-        final entries = [
-          JournalEntry(
-            id: '1',
-            date: DateTime(2025, 4, 1),
-            accountHead: AccountHead.shareCapital,
-            amount: 1000000, // 10 lakh in paise = 10,00,000 paise
-            isDebit: false,
-          ),
-          JournalEntry(
-            id: '2',
-            date: DateTime(2025, 4, 1),
-            accountHead: AccountHead.cashAndCashEquivalents,
-            amount: 1000000,
-            isDebit: true,
-          ),
-        ];
+      test(
+        'returns balanced sheet where total equity+liabilities equals total assets',
+        () {
+          // Simple set of journal entries: capital injection and asset purchase
+          final entries = [
+            JournalEntry(
+              id: '1',
+              date: DateTime(2025, 4, 1),
+              accountHead: AccountHead.shareCapital,
+              amount: 1000000, // 10 lakh in paise = 10,00,000 paise
+              isDebit: false,
+            ),
+            JournalEntry(
+              id: '2',
+              date: DateTime(2025, 4, 1),
+              accountHead: AccountHead.cashAndCashEquivalents,
+              amount: 1000000,
+              isDebit: true,
+            ),
+          ];
 
-        final result = ScheduleIIIService.computeBalanceSheet(
-          entries: entries,
-          financialYear: 2025,
-        );
+          final result = ScheduleIIIService.computeBalanceSheet(
+            entries: entries,
+            financialYear: 2025,
+          );
 
-        expect(result.isBalanced, isTrue);
-        expect(result.totalEquityAndLiabilities, equals(result.totalAssets));
-      });
+          expect(result.isBalanced, isTrue);
+          expect(result.totalEquityAndLiabilities, equals(result.totalAssets));
+        },
+      );
 
       test('share capital is credited to equity section', () {
         final entries = [

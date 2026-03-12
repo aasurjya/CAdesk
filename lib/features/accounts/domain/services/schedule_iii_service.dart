@@ -51,8 +51,9 @@ class ScheduleIIIService {
       reservesAndSurplus: creditBalance(AccountHead.reservesAndSurplus),
       longTermBorrowings: creditBalance(AccountHead.longTermBorrowings),
       tradePayables: creditBalance(AccountHead.tradePayables),
-      otherCurrentLiabilities:
-          creditBalance(AccountHead.otherCurrentLiabilities),
+      otherCurrentLiabilities: creditBalance(
+        AccountHead.otherCurrentLiabilities,
+      ),
     );
 
     final assets = ScheduleIIIAssets(
@@ -60,8 +61,7 @@ class ScheduleIIIService {
       investments: debitBalance(AccountHead.investments),
       inventories: debitBalance(AccountHead.inventories),
       tradeReceivables: debitBalance(AccountHead.tradeReceivables),
-      cashAndCashEquivalents:
-          debitBalance(AccountHead.cashAndCashEquivalents),
+      cashAndCashEquivalents: debitBalance(AccountHead.cashAndCashEquivalents),
       otherCurrentAssets: debitBalance(AccountHead.otherCurrentAssets),
     );
 

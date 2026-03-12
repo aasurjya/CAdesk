@@ -10,10 +10,7 @@ import 'package:ca_app/features/msme/domain/models/msme_payment_tracker.dart';
 /// Periods: April–September (filed by October 31) and
 ///          October–March (filed by April 30).
 class MsmeForm1 {
-  const MsmeForm1({
-    required this.period,
-    required this.unpaidEntries,
-  });
+  const MsmeForm1({required this.period, required this.unpaidEntries});
 
   /// Half-year period identifier, e.g. 'H1-2024' or 'H2-2024'.
   final String period;

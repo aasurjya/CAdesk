@@ -12,11 +12,12 @@ void main() {
         year: 2023,
         grossSales: 10000000, // ₹1L in paise
       );
-      final projected = CmaPreparationService.instance.projectOperatingStatement(
-        base,
-        0.20, // 20% growth
-        2024,
-      );
+      final projected = CmaPreparationService.instance
+          .projectOperatingStatement(
+            base,
+            0.20, // 20% growth
+            2024,
+          );
       expect(projected.year, 2024);
       expect(projected.grossSales, 12000000); // 1L × 1.20
     });
@@ -31,11 +32,8 @@ void main() {
         sellingExpenses: 200000,
         adminExpenses: 300000,
       );
-      final projected = CmaPreparationService.instance.projectOperatingStatement(
-        base,
-        0.10,
-        2024,
-      );
+      final projected = CmaPreparationService.instance
+          .projectOperatingStatement(base, 0.10, 2024);
       expect(projected.rawMaterials, 4400000); // 4L × 1.10
       expect(projected.wages, 1100000);
       expect(projected.power, 550000);
@@ -45,11 +43,8 @@ void main() {
 
     test('projected year is set correctly', () {
       final base = CmaOperatingStatement.empty().copyWith(year: 2023);
-      final projected = CmaPreparationService.instance.projectOperatingStatement(
-        base,
-        0.15,
-        2025,
-      );
+      final projected = CmaPreparationService.instance
+          .projectOperatingStatement(base, 0.15, 2025);
       expect(projected.year, 2025);
     });
 
@@ -59,11 +54,8 @@ void main() {
         grossSales: 5000000,
         rawMaterials: 2000000,
       );
-      final projected = CmaPreparationService.instance.projectOperatingStatement(
-        base,
-        0.0,
-        2024,
-      );
+      final projected = CmaPreparationService.instance
+          .projectOperatingStatement(base, 0.0, 2024);
       expect(projected.grossSales, 5000000);
       expect(projected.rawMaterials, 2000000);
       expect(projected.year, 2024);
@@ -181,34 +173,40 @@ void main() {
       expect(stmt.costOfProduction, 6000000);
     });
 
-    test('costOfGoodsSold = costOfProduction + openingStock - closingStock', () {
-      final stmt = CmaOperatingStatement.empty().copyWith(
-        rawMaterials: 4000000,
-        wages: 1000000,
-        power: 500000,
-        openingStock: 800000,
-        closingStock: 600000,
-      );
-      // COP = 5,500,000, COGS = 5,500,000 + 800,000 - 600,000 = 5,700,000
-      expect(stmt.costOfGoodsSold, 5700000);
-    });
+    test(
+      'costOfGoodsSold = costOfProduction + openingStock - closingStock',
+      () {
+        final stmt = CmaOperatingStatement.empty().copyWith(
+          rawMaterials: 4000000,
+          wages: 1000000,
+          power: 500000,
+          openingStock: 800000,
+          closingStock: 600000,
+        );
+        // COP = 5,500,000, COGS = 5,500,000 + 800,000 - 600,000 = 5,700,000
+        expect(stmt.costOfGoodsSold, 5700000);
+      },
+    );
 
-    test('profitBeforeTax = netSales - COGS - opex - fin charges - depreciation', () {
-      final stmt = CmaOperatingStatement.empty().copyWith(
-        grossSales: 10000000,
-        returnsAndDiscounts: 0,
-        rawMaterials: 4000000,
-        openingStock: 0,
-        closingStock: 0,
-        sellingExpenses: 500000,
-        adminExpenses: 500000,
-        financialCharges: 200000,
-        depreciation: 300000,
-      );
-      // NetSales = 10M, COGS = 4M, opex = 1M, fin = 0.2M, dep = 0.3M
-      // PBT = 10M - 4M - 1M - 0.2M - 0.3M = 4.5M
-      expect(stmt.profitBeforeTax, 4500000);
-    });
+    test(
+      'profitBeforeTax = netSales - COGS - opex - fin charges - depreciation',
+      () {
+        final stmt = CmaOperatingStatement.empty().copyWith(
+          grossSales: 10000000,
+          returnsAndDiscounts: 0,
+          rawMaterials: 4000000,
+          openingStock: 0,
+          closingStock: 0,
+          sellingExpenses: 500000,
+          adminExpenses: 500000,
+          financialCharges: 200000,
+          depreciation: 300000,
+        );
+        // NetSales = 10M, COGS = 4M, opex = 1M, fin = 0.2M, dep = 0.3M
+        // PBT = 10M - 4M - 1M - 0.2M - 0.3M = 4.5M
+        expect(stmt.profitBeforeTax, 4500000);
+      },
+    );
 
     test('profitAfterTax = profitBeforeTax - tax', () {
       final stmt = CmaOperatingStatement.empty().copyWith(
@@ -249,13 +247,16 @@ void main() {
   });
 
   group('CmaBalanceSheet — model', () {
-    test('workingCapital = totalCurrentAssets - currentLiabilitiesExclBank', () {
-      final bs = CmaBalanceSheet.empty().copyWith(
-        totalCurrentAssets: 5000000,
-        currentLiabilitiesExclBank: 2000000,
-      );
-      expect(bs.workingCapital, 3000000);
-    });
+    test(
+      'workingCapital = totalCurrentAssets - currentLiabilitiesExclBank',
+      () {
+        final bs = CmaBalanceSheet.empty().copyWith(
+          totalCurrentAssets: 5000000,
+          currentLiabilitiesExclBank: 2000000,
+        );
+        expect(bs.workingCapital, 3000000);
+      },
+    );
 
     test('copyWith does not mutate original', () {
       final original = CmaBalanceSheet.empty().copyWith(year: 2023);

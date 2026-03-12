@@ -77,12 +77,12 @@ class AlpBenchmark {
 
   @override
   int get hashCode => Object.hash(
-        method,
-        searchCriteria,
-        comparableCount,
-        interquartileLowerPaise,
-        interquartileMedianPaise,
-        interquartileUpperPaise,
-        selectedAlpPaise,
-      );
+    method,
+    searchCriteria,
+    comparableCount,
+    interquartileLowerPaise,
+    interquartileMedianPaise,
+    interquartileUpperPaise,
+    selectedAlpPaise,
+  );
 }

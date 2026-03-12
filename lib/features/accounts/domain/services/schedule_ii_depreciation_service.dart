@@ -16,8 +16,7 @@ class ScheduleIIDepreciationService {
     required AssetBlock block,
     required int financialYear,
   }) {
-    final usefulLifeYears =
-        scheduleIIUsefulLifeYears[block.category] ?? 10;
+    final usefulLifeYears = scheduleIIUsefulLifeYears[block.category] ?? 10;
     final slmRatePercent = 100.0 / usefulLifeYears;
 
     // Financial year runs Apr 1 to Mar 31.
@@ -47,7 +46,8 @@ class ScheduleIIDepreciationService {
     }
 
     // Closing WDV = opening + additions - disposals - depreciation, >= 0
-    final grossClosing = block.openingWdvPaise +
+    final grossClosing =
+        block.openingWdvPaise +
         block.additionsPaise -
         block.disposalsPaise -
         depreciation;
@@ -83,8 +83,7 @@ class ScheduleIIDepreciationService {
     // otherwise charge for the full year.
     if (block.disposalsPaise > 0 && block.disposalDate != null) {
       final dispDate = block.disposalDate!;
-      final effectiveDisp =
-          dispDate.isBefore(fyStart) ? fyStart : dispDate;
+      final effectiveDisp = dispDate.isBefore(fyStart) ? fyStart : dispDate;
       final daysHeld = effectiveDisp.difference(fyStart).inDays;
       depr += (annualOnOpening * daysHeld) ~/ totalDaysInYear;
     } else if (block.openingWdvPaise > 0) {
@@ -96,8 +95,7 @@ class ScheduleIIDepreciationService {
     if (block.additionsPaise > 0 && block.additionDate != null) {
       final addDate = block.additionDate!;
       // Clamp addition date to FY window.
-      final effectiveStart =
-          addDate.isBefore(fyStart) ? fyStart : addDate;
+      final effectiveStart = addDate.isBefore(fyStart) ? fyStart : addDate;
       // Days = difference (not inclusive of start day, consistent with test).
       final daysUsed = fyEnd.difference(effectiveStart).inDays;
       final annualOnAddition = block.additionsPaise ~/ usefulLifeYears;
@@ -127,8 +125,7 @@ class ScheduleIIDepreciationService {
     // WDV on additions — pro-rata from addition date.
     if (block.additionsPaise > 0 && block.additionDate != null) {
       final addDate = block.additionDate!;
-      final effectiveStart =
-          addDate.isBefore(fyStart) ? fyStart : addDate;
+      final effectiveStart = addDate.isBefore(fyStart) ? fyStart : addDate;
       final daysUsed = fyEnd.difference(effectiveStart).inDays;
       final annualOnAddition = (block.additionsPaise * rate ~/ 100);
       depr += (annualOnAddition * daysUsed) ~/ totalDaysInYear;
@@ -137,12 +134,10 @@ class ScheduleIIDepreciationService {
     // Reduce for disposals — only charged until disposal date.
     if (block.disposalsPaise > 0 && block.disposalDate != null) {
       final dispDate = block.disposalDate!;
-      final effectiveDisp =
-          dispDate.isBefore(fyStart) ? fyStart : dispDate;
+      final effectiveDisp = dispDate.isBefore(fyStart) ? fyStart : dispDate;
       final daysHeld = effectiveDisp.difference(fyStart).inDays;
       final annualOnDisposal = (block.disposalsPaise * rate ~/ 100);
-      final proRataRemoved =
-          (annualOnDisposal * daysHeld) ~/ totalDaysInYear;
+      final proRataRemoved = (annualOnDisposal * daysHeld) ~/ totalDaysInYear;
       depr = depr - annualOnDisposal + proRataRemoved;
     }
 

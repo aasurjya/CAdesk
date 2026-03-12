@@ -163,10 +163,7 @@ class InterestVerificationService {
 
 /// Internal value object for the 234C installment schedule.
 class _InstallmentSchedule {
-  const _InstallmentSchedule({
-    required this.duePct,
-    required this.minPaidPct,
-  });
+  const _InstallmentSchedule({required this.duePct, required this.minPaidPct});
 
   final int duePct;
   final int minPaidPct;

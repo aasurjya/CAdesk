@@ -100,10 +100,7 @@ void main() {
       final form = _makeMgt7();
       final xml = McaEFormService.instance.generateMgt7Xml(form);
       // Simple check: number of < equals number of >
-      expect(
-        xml.split('<').length - 1,
-        equals(xml.split('>').length - 1),
-      );
+      expect(xml.split('<').length - 1, equals(xml.split('>').length - 1));
     });
   });
 
@@ -193,12 +190,18 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaEFormService.getFilingDeadline', () {
     test('MGT-7 deadline for FY 2024 is November 29, 2024', () {
-      final deadline = McaEFormService.instance.getFilingDeadline('MGT-7', 2024);
+      final deadline = McaEFormService.instance.getFilingDeadline(
+        'MGT-7',
+        2024,
+      );
       expect(deadline, DateTime(2024, 11, 29));
     });
 
     test('AOC-4 deadline for FY 2024 is October 29, 2024', () {
-      final deadline = McaEFormService.instance.getFilingDeadline('AOC-4', 2024);
+      final deadline = McaEFormService.instance.getFilingDeadline(
+        'AOC-4',
+        2024,
+      );
       expect(deadline, DateTime(2024, 10, 29));
     });
 
@@ -211,7 +214,10 @@ void main() {
     });
 
     test('MGT-7 deadline for FY 2023 is November 29, 2023', () {
-      final deadline = McaEFormService.instance.getFilingDeadline('MGT-7', 2023);
+      final deadline = McaEFormService.instance.getFilingDeadline(
+        'MGT-7',
+        2023,
+      );
       expect(deadline, DateTime(2023, 11, 29));
     });
 

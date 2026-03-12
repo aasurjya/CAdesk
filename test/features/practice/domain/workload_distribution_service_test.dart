@@ -46,10 +46,8 @@ Engagement _makeEngagement(String id, List<StaffAssignment> assignments) {
 void main() {
   group('WorkloadDistributionService.computeStaffWorkload', () {
     test('returns zero hours for staff with no engagements', () {
-      final workload = WorkloadDistributionService.instance.computeStaffWorkload(
-        [],
-        [_staff1, _staff2],
-      );
+      final workload = WorkloadDistributionService.instance
+          .computeStaffWorkload([], [_staff1, _staff2]);
       expect(workload['staff-001'], 0);
       expect(workload['staff-002'], 0);
     });
@@ -73,19 +71,18 @@ void main() {
           hoursEstimated: 3,
         ),
       ]);
-      final workload = WorkloadDistributionService.instance.computeStaffWorkload(
-        [engagement1, engagement2],
-        [_staff1],
-      );
+      final workload = WorkloadDistributionService.instance
+          .computeStaffWorkload([engagement1, engagement2], [_staff1]);
       expect(workload['staff-001'], 8);
     });
 
     test('includes all staff in result map even without engagements', () {
-      final workload = WorkloadDistributionService.instance.computeStaffWorkload(
-        [],
-        [_staff1, _staff2, _staff3],
+      final workload = WorkloadDistributionService.instance
+          .computeStaffWorkload([], [_staff1, _staff2, _staff3]);
+      expect(
+        workload.keys,
+        containsAll(['staff-001', 'staff-002', 'staff-003']),
       );
-      expect(workload.keys, containsAll(['staff-001', 'staff-002', 'staff-003']));
     });
   });
 
@@ -152,28 +149,31 @@ void main() {
 
   group('WorkloadDistributionService.detectBottlenecks', () {
     test('returns empty when no engagements', () {
-      final bottlenecks = WorkloadDistributionService.instance.detectBottlenecks([]);
+      final bottlenecks = WorkloadDistributionService.instance
+          .detectBottlenecks([]);
       expect(bottlenecks, isEmpty);
     });
 
-    test('detects bottleneck when many engagements are stuck at same task type', () {
-      final engagements = List.generate(5, (i) {
-        return _makeEngagement('eng-$i', [
-          StaffAssignment(
-            staffId: 'staff-001',
-            role: StaffRole.manager,
-            tasks: ['t-review'],
-            hoursLogged: 0,
-            hoursEstimated: 1,
-          ),
-        ]);
-      });
-      final bottlenecks = WorkloadDistributionService.instance.detectBottlenecks(
-        engagements,
-      );
-      expect(bottlenecks, isNotEmpty);
-      expect(bottlenecks.first.staffId, 'staff-001');
-      expect(bottlenecks.first.engagementCount, greaterThanOrEqualTo(3));
-    });
+    test(
+      'detects bottleneck when many engagements are stuck at same task type',
+      () {
+        final engagements = List.generate(5, (i) {
+          return _makeEngagement('eng-$i', [
+            StaffAssignment(
+              staffId: 'staff-001',
+              role: StaffRole.manager,
+              tasks: ['t-review'],
+              hoursLogged: 0,
+              hoursEstimated: 1,
+            ),
+          ]);
+        });
+        final bottlenecks = WorkloadDistributionService.instance
+            .detectBottlenecks(engagements);
+        expect(bottlenecks, isNotEmpty);
+        expect(bottlenecks.first.staffId, 'staff-001');
+        expect(bottlenecks.first.engagementCount, greaterThanOrEqualTo(3));
+      },
+    );
   });
 }

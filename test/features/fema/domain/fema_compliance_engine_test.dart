@@ -12,7 +12,10 @@ void main() {
     });
 
     test('singleton returns same instance', () {
-      expect(FemaComplianceEngine.instance, same(FemaComplianceEngine.instance));
+      expect(
+        FemaComplianceEngine.instance,
+        same(FemaComplianceEngine.instance),
+      );
     });
 
     group('computeFcGprDeadline', () {

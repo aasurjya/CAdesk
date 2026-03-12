@@ -63,6 +63,5 @@ class XbrlFact {
       Object.hash(elementName, contextRef, unitRef, value, decimals);
 
   @override
-  String toString() =>
-      'XbrlFact($elementName, ctx=$contextRef, val=$value)';
+  String toString() => 'XbrlFact($elementName, ctx=$contextRef, val=$value)';
 }

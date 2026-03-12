@@ -66,8 +66,7 @@ class CmaData {
   final Map<int, FundFlowStatement> cashFlows;
 
   /// All years covered: historical + projection years, sorted ascending.
-  List<int> get allYears =>
-      [...historicalYears, ...projectionYears]..sort();
+  List<int> get allYears => [...historicalYears, ...projectionYears]..sort();
 
   CmaData copyWith({
     String? entityName,
