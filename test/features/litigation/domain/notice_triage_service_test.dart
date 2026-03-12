@@ -59,7 +59,7 @@ void main() {
 
     test('search & seizure notice → critical regardless of demand', () {
       final notice = _makeNotice(
-        noticeType: NoticeType.search_seizure,
+        noticeType: NoticeType.searchSeizure,
         demandAmount: 0,
       );
       expect(
@@ -119,7 +119,7 @@ void main() {
 
     test('show cause notice with no demand → low', () {
       final notice = _makeNotice(
-        noticeType: NoticeType.show_cause,
+        noticeType: NoticeType.showCause,
         demandAmount: null,
       );
       expect(
@@ -264,7 +264,7 @@ void main() {
     });
 
     test('show cause notice → bona fide / reasonable cause grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.show_cause);
+      final notice = _makeNotice(noticeType: NoticeType.showCause);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });
@@ -282,7 +282,7 @@ void main() {
     });
 
     test('search & seizure → search/seizure grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.search_seizure);
+      final notice = _makeNotice(noticeType: NoticeType.searchSeizure);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });

@@ -1,5 +1,3 @@
-import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
-
 /// Recommended action for responding to a tax notice.
 enum RecommendedAction {
   /// Draft and file a written response.
@@ -91,8 +89,3 @@ class NoticeTriageResult {
       );
 }
 
-// Re-export UrgencyLevel here for convenience — it is defined in tax_notice.dart
-// but used together with triage results throughout the feature.
-// ignore: unused_import
-export 'package:ca_app/features/litigation/domain/models/tax_notice.dart'
-    show UrgencyLevel;

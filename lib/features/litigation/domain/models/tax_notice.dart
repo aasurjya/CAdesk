@@ -16,13 +16,13 @@ enum NoticeType {
   penalty156,
 
   /// Show-cause notice before penalty imposition or disallowance.
-  show_cause,
+  showCause,
 
   /// High-pitched assessment (demand > 3× returned income).
   highPitchAssessment,
 
   /// Search and seizure under Section 132 / 132A.
-  search_seizure,
+  searchSeizure,
 }
 
 /// Lifecycle status of a tax notice.
