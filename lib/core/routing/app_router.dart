@@ -184,8 +184,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/litigation',
                 name: 'litigation',
-                builder: (context, state) =>
-                    const LitigationDashboardScreen(),
+                builder: (context, state) => const LitigationDashboardScreen(),
               ),
               GoRoute(
                 path: '/ca-gpt',
