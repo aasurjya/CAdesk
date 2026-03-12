@@ -60,6 +60,8 @@ import 'package:ca_app/features/einvoicing/presentation/einvoicing_screen.dart';
 import 'package:ca_app/features/idp/presentation/idp_screen.dart';
 import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_intelligence_screen.dart';
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
+import 'package:ca_app/features/ca_gpt/presentation/ca_gpt_home_screen.dart';
+import 'package:ca_app/features/ca_gpt/presentation/ca_gpt_home_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_type_picker_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr1/itr1_wizard_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr4/itr4_wizard_screen.dart';
@@ -70,6 +72,20 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
+import 'package:ca_app/features/ocr/data/providers/ocr_providers.dart';
+import 'package:ca_app/features/ocr/presentation/ocr_dashboard_screen.dart';
+import 'package:ca_app/features/ocr/presentation/ocr_upload_screen.dart';
+import 'package:ca_app/features/ocr/presentation/ocr_result_screen.dart';
+import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
+import 'package:ca_app/features/rpa/presentation/rpa_dashboard_screen.dart';
+import 'package:ca_app/features/rpa/presentation/rpa_new_task_screen.dart';
+import 'package:ca_app/features/rpa/presentation/rpa_script_library_screen.dart';
+import 'package:ca_app/features/rpa/presentation/rpa_task_detail_screen.dart';
+import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
+import 'package:ca_app/features/litigation/presentation/appeal_tracker_screen.dart';
+import 'package:ca_app/features/litigation/presentation/litigation_dashboard_screen.dart';
+import 'package:ca_app/features/litigation/presentation/notice_detail_screen.dart';
+import 'package:ca_app/features/litigation/presentation/response_draft_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -145,6 +161,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: '/more',
                 name: 'more',
                 builder: (context, state) => const MoreScreen(),
+              ),
+              GoRoute(
+                path: '/ocr',
+                name: 'ocr',
+                builder: (context, state) => const OcrDashboardScreen(),
+              ),
+              GoRoute(
+                path: '/rpa',
+                name: 'rpa',
+                builder: (context, state) => const RpaDashboardScreen(),
+              ),
+              GoRoute(
+                path: '/litigation',
+                name: 'litigation',
+                builder: (context, state) =>
+                    const LitigationDashboardScreen(),
               ),
             ],
           ),
@@ -536,6 +568,42 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'advanceTax',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdvanceTaxScreen(),
+      ),
+      GoRoute(
+        path: '/ocr/upload',
+        name: 'ocrUpload',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const OcrUploadScreen(),
+      ),
+      GoRoute(
+        path: '/ocr/result',
+        name: 'ocrResult',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final job = state.extra as OcrJob;
+          return OcrResultScreen(job: job);
+        },
+      ),
+      GoRoute(
+        path: '/rpa/new',
+        name: 'rpaNew',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RpaNewTaskScreen(),
+      ),
+      GoRoute(
+        path: '/rpa/task',
+        name: 'rpaTask',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final task = state.extra as AutomationTask;
+          return RpaTaskDetailScreen(task: task);
+        },
+      ),
+      GoRoute(
+        path: '/rpa/scripts',
+        name: 'rpaScripts',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RpaScriptLibraryScreen(),
       ),
     ],
   );
