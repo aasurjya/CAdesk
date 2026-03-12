@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
-import 'package:ca_app/features/client_portal/domain/models/shared_document.dart';
+import 'package:ca_app/features/client_portal/domain/models/shared_document_ui.dart';
 
 /// Tile widget for displaying a shared document with signature status indicator.
 class SharedDocumentTile extends StatelessWidget {

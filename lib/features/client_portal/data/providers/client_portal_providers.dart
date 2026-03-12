@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ca_app/features/client_portal/domain/models/client_query.dart';
 import 'package:ca_app/features/client_portal/domain/models/portal_message.dart';
 import 'package:ca_app/features/client_portal/domain/models/portal_notification.dart';
-import 'package:ca_app/features/client_portal/domain/models/shared_document.dart';
+import 'package:ca_app/features/client_portal/domain/models/shared_document_ui.dart';
 
 // ---------------------------------------------------------------------------
 // Mock Messages – 10 messages across 3 threads

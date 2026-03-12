@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
-import 'package:ca_app/features/client_portal/domain/models/shared_document.dart';
+import 'package:ca_app/features/client_portal/domain/models/shared_document_ui.dart';
 import 'package:ca_app/features/client_portal/data/providers/client_portal_providers.dart';
 import 'package:ca_app/features/client_portal/presentation/widgets/shared_document_tile.dart';
 

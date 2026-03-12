@@ -2,6 +2,9 @@ import 'package:ca_app/features/rpa/domain/models/automation_step.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 import 'package:flutter/foundation.dart';
 
+export 'package:ca_app/features/rpa/domain/models/automation_task.dart'
+    show AutomationPortal;
+
 /// A named, ordered sequence of [AutomationStep]s targeting a specific portal.
 ///
 /// Immutable — use [copyWith] to produce updated instances.

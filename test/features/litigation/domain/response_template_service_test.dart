@@ -46,9 +46,9 @@ void main() {
 
     test('show cause → template returned', () {
       final template = ResponseTemplateService.getTemplate(
-        NoticeType.show_cause,
+        NoticeType.showCause,
       );
-      expect(template.noticeType, NoticeType.show_cause);
+      expect(template.noticeType, NoticeType.showCause);
     });
 
     test('high pitch assessment → template returned', () {
@@ -60,9 +60,9 @@ void main() {
 
     test('search & seizure → template returned', () {
       final template = ResponseTemplateService.getTemplate(
-        NoticeType.search_seizure,
+        NoticeType.searchSeizure,
       );
-      expect(template.noticeType, NoticeType.search_seizure);
+      expect(template.noticeType, NoticeType.searchSeizure);
     });
 
     test('template has non-empty title', () {

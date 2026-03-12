@@ -60,7 +60,7 @@ class NoticeTriageService {
   /// - Low: routine queries, no demand, show-cause.
   static RiskLevel assessRisk(TaxNotice notice) {
     // Search & seizure is always critical.
-    if (notice.noticeType == NoticeType.search_seizure) {
+    if (notice.noticeType == NoticeType.searchSeizure) {
       return RiskLevel.critical;
     }
 
@@ -141,7 +141,7 @@ class NoticeTriageService {
           'Penalty not leviable when quantum appeal is pending',
         ];
 
-      case NoticeType.show_cause:
+      case NoticeType.showCause:
         return [
           'Bona fide belief',
           'Reasonable cause',
@@ -157,7 +157,7 @@ class NoticeTriageService {
           'High-pitched assessment guidelines violated (CBDT Circular)',
         ];
 
-      case NoticeType.search_seizure:
+      case NoticeType.searchSeizure:
         return [
           'Seized documents belong to third party',
           'No undisclosed income found during search',
@@ -175,7 +175,7 @@ class NoticeTriageService {
   static bool _isMediumRiskType(NoticeType type) {
     return type == NoticeType.intimation143_1 ||
         type == NoticeType.penalty156 ||
-        type == NoticeType.show_cause ||
+        type == NoticeType.showCause ||
         type == NoticeType.scrutiny143_2;
   }
 
@@ -200,7 +200,7 @@ class NoticeTriageService {
         }
         return RecommendedAction.respond;
       case RiskLevel.low:
-        return notice.noticeType == NoticeType.show_cause
+        return notice.noticeType == NoticeType.showCause
             ? RecommendedAction.respond
             : RecommendedAction.ignore;
     }
@@ -235,7 +235,7 @@ class NoticeTriageService {
           'Demand u/s 156 — verify computation of penalty',
           'Check if penalty proceedings separate from quantum appeal',
         ]);
-      case NoticeType.show_cause:
+      case NoticeType.showCause:
         issues.addAll([
           'Respond with full factual explanation',
           'Provide documentary evidence of compliance',
@@ -245,7 +245,7 @@ class NoticeTriageService {
           'Demand > 3× returned income — invoke PCIT review mechanism',
           'File representation before Local Committee on Disputes',
         ]);
-      case NoticeType.search_seizure:
+      case NoticeType.searchSeizure:
         issues.addAll([
           'Post-search assessment under s.153A — ensure compliance',
           'Account for all seized material and cash',
