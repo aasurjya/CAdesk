@@ -176,87 +176,114 @@ final mockPortalMessages = <PortalMessage>[
 
 final mockSharedDocuments = <SharedDocument>[
   SharedDocument(
-    id: 'doc-1',
+    documentId: 'doc-1',
     clientId: '1',
-    documentName: 'Form 16 - FY 2025-26',
-    documentType: 'Form 16',
-    uploadedBy: 'Rajesh Kumar Sharma',
-    uploadedAt: DateTime(2026, 3, 5, 14, 0),
-    downloadUrl: '/documents/doc-1/form16_rajesh.pdf',
+    caFirmId: 'firm-1',
+    title: 'Form 16 - FY 2025-26',
+    documentType: DocumentType.form16,
+    fileSize: 204800,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 5, 14, 0),
+    requiresESign: false,
+    eSigned: false,
+    status: DocumentStatus.shared,
   ),
   SharedDocument(
-    id: 'doc-2',
+    documentId: 'doc-2',
     clientId: '1',
-    documentName: 'ITR-2 Draft - AY 2026-27',
-    documentType: 'ITR Draft',
-    uploadedBy: 'Amit Verma',
-    uploadedAt: DateTime(2026, 3, 6, 10, 0),
-    isSignatureRequired: true,
-    signatureStatus: SignatureStatus.pending,
-    downloadUrl: '/documents/doc-2/itr2_draft_rajesh.pdf',
+    caFirmId: 'firm-1',
+    title: 'ITR-V Draft - AY 2026-27',
+    documentType: DocumentType.itrV,
+    fileSize: 153600,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 6, 10, 0),
+    requiresESign: true,
+    eSigned: false,
+    status: DocumentStatus.shared,
   ),
   SharedDocument(
-    id: 'doc-3',
+    documentId: 'doc-3',
     clientId: '3',
-    documentName: 'Statutory Audit Report - FY 2025-26',
-    documentType: 'Audit Report',
-    uploadedBy: 'Neha Kapoor',
-    uploadedAt: DateTime(2026, 2, 28, 15, 0),
-    isSignatureRequired: true,
-    signatureStatus: SignatureStatus.signed,
-    downloadUrl: '/documents/doc-3/audit_report_abc_infra.pdf',
+    caFirmId: 'firm-1',
+    title: 'Statutory Audit Report - FY 2025-26',
+    documentType: DocumentType.auditReport,
+    fileSize: 512000,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 2, 28, 15, 0),
+    requiresESign: true,
+    eSigned: true,
+    eSignedAt: DateTime(2026, 3, 1, 10, 0),
+    status: DocumentStatus.eSigned,
   ),
   SharedDocument(
-    id: 'doc-4',
+    documentId: 'doc-4',
     clientId: '4',
-    documentName: 'GSTR-3B Feb 2026',
-    documentType: 'GST Return',
-    uploadedBy: 'Neha Kapoor',
-    uploadedAt: DateTime(2026, 3, 8, 11, 0),
-    isSignatureRequired: true,
-    signatureStatus: SignatureStatus.pending,
-    downloadUrl: '/documents/doc-4/gstr3b_feb_mehta.pdf',
+    caFirmId: 'firm-1',
+    title: 'GST Certificate - Feb 2026',
+    documentType: DocumentType.gstCertificate,
+    fileSize: 102400,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 8, 11, 0),
+    requiresESign: true,
+    eSigned: false,
+    status: DocumentStatus.viewed,
+    viewedAt: DateTime(2026, 3, 8, 14, 0),
   ),
   SharedDocument(
-    id: 'doc-5',
+    documentId: 'doc-5',
     clientId: '6',
-    documentName: 'TDS Return Q3 - Form 24Q',
-    documentType: 'TDS Return',
-    uploadedBy: 'Amit Verma',
-    uploadedAt: DateTime(2026, 2, 15, 9, 30),
-    downloadUrl: '/documents/doc-5/tds_q3_techvista.pdf',
+    caFirmId: 'firm-1',
+    title: 'TDS Return Q3 - Form 24Q',
+    documentType: DocumentType.other,
+    fileSize: 307200,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 2, 15, 9, 30),
+    requiresESign: false,
+    eSigned: false,
+    status: DocumentStatus.downloaded,
+    downloadedAt: DateTime(2026, 2, 15, 12, 0),
   ),
   SharedDocument(
-    id: 'doc-6',
+    documentId: 'doc-6',
     clientId: '8',
-    documentName: 'Board Resolution for AGM',
-    documentType: 'Corporate Filing',
-    uploadedBy: 'Bharat Electronics Ltd',
-    uploadedAt: DateTime(2026, 3, 1, 12, 0),
-    isSignatureRequired: true,
-    signatureStatus: SignatureStatus.rejected,
+    caFirmId: 'firm-1',
+    title: 'Board Resolution for AGM',
+    documentType: DocumentType.other,
+    fileSize: 256000,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 1, 12, 0),
+    requiresESign: true,
+    eSigned: false,
     expiresAt: DateTime(2026, 3, 15),
-    downloadUrl: '/documents/doc-6/board_resolution_bel.pdf',
+    status: DocumentStatus.expired,
   ),
   SharedDocument(
-    id: 'doc-7',
+    documentId: 'doc-7',
     clientId: '9',
-    documentName: 'Invoice - Q4 2025-26 Services',
-    documentType: 'Invoice',
-    uploadedBy: 'Amit Verma',
-    uploadedAt: DateTime(2026, 3, 7, 10, 0),
-    downloadUrl: '/documents/doc-7/invoice_q4_deepak.pdf',
+    caFirmId: 'firm-1',
+    title: 'Invoice - Q4 2025-26 Services',
+    documentType: DocumentType.invoice,
+    fileSize: 81920,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 7, 10, 0),
+    requiresESign: false,
+    eSigned: false,
+    status: DocumentStatus.viewed,
+    viewedAt: DateTime(2026, 3, 7, 11, 0),
   ),
   SharedDocument(
-    id: 'doc-8',
+    documentId: 'doc-8',
     clientId: '10',
-    documentName: 'Form 10B - AY 2026-27',
-    documentType: 'Trust Filing',
-    uploadedBy: 'Neha Kapoor',
-    uploadedAt: DateTime(2026, 3, 4, 14, 0),
-    isSignatureRequired: true,
-    signatureStatus: SignatureStatus.signed,
-    downloadUrl: '/documents/doc-8/form10b_sharma_trust.pdf',
+    caFirmId: 'firm-1',
+    title: 'Form 10B - AY 2026-27',
+    documentType: DocumentType.other,
+    fileSize: 204800,
+    mimeType: 'application/pdf',
+    sharedAt: DateTime(2026, 3, 4, 14, 0),
+    requiresESign: true,
+    eSigned: true,
+    eSignedAt: DateTime(2026, 3, 5, 9, 0),
+    status: DocumentStatus.eSigned,
   ),
 ];
 
@@ -568,15 +595,15 @@ class AllDocumentsNotifier extends Notifier<List<SharedDocument>> {
 }
 
 final documentFilterProvider =
-    NotifierProvider<DocumentFilterNotifier, SignatureStatus?>(
+    NotifierProvider<DocumentFilterNotifier, DocumentStatus?>(
       DocumentFilterNotifier.new,
     );
 
-class DocumentFilterNotifier extends Notifier<SignatureStatus?> {
+class DocumentFilterNotifier extends Notifier<DocumentStatus?> {
   @override
-  SignatureStatus? build() => null;
+  DocumentStatus? build() => null;
 
-  void update(SignatureStatus? value) => state = value;
+  void update(DocumentStatus? value) => state = value;
 }
 
 final filteredDocumentsProvider = Provider<List<SharedDocument>>((ref) {
@@ -584,7 +611,7 @@ final filteredDocumentsProvider = Provider<List<SharedDocument>>((ref) {
   final filter = ref.watch(documentFilterProvider);
   if (filter == null) return docs;
   return List.unmodifiable(
-    docs.where((d) => d.signatureStatus == filter).toList(),
+    docs.where((d) => d.status == filter).toList(),
   );
 });
 
@@ -654,7 +681,7 @@ final portalAutomationSummaryProvider = Provider<Map<String, int>>((ref) {
         .where((n) => n.title.contains('Magic Link'))
         .length,
     'pendingSignatures': documents
-        .where((d) => d.signatureStatus == SignatureStatus.pending)
+        .where((d) => d.requiresESign && !d.eSigned)
         .length,
   };
 });

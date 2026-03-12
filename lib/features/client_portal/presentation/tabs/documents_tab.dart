@@ -6,18 +6,18 @@ import 'package:ca_app/features/client_portal/domain/models/shared_document.dart
 import 'package:ca_app/features/client_portal/data/providers/client_portal_providers.dart';
 import 'package:ca_app/features/client_portal/presentation/widgets/shared_document_tile.dart';
 
-/// Tab displaying shared documents with signature status filtering.
+/// Tab displaying shared documents with document-status filtering.
 class DocumentsTab extends ConsumerWidget {
   const DocumentsTab({super.key});
 
-  static const _filters = <SignatureStatus?>[
+  static const _filters = <DocumentStatus?>[
     null,
-    SignatureStatus.pending,
-    SignatureStatus.signed,
-    SignatureStatus.rejected,
+    DocumentStatus.shared,
+    DocumentStatus.viewed,
+    DocumentStatus.eSigned,
   ];
 
-  static const _filterLabels = <String>['All', 'Pending', 'Signed', 'Rejected'];
+  static const _filterLabels = <String>['All', 'Shared', 'Viewed', 'Signed'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -218,28 +218,28 @@ class _DocumentDetailSheet extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            document.documentName,
+            document.title,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
-          _DetailRow(label: 'Type', value: document.documentType),
-          _DetailRow(label: 'Uploaded by', value: document.uploadedBy),
+          _DetailRow(label: 'Type', value: document.documentType.label),
           _DetailRow(
-            label: 'Upload date',
-            value: _formatDate(document.uploadedAt),
+            label: 'Shared on',
+            value: _formatDate(document.sharedAt),
           ),
           if (document.expiresAt != null)
             _DetailRow(
               label: 'Expires',
               value: _formatDate(document.expiresAt!),
             ),
-          if (document.isSignatureRequired)
+          if (document.requiresESign)
             _DetailRow(
-              label: 'Signature',
-              value: document.signatureStatus.label,
+              label: 'E-Sign',
+              value: document.eSigned ? 'Signed' : 'Pending',
             ),
+          _DetailRow(label: 'Status', value: document.status.label),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
@@ -250,8 +250,7 @@ class _DocumentDetailSheet extends StatelessWidget {
               style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
             ),
           ),
-          if (document.isSignatureRequired &&
-              document.signatureStatus == SignatureStatus.pending) ...[
+          if (document.requiresESign && !document.eSigned) ...[
             const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
