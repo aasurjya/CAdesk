@@ -1,33 +1,33 @@
-// ignore_for_file: public_member_api_docs
-
 import 'dart:convert';
 
 import 'package:ca_app/features/platform/domain/models/sync_queue_item.dart';
 
-/// Service managing offline mutation queuing, conflict detection, and resolution.
+/// In-memory offline sync queue service.
 ///
-/// Each instance maintains its own in-memory queue — use a fresh instance
-/// per test to avoid state leakage.
-final class OfflineSyncService {
+/// Manages the lifecycle of [SyncQueueItem] entries that represent local
+/// mutations to be synchronised with the remote server.
+/// Production implementations persist the queue to a local SQLite database.
+class OfflineSyncService {
   OfflineSyncService();
 
   final Map<String, SyncQueueItem> _queue = {};
   int _counter = 0;
 
-  // ---------------------------------------------------------------------------
-  // Enqueue
-  // ---------------------------------------------------------------------------
+  String _nextId() {
+    _counter++;
+    return 'sync-${DateTime.now().millisecondsSinceEpoch}-$_counter';
+  }
 
-  /// Adds a new [SyncQueueItem] with [SyncStatus.pending] to the queue.
+  /// Creates a new [SyncQueueItem] in [SyncStatus.pending] and adds it to the
+  /// queue.
   SyncQueueItem enqueue(
     String entityType,
     String entityId,
     SyncOperation operation,
     String payload,
   ) {
-    _counter++;
     final item = SyncQueueItem(
-      itemId: 'sync-$_counter-${DateTime.now().microsecondsSinceEpoch}',
+      itemId: _nextId(),
       entityType: entityType,
       entityId: entityId,
       operation: operation,
@@ -39,11 +39,16 @@ final class OfflineSyncService {
     return item;
   }
 
-  // ---------------------------------------------------------------------------
-  // Status transitions (immutable — always return new instances)
-  // ---------------------------------------------------------------------------
+  /// Returns all items currently in [SyncStatus.pending] state.
+  List<SyncQueueItem> getPendingItems() {
+    return _queue.values
+        .where((i) => i.status == SyncStatus.pending)
+        .toList(growable: false);
+  }
 
-  /// Marks [item] as synced, records [syncedAt], and updates the queue.
+  /// Marks [item] as [SyncStatus.synced] with the provided [syncedAt] time.
+  ///
+  /// Returns a new immutable [SyncQueueItem]; the internal store is updated.
   SyncQueueItem markSynced(SyncQueueItem item, DateTime syncedAt) {
     final updated = item.copyWith(
       status: SyncStatus.synced,
@@ -53,14 +58,31 @@ final class OfflineSyncService {
     return updated;
   }
 
-  /// Marks [item] as failed and updates the queue.
+  /// Marks [item] as [SyncStatus.failed].
+  ///
+  /// Returns a new immutable [SyncQueueItem]; the internal store is updated.
   SyncQueueItem markFailed(SyncQueueItem item) {
     final updated = item.copyWith(status: SyncStatus.failed);
     _queue[item.itemId] = updated;
     return updated;
   }
 
-  /// Records [resolution] on [item] with status [SyncStatus.conflicted].
+  /// Returns true when [serverVersion] differs from [item]'s JSON payload.
+  ///
+  /// Comparison is performed by re-encoding [serverVersion] and doing a
+  /// string equality check against the local [SyncQueueItem.payload].
+  bool detectConflict(
+    SyncQueueItem item,
+    Map<String, dynamic> serverVersion,
+  ) {
+    final serverJson = jsonEncode(serverVersion);
+    return item.payload != serverJson;
+  }
+
+  /// Records the conflict [resolution] strategy on [item] and sets its status
+  /// to [SyncStatus.conflicted].
+  ///
+  /// Returns a new immutable [SyncQueueItem]; the internal store is updated.
   SyncQueueItem resolveConflict(
     SyncQueueItem item,
     ConflictResolution resolution,
@@ -73,52 +95,10 @@ final class OfflineSyncService {
     return updated;
   }
 
-  // ---------------------------------------------------------------------------
-  // Queries
-  // ---------------------------------------------------------------------------
-
-  /// Returns all items currently in [SyncStatus.pending] state.
-  List<SyncQueueItem> getPendingItems() {
+  /// Returns the number of items in [SyncStatus.pending] state.
+  int getPendingCount() {
     return _queue.values
         .where((i) => i.status == SyncStatus.pending)
-        .toList();
-  }
-
-  /// Returns the count of items in [SyncStatus.pending] state.
-  int getPendingCount() => getPendingItems().length;
-
-  // ---------------------------------------------------------------------------
-  // Conflict detection
-  // ---------------------------------------------------------------------------
-
-  /// Returns `true` when the JSON [serverVersion] differs from [item.payload].
-  ///
-  /// Compares the decoded maps by value equality so field-ordering differences
-  /// do not produce false positives.
-  bool detectConflict(
-    SyncQueueItem item,
-    Map<String, dynamic> serverVersion,
-  ) {
-    try {
-      final local = jsonDecode(item.payload) as Map<String, dynamic>;
-      return !_mapsEqual(local, serverVersion);
-    } catch (_) {
-      return true;
-    }
-  }
-
-  bool _mapsEqual(Map<String, dynamic> a, Map<String, dynamic> b) {
-    if (a.length != b.length) return false;
-    for (final key in a.keys) {
-      if (!b.containsKey(key)) return false;
-      final av = a[key];
-      final bv = b[key];
-      if (av is Map<String, dynamic> && bv is Map<String, dynamic>) {
-        if (!_mapsEqual(av, bv)) return false;
-      } else if (av != bv) {
-        return false;
-      }
-    }
-    return true;
+        .length;
   }
 }

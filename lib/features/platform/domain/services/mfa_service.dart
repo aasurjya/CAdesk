@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // ignore_for_file: public_member_api_docs
 
 import 'dart:math';
@@ -9,11 +10,23 @@ import 'package:ca_app/features/platform/domain/models/mfa_setup.dart';
 ///
 /// Stateless singleton — use [MfaService.instance].
 final class MfaService {
+=======
+import 'dart:math';
+
+import 'package:ca_app/features/platform/domain/models/mfa_setup.dart';
+
+/// Stateless singleton providing MFA (Multi-Factor Authentication) operations.
+///
+/// TOTP generation uses a simplified mock algorithm suitable for testing.
+/// Production code should use HMAC-SHA1 per RFC 6238.
+class MfaService {
+>>>>>>> worktree-agent-ad3dc1f5
   MfaService._();
 
   static final MfaService instance = MfaService._();
 
   static const String _base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+<<<<<<< HEAD
   static const String _alphaNumChars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
@@ -52,6 +65,46 @@ final class MfaService {
     final keyBytes = _base32Decode(secret);
     for (var delta = -window; delta <= window; delta++) {
       if (_hotp(keyBytes, counter + delta) == code) return true;
+=======
+  static const String _alphanumericChars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  final Random _random = Random.secure();
+
+  // ---------------------------------------------------------------------------
+  // TOTP
+  // ---------------------------------------------------------------------------
+
+  /// Generates a random 16-character base32 TOTP secret.
+  String generateTotpSecret() {
+    return List.generate(
+      16,
+      (_) => _base32Chars[_random.nextInt(_base32Chars.length)],
+    ).join();
+  }
+
+  /// Generates a 6-digit TOTP code for [secret] at [time].
+  ///
+  /// Mock algorithm: `(secret.hashCode XOR counter) mod 1_000_000`
+  /// where counter = epoch-milliseconds / 30_000.
+  String generateTotp(String secret, DateTime time) {
+    final counter = time.millisecondsSinceEpoch ~/ 30000;
+    final code = (secret.hashCode ^ counter).abs() % 1000000;
+    return code.toString().padLeft(6, '0');
+  }
+
+  /// Returns true if [code] matches the TOTP for [secret] at [time],
+  /// checking [window] adjacent time-steps in each direction.
+  bool verifyTotp(
+    String secret,
+    String code,
+    DateTime time, {
+    int window = 1,
+  }) {
+    for (var offset = -window; offset <= window; offset++) {
+      final offsetTime = time.add(Duration(seconds: offset * 30));
+      if (generateTotp(secret, offsetTime) == code) return true;
+>>>>>>> worktree-agent-ad3dc1f5
     }
     return false;
   }
@@ -60,6 +113,7 @@ final class MfaService {
   // Backup codes
   // ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
   /// Generates 10 unique 8-character alphanumeric backup codes.
   List<String> generateBackupCodes() {
     final codes = <String>{};
@@ -72,13 +126,33 @@ final class MfaService {
       );
     }
     return codes.toList();
+=======
+  /// Generates 10 unique 8-character uppercase alphanumeric backup codes.
+  List<String> generateBackupCodes() {
+    final codes = <String>{};
+    while (codes.length < 10) {
+      codes.add(_randomCode(8));
+    }
+    return codes.toList(growable: false);
+  }
+
+  String _randomCode(int length) {
+    return List.generate(
+      length,
+      (_) => _alphanumericChars[_random.nextInt(_alphanumericChars.length)],
+    ).join();
+>>>>>>> worktree-agent-ad3dc1f5
   }
 
   // ---------------------------------------------------------------------------
   // Setup
   // ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
   /// Creates an [MfaSetup] record for [userId] using [method].
+=======
+  /// Creates and returns an unverified [MfaSetup] for [userId].
+>>>>>>> worktree-agent-ad3dc1f5
   MfaSetup setupMfa(String userId, MfaMethod method) {
     return MfaSetup(
       userId: userId,
@@ -89,6 +163,7 @@ final class MfaService {
       setupAt: DateTime.now(),
     );
   }
+<<<<<<< HEAD
 
   // ---------------------------------------------------------------------------
   // Private TOTP / HMAC-SHA1 helpers
@@ -254,4 +329,6 @@ final class MfaService {
     }
     return result;
   }
+=======
+>>>>>>> worktree-agent-ad3dc1f5
 }
