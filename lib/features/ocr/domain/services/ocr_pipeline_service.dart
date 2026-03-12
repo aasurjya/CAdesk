@@ -18,10 +18,8 @@ class OcrPipelineService {
 
   static final _panRegex = RegExp(r'[A-Z]{5}[0-9]{4}[A-Z]');
 
-  /// TAN: 5 letters + 4 digits + 1 letter = 10 chars (e.g. "AAATA1234X").
-  static final _tanRegex = RegExp(r'[A-Z]{5}[0-9]{4}[A-Z]');
-  static final _gstinRegex =
-      RegExp(r'\d{2}[A-Z]{5}\d{4}[A-Z][A-Z\d]Z[A-Z\d]');
+  /// GSTIN: 2-digit state code + PAN(10) + entity num + alpha + check = 15 chars.
+  static final _gstinRegex = RegExp(r'\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z]\d');
 
   // Form 16 extraction patterns
   static final _employerNameRegex =
@@ -46,13 +44,6 @@ class OcrPipelineService {
       RegExp(r'Opening Balance:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
   static final _closingBalanceRegex =
       RegExp(r'Closing Balance:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-
-  // Bank transaction line: date  description  debit?  credit?  balance
-  // Pattern matches lines starting with a date in DD-MM-YYYY format.
-  // We parse the trailing numbers to determine debit/credit/balance.
-  static final _txLineRegex = RegExp(
-    r'^(\d{2}-\d{2}-\d{4})\s+(.+?)\s{2,}([\d,]+\.\d{2})?(?:\s{2,}([\d,]+\.\d{2}))?\s{2,}([\d,]+\.\d{2})\s*$',
-  );
 
   // Invoice patterns
   static final _invoiceNumberRegex =
@@ -313,37 +304,80 @@ class OcrPipelineService {
     return bankMap[prefix] ?? prefix;
   }
 
+  // Matches a decimal amount anywhere in text
+  static final _amountRegex = RegExp(r'([\d,]+\.\d{2})');
+
   List<ExtractedTransaction> _parseTransactions(String rawText) {
     final transactions = <ExtractedTransaction>[];
+    final dateLineRegex = RegExp(r'^(\d{2}-\d{2}-\d{4})\s+(.+)$');
 
     for (final line in rawText.split('\n')) {
-      final match = _txLineRegex.firstMatch(line.trim());
-      if (match == null) continue;
+      final trimmed = line.trim();
+      final dateMatch = dateLineRegex.firstMatch(trimmed);
+      if (dateMatch == null) continue;
 
-      final date = _parseDdMmYyyy(match.group(1)!);
+      final date = _parseDdMmYyyy(dateMatch.group(1)!);
       if (date == null) continue;
 
-      final description = match.group(2)?.trim() ?? '';
-      final debitStr = match.group(3);
-      final creditStr = match.group(4);
-      final balanceStr = match.group(5) ?? '0';
+      final remainder = dateMatch.group(2)!;
 
-      final debit = debitStr != null
-          ? (double.tryParse(debitStr.replaceAll(',', '')) ?? 0.0) * 100
-          : 0.0;
-      final credit = creditStr != null
-          ? (double.tryParse(creditStr.replaceAll(',', '')) ?? 0.0) * 100
-          : 0.0;
-      final balance =
-          (double.tryParse(balanceStr.replaceAll(',', '')) ?? 0.0) * 100;
+      // Extract all decimal amounts from the remainder
+      final amounts = _amountRegex
+          .allMatches(remainder)
+          .map((m) =>
+              (double.tryParse(m.group(1)!.replaceAll(',', '')) ?? 0.0) * 100)
+          .toList();
+
+      if (amounts.isEmpty) continue;
+
+      // Remove amounts from the description to get clean narration
+      final description =
+          remainder.replaceAll(_amountRegex, '').trim().replaceAll(RegExp(r'\s{2,}'), ' ');
+
+      // Determine debit / credit / balance by position:
+      // 3 amounts: debit, credit, balance (either may be 0 if the column was blank)
+      // 2 amounts: (debit or credit), balance
+      // 1 amount: balance only
+      int debit = 0;
+      int credit = 0;
+      int balance = 0;
+
+      if (amounts.length >= 3) {
+        debit = amounts[0].round();
+        credit = amounts[1].round();
+        balance = amounts[2].round();
+      } else if (amounts.length == 2) {
+        // Determine if first amount is debit or credit by measuring the gap
+        // between the last non-space character before the first amount and
+        // the start of that amount.  A gap of 12+ spaces indicates the debit
+        // column was empty and this amount belongs to the credit column.
+        final firstAmt = amounts[0].round();
+        final lastAmt = amounts[1].round();
+        final firstAmtStr =
+            _amountRegex.firstMatch(remainder)?.group(0) ?? '';
+        final firstAmtIdx = remainder.indexOf(firstAmtStr);
+        // Count trailing spaces before the first amount to determine context
+        final gapBeforeFirst = remainder.substring(0, firstAmtIdx);
+        final trailingSpaces = gapBeforeFirst.length -
+            gapBeforeFirst.trimRight().length;
+        if (trailingSpaces >= 12) {
+          // Large gap → debit column was blank → this is a credit
+          credit = firstAmt;
+        } else {
+          debit = firstAmt;
+        }
+        balance = lastAmt;
+      } else {
+        balance = amounts[0].round();
+      }
 
       transactions.add(
         ExtractedTransaction(
           date: date,
           description: description,
-          debit: debit.round(),
-          credit: credit.round(),
-          balance: balance.round(),
+          debit: debit,
+          credit: credit,
+          balance: balance,
           referenceNumber: null,
         ),
       );
