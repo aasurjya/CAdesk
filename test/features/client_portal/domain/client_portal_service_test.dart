@@ -242,7 +242,8 @@ void main() {
       expect(diff.inHours, lessThanOrEqualTo(73));
       // Original unchanged (immutable)
       expect(client.inviteToken, isNull);
-      _ = after; // suppress unused warning
+      // ignore: unused_local_variable
+      final _ = after;
     });
 
     test('generateInviteToken does not change portalStatus', () {

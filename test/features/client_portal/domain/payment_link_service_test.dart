@@ -113,7 +113,8 @@ void main() {
       final expectedExpiry = service.computeExpiryDate(link.createdAt);
       expect(expectedExpiry.difference(link.createdAt).inDays, 7);
       expect(link.expiresAt, expectedExpiry);
-      _ = before; // suppress unused warning
+      // ignore: unused_local_variable
+      final _ = before;
     });
 
     test('createPaymentLink generates unique linkIds', () {
