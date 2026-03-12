@@ -107,13 +107,13 @@ class FilingStatus {
 
   @override
   int get hashCode => Object.hash(
-        filingId,
-        filingType,
-        pan,
-        period,
-        submittedAt,
-        currentState,
-        acknowledgementNumber,
-        Object.hashAll(history),
-      );
+    filingId,
+    filingType,
+    pan,
+    period,
+    submittedAt,
+    currentState,
+    acknowledgementNumber,
+    Object.hashAll(history),
+  );
 }

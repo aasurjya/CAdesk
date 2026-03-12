@@ -32,11 +32,8 @@ class ItrStatusTracker {
   // ---------------------------------------------------------------------------
   // Allowed transitions: Map<current state, Map<event, next state>>
   // ---------------------------------------------------------------------------
-  static const _transitions =
-      <FilingState, Map<ItrFilingEvent, FilingState>>{
-    FilingState.draft: {
-      ItrFilingEvent.submitFiling: FilingState.submitted,
-    },
+  static const _transitions = <FilingState, Map<ItrFilingEvent, FilingState>>{
+    FilingState.draft: {ItrFilingEvent.submitFiling: FilingState.submitted},
     FilingState.submitted: {
       ItrFilingEvent.generateItrV: FilingState.eVerificationPending,
     },

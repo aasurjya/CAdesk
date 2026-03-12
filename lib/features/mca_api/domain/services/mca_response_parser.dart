@@ -110,8 +110,14 @@ class McaResponseParser {
       cin: cin,
       filedAt: DateTime.parse(filedAtStr),
       status: _parseEFormStatus(statusStr),
+<<<<<<< HEAD
       approvalDate:
           approvalDateStr != null ? DateTime.parse(approvalDateStr) : null,
+=======
+      approvalDate: approvalDateStr != null
+          ? DateTime.parse(approvalDateStr)
+          : null,
+>>>>>>> worktree-agent-a23e0ce3
       remarks: remarks,
     );
   }
@@ -151,7 +157,13 @@ class McaResponseParser {
       throw FormatException('Missing required field: $key');
     }
     if (value is! String) {
+<<<<<<< HEAD
       throw FormatException('Expected String for field $key, got ${value.runtimeType}');
+=======
+      throw FormatException(
+        'Expected String for field $key, got ${value.runtimeType}',
+      );
+>>>>>>> worktree-agent-a23e0ce3
     }
     return value;
   }

@@ -89,14 +89,14 @@ class DemandTracker {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        assessmentYear,
-        demandId,
-        section,
-        demandAmount,
-        outstandingAmount,
-        status,
-        dueDate,
-        interestAccruing,
-      );
+    pan,
+    assessmentYear,
+    demandId,
+    section,
+    demandAmount,
+    outstandingAmount,
+    status,
+    dueDate,
+    interestAccruing,
+  );
 }

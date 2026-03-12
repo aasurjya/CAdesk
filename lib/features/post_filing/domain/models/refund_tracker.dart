@@ -81,13 +81,13 @@ class RefundTracker {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        assessmentYear,
-        refundAmount,
-        status,
-        refundBankAccount,
-        issuedDate,
-        adjustedAgainstDemand,
-        expectedDate,
-      );
+    pan,
+    assessmentYear,
+    refundAmount,
+    status,
+    refundBankAccount,
+    issuedDate,
+    adjustedAgainstDemand,
+    expectedDate,
+  );
 }

@@ -49,9 +49,13 @@ class GstnBulkProcessor {
 
     for (final batch in batches) {
       final batchResults = await Future.wait(
+<<<<<<< HEAD
         batch.map(
           (gstin) => repo.getFilingStatus(gstin, returnType, period),
         ),
+=======
+        batch.map((gstin) => repo.getFilingStatus(gstin, returnType, period)),
+>>>>>>> worktree-agent-a23e0ce3
       );
       results.addAll(batchResults);
     }

@@ -140,7 +140,13 @@ class GstnResponseMapper {
     try {
       final parts = dof.split(' ');
       final dateParts = parts[0].split('-');
+<<<<<<< HEAD
       final timeParts = parts.length > 1 ? parts[1].split(':') : ['0', '0', '0'];
+=======
+      final timeParts = parts.length > 1
+          ? parts[1].split(':')
+          : ['0', '0', '0'];
+>>>>>>> worktree-agent-a23e0ce3
       return DateTime(
         int.parse(dateParts[2]),
         int.parse(dateParts[1]),

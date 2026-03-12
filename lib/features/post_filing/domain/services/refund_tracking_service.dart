@@ -72,14 +72,15 @@ class RefundTrackingService {
     if (tracker.status == RefundTrackerStatus.issued) return 0;
 
     // Grace period: no interest if today is within 90 days of the return due date.
-    final graceEnd =
-        returnDueDate.add(const Duration(days: _gracePeriodDays));
+    final graceEnd = returnDueDate.add(const Duration(days: _gracePeriodDays));
     if (!today.isAfter(graceEnd)) return 0;
 
     // Interest starts from 1 April of the AY (the financial year that
     // corresponds to the return's due date).
-    final interestStartDate =
-        _interestStartDate(tracker.assessmentYear, returnDueDate);
+    final interestStartDate = _interestStartDate(
+      tracker.assessmentYear,
+      returnDueDate,
+    );
 
     final daysElapsed = today.difference(interestStartDate).inDays;
     if (daysElapsed <= 0) return 0;
@@ -100,13 +101,13 @@ class RefundTrackingService {
     final issuedDate = tracker.issuedDate;
     if (issuedDate != null) {
       // Refund was issued — check whether it was issued within the grace period.
-      final graceEnd =
-          returnDueDate.add(const Duration(days: _gracePeriodDays));
+      final graceEnd = returnDueDate.add(
+        const Duration(days: _gracePeriodDays),
+      );
       return issuedDate.isAfter(graceEnd);
     }
     // Refund not yet issued — delayed if today is past the grace period.
-    final graceEnd =
-        returnDueDate.add(const Duration(days: _gracePeriodDays));
+    final graceEnd = returnDueDate.add(const Duration(days: _gracePeriodDays));
     return today.isAfter(graceEnd);
   }
 

@@ -58,6 +58,17 @@ class McaFilingRecord {
   }
 
   @override
+<<<<<<< HEAD
   int get hashCode =>
       Object.hash(srn, formType, filedAt, status, documentDescription, feesPaid);
+=======
+  int get hashCode => Object.hash(
+    srn,
+    formType,
+    filedAt,
+    status,
+    documentDescription,
+    feesPaid,
+  );
+>>>>>>> worktree-agent-a23e0ce3
 }

@@ -70,13 +70,12 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
-import 'package:ca_app/features/e_verification/presentation/e_verification_screen.dart'
-    as ev;
-import 'package:ca_app/features/e_verification/presentation/verify_flow_screen.dart';
-import 'package:ca_app/features/e_verification/domain/models/verification_request.dart';
-import 'package:ca_app/features/audit/presentation/audit_report_screen.dart';
-import 'package:ca_app/features/audit/presentation/form3cd_screen.dart';
-import 'package:ca_app/features/audit/presentation/form29b_screen.dart';
+import 'package:ca_app/features/portal_connector/presentation/portal_hub_screen.dart';
+import 'package:ca_app/features/portal_connector/presentation/portal_config_screen.dart';
+import 'package:ca_app/features/gstn_api/presentation/gstn_api_screen.dart';
+import 'package:ca_app/features/gstn_api/presentation/gstin_search_screen.dart';
+import 'package:ca_app/features/mca_api/presentation/mca_api_screen.dart';
+import 'package:ca_app/features/mca_api/presentation/company_search_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -545,37 +544,40 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AdvanceTaxScreen(),
       ),
       GoRoute(
-        path: '/e-verification',
-        name: 'eVerificationDashboard',
+        path: '/portals',
+        name: 'portals',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const ev.EVerificationDashboardScreen(),
+        builder: (context, state) => const PortalHubScreen(),
       ),
       GoRoute(
-        path: '/e-verification/verify',
-        name: 'verifyFlow',
+        path: '/portals/config',
+        name: 'portalConfig',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final request = state.extra! as VerificationRequest;
-          return VerifyFlowScreen(request: request);
-        },
+        builder: (context, state) => const PortalConfigScreen(),
       ),
       GoRoute(
-        path: '/audit-reports',
-        name: 'auditReports',
+        path: '/gstn-api',
+        name: 'gstnApi',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const AuditReportScreen(),
+        builder: (context, state) => const GstnApiScreen(),
       ),
       GoRoute(
-        path: '/audit-reports/3cd',
-        name: 'form3cd',
+        path: '/gstn-api/search',
+        name: 'gstinSearch',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const Form3cdScreen(),
+        builder: (context, state) => const GstinSearchScreen(),
       ),
       GoRoute(
-        path: '/audit-reports/29b',
-        name: 'form29b',
+        path: '/mca-api',
+        name: 'mcaApi',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const Form29bScreen(),
+        builder: (context, state) => const McaApiScreen(),
+      ),
+      GoRoute(
+        path: '/mca-api/search',
+        name: 'mcaSearch',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CompanySearchScreen(),
       ),
     ],
   );

@@ -1,3 +1,30 @@
+/// Types of documents that can be shared.
+enum DocumentType {
+  itrV('ITR-V'),
+  form16('Form 16'),
+  gstCertificate('GST Certificate'),
+  auditReport('Audit Report'),
+  invoice('Invoice'),
+  other('Other');
+
+  const DocumentType(this.label);
+
+  final String label;
+}
+
+/// Status of a shared document.
+enum DocumentStatus {
+  shared('Shared'),
+  viewed('Viewed'),
+  downloaded('Downloaded'),
+  eSigned('E-Signed'),
+  expired('Expired');
+
+  const DocumentStatus(this.label);
+
+  final String label;
+}
+
 /// Signature status for shared documents requiring e-signatures.
 enum SignatureStatus {
   notRequired('Not Required'),
@@ -14,64 +41,81 @@ enum SignatureStatus {
 /// Represents a document shared with or uploaded by a client through the portal.
 class SharedDocument {
   const SharedDocument({
-    required this.id,
+    required this.documentId,
     required this.clientId,
-    required this.documentName,
+    required this.caFirmId,
+    required this.title,
     required this.documentType,
-    required this.uploadedBy,
-    required this.uploadedAt,
-    required this.downloadUrl,
+    required this.fileSize,
+    required this.mimeType,
+    required this.sharedAt,
+    required this.requiresESign,
+    required this.eSigned,
+    required this.status,
     this.expiresAt,
-    this.isSignatureRequired = false,
-    this.signatureStatus = SignatureStatus.notRequired,
+    this.eSignedAt,
+    this.viewedAt,
+    this.downloadedAt,
   });
 
-  final String id;
+  final String documentId;
   final String clientId;
-  final String documentName;
-  final String documentType;
-  final String uploadedBy;
-  final DateTime uploadedAt;
+  final String caFirmId;
+  final String title;
+  final DocumentType documentType;
+  final int fileSize;
+  final String mimeType;
+  final DateTime sharedAt;
   final DateTime? expiresAt;
-  final bool isSignatureRequired;
-  final SignatureStatus signatureStatus;
-  final String downloadUrl;
-
-  bool get isExpired =>
-      expiresAt != null && expiresAt!.isBefore(DateTime.now());
+  final bool requiresESign;
+  final bool eSigned;
+  final DocumentStatus status;
+  final DateTime? eSignedAt;
+  final DateTime? viewedAt;
+  final DateTime? downloadedAt;
 
   SharedDocument copyWith({
-    String? id,
+    String? documentId,
     String? clientId,
-    String? documentName,
-    String? documentType,
-    String? uploadedBy,
-    DateTime? uploadedAt,
+    String? caFirmId,
+    String? title,
+    DocumentType? documentType,
+    int? fileSize,
+    String? mimeType,
+    DateTime? sharedAt,
     DateTime? expiresAt,
-    bool? isSignatureRequired,
-    SignatureStatus? signatureStatus,
-    String? downloadUrl,
+    bool? requiresESign,
+    bool? eSigned,
+    DocumentStatus? status,
+    DateTime? eSignedAt,
+    DateTime? viewedAt,
+    DateTime? downloadedAt,
   }) {
     return SharedDocument(
-      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
       clientId: clientId ?? this.clientId,
-      documentName: documentName ?? this.documentName,
+      caFirmId: caFirmId ?? this.caFirmId,
+      title: title ?? this.title,
       documentType: documentType ?? this.documentType,
-      uploadedBy: uploadedBy ?? this.uploadedBy,
-      uploadedAt: uploadedAt ?? this.uploadedAt,
+      fileSize: fileSize ?? this.fileSize,
+      mimeType: mimeType ?? this.mimeType,
+      sharedAt: sharedAt ?? this.sharedAt,
       expiresAt: expiresAt ?? this.expiresAt,
-      isSignatureRequired: isSignatureRequired ?? this.isSignatureRequired,
-      signatureStatus: signatureStatus ?? this.signatureStatus,
-      downloadUrl: downloadUrl ?? this.downloadUrl,
+      requiresESign: requiresESign ?? this.requiresESign,
+      eSigned: eSigned ?? this.eSigned,
+      status: status ?? this.status,
+      eSignedAt: eSignedAt ?? this.eSignedAt,
+      viewedAt: viewedAt ?? this.viewedAt,
+      downloadedAt: downloadedAt ?? this.downloadedAt,
     );
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is SharedDocument && other.id == id;
+    return other is SharedDocument && other.documentId == documentId;
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => documentId.hashCode;
 }

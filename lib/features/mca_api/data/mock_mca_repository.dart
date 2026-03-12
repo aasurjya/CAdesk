@@ -51,7 +51,8 @@ class MockMcaRepository implements McaRepository {
     return McaCompanyLookup(
       cin: cin,
       companyName: 'RELIANCE INDUSTRIES LIMITED',
-      registeredOfficeAddress: 'Maker Chambers IV, Nariman Point, Mumbai 400021',
+      registeredOfficeAddress:
+          'Maker Chambers IV, Nariman Point, Mumbai 400021',
       state: 'MH',
       dateOfIncorporation: DateTime(1973, 5, 8),
       status: McaCompanyStatus.active,
@@ -71,7 +72,8 @@ class MockMcaRepository implements McaRepository {
     return McaCompanyLookup(
       cin: 'L17110MH1973PLC019786',
       companyName: 'RELIANCE INDUSTRIES LIMITED',
-      registeredOfficeAddress: 'Maker Chambers IV, Nariman Point, Mumbai 400021',
+      registeredOfficeAddress:
+          'Maker Chambers IV, Nariman Point, Mumbai 400021',
       state: 'MH',
       dateOfIncorporation: DateTime(1973, 5, 8),
       status: McaCompanyStatus.active,

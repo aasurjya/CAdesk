@@ -1,13 +1,7 @@
 import '../models/gst_filing_status.dart';
 
 /// Events that drive the GST return filing state machine.
-enum GstFilingEvent {
-  saveDraft,
-  submit,
-  file,
-  gstinProcess,
-  reject,
-}
+enum GstFilingEvent { saveDraft, submit, file, gstinProcess, reject }
 
 /// Stateless service that manages the GST return filing state machine
 /// and computes late fees per CGST Act provisions.
@@ -47,20 +41,18 @@ class GstStatusTracker {
   // ---------------------------------------------------------------------------
   static const _transitions =
       <GstFilingState, Map<GstFilingEvent, GstFilingState>>{
-    GstFilingState.notFiled: {
-      GstFilingEvent.saveDraft: GstFilingState.saved,
-    },
-    GstFilingState.saved: {
-      GstFilingEvent.submit: GstFilingState.submitted,
-    },
-    GstFilingState.submitted: {
-      GstFilingEvent.file: GstFilingState.filed,
-      GstFilingEvent.reject: GstFilingState.rejected,
-    },
-    GstFilingState.filed: {
-      GstFilingEvent.gstinProcess: GstFilingState.processed,
-    },
-  };
+        GstFilingState.notFiled: {
+          GstFilingEvent.saveDraft: GstFilingState.saved,
+        },
+        GstFilingState.saved: {GstFilingEvent.submit: GstFilingState.submitted},
+        GstFilingState.submitted: {
+          GstFilingEvent.file: GstFilingState.filed,
+          GstFilingEvent.reject: GstFilingState.rejected,
+        },
+        GstFilingState.filed: {
+          GstFilingEvent.gstinProcess: GstFilingState.processed,
+        },
+      };
 
   /// Applies [event] to [current] and returns a new [GstFilingStatus].
   ///
@@ -79,11 +71,7 @@ class GstStatusTracker {
     final nextState = allowed[event];
     if (nextState == null) return current;
 
-    return current.copyWith(
-      status: nextState,
-      filedAt: filedAt,
-      arn: arn,
-    );
+    return current.copyWith(status: nextState, filedAt: filedAt, arn: arn);
   }
 
   /// Computes the late fee for [status] as of [today], given the [dueDate] for

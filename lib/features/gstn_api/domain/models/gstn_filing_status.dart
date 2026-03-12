@@ -1,16 +1,21 @@
 /// Return type for GSTN filings.
+<<<<<<< HEAD
 enum GstnReturnType {
   gstr1,
   gstr3b,
   gstr9,
   gstr9c,
 }
+=======
+enum GstnReturnType { gstr1, gstr3b, gstr9, gstr9c }
+>>>>>>> worktree-agent-a23e0ce3
 
 /// Filing lifecycle status as tracked by the GSTN portal.
 ///
 /// Mirrors the status codes returned by the GSTN API:
 /// NF = notFiled, SAV = saved, SUB = submitted, CNF = filed,
 /// PRO = processed, REJ = rejected.
+<<<<<<< HEAD
 enum GstnReturnStatus {
   notFiled,
   saved,
@@ -19,6 +24,9 @@ enum GstnReturnStatus {
   processed,
   rejected,
 }
+=======
+enum GstnReturnStatus { notFiled, saved, submitted, filed, processed, rejected }
+>>>>>>> worktree-agent-a23e0ce3
 
 /// Immutable snapshot of a GSTN return's filing state.
 class GstnFilingStatus {
@@ -95,6 +103,7 @@ class GstnFilingStatus {
 
   @override
   int get hashCode => Object.hash(
+<<<<<<< HEAD
         gstin,
         returnType,
         period,
@@ -104,4 +113,15 @@ class GstnFilingStatus {
         processedAt,
         errorMessage,
       );
+=======
+    gstin,
+    returnType,
+    period,
+    status,
+    arn,
+    filedAt,
+    processedAt,
+    errorMessage,
+  );
+>>>>>>> worktree-agent-a23e0ce3
 }

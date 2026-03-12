@@ -108,11 +108,7 @@ class MockGstnRepository implements GstnRepository {
   }
 
   @override
-  Future<GstnToken> getToken(
-    String gstin,
-    String username,
-    String otp,
-  ) async {
+  Future<GstnToken> getToken(String gstin, String username, String otp) async {
     return GstnToken(
       accessToken: _generateAccessToken(gstin),
       tokenType: 'Bearer',
@@ -186,9 +182,6 @@ class MockGstnRepository implements GstnRepository {
     final rng = Random(seed);
     final chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    return List.generate(
-      64,
-      (_) => chars[rng.nextInt(chars.length)],
-    ).join();
+    return List.generate(64, (_) => chars[rng.nextInt(chars.length)]).join();
   }
 }

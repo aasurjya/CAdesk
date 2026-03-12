@@ -39,6 +39,5 @@ class FilingStatusTransition {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(fromState, toState, transitionedAt, reason);
+  int get hashCode => Object.hash(fromState, toState, transitionedAt, reason);
 }
