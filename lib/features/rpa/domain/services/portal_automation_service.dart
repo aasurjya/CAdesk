@@ -7,24 +7,12 @@ import 'package:ca_app/features/rpa/domain/services/automation_script_builder.da
 /// Executes, validates, and provides templates for portal automation scripts.
 ///
 /// All execution is mocked — no real browser automation occurs in this layer.
-/// The service acts as the domain facade for the RPA sub-system.
 class PortalAutomationService {
   PortalAutomationService._();
 
   static final PortalAutomationService instance = PortalAutomationService._();
 
-  // ---------------------------------------------------------------------------
-  // Script execution (mocked)
-  // ---------------------------------------------------------------------------
-
   /// Simulates executing [script] against a live portal.
-  ///
-  /// Mock behaviour:
-  /// - All steps are reported as completed.
-  /// - [AutomationResult.success] is `true`.
-  /// - Execution time is derived from [AutomationScript.estimatedDurationSeconds].
-  /// - `extractText` steps contribute placeholder entries to [AutomationResult.extractedData].
-  /// - [sessionTokens] is accepted but not used in the mock.
   Future<AutomationResult> executeScript(
     AutomationScript script,
     Map<String, String> sessionTokens,
@@ -50,19 +38,9 @@ class PortalAutomationService {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Script validation
-  // ---------------------------------------------------------------------------
-
   /// Validates [script] and returns a list of human-readable error messages.
   ///
   /// An empty list means the script is valid.
-  ///
-  /// Checks performed:
-  /// 1. Script must have at least one step.
-  /// 2. Step numbers must be in strictly ascending order.
-  /// 3. Step numbers must be unique (no duplicates).
-  /// 4. Required (non-optional) steps must have a non-empty selector.
   List<String> validateScript(AutomationScript script) {
     final errors = <String>[];
 
@@ -71,7 +49,6 @@ class PortalAutomationService {
       return errors;
     }
 
-    // Check ordering and uniqueness together.
     final seenNumbers = <int>{};
     for (var i = 0; i < script.steps.length; i++) {
       final step = script.steps[i];
@@ -105,18 +82,7 @@ class PortalAutomationService {
     return errors;
   }
 
-  // ---------------------------------------------------------------------------
-  // Script templates
-  // ---------------------------------------------------------------------------
-
   /// Returns a pre-built script template for [portalName] and [taskName].
-  ///
-  /// | portalName | taskName        | Portal                      |
-  /// |------------|-----------------|------------------------------|
-  /// | traces     | form16          | [AutomationPortal.traces]   |
-  /// | traces     | challanStatus   | [AutomationPortal.traces]   |
-  /// | gstn       | filingStatus    | [AutomationPortal.gstn]     |
-  /// | mca        | formPrefill     | [AutomationPortal.mca]      |
   ///
   /// Returns a fallback script with an empty steps list for unknown combinations.
   AutomationScript getScriptTemplate(String portalName, String taskName) {
@@ -163,11 +129,6 @@ class PortalAutomationService {
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // Private helpers
-  // ---------------------------------------------------------------------------
-
-  /// Converts a CSS selector like `.requestId` or `#requestId` to a plain key.
   String _selectorToKey(String selector) {
     if (selector.startsWith('.') || selector.startsWith('#')) {
       return selector.substring(1);
