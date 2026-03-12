@@ -147,7 +147,7 @@ void main() {
   });
 
   group('RegulatoryUpdate model', () {
-    const update = RegulatoryUpdate(
+    final update = RegulatoryUpdate(
       updateId: 'u1',
       title: 'Test Update',
       summary: 'Summary',
@@ -156,7 +156,7 @@ void main() {
       publicationDate: DateTime.utc(2024, 7, 23),
       effectiveDate: null,
       impactLevel: ImpactLevel.high,
-      affectedSections: ['111A', '112A'],
+      affectedSections: const ['111A', '112A'],
       url: null,
       isRead: false,
     );
@@ -179,7 +179,7 @@ void main() {
     });
 
     test('equality holds for identical data', () {
-      const other = RegulatoryUpdate(
+      final other = RegulatoryUpdate(
         updateId: 'u1',
         title: 'Test Update',
         summary: 'Summary',
@@ -188,7 +188,7 @@ void main() {
         publicationDate: DateTime.utc(2024, 7, 23),
         effectiveDate: null,
         impactLevel: ImpactLevel.high,
-        affectedSections: ['111A', '112A'],
+        affectedSections: const ['111A', '112A'],
         url: null,
         isRead: false,
       );

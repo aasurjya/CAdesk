@@ -135,14 +135,14 @@ void main() {
 
   group('ComplianceAlertService.computeDaysRemaining', () {
     test('returns positive days when due date is in future', () {
-      const alert = ComplianceAlert(
+      final alert = ComplianceAlert(
         alertId: 'a2',
         title: 'Future Alert',
         description: 'desc',
         alertType: AlertType.deadlineApproaching,
         dueDate: DateTime.utc(2025, 7, 31),
         daysRemaining: null,
-        applicableTo: ['Individual'],
+        applicableTo: const ['Individual'],
         penaltyIfMissed: null,
         priority: AlertPriority.high,
       );
@@ -151,7 +151,7 @@ void main() {
     });
 
     test('returns 0 when due date equals today', () {
-      const alert = ComplianceAlert(
+      final alert = ComplianceAlert(
         alertId: 'a3',
         title: 'Due Today',
         description: 'desc',
@@ -167,7 +167,7 @@ void main() {
     });
 
     test('returns negative when due date is past', () {
-      const alert = ComplianceAlert(
+      final alert = ComplianceAlert(
         alertId: 'a4',
         title: 'Overdue',
         description: 'desc',
@@ -200,19 +200,22 @@ void main() {
   });
 
   group('ComplianceAlert model', () {
-    const alert = ComplianceAlert(
-      alertId: 'test-1',
-      title: 'ITR Filing Deadline',
-      description: 'File ITR by July 31',
-      alertType: AlertType.deadlineApproaching,
-      dueDate: DateTime.utc(2025, 7, 31),
-      daysRemaining: 60,
-      applicableTo: ['Individual', 'HUF'],
-      penaltyIfMissed: '₹5,000 under Section 234F',
-      priority: AlertPriority.high,
-    );
+    late ComplianceAlert alert;
+    setUp(() {
+      alert = ComplianceAlert(
+        alertId: 'test-1',
+        title: 'ITR Filing Deadline',
+        description: 'File ITR by July 31',
+        alertType: AlertType.deadlineApproaching,
+        dueDate: DateTime.utc(2025, 7, 31),
+        daysRemaining: 60,
+        applicableTo: const ['Individual', 'HUF'],
+        penaltyIfMissed: '₹5,000 under Section 234F',
+        priority: AlertPriority.high,
+      );
+    });
 
-    test('const constructor sets all fields correctly', () {
+    test('constructor sets all fields correctly', () {
       expect(alert.alertId, 'test-1');
       expect(alert.title, 'ITR Filing Deadline');
       expect(alert.alertType, AlertType.deadlineApproaching);
@@ -227,14 +230,14 @@ void main() {
     });
 
     test('equality holds for identical data', () {
-      const other = ComplianceAlert(
+      final other = ComplianceAlert(
         alertId: 'test-1',
         title: 'ITR Filing Deadline',
         description: 'File ITR by July 31',
         alertType: AlertType.deadlineApproaching,
         dueDate: DateTime.utc(2025, 7, 31),
         daysRemaining: 60,
-        applicableTo: ['Individual', 'HUF'],
+        applicableTo: const ['Individual', 'HUF'],
         penaltyIfMissed: '₹5,000 under Section 234F',
         priority: AlertPriority.high,
       );

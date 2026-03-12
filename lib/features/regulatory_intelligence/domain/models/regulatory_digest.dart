@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show immutable, listEquals;
 
 import 'compliance_alert.dart';
 import 'rate_change.dart';
@@ -8,7 +8,7 @@ import 'regulatory_update.dart';
 /// rate changes for a given day or week.
 @immutable
 class RegulatoryDigest {
-  RegulatoryDigest({
+  const RegulatoryDigest({
     required this.digestDate,
     required this.updates,
     required this.alerts,
@@ -65,9 +65,9 @@ class RegulatoryDigest {
       other is RegulatoryDigest &&
           runtimeType == other.runtimeType &&
           digestDate == other.digestDate &&
-          updates == other.updates &&
-          alerts == other.alerts &&
-          rateChanges == other.rateChanges;
+          listEquals(updates, other.updates) &&
+          listEquals(alerts, other.alerts) &&
+          listEquals(rateChanges, other.rateChanges);
 
   @override
   int get hashCode => Object.hash(digestDate, updates, alerts, rateChanges);

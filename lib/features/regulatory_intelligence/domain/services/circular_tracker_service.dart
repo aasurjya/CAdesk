@@ -12,7 +12,7 @@ class CircularTrackerService {
   // Mock data — 10+ regulatory updates covering FY 2024-25
   // ---------------------------------------------------------------------------
   static final List<RegulatoryUpdate> _mockUpdates = [
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-001',
       title: 'Finance Act 2024: STCG Rate Hiked to 20% (Section 111A)',
       summary:
@@ -24,11 +24,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 7, 23),
       effectiveDate: DateTime.utc(2024, 7, 23),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['111A', 'Schedule III'],
+      affectedSections: const ['111A', 'Schedule III'],
       url: 'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-002',
       title: 'Finance Act 2024: LTCG Rate Increased to 12.5% (Section 112A)',
       summary:
@@ -40,11 +40,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 7, 23),
       effectiveDate: DateTime.utc(2024, 7, 23),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['112A', '10(38)'],
+      affectedSections: const ['112A', '10(38)'],
       url: 'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-003',
       title: 'New TDS Section 194T: Partner Salary / Remuneration',
       summary:
@@ -56,11 +56,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 7, 23),
       effectiveDate: DateTime.utc(2025, 4, 1),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['194T', '40(b)'],
+      affectedSections: const ['194T', '40(b)'],
       url: null,
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-004',
       title: 'Section 43B(h): MSME Payment Within 45 Days',
       summary:
@@ -72,11 +72,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 4, 1),
       effectiveDate: DateTime.utc(2024, 4, 1),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['43B(h)', 'MSMED Act'],
+      affectedSections: const ['43B(h)', 'MSMED Act'],
       url: null,
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-005',
       title: 'CBDT Circular 6/2024: TDS on Salary — New Regime Default',
       summary:
@@ -88,11 +88,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 4, 5),
       effectiveDate: DateTime.utc(2024, 4, 1),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['115BAC', '192'],
+      affectedSections: const ['115BAC', '192'],
       url: 'https://incometaxindia.gov.in/communications/circular/circular62024.pdf',
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-006',
       title: 'GST Council 53rd Meeting: GST on Insurance Premiums Reduced',
       summary:
@@ -104,11 +104,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 6, 22),
       effectiveDate: null,
       impactLevel: ImpactLevel.medium,
-      affectedSections: ['9(1)', 'Schedule I'],
+      affectedSections: const ['9(1)', 'Schedule I'],
       url: null,
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-007',
       title: 'MCA: Annual General Meeting via Video Conferencing Extended',
       summary:
@@ -120,11 +120,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 9, 27),
       effectiveDate: DateTime.utc(2024, 9, 27),
       impactLevel: ImpactLevel.medium,
-      affectedSections: ['96', '101'],
+      affectedSections: const ['96', '101'],
       url: null,
       isRead: true,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-008',
       title: 'SEBI Circular: F&O Position Limits Revised',
       summary:
@@ -136,11 +136,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 10, 1),
       effectiveDate: DateTime.utc(2024, 11, 1),
       impactLevel: ImpactLevel.medium,
-      affectedSections: ['F&O', 'STT'],
+      affectedSections: const ['F&O', 'STT'],
       url: null,
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-009',
       title: 'CBDT: Revised Income Tax Return Forms for AY 2025-26',
       summary:
@@ -152,11 +152,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2025, 1, 31),
       effectiveDate: DateTime.utc(2025, 4, 1),
       impactLevel: ImpactLevel.high,
-      affectedSections: ['ITR-1', 'ITR-2', 'ITR-3', 'Schedule CG'],
+      affectedSections: const ['ITR-1', 'ITR-2', 'ITR-3', 'Schedule CG'],
       url: null,
       isRead: false,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-010',
       title: 'RBI: Repo Rate Held at 6.5% — Impact on TDS Certificates',
       summary:
@@ -168,11 +168,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 12, 6),
       effectiveDate: null,
       impactLevel: ImpactLevel.low,
-      affectedSections: ['194A', '197'],
+      affectedSections: const ['194A', '197'],
       url: null,
       isRead: true,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-011',
       title: 'CBIC Notification 12/2024: E-Invoicing Threshold Reduced to ₹5 Cr',
       summary:
@@ -183,11 +183,11 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 3, 1),
       effectiveDate: DateTime.utc(2024, 4, 1),
       impactLevel: ImpactLevel.medium,
-      affectedSections: ['31A', 'Rule 48(4)'],
+      affectedSections: const ['31A', 'Rule 48(4)'],
       url: null,
       isRead: true,
     ),
-    const RegulatoryUpdate(
+    RegulatoryUpdate(
       updateId: 'reg-012',
       title: 'ITAT Ruling: No Section 36(1)(va) Disallowance for Belated PF/ESI',
       summary:
@@ -199,7 +199,7 @@ class CircularTrackerService {
       publicationDate: DateTime.utc(2024, 8, 15),
       effectiveDate: null,
       impactLevel: ImpactLevel.medium,
-      affectedSections: ['36(1)(va)', '43B'],
+      affectedSections: const ['36(1)(va)', '43B'],
       url: null,
       isRead: false,
     ),
