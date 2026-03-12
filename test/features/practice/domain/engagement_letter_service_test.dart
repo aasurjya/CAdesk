@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ca_app/features/practice/domain/models/engagement_letter.dart';
 import 'package:ca_app/features/practice/domain/models/fee_structure.dart';
 import 'package:ca_app/features/practice/domain/services/engagement_letter_service.dart';
 

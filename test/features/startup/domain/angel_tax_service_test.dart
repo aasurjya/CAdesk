@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/startup/domain/models/angel_tax_computation.dart';
-import 'package:ca_app/features/startup/domain/models/funding_round.dart';
-import 'package:ca_app/features/startup/domain/models/cap_table.dart';
 import 'package:ca_app/features/startup/domain/services/angel_tax_service.dart';
 import 'package:ca_app/features/startup/domain/services/section80iac_service.dart';
 

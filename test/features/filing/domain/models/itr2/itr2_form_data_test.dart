@@ -1,14 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
-import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
-import 'package:ca_app/features/filing/domain/models/itr1/house_property_income.dart';
-import 'package:ca_app/features/filing/domain/models/itr1/other_source_income.dart';
-import 'package:ca_app/features/filing/domain/models/itr1/chapter_via_deductions.dart';
 import 'package:ca_app/features/filing/domain/models/itr2/itr2_form_data.dart';
 import 'package:ca_app/features/filing/domain/models/itr2/schedule_cg.dart';
-import 'package:ca_app/features/filing/domain/models/itr2/schedule_al.dart';
-import 'package:ca_app/features/filing/domain/models/itr2/foreign_asset_schedule.dart';
 import 'package:ca_app/features/filing/domain/models/itr2/capital_gains_assets.dart';
 
 void main() {

@@ -7,7 +7,7 @@ import 'package:ca_app/features/accounts/domain/services/cash_flow_service.dart'
 
 void main() {
   group('CashFlowService', () {
-    ScheduleIIIBalanceSheet _makeBS({
+    ScheduleIIIBalanceSheet makeBS({
       int shareCapital = 0,
       int reserves = 0,
       int longTermBorrowings = 0,
@@ -44,11 +44,11 @@ void main() {
 
     group('computeCashFlow', () {
       test('increase in trade payables is a cash inflow in operating activities', () {
-        final previous = _makeBS(
+        final previous = makeBS(
           shareCapital: 1000000,
           cashAndCashEquivalents: 1000000,
         );
-        final current = _makeBS(
+        final current = makeBS(
           shareCapital: 1000000,
           tradePayables: 200000,
           cashAndCashEquivalents: 1200000,
@@ -63,11 +63,11 @@ void main() {
       });
 
       test('increase in fixed assets is a cash outflow in investing activities', () {
-        final previous = _makeBS(
+        final previous = makeBS(
           shareCapital: 1000000,
           cashAndCashEquivalents: 1000000,
         );
-        final current = _makeBS(
+        final current = makeBS(
           shareCapital: 1000000,
           fixedAssets: 300000,
           cashAndCashEquivalents: 700000,
@@ -83,11 +83,11 @@ void main() {
       });
 
       test('increase in long-term borrowings is a financing inflow', () {
-        final previous = _makeBS(
+        final previous = makeBS(
           shareCapital: 1000000,
           cashAndCashEquivalents: 1000000,
         );
-        final current = _makeBS(
+        final current = makeBS(
           shareCapital: 1000000,
           longTermBorrowings: 500000,
           cashAndCashEquivalents: 1500000,
@@ -102,11 +102,11 @@ void main() {
       });
 
       test('net change in cash equals closing minus opening cash', () {
-        final previous = _makeBS(
+        final previous = makeBS(
           shareCapital: 1000000,
           cashAndCashEquivalents: 500000,
         );
-        final current = _makeBS(
+        final current = makeBS(
           shareCapital: 1000000,
           longTermBorrowings: 300000,
           cashAndCashEquivalents: 800000,
@@ -123,12 +123,12 @@ void main() {
       });
 
       test('total activities sum equals net change in cash', () {
-        final previous = _makeBS(
+        final previous = makeBS(
           shareCapital: 2000000,
           cashAndCashEquivalents: 1000000,
           tradeReceivables: 500000,
         );
-        final current = _makeBS(
+        final current = makeBS(
           shareCapital: 2000000,
           longTermBorrowings: 500000,
           fixedAssets: 400000,
@@ -149,7 +149,7 @@ void main() {
       });
 
       test('identical balance sheets produce zero net change in cash', () {
-        final bs = _makeBS(
+        final bs = makeBS(
           shareCapital: 1000000,
           cashAndCashEquivalents: 1000000,
         );
