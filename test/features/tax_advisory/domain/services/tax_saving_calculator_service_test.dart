@@ -179,11 +179,15 @@ void main() {
     });
 
     test('old regime recommended when deductions are high (₹4L)', () {
+      // ₹10L income, ₹4L deductions:
+      //   Old: taxable ₹6L → ~₹33,800 tax (after cess)
+      //   New: taxable ₹9.25L (after ₹75K std) → ~₹50,700 tax (after cess)
+      //   Old is cheaper by ≈₹17K
       const profile = ClientProfile(
         pan: 'ABCDE1234F',
         name: 'Test',
         clientType: ClientType.individual,
-        annualIncome: 150000000, // ₹15L
+        annualIncome: 100000000, // ₹10L
         taxRegime: TaxRegime.newRegime,
         currentDeductions: 40000000, // ₹4L
         currentTaxPaid: 0,

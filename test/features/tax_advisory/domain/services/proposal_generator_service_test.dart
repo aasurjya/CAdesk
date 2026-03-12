@@ -1,4 +1,3 @@
-import 'package:ca_app/features/tax_advisory/domain/models/advisory_proposal.dart';
 import 'package:ca_app/features/tax_advisory/domain/models/client_profile.dart';
 import 'package:ca_app/features/tax_advisory/domain/models/tax_opportunity.dart';
 import 'package:ca_app/features/tax_advisory/domain/services/proposal_generator_service.dart';
