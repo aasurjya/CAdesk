@@ -70,12 +70,14 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
-import 'package:ca_app/features/portal_connector/presentation/portal_hub_screen.dart';
-import 'package:ca_app/features/portal_connector/presentation/portal_config_screen.dart';
-import 'package:ca_app/features/gstn_api/presentation/gstn_api_screen.dart';
-import 'package:ca_app/features/gstn_api/presentation/gstin_search_screen.dart';
-import 'package:ca_app/features/mca_api/presentation/mca_api_screen.dart';
-import 'package:ca_app/features/mca_api/presentation/company_search_screen.dart';
+import 'package:ca_app/features/startup/presentation/startup_screen.dart';
+import 'package:ca_app/features/startup/presentation/startup_detail_screen.dart';
+import 'package:ca_app/features/llp/presentation/llp_screen.dart';
+import 'package:ca_app/features/llp/presentation/llp_detail_screen.dart';
+import 'package:ca_app/features/vda/presentation/vda_screen.dart';
+import 'package:ca_app/features/vda/presentation/vda_computation_screen.dart';
+import 'package:ca_app/features/traces/presentation/traces_screen.dart';
+import 'package:ca_app/features/traces/presentation/traces_download_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -544,40 +546,52 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AdvanceTaxScreen(),
       ),
       GoRoute(
-        path: '/portals',
-        name: 'portals',
+        path: '/startup',
+        name: 'startup',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const PortalHubScreen(),
+        builder: (context, state) => const StartupScreen(),
       ),
       GoRoute(
-        path: '/portals/config',
-        name: 'portalConfig',
+        path: '/startup/detail',
+        name: 'startupDetail',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const PortalConfigScreen(),
+        builder: (context, state) => const StartupDetailScreen(),
       ),
       GoRoute(
-        path: '/gstn-api',
-        name: 'gstnApi',
+        path: '/llp',
+        name: 'llp',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const GstnApiScreen(),
+        builder: (context, state) => const LlpScreen(),
       ),
       GoRoute(
-        path: '/gstn-api/search',
-        name: 'gstinSearch',
+        path: '/llp/detail',
+        name: 'llpDetail',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const GstinSearchScreen(),
+        builder: (context, state) => const LlpDetailScreen(),
       ),
       GoRoute(
-        path: '/mca-api',
-        name: 'mcaApi',
+        path: '/vda',
+        name: 'vda',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const McaApiScreen(),
+        builder: (context, state) => const VdaScreen(),
       ),
       GoRoute(
-        path: '/mca-api/search',
-        name: 'mcaSearch',
+        path: '/vda/compute',
+        name: 'vdaCompute',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const CompanySearchScreen(),
+        builder: (context, state) => const VdaComputationScreen(),
+      ),
+      GoRoute(
+        path: '/traces',
+        name: 'traces',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TracesScreen(),
+      ),
+      GoRoute(
+        path: '/traces/download',
+        name: 'tracesDownload',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TracesDownloadScreen(),
       ),
     ],
   );
