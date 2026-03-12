@@ -70,6 +70,13 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
+import 'package:ca_app/features/e_verification/presentation/e_verification_screen.dart'
+    as ev;
+import 'package:ca_app/features/e_verification/presentation/verify_flow_screen.dart';
+import 'package:ca_app/features/e_verification/domain/models/verification_request.dart';
+import 'package:ca_app/features/audit/presentation/audit_report_screen.dart';
+import 'package:ca_app/features/audit/presentation/form3cd_screen.dart';
+import 'package:ca_app/features/audit/presentation/form29b_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -536,6 +543,39 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'advanceTax',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdvanceTaxScreen(),
+      ),
+      GoRoute(
+        path: '/e-verification',
+        name: 'eVerificationDashboard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ev.EVerificationDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/e-verification/verify',
+        name: 'verifyFlow',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final request = state.extra! as VerificationRequest;
+          return VerifyFlowScreen(request: request);
+        },
+      ),
+      GoRoute(
+        path: '/audit-reports',
+        name: 'auditReports',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AuditReportScreen(),
+      ),
+      GoRoute(
+        path: '/audit-reports/3cd',
+        name: 'form3cd',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const Form3cdScreen(),
+      ),
+      GoRoute(
+        path: '/audit-reports/29b',
+        name: 'form29b',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const Form29bScreen(),
       ),
     ],
   );
