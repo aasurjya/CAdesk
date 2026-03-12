@@ -907,6 +907,60 @@
 
 ---
 
+# Implementation Roadmap
+
+> **Architecture plan:** `.beads/plans/architecture-phase2-4.md` — 46 work units, ~760 new files, ~1,266 total Dart files at completion.
+>
+> **Phase 1 (DONE ✅):** GST engines (HSN/SAC, Place of Supply, RCM, GSTR-2B, E-Invoice, Late Fee), TDS rate chart (31 sections FY 2025-26), Form 16/16A bulk generation, ITR-1/ITR-4 filing wizards with tax computation.
+
+| Module | Phase | Task # | Priority | Status |
+|--------|-------|--------|----------|--------|
+| **Platform Core** (Auth, RBAC, MFA, sync) | Phase 4 | [#36] | P4-1 | 🔲 pending |
+| **1 — Income Tax** (ITR-2/3/5/6/7, advance tax, 89(1)) | Phase 2 | [#5] | P2-5 | 🔄 in progress |
+| **2 — GST** (GSTR-1/3B/9/9C builders, IMS) | Phase 2 | [#6] | P2-1 | 🔄 in progress |
+| **3 — TDS/TCS** (FVU, 26QB, 15G/H, 194T) | Phase 2 | [#7] | P2-4 | 🔄 in progress |
+| **4 — TDS.AI** (AI extraction, section detection) | Phase 4 | [#26] | P4-2 | 🔲 pending |
+| **5 — Balance Sheet & Audit** (Schedule III, 3CD, 29B, cash flow) | Phase 2 | [#8] | P2-8 | 🔲 pending |
+| **6 — Assessment Checker** (143(1)/143(3)/147) | Phase 2 | [#10] | P2-9 | 🔲 pending |
+| **7 — MCA/ROC** (MGT-7, AOC-4, e-Forms) | Phase 2 | [#11] | P2-10 | 🔲 pending |
+| **8 — XBRL** (taxonomy, tagging, MCA filing) | Phase 2 | [#12] | P2-11 | 🔲 pending |
+| **9 — CMA** (MPBF, fund flow, CMA data) | Phase 2 | [#13] | P2-12 | 🔲 pending |
+| **10 — Payroll** (PF/ESI ECR, full & final, EPFO) | Phase 2 | [#9] | P2-7 | 🔲 pending |
+| **13 — Cloud/Remote** (Supabase sync, backup) | Phase 4 | [#36] | P4-5 | 🔲 pending |
+| **15 — Practice Mgmt** (70+ templates, dependencies, AI workload) | Phase 2 | [#16] | P2-13 | 🔲 pending |
+| **16 — CRM** (profitability, engagement letters, fee proposals) | Phase 2 | [#16] | P2-13 | 🔲 pending |
+| **17 — AI & Automation** (OCR, CA GPT, RPA bots) | Phase 4 | [#26] [#28] [#30] | P4-2/4/3 | 🔲 pending |
+| **18 — Client Portal** (WhatsApp, e-sign, AI chatbot) | Phase 4 | [#27] | P4-6 | 🔲 pending |
+| **19 — Analytics / BI** (custom reports, ESG, benchmarks) | Phase 4 | [#29] | P4-8 | 🔲 pending |
+| **23 — FEMA** (FC-GPR, FC-TRS, APR, FLA) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **24 — SEBI** (disclosures, BSE/NSE filing) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **25 — Transfer Pricing** (Form 3CEB, ALP) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **26 — Crypto/VDA** (Schedule VDA, ITR auto-population) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **27 — Startup** (cap table, DPIIT, 80-IAC) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **28 — LLP** (Form 11/8, MCA filing) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **29 — MSME** (Form MSME-1, 43B(h)) | Phase 2 | [#14] | P2-14 | 🔲 pending |
+| **30 — Advanced Audits** (Benford, shell co, forensic) | Phase 2 | [#15] | P2-15 | 🔲 pending |
+| **31 — Faceless Assessment** (ITR-U, e-proceedings) | Phase 2 | [#10] | P2-9 | 🔲 pending |
+| **33 — Data Pipelines** (Zerodha, CAMS, Tally, Zoho) | Phase 4 | [#33] | P4-7 | 🔲 pending |
+| **36 — Notice Resolution** (AI triage, appeals, precedents) | Phase 4 | [#35] | P4-9 | 🔲 pending |
+| **40 — Knowledge Engine** (CA GPT, RAG on tax law) | Phase 4 | [#28] | P4-4 | 🔲 pending |
+| **41 — Tax Advisory Engine** (ML scoring, proposals) | Phase 4 | [#32] | P4-10 | 🔲 pending |
+| **43 — NRI & Cross-Border** (DTAA, Form 67, residential status) | Phase 4 | [#34] | P4-11 | 🔲 pending |
+| **49 — IDP** (OCR Form 16/26AS/bank statements) | Phase 4 | [#26] | P4-2 | 🔲 pending |
+| **50 — Regulatory Intelligence** (circular tracker, impact analysis) | Phase 4 | [#31] | P4-12 | 🔲 pending |
+| **52 — ITR Filing Engine** (ITR-2 to 7 + export) | Phase 2+3 | [#5] [#18] | P2-5 | 🔄 in progress |
+| **53 — GST Filing Engine** (GSTR builders + JSON export) | Phase 2+3 | [#6] [#19] | P2-1 | 🔄 in progress |
+| **54 — TDS Filing Engine** (FVU + TRACES) | Phase 2+3 | [#7] [#20] | P2-4 | 🔄 in progress |
+| **55 — MCA Filing Engine** (e-Forms + MCA API) | Phase 2+3 | [#11] [#17] | P2-10 | 🔲 pending |
+| **56 — Portal Connector Hub** (ITD/GSTN/TRACES/MCA abstraction) | Phase 3 | [#17] | P3-1 | 🔲 pending |
+| **57 — Post-Filing Tracker** (refund/demand state machine) | Phase 3 | [#22] | P3-2 | 🔲 pending |
+| **58 — Notice & Demand Management** (ITD notice fetch) | Phase 4 | [#35] | P4-9 | 🔲 pending |
+| **59 — Reconciliation Engine** (26AS/AIS three-way match) | Phase 3 | [#24] | P3-3 | 🔲 pending |
+| **60 — DSC Signing & E-Verification** (Aadhaar OTP, EVC) | Phase 3 | [#23] | P3-4 | 🔲 pending |
+| **61 — Bulk Operations Center** (batch filing, retry, queue) | Phase 3 | [#25] | P3-5 | 🔲 pending |
+
+---
+
 # Summary Table
 
 > **Completion analysis basis:** These percentages are **implementation coverage estimates from a full codebase audit (2026-03-11)**, not business-goal completion.
