@@ -70,6 +70,13 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/bulk_dashboard_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/batch_detail_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/new_batch_screen.dart';
+import 'package:ca_app/features/practice/presentation/practice_dashboard_screen.dart';
+import 'package:ca_app/features/practice/presentation/workflow_list_screen.dart';
+import 'package:ca_app/features/practice/presentation/assignment_screen.dart';
+import 'package:ca_app/features/practice/presentation/capacity_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -536,6 +543,48 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'advanceTax',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdvanceTaxScreen(),
+      ),
+      GoRoute(
+        path: '/bulk-operations',
+        name: 'bulkOperations',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const BulkDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/bulk-operations/batch',
+        name: 'batchDetail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const BatchDetailScreen(),
+      ),
+      GoRoute(
+        path: '/bulk-operations/new',
+        name: 'newBatch',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const NewBatchScreen(),
+      ),
+      GoRoute(
+        path: '/practice',
+        name: 'practice',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PracticeDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/practice/workflows',
+        name: 'practiceWorkflows',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const WorkflowListScreen(),
+      ),
+      GoRoute(
+        path: '/practice/assignments',
+        name: 'practiceAssignments',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AssignmentScreen(),
+      ),
+      GoRoute(
+        path: '/practice/capacity',
+        name: 'practiceCapacity',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const CapacityScreen(),
       ),
     ],
   );
