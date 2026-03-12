@@ -33,6 +33,7 @@ import 'package:ca_app/features/mca/presentation/mca_screen.dart';
 import 'package:ca_app/features/xbrl/presentation/xbrl_screen.dart';
 import 'package:ca_app/features/cma/presentation/cma_screen.dart';
 import 'package:ca_app/features/payroll/presentation/payroll_screen.dart';
+import 'package:ca_app/features/payroll/presentation/form12bb/form12bb_screen.dart';
 import 'package:ca_app/features/staff_monitoring/presentation/staff_monitoring_screen.dart';
 import 'package:ca_app/features/settings/presentation/settings_screen.dart';
 import 'package:ca_app/features/accounts/presentation/accounts_screen.dart';
@@ -90,6 +91,10 @@ import 'package:ca_app/features/platform/presentation/user_management_screen.dar
 import 'package:ca_app/features/platform/presentation/mfa_setup_screen.dart';
 import 'package:ca_app/features/platform/presentation/audit_trail_screen.dart';
 import 'package:ca_app/features/platform/presentation/sync_status_screen.dart';
+import 'package:ca_app/features/tds/domain/models/form16_data.dart';
+import 'package:ca_app/features/tds/presentation/form16/form16_dashboard_screen.dart';
+import 'package:ca_app/features/tds/presentation/form16/form16_viewer_screen.dart';
+import 'package:ca_app/features/tds/presentation/form16/form16_bulk_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -364,6 +369,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'payroll',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const PayrollScreen(),
+      ),
+      GoRoute(
+        path: '/payroll/form12bb',
+        name: 'form12bb',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const Form12bbScreen(),
+      ),
+      GoRoute(
+        path: '/payroll/form12bb/:employeeId',
+        name: 'form12bbEmployee',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final employeeId = state.pathParameters['employeeId']!;
+          return Form12bbScreen(employeeId: employeeId);
+        },
       ),
       GoRoute(
         path: '/mca',
@@ -667,6 +687,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'platformSync',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const SyncStatusScreen(),
+      ),
+      GoRoute(
+        path: '/tds/form16',
+        name: 'form16Dashboard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const Form16DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/tds/form16/view',
+        name: 'form16Viewer',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final form16 = state.extra! as Form16Data;
+          return Form16ViewerScreen(form16: form16);
+        },
+      ),
+      GoRoute(
+        path: '/tds/form16/bulk',
+        name: 'form16Bulk',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const Form16BulkScreen(),
       ),
     ],
   );
