@@ -33,7 +33,6 @@ import 'package:ca_app/features/mca/presentation/mca_screen.dart';
 import 'package:ca_app/features/xbrl/presentation/xbrl_screen.dart';
 import 'package:ca_app/features/cma/presentation/cma_screen.dart';
 import 'package:ca_app/features/payroll/presentation/payroll_screen.dart';
-import 'package:ca_app/features/payroll/presentation/form12bb/form12bb_screen.dart';
 import 'package:ca_app/features/staff_monitoring/presentation/staff_monitoring_screen.dart';
 import 'package:ca_app/features/settings/presentation/settings_screen.dart';
 import 'package:ca_app/features/accounts/presentation/accounts_screen.dart';
@@ -61,47 +60,23 @@ import 'package:ca_app/features/einvoicing/presentation/einvoicing_screen.dart';
 import 'package:ca_app/features/idp/presentation/idp_screen.dart';
 import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_intelligence_screen.dart';
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
-import 'package:ca_app/features/ca_gpt/presentation/ca_gpt_home_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_type_picker_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr1/itr1_wizard_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr4/itr4_wizard_screen.dart';
 import 'package:ca_app/features/filing/presentation/post_filing/filing_status_screen.dart';
 import 'package:ca_app/features/filing/presentation/post_filing/e_verification_screen.dart';
-import 'package:ca_app/features/post_filing/presentation/post_filing_dashboard_screen.dart';
-import 'package:ca_app/features/post_filing/presentation/filing_detail_screen.dart';
-import 'package:ca_app/features/post_filing/presentation/refund_tracker_screen.dart';
 import 'package:ca_app/features/filing/presentation/bulk/filing_queue_screen.dart';
 import 'package:ca_app/features/filing/presentation/reconciliation/reconciliation_screen.dart';
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
-import 'package:ca_app/features/ocr/data/providers/ocr_providers.dart';
-import 'package:ca_app/features/ocr/presentation/ocr_dashboard_screen.dart';
-import 'package:ca_app/features/ocr/presentation/ocr_upload_screen.dart';
-import 'package:ca_app/features/ocr/presentation/ocr_result_screen.dart';
-import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
-import 'package:ca_app/features/rpa/presentation/rpa_dashboard_screen.dart';
-import 'package:ca_app/features/rpa/presentation/rpa_new_task_screen.dart';
-import 'package:ca_app/features/rpa/presentation/rpa_script_library_screen.dart';
-import 'package:ca_app/features/rpa/presentation/rpa_task_detail_screen.dart';
-import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
-import 'package:ca_app/features/litigation/presentation/appeal_tracker_screen.dart';
-import 'package:ca_app/features/litigation/presentation/litigation_dashboard_screen.dart';
-import 'package:ca_app/features/litigation/presentation/notice_detail_screen.dart';
-import 'package:ca_app/features/litigation/presentation/response_draft_screen.dart';
-import 'package:ca_app/features/platform/presentation/platform_home_screen.dart';
-import 'package:ca_app/features/platform/presentation/user_management_screen.dart';
-import 'package:ca_app/features/platform/presentation/mfa_setup_screen.dart';
-import 'package:ca_app/features/platform/presentation/audit_trail_screen.dart';
-import 'package:ca_app/features/platform/presentation/sync_status_screen.dart';
-import 'package:ca_app/features/tds/domain/models/form16_data.dart';
-import 'package:ca_app/features/tds/presentation/form16/form16_dashboard_screen.dart';
-import 'package:ca_app/features/tds/presentation/form16/form16_viewer_screen.dart';
-import 'package:ca_app/features/tds/presentation/form16/form16_bulk_screen.dart';
-import 'package:ca_app/features/reconciliation/data/providers/reconciliation_providers.dart';
-import 'package:ca_app/features/reconciliation/presentation/reconciliation_dashboard_screen.dart';
-import 'package:ca_app/features/reconciliation/presentation/recon_detail_screen.dart';
-import 'package:ca_app/features/reconciliation/presentation/bank_recon_screen.dart';
+import 'package:ca_app/features/e_verification/presentation/e_verification_screen.dart'
+    as ev;
+import 'package:ca_app/features/e_verification/presentation/verify_flow_screen.dart';
+import 'package:ca_app/features/e_verification/domain/models/verification_request.dart';
+import 'package:ca_app/features/audit/presentation/audit_report_screen.dart';
+import 'package:ca_app/features/audit/presentation/form3cd_screen.dart';
+import 'package:ca_app/features/audit/presentation/form29b_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -177,26 +152,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: '/more',
                 name: 'more',
                 builder: (context, state) => const MoreScreen(),
-              ),
-              GoRoute(
-                path: '/ocr',
-                name: 'ocr',
-                builder: (context, state) => const OcrDashboardScreen(),
-              ),
-              GoRoute(
-                path: '/rpa',
-                name: 'rpa',
-                builder: (context, state) => const RpaDashboardScreen(),
-              ),
-              GoRoute(
-                path: '/litigation',
-                name: 'litigation',
-                builder: (context, state) => const LitigationDashboardScreen(),
-              ),
-              GoRoute(
-                path: '/ca-gpt',
-                name: 'caGpt',
-                builder: (context, state) => const CaGptHomeScreen(),
               ),
             ],
           ),
@@ -377,21 +332,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const PayrollScreen(),
       ),
       GoRoute(
-        path: '/payroll/form12bb',
-        name: 'form12bb',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const Form12bbScreen(),
-      ),
-      GoRoute(
-        path: '/payroll/form12bb/:employeeId',
-        name: 'form12bbEmployee',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final employeeId = state.pathParameters['employeeId']!;
-          return Form12bbScreen(employeeId: employeeId);
-        },
-      ),
-      GoRoute(
         path: '/mca',
         name: 'mca',
         parentNavigatorKey: _rootNavigatorKey,
@@ -524,24 +464,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const PracticeBenchmarkingScreen(),
       ),
       GoRoute(
-        path: '/post-filing',
-        name: 'postFiling',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const PostFilingDashboardScreen(),
-      ),
-      GoRoute(
-        path: '/post-filing/detail',
-        name: 'postFilingDetail',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const FilingDetailScreen(),
-      ),
-      GoRoute(
-        path: '/post-filing/refunds',
-        name: 'postFilingRefunds',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const RefundTrackerScreen(),
-      ),
-      GoRoute(
         path: '/roadmap/:moduleId',
         name: 'roadmapModule',
         parentNavigatorKey: _rootNavigatorKey,
@@ -623,136 +545,37 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AdvanceTaxScreen(),
       ),
       GoRoute(
-        path: '/ocr/upload',
-        name: 'ocrUpload',
+        path: '/e-verification',
+        name: 'eVerificationDashboard',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const OcrUploadScreen(),
+        builder: (context, state) => const ev.EVerificationDashboardScreen(),
       ),
       GoRoute(
-        path: '/ocr/result',
-        name: 'ocrResult',
+        path: '/e-verification/verify',
+        name: 'verifyFlow',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) {
-          final job = state.extra as OcrJob;
-          return OcrResultScreen(job: job);
+          final request = state.extra! as VerificationRequest;
+          return VerifyFlowScreen(request: request);
         },
       ),
       GoRoute(
-        path: '/rpa/new',
-        name: 'rpaNew',
+        path: '/audit-reports',
+        name: 'auditReports',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const RpaNewTaskScreen(),
+        builder: (context, state) => const AuditReportScreen(),
       ),
       GoRoute(
-        path: '/rpa/task',
-        name: 'rpaTask',
+        path: '/audit-reports/3cd',
+        name: 'form3cd',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final task = state.extra as AutomationTask;
-          return RpaTaskDetailScreen(task: task);
-        },
+        builder: (context, state) => const Form3cdScreen(),
       ),
       GoRoute(
-        path: '/rpa/scripts',
-        name: 'rpaScripts',
+        path: '/audit-reports/29b',
+        name: 'form29b',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const RpaScriptLibraryScreen(),
-      ),
-      GoRoute(
-        path: '/litigation/notice',
-        name: 'litigationNotice',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final notice = state.extra as TaxNotice;
-          return NoticeDetailScreen(notice: notice);
-        },
-      ),
-      GoRoute(
-        path: '/litigation/response',
-        name: 'litigationResponse',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final notice = state.extra as TaxNotice;
-          return ResponseDraftScreen(notice: notice);
-        },
-      ),
-      GoRoute(
-        path: '/litigation/appeal',
-        name: 'litigationAppeal',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const AppealTrackerScreen(),
-      ),
-      GoRoute(
-        path: '/platform',
-        name: 'platform',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const PlatformHomeScreen(),
-      ),
-      GoRoute(
-        path: '/platform/users',
-        name: 'platformUsers',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const UserManagementScreen(),
-      ),
-      GoRoute(
-        path: '/platform/mfa',
-        name: 'platformMfa',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const MfaSetupScreen(),
-      ),
-      GoRoute(
-        path: '/platform/audit',
-        name: 'platformAudit',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const AuditTrailScreen(),
-      ),
-      GoRoute(
-        path: '/platform/sync',
-        name: 'platformSync',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const SyncStatusScreen(),
-      ),
-      GoRoute(
-        path: '/tds/form16',
-        name: 'form16Dashboard',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const Form16DashboardScreen(),
-      ),
-      GoRoute(
-        path: '/tds/form16/view',
-        name: 'form16Viewer',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final form16 = state.extra! as Form16Data;
-          return Form16ViewerScreen(form16: form16);
-        },
-      ),
-      GoRoute(
-        path: '/tds/form16/bulk',
-        name: 'form16Bulk',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const Form16BulkScreen(),
-      ),
-      GoRoute(
-        path: '/reconciliation',
-        name: 'reconDashboard',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const ReconciliationDashboardScreen(),
-      ),
-      GoRoute(
-        path: '/reconciliation/detail',
-        name: 'reconDetail',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) {
-          final entry = state.extra! as ReconEntry;
-          return ReconDetailScreen(entry: entry);
-        },
-      ),
-      GoRoute(
-        path: '/reconciliation/bank',
-        name: 'reconBank',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const BankReconScreen(),
+        builder: (context, state) => const Form29bScreen(),
       ),
     ],
   );
