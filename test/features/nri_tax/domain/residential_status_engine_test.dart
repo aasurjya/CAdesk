@@ -232,42 +232,45 @@ void main() {
       });
 
       test('60 days + 365 prior years qualifies as Resident (may still be RNOR)', () {
-        // 60 days current FY + 365 prior 4 years → qualifies by second Resident test.
-        // However, prior 7-year total is 365 ≤ 729 so RNOR applies.
-        // This test validates that the 60+365 residency test is evaluated correctly.
-        final priorRecords = <StayRecord>[];
-        // Build 365 days across prior 4 FYs (FY19-FY22)
-        // 91 days in FY19..FY22 = 364 days; add 1 to make 365
-        for (int y = 2019; y <= 2022; y++) {
-          priorRecords.add(
+        // FY2023 = 1 Apr 2022 – 31 Mar 2023.
+        // Current FY (FY2023): 60 days (Apr 1 – May 30, 2022).
+        // Preceding 4 FYs (FY19, FY20, FY21, FY22): 91 days each = 364,
+        // plus 1 extra = 365. Qualifies via 60+365 rule.
+        // Prior 7-year total = 365 ≤ 729 → RNOR condition met.
+        final records = <StayRecord>[];
+
+        // Current FY2023 record: 60 days Apr–May 2022
+        records.add(
+          StayRecord(
+            dateFrom: DateTime(2022, 4, 1),
+            dateTo: DateTime(2022, 5, 30), // 60 days in FY2023
+            country: 'IN',
+          ),
+        );
+
+        // Prior FYs: FY2022 (Apr2021–Mar2022), FY2021, FY2020, FY2019
+        // Each: 91 days (Apr–Jun of the year before)
+        for (final startYear in [2021, 2020, 2019, 2018]) {
+          records.add(
             StayRecord(
-              dateFrom: DateTime(y, 4, 1),
-              dateTo: DateTime(y, 6, 30), // 91 days (Apr+May+Jun)
+              dateFrom: DateTime(startYear, 4, 1),
+              dateTo: DateTime(startYear, 6, 30), // 91 days
               country: 'IN',
             ),
           );
         }
-        // One extra day to reach 365
-        priorRecords.add(
+        // One extra day in FY2019 to reach 365
+        records.add(
           StayRecord(
-            dateFrom: DateTime(2019, 7, 1),
-            dateTo: DateTime(2019, 7, 1),
+            dateFrom: DateTime(2018, 7, 1),
+            dateTo: DateTime(2018, 7, 1), // 1 extra day
             country: 'IN',
           ),
         );
-        final currentRecord = [
-          StayRecord(
-            dateFrom: DateTime(2022, 4, 1),
-            dateTo: DateTime(2022, 5, 30), // 60 days
-            country: 'IN',
-          ),
-        ];
-        final result = engine.determine(
-          [...priorRecords, ...currentRecord],
-          2023,
-        );
-        // Qualifies as Resident via 60+365 rule, but prior 7-year days = 365 ≤ 729
-        // → RNOR status is correct under law.
+
+        final result = engine.determine(records, 2023);
+        // 60 days in FY2023 + 365 days in FY19-FY22 → Resident test passes
+        // Prior 7-year days = 365 ≤ 729 → RNOR
         expect(result.daysInIndia, 60);
         expect(result.status, NriStatus.rnor);
         expect(result.isRnor, true);
