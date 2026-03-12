@@ -61,7 +61,6 @@ import 'package:ca_app/features/idp/presentation/idp_screen.dart';
 import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_intelligence_screen.dart';
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
 import 'package:ca_app/features/ca_gpt/presentation/ca_gpt_home_screen.dart';
-import 'package:ca_app/features/ca_gpt/presentation/ca_gpt_home_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_type_picker_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr1/itr1_wizard_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr4/itr4_wizard_screen.dart';
@@ -86,6 +85,11 @@ import 'package:ca_app/features/litigation/presentation/appeal_tracker_screen.da
 import 'package:ca_app/features/litigation/presentation/litigation_dashboard_screen.dart';
 import 'package:ca_app/features/litigation/presentation/notice_detail_screen.dart';
 import 'package:ca_app/features/litigation/presentation/response_draft_screen.dart';
+import 'package:ca_app/features/platform/presentation/platform_home_screen.dart';
+import 'package:ca_app/features/platform/presentation/user_management_screen.dart';
+import 'package:ca_app/features/platform/presentation/mfa_setup_screen.dart';
+import 'package:ca_app/features/platform/presentation/audit_trail_screen.dart';
+import 'package:ca_app/features/platform/presentation/sync_status_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -177,6 +181,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 name: 'litigation',
                 builder: (context, state) =>
                     const LitigationDashboardScreen(),
+              ),
+              GoRoute(
+                path: '/ca-gpt',
+                name: 'caGpt',
+                builder: (context, state) => const CaGptHomeScreen(),
               ),
             ],
           ),
@@ -604,6 +613,60 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'rpaScripts',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const RpaScriptLibraryScreen(),
+      ),
+      GoRoute(
+        path: '/litigation/notice',
+        name: 'litigationNotice',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final notice = state.extra as TaxNotice;
+          return NoticeDetailScreen(notice: notice);
+        },
+      ),
+      GoRoute(
+        path: '/litigation/response',
+        name: 'litigationResponse',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final notice = state.extra as TaxNotice;
+          return ResponseDraftScreen(notice: notice);
+        },
+      ),
+      GoRoute(
+        path: '/litigation/appeal',
+        name: 'litigationAppeal',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AppealTrackerScreen(),
+      ),
+      GoRoute(
+        path: '/platform',
+        name: 'platform',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PlatformHomeScreen(),
+      ),
+      GoRoute(
+        path: '/platform/users',
+        name: 'platformUsers',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const UserManagementScreen(),
+      ),
+      GoRoute(
+        path: '/platform/mfa',
+        name: 'platformMfa',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const MfaSetupScreen(),
+      ),
+      GoRoute(
+        path: '/platform/audit',
+        name: 'platformAudit',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AuditTrailScreen(),
+      ),
+      GoRoute(
+        path: '/platform/sync',
+        name: 'platformSync',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const SyncStatusScreen(),
       ),
     ],
   );
