@@ -3,33 +3,68 @@ import 'dart:convert';
 import 'package:ca_app/features/rpa/domain/models/automation_result.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 
-/// Pure static utility class for managing [AutomationTask] lifecycle.
+/// Manages the lifecycle of [AutomationTask] objects.
 ///
-/// All methods are pure functions that return new [AutomationTask] instances
-/// — no mutation, no state, no side effects.
-abstract final class AutomationTaskManager {
+/// All methods are static and return new (immutable) task instances.
+/// No task is ever mutated in place.
+class AutomationTaskManager {
+  AutomationTaskManager._();
+
+  static int _counter = 0;
+
+  /// Generates a simple unique task ID from timestamp + counter.
+  static String _newId() {
+    _counter += 1;
+    return 'task-${DateTime.now().microsecondsSinceEpoch}-$_counter';
+  }
+
+  /// Per-task-type base duration estimates in seconds.
+  static const Map<AutomationTaskType, int> _baseDurationSeconds = {
+    AutomationTaskType.tracesDownload: 180,
+    AutomationTaskType.mcaPrefill: 90,
+    AutomationTaskType.challanFetch: 120,
+    AutomationTaskType.gstFilingStatus: 90,
+    AutomationTaskType.itrStatus: 60,
+    AutomationTaskType.bulkPanVerify: 300,
+    AutomationTaskType.aisDownload: 150,
+  };
+
+  /// Human-readable task names per type.
+  static const Map<AutomationTaskType, String> _taskNames = {
+    AutomationTaskType.tracesDownload: 'TRACES Download',
+    AutomationTaskType.mcaPrefill: 'MCA Form Prefill',
+    AutomationTaskType.challanFetch: 'Challan Fetch',
+    AutomationTaskType.gstFilingStatus: 'GST Filing Status',
+    AutomationTaskType.itrStatus: 'ITR Status',
+    AutomationTaskType.bulkPanVerify: 'Bulk PAN Verify',
+    AutomationTaskType.aisDownload: 'AIS Download',
+  };
+
+  /// Portal assignments per task type.
+  static const Map<AutomationTaskType, AutomationPortal> _portalForType = {
+    AutomationTaskType.tracesDownload: AutomationPortal.traces,
+    AutomationTaskType.mcaPrefill: AutomationPortal.mca,
+    AutomationTaskType.challanFetch: AutomationPortal.traces,
+    AutomationTaskType.gstFilingStatus: AutomationPortal.gstn,
+    AutomationTaskType.itrStatus: AutomationPortal.itd,
+    AutomationTaskType.bulkPanVerify: AutomationPortal.itd,
+    AutomationTaskType.aisDownload: AutomationPortal.itd,
+  };
+
   // ---------------------------------------------------------------------------
-  // Task creation
+  // Task lifecycle
   // ---------------------------------------------------------------------------
 
-  /// Creates a new [AutomationTask] with [taskType] and [parameters].
-  ///
-  /// The task starts in [AutomationTaskStatus.queued] with a unique [taskId],
-  /// [retryCount] of 0, and [maxRetries] of 3.
+  /// Creates a new [AutomationTask] with status [AutomationTaskStatus.queued].
   static AutomationTask createTask(
-    AutomationTaskType taskType,
+    AutomationTaskType type,
     Map<String, String> parameters,
   ) {
-    final taskId =
-        '${taskType.name}-${DateTime.now().microsecondsSinceEpoch}';
-    final name = _nameForType(taskType);
-    final portal = _portalForType(taskType);
-
     return AutomationTask(
-      taskId: taskId,
-      name: name,
-      taskType: taskType,
-      portal: portal,
+      taskId: _newId(),
+      name: _taskNames[type] ?? type.name,
+      taskType: type,
+      portal: _portalForType[type] ?? AutomationPortal.itd,
       parameters: Map.unmodifiable(parameters),
       status: AutomationTaskStatus.queued,
       startedAt: null,
@@ -41,17 +76,13 @@ abstract final class AutomationTaskManager {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // Lifecycle transitions  (all return new instances — immutable)
-  // ---------------------------------------------------------------------------
-
-  /// Returns a copy of [task] with [status] set to [AutomationTaskStatus.queued].
+  /// Returns a copy of [task] with status set to [AutomationTaskStatus.queued].
   static AutomationTask queueTask(AutomationTask task) {
     return task.copyWith(status: AutomationTaskStatus.queued);
   }
 
-  /// Returns a copy of [task] with [status] set to [AutomationTaskStatus.running]
-  /// and [startedAt] set to the current time.
+  /// Returns a copy of [task] with status [AutomationTaskStatus.running]
+  /// and [AutomationTask.startedAt] set to now.
   static AutomationTask startTask(AutomationTask task) {
     return task.copyWith(
       status: AutomationTaskStatus.running,
@@ -59,34 +90,33 @@ abstract final class AutomationTaskManager {
     );
   }
 
-  /// Returns a copy of [task] with [status] set to
-  /// [AutomationTaskStatus.completed], [completedAt] set to the current time,
-  /// and [resultData] set to the JSON-serialised [result].
+  /// Returns a copy of [task] with status [AutomationTaskStatus.completed],
+  /// [AutomationTask.completedAt] set to now, and [AutomationTask.resultData]
+  /// populated from [result].
   static AutomationTask completeTask(
     AutomationTask task,
     AutomationResult result,
   ) {
-    final resultJson = jsonEncode({
+    final resultJson = json.encode({
       'taskId': result.taskId,
       'success': result.success,
       'executionTimeMs': result.executionTimeMs,
       'stepsCompleted': result.stepsCompleted,
       'stepsFailed': result.stepsFailed,
       'extractedData': result.extractedData,
-      'screenshots': result.screenshots,
-      'errorStep': result.errorStep,
     });
 
     return task.copyWith(
       status: AutomationTaskStatus.completed,
       completedAt: DateTime.now(),
       resultData: resultJson,
+      errorMessage: null,
     );
   }
 
-  /// Returns a copy of [task] with [status] set to
-  /// [AutomationTaskStatus.failed], [errorMessage] set to [error], and
-  /// [retryCount] incremented by 1.
+  /// Returns a copy of [task] with status [AutomationTaskStatus.failed],
+  /// [AutomationTask.errorMessage] set to [error], and
+  /// [AutomationTask.retryCount] incremented by one.
   static AutomationTask failTask(AutomationTask task, String error) {
     return task.copyWith(
       status: AutomationTaskStatus.failed,
@@ -99,86 +129,36 @@ abstract final class AutomationTaskManager {
   // Retry logic
   // ---------------------------------------------------------------------------
 
-  /// Returns `true` when [task] is eligible for another retry attempt
-  /// (i.e. [AutomationTask.retryCount] < [AutomationTask.maxRetries]).
+  /// Returns `true` when [task] is eligible for another attempt.
   static bool shouldRetry(AutomationTask task) {
     return task.retryCount < task.maxRetries;
   }
 
   // ---------------------------------------------------------------------------
-  // Batch duration estimation
+  // Batch estimation
   // ---------------------------------------------------------------------------
 
-  /// Estimates the total wall-clock [Duration] required to execute all [tasks]
-  /// in sequence.
+  /// Estimates total wall-clock time for executing [tasks] sequentially.
   ///
-  /// Returns [Duration.zero] for an empty list.
+  /// Adds a 3-second rate-limit buffer between consecutive tasks on the same
+  /// portal, as required by portals such as TRACES.
   static Duration estimateBatchDuration(List<AutomationTask> tasks) {
     if (tasks.isEmpty) return Duration.zero;
 
-    var totalSeconds = 0;
+    int totalSeconds = 0;
+    AutomationPortal? previousPortal;
+
     for (final task in tasks) {
-      totalSeconds += _estimatedSecondsForType(task.taskType);
+      totalSeconds += _baseDurationSeconds[task.taskType] ?? 60;
+
+      // Add inter-request rate-limit gap on the same portal.
+      if (previousPortal == task.portal) {
+        totalSeconds += 3;
+      }
+
+      previousPortal = task.portal;
     }
 
     return Duration(seconds: totalSeconds);
-  }
-
-  // ---------------------------------------------------------------------------
-  // Private helpers
-  // ---------------------------------------------------------------------------
-
-  static AutomationPortal _portalForType(AutomationTaskType type) {
-    switch (type) {
-      case AutomationTaskType.tracesDownload:
-      case AutomationTaskType.challanFetch:
-        return AutomationPortal.traces;
-      case AutomationTaskType.gstFilingStatus:
-        return AutomationPortal.gstn;
-      case AutomationTaskType.mcaPrefill:
-        return AutomationPortal.mca;
-      case AutomationTaskType.itrStatus:
-      case AutomationTaskType.bulkPanVerify:
-      case AutomationTaskType.aisDownload:
-        return AutomationPortal.itd;
-    }
-  }
-
-  static String _nameForType(AutomationTaskType type) {
-    switch (type) {
-      case AutomationTaskType.tracesDownload:
-        return 'TRACES Download';
-      case AutomationTaskType.challanFetch:
-        return 'Challan Fetch';
-      case AutomationTaskType.gstFilingStatus:
-        return 'GST Filing Status';
-      case AutomationTaskType.mcaPrefill:
-        return 'MCA Form Prefill';
-      case AutomationTaskType.itrStatus:
-        return 'ITR Status';
-      case AutomationTaskType.bulkPanVerify:
-        return 'Bulk PAN Verify';
-      case AutomationTaskType.aisDownload:
-        return 'AIS Download';
-    }
-  }
-
-  static int _estimatedSecondsForType(AutomationTaskType type) {
-    switch (type) {
-      case AutomationTaskType.tracesDownload:
-        return 120;
-      case AutomationTaskType.challanFetch:
-        return 90;
-      case AutomationTaskType.gstFilingStatus:
-        return 60;
-      case AutomationTaskType.mcaPrefill:
-        return 60;
-      case AutomationTaskType.itrStatus:
-        return 45;
-      case AutomationTaskType.bulkPanVerify:
-        return 180;
-      case AutomationTaskType.aisDownload:
-        return 90;
-    }
   }
 }

@@ -2,106 +2,276 @@ import 'package:ca_app/features/rpa/domain/models/automation_script.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_step.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 
-/// Factory for building pre-defined [AutomationScript]s for common portal
-/// automation tasks (TRACES Form 16 download, challan status, GST filing
-/// status, MCA form prefill, etc.).
+/// Builds pre-defined [AutomationScript] instances for common CA portal tasks.
 ///
-/// All methods are pure static functions — no state, no side effects.
-abstract final class AutomationScriptBuilder {
+/// All methods are static — no instantiation needed.
+class AutomationScriptBuilder {
+  AutomationScriptBuilder._();
+
+  static int _counter = 0;
+
+  /// Generates a simple unique script ID from timestamp + counter.
+  static String _newId() {
+    _counter += 1;
+    return 'script-${DateTime.now().microsecondsSinceEpoch}-$_counter';
+  }
+
   // ---------------------------------------------------------------------------
-  // TRACES — Form 16 download
+  // TRACES — Form 16 bulk download
   // ---------------------------------------------------------------------------
 
-  /// Builds a TRACES automation script to download Form 16 for multiple PANs.
+  /// Builds a scripted sequence to request bulk Form 16 downloads from TRACES.
   ///
-  /// [deductorTan] — the deductor's TAN number.
-  /// [financialYear] — e.g. 2024 for FY 2024-25.
-  /// [employeePans] — list of employee PAN numbers.
+  /// [tan] — TAN of the deductor.
+  /// [financialYear] — e.g. `2024` means FY 2024-25.
+  /// [pans] — list of deductee PANs to include in the request.
   static AutomationScript buildTracesForm16Script(
-    String deductorTan,
+    String tan,
     int financialYear,
-    List<String> employeePans,
+    List<String> pans,
   ) {
-    final pansCsv = employeePans.join(',');
-    final fyLabel = '$financialYear-${(financialYear + 1) % 100 < 10 ? '0${(financialYear + 1) % 100}' : (financialYear + 1) % 100}';
-    final steps = [
+    final fyLabel = '$financialYear-${(financialYear + 1).toString().substring(2)}';
+    final panListValue = pans.join(',');
+    final scriptId = _newId();
+
+    const baseTimeoutSecs = 30;
+    const submitTimeoutSecs = 60;
+
+    final steps = <AutomationStep>[
       const AutomationStep(
         stepNumber: 1,
         action: StepAction.navigate,
         selector: 'https://traces.gov.in/Login.html',
         value: null,
-        expectedOutcome: 'login page loaded',
-        timeoutSeconds: 30,
+        expectedOutcome: 'Login page loaded',
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       AutomationStep(
         stepNumber: 2,
         action: StepAction.type,
         selector: '#userid',
-        value: deductorTan,
+        value: tan,
         expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       const AutomationStep(
         stepNumber: 3,
-        action: StepAction.click,
-        selector: '#loginBtn',
-        value: null,
-        expectedOutcome: 'dashboard visible',
-        timeoutSeconds: 15,
+        action: StepAction.type,
+        selector: '#password',
+        value: '{password}',
+        expectedOutcome: null,
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       const AutomationStep(
         stepNumber: 4,
-        action: StepAction.navigate,
-        selector: 'https://traces.gov.in/Form16Download.html',
+        action: StepAction.click,
+        selector: '#loginBtn',
         value: null,
-        expectedOutcome: 'Form 16 download page',
-        timeoutSeconds: 20,
+        expectedOutcome: null,
+        timeoutSeconds: baseTimeoutSecs,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 5,
+        action: StepAction.waitFor,
+        selector: '.dashboard',
+        value: null,
+        expectedOutcome: 'Dashboard visible',
+        timeoutSeconds: baseTimeoutSecs,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 6,
+        action: StepAction.navigate,
+        selector: 'https://traces.gov.in/deductor/requestForm16.html',
+        value: null,
+        expectedOutcome: 'Form 16 request page',
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       AutomationStep(
-        stepNumber: 5,
+        stepNumber: 7,
         action: StepAction.select,
         selector: '#financialYear',
-        value: '$financialYear-$fyLabel',
+        value: fyLabel,
         expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       AutomationStep(
-        stepNumber: 6,
+        stepNumber: 8,
         action: StepAction.type,
         selector: '#panList',
-        value: pansCsv,
+        value: panListValue,
         expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       const AutomationStep(
-        stepNumber: 7,
+        stepNumber: 9,
         action: StepAction.click,
-        selector: '#submitRequest',
+        selector: '#submitBtn',
         value: null,
-        expectedOutcome: 'request submitted',
-        timeoutSeconds: 15,
+        expectedOutcome: null,
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
       const AutomationStep(
-        stepNumber: 8,
-        action: StepAction.extractText,
-        selector: '#requestId',
+        stepNumber: 10,
+        action: StepAction.waitFor,
+        selector: '.requestSuccess',
         value: null,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
+        expectedOutcome: 'Request submitted successfully',
+        timeoutSeconds: submitTimeoutSecs,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 11,
+        action: StepAction.extractText,
+        selector: '.requestId',
+        value: null,
+        expectedOutcome: 'requestId extracted',
+        timeoutSeconds: baseTimeoutSecs,
         isOptional: false,
       ),
     ];
 
     return AutomationScript(
-      scriptId: 'traces-form16-${DateTime.now().millisecondsSinceEpoch}',
-      name: 'TRACES Form 16 Download — $deductorTan FY $fyLabel',
+      scriptId: scriptId,
+      name: 'TRACES Form 16 Download — $fyLabel',
+      steps: steps,
+      targetPortal: AutomationPortal.traces,
+      estimatedDurationSeconds: 180,
+      lastRunAt: null,
+      successRate: 0.0,
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // TRACES — Challan status verification
+  // ---------------------------------------------------------------------------
+
+  /// Builds a scripted sequence to verify challan status on TRACES.
+  ///
+  /// [tan] — TAN of the deductor.
+  /// [bsrCode] — Bank BSR code, e.g. "0002390".
+  /// [challanDate] — Payment date in DD/MM/YYYY format.
+  static AutomationScript buildChallanStatusScript(
+    String tan,
+    String bsrCode,
+    String challanDate,
+  ) {
+    final scriptId = _newId();
+    const t = 30;
+
+    final steps = <AutomationStep>[
+      const AutomationStep(
+        stepNumber: 1,
+        action: StepAction.navigate,
+        selector: 'https://traces.gov.in/Login.html',
+        value: null,
+        expectedOutcome: 'Login page loaded',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 2,
+        action: StepAction.type,
+        selector: '#userid',
+        value: tan,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 3,
+        action: StepAction.type,
+        selector: '#password',
+        value: '{password}',
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 4,
+        action: StepAction.click,
+        selector: '#loginBtn',
+        value: null,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 5,
+        action: StepAction.waitFor,
+        selector: '.dashboard',
+        value: null,
+        expectedOutcome: 'Dashboard visible',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 6,
+        action: StepAction.navigate,
+        selector: 'https://traces.gov.in/deductor/challanStatus.html',
+        value: null,
+        expectedOutcome: 'Challan status page',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 7,
+        action: StepAction.type,
+        selector: '#bsrCode',
+        value: bsrCode,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 8,
+        action: StepAction.type,
+        selector: '#challanDate',
+        value: challanDate,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 9,
+        action: StepAction.click,
+        selector: '#searchBtn',
+        value: null,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 10,
+        action: StepAction.waitFor,
+        selector: '.challanResult',
+        value: null,
+        expectedOutcome: 'Results displayed',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 11,
+        action: StepAction.extractText,
+        selector: '.challanStatus',
+        value: null,
+        expectedOutcome: 'Status text extracted',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+    ];
+
+    return AutomationScript(
+      scriptId: scriptId,
+      name: 'TRACES Challan Status — BSR $bsrCode',
       steps: steps,
       targetPortal: AutomationPortal.traces,
       estimatedDurationSeconds: 120,
@@ -111,189 +281,119 @@ abstract final class AutomationScriptBuilder {
   }
 
   // ---------------------------------------------------------------------------
-  // TRACES — Challan status check
+  // GSTN — Filing status check
   // ---------------------------------------------------------------------------
 
-  /// Builds a TRACES automation script to verify challan payment status.
+  /// Builds a scripted sequence to check GST filing status for a GSTIN.
   ///
-  /// [tan] — deductor TAN.
-  /// [bsrCode] — BSR code of the bank branch.
-  /// [challanDate] — challan deposit date in DD/MM/YYYY format.
-  static AutomationScript buildChallanStatusScript(
-    String tan,
-    String bsrCode,
-    String challanDate,
-  ) {
-    final steps = [
-      const AutomationStep(
-        stepNumber: 1,
-        action: StepAction.navigate,
-        selector: 'https://traces.gov.in/Login.html',
-        value: null,
-        expectedOutcome: 'login page',
-        timeoutSeconds: 30,
-        isOptional: false,
-      ),
-      AutomationStep(
-        stepNumber: 2,
-        action: StepAction.type,
-        selector: '#userid',
-        value: tan,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
-        isOptional: false,
-      ),
-      const AutomationStep(
-        stepNumber: 3,
-        action: StepAction.click,
-        selector: '#loginBtn',
-        value: null,
-        expectedOutcome: null,
-        timeoutSeconds: 15,
-        isOptional: false,
-      ),
-      const AutomationStep(
-        stepNumber: 4,
-        action: StepAction.navigate,
-        selector: 'https://traces.gov.in/ChallanStatus.html',
-        value: null,
-        expectedOutcome: 'challan status page',
-        timeoutSeconds: 20,
-        isOptional: false,
-      ),
-      AutomationStep(
-        stepNumber: 5,
-        action: StepAction.type,
-        selector: '#bsrCode',
-        value: bsrCode,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
-        isOptional: false,
-      ),
-      AutomationStep(
-        stepNumber: 6,
-        action: StepAction.type,
-        selector: '#challanDate',
-        value: challanDate,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
-        isOptional: false,
-      ),
-      const AutomationStep(
-        stepNumber: 7,
-        action: StepAction.click,
-        selector: '#searchBtn',
-        value: null,
-        expectedOutcome: null,
-        timeoutSeconds: 15,
-        isOptional: false,
-      ),
-      const AutomationStep(
-        stepNumber: 8,
-        action: StepAction.extractText,
-        selector: '#challanStatus',
-        value: null,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
-        isOptional: false,
-      ),
-    ];
-
-    return AutomationScript(
-      scriptId: 'traces-challan-${DateTime.now().millisecondsSinceEpoch}',
-      name: 'TRACES Challan Status — BSR $bsrCode / $challanDate',
-      steps: steps,
-      targetPortal: AutomationPortal.traces,
-      estimatedDurationSeconds: 90,
-      lastRunAt: null,
-      successRate: 0.0,
-    );
-  }
-
-  // ---------------------------------------------------------------------------
-  // GSTN — GST filing status
-  // ---------------------------------------------------------------------------
-
-  /// Builds a GSTN automation script to check GST return filing status.
-  ///
-  /// [gstin] — the entity's GSTIN.
-  /// [taxPeriod] — return period in MMYYYY format, e.g. '032026'.
+  /// [gstin] — 15-character GSTIN, e.g. "27AABCU9603R1ZX".
+  /// [period] — Filing period in MMYYYY format, e.g. "032026".
   static AutomationScript buildGstFilingStatusScript(
     String gstin,
-    String taxPeriod,
+    String period,
   ) {
-    final steps = [
+    final scriptId = _newId();
+    const t = 30;
+
+    final steps = <AutomationStep>[
       const AutomationStep(
         stepNumber: 1,
         action: StepAction.navigate,
         selector: 'https://www.gst.gov.in/',
         value: null,
         expectedOutcome: 'GST portal home',
-        timeoutSeconds: 30,
-        isOptional: false,
-      ),
-      AutomationStep(
-        stepNumber: 2,
-        action: StepAction.type,
-        selector: '#username',
-        value: gstin,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: t,
         isOptional: false,
       ),
       const AutomationStep(
-        stepNumber: 3,
+        stepNumber: 2,
         action: StepAction.click,
         selector: '#loginBtn',
         value: null,
         expectedOutcome: null,
-        timeoutSeconds: 15,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 3,
+        action: StepAction.type,
+        selector: '#username',
+        value: gstin,
+        expectedOutcome: null,
+        timeoutSeconds: t,
         isOptional: false,
       ),
       const AutomationStep(
         stepNumber: 4,
-        action: StepAction.navigate,
-        selector: 'https://return.gst.gov.in/returns/auth/dashboard',
-        value: null,
-        expectedOutcome: 'returns dashboard',
-        timeoutSeconds: 20,
+        action: StepAction.type,
+        selector: '#password',
+        value: '{password}',
+        expectedOutcome: null,
+        timeoutSeconds: t,
         isOptional: false,
       ),
-      AutomationStep(
+      const AutomationStep(
         stepNumber: 5,
-        action: StepAction.type,
-        selector: '#taxPeriod',
-        value: taxPeriod,
+        action: StepAction.click,
+        selector: '#loginSubmit',
+        value: null,
         expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: t,
         isOptional: false,
       ),
       const AutomationStep(
         stepNumber: 6,
-        action: StepAction.extractText,
-        selector: '#gstr1Status',
+        action: StepAction.waitFor,
+        selector: '.dashboard',
         value: null,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
+        expectedOutcome: 'Dashboard loaded',
+        timeoutSeconds: t,
         isOptional: false,
       ),
       const AutomationStep(
         stepNumber: 7,
-        action: StepAction.extractText,
-        selector: '#gstr3bStatus',
+        action: StepAction.navigate,
+        selector: 'https://www.gst.gov.in/returns/dashboard',
         value: null,
+        expectedOutcome: 'Returns dashboard',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 8,
+        action: StepAction.select,
+        selector: '#returnPeriod',
+        value: period,
         expectedOutcome: null,
-        timeoutSeconds: 10,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 9,
+        action: StepAction.extractText,
+        selector: '.gstr1Status',
+        value: null,
+        expectedOutcome: 'GSTR-1 status extracted',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 10,
+        action: StepAction.extractText,
+        selector: '.gstr3bStatus',
+        value: null,
+        expectedOutcome: 'GSTR-3B status extracted',
+        timeoutSeconds: t,
         isOptional: false,
       ),
     ];
 
     return AutomationScript(
-      scriptId: 'gstn-status-${DateTime.now().millisecondsSinceEpoch}',
-      name: 'GST Filing Status — $gstin / $taxPeriod',
+      scriptId: scriptId,
+      name: 'GST Filing Status — $gstin / $period',
       steps: steps,
       targetPortal: AutomationPortal.gstn,
-      estimatedDurationSeconds: 60,
+      estimatedDurationSeconds: 90,
       lastRunAt: null,
       successRate: 0.0,
     );
@@ -303,77 +403,119 @@ abstract final class AutomationScriptBuilder {
   // MCA — Form prefill
   // ---------------------------------------------------------------------------
 
-  /// Builds an MCA automation script to prefill an e-Form with provided data.
+  /// Builds a scripted sequence to prefill an MCA form for a company.
   ///
-  /// [cin] — Company Identification Number.
-  /// [formType] — e.g. 'AOC-4', 'MGT-7'.
-  /// [fieldData] — map of CSS selector IDs to values.
+  /// [cin] — Company Identification Number, e.g. "U74999DL2020PTC123456".
+  /// [formType] — MCA form type, e.g. "AOC-4".
+  /// [data] — Map of field names to values to be pre-filled.
   static AutomationScript buildMcaFormPrefillScript(
     String cin,
     String formType,
-    Map<String, String> fieldData,
+    Map<String, String> data,
   ) {
-    var stepNum = 1;
-    final steps = <AutomationStep>[];
+    final scriptId = _newId();
+    const t = 30;
 
-    steps.add(AutomationStep(
-      stepNumber: stepNum++,
-      action: StepAction.navigate,
-      selector: 'https://www.mca.gov.in/mcafoportal/login.do',
-      value: null,
-      expectedOutcome: 'MCA login page',
-      timeoutSeconds: 30,
-      isOptional: false,
-    ));
-
-    steps.add(AutomationStep(
-      stepNumber: stepNum++,
-      action: StepAction.click,
-      selector: '#loginBtn',
-      value: null,
-      expectedOutcome: null,
-      timeoutSeconds: 15,
-      isOptional: false,
-    ));
-
-    steps.add(AutomationStep(
-      stepNumber: stepNum++,
-      action: StepAction.navigate,
-      selector: 'https://www.mca.gov.in/mcafoportal/eForm/$formType',
-      value: null,
-      expectedOutcome: '$formType form loaded',
-      timeoutSeconds: 20,
-      isOptional: false,
-    ));
-
-    steps.add(AutomationStep(
-      stepNumber: stepNum++,
-      action: StepAction.type,
-      selector: '#cin',
-      value: cin,
-      expectedOutcome: null,
-      timeoutSeconds: 10,
-      isOptional: false,
-    ));
-
-    for (final entry in fieldData.entries) {
-      steps.add(AutomationStep(
-        stepNumber: stepNum++,
-        action: StepAction.type,
-        selector: '#${entry.key}',
-        value: entry.value,
-        expectedOutcome: null,
-        timeoutSeconds: 10,
+    final baseSteps = <AutomationStep>[
+      const AutomationStep(
+        stepNumber: 1,
+        action: StepAction.navigate,
+        selector: 'https://www.mca.gov.in/mcafoportal/login.do',
+        value: null,
+        expectedOutcome: 'MCA login page',
+        timeoutSeconds: t,
         isOptional: false,
-      ));
-    }
+      ),
+      const AutomationStep(
+        stepNumber: 2,
+        action: StepAction.type,
+        selector: '#userId',
+        value: '{username}',
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 3,
+        action: StepAction.type,
+        selector: '#password',
+        value: '{password}',
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 4,
+        action: StepAction.click,
+        selector: '#loginBtn',
+        value: null,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      const AutomationStep(
+        stepNumber: 5,
+        action: StepAction.waitFor,
+        selector: '.dashboard',
+        value: null,
+        expectedOutcome: 'Dashboard loaded',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 6,
+        action: StepAction.navigate,
+        selector:
+            'https://www.mca.gov.in/mcafoportal/showfillForm.do?form=$formType',
+        value: null,
+        expectedOutcome: '$formType form page',
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+      AutomationStep(
+        stepNumber: 7,
+        action: StepAction.type,
+        selector: '#cin',
+        value: cin,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      ),
+    ];
+
+    // Generate a type step for each data field.
+    final dataSteps = data.entries.toList().asMap().entries.map((entry) {
+      final stepNum = 8 + entry.key;
+      final field = entry.value;
+      return AutomationStep(
+        stepNumber: stepNum,
+        action: StepAction.type,
+        selector: '#${field.key}',
+        value: field.value,
+        expectedOutcome: null,
+        timeoutSeconds: t,
+        isOptional: false,
+      );
+    }).toList();
+
+    final submitStep = AutomationStep(
+      stepNumber: 8 + data.length,
+      action: StepAction.click,
+      selector: '#saveBtn',
+      value: null,
+      expectedOutcome: 'Form saved',
+      timeoutSeconds: t,
+      isOptional: false,
+    );
+
+    final allSteps = [...baseSteps, ...dataSteps, submitStep];
 
     return AutomationScript(
-      scriptId: 'mca-$formType-${DateTime.now().millisecondsSinceEpoch}',
+      scriptId: scriptId,
       name: 'MCA $formType Prefill — $cin',
-      steps: steps,
+      steps: allSteps,
       targetPortal: AutomationPortal.mca,
-      estimatedDurationSeconds: 60 + fieldData.length * 5,
+      estimatedDurationSeconds: 60 + data.length * 5,
       lastRunAt: null,
       successRate: 0.0,
     );

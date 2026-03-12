@@ -4,169 +4,174 @@ import 'package:ca_app/features/rpa/domain/models/automation_step.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 import 'package:ca_app/features/rpa/domain/services/automation_script_builder.dart';
 
-/// Stateless singleton that executes [AutomationScript]s against government
-/// portals and provides script validation and template retrieval.
+/// Executes, validates, and provides templates for portal automation scripts.
 ///
-/// In the current implementation all execution is simulated (mock). A real
-/// implementation would integrate a headless-browser driver.
+/// All execution is mocked — no real browser automation occurs in this layer.
+/// The service acts as the domain facade for the RPA sub-system.
 class PortalAutomationService {
   PortalAutomationService._();
 
   static final PortalAutomationService instance = PortalAutomationService._();
 
   // ---------------------------------------------------------------------------
-  // executeScript
+  // Script execution (mocked)
   // ---------------------------------------------------------------------------
 
-  /// Executes [script] with the given [credentials] and returns an
-  /// [AutomationResult].
+  /// Simulates executing [script] against a live portal.
   ///
-  /// This is a mock implementation: it simulates step execution and always
-  /// succeeds, recording execution time and step counts.
+  /// Mock behaviour:
+  /// - All steps are reported as completed.
+  /// - [AutomationResult.success] is `true`.
+  /// - Execution time is derived from [AutomationScript.estimatedDurationSeconds].
+  /// - `extractText` steps contribute placeholder entries to [AutomationResult.extractedData].
+  /// - [sessionTokens] is accepted but not used in the mock.
   Future<AutomationResult> executeScript(
     AutomationScript script,
-    Map<String, String> credentials,
+    Map<String, String> sessionTokens,
   ) async {
-    final startMs = DateTime.now().millisecondsSinceEpoch;
+    final extractedData = <String, String>{};
 
-    // Simulate per-step execution delay (10 ms per step for tests).
-    await Future.delayed(Duration(milliseconds: script.steps.length * 10));
-
-    final endMs = DateTime.now().millisecondsSinceEpoch;
-    final elapsedMs = endMs - startMs;
+    for (final step in script.steps) {
+      if (step.action == StepAction.extractText) {
+        final key = _selectorToKey(step.selector);
+        extractedData[key] = 'mock_value_step_${step.stepNumber}';
+      }
+    }
 
     return AutomationResult(
       taskId: script.scriptId,
       success: true,
-      executionTimeMs: elapsedMs > 0 ? elapsedMs : 1,
+      executionTimeMs: script.estimatedDurationSeconds * 1000,
       stepsCompleted: script.steps.length,
       stepsFailed: 0,
-      extractedData: const {},
+      extractedData: extractedData,
       screenshots: const [],
       errorStep: null,
     );
   }
 
   // ---------------------------------------------------------------------------
-  // validateScript
+  // Script validation
   // ---------------------------------------------------------------------------
 
   /// Validates [script] and returns a list of human-readable error messages.
   ///
-  /// Returns an empty list when the script is valid.
+  /// An empty list means the script is valid.
+  ///
+  /// Checks performed:
+  /// 1. Script must have at least one step.
+  /// 2. Step numbers must be in strictly ascending order.
+  /// 3. Step numbers must be unique (no duplicates).
+  /// 4. Required (non-optional) steps must have a non-empty selector.
   List<String> validateScript(AutomationScript script) {
     final errors = <String>[];
 
     if (script.steps.isEmpty) {
-      errors.add('Script "${script.name}" has no steps.');
+      errors.add('Script must contain at least one step.');
       return errors;
     }
 
-    // Check for duplicate step numbers.
-    final stepNumbers = script.steps.map((s) => s.stepNumber).toList();
-    final unique = <int>{};
-    final duplicates = <int>{};
-    for (final n in stepNumbers) {
-      if (!unique.add(n)) {
-        duplicates.add(n);
-      }
-    }
-    if (duplicates.isNotEmpty) {
-      errors.add(
-        'Duplicate step numbers found: ${duplicates.join(', ')}.',
-      );
-    }
+    // Check ordering and uniqueness together.
+    final seenNumbers = <int>{};
+    for (var i = 0; i < script.steps.length; i++) {
+      final step = script.steps[i];
 
-    // Check that steps are in ascending order.
-    for (var i = 1; i < script.steps.length; i++) {
-      if (script.steps[i].stepNumber <= script.steps[i - 1].stepNumber) {
+      if (seenNumbers.contains(step.stepNumber)) {
         errors.add(
-          'Steps are not in ascending order at position $i '
-          '(step ${script.steps[i].stepNumber} follows '
-          '${script.steps[i - 1].stepNumber}).',
+          'Duplicate stepNumber ${step.stepNumber} found at index $i.',
         );
-        break;
+      }
+      seenNumbers.add(step.stepNumber);
+
+      if (i > 0) {
+        final previous = script.steps[i - 1];
+        if (step.stepNumber <= previous.stepNumber) {
+          errors.add(
+            'Steps are not in ascending order: '
+            'step[$i].stepNumber (${step.stepNumber}) '
+            'is not greater than step[${i - 1}].stepNumber '
+            '(${previous.stepNumber}).',
+          );
+        }
+      }
+
+      if (!step.isOptional && step.selector.isEmpty) {
+        errors.add(
+          'Required step ${step.stepNumber} has an empty selector.',
+        );
       }
     }
 
-    // Validate individual steps.
-    for (final step in script.steps) {
-      final stepErrors = _validateStep(step);
-      errors.addAll(stepErrors);
-    }
-
-    return errors;
-  }
-
-  List<String> _validateStep(AutomationStep step) {
-    final errors = <String>[];
-
-    // Navigate steps use selector as URL — allow empty for optional.
-    if (!step.isOptional && step.selector.isEmpty) {
-      errors.add(
-        'Step ${step.stepNumber} (${step.action.name}): '
-        'selector must not be empty for required steps.',
-      );
-    }
-
     return errors;
   }
 
   // ---------------------------------------------------------------------------
-  // getScriptTemplate
+  // Script templates
   // ---------------------------------------------------------------------------
 
-  /// Returns a pre-built [AutomationScript] template for [portal] and [task].
+  /// Returns a pre-built script template for [portalName] and [taskName].
   ///
-  /// Supported combinations:
-  /// - `('traces', 'form16')` — TRACES Form 16 download
-  /// - `('traces', 'challanStatus')` — TRACES challan status check
-  /// - `('gstn', 'filingStatus')` — GST filing status
-  /// - `('mca', 'formPrefill')` — MCA form prefill
+  /// | portalName | taskName        | Portal                      |
+  /// |------------|-----------------|------------------------------|
+  /// | traces     | form16          | [AutomationPortal.traces]   |
+  /// | traces     | challanStatus   | [AutomationPortal.traces]   |
+  /// | gstn       | filingStatus    | [AutomationPortal.gstn]     |
+  /// | mca        | formPrefill     | [AutomationPortal.mca]      |
   ///
-  /// Unknown combinations return a fallback [AutomationScript] with an empty
-  /// step list.
-  AutomationScript getScriptTemplate(String portal, String task) {
-    final key = '${portal.toLowerCase()}:${task.toLowerCase()}';
+  /// Returns a fallback script with an empty steps list for unknown combinations.
+  AutomationScript getScriptTemplate(String portalName, String taskName) {
+    final key = '${portalName.toLowerCase()}:${taskName.toLowerCase()}';
 
     switch (key) {
       case 'traces:form16':
         return AutomationScriptBuilder.buildTracesForm16Script(
-          'PLACEHOLDER',
-          DateTime.now().year,
-          const ['PLACEHOLDER'],
+          '{tan}',
+          DateTime.now().year - 1,
+          ['{pan}'],
         );
 
       case 'traces:challanstatus':
         return AutomationScriptBuilder.buildChallanStatusScript(
-          'PLACEHOLDER',
-          '0000000',
-          '01/01/2024',
+          '{tan}',
+          '{bsrCode}',
+          '{challanDate}',
         );
 
       case 'gstn:filingstatus':
         return AutomationScriptBuilder.buildGstFilingStatusScript(
-          'PLACEHOLDER',
-          '032024',
+          '{gstin}',
+          '{period}',
         );
 
       case 'mca:formprefill':
         return AutomationScriptBuilder.buildMcaFormPrefillScript(
-          'PLACEHOLDER',
-          'AOC-4',
-          const {'field1': 'value1'},
+          '{cin}',
+          '{formType}',
+          {},
         );
 
       default:
-        return AutomationScript(
-          scriptId: 'unknown-$portal-$task',
-          name: 'Unknown: $portal / $task',
-          steps: const [],
+        return const AutomationScript(
+          scriptId: 'fallback',
+          name: 'Unknown template',
+          steps: [],
           targetPortal: AutomationPortal.itd,
           estimatedDurationSeconds: 0,
           lastRunAt: null,
           successRate: 0.0,
         );
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private helpers
+  // ---------------------------------------------------------------------------
+
+  /// Converts a CSS selector like `.requestId` or `#requestId` to a plain key.
+  String _selectorToKey(String selector) {
+    if (selector.startsWith('.') || selector.startsWith('#')) {
+      return selector.substring(1);
+    }
+    return selector;
   }
 }
