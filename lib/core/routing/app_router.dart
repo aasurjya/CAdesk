@@ -70,14 +70,13 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
-import 'package:ca_app/features/startup/presentation/startup_screen.dart';
-import 'package:ca_app/features/startup/presentation/startup_detail_screen.dart';
-import 'package:ca_app/features/llp/presentation/llp_screen.dart';
-import 'package:ca_app/features/llp/presentation/llp_detail_screen.dart';
-import 'package:ca_app/features/vda/presentation/vda_screen.dart';
-import 'package:ca_app/features/vda/presentation/vda_computation_screen.dart';
-import 'package:ca_app/features/traces/presentation/traces_screen.dart';
-import 'package:ca_app/features/traces/presentation/traces_download_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/bulk_dashboard_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/batch_detail_screen.dart';
+import 'package:ca_app/features/bulk_operations/presentation/new_batch_screen.dart';
+import 'package:ca_app/features/practice/presentation/practice_dashboard_screen.dart';
+import 'package:ca_app/features/practice/presentation/workflow_list_screen.dart';
+import 'package:ca_app/features/practice/presentation/assignment_screen.dart';
+import 'package:ca_app/features/practice/presentation/capacity_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -546,52 +545,46 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AdvanceTaxScreen(),
       ),
       GoRoute(
-        path: '/startup',
-        name: 'startup',
+        path: '/bulk-operations',
+        name: 'bulkOperations',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const StartupScreen(),
+        builder: (context, state) => const BulkDashboardScreen(),
       ),
       GoRoute(
-        path: '/startup/detail',
-        name: 'startupDetail',
+        path: '/bulk-operations/batch',
+        name: 'batchDetail',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const StartupDetailScreen(),
+        builder: (context, state) => const BatchDetailScreen(),
       ),
       GoRoute(
-        path: '/llp',
-        name: 'llp',
+        path: '/bulk-operations/new',
+        name: 'newBatch',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const LlpScreen(),
+        builder: (context, state) => const NewBatchScreen(),
       ),
       GoRoute(
-        path: '/llp/detail',
-        name: 'llpDetail',
+        path: '/practice',
+        name: 'practice',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const LlpDetailScreen(),
+        builder: (context, state) => const PracticeDashboardScreen(),
       ),
       GoRoute(
-        path: '/vda',
-        name: 'vda',
+        path: '/practice/workflows',
+        name: 'practiceWorkflows',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const VdaScreen(),
+        builder: (context, state) => const WorkflowListScreen(),
       ),
       GoRoute(
-        path: '/vda/compute',
-        name: 'vdaCompute',
+        path: '/practice/assignments',
+        name: 'practiceAssignments',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const VdaComputationScreen(),
+        builder: (context, state) => const AssignmentScreen(),
       ),
       GoRoute(
-        path: '/traces',
-        name: 'traces',
+        path: '/practice/capacity',
+        name: 'practiceCapacity',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const TracesScreen(),
-      ),
-      GoRoute(
-        path: '/traces/download',
-        name: 'tracesDownload',
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const TracesDownloadScreen(),
+        builder: (context, state) => const CapacityScreen(),
       ),
     ],
   );
