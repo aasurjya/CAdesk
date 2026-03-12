@@ -1,15 +1,16 @@
 /// Lifecycle status of a client's portal access.
 enum PortalStatus {
-  invited,
-  active,
-  inactive,
-  suspended,
+  invited('Invited'),
+  active('Active'),
+  inactive('Inactive'),
+  suspended('Suspended');
+
+  const PortalStatus(this.label);
+
+  final String label;
 }
 
-/// Domain model representing a CA client registered on the client portal.
-///
-/// Immutable — use [copyWith] to derive updated copies.
-/// Equality and [hashCode] are based solely on [clientId].
+/// Immutable model representing a CA's client registered on the portal.
 class PortalClient {
   const PortalClient({
     required this.clientId,
@@ -30,14 +31,20 @@ class PortalClient {
   final String name;
   final String email;
 
-  /// Mobile in E.164 format without the '+' prefix, e.g. "919876543210".
+  /// Mobile number with country code, e.g. "919876543210" for India.
   final String mobile;
+
   final PortalStatus portalStatus;
-  final String caFirmId;
-  final int totalDocuments;
+
+  /// One-time token sent to the client to activate their portal access.
   final String? inviteToken;
+
+  /// Timestamp after which [inviteToken] is no longer valid (72 hours from issue).
   final DateTime? inviteExpiry;
+
   final DateTime? lastLoginAt;
+  final int totalDocuments;
+  final String caFirmId;
 
   PortalClient copyWith({
     String? clientId,
@@ -46,11 +53,11 @@ class PortalClient {
     String? email,
     String? mobile,
     PortalStatus? portalStatus,
-    String? caFirmId,
-    int? totalDocuments,
     String? inviteToken,
     DateTime? inviteExpiry,
     DateTime? lastLoginAt,
+    int? totalDocuments,
+    String? caFirmId,
   }) {
     return PortalClient(
       clientId: clientId ?? this.clientId,
@@ -59,11 +66,11 @@ class PortalClient {
       email: email ?? this.email,
       mobile: mobile ?? this.mobile,
       portalStatus: portalStatus ?? this.portalStatus,
-      caFirmId: caFirmId ?? this.caFirmId,
-      totalDocuments: totalDocuments ?? this.totalDocuments,
       inviteToken: inviteToken ?? this.inviteToken,
       inviteExpiry: inviteExpiry ?? this.inviteExpiry,
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
+      totalDocuments: totalDocuments ?? this.totalDocuments,
+      caFirmId: caFirmId ?? this.caFirmId,
     );
   }
 

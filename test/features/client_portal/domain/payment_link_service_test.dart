@@ -108,13 +108,10 @@ void main() {
     });
 
     test('createPaymentLink sets expiry 7 days from creation', () {
-      final before = DateTime.now();
       final link = service.createPaymentLink('c1', 'inv1', 10000, 'fee');
       final expectedExpiry = service.computeExpiryDate(link.createdAt);
       expect(expectedExpiry.difference(link.createdAt).inDays, 7);
       expect(link.expiresAt, expectedExpiry);
-      // ignore: unused_local_variable
-      final _ = before;
     });
 
     test('createPaymentLink generates unique linkIds', () {

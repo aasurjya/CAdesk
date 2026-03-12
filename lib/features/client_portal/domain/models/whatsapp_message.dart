@@ -1,24 +1,32 @@
-/// Type of a WhatsApp message.
+/// Type of WhatsApp message payload.
 enum MessageType {
-  text,
-  template,
-  document,
-  image,
+  text('Text'),
+  template('Template'),
+  document('Document'),
+  image('Image');
+
+  const MessageType(this.label);
+
+  final String label;
 }
 
 /// Delivery status of a WhatsApp message.
 enum MessageStatus {
-  queued,
-  sent,
-  delivered,
-  read,
-  failed,
+  queued('Queued'),
+  sent('Sent'),
+  delivered('Delivered'),
+  read('Read'),
+  failed('Failed');
+
+  const MessageStatus(this.label);
+
+  final String label;
 }
 
-/// Domain model representing a WhatsApp message sent to a client.
+/// Immutable model representing a WhatsApp Business API message.
 ///
-/// Immutable — use [copyWith] to derive updated copies.
-/// Equality and [hashCode] are based solely on [messageId].
+/// Phone numbers must include country code without '+', e.g. "919876543210"
+/// for an Indian number.
 class WhatsAppMessage {
   const WhatsAppMessage({
     required this.messageId,
@@ -35,40 +43,43 @@ class WhatsAppMessage {
 
   final String messageId;
 
-  /// Recipient phone in E.164 format without the '+' prefix.
+  /// Recipient phone number with country code, e.g. "919876543210".
   final String to;
+
+  /// Template name for [MessageType.template] messages (Meta pre-approved).
+  final String? templateName;
+
   final MessageType messageType;
   final String content;
   final MessageStatus status;
-  final String caFirmId;
-  final String? templateName;
   final DateTime? sentAt;
   final DateTime? deliveredAt;
   final DateTime? readAt;
+  final String caFirmId;
 
   WhatsAppMessage copyWith({
     String? messageId,
     String? to,
+    String? templateName,
     MessageType? messageType,
     String? content,
     MessageStatus? status,
-    String? caFirmId,
-    String? templateName,
     DateTime? sentAt,
     DateTime? deliveredAt,
     DateTime? readAt,
+    String? caFirmId,
   }) {
     return WhatsAppMessage(
       messageId: messageId ?? this.messageId,
       to: to ?? this.to,
+      templateName: templateName ?? this.templateName,
       messageType: messageType ?? this.messageType,
       content: content ?? this.content,
       status: status ?? this.status,
-      caFirmId: caFirmId ?? this.caFirmId,
-      templateName: templateName ?? this.templateName,
       sentAt: sentAt ?? this.sentAt,
       deliveredAt: deliveredAt ?? this.deliveredAt,
       readAt: readAt ?? this.readAt,
+      caFirmId: caFirmId ?? this.caFirmId,
     );
   }
 

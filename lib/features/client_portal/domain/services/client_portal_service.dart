@@ -3,16 +3,17 @@ import 'dart:math';
 import 'package:ca_app/features/client_portal/domain/models/portal_client.dart';
 import 'package:ca_app/features/client_portal/domain/models/shared_document.dart';
 
-/// Stateless singleton service for client portal domain operations.
+/// Domain service for client portal lifecycle: invitation, activation,
+/// and document sharing.
 ///
-/// All methods are pure functions — they return new immutable objects and
-/// never mutate their inputs.
+/// All methods are pure and return new immutable instances — no state is
+/// mutated in-place.
 class ClientPortalService {
   ClientPortalService._();
 
   static final ClientPortalService instance = ClientPortalService._();
 
-  static final Random _random = Random.secure();
+  final Random _random = Random();
 
   // ---------------------------------------------------------------------------
   // Client management
@@ -20,47 +21,51 @@ class ClientPortalService {
 
   /// Creates a new [PortalClient] with [PortalStatus.invited] status.
   ///
-  /// Generates a unique [PortalClient.clientId] using a secure random UUID.
+  /// A unique [clientId] is generated automatically.
   PortalClient inviteClient(
     String pan,
     String name,
     String email,
     String mobile,
-    String caFirmId,
+    String firmId,
   ) {
     return PortalClient(
-      clientId: _generateId(),
+      clientId: _generateId('client'),
       pan: pan,
       name: name,
       email: email,
       mobile: mobile,
       portalStatus: PortalStatus.invited,
-      caFirmId: caFirmId,
+      caFirmId: firmId,
       totalDocuments: 0,
     );
   }
 
-  /// Returns a copy of [client] with a fresh invite token and an expiry
-  /// set 72 hours from now.
+  /// Returns a copy of [client] with a new random invite token and an
+  /// expiry set 72 hours from now.
   PortalClient generateInviteToken(PortalClient client) {
-    final token = _generateId();
+    final token = _generateToken();
     final expiry = DateTime.now().add(const Duration(hours: 72));
-    return client.copyWith(
-      inviteToken: token,
-      inviteExpiry: expiry,
-    );
+    return client.copyWith(inviteToken: token, inviteExpiry: expiry);
   }
 
-  /// Activates the portal for [client] when [token] matches and has not expired.
+  /// Returns a copy of [client] with [PortalStatus.active] status.
   ///
-  /// Throws [ArgumentError] if the token is wrong or the invite has expired.
+  /// Throws [ArgumentError] if [token] does not match the stored invite token
+  /// or if the invite has expired.
   PortalClient activatePortal(PortalClient client, String token) {
     if (client.inviteToken != token) {
-      throw ArgumentError('Invalid invite token.');
+      throw ArgumentError(
+        'Invalid invite token for client ${client.clientId}.',
+        'token',
+      );
     }
-    final expiry = client.inviteExpiry;
-    if (expiry == null || expiry.isBefore(DateTime.now())) {
-      throw ArgumentError('Invite token has expired.');
+    if (client.inviteExpiry != null &&
+        client.inviteExpiry!.isBefore(DateTime.now())) {
+      throw ArgumentError(
+        'Invite token has expired for client ${client.clientId}.',
+        'token',
+      );
     }
     return client.copyWith(portalStatus: PortalStatus.active);
   }
@@ -69,25 +74,26 @@ class ClientPortalService {
   // Document sharing
   // ---------------------------------------------------------------------------
 
-  /// Creates a [SharedDocument] for [clientId] with the given fields.
+  /// Creates a [SharedDocument] shared with a client.
   ///
-  /// [caFirmId] defaults to empty string; callers should supply it when known.
+  /// [documentId] is used as the stable identifier (caller-supplied, typically
+  /// the storage layer's document ID).
   SharedDocument shareDocument(
     String clientId,
     String documentId,
     String title,
-    DocumentType documentType, {
+    DocumentType type, {
     bool requiresESign = false,
     String caFirmId = '',
+    String mimeType = 'application/pdf',
     int fileSize = 0,
-    String mimeType = 'application/octet-stream',
   }) {
     return SharedDocument(
       documentId: documentId,
       clientId: clientId,
       caFirmId: caFirmId,
       title: title,
-      documentType: documentType,
+      documentType: type,
       fileSize: fileSize,
       mimeType: mimeType,
       sharedAt: DateTime.now(),
@@ -97,7 +103,8 @@ class ClientPortalService {
     );
   }
 
-  /// Returns a copy of [doc] with [DocumentStatus.viewed] and [viewedAt] set.
+  /// Returns a copy of [doc] with [viewedAt] set to now and status
+  /// updated to [DocumentStatus.viewed].
   SharedDocument markDocumentViewed(SharedDocument doc) {
     return doc.copyWith(
       viewedAt: DateTime.now(),
@@ -105,8 +112,10 @@ class ClientPortalService {
     );
   }
 
-  /// Returns a copy of [doc] with [DocumentStatus.eSigned], [eSigned] = true,
-  /// and [eSignedAt] set to [signedAt].
+  /// Returns a copy of [doc] marked as e-signed at [signedAt].
+  ///
+  /// Sets [eSigned] to `true`, [eSignedAt] to [signedAt], and
+  /// [status] to [DocumentStatus.eSigned].
   SharedDocument markDocumentSigned(SharedDocument doc, DateTime signedAt) {
     return doc.copyWith(
       eSigned: true,
@@ -119,8 +128,18 @@ class ClientPortalService {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  String _generateId() {
-    final bytes = List<int>.generate(16, (_) => _random.nextInt(256));
-    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+  String _generateId(String prefix) {
+    final digits = _generateDigits(8);
+    return '$prefix-$digits';
+  }
+
+  String _generateToken() => _generateDigits(32);
+
+  String _generateDigits(int count) {
+    final buffer = StringBuffer();
+    for (var i = 0; i < count; i++) {
+      buffer.write(_random.nextInt(10));
+    }
+    return buffer.toString();
   }
 }

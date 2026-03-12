@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/client_portal/domain/models/shared_document_ui.dart';
 
-/// Tile widget for displaying a shared document with signature status indicator.
+/// Tile widget for displaying a shared document with e-sign and status badges.
 class SharedDocumentTile extends StatelessWidget {
   const SharedDocumentTile({super.key, required this.document, this.onTap});
 
@@ -31,7 +31,7 @@ class SharedDocumentTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      document.documentName,
+                      document.title,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -42,14 +42,14 @@ class SharedDocumentTile extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          document.documentType,
+                          document.documentType.label,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: AppColors.neutral400,
                           ),
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          DateFormat('d MMM yyyy').format(document.uploadedAt),
+                          DateFormat('d MMM yyyy').format(document.sharedAt),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: AppColors.neutral400,
                             fontSize: 11,
@@ -58,25 +58,7 @@ class SharedDocumentTile extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.person_outline,
-                          size: 12,
-                          color: AppColors.neutral400,
-                        ),
-                        const SizedBox(width: 4),
-                        Flexible(
-                          child: Text(
-                            document.uploadedBy,
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: AppColors.neutral400,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
+                    _StatusBadge(status: document.status),
                   ],
                 ),
               ),
@@ -84,12 +66,8 @@ class SharedDocumentTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  if (document.isSignatureRequired)
-                    _SignatureStatusBadge(status: document.signatureStatus),
-                  if (document.isExpired) ...[
-                    const SizedBox(height: 4),
-                    const _ExpiredBadge(),
-                  ],
+                  if (document.requiresESign)
+                    _ESignBadge(signed: document.eSigned),
                 ],
               ),
             ],
@@ -103,24 +81,23 @@ class SharedDocumentTile extends StatelessWidget {
 class _DocumentIcon extends StatelessWidget {
   const _DocumentIcon({required this.documentType});
 
-  final String documentType;
+  final DocumentType documentType;
 
   IconData get _icon {
-    final type = documentType.toLowerCase();
-    if (type.contains('form 16') || type.contains('itr')) {
-      return Icons.receipt_long;
+    switch (documentType) {
+      case DocumentType.itrV:
+        return Icons.receipt_long;
+      case DocumentType.form16:
+        return Icons.receipt_long;
+      case DocumentType.gstCertificate:
+        return Icons.receipt;
+      case DocumentType.auditReport:
+        return Icons.verified;
+      case DocumentType.invoice:
+        return Icons.payments;
+      case DocumentType.other:
+        return Icons.insert_drive_file;
     }
-    if (type.contains('gst') || type.contains('return')) {
-      return Icons.receipt;
-    }
-    if (type.contains('audit')) return Icons.verified;
-    if (type.contains('tds')) return Icons.description;
-    if (type.contains('invoice')) return Icons.payments;
-    if (type.contains('corporate') || type.contains('board')) {
-      return Icons.gavel;
-    }
-    if (type.contains('trust')) return Icons.account_balance;
-    return Icons.insert_drive_file;
   }
 
   @override
@@ -137,60 +114,69 @@ class _DocumentIcon extends StatelessWidget {
   }
 }
 
-class _SignatureStatusBadge extends StatelessWidget {
-  const _SignatureStatusBadge({required this.status});
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({required this.status});
 
-  final SignatureStatus status;
+  final DocumentStatus status;
 
   Color get _color {
     switch (status) {
-      case SignatureStatus.signed:
+      case DocumentStatus.shared:
+        return AppColors.neutral400;
+      case DocumentStatus.viewed:
+        return AppColors.primary;
+      case DocumentStatus.downloaded:
+        return AppColors.secondary;
+      case DocumentStatus.eSigned:
         return AppColors.success;
-      case SignatureStatus.pending:
-        return AppColors.warning;
-      case SignatureStatus.rejected:
+      case DocumentStatus.expired:
         return AppColors.error;
-      case SignatureStatus.expired:
-        return AppColors.neutral400;
-      case SignatureStatus.notRequired:
-        return AppColors.neutral400;
-    }
-  }
-
-  IconData get _icon {
-    switch (status) {
-      case SignatureStatus.signed:
-        return Icons.check_circle;
-      case SignatureStatus.pending:
-        return Icons.pending;
-      case SignatureStatus.rejected:
-        return Icons.cancel;
-      case SignatureStatus.expired:
-        return Icons.timer_off;
-      case SignatureStatus.notRequired:
-        return Icons.remove_circle_outline;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    return Text(
+      status.label,
+      style: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        color: _color,
+      ),
+    );
+  }
+}
+
+class _ESignBadge extends StatelessWidget {
+  const _ESignBadge({required this.signed});
+
+  final bool signed;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = signed ? AppColors.success : AppColors.warning;
+    final label = signed ? 'Signed' : 'Pending';
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: _color.withAlpha(20),
+        color: color.withAlpha(20),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(_icon, size: 12, color: _color),
+          Icon(
+            signed ? Icons.check_circle : Icons.pending,
+            size: 12,
+            color: color,
+          ),
           const SizedBox(width: 4),
           Text(
-            status.label,
+            label,
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w600,
-              color: _color,
+              color: color,
             ),
           ),
         ],
@@ -199,25 +185,4 @@ class _SignatureStatusBadge extends StatelessWidget {
   }
 }
 
-class _ExpiredBadge extends StatelessWidget {
-  const _ExpiredBadge();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: AppColors.error.withAlpha(20),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: const Text(
-        'Expired',
-        style: TextStyle(
-          fontSize: 9,
-          fontWeight: FontWeight.w600,
-          color: AppColors.error,
-        ),
-      ),
-    );
-  }
-}

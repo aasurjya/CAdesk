@@ -2,37 +2,41 @@ import 'dart:math';
 
 import 'package:ca_app/features/client_portal/domain/models/payment_link.dart';
 
-/// Stateless singleton service for payment link domain operations.
+/// Domain service for payment link lifecycle: creation, UPI deep-link
+/// generation, and payment recording.
 ///
-/// All money values are in **paise** (int). Methods are pure functions that
-/// return new immutable objects.
+/// All methods are pure and return new immutable values — no in-place mutation.
 class PaymentLinkService {
   PaymentLinkService._();
 
   static final PaymentLinkService instance = PaymentLinkService._();
 
-  static final Random _random = Random.secure();
+  /// Default validity window for a payment link.
+  static const Duration _defaultValidity = Duration(days: 7);
+
+  final Random _random = Random();
 
   // ---------------------------------------------------------------------------
-  // Link creation
+  // Creation
   // ---------------------------------------------------------------------------
 
   /// Creates a new [PaymentLink] with [PaymentLinkStatus.active] status.
   ///
-  /// [amount] must be in paise. Expiry is set 7 days from creation.
+  /// [amountPaise] is the fee amount in paise (100 paise = ₹1).
+  /// Expiry is set to [computeExpiryDate] from the creation timestamp.
   PaymentLink createPaymentLink(
     String clientId,
     String invoiceId,
-    int amount,
+    int amountPaise,
     String description,
   ) {
     final createdAt = DateTime.now();
     final expiresAt = computeExpiryDate(createdAt);
     return PaymentLink(
-      linkId: _generateId(),
+      linkId: _generateId('pay'),
       clientId: clientId,
       invoiceId: invoiceId,
-      amount: amount,
+      amount: amountPaise,
       description: description,
       status: PaymentLinkStatus.active,
       createdAt: createdAt,
@@ -40,64 +44,64 @@ class PaymentLinkService {
     );
   }
 
-  /// Returns the expiry date for a link created at [createdAt] (7 days later).
-  DateTime computeExpiryDate(DateTime createdAt) {
-    return createdAt.add(const Duration(days: 7));
-  }
-
   // ---------------------------------------------------------------------------
   // UPI deep link
   // ---------------------------------------------------------------------------
 
-  /// Generates a `upi://pay?...` deep-link string for [link] payable to [upiId].
+  /// Generates a UPI payment deep link for [link] using [upiId] as the
+  /// payee VPA.
   ///
-  /// Amount is converted from paise to rupees with 2 decimal places.
-  /// All query parameters are URI-encoded.
+  /// Format: `upi://pay?pa={upiId}&pn={payeeName}&am={amount}&cu=INR&tn={desc}`
+  ///
+  /// Amount is converted from paise to rupees (e.g. 150000 paise → 1500.00).
   String generateUpiLink(PaymentLink link, String upiId) {
     final amountRupees = (link.amount / 100).toStringAsFixed(2);
-    final params = {
-      'pa': upiId,
-      'pn': 'CA Portal',
-      'am': amountRupees,
-      'cu': 'INR',
-      'tn': link.description,
-    };
-    final query = params.entries
-        .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-        .join('&');
-    return 'upi://pay?$query';
+    final encodedUpi = Uri.encodeQueryComponent(upiId);
+    final encodedDesc = Uri.encodeQueryComponent(link.description);
+    return 'upi://pay?pa=$encodedUpi&pn=CA+Firm&am=$amountRupees&cu=INR&tn=$encodedDesc';
   }
 
   // ---------------------------------------------------------------------------
-  // Status transitions
+  // Payment recording
   // ---------------------------------------------------------------------------
 
-  /// Returns a copy of [link] marked as paid.
+  /// Returns a copy of [link] with [PaymentLinkStatus.paid] status,
+  /// [paidAt] set to [paidAt], and [paymentReference] set to [reference].
   PaymentLink markPaid(
     PaymentLink link,
-    String paymentReference,
+    String reference,
     DateTime paidAt,
   ) {
     return link.copyWith(
       status: PaymentLinkStatus.paid,
+      paymentReference: reference,
       paidAt: paidAt,
-      paymentReference: paymentReference,
     );
   }
 
-  /// Returns true if [link] has expired relative to [now].
-  ///
-  /// A link is expired when [now] is strictly after [link.expiresAt].
+  // ---------------------------------------------------------------------------
+  // Expiry helpers
+  // ---------------------------------------------------------------------------
+
+  /// Returns `true` if [now] is strictly after [link.expiresAt].
   bool isExpired(PaymentLink link, DateTime now) {
     return now.isAfter(link.expiresAt);
+  }
+
+  /// Computes the expiry date as [created] + [_defaultValidity] (7 days).
+  DateTime computeExpiryDate(DateTime created) {
+    return created.add(_defaultValidity);
   }
 
   // ---------------------------------------------------------------------------
   // Helpers
   // ---------------------------------------------------------------------------
 
-  String _generateId() {
-    final bytes = List<int>.generate(16, (_) => _random.nextInt(256));
-    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+  String _generateId(String prefix) {
+    final buffer = StringBuffer();
+    for (var i = 0; i < 8; i++) {
+      buffer.write(_random.nextInt(10));
+    }
+    return '$prefix-$buffer';
   }
 }

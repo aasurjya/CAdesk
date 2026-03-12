@@ -1,110 +1,136 @@
 import 'package:ca_app/features/client_portal/domain/models/notification_template.dart';
 
-/// Stateless singleton service for notification template operations.
+/// Domain service for resolving and filling notification templates.
 ///
-/// Provides a registry of built-in templates and a utility to fill
-/// placeholder tokens.
+/// Built-in WhatsApp templates are registered at construction time.
+/// Additional channels (email, SMS, push) can be registered at runtime.
 class NotificationTemplateService {
-  NotificationTemplateService._();
+  NotificationTemplateService._() {
+    _registerBuiltIns();
+  }
 
   static final NotificationTemplateService instance =
       NotificationTemplateService._();
 
-  // ---------------------------------------------------------------------------
-  // Built-in template registry
-  // ---------------------------------------------------------------------------
-
-  static const List<NotificationTemplate> _templates = [
-    // documentShared — whatsapp
-    NotificationTemplate(
-      templateId: 'tpl_doc_shared_wa',
-      name: 'document_shared',
-      channel: NotificationChannel.whatsapp,
-      templateText:
-          'Dear {clientName}, {caName} has shared a document: {documentTitle}. '
-          'Please log in to your portal to view it: {portalLink}',
-      placeholders: ['clientName', 'caName', 'documentTitle', 'portalLink'],
-      useCase: NotificationUseCase.documentShared,
-    ),
-
-    // deadlineReminder — whatsapp
-    NotificationTemplate(
-      templateId: 'tpl_deadline_wa',
-      name: 'deadline_reminder',
-      channel: NotificationChannel.whatsapp,
-      templateText:
-          'Reminder: Your {filingType} is due on {deadline}. '
-          'Please provide the following documents: {requiredDocuments}.',
-      placeholders: ['filingType', 'deadline', 'requiredDocuments'],
-      useCase: NotificationUseCase.deadlineReminder,
-    ),
-
-    // paymentDue — whatsapp
-    NotificationTemplate(
-      templateId: 'tpl_payment_due_wa',
-      name: 'payment_due',
-      channel: NotificationChannel.whatsapp,
-      templateText:
-          'Your payment of ₹{amount} is due on {dueDate}. '
-          'Pay now: {paymentLink}',
-      placeholders: ['amount', 'dueDate', 'paymentLink'],
-      useCase: NotificationUseCase.paymentDue,
-    ),
-
-    // filingComplete — whatsapp
-    NotificationTemplate(
-      templateId: 'tpl_filing_complete_wa',
-      name: 'filing_complete',
-      channel: NotificationChannel.whatsapp,
-      templateText:
-          'Your {filingType} has been successfully filed. '
-          'Acknowledgement number (ARN): {arn}.',
-      placeholders: ['filingType', 'arn'],
-      useCase: NotificationUseCase.filingComplete,
-    ),
-
-    // otp — whatsapp
-    NotificationTemplate(
-      templateId: 'tpl_otp_wa',
-      name: 'otp',
-      channel: NotificationChannel.whatsapp,
-      templateText: 'Your OTP is {otp}. Valid for 5 minutes. Do not share it.',
-      placeholders: ['otp'],
-      useCase: NotificationUseCase.otp,
-    ),
-  ];
+  /// Keyed by (useCase, channel) pair.
+  final Map<_TemplateKey, NotificationTemplate> _templates = {};
 
   // ---------------------------------------------------------------------------
-  // Public API
+  // Lookup
   // ---------------------------------------------------------------------------
 
-  /// Returns the template matching [useCase] and [channel].
+  /// Returns the [NotificationTemplate] for the given [useCase] and [channel].
   ///
-  /// Throws [ArgumentError] if no template is registered for the combination.
+  /// Throws [ArgumentError] if no template is registered for that combination.
   NotificationTemplate getTemplate(
     NotificationUseCase useCase,
     NotificationChannel channel,
   ) {
-    for (final t in _templates) {
-      if (t.useCase == useCase && t.channel == channel) return t;
+    final key = _TemplateKey(useCase, channel);
+    final template = _templates[key];
+    if (template == null) {
+      throw ArgumentError(
+        'No template registered for useCase=$useCase channel=$channel.',
+        'useCase',
+      );
     }
-    throw ArgumentError(
-      'No template found for useCase=$useCase, channel=$channel.',
-    );
+    return template;
   }
 
-  /// Returns [template.templateText] with all `{key}` tokens replaced by the
-  /// corresponding values in [variables].
+  // ---------------------------------------------------------------------------
+  // Filling
+  // ---------------------------------------------------------------------------
+
+  /// Returns [template.templateText] with all `{key}` placeholders replaced
+  /// by their corresponding value in [variables].
   ///
-  /// Tokens whose key is absent in [variables] are left unchanged.
+  /// Placeholders with no matching key are left as-is.
   String fillTemplate(
     NotificationTemplate template,
     Map<String, String> variables,
   ) {
-    var text = template.templateText;
+    var result = template.templateText;
     for (final entry in variables.entries) {
-      text = text.replaceAll('{${entry.key}}', entry.value);
+      result = result.replaceAll('{${entry.key}}', entry.value);
     }
-    return text;
+    return result;
   }
+
+  // ---------------------------------------------------------------------------
+  // Built-in registration
+  // ---------------------------------------------------------------------------
+
+  void _registerBuiltIns() {
+    _register(
+      const NotificationTemplate(
+        templateId: 'wa-doc-shared',
+        name: 'document_shared',
+        channel: NotificationChannel.whatsapp,
+        templateText:
+            'Dear {clientName}, {caName} has shared {documentTitle} for your review. Login: {portalLink}',
+        placeholders: ['clientName', 'caName', 'documentTitle', 'portalLink'],
+        useCase: NotificationUseCase.documentShared,
+      ),
+    );
+
+    _register(
+      const NotificationTemplate(
+        templateId: 'wa-deadline-reminder',
+        name: 'deadline_reminder',
+        channel: NotificationChannel.whatsapp,
+        templateText:
+            'Reminder: {filingType} deadline is {deadline}. Please share {requiredDocuments}.',
+        placeholders: ['filingType', 'deadline', 'requiredDocuments'],
+        useCase: NotificationUseCase.deadlineReminder,
+      ),
+    );
+
+    _register(
+      const NotificationTemplate(
+        templateId: 'wa-payment-due',
+        name: 'payment_due',
+        channel: NotificationChannel.whatsapp,
+        templateText:
+            'Invoice ₹{amount} is due by {dueDate}. Pay here: {paymentLink}',
+        placeholders: ['amount', 'dueDate', 'paymentLink'],
+        useCase: NotificationUseCase.paymentDue,
+      ),
+    );
+
+    _register(
+      const NotificationTemplate(
+        templateId: 'wa-filing-complete',
+        name: 'filing_complete',
+        channel: NotificationChannel.whatsapp,
+        templateText:
+            'Your {filingType} for {period} has been filed successfully. ARN: {arn}',
+        placeholders: ['filingType', 'period', 'arn'],
+        useCase: NotificationUseCase.filingComplete,
+      ),
+    );
+  }
+
+  void _register(NotificationTemplate template) {
+    final key = _TemplateKey(template.useCase, template.channel);
+    _templates[key] = template;
+  }
+}
+
+/// Composite key for the template registry.
+class _TemplateKey {
+  const _TemplateKey(this.useCase, this.channel);
+
+  final NotificationUseCase useCase;
+  final NotificationChannel channel;
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is _TemplateKey &&
+        other.useCase == useCase &&
+        other.channel == channel;
+  }
+
+  @override
+  int get hashCode => Object.hash(useCase, channel);
 }

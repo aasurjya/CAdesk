@@ -1,26 +1,31 @@
-/// Types of documents that can be shared via the client portal.
+/// Category of a document shared via the client portal.
 enum DocumentType {
-  itrV,
-  form16,
-  gstCertificate,
-  auditReport,
-  invoice,
-  other,
+  itrV('ITR-V'),
+  form16('Form 16'),
+  gstCertificate('GST Certificate'),
+  auditReport('Audit Report'),
+  invoice('Invoice'),
+  other('Other');
+
+  const DocumentType(this.label);
+
+  final String label;
 }
 
 /// Lifecycle status of a shared document.
 enum DocumentStatus {
-  shared,
-  viewed,
-  downloaded,
-  eSigned,
-  expired,
+  shared('Shared'),
+  viewed('Viewed'),
+  downloaded('Downloaded'),
+  eSigned('E-Signed'),
+  expired('Expired');
+
+  const DocumentStatus(this.label);
+
+  final String label;
 }
 
-/// Domain model representing a document shared with a client through the portal.
-///
-/// All money values are in paise (int). Immutable — use [copyWith] to derive
-/// updated copies.
+/// Immutable model representing a document shared with a client via the portal.
 class SharedDocument {
   const SharedDocument({
     required this.documentId,
@@ -34,10 +39,10 @@ class SharedDocument {
     required this.requiresESign,
     required this.eSigned,
     required this.status,
+    this.expiresAt,
+    this.eSignedAt,
     this.viewedAt,
     this.downloadedAt,
-    this.eSignedAt,
-    this.expiresAt,
   });
 
   final String documentId;
@@ -48,15 +53,22 @@ class SharedDocument {
 
   /// File size in bytes.
   final int fileSize;
+
   final String mimeType;
   final DateTime sharedAt;
+
+  /// Whether the document must be e-signed before it is considered complete.
   final bool requiresESign;
+
   final bool eSigned;
-  final DocumentStatus status;
+  final DateTime? eSignedAt;
+
+  /// Optional expiry — document access is revoked after this timestamp.
+  final DateTime? expiresAt;
+
   final DateTime? viewedAt;
   final DateTime? downloadedAt;
-  final DateTime? eSignedAt;
-  final DateTime? expiresAt;
+  final DocumentStatus status;
 
   SharedDocument copyWith({
     String? documentId,
@@ -69,11 +81,11 @@ class SharedDocument {
     DateTime? sharedAt,
     bool? requiresESign,
     bool? eSigned,
-    DocumentStatus? status,
-    DateTime? viewedAt,
-    DateTime? downloadedAt,
     DateTime? eSignedAt,
     DateTime? expiresAt,
+    DateTime? viewedAt,
+    DateTime? downloadedAt,
+    DocumentStatus? status,
   }) {
     return SharedDocument(
       documentId: documentId ?? this.documentId,
@@ -86,11 +98,11 @@ class SharedDocument {
       sharedAt: sharedAt ?? this.sharedAt,
       requiresESign: requiresESign ?? this.requiresESign,
       eSigned: eSigned ?? this.eSigned,
-      status: status ?? this.status,
-      viewedAt: viewedAt ?? this.viewedAt,
-      downloadedAt: downloadedAt ?? this.downloadedAt,
       eSignedAt: eSignedAt ?? this.eSignedAt,
       expiresAt: expiresAt ?? this.expiresAt,
+      viewedAt: viewedAt ?? this.viewedAt,
+      downloadedAt: downloadedAt ?? this.downloadedAt,
+      status: status ?? this.status,
     );
   }
 

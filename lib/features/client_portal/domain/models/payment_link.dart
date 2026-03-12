@@ -1,16 +1,19 @@
 /// Status of a payment link.
 enum PaymentLinkStatus {
-  active,
-  paid,
-  expired,
-  cancelled,
+  active('Active'),
+  paid('Paid'),
+  expired('Expired'),
+  cancelled('Cancelled');
+
+  const PaymentLinkStatus(this.label);
+
+  final String label;
 }
 
-/// Domain model representing a payment link sent to a client.
+/// Immutable model representing a payment link sent to a client.
 ///
-/// All monetary values are in **paise** (int), never double.
-/// Immutable — use [copyWith] to derive updated copies.
-/// Equality and [hashCode] are based solely on [linkId].
+/// [amount] is stored in paise (1 INR = 100 paise) to avoid floating-point
+/// rounding issues in currency arithmetic.
 class PaymentLink {
   const PaymentLink({
     required this.linkId,
@@ -31,15 +34,20 @@ class PaymentLink {
   final String clientId;
   final String invoiceId;
 
-  /// Amount in paise (1 INR = 100 paise).
+  /// Amount in paise (e.g. 150000 = ₹1500).
   final int amount;
+
   final String description;
   final PaymentLinkStatus status;
   final DateTime createdAt;
   final DateTime expiresAt;
   final DateTime? paidAt;
   final String? paymentReference;
+
+  /// UPI VPA used for the UPI deep link.
   final String? upiId;
+
+  /// Razorpay payment link ID when using Razorpay gateway.
   final String? razorpayLinkId;
 
   PaymentLink copyWith({

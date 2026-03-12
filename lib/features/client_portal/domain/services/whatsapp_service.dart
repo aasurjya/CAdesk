@@ -5,129 +5,132 @@ import 'package:ca_app/features/client_portal/domain/models/portal_client.dart';
 import 'package:ca_app/features/client_portal/domain/models/shared_document.dart';
 import 'package:ca_app/features/client_portal/domain/models/whatsapp_message.dart';
 
-/// Stateless singleton service for sending WhatsApp messages to clients.
+/// Domain service for sending WhatsApp Business API messages.
 ///
-/// In this domain layer the service is intentionally decoupled from the
-/// WhatsApp Business API — actual HTTP calls belong in the data layer.
-/// Here it produces immutable [WhatsAppMessage] records that represent
-/// what was (logically) sent.
+/// This is a mock implementation — all sends return a [WhatsAppMessage] with
+/// [MessageStatus.sent] without making real API calls. The real implementation
+/// would call Meta's Cloud API at:
+/// `POST https://graph.facebook.com/v18.0/{phone-number-id}/messages`
+///
+/// Notes:
+/// - Template messages require Meta pre-approval; non-template messages are
+///   only allowed within the 24-hour customer service window.
+/// - Phone numbers must include the country code without '+':
+///   e.g. "919876543210" for an Indian number.
 class WhatsAppService {
   WhatsAppService._();
 
   static final WhatsAppService instance = WhatsAppService._();
 
-  static final Random _random = Random.secure();
+  final Random _random = Random();
 
   // ---------------------------------------------------------------------------
-  // Core send helpers
+  // Core send methods
   // ---------------------------------------------------------------------------
 
-  /// Sends a plain text message and returns the resulting [WhatsAppMessage].
+  /// Sends a free-text message to [to].
+  ///
+  /// Returns a [WhatsAppMessage] with [MessageStatus.sent] and [sentAt] set
+  /// to now.
   WhatsAppMessage sendTextMessage(
     String to,
-    String content,
-    String caFirmId,
+    String message,
+    String firmId,
   ) {
     return WhatsAppMessage(
-      messageId: _generateId(),
+      messageId: _generateMessageId(),
       to: to,
       messageType: MessageType.text,
-      content: content,
+      content: message,
       status: MessageStatus.sent,
-      caFirmId: caFirmId,
       sentAt: DateTime.now(),
+      caFirmId: firmId,
     );
   }
 
-  /// Sends a named template message with [variables] and returns the result.
+  /// Sends a pre-approved WhatsApp template message.
+  ///
+  /// [variables] are substituted into the template text using simple
+  /// `{key}` replacement before storing as [WhatsAppMessage.content].
   WhatsAppMessage sendTemplateMessage(
     String to,
     String templateName,
     Map<String, String> variables,
-    String caFirmId,
+    String firmId,
   ) {
-    final content = variables.entries
-        .map((e) => '${e.key}: ${e.value}')
-        .join(', ');
+    final content = _fillTemplate(
+      _builtInTemplateText(templateName),
+      variables,
+    );
     return WhatsAppMessage(
-      messageId: _generateId(),
+      messageId: _generateMessageId(),
       to: to,
+      templateName: templateName,
       messageType: MessageType.template,
       content: content,
       status: MessageStatus.sent,
-      caFirmId: caFirmId,
-      templateName: templateName,
       sentAt: DateTime.now(),
+      caFirmId: firmId,
     );
   }
 
   // ---------------------------------------------------------------------------
-  // Domain-specific senders
+  // High-level convenience methods
   // ---------------------------------------------------------------------------
 
-  /// Notifies [client] that [doc] has been shared on the portal.
+  /// Sends a document-shared notification to [client] about [doc].
   WhatsAppMessage sendDocumentNotification(
     PortalClient client,
     SharedDocument doc,
   ) {
-    final content =
-        'Dear ${client.name}, a document has been shared with you: '
-        '${doc.title}. Please log in to your portal to view it.';
-    return WhatsAppMessage(
-      messageId: _generateId(),
-      to: client.mobile,
-      messageType: MessageType.template,
-      content: content,
-      status: MessageStatus.sent,
-      caFirmId: client.caFirmId,
-      templateName: 'document_shared',
-      sentAt: DateTime.now(),
+    return sendTemplateMessage(
+      client.mobile,
+      'document_shared',
+      {
+        'clientName': client.name,
+        'caName': 'Your CA',
+        'documentTitle': doc.title,
+        'portalLink': 'https://portal.caapp.in',
+      },
+      client.caFirmId,
     );
   }
 
-  /// Reminds [client] about an upcoming filing deadline.
-  ///
-  /// [deadline] is a human-readable date string, e.g. "2025-07-31".
+  /// Sends a deadline reminder to [client].
   WhatsAppMessage sendDeadlineReminder(
     PortalClient client,
     String deadline,
     String filingType,
   ) {
-    final content =
-        'Reminder: Your $filingType is due on $deadline. '
-        'Please ensure all required documents are submitted.';
-    return WhatsAppMessage(
-      messageId: _generateId(),
-      to: client.mobile,
-      messageType: MessageType.template,
-      content: content,
-      status: MessageStatus.sent,
-      caFirmId: client.caFirmId,
-      templateName: 'deadline_reminder',
-      sentAt: DateTime.now(),
+    return sendTemplateMessage(
+      client.mobile,
+      'deadline_reminder',
+      {
+        'filingType': filingType,
+        'deadline': deadline,
+        'requiredDocuments': 'relevant documents',
+      },
+      client.caFirmId,
     );
   }
 
-  /// Reminds [client] about a pending payment for [link].
+  /// Sends a payment reminder to [client] for [link].
   ///
-  /// Amount is displayed in rupees (converted from paise).
+  /// [link.amount] (paise) is converted to rupees for display.
   WhatsAppMessage sendPaymentReminder(
     PortalClient client,
     PaymentLink link,
   ) {
     final amountRupees = (link.amount / 100).toStringAsFixed(0);
-    final content =
-        'Dear ${client.name}, your payment of ₹$amountRupees is pending. '
-        'Invoice: ${link.description}. Please pay at your earliest convenience.';
-    return WhatsAppMessage(
-      messageId: _generateId(),
-      to: client.mobile,
-      messageType: MessageType.template,
-      content: content,
-      status: MessageStatus.sent,
-      caFirmId: client.caFirmId,
-      templateName: 'payment_due',
-      sentAt: DateTime.now(),
+    return sendTemplateMessage(
+      client.mobile,
+      'payment_due',
+      {
+        'amount': amountRupees,
+        'dueDate': _formatDate(link.expiresAt),
+        'paymentLink': 'https://pay.caapp.in/${link.linkId}',
+      },
+      client.caFirmId,
     );
   }
 
@@ -135,8 +138,44 @@ class WhatsAppService {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  String _generateId() {
-    final bytes = List<int>.generate(16, (_) => _random.nextInt(256));
-    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
+  String _generateMessageId() {
+    final buffer = StringBuffer('msg-');
+    for (var i = 0; i < 12; i++) {
+      buffer.write(_random.nextInt(10));
+    }
+    return buffer.toString();
+  }
+
+  /// Returns the built-in template text for [templateName].
+  ///
+  /// Falls back to an empty string for unknown templates — callers should
+  /// use [NotificationTemplateService] for production template resolution.
+  String _builtInTemplateText(String templateName) {
+    switch (templateName) {
+      case 'document_shared':
+        return 'Dear {clientName}, {caName} has shared {documentTitle} for your review. Login: {portalLink}';
+      case 'deadline_reminder':
+        return 'Reminder: {filingType} deadline is {deadline}. Please share {requiredDocuments}.';
+      case 'payment_due':
+        return 'Invoice ₹{amount} is due by {dueDate}. Pay here: {paymentLink}';
+      case 'filing_complete':
+        return 'Your {filingType} for {period} has been filed successfully. ARN: {arn}';
+      default:
+        return '';
+    }
+  }
+
+  String _fillTemplate(String template, Map<String, String> variables) {
+    var result = template;
+    for (final entry in variables.entries) {
+      result = result.replaceAll('{${entry.key}}', entry.value);
+    }
+    return result;
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}'
+        '/${date.month.toString().padLeft(2, '0')}'
+        '/${date.year}';
   }
 }
