@@ -67,6 +67,9 @@ import 'package:ca_app/features/filing/presentation/itr1/itr1_wizard_screen.dart
 import 'package:ca_app/features/filing/presentation/itr4/itr4_wizard_screen.dart';
 import 'package:ca_app/features/filing/presentation/post_filing/filing_status_screen.dart';
 import 'package:ca_app/features/filing/presentation/post_filing/e_verification_screen.dart';
+import 'package:ca_app/features/post_filing/presentation/post_filing_dashboard_screen.dart';
+import 'package:ca_app/features/post_filing/presentation/filing_detail_screen.dart';
+import 'package:ca_app/features/post_filing/presentation/refund_tracker_screen.dart';
 import 'package:ca_app/features/filing/presentation/bulk/filing_queue_screen.dart';
 import 'package:ca_app/features/filing/presentation/reconciliation/reconciliation_screen.dart';
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
@@ -95,6 +98,10 @@ import 'package:ca_app/features/tds/domain/models/form16_data.dart';
 import 'package:ca_app/features/tds/presentation/form16/form16_dashboard_screen.dart';
 import 'package:ca_app/features/tds/presentation/form16/form16_viewer_screen.dart';
 import 'package:ca_app/features/tds/presentation/form16/form16_bulk_screen.dart';
+import 'package:ca_app/features/reconciliation/data/providers/reconciliation_providers.dart';
+import 'package:ca_app/features/reconciliation/presentation/reconciliation_dashboard_screen.dart';
+import 'package:ca_app/features/reconciliation/presentation/recon_detail_screen.dart';
+import 'package:ca_app/features/reconciliation/presentation/bank_recon_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -517,6 +524,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const PracticeBenchmarkingScreen(),
       ),
       GoRoute(
+        path: '/post-filing',
+        name: 'postFiling',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PostFilingDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/post-filing/detail',
+        name: 'postFilingDetail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FilingDetailScreen(),
+      ),
+      GoRoute(
+        path: '/post-filing/refunds',
+        name: 'postFilingRefunds',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RefundTrackerScreen(),
+      ),
+      GoRoute(
         path: '/roadmap/:moduleId',
         name: 'roadmapModule',
         parentNavigatorKey: _rootNavigatorKey,
@@ -707,6 +732,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'form16Bulk',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const Form16BulkScreen(),
+      ),
+      GoRoute(
+        path: '/reconciliation',
+        name: 'reconDashboard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ReconciliationDashboardScreen(),
+      ),
+      GoRoute(
+        path: '/reconciliation/detail',
+        name: 'reconDetail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final entry = state.extra! as ReconEntry;
+          return ReconDetailScreen(entry: entry);
+        },
+      ),
+      GoRoute(
+        path: '/reconciliation/bank',
+        name: 'reconBank',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const BankReconScreen(),
       ),
     ],
   );
