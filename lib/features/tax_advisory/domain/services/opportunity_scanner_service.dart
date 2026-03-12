@@ -18,12 +18,12 @@ class OpportunityScannerService {
   static const int _section80cLimit = 15000000; // ₹1,50,000
   static const int _section80dSelfFamily = 2500000; // ₹25,000
   static const int _section80ttbSenior = 5000000; // ₹50,000
-  static const int _gstThreshold = 2000000000; // ₹20,00,000 = 20L in paise
+  static const int _gstThreshold = 200000000; // ₹20,00,000 (20L) = 200,000,000 paise
 
   // ₹3.75L — break-even deductions for old vs new regime
   static const int _regimeBreakevenDeductions = 37500000;
 
-  static const int _scheduleAlThreshold = 5000000000; // ₹50L in paise
+  static const int _scheduleAlThreshold = 500000000; // ₹50,00,000 (50L) = 500,000,000 paise
 
   // Urgency score weights for scoring
   static const Map<OpportunityUrgency, double> _urgencyWeights = {
