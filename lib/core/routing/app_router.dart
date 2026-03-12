@@ -70,6 +70,14 @@ import 'package:ca_app/features/filing/presentation/reconciliation/reconciliatio
 import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
 import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
 import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
+import 'package:ca_app/features/startup/presentation/startup_screen.dart';
+import 'package:ca_app/features/startup/presentation/startup_detail_screen.dart';
+import 'package:ca_app/features/llp/presentation/llp_screen.dart';
+import 'package:ca_app/features/llp/presentation/llp_detail_screen.dart';
+import 'package:ca_app/features/vda/presentation/vda_screen.dart';
+import 'package:ca_app/features/vda/presentation/vda_computation_screen.dart';
+import 'package:ca_app/features/traces/presentation/traces_screen.dart';
+import 'package:ca_app/features/traces/presentation/traces_download_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -536,6 +544,54 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'advanceTax',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const AdvanceTaxScreen(),
+      ),
+      GoRoute(
+        path: '/startup',
+        name: 'startup',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const StartupScreen(),
+      ),
+      GoRoute(
+        path: '/startup/detail',
+        name: 'startupDetail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const StartupDetailScreen(),
+      ),
+      GoRoute(
+        path: '/llp',
+        name: 'llp',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LlpScreen(),
+      ),
+      GoRoute(
+        path: '/llp/detail',
+        name: 'llpDetail',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const LlpDetailScreen(),
+      ),
+      GoRoute(
+        path: '/vda',
+        name: 'vda',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const VdaScreen(),
+      ),
+      GoRoute(
+        path: '/vda/compute',
+        name: 'vdaCompute',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const VdaComputationScreen(),
+      ),
+      GoRoute(
+        path: '/traces',
+        name: 'traces',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TracesScreen(),
+      ),
+      GoRoute(
+        path: '/traces/download',
+        name: 'tracesDownload',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TracesDownloadScreen(),
       ),
     ],
   );
