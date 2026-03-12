@@ -2,10 +2,44 @@ import 'package:ca_app/features/gst/domain/models/e_invoice.dart';
 
 /// Valid Indian state codes (01–38).
 const _validStateCodes = {
-  '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
-  '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-  '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-  '31', '32', '33', '34', '35', '36', '37', '38',
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+  '13',
+  '14',
+  '15',
+  '16',
+  '17',
+  '18',
+  '19',
+  '20',
+  '21',
+  '22',
+  '23',
+  '24',
+  '25',
+  '26',
+  '27',
+  '28',
+  '29',
+  '30',
+  '31',
+  '32',
+  '33',
+  '34',
+  '35',
+  '36',
+  '37',
+  '38',
 };
 
 /// E-invoice turnover threshold: 5 crore INR.
@@ -41,29 +75,25 @@ class EInvoiceService {
 
     for (final item in invoice.items) {
       if (item.hsnCode.isEmpty || item.hsnCode.length < 4) {
-        errors.add(
-          'Item ${item.slNo}: HSN code must be at least 4 digits',
-        );
+        errors.add('Item ${item.slNo}: HSN code must be at least 4 digits');
       }
       if (item.taxableValue < 0 ||
           item.igst < 0 ||
           item.cgst < 0 ||
           item.sgst < 0 ||
           item.cess < 0) {
-        errors.add(
-          'Item ${item.slNo}: Amounts must not be negative',
-        );
+        errors.add('Item ${item.slNo}: Amounts must not be negative');
       }
     }
 
     // Totals must match sum of items.
     if (invoice.items.isNotEmpty) {
       final computed = calculateTotals(invoice.items);
-      if (_notClose(invoice.totals.totalTaxableValue,
-          computed.totalTaxableValue)) {
-        errors.add(
-          'Total taxable value does not match sum of items',
-        );
+      if (_notClose(
+        invoice.totals.totalTaxableValue,
+        computed.totalTaxableValue,
+      )) {
+        errors.add('Total taxable value does not match sum of items');
       }
       if (_notClose(invoice.totals.totalIgst, computed.totalIgst)) {
         errors.add('Total IGST does not match sum of items');
@@ -77,11 +107,11 @@ class EInvoiceService {
       if (_notClose(invoice.totals.totalCess, computed.totalCess)) {
         errors.add('Total Cess does not match sum of items');
       }
-      if (_notClose(invoice.totals.totalInvoiceValue,
-          computed.totalInvoiceValue)) {
-        errors.add(
-          'Total invoice value does not match sum of items',
-        );
+      if (_notClose(
+        invoice.totals.totalInvoiceValue,
+        computed.totalInvoiceValue,
+      )) {
+        errors.add('Total invoice value does not match sum of items');
       }
     }
 
@@ -139,10 +169,7 @@ class EInvoiceService {
   static Map<String, dynamic> generateIrnPayload(EInvoice invoice) {
     return {
       'Version': '1.1',
-      'TranDtls': {
-        'TaxSch': 'GST',
-        'SupTyp': invoice.supplyType.code,
-      },
+      'TranDtls': {'TaxSch': 'GST', 'SupTyp': invoice.supplyType.code},
       'DocDtls': {
         'Typ': invoice.documentType.code,
         'No': invoice.documentNumber,
@@ -152,10 +179,7 @@ class EInvoiceService {
         invoice.sellerAddress,
         invoice.sellerGstin,
       ),
-      'BuyerDtls': _addressToPayload(
-        invoice.buyerAddress,
-        invoice.buyerGstin,
-      ),
+      'BuyerDtls': _addressToPayload(invoice.buyerAddress, invoice.buyerGstin),
       'ItemList': invoice.items.map(_itemToPayload).toList(),
       'ValDtls': {
         'AssVal': invoice.totals.totalTaxableValue,

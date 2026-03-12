@@ -48,10 +48,12 @@ void main() {
   }
 
   Form16PartA makePartA() {
-    return Form16PartA(quarterlyDetails: [
-      makeQuarterDetail(quarter: TdsQuarter.q1),
-      makeQuarterDetail(quarter: TdsQuarter.q2),
-    ]);
+    return Form16PartA(
+      quarterlyDetails: [
+        makeQuarterDetail(quarter: TdsQuarter.q1),
+        makeQuarterDetail(quarter: TdsQuarter.q2),
+      ],
+    );
   }
 
   Form16PartB makePartB() {
@@ -187,18 +189,9 @@ void main() {
       );
 
       expect(results.length, 3);
-      expect(
-        results[0].certificateNumber,
-        'MUMB12345A/2026-27/Form16/001',
-      );
-      expect(
-        results[1].certificateNumber,
-        'MUMB12345A/2026-27/Form16/002',
-      );
-      expect(
-        results[2].certificateNumber,
-        'MUMB12345A/2026-27/Form16/003',
-      );
+      expect(results[0].certificateNumber, 'MUMB12345A/2026-27/Form16/001');
+      expect(results[1].certificateNumber, 'MUMB12345A/2026-27/Form16/002');
+      expect(results[2].certificateNumber, 'MUMB12345A/2026-27/Form16/003');
       expect(results[0].employeeName, 'Employee One');
       expect(results[2].employeeName, 'Employee Three');
     });
@@ -249,14 +242,8 @@ void main() {
       );
 
       expect(results.length, 2);
-      expect(
-        results[0].certificateNumber,
-        'DELH67890B/2026-27/Form16A/001',
-      );
-      expect(
-        results[1].certificateNumber,
-        'DELH67890B/2026-27/Form16A/002',
-      );
+      expect(results[0].certificateNumber, 'DELH67890B/2026-27/Form16A/001');
+      expect(results[1].certificateNumber, 'DELH67890B/2026-27/Form16A/002');
     });
   });
 
@@ -353,8 +340,9 @@ void main() {
     }
 
     test('valid data returns empty errors', () {
-      final errors =
-          Form16GenerationService.validateForm16A(makeValidForm16A());
+      final errors = Form16GenerationService.validateForm16A(
+        makeValidForm16A(),
+      );
       expect(errors, isEmpty);
     });
 

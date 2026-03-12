@@ -209,10 +209,7 @@ void main() {
       expect(penalty.interest, closeTo(expectedInterest, 0.01));
 
       // Total = late fee + interest
-      expect(
-        penalty.totalPenalty,
-        closeTo(500.0 + expectedInterest, 0.01),
-      );
+      expect(penalty.totalPenalty, closeTo(500.0 + expectedInterest, 0.01));
     });
   });
 }

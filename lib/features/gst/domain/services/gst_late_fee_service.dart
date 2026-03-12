@@ -56,12 +56,12 @@ class GstLateFeeResult {
 
   @override
   int get hashCode => Object.hash(
-        cgstLateFee,
-        sgstLateFee,
-        totalLateFee,
-        maxCapApplied,
-        daysLate,
-      );
+    cgstLateFee,
+    sgstLateFee,
+    totalLateFee,
+    maxCapApplied,
+    daysLate,
+  );
 }
 
 /// Immutable result combining late fee and interest.

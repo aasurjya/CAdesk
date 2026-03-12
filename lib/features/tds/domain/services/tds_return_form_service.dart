@@ -23,18 +23,14 @@ class TdsReturnFormService {
     if (form.deductorTan.isEmpty) {
       errors.add('Deductor TAN is required');
     } else if (!_tanPattern.hasMatch(form.deductorTan)) {
-      errors.add(
-        'Invalid TAN format. Expected 4 alpha + 5 numeric + 1 alpha',
-      );
+      errors.add('Invalid TAN format. Expected 4 alpha + 5 numeric + 1 alpha');
     }
 
     // PAN validation
     if (form.deductorPan.isEmpty) {
       errors.add('Deductor PAN is required');
     } else if (!_panPattern.hasMatch(form.deductorPan)) {
-      errors.add(
-        'Invalid PAN format. Expected 5 alpha + 4 numeric + 1 alpha',
-      );
+      errors.add('Invalid PAN format. Expected 5 alpha + 4 numeric + 1 alpha');
     }
 
     // At least one entry
@@ -50,10 +46,14 @@ class TdsReturnFormService {
     }
 
     // Challan total must cover deductee total
-    final totalDeducted =
-        form.entries.fold(0.0, (sum, e) => sum + e.tdsDeducted);
-    final totalChallan =
-        form.challans.fold(0.0, (sum, TdsChallan c) => sum + c.totalAmount);
+    final totalDeducted = form.entries.fold(
+      0.0,
+      (sum, e) => sum + e.tdsDeducted,
+    );
+    final totalChallan = form.challans.fold(
+      0.0,
+      (sum, TdsChallan c) => sum + c.totalAmount,
+    );
     if (totalChallan < totalDeducted) {
       errors.add(
         'Total challan amount ($totalChallan) is less than total TDS '
@@ -134,8 +134,7 @@ class TdsReturnFormService {
       final paymentMonth = entry.dateOfPayment.month;
 
       for (final challan in challans) {
-        if (challan.section == entry.section &&
-            challan.month == paymentMonth) {
+        if (challan.section == entry.section && challan.month == paymentMonth) {
           return entry.copyWith(challanId: challan.id);
         }
       }

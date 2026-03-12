@@ -141,8 +141,7 @@ class RcmDetectionEngine {
           isRcmApplicable: true,
           rcmSection: RcmSection.section9_3,
           serviceCategory: service.category,
-          reason:
-              '${service.category} — notified under Section 9(3) CGST Act',
+          reason: '${service.category} — notified under Section 9(3) CGST Act',
           selfInvoiceRequired: true,
         );
       }

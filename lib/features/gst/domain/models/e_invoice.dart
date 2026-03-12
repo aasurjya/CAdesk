@@ -91,15 +91,15 @@ class EInvoiceAddress {
 
   @override
   int get hashCode => Object.hash(
-        legalName,
-        tradeName,
-        address1,
-        address2,
-        city,
-        state,
-        stateCode,
-        pincode,
-      );
+    legalName,
+    tradeName,
+    address1,
+    address2,
+    city,
+    state,
+    stateCode,
+    pincode,
+  );
 }
 
 /// Immutable line item in an e-invoice.
@@ -185,14 +185,14 @@ class EInvoiceItem {
 
   @override
   int get hashCode => Object.hash(
-        slNo,
-        productDescription,
-        hsnCode,
-        quantity,
-        unitPrice,
-        taxableValue,
-        totalItemValue,
-      );
+    slNo,
+    productDescription,
+    hsnCode,
+    quantity,
+    unitPrice,
+    taxableValue,
+    totalItemValue,
+  );
 }
 
 /// Immutable totals for an e-invoice.
@@ -250,14 +250,14 @@ class EInvoiceTotals {
 
   @override
   int get hashCode => Object.hash(
-        totalValue,
-        totalTaxableValue,
-        totalIgst,
-        totalCgst,
-        totalSgst,
-        totalCess,
-        totalInvoiceValue,
-      );
+    totalValue,
+    totalTaxableValue,
+    totalIgst,
+    totalCgst,
+    totalSgst,
+    totalCess,
+    totalInvoiceValue,
+  );
 }
 
 /// Immutable model representing a complete e-invoice (IRN-ready).
@@ -348,12 +348,12 @@ class EInvoice {
 
   @override
   int get hashCode => Object.hash(
-        irn,
-        sellerGstin,
-        buyerGstin,
-        documentType,
-        documentNumber,
-        documentDate,
-        status,
-      );
+    irn,
+    sellerGstin,
+    buyerGstin,
+    documentType,
+    documentNumber,
+    documentDate,
+    status,
+  );
 }

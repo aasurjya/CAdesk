@@ -139,7 +139,7 @@ class PlaceOfSupplyEngine {
       applicableSection: section,
       reason: isInterState
           ? 'Inter-state supply — supplier ($supplierStateCode) and '
-              'recipient ($recipientStateCode) in different states'
+                'recipient ($recipientStateCode) in different states'
           : 'Intra-state supply — both parties in state $supplierStateCode',
     );
   }

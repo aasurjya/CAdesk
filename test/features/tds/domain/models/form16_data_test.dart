@@ -141,19 +141,23 @@ void main() {
 
   group('Form16PartA →', () {
     test('creates with quarterly details', () {
-      final partA = Form16PartA(quarterlyDetails: [
-        makeQuarterDetail(quarter: TdsQuarter.q1, taxDeducted: 25000),
-        makeQuarterDetail(quarter: TdsQuarter.q2, taxDeducted: 30000),
-      ]);
+      final partA = Form16PartA(
+        quarterlyDetails: [
+          makeQuarterDetail(quarter: TdsQuarter.q1, taxDeducted: 25000),
+          makeQuarterDetail(quarter: TdsQuarter.q2, taxDeducted: 30000),
+        ],
+      );
       expect(partA.quarterlyDetails.length, 2);
     });
 
     test('totalTaxDeducted sums all quarters', () {
-      final partA = Form16PartA(quarterlyDetails: [
-        makeQuarterDetail(taxDeducted: 25000, taxDeposited: 25000),
-        makeQuarterDetail(taxDeducted: 30000, taxDeposited: 30000),
-        makeQuarterDetail(taxDeducted: 20000, taxDeposited: 20000),
-      ]);
+      final partA = Form16PartA(
+        quarterlyDetails: [
+          makeQuarterDetail(taxDeducted: 25000, taxDeposited: 25000),
+          makeQuarterDetail(taxDeducted: 30000, taxDeposited: 30000),
+          makeQuarterDetail(taxDeducted: 20000, taxDeposited: 20000),
+        ],
+      );
       expect(partA.totalTaxDeducted, 75000);
       expect(partA.totalTaxDeposited, 75000);
     });
@@ -376,10 +380,12 @@ void main() {
         assessmentYear: '2026-27',
         periodFrom: DateTime(2025, 4, 1),
         periodTo: DateTime(2026, 3, 31),
-        partA: Form16PartA(quarterlyDetails: [
-          makeQuarterDetail(quarter: TdsQuarter.q1),
-          makeQuarterDetail(quarter: TdsQuarter.q2),
-        ]),
+        partA: Form16PartA(
+          quarterlyDetails: [
+            makeQuarterDetail(quarter: TdsQuarter.q1),
+            makeQuarterDetail(quarter: TdsQuarter.q2),
+          ],
+        ),
         partB: Form16PartB(
           salaryBreakup: makeSalaryBreakup(),
           incomeFromHouseProperty: 0,
@@ -433,28 +439,30 @@ void main() {
         assessmentYear: '2026-27',
         periodFrom: DateTime(2025, 4, 1),
         periodTo: DateTime(2026, 3, 31),
-        partA: Form16PartA(quarterlyDetails: [
-          makeQuarterDetail(
-            quarter: TdsQuarter.q1,
-            taxDeducted: 15000,
-            taxDeposited: 15000,
-          ),
-          makeQuarterDetail(
-            quarter: TdsQuarter.q2,
-            taxDeducted: 15000,
-            taxDeposited: 15000,
-          ),
-          makeQuarterDetail(
-            quarter: TdsQuarter.q3,
-            taxDeducted: 15000,
-            taxDeposited: 15000,
-          ),
-          makeQuarterDetail(
-            quarter: TdsQuarter.q4,
-            taxDeducted: 14800,
-            taxDeposited: 14800,
-          ),
-        ]),
+        partA: Form16PartA(
+          quarterlyDetails: [
+            makeQuarterDetail(
+              quarter: TdsQuarter.q1,
+              taxDeducted: 15000,
+              taxDeposited: 15000,
+            ),
+            makeQuarterDetail(
+              quarter: TdsQuarter.q2,
+              taxDeducted: 15000,
+              taxDeposited: 15000,
+            ),
+            makeQuarterDetail(
+              quarter: TdsQuarter.q3,
+              taxDeducted: 15000,
+              taxDeposited: 15000,
+            ),
+            makeQuarterDetail(
+              quarter: TdsQuarter.q4,
+              taxDeducted: 14800,
+              taxDeposited: 14800,
+            ),
+          ],
+        ),
         partB: Form16PartB(
           salaryBreakup: makeSalaryBreakup(),
           incomeFromHouseProperty: -200000,

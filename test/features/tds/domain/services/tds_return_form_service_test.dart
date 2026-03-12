@@ -120,10 +120,7 @@ void main() {
         // TAN: 4 alpha + 5 numeric + 1 alpha
         final form = createForm(deductorTan: 'MUMA12345B');
         final errors = TdsReturnFormService.validate(form);
-        expect(
-          errors.where((e) => e.contains('TAN')),
-          isEmpty,
-        );
+        expect(errors.where((e) => e.contains('TAN')), isEmpty);
       });
 
       test('invalid PAN format → error', () {

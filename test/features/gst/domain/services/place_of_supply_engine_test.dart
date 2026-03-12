@@ -65,21 +65,23 @@ void main() {
       expect(result.taxType, GstTaxType.igst);
     });
 
-    test('bill-to-ship-to → place of supply is ship-to (recipient) location',
-        () {
-      final result = PlaceOfSupplyEngine.determine(
-        supplierStateCode: '27',
-        recipientStateCode: '29',
-        supplyType: SupplyType.goods,
-        category: GstSupplyCategory.billToShipTo,
-      );
+    test(
+      'bill-to-ship-to → place of supply is ship-to (recipient) location',
+      () {
+        final result = PlaceOfSupplyEngine.determine(
+          supplierStateCode: '27',
+          recipientStateCode: '29',
+          supplyType: SupplyType.goods,
+          category: GstSupplyCategory.billToShipTo,
+        );
 
-      // In bill-to-ship-to, place of supply = location of goods delivery
-      // which is the recipient state code
-      expect(result.placeOfSupplyStateCode, '29');
-      expect(result.isInterState, true);
-      expect(result.taxType, GstTaxType.igst);
-    });
+        // In bill-to-ship-to, place of supply = location of goods delivery
+        // which is the recipient state code
+        expect(result.placeOfSupplyStateCode, '29');
+        expect(result.isInterState, true);
+        expect(result.taxType, GstTaxType.igst);
+      },
+    );
 
     test('services same state → CGST+SGST', () {
       final result = PlaceOfSupplyEngine.determine(

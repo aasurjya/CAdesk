@@ -57,13 +57,15 @@ class Gstr2bMatchingEngine {
     final unmatchedInBooks = <MatchResult>[];
     for (var i = 0; i < booksEntries.length; i++) {
       if (!matchedBooksIndices.contains(i)) {
-        unmatchedInBooks.add(MatchResult(
-          gstr2bEntry: null,
-          booksEntry: booksEntries[i],
-          matchType: MatchType.unmatchedInBooks,
-          discrepancies: const [],
-          suggestedAction: 'Verify if supplier has filed',
-        ));
+        unmatchedInBooks.add(
+          MatchResult(
+            gstr2bEntry: null,
+            booksEntry: booksEntries[i],
+            matchType: MatchType.unmatchedInBooks,
+            discrepancies: const [],
+            suggestedAction: 'Verify if supplier has filed',
+          ),
+        );
       }
     }
 
@@ -163,10 +165,8 @@ class Gstr2bMatchingEngine {
         books.invoiceValue,
         5.0,
       );
-      final dateWithin7Days = gstr2bEntry.invoiceDate
-              .difference(books.invoiceDate)
-              .inDays
-              .abs() <=
+      final dateWithin7Days =
+          gstr2bEntry.invoiceDate.difference(books.invoiceDate).inDays.abs() <=
           7;
 
       if (invoiceNumberMatch || amountWithin5 || dateWithin7Days) {
@@ -210,10 +210,7 @@ class Gstr2bMatchingEngine {
         .replaceAll(RegExp(r'[-/\s]'), '')
         .toUpperCase();
     // Remove leading zeros from any numeric segments.
-    return stripped.replaceAllMapped(
-      RegExp(r'(?<=\D)0+(?=\d)'),
-      (m) => '',
-    );
+    return stripped.replaceAllMapped(RegExp(r'(?<=\D)0+(?=\d)'), (m) => '');
   }
 
   /// Check if two amounts are within a given tolerance percentage.

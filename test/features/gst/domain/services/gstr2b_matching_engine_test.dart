@@ -87,8 +87,7 @@ void main() {
       expect(result.matchType, MatchType.exactMatch);
     });
 
-    test('partial match → same GSTIN, amount differs beyond 1% within 5%',
-        () {
+    test('partial match → same GSTIN, amount differs beyond 1% within 5%', () {
       final entry2b = make2bEntry(invoiceValue: 11800.0);
       final books = [makeBooksEntry(invoiceValue: 11300.0)]; // ~4.2% diff
 
@@ -101,8 +100,7 @@ void main() {
       expect(result.discrepancies, contains(MatchDiscrepancy.amountMismatch));
     });
 
-    test(
-        'partial match → same GSTIN, invoice number format differs '
+    test('partial match → same GSTIN, invoice number format differs '
         '(INV-001 vs INV001)', () {
       final entry2b = make2bEntry(invoiceNumber: 'INV-001');
       final books = [makeBooksEntry(invoiceNumber: 'INV001')];
@@ -136,8 +134,10 @@ void main() {
       );
 
       expect(result.matchType, MatchType.partialMatch);
-      expect(result.discrepancies,
-          contains(MatchDiscrepancy.invoiceNumberFormat));
+      expect(
+        result.discrepancies,
+        contains(MatchDiscrepancy.invoiceNumberFormat),
+      );
     });
 
     test('unmatched in 2B → no books entry matches', () {
@@ -225,9 +225,7 @@ void main() {
           invoiceNumber: 'INV-002',
           invoiceValue: 24000.0,
         ), // partial
-        makeBooksEntry(
-          invoiceNumber: 'INV-004',
-        ), // unmatched in books
+        makeBooksEntry(invoiceNumber: 'INV-004'), // unmatched in books
       ];
 
       final result = Gstr2bMatchingEngine.reconcile(

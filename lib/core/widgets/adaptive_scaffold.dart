@@ -12,9 +12,9 @@ class AdaptiveScaffold extends StatelessWidget {
 
   static const _destinations = <_NavDestination>[
     _NavDestination(
-      icon: Icons.dashboard_outlined,
-      selectedIcon: Icons.dashboard,
-      label: 'Dashboard',
+      icon: Icons.upload_file_outlined,
+      selectedIcon: Icons.upload_file,
+      label: 'Filing',
     ),
     _NavDestination(
       icon: Icons.people_outlined,
@@ -22,14 +22,14 @@ class AdaptiveScaffold extends StatelessWidget {
       label: 'Clients',
     ),
     _NavDestination(
-      icon: Icons.verified_user_outlined,
-      selectedIcon: Icons.verified_user,
-      label: 'Compliance',
+      icon: Icons.today_outlined,
+      selectedIcon: Icons.today,
+      label: 'Today',
     ),
     _NavDestination(
-      icon: Icons.task_alt_outlined,
-      selectedIcon: Icons.task_alt,
-      label: 'Tasks',
+      icon: Icons.folder_copy_outlined,
+      selectedIcon: Icons.folder_copy,
+      label: 'Docs',
     ),
     _NavDestination(
       icon: Icons.more_horiz_outlined,

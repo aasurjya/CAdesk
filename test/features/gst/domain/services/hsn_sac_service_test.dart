@@ -48,9 +48,7 @@ void main() {
 
       expect(results, isNotEmpty);
       expect(
-        results.any(
-          (c) => c.description.toLowerCase().contains('rice'),
-        ),
+        results.any((c) => c.description.toLowerCase().contains('rice')),
         isTrue,
       );
     });
@@ -60,9 +58,7 @@ void main() {
 
       expect(results, isNotEmpty);
       expect(
-        results.any(
-          (c) => c.description.toLowerCase().contains('legal'),
-        ),
+        results.any((c) => c.description.toLowerCase().contains('legal')),
         isTrue,
       );
     });

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/widgets/adaptive_scaffold.dart';
+import 'package:ca_app/features/filing/presentation/filing_screen.dart';
+import 'package:ca_app/features/today/presentation/today_screen.dart';
 import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:ca_app/features/clients/presentation/clients_screen.dart';
 import 'package:ca_app/features/clients/presentation/client_detail_screen.dart';
@@ -58,16 +60,22 @@ import 'package:ca_app/features/einvoicing/presentation/einvoicing_screen.dart';
 import 'package:ca_app/features/idp/presentation/idp_screen.dart';
 import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_intelligence_screen.dart';
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
+import 'package:ca_app/features/filing/presentation/filing_type_picker_screen.dart';
+import 'package:ca_app/features/filing/presentation/itr1/itr1_wizard_screen.dart';
+import 'package:ca_app/features/filing/presentation/itr4/itr4_wizard_screen.dart';
+import 'package:ca_app/features/filing/presentation/post_filing/filing_status_screen.dart';
+import 'package:ca_app/features/filing/presentation/post_filing/e_verification_screen.dart';
+import 'package:ca_app/features/filing/presentation/bulk/filing_queue_screen.dart';
+import 'package:ca_app/features/filing/presentation/reconciliation/reconciliation_screen.dart';
+import 'package:ca_app/features/filing/presentation/analytics/filing_analytics_screen.dart';
+import 'package:ca_app/features/filing/presentation/itr_u/itr_u_screen.dart';
+import 'package:ca_app/features/filing/presentation/advance_tax/advance_tax_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final _dashboardNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'dashboard',
-);
+final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
 final _clientsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'clients');
-final _complianceNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'compliance',
-);
-final _tasksNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'tasks');
+final _todayNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'today');
+final _docsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'docs');
 final _moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -81,12 +89,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         },
         branches: [
           StatefulShellBranch(
-            navigatorKey: _dashboardNavigatorKey,
+            navigatorKey: _filingNavigatorKey,
             routes: [
               GoRoute(
                 path: '/',
-                name: 'dashboard',
-                builder: (context, state) => const DashboardScreen(),
+                name: 'filing',
+                builder: (context, state) => const FilingScreen(),
               ),
             ],
           ),
@@ -111,22 +119,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _complianceNavigatorKey,
+            navigatorKey: _todayNavigatorKey,
             routes: [
               GoRoute(
-                path: '/compliance',
-                name: 'compliance',
-                builder: (context, state) => const ComplianceScreen(),
+                path: '/today',
+                name: 'today',
+                builder: (context, state) => const TodayScreen(),
               ),
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: _tasksNavigatorKey,
+            navigatorKey: _docsNavigatorKey,
             routes: [
               GoRoute(
-                path: '/tasks',
-                name: 'tasks',
-                builder: (context, state) => const TasksScreen(),
+                path: '/docs',
+                name: 'docs',
+                builder: (context, state) => const DocumentsScreen(),
               ),
             ],
           ),
@@ -141,6 +149,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ],
           ),
         ],
+      ),
+      GoRoute(
+        path: '/dashboard',
+        name: 'dashboard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/tasks',
+        name: 'tasks',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const TasksScreen(),
+      ),
+      GoRoute(
+        path: '/compliance',
+        name: 'compliance',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ComplianceScreen(),
       ),
       GoRoute(
         path: '/client-portal',
@@ -438,6 +464,78 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final moduleId = state.pathParameters['moduleId']!;
           return RoadmapModuleScreen(moduleId: moduleId);
         },
+      ),
+      GoRoute(
+        path: '/filing/new',
+        name: 'filingNew',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FilingTypePickerScreen(),
+      ),
+      GoRoute(
+        path: '/filing/itr1/:jobId',
+        name: 'itr1Wizard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final jobId = state.pathParameters['jobId']!;
+          return Itr1WizardScreen(jobId: jobId);
+        },
+      ),
+      GoRoute(
+        path: '/filing/itr4/:jobId',
+        name: 'itr4Wizard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final jobId = state.pathParameters['jobId']!;
+          return Itr4WizardScreen(jobId: jobId);
+        },
+      ),
+      GoRoute(
+        path: '/filing/status/:jobId',
+        name: 'filingStatus',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final jobId = state.pathParameters['jobId']!;
+          return FilingStatusScreen(jobId: jobId);
+        },
+      ),
+      GoRoute(
+        path: '/filing/e-verify/:jobId',
+        name: 'eVerification',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) {
+          final jobId = state.pathParameters['jobId']!;
+          return EVerificationScreen(jobId: jobId);
+        },
+      ),
+      GoRoute(
+        path: '/filing/queue',
+        name: 'filingQueue',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FilingQueueScreen(),
+      ),
+      GoRoute(
+        path: '/filing/reconciliation',
+        name: 'reconciliation',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ReconciliationScreen(),
+      ),
+      GoRoute(
+        path: '/filing/analytics',
+        name: 'filingAnalytics',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const FilingAnalyticsScreen(),
+      ),
+      GoRoute(
+        path: '/filing/itr-u',
+        name: 'itrU',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ItrUScreen(),
+      ),
+      GoRoute(
+        path: '/filing/advance-tax',
+        name: 'advanceTax',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const AdvanceTaxScreen(),
       ),
     ],
   );

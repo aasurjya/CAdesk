@@ -110,14 +110,15 @@ class Form16GenerationService {
     required DateTime periodFrom,
     required DateTime periodTo,
     required List<
-            ({
-              String employeePan,
-              String employeeName,
-              TdsAddress employeeAddress,
-              Form16PartA partA,
-              Form16PartB partB,
-            })>
-        employees,
+      ({
+        String employeePan,
+        String employeeName,
+        TdsAddress employeeAddress,
+        Form16PartA partA,
+        Form16PartB partB,
+      })
+    >
+    employees,
   }) {
     return [
       for (var i = 0; i < employees.length; i++)
@@ -159,13 +160,14 @@ class Form16GenerationService {
     required TdsQuarter quarter,
     required String section,
     required List<
-            ({
-              String deducteePan,
-              String deducteeName,
-              TdsAddress deducteeAddress,
-              List<Form16ATransaction> transactions,
-            })>
-        deductees,
+      ({
+        String deducteePan,
+        String deducteeName,
+        TdsAddress deducteeAddress,
+        List<Form16ATransaction> transactions,
+      })
+    >
+    deductees,
   }) {
     return [
       for (var i = 0; i < deductees.length; i++)

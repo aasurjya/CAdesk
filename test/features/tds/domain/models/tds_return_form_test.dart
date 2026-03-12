@@ -198,11 +198,7 @@ void main() {
       test('shortfall → deducted minus deposited', () {
         final form = createForm(
           entries: [
-            createEntry(
-              id: 'e1',
-              tdsDeducted: 5000,
-              tdsDeposited: 4000,
-            ),
+            createEntry(id: 'e1', tdsDeducted: 5000, tdsDeposited: 4000),
           ],
         );
         expect(form.shortfall, 1000);

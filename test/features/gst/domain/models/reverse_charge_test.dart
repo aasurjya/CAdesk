@@ -72,7 +72,10 @@ void main() {
 
     test('equality → different fields are not equal', () {
       final a = createResult(isRcmApplicable: true);
-      final b = createResult(isRcmApplicable: false, rcmSection: RcmSection.none);
+      final b = createResult(
+        isRcmApplicable: false,
+        rcmSection: RcmSection.none,
+      );
 
       expect(a, isNot(equals(b)));
     });

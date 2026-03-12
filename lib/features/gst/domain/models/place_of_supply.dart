@@ -83,12 +83,12 @@ class PlaceOfSupplyResult {
 
   @override
   int get hashCode => Object.hash(
-        supplierStateCode,
-        recipientStateCode,
-        placeOfSupplyStateCode,
-        isInterState,
-        taxType,
-        applicableSection,
-        reason,
-      );
+    supplierStateCode,
+    recipientStateCode,
+    placeOfSupplyStateCode,
+    isInterState,
+    taxType,
+    applicableSection,
+    reason,
+  );
 }

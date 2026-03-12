@@ -69,7 +69,8 @@ void main() {
     EInvoiceTotals? totals,
   }) {
     final itemList = items ?? [createItem()];
-    final invoiceTotals = totals ??
+    final invoiceTotals =
+        totals ??
         EInvoiceTotals(
           totalValue: 118000.0,
           totalTaxableValue: 100000.0,
@@ -117,8 +118,11 @@ void main() {
 
       expect(errors, isNotEmpty);
       expect(
-        errors.any((e) => e.toLowerCase().contains('seller') &&
-            e.toLowerCase().contains('gstin')),
+        errors.any(
+          (e) =>
+              e.toLowerCase().contains('seller') &&
+              e.toLowerCase().contains('gstin'),
+        ),
         isTrue,
       );
     });
@@ -129,8 +133,11 @@ void main() {
 
       expect(errors, isNotEmpty);
       expect(
-        errors.any((e) => e.toLowerCase().contains('seller') &&
-            e.toLowerCase().contains('gstin')),
+        errors.any(
+          (e) =>
+              e.toLowerCase().contains('seller') &&
+              e.toLowerCase().contains('gstin'),
+        ),
         isTrue,
       );
     });
@@ -141,8 +148,11 @@ void main() {
 
       expect(errors, isNotEmpty);
       expect(
-        errors.any((e) => e.toLowerCase().contains('buyer') &&
-            e.toLowerCase().contains('gstin')),
+        errors.any(
+          (e) =>
+              e.toLowerCase().contains('buyer') &&
+              e.toLowerCase().contains('gstin'),
+        ),
         isTrue,
       );
     });
@@ -167,9 +177,7 @@ void main() {
     });
 
     test('item without HSN code → error', () {
-      final invoice = createValidInvoice(
-        items: [createItem(hsnCode: '')],
-      );
+      final invoice = createValidInvoice(items: [createItem(hsnCode: '')]);
       final errors = EInvoiceService.validate(invoice);
 
       expect(errors, isNotEmpty);
@@ -177,9 +185,7 @@ void main() {
     });
 
     test('item with HSN code less than 4 digits → error', () {
-      final invoice = createValidInvoice(
-        items: [createItem(hsnCode: '84')],
-      );
+      final invoice = createValidInvoice(items: [createItem(hsnCode: '84')]);
       final errors = EInvoiceService.validate(invoice);
 
       expect(errors, isNotEmpty);
@@ -234,10 +240,7 @@ void main() {
       final errors = EInvoiceService.validate(badInvoice);
 
       expect(errors, isNotEmpty);
-      expect(
-        errors.any((e) => e.toLowerCase().contains('state code')),
-        isTrue,
-      );
+      expect(errors.any((e) => e.toLowerCase().contains('state code')), isTrue);
     });
   });
 
@@ -292,31 +295,19 @@ void main() {
 
   group('EInvoiceService.isEInvoiceApplicable', () {
     test('turnover 6 crore → true', () {
-      expect(
-        EInvoiceService.isEInvoiceApplicable(turnover: 60000000),
-        isTrue,
-      );
+      expect(EInvoiceService.isEInvoiceApplicable(turnover: 60000000), isTrue);
     });
 
     test('turnover exactly 5 crore → true', () {
-      expect(
-        EInvoiceService.isEInvoiceApplicable(turnover: 50000000),
-        isTrue,
-      );
+      expect(EInvoiceService.isEInvoiceApplicable(turnover: 50000000), isTrue);
     });
 
     test('turnover 4 crore → false', () {
-      expect(
-        EInvoiceService.isEInvoiceApplicable(turnover: 40000000),
-        isFalse,
-      );
+      expect(EInvoiceService.isEInvoiceApplicable(turnover: 40000000), isFalse);
     });
 
     test('turnover 0 → false', () {
-      expect(
-        EInvoiceService.isEInvoiceApplicable(turnover: 0),
-        isFalse,
-      );
+      expect(EInvoiceService.isEInvoiceApplicable(turnover: 0), isFalse);
     });
   });
 

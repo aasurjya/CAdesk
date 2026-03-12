@@ -48,8 +48,10 @@ void main() {
     });
 
     test('invoiceNumberFormat → has correct label', () {
-      expect(MatchDiscrepancy.invoiceNumberFormat.label,
-          'Invoice Number Format');
+      expect(
+        MatchDiscrepancy.invoiceNumberFormat.label,
+        'Invoice Number Format',
+      );
     });
 
     test('taxRateMismatch → has correct label', () {
@@ -209,10 +211,7 @@ void main() {
 
     test('copyWith → returns new instance with updated fields', () {
       final original = createEntry();
-      final updated = original.copyWith(
-        invoiceValue: 23600.0,
-        hsnCode: '9954',
-      );
+      final updated = original.copyWith(invoiceValue: 23600.0, hsnCode: '9954');
 
       expect(updated.invoiceValue, 23600.0);
       expect(updated.hsnCode, '9954');

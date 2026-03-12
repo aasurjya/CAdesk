@@ -3,11 +3,37 @@ import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 
-class MoreScreen extends StatelessWidget {
+class MoreScreen extends StatefulWidget {
   const MoreScreen({super.key});
 
+  @override
+  State<MoreScreen> createState() => _MoreScreenState();
+}
+
+class _MoreScreenState extends State<MoreScreen> {
+  bool _isGridView = true;
+
   static const _menuItems = <_MenuItem>[
-    // Tax Modules
+    // Quick Access
+    _MenuItem(
+      icon: Icons.dashboard_outlined,
+      title: 'Dashboard',
+      subtitle: 'Overview & KPIs',
+      route: '/dashboard',
+    ),
+    _MenuItem(
+      icon: Icons.task_alt_outlined,
+      title: 'Tasks',
+      subtitle: 'Task management',
+      route: '/tasks',
+    ),
+    _MenuItem(
+      icon: Icons.verified_user_outlined,
+      title: 'Compliance Calendar',
+      subtitle: 'Statutory deadlines & calendar',
+      route: '/compliance',
+    ),
+    // Core Filing Modules
     _MenuItem(
       icon: Icons.account_balance_outlined,
       title: 'Income Tax',
@@ -38,6 +64,13 @@ class MoreScreen extends StatelessWidget {
       subtitle: 'Company filings, Directors Act 2013',
       route: '/mca',
     ),
+    _MenuItem(
+      icon: Icons.qr_code_scanner_outlined,
+      title: 'E-Invoicing',
+      subtitle: 'IRP API, 30-day/3-day window & bulk generation',
+      route: '/einvoicing',
+    ),
+    // Other Modules
     _MenuItem(
       icon: Icons.data_object_outlined,
       title: 'XBRL Filing',
@@ -252,12 +285,6 @@ class MoreScreen extends StatelessWidget {
       route: '/virtual-cfo',
     ),
     _MenuItem(
-      icon: Icons.qr_code_scanner_outlined,
-      title: 'E-Invoicing Compliance Hub',
-      subtitle: 'IRP API, 30-day/3-day window & bulk generation',
-      route: '/einvoicing',
-    ),
-    _MenuItem(
       icon: Icons.document_scanner_outlined,
       title: 'Intelligent Document Processing',
       subtitle: 'AI OCR for Form 16, 26AS & bank statements',
@@ -300,43 +327,95 @@ class MoreScreen extends StatelessWidget {
           'More',
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
-      ),
-      body: ListView(
-        children: [
-          _ProfileCard(theme: theme),
-          const SizedBox(height: 8),
-          for (int i = 0; i < _menuItems.length; i++) ...[
-            _MenuTile(item: _menuItems[i]),
-            if (i < _menuItems.length - 1) const Divider(height: 1, indent: 72),
-          ],
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.logout, color: AppColors.error),
-              label: const Text(
-                'Sign Out',
-                style: TextStyle(color: AppColors.error),
-              ),
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppColors.error),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-              ),
-            ),
+        actions: [
+          IconButton(
+            icon: Icon(_isGridView ? Icons.view_list : Icons.grid_view),
+            tooltip: _isGridView ? 'List view' : 'Grid view',
+            onPressed: () {
+              setState(() {
+                _isGridView = !_isGridView;
+              });
+            },
           ),
-          const SizedBox(height: 16),
-          Center(
-            child: Text(
-              'CADesk v0.1.0',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: AppColors.neutral400,
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
         ],
       ),
+      body: _isGridView ? _buildGridView(theme) : _buildListView(theme),
+    );
+  }
+
+  Widget _buildListView(ThemeData theme) {
+    return ListView(
+      children: [
+        _ProfileCard(theme: theme),
+        const SizedBox(height: 8),
+        for (int i = 0; i < _menuItems.length; i++) ...[
+          _MenuTile(item: _menuItems[i]),
+          if (i < _menuItems.length - 1) const Divider(height: 1, indent: 72),
+        ],
+        _buildFooter(theme),
+      ],
+    );
+  }
+
+  Widget _buildGridView(ThemeData theme) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth >= 600 ? 4 : 3;
+
+    return ListView(
+      children: [
+        _ProfileCard(theme: theme),
+        const SizedBox(height: 8),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+            childAspectRatio: 0.95,
+          ),
+          itemCount: _menuItems.length,
+          itemBuilder: (context, index) {
+            final item = _menuItems[index];
+            return _GridCard(item: item);
+          },
+        ),
+        _buildFooter(theme),
+      ],
+    );
+  }
+
+  Widget _buildFooter(ThemeData theme) {
+    return Column(
+      children: [
+        const SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: OutlinedButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.logout, color: AppColors.error),
+            label: const Text(
+              'Sign Out',
+              style: TextStyle(color: AppColors.error),
+            ),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: AppColors.error),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: Text(
+            'CADesk v0.1.0',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: AppColors.neutral400,
+            ),
+          ),
+        ),
+        const SizedBox(height: 32),
+      ],
     );
   }
 }
@@ -428,6 +507,51 @@ class _MenuTile extends StatelessWidget {
           context.push(item.route!);
         }
       },
+    );
+  }
+}
+
+class _GridCard extends StatelessWidget {
+  const _GridCard({required this.item});
+
+  final _MenuItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () {
+          if (item.route != null) {
+            context.push(item.route!);
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: AppColors.primary.withAlpha(26),
+                child: Icon(item.icon, color: AppColors.primary, size: 22),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                item.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

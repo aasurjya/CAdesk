@@ -1,10 +1,5 @@
 /// Sections of the CGST Act under which RCM applies.
-enum RcmSection {
-  section9_3,
-  section9_4,
-  section9_5,
-  none,
-}
+enum RcmSection { section9_3, section9_4, section9_5, none }
 
 /// Immutable result of a reverse charge mechanism determination.
 class RcmResult {
@@ -60,10 +55,10 @@ class RcmResult {
 
   @override
   int get hashCode => Object.hash(
-        isRcmApplicable,
-        rcmSection,
-        serviceCategory,
-        reason,
-        selfInvoiceRequired,
-      );
+    isRcmApplicable,
+    rcmSection,
+    serviceCategory,
+    reason,
+    selfInvoiceRequired,
+  );
 }
