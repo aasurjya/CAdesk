@@ -105,14 +105,14 @@ void main() {
   });
 
   group('RateChange model', () {
-    const change = RateChange(
+    final change = RateChange(
       effectiveDate: DateTime.utc(2024, 7, 23),
       category: RateCategory.incomeTax,
       description: 'STCG under Section 111A increased',
       oldValue: '15%',
       newValue: '20%',
       circularReference: 'Finance Act 2024',
-      affectedAssessees: ['Equity Investor', 'Mutual Fund Holder'],
+      affectedAssessees: const ['Equity Investor', 'Mutual Fund Holder'],
     );
 
     test('const constructor sets all fields', () {
@@ -131,14 +131,14 @@ void main() {
     });
 
     test('equality holds for identical data', () {
-      const other = RateChange(
+      final other = RateChange(
         effectiveDate: DateTime.utc(2024, 7, 23),
         category: RateCategory.incomeTax,
         description: 'STCG under Section 111A increased',
         oldValue: '15%',
         newValue: '20%',
         circularReference: 'Finance Act 2024',
-        affectedAssessees: ['Equity Investor', 'Mutual Fund Holder'],
+        affectedAssessees: const ['Equity Investor', 'Mutual Fund Holder'],
       );
       expect(change, equals(other));
     });

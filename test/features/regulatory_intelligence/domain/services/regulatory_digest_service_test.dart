@@ -79,7 +79,7 @@ void main() {
 
   group('RegulatoryDigestService.getUnreadCount', () {
     test('returns 0 when all updates are read', () {
-      const update = RegulatoryUpdate(
+      final update = RegulatoryUpdate(
         updateId: 'u1',
         title: 'Read Update',
         summary: 'Summary',
@@ -88,7 +88,7 @@ void main() {
         publicationDate: DateTime.utc(2025, 3, 1),
         effectiveDate: null,
         impactLevel: ImpactLevel.medium,
-        affectedSections: [],
+        affectedSections: const [],
         url: null,
         isRead: true,
       );
@@ -97,7 +97,7 @@ void main() {
     });
 
     test('returns count of unread updates', () {
-      const u1 = RegulatoryUpdate(
+      final u1 = RegulatoryUpdate(
         updateId: 'u1',
         title: 'Unread 1',
         summary: 'Summary',
@@ -106,11 +106,11 @@ void main() {
         publicationDate: DateTime.utc(2025, 3, 1),
         effectiveDate: null,
         impactLevel: ImpactLevel.low,
-        affectedSections: [],
+        affectedSections: const [],
         url: null,
         isRead: false,
       );
-      const u2 = RegulatoryUpdate(
+      final u2 = RegulatoryUpdate(
         updateId: 'u2',
         title: 'Read 2',
         summary: 'Summary',
@@ -119,7 +119,7 @@ void main() {
         publicationDate: DateTime.utc(2025, 3, 2),
         effectiveDate: null,
         impactLevel: ImpactLevel.medium,
-        affectedSections: [],
+        affectedSections: const [],
         url: null,
         isRead: true,
       );
@@ -134,7 +134,7 @@ void main() {
   });
 
   group('RegulatoryDigest model', () {
-    const update = RegulatoryUpdate(
+    final update = RegulatoryUpdate(
       updateId: 'u1',
       title: 'Update 1',
       summary: 'Summary',
@@ -143,7 +143,7 @@ void main() {
       publicationDate: DateTime.utc(2025, 3, 1),
       effectiveDate: null,
       impactLevel: ImpactLevel.high,
-      affectedSections: [],
+      affectedSections: const [],
       url: null,
       isRead: false,
     );
@@ -160,22 +160,25 @@ void main() {
       priority: AlertPriority.critical,
     );
 
-    const rateChange = RateChange(
+    final rateChange = RateChange(
       effectiveDate: DateTime.utc(2024, 7, 23),
       category: RateCategory.incomeTax,
       description: 'STCG rate increase',
       oldValue: '15%',
       newValue: '20%',
       circularReference: 'Finance Act 2024',
-      affectedAssessees: [],
+      affectedAssessees: const [],
     );
 
-    final digest = RegulatoryDigest(
-      digestDate: DateTime(2025, 3, 12),
-      updates: const [update],
-      alerts: const [alert],
-      rateChanges: const [rateChange],
-    );
+    late RegulatoryDigest digest;
+    setUp(() {
+      digest = RegulatoryDigest(
+        digestDate: DateTime(2025, 3, 12),
+        updates: [update],
+        alerts: const [alert],
+        rateChanges: [rateChange],
+      );
+    });
 
     test('totalItems is computed as 3', () {
       expect(digest.totalItems, equals(3));
@@ -195,9 +198,9 @@ void main() {
     test('equality holds for identical data', () {
       final other = RegulatoryDigest(
         digestDate: DateTime(2025, 3, 12),
-        updates: const [update],
+        updates: [update],
         alerts: const [alert],
-        rateChanges: const [rateChange],
+        rateChanges: [rateChange],
       );
       expect(digest, equals(other));
     });
