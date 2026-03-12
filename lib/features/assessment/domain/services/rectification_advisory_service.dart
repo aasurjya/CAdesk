@@ -134,8 +134,9 @@ class RectificationAdvisoryService {
     final s = disc.section.toLowerCase();
     if (s.contains('tds')) return RectificationGround.tdsMismatch;
     if (s.contains('advance tax')) return RectificationGround.advanceTaxCredit;
-    if (s.contains('arithmetical'))
+    if (s.contains('arithmetical')) {
       return RectificationGround.arithmeticalError;
+    }
     if (s.contains('assessment year') || s.contains('ay')) {
       return RectificationGround.incorrectAY;
     }
