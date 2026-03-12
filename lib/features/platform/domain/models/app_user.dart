@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-// ignore_for_file: public_member_api_docs
-
-import 'package:ca_app/features/platform/domain/models/permission.dart';
-
-/// Represents an authenticated user within the CA firm application.
-final class AppUser {
-=======
 import 'package:ca_app/features/platform/domain/services/rbac_service.dart';
 
 /// Role hierarchy for CA firm staff.
@@ -22,7 +14,6 @@ enum UserRole {
 
 /// Immutable model representing an authenticated user of the CADesk platform.
 class AppUser {
->>>>>>> worktree-agent-ad3dc1f5
   const AppUser({
     required this.userId,
     required this.email,
@@ -32,10 +23,7 @@ class AppUser {
     required this.mfaEnabled,
     required this.isActive,
     required this.createdAt,
-<<<<<<< HEAD
-=======
     this.lastLoginAt,
->>>>>>> worktree-agent-ad3dc1f5
   });
 
   final String userId;
@@ -45,16 +33,6 @@ class AppUser {
   final String firmId;
   final bool mfaEnabled;
   final bool isActive;
-<<<<<<< HEAD
-  final DateTime createdAt;
-
-  /// Convenience: set of permission codes derived from [role].
-  ///
-  /// Returns an empty set when the user is inactive.
-  Set<String> get permissions {
-    if (!isActive) return const {};
-    return kRolePermissions[role] ?? const {};
-=======
   final DateTime? lastLoginAt;
   final DateTime createdAt;
 
@@ -64,7 +42,6 @@ class AppUser {
         .getPermissions(role)
         .map((p) => p.code)
         .toList(growable: false);
->>>>>>> worktree-agent-ad3dc1f5
   }
 
   AppUser copyWith({
@@ -75,10 +52,7 @@ class AppUser {
     String? firmId,
     bool? mfaEnabled,
     bool? isActive,
-<<<<<<< HEAD
-=======
     DateTime? lastLoginAt,
->>>>>>> worktree-agent-ad3dc1f5
     DateTime? createdAt,
   }) {
     return AppUser(
@@ -89,27 +63,16 @@ class AppUser {
       firmId: firmId ?? this.firmId,
       mfaEnabled: mfaEnabled ?? this.mfaEnabled,
       isActive: isActive ?? this.isActive,
-<<<<<<< HEAD
-=======
       lastLoginAt: lastLoginAt ?? this.lastLoginAt,
->>>>>>> worktree-agent-ad3dc1f5
       createdAt: createdAt ?? this.createdAt,
     );
   }
 
   @override
-<<<<<<< HEAD
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AppUser &&
-          runtimeType == other.runtimeType &&
-          userId == other.userId;
-=======
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is AppUser && other.userId == userId;
   }
->>>>>>> worktree-agent-ad3dc1f5
 
   @override
   int get hashCode => userId.hashCode;
