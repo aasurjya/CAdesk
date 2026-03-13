@@ -17669,6 +17669,1707 @@ class PortalCredentialsTableCompanion
   }
 }
 
+class $DocumentsTableTable extends DocumentsTable
+    with TableInfo<$DocumentsTableTable, DocumentRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DocumentsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => _uuid.v4(),
+  );
+  static const VerificationMeta _clientIdMeta = const VerificationMeta(
+    'clientId',
+  );
+  @override
+  late final GeneratedColumn<String> clientId = GeneratedColumn<String>(
+    'client_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _clientNameMeta = const VerificationMeta(
+    'clientName',
+  );
+  @override
+  late final GeneratedColumn<String> clientName = GeneratedColumn<String>(
+    'client_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fileTypeMeta = const VerificationMeta(
+    'fileType',
+  );
+  @override
+  late final GeneratedColumn<String> fileType = GeneratedColumn<String>(
+    'file_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _fileSizeMeta = const VerificationMeta(
+    'fileSize',
+  );
+  @override
+  late final GeneratedColumn<int> fileSize = GeneratedColumn<int>(
+    'file_size',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _uploadedByMeta = const VerificationMeta(
+    'uploadedBy',
+  );
+  @override
+  late final GeneratedColumn<String> uploadedBy = GeneratedColumn<String>(
+    'uploaded_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _uploadedAtMeta = const VerificationMeta(
+    'uploadedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> uploadedAt = GeneratedColumn<DateTime>(
+    'uploaded_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
+  @override
+  late final GeneratedColumn<String> tags = GeneratedColumn<String>(
+    'tags',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('[]'),
+  );
+  static const VerificationMeta _isSharedWithClientMeta =
+      const VerificationMeta('isSharedWithClient');
+  @override
+  late final GeneratedColumn<bool> isSharedWithClient = GeneratedColumn<bool>(
+    'is_shared_with_client',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_shared_with_client" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _downloadCountMeta = const VerificationMeta(
+    'downloadCount',
+  );
+  @override
+  late final GeneratedColumn<int> downloadCount = GeneratedColumn<int>(
+    'download_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _versionMeta = const VerificationMeta(
+    'version',
+  );
+  @override
+  late final GeneratedColumn<int> version = GeneratedColumn<int>(
+    'version',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1),
+  );
+  static const VerificationMeta _remarksMeta = const VerificationMeta(
+    'remarks',
+  );
+  @override
+  late final GeneratedColumn<String> remarks = GeneratedColumn<String>(
+    'remarks',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<String> syncedAt = GeneratedColumn<String>(
+    'synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isDirtyMeta = const VerificationMeta(
+    'isDirty',
+  );
+  @override
+  late final GeneratedColumn<bool> isDirty = GeneratedColumn<bool>(
+    'is_dirty',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_dirty" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    clientId,
+    clientName,
+    title,
+    category,
+    fileType,
+    fileSize,
+    uploadedBy,
+    uploadedAt,
+    tags,
+    isSharedWithClient,
+    downloadCount,
+    version,
+    remarks,
+    createdAt,
+    updatedAt,
+    syncedAt,
+    isDirty,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_documents';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DocumentRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('client_id')) {
+      context.handle(
+        _clientIdMeta,
+        clientId.isAcceptableOrUnknown(data['client_id']!, _clientIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_clientIdMeta);
+    }
+    if (data.containsKey('client_name')) {
+      context.handle(
+        _clientNameMeta,
+        clientName.isAcceptableOrUnknown(data['client_name']!, _clientNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_clientNameMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('file_type')) {
+      context.handle(
+        _fileTypeMeta,
+        fileType.isAcceptableOrUnknown(data['file_type']!, _fileTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fileTypeMeta);
+    }
+    if (data.containsKey('file_size')) {
+      context.handle(
+        _fileSizeMeta,
+        fileSize.isAcceptableOrUnknown(data['file_size']!, _fileSizeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_fileSizeMeta);
+    }
+    if (data.containsKey('uploaded_by')) {
+      context.handle(
+        _uploadedByMeta,
+        uploadedBy.isAcceptableOrUnknown(data['uploaded_by']!, _uploadedByMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uploadedByMeta);
+    }
+    if (data.containsKey('uploaded_at')) {
+      context.handle(
+        _uploadedAtMeta,
+        uploadedAt.isAcceptableOrUnknown(data['uploaded_at']!, _uploadedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uploadedAtMeta);
+    }
+    if (data.containsKey('tags')) {
+      context.handle(
+        _tagsMeta,
+        tags.isAcceptableOrUnknown(data['tags']!, _tagsMeta),
+      );
+    }
+    if (data.containsKey('is_shared_with_client')) {
+      context.handle(
+        _isSharedWithClientMeta,
+        isSharedWithClient.isAcceptableOrUnknown(
+          data['is_shared_with_client']!,
+          _isSharedWithClientMeta,
+        ),
+      );
+    }
+    if (data.containsKey('download_count')) {
+      context.handle(
+        _downloadCountMeta,
+        downloadCount.isAcceptableOrUnknown(
+          data['download_count']!,
+          _downloadCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('version')) {
+      context.handle(
+        _versionMeta,
+        version.isAcceptableOrUnknown(data['version']!, _versionMeta),
+      );
+    }
+    if (data.containsKey('remarks')) {
+      context.handle(
+        _remarksMeta,
+        remarks.isAcceptableOrUnknown(data['remarks']!, _remarksMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    }
+    if (data.containsKey('is_dirty')) {
+      context.handle(
+        _isDirtyMeta,
+        isDirty.isAcceptableOrUnknown(data['is_dirty']!, _isDirtyMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DocumentRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DocumentRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      clientId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}client_id'],
+      )!,
+      clientName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}client_name'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      fileType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_type'],
+      )!,
+      fileSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}file_size'],
+      )!,
+      uploadedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}uploaded_by'],
+      )!,
+      uploadedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}uploaded_at'],
+      )!,
+      tags: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}tags'],
+      )!,
+      isSharedWithClient: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_shared_with_client'],
+      )!,
+      downloadCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}download_count'],
+      )!,
+      version: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version'],
+      )!,
+      remarks: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}remarks'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}synced_at'],
+      ),
+      isDirty: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_dirty'],
+      )!,
+    );
+  }
+
+  @override
+  $DocumentsTableTable createAlias(String alias) {
+    return $DocumentsTableTable(attachedDatabase, alias);
+  }
+}
+
+class DocumentRow extends DataClass implements Insertable<DocumentRow> {
+  final String id;
+  final String clientId;
+  final String clientName;
+  final String title;
+  final String category;
+  final String fileType;
+  final int fileSize;
+  final String uploadedBy;
+  final DateTime uploadedAt;
+  final String tags;
+  final bool isSharedWithClient;
+  final int downloadCount;
+  final int version;
+  final String? remarks;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String? syncedAt;
+  final bool isDirty;
+  const DocumentRow({
+    required this.id,
+    required this.clientId,
+    required this.clientName,
+    required this.title,
+    required this.category,
+    required this.fileType,
+    required this.fileSize,
+    required this.uploadedBy,
+    required this.uploadedAt,
+    required this.tags,
+    required this.isSharedWithClient,
+    required this.downloadCount,
+    required this.version,
+    this.remarks,
+    required this.createdAt,
+    required this.updatedAt,
+    this.syncedAt,
+    required this.isDirty,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['client_id'] = Variable<String>(clientId);
+    map['client_name'] = Variable<String>(clientName);
+    map['title'] = Variable<String>(title);
+    map['category'] = Variable<String>(category);
+    map['file_type'] = Variable<String>(fileType);
+    map['file_size'] = Variable<int>(fileSize);
+    map['uploaded_by'] = Variable<String>(uploadedBy);
+    map['uploaded_at'] = Variable<DateTime>(uploadedAt);
+    map['tags'] = Variable<String>(tags);
+    map['is_shared_with_client'] = Variable<bool>(isSharedWithClient);
+    map['download_count'] = Variable<int>(downloadCount);
+    map['version'] = Variable<int>(version);
+    if (!nullToAbsent || remarks != null) {
+      map['remarks'] = Variable<String>(remarks);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || syncedAt != null) {
+      map['synced_at'] = Variable<String>(syncedAt);
+    }
+    map['is_dirty'] = Variable<bool>(isDirty);
+    return map;
+  }
+
+  DocumentsTableCompanion toCompanion(bool nullToAbsent) {
+    return DocumentsTableCompanion(
+      id: Value(id),
+      clientId: Value(clientId),
+      clientName: Value(clientName),
+      title: Value(title),
+      category: Value(category),
+      fileType: Value(fileType),
+      fileSize: Value(fileSize),
+      uploadedBy: Value(uploadedBy),
+      uploadedAt: Value(uploadedAt),
+      tags: Value(tags),
+      isSharedWithClient: Value(isSharedWithClient),
+      downloadCount: Value(downloadCount),
+      version: Value(version),
+      remarks: remarks == null && nullToAbsent
+          ? const Value.absent()
+          : Value(remarks),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      syncedAt: syncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncedAt),
+      isDirty: Value(isDirty),
+    );
+  }
+
+  factory DocumentRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DocumentRow(
+      id: serializer.fromJson<String>(json['id']),
+      clientId: serializer.fromJson<String>(json['clientId']),
+      clientName: serializer.fromJson<String>(json['clientName']),
+      title: serializer.fromJson<String>(json['title']),
+      category: serializer.fromJson<String>(json['category']),
+      fileType: serializer.fromJson<String>(json['fileType']),
+      fileSize: serializer.fromJson<int>(json['fileSize']),
+      uploadedBy: serializer.fromJson<String>(json['uploadedBy']),
+      uploadedAt: serializer.fromJson<DateTime>(json['uploadedAt']),
+      tags: serializer.fromJson<String>(json['tags']),
+      isSharedWithClient: serializer.fromJson<bool>(json['isSharedWithClient']),
+      downloadCount: serializer.fromJson<int>(json['downloadCount']),
+      version: serializer.fromJson<int>(json['version']),
+      remarks: serializer.fromJson<String?>(json['remarks']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      syncedAt: serializer.fromJson<String?>(json['syncedAt']),
+      isDirty: serializer.fromJson<bool>(json['isDirty']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'clientId': serializer.toJson<String>(clientId),
+      'clientName': serializer.toJson<String>(clientName),
+      'title': serializer.toJson<String>(title),
+      'category': serializer.toJson<String>(category),
+      'fileType': serializer.toJson<String>(fileType),
+      'fileSize': serializer.toJson<int>(fileSize),
+      'uploadedBy': serializer.toJson<String>(uploadedBy),
+      'uploadedAt': serializer.toJson<DateTime>(uploadedAt),
+      'tags': serializer.toJson<String>(tags),
+      'isSharedWithClient': serializer.toJson<bool>(isSharedWithClient),
+      'downloadCount': serializer.toJson<int>(downloadCount),
+      'version': serializer.toJson<int>(version),
+      'remarks': serializer.toJson<String?>(remarks),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'syncedAt': serializer.toJson<String?>(syncedAt),
+      'isDirty': serializer.toJson<bool>(isDirty),
+    };
+  }
+
+  DocumentRow copyWith({
+    String? id,
+    String? clientId,
+    String? clientName,
+    String? title,
+    String? category,
+    String? fileType,
+    int? fileSize,
+    String? uploadedBy,
+    DateTime? uploadedAt,
+    String? tags,
+    bool? isSharedWithClient,
+    int? downloadCount,
+    int? version,
+    Value<String?> remarks = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<String?> syncedAt = const Value.absent(),
+    bool? isDirty,
+  }) => DocumentRow(
+    id: id ?? this.id,
+    clientId: clientId ?? this.clientId,
+    clientName: clientName ?? this.clientName,
+    title: title ?? this.title,
+    category: category ?? this.category,
+    fileType: fileType ?? this.fileType,
+    fileSize: fileSize ?? this.fileSize,
+    uploadedBy: uploadedBy ?? this.uploadedBy,
+    uploadedAt: uploadedAt ?? this.uploadedAt,
+    tags: tags ?? this.tags,
+    isSharedWithClient: isSharedWithClient ?? this.isSharedWithClient,
+    downloadCount: downloadCount ?? this.downloadCount,
+    version: version ?? this.version,
+    remarks: remarks.present ? remarks.value : this.remarks,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    syncedAt: syncedAt.present ? syncedAt.value : this.syncedAt,
+    isDirty: isDirty ?? this.isDirty,
+  );
+  DocumentRow copyWithCompanion(DocumentsTableCompanion data) {
+    return DocumentRow(
+      id: data.id.present ? data.id.value : this.id,
+      clientId: data.clientId.present ? data.clientId.value : this.clientId,
+      clientName: data.clientName.present
+          ? data.clientName.value
+          : this.clientName,
+      title: data.title.present ? data.title.value : this.title,
+      category: data.category.present ? data.category.value : this.category,
+      fileType: data.fileType.present ? data.fileType.value : this.fileType,
+      fileSize: data.fileSize.present ? data.fileSize.value : this.fileSize,
+      uploadedBy: data.uploadedBy.present
+          ? data.uploadedBy.value
+          : this.uploadedBy,
+      uploadedAt: data.uploadedAt.present
+          ? data.uploadedAt.value
+          : this.uploadedAt,
+      tags: data.tags.present ? data.tags.value : this.tags,
+      isSharedWithClient: data.isSharedWithClient.present
+          ? data.isSharedWithClient.value
+          : this.isSharedWithClient,
+      downloadCount: data.downloadCount.present
+          ? data.downloadCount.value
+          : this.downloadCount,
+      version: data.version.present ? data.version.value : this.version,
+      remarks: data.remarks.present ? data.remarks.value : this.remarks,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+      isDirty: data.isDirty.present ? data.isDirty.value : this.isDirty,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentRow(')
+          ..write('id: $id, ')
+          ..write('clientId: $clientId, ')
+          ..write('clientName: $clientName, ')
+          ..write('title: $title, ')
+          ..write('category: $category, ')
+          ..write('fileType: $fileType, ')
+          ..write('fileSize: $fileSize, ')
+          ..write('uploadedBy: $uploadedBy, ')
+          ..write('uploadedAt: $uploadedAt, ')
+          ..write('tags: $tags, ')
+          ..write('isSharedWithClient: $isSharedWithClient, ')
+          ..write('downloadCount: $downloadCount, ')
+          ..write('version: $version, ')
+          ..write('remarks: $remarks, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('isDirty: $isDirty')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    clientId,
+    clientName,
+    title,
+    category,
+    fileType,
+    fileSize,
+    uploadedBy,
+    uploadedAt,
+    tags,
+    isSharedWithClient,
+    downloadCount,
+    version,
+    remarks,
+    createdAt,
+    updatedAt,
+    syncedAt,
+    isDirty,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DocumentRow &&
+          other.id == this.id &&
+          other.clientId == this.clientId &&
+          other.clientName == this.clientName &&
+          other.title == this.title &&
+          other.category == this.category &&
+          other.fileType == this.fileType &&
+          other.fileSize == this.fileSize &&
+          other.uploadedBy == this.uploadedBy &&
+          other.uploadedAt == this.uploadedAt &&
+          other.tags == this.tags &&
+          other.isSharedWithClient == this.isSharedWithClient &&
+          other.downloadCount == this.downloadCount &&
+          other.version == this.version &&
+          other.remarks == this.remarks &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.syncedAt == this.syncedAt &&
+          other.isDirty == this.isDirty);
+}
+
+class DocumentsTableCompanion extends UpdateCompanion<DocumentRow> {
+  final Value<String> id;
+  final Value<String> clientId;
+  final Value<String> clientName;
+  final Value<String> title;
+  final Value<String> category;
+  final Value<String> fileType;
+  final Value<int> fileSize;
+  final Value<String> uploadedBy;
+  final Value<DateTime> uploadedAt;
+  final Value<String> tags;
+  final Value<bool> isSharedWithClient;
+  final Value<int> downloadCount;
+  final Value<int> version;
+  final Value<String?> remarks;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<String?> syncedAt;
+  final Value<bool> isDirty;
+  final Value<int> rowid;
+  const DocumentsTableCompanion({
+    this.id = const Value.absent(),
+    this.clientId = const Value.absent(),
+    this.clientName = const Value.absent(),
+    this.title = const Value.absent(),
+    this.category = const Value.absent(),
+    this.fileType = const Value.absent(),
+    this.fileSize = const Value.absent(),
+    this.uploadedBy = const Value.absent(),
+    this.uploadedAt = const Value.absent(),
+    this.tags = const Value.absent(),
+    this.isSharedWithClient = const Value.absent(),
+    this.downloadCount = const Value.absent(),
+    this.version = const Value.absent(),
+    this.remarks = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.isDirty = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DocumentsTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String clientId,
+    required String clientName,
+    required String title,
+    required String category,
+    required String fileType,
+    required int fileSize,
+    required String uploadedBy,
+    required DateTime uploadedAt,
+    this.tags = const Value.absent(),
+    this.isSharedWithClient = const Value.absent(),
+    this.downloadCount = const Value.absent(),
+    this.version = const Value.absent(),
+    this.remarks = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.isDirty = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : clientId = Value(clientId),
+       clientName = Value(clientName),
+       title = Value(title),
+       category = Value(category),
+       fileType = Value(fileType),
+       fileSize = Value(fileSize),
+       uploadedBy = Value(uploadedBy),
+       uploadedAt = Value(uploadedAt);
+  static Insertable<DocumentRow> custom({
+    Expression<String>? id,
+    Expression<String>? clientId,
+    Expression<String>? clientName,
+    Expression<String>? title,
+    Expression<String>? category,
+    Expression<String>? fileType,
+    Expression<int>? fileSize,
+    Expression<String>? uploadedBy,
+    Expression<DateTime>? uploadedAt,
+    Expression<String>? tags,
+    Expression<bool>? isSharedWithClient,
+    Expression<int>? downloadCount,
+    Expression<int>? version,
+    Expression<String>? remarks,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<String>? syncedAt,
+    Expression<bool>? isDirty,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (clientId != null) 'client_id': clientId,
+      if (clientName != null) 'client_name': clientName,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category,
+      if (fileType != null) 'file_type': fileType,
+      if (fileSize != null) 'file_size': fileSize,
+      if (uploadedBy != null) 'uploaded_by': uploadedBy,
+      if (uploadedAt != null) 'uploaded_at': uploadedAt,
+      if (tags != null) 'tags': tags,
+      if (isSharedWithClient != null)
+        'is_shared_with_client': isSharedWithClient,
+      if (downloadCount != null) 'download_count': downloadCount,
+      if (version != null) 'version': version,
+      if (remarks != null) 'remarks': remarks,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (isDirty != null) 'is_dirty': isDirty,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DocumentsTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? clientId,
+    Value<String>? clientName,
+    Value<String>? title,
+    Value<String>? category,
+    Value<String>? fileType,
+    Value<int>? fileSize,
+    Value<String>? uploadedBy,
+    Value<DateTime>? uploadedAt,
+    Value<String>? tags,
+    Value<bool>? isSharedWithClient,
+    Value<int>? downloadCount,
+    Value<int>? version,
+    Value<String?>? remarks,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<String?>? syncedAt,
+    Value<bool>? isDirty,
+    Value<int>? rowid,
+  }) {
+    return DocumentsTableCompanion(
+      id: id ?? this.id,
+      clientId: clientId ?? this.clientId,
+      clientName: clientName ?? this.clientName,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      fileType: fileType ?? this.fileType,
+      fileSize: fileSize ?? this.fileSize,
+      uploadedBy: uploadedBy ?? this.uploadedBy,
+      uploadedAt: uploadedAt ?? this.uploadedAt,
+      tags: tags ?? this.tags,
+      isSharedWithClient: isSharedWithClient ?? this.isSharedWithClient,
+      downloadCount: downloadCount ?? this.downloadCount,
+      version: version ?? this.version,
+      remarks: remarks ?? this.remarks,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      syncedAt: syncedAt ?? this.syncedAt,
+      isDirty: isDirty ?? this.isDirty,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (clientId.present) {
+      map['client_id'] = Variable<String>(clientId.value);
+    }
+    if (clientName.present) {
+      map['client_name'] = Variable<String>(clientName.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (fileType.present) {
+      map['file_type'] = Variable<String>(fileType.value);
+    }
+    if (fileSize.present) {
+      map['file_size'] = Variable<int>(fileSize.value);
+    }
+    if (uploadedBy.present) {
+      map['uploaded_by'] = Variable<String>(uploadedBy.value);
+    }
+    if (uploadedAt.present) {
+      map['uploaded_at'] = Variable<DateTime>(uploadedAt.value);
+    }
+    if (tags.present) {
+      map['tags'] = Variable<String>(tags.value);
+    }
+    if (isSharedWithClient.present) {
+      map['is_shared_with_client'] = Variable<bool>(isSharedWithClient.value);
+    }
+    if (downloadCount.present) {
+      map['download_count'] = Variable<int>(downloadCount.value);
+    }
+    if (version.present) {
+      map['version'] = Variable<int>(version.value);
+    }
+    if (remarks.present) {
+      map['remarks'] = Variable<String>(remarks.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<String>(syncedAt.value);
+    }
+    if (isDirty.present) {
+      map['is_dirty'] = Variable<bool>(isDirty.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('clientId: $clientId, ')
+          ..write('clientName: $clientName, ')
+          ..write('title: $title, ')
+          ..write('category: $category, ')
+          ..write('fileType: $fileType, ')
+          ..write('fileSize: $fileSize, ')
+          ..write('uploadedBy: $uploadedBy, ')
+          ..write('uploadedAt: $uploadedAt, ')
+          ..write('tags: $tags, ')
+          ..write('isSharedWithClient: $isSharedWithClient, ')
+          ..write('downloadCount: $downloadCount, ')
+          ..write('version: $version, ')
+          ..write('remarks: $remarks, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('isDirty: $isDirty, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ComplianceEventsTableTable extends ComplianceEventsTable
+    with TableInfo<$ComplianceEventsTableTable, ComplianceEventRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ComplianceEventsTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    clientDefault: () => _uuid.v4(),
+  );
+  static const VerificationMeta _clientIdMeta = const VerificationMeta(
+    'clientId',
+  );
+  @override
+  late final GeneratedColumn<String> clientId = GeneratedColumn<String>(
+    'client_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dueDateMeta = const VerificationMeta(
+    'dueDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
+    'due_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _filedDateMeta = const VerificationMeta(
+    'filedDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> filedDate = GeneratedColumn<DateTime>(
+    'filed_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _penaltyMeta = const VerificationMeta(
+    'penalty',
+  );
+  @override
+  late final GeneratedColumn<double> penalty = GeneratedColumn<double>(
+    'penalty',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  static const VerificationMeta _syncedAtMeta = const VerificationMeta(
+    'syncedAt',
+  );
+  @override
+  late final GeneratedColumn<String> syncedAt = GeneratedColumn<String>(
+    'synced_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isDirtyMeta = const VerificationMeta(
+    'isDirty',
+  );
+  @override
+  late final GeneratedColumn<bool> isDirty = GeneratedColumn<bool>(
+    'is_dirty',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_dirty" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    clientId,
+    type,
+    description,
+    dueDate,
+    filedDate,
+    status,
+    penalty,
+    createdAt,
+    updatedAt,
+    syncedAt,
+    isDirty,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_compliance_events';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ComplianceEventRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('client_id')) {
+      context.handle(
+        _clientIdMeta,
+        clientId.isAcceptableOrUnknown(data['client_id']!, _clientIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_clientIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('due_date')) {
+      context.handle(
+        _dueDateMeta,
+        dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dueDateMeta);
+    }
+    if (data.containsKey('filed_date')) {
+      context.handle(
+        _filedDateMeta,
+        filedDate.isAcceptableOrUnknown(data['filed_date']!, _filedDateMeta),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('penalty')) {
+      context.handle(
+        _penaltyMeta,
+        penalty.isAcceptableOrUnknown(data['penalty']!, _penaltyMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    }
+    if (data.containsKey('synced_at')) {
+      context.handle(
+        _syncedAtMeta,
+        syncedAt.isAcceptableOrUnknown(data['synced_at']!, _syncedAtMeta),
+      );
+    }
+    if (data.containsKey('is_dirty')) {
+      context.handle(
+        _isDirtyMeta,
+        isDirty.isAcceptableOrUnknown(data['is_dirty']!, _isDirtyMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ComplianceEventRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ComplianceEventRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      clientId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}client_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      dueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}due_date'],
+      )!,
+      filedDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}filed_date'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      penalty: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}penalty'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      syncedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}synced_at'],
+      ),
+      isDirty: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_dirty'],
+      )!,
+    );
+  }
+
+  @override
+  $ComplianceEventsTableTable createAlias(String alias) {
+    return $ComplianceEventsTableTable(attachedDatabase, alias);
+  }
+}
+
+class ComplianceEventRow extends DataClass
+    implements Insertable<ComplianceEventRow> {
+  final String id;
+  final String clientId;
+  final String type;
+  final String description;
+  final DateTime dueDate;
+  final DateTime? filedDate;
+  final String status;
+  final double? penalty;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String? syncedAt;
+  final bool isDirty;
+  const ComplianceEventRow({
+    required this.id,
+    required this.clientId,
+    required this.type,
+    required this.description,
+    required this.dueDate,
+    this.filedDate,
+    required this.status,
+    this.penalty,
+    required this.createdAt,
+    required this.updatedAt,
+    this.syncedAt,
+    required this.isDirty,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['client_id'] = Variable<String>(clientId);
+    map['type'] = Variable<String>(type);
+    map['description'] = Variable<String>(description);
+    map['due_date'] = Variable<DateTime>(dueDate);
+    if (!nullToAbsent || filedDate != null) {
+      map['filed_date'] = Variable<DateTime>(filedDate);
+    }
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || penalty != null) {
+      map['penalty'] = Variable<double>(penalty);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || syncedAt != null) {
+      map['synced_at'] = Variable<String>(syncedAt);
+    }
+    map['is_dirty'] = Variable<bool>(isDirty);
+    return map;
+  }
+
+  ComplianceEventsTableCompanion toCompanion(bool nullToAbsent) {
+    return ComplianceEventsTableCompanion(
+      id: Value(id),
+      clientId: Value(clientId),
+      type: Value(type),
+      description: Value(description),
+      dueDate: Value(dueDate),
+      filedDate: filedDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(filedDate),
+      status: Value(status),
+      penalty: penalty == null && nullToAbsent
+          ? const Value.absent()
+          : Value(penalty),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      syncedAt: syncedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncedAt),
+      isDirty: Value(isDirty),
+    );
+  }
+
+  factory ComplianceEventRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ComplianceEventRow(
+      id: serializer.fromJson<String>(json['id']),
+      clientId: serializer.fromJson<String>(json['clientId']),
+      type: serializer.fromJson<String>(json['type']),
+      description: serializer.fromJson<String>(json['description']),
+      dueDate: serializer.fromJson<DateTime>(json['dueDate']),
+      filedDate: serializer.fromJson<DateTime?>(json['filedDate']),
+      status: serializer.fromJson<String>(json['status']),
+      penalty: serializer.fromJson<double?>(json['penalty']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      syncedAt: serializer.fromJson<String?>(json['syncedAt']),
+      isDirty: serializer.fromJson<bool>(json['isDirty']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'clientId': serializer.toJson<String>(clientId),
+      'type': serializer.toJson<String>(type),
+      'description': serializer.toJson<String>(description),
+      'dueDate': serializer.toJson<DateTime>(dueDate),
+      'filedDate': serializer.toJson<DateTime?>(filedDate),
+      'status': serializer.toJson<String>(status),
+      'penalty': serializer.toJson<double?>(penalty),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'syncedAt': serializer.toJson<String?>(syncedAt),
+      'isDirty': serializer.toJson<bool>(isDirty),
+    };
+  }
+
+  ComplianceEventRow copyWith({
+    String? id,
+    String? clientId,
+    String? type,
+    String? description,
+    DateTime? dueDate,
+    Value<DateTime?> filedDate = const Value.absent(),
+    String? status,
+    Value<double?> penalty = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    Value<String?> syncedAt = const Value.absent(),
+    bool? isDirty,
+  }) => ComplianceEventRow(
+    id: id ?? this.id,
+    clientId: clientId ?? this.clientId,
+    type: type ?? this.type,
+    description: description ?? this.description,
+    dueDate: dueDate ?? this.dueDate,
+    filedDate: filedDate.present ? filedDate.value : this.filedDate,
+    status: status ?? this.status,
+    penalty: penalty.present ? penalty.value : this.penalty,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+    syncedAt: syncedAt.present ? syncedAt.value : this.syncedAt,
+    isDirty: isDirty ?? this.isDirty,
+  );
+  ComplianceEventRow copyWithCompanion(ComplianceEventsTableCompanion data) {
+    return ComplianceEventRow(
+      id: data.id.present ? data.id.value : this.id,
+      clientId: data.clientId.present ? data.clientId.value : this.clientId,
+      type: data.type.present ? data.type.value : this.type,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+      filedDate: data.filedDate.present ? data.filedDate.value : this.filedDate,
+      status: data.status.present ? data.status.value : this.status,
+      penalty: data.penalty.present ? data.penalty.value : this.penalty,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      syncedAt: data.syncedAt.present ? data.syncedAt.value : this.syncedAt,
+      isDirty: data.isDirty.present ? data.isDirty.value : this.isDirty,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComplianceEventRow(')
+          ..write('id: $id, ')
+          ..write('clientId: $clientId, ')
+          ..write('type: $type, ')
+          ..write('description: $description, ')
+          ..write('dueDate: $dueDate, ')
+          ..write('filedDate: $filedDate, ')
+          ..write('status: $status, ')
+          ..write('penalty: $penalty, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('isDirty: $isDirty')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    clientId,
+    type,
+    description,
+    dueDate,
+    filedDate,
+    status,
+    penalty,
+    createdAt,
+    updatedAt,
+    syncedAt,
+    isDirty,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ComplianceEventRow &&
+          other.id == this.id &&
+          other.clientId == this.clientId &&
+          other.type == this.type &&
+          other.description == this.description &&
+          other.dueDate == this.dueDate &&
+          other.filedDate == this.filedDate &&
+          other.status == this.status &&
+          other.penalty == this.penalty &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.syncedAt == this.syncedAt &&
+          other.isDirty == this.isDirty);
+}
+
+class ComplianceEventsTableCompanion
+    extends UpdateCompanion<ComplianceEventRow> {
+  final Value<String> id;
+  final Value<String> clientId;
+  final Value<String> type;
+  final Value<String> description;
+  final Value<DateTime> dueDate;
+  final Value<DateTime?> filedDate;
+  final Value<String> status;
+  final Value<double?> penalty;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<String?> syncedAt;
+  final Value<bool> isDirty;
+  final Value<int> rowid;
+  const ComplianceEventsTableCompanion({
+    this.id = const Value.absent(),
+    this.clientId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.description = const Value.absent(),
+    this.dueDate = const Value.absent(),
+    this.filedDate = const Value.absent(),
+    this.status = const Value.absent(),
+    this.penalty = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.isDirty = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  ComplianceEventsTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String clientId,
+    required String type,
+    required String description,
+    required DateTime dueDate,
+    this.filedDate = const Value.absent(),
+    required String status,
+    this.penalty = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.syncedAt = const Value.absent(),
+    this.isDirty = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : clientId = Value(clientId),
+       type = Value(type),
+       description = Value(description),
+       dueDate = Value(dueDate),
+       status = Value(status);
+  static Insertable<ComplianceEventRow> custom({
+    Expression<String>? id,
+    Expression<String>? clientId,
+    Expression<String>? type,
+    Expression<String>? description,
+    Expression<DateTime>? dueDate,
+    Expression<DateTime>? filedDate,
+    Expression<String>? status,
+    Expression<double>? penalty,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<String>? syncedAt,
+    Expression<bool>? isDirty,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (clientId != null) 'client_id': clientId,
+      if (type != null) 'type': type,
+      if (description != null) 'description': description,
+      if (dueDate != null) 'due_date': dueDate,
+      if (filedDate != null) 'filed_date': filedDate,
+      if (status != null) 'status': status,
+      if (penalty != null) 'penalty': penalty,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (syncedAt != null) 'synced_at': syncedAt,
+      if (isDirty != null) 'is_dirty': isDirty,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  ComplianceEventsTableCompanion copyWith({
+    Value<String>? id,
+    Value<String>? clientId,
+    Value<String>? type,
+    Value<String>? description,
+    Value<DateTime>? dueDate,
+    Value<DateTime?>? filedDate,
+    Value<String>? status,
+    Value<double?>? penalty,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<String?>? syncedAt,
+    Value<bool>? isDirty,
+    Value<int>? rowid,
+  }) {
+    return ComplianceEventsTableCompanion(
+      id: id ?? this.id,
+      clientId: clientId ?? this.clientId,
+      type: type ?? this.type,
+      description: description ?? this.description,
+      dueDate: dueDate ?? this.dueDate,
+      filedDate: filedDate ?? this.filedDate,
+      status: status ?? this.status,
+      penalty: penalty ?? this.penalty,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      syncedAt: syncedAt ?? this.syncedAt,
+      isDirty: isDirty ?? this.isDirty,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (clientId.present) {
+      map['client_id'] = Variable<String>(clientId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (dueDate.present) {
+      map['due_date'] = Variable<DateTime>(dueDate.value);
+    }
+    if (filedDate.present) {
+      map['filed_date'] = Variable<DateTime>(filedDate.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (penalty.present) {
+      map['penalty'] = Variable<double>(penalty.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (syncedAt.present) {
+      map['synced_at'] = Variable<String>(syncedAt.value);
+    }
+    if (isDirty.present) {
+      map['is_dirty'] = Variable<bool>(isDirty.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ComplianceEventsTableCompanion(')
+          ..write('id: $id, ')
+          ..write('clientId: $clientId, ')
+          ..write('type: $type, ')
+          ..write('description: $description, ')
+          ..write('dueDate: $dueDate, ')
+          ..write('filedDate: $filedDate, ')
+          ..write('status: $status, ')
+          ..write('penalty: $penalty, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('syncedAt: $syncedAt, ')
+          ..write('isDirty: $isDirty, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -17713,6 +19414,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ReconciliationResultsTableTable(this);
   late final $PortalCredentialsTableTable portalCredentialsTable =
       $PortalCredentialsTableTable(this);
+  late final $DocumentsTableTable documentsTable = $DocumentsTableTable(this);
+  late final $ComplianceEventsTableTable complianceEventsTable =
+      $ComplianceEventsTableTable(this);
   late final ClientsDao clientsDao = ClientsDao(this as AppDatabase);
   late final SyncDao syncDao = SyncDao(this as AppDatabase);
   late final ItrFilingsDao itrFilingsDao = ItrFilingsDao(this as AppDatabase);
@@ -17720,6 +19424,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final TdsDao tdsDao = TdsDao(this as AppDatabase);
   late final InvoicesDao invoicesDao = InvoicesDao(this as AppDatabase);
   late final TasksDao tasksDao = TasksDao(this as AppDatabase);
+  late final DocumentsDao documentsDao = DocumentsDao(this as AppDatabase);
+  late final ComplianceDao complianceDao = ComplianceDao(this as AppDatabase);
+  late final PortalConnectorDao portalConnectorDao = PortalConnectorDao(
+    this as AppDatabase,
+  );
+  late final FirmOperationsDao firmOperationsDao = FirmOperationsDao(
+    this as AppDatabase,
+  );
+  late final PayrollDao payrollDao = PayrollDao(this as AppDatabase);
+  late final AuditDao auditDao = AuditDao(this as AppDatabase);
+  late final DashboardDao dashboardDao = DashboardDao(this as AppDatabase);
+  late final McaDao mcaDao = McaDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -17745,6 +19461,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     mCAFilingsTable,
     reconciliationResultsTable,
     portalCredentialsTable,
+    documentsTable,
+    complianceEventsTable,
   ];
 }
 
@@ -26041,6 +27759,819 @@ typedef $$PortalCredentialsTableTableProcessedTableManager =
       PortalCredentialsTableData,
       PrefetchHooks Function()
     >;
+typedef $$DocumentsTableTableCreateCompanionBuilder =
+    DocumentsTableCompanion Function({
+      Value<String> id,
+      required String clientId,
+      required String clientName,
+      required String title,
+      required String category,
+      required String fileType,
+      required int fileSize,
+      required String uploadedBy,
+      required DateTime uploadedAt,
+      Value<String> tags,
+      Value<bool> isSharedWithClient,
+      Value<int> downloadCount,
+      Value<int> version,
+      Value<String?> remarks,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<String?> syncedAt,
+      Value<bool> isDirty,
+      Value<int> rowid,
+    });
+typedef $$DocumentsTableTableUpdateCompanionBuilder =
+    DocumentsTableCompanion Function({
+      Value<String> id,
+      Value<String> clientId,
+      Value<String> clientName,
+      Value<String> title,
+      Value<String> category,
+      Value<String> fileType,
+      Value<int> fileSize,
+      Value<String> uploadedBy,
+      Value<DateTime> uploadedAt,
+      Value<String> tags,
+      Value<bool> isSharedWithClient,
+      Value<int> downloadCount,
+      Value<int> version,
+      Value<String?> remarks,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<String?> syncedAt,
+      Value<bool> isDirty,
+      Value<int> rowid,
+    });
+
+class $$DocumentsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $DocumentsTableTable> {
+  $$DocumentsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get clientId => $composableBuilder(
+    column: $table.clientId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get clientName => $composableBuilder(
+    column: $table.clientName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fileType => $composableBuilder(
+    column: $table.fileType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get fileSize => $composableBuilder(
+    column: $table.fileSize,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get uploadedBy => $composableBuilder(
+    column: $table.uploadedBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get tags => $composableBuilder(
+    column: $table.tags,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isSharedWithClient => $composableBuilder(
+    column: $table.isSharedWithClient,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get downloadCount => $composableBuilder(
+    column: $table.downloadCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get remarks => $composableBuilder(
+    column: $table.remarks,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDirty => $composableBuilder(
+    column: $table.isDirty,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DocumentsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $DocumentsTableTable> {
+  $$DocumentsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get clientId => $composableBuilder(
+    column: $table.clientId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get clientName => $composableBuilder(
+    column: $table.clientName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get fileType => $composableBuilder(
+    column: $table.fileType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get fileSize => $composableBuilder(
+    column: $table.fileSize,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get uploadedBy => $composableBuilder(
+    column: $table.uploadedBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get tags => $composableBuilder(
+    column: $table.tags,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isSharedWithClient => $composableBuilder(
+    column: $table.isSharedWithClient,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get downloadCount => $composableBuilder(
+    column: $table.downloadCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get version => $composableBuilder(
+    column: $table.version,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get remarks => $composableBuilder(
+    column: $table.remarks,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDirty => $composableBuilder(
+    column: $table.isDirty,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DocumentsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DocumentsTableTable> {
+  $$DocumentsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get clientId =>
+      $composableBuilder(column: $table.clientId, builder: (column) => column);
+
+  GeneratedColumn<String> get clientName => $composableBuilder(
+    column: $table.clientName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get fileType =>
+      $composableBuilder(column: $table.fileType, builder: (column) => column);
+
+  GeneratedColumn<int> get fileSize =>
+      $composableBuilder(column: $table.fileSize, builder: (column) => column);
+
+  GeneratedColumn<String> get uploadedBy => $composableBuilder(
+    column: $table.uploadedBy,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get tags =>
+      $composableBuilder(column: $table.tags, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSharedWithClient => $composableBuilder(
+    column: $table.isSharedWithClient,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get downloadCount => $composableBuilder(
+    column: $table.downloadCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get version =>
+      $composableBuilder(column: $table.version, builder: (column) => column);
+
+  GeneratedColumn<String> get remarks =>
+      $composableBuilder(column: $table.remarks, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDirty =>
+      $composableBuilder(column: $table.isDirty, builder: (column) => column);
+}
+
+class $$DocumentsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DocumentsTableTable,
+          DocumentRow,
+          $$DocumentsTableTableFilterComposer,
+          $$DocumentsTableTableOrderingComposer,
+          $$DocumentsTableTableAnnotationComposer,
+          $$DocumentsTableTableCreateCompanionBuilder,
+          $$DocumentsTableTableUpdateCompanionBuilder,
+          (
+            DocumentRow,
+            BaseReferences<_$AppDatabase, $DocumentsTableTable, DocumentRow>,
+          ),
+          DocumentRow,
+          PrefetchHooks Function()
+        > {
+  $$DocumentsTableTableTableManager(
+    _$AppDatabase db,
+    $DocumentsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DocumentsTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DocumentsTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DocumentsTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> clientId = const Value.absent(),
+                Value<String> clientName = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> fileType = const Value.absent(),
+                Value<int> fileSize = const Value.absent(),
+                Value<String> uploadedBy = const Value.absent(),
+                Value<DateTime> uploadedAt = const Value.absent(),
+                Value<String> tags = const Value.absent(),
+                Value<bool> isSharedWithClient = const Value.absent(),
+                Value<int> downloadCount = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String?> remarks = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<String?> syncedAt = const Value.absent(),
+                Value<bool> isDirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentsTableCompanion(
+                id: id,
+                clientId: clientId,
+                clientName: clientName,
+                title: title,
+                category: category,
+                fileType: fileType,
+                fileSize: fileSize,
+                uploadedBy: uploadedBy,
+                uploadedAt: uploadedAt,
+                tags: tags,
+                isSharedWithClient: isSharedWithClient,
+                downloadCount: downloadCount,
+                version: version,
+                remarks: remarks,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                syncedAt: syncedAt,
+                isDirty: isDirty,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                required String clientId,
+                required String clientName,
+                required String title,
+                required String category,
+                required String fileType,
+                required int fileSize,
+                required String uploadedBy,
+                required DateTime uploadedAt,
+                Value<String> tags = const Value.absent(),
+                Value<bool> isSharedWithClient = const Value.absent(),
+                Value<int> downloadCount = const Value.absent(),
+                Value<int> version = const Value.absent(),
+                Value<String?> remarks = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<String?> syncedAt = const Value.absent(),
+                Value<bool> isDirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentsTableCompanion.insert(
+                id: id,
+                clientId: clientId,
+                clientName: clientName,
+                title: title,
+                category: category,
+                fileType: fileType,
+                fileSize: fileSize,
+                uploadedBy: uploadedBy,
+                uploadedAt: uploadedAt,
+                tags: tags,
+                isSharedWithClient: isSharedWithClient,
+                downloadCount: downloadCount,
+                version: version,
+                remarks: remarks,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                syncedAt: syncedAt,
+                isDirty: isDirty,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DocumentsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DocumentsTableTable,
+      DocumentRow,
+      $$DocumentsTableTableFilterComposer,
+      $$DocumentsTableTableOrderingComposer,
+      $$DocumentsTableTableAnnotationComposer,
+      $$DocumentsTableTableCreateCompanionBuilder,
+      $$DocumentsTableTableUpdateCompanionBuilder,
+      (
+        DocumentRow,
+        BaseReferences<_$AppDatabase, $DocumentsTableTable, DocumentRow>,
+      ),
+      DocumentRow,
+      PrefetchHooks Function()
+    >;
+typedef $$ComplianceEventsTableTableCreateCompanionBuilder =
+    ComplianceEventsTableCompanion Function({
+      Value<String> id,
+      required String clientId,
+      required String type,
+      required String description,
+      required DateTime dueDate,
+      Value<DateTime?> filedDate,
+      required String status,
+      Value<double?> penalty,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<String?> syncedAt,
+      Value<bool> isDirty,
+      Value<int> rowid,
+    });
+typedef $$ComplianceEventsTableTableUpdateCompanionBuilder =
+    ComplianceEventsTableCompanion Function({
+      Value<String> id,
+      Value<String> clientId,
+      Value<String> type,
+      Value<String> description,
+      Value<DateTime> dueDate,
+      Value<DateTime?> filedDate,
+      Value<String> status,
+      Value<double?> penalty,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<String?> syncedAt,
+      Value<bool> isDirty,
+      Value<int> rowid,
+    });
+
+class $$ComplianceEventsTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ComplianceEventsTableTable> {
+  $$ComplianceEventsTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get clientId => $composableBuilder(
+    column: $table.clientId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get filedDate => $composableBuilder(
+    column: $table.filedDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get penalty => $composableBuilder(
+    column: $table.penalty,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDirty => $composableBuilder(
+    column: $table.isDirty,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$ComplianceEventsTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ComplianceEventsTableTable> {
+  $$ComplianceEventsTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get clientId => $composableBuilder(
+    column: $table.clientId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get filedDate => $composableBuilder(
+    column: $table.filedDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get penalty => $composableBuilder(
+    column: $table.penalty,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get syncedAt => $composableBuilder(
+    column: $table.syncedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDirty => $composableBuilder(
+    column: $table.isDirty,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$ComplianceEventsTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ComplianceEventsTableTable> {
+  $$ComplianceEventsTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get clientId =>
+      $composableBuilder(column: $table.clientId, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get dueDate =>
+      $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get filedDate =>
+      $composableBuilder(column: $table.filedDate, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<double> get penalty =>
+      $composableBuilder(column: $table.penalty, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get syncedAt =>
+      $composableBuilder(column: $table.syncedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDirty =>
+      $composableBuilder(column: $table.isDirty, builder: (column) => column);
+}
+
+class $$ComplianceEventsTableTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ComplianceEventsTableTable,
+          ComplianceEventRow,
+          $$ComplianceEventsTableTableFilterComposer,
+          $$ComplianceEventsTableTableOrderingComposer,
+          $$ComplianceEventsTableTableAnnotationComposer,
+          $$ComplianceEventsTableTableCreateCompanionBuilder,
+          $$ComplianceEventsTableTableUpdateCompanionBuilder,
+          (
+            ComplianceEventRow,
+            BaseReferences<
+              _$AppDatabase,
+              $ComplianceEventsTableTable,
+              ComplianceEventRow
+            >,
+          ),
+          ComplianceEventRow,
+          PrefetchHooks Function()
+        > {
+  $$ComplianceEventsTableTableTableManager(
+    _$AppDatabase db,
+    $ComplianceEventsTableTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ComplianceEventsTableTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$ComplianceEventsTableTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ComplianceEventsTableTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> clientId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<DateTime> dueDate = const Value.absent(),
+                Value<DateTime?> filedDate = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<double?> penalty = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<String?> syncedAt = const Value.absent(),
+                Value<bool> isDirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ComplianceEventsTableCompanion(
+                id: id,
+                clientId: clientId,
+                type: type,
+                description: description,
+                dueDate: dueDate,
+                filedDate: filedDate,
+                status: status,
+                penalty: penalty,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                syncedAt: syncedAt,
+                isDirty: isDirty,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                required String clientId,
+                required String type,
+                required String description,
+                required DateTime dueDate,
+                Value<DateTime?> filedDate = const Value.absent(),
+                required String status,
+                Value<double?> penalty = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<String?> syncedAt = const Value.absent(),
+                Value<bool> isDirty = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => ComplianceEventsTableCompanion.insert(
+                id: id,
+                clientId: clientId,
+                type: type,
+                description: description,
+                dueDate: dueDate,
+                filedDate: filedDate,
+                status: status,
+                penalty: penalty,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                syncedAt: syncedAt,
+                isDirty: isDirty,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$ComplianceEventsTableTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ComplianceEventsTableTable,
+      ComplianceEventRow,
+      $$ComplianceEventsTableTableFilterComposer,
+      $$ComplianceEventsTableTableOrderingComposer,
+      $$ComplianceEventsTableTableAnnotationComposer,
+      $$ComplianceEventsTableTableCreateCompanionBuilder,
+      $$ComplianceEventsTableTableUpdateCompanionBuilder,
+      (
+        ComplianceEventRow,
+        BaseReferences<
+          _$AppDatabase,
+          $ComplianceEventsTableTable,
+          ComplianceEventRow
+        >,
+      ),
+      ComplianceEventRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -26095,4 +28626,8 @@ class $AppDatabaseManager {
         _db,
         _db.portalCredentialsTable,
       );
+  $$DocumentsTableTableTableManager get documentsTable =>
+      $$DocumentsTableTableTableManager(_db, _db.documentsTable);
+  $$ComplianceEventsTableTableTableManager get complianceEventsTable =>
+      $$ComplianceEventsTableTableTableManager(_db, _db.complianceEventsTable);
 }

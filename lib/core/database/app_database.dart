@@ -18,6 +18,8 @@ import 'package:ca_app/core/database/tables/audit_table.dart';
 import 'package:ca_app/core/database/tables/mca_table.dart';
 import 'package:ca_app/core/database/tables/reconciliation_table.dart';
 import 'package:ca_app/core/database/tables/portal_connector_table.dart';
+import 'package:ca_app/core/database/tables/documents_table.dart';
+import 'package:ca_app/core/database/tables/compliance_events_table.dart';
 import 'package:ca_app/core/database/daos/clients_dao.dart';
 import 'package:ca_app/core/database/daos/sync_dao.dart';
 import 'package:ca_app/core/database/daos/itr_filings_dao.dart';
@@ -25,6 +27,14 @@ import 'package:ca_app/core/database/daos/gst_dao.dart';
 import 'package:ca_app/core/database/daos/tds_dao.dart';
 import 'package:ca_app/core/database/daos/invoices_dao.dart';
 import 'package:ca_app/core/database/daos/tasks_dao.dart';
+import 'package:ca_app/core/database/daos/documents_dao.dart';
+import 'package:ca_app/core/database/daos/compliance_dao.dart';
+import 'package:ca_app/core/database/daos/portal_connector_dao.dart';
+import 'package:ca_app/features/audit/data/daos/audit_dao.dart';
+import 'package:ca_app/features/firm_operations/data/daos/firm_operations_dao.dart';
+import 'package:ca_app/features/payroll/data/daos/payroll_dao.dart';
+import 'package:ca_app/features/dashboard/data/daos/dashboard_dao.dart';
+import 'package:ca_app/features/mca/data/daos/mca_dao.dart';
 
 part 'app_database.g.dart';
 
@@ -56,6 +66,8 @@ const _syncUuid = Uuid();
     MCAFilingsTable,
     ReconciliationResultsTable,
     PortalCredentialsTable,
+    DocumentsTable,
+    ComplianceEventsTable,
   ],
   daos: [
     ClientsDao,
@@ -65,13 +77,22 @@ const _syncUuid = Uuid();
     TdsDao,
     InvoicesDao,
     TasksDao,
+    DocumentsDao,
+    ComplianceDao,
+    PortalConnectorDao,
+    FirmOperationsDao,
+    PayrollDao,
+    AuditDao,
+    DashboardDao,
+    McaDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase({QueryExecutor? executor})
+      : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -97,6 +118,12 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(mCAFilingsTable);
         await m.createTable(reconciliationResultsTable);
         await m.createTable(portalCredentialsTable);
+      }
+      if (from < 4) {
+        await m.createTable(documentsTable);
+      }
+      if (from < 5) {
+        await m.createTable(complianceEventsTable);
       }
     },
   );
