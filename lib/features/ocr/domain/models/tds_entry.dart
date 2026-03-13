@@ -61,12 +61,12 @@ class TdsEntry {
 
   @override
   int get hashCode => Object.hash(
-        deducteePan,
-        deductorTan,
-        assessmentYear,
-        grossAmount,
-        tdsDeducted,
-      );
+    deducteePan,
+    deductorTan,
+    assessmentYear,
+    grossAmount,
+    tdsDeducted,
+  );
 
   @override
   String toString() =>

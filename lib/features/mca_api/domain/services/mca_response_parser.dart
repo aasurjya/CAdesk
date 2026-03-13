@@ -110,8 +110,9 @@ class McaResponseParser {
       cin: cin,
       filedAt: DateTime.parse(filedAtStr),
       status: _parseEFormStatus(statusStr),
-      approvalDate:
-          approvalDateStr != null ? DateTime.parse(approvalDateStr) : null,
+      approvalDate: approvalDateStr != null
+          ? DateTime.parse(approvalDateStr)
+          : null,
       remarks: remarks,
     );
   }
@@ -178,9 +179,7 @@ class McaResponseParser {
   DateTime _parseDdMmYyyy(String date) {
     final parts = date.split('/');
     if (parts.length != 3) {
-      throw FormatException(
-        'Invalid date format "$date". Expected DD/MM/YYYY',
-      );
+      throw FormatException('Invalid date format "$date". Expected DD/MM/YYYY');
     }
     final day = int.tryParse(parts[0]);
     final month = int.tryParse(parts[1]);

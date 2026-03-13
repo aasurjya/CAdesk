@@ -184,5 +184,3 @@ class _ESignBadge extends StatelessWidget {
     );
   }
 }
-
-

@@ -9,10 +9,7 @@ import 'package:ca_app/features/ocr/presentation/widgets/confidence_chip.dart';
 ///
 /// Tapping a completed job navigates to the result screen.
 class DocumentJobCard extends StatelessWidget {
-  const DocumentJobCard({
-    super.key,
-    required this.job,
-  });
+  const DocumentJobCard({super.key, required this.job});
 
   final OcrJob job;
 
@@ -58,9 +55,7 @@ class DocumentJobCard extends StatelessWidget {
                     Row(
                       children: [
                         _DocumentTypeBadge(
-                          label: _docTypeLabel(
-                            job.document.documentType.name,
-                          ),
+                          label: _docTypeLabel(job.document.documentType.name),
                         ),
                         const SizedBox(width: 8),
                         _StatusChip(status: job.status),
@@ -134,11 +129,7 @@ class _DocumentIcon extends StatelessWidget {
         color: AppColors.neutral100,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Icon(
-        _icon(documentType),
-        color: AppColors.primary,
-        size: 22,
-      ),
+      child: Icon(_icon(documentType), color: AppColors.primary, size: 22),
     );
   }
 
@@ -170,9 +161,9 @@ class _DocumentTypeBadge extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: const Color(0xFF1D4ED8), // blue-700
-              fontWeight: FontWeight.w600,
-            ),
+          color: const Color(0xFF1D4ED8), // blue-700
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -196,9 +187,9 @@ class _StatusChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: fg,
-              fontWeight: FontWeight.w600,
-            ),
+          color: fg,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -206,25 +197,25 @@ class _StatusChip extends StatelessWidget {
   (String label, Color bg, Color fg) _attrs(OcrJobStatus status) {
     return switch (status) {
       OcrJobStatus.queued => (
-          'Queued',
-          const Color(0xFFF3F4F6),
-          AppColors.neutral600,
-        ),
+        'Queued',
+        const Color(0xFFF3F4F6),
+        AppColors.neutral600,
+      ),
       OcrJobStatus.processing => (
-          'Processing',
-          const Color(0xFFEFF6FF),
-          const Color(0xFF1D4ED8),
-        ),
+        'Processing',
+        const Color(0xFFEFF6FF),
+        const Color(0xFF1D4ED8),
+      ),
       OcrJobStatus.completed => (
-          'Completed',
-          const Color(0xFFDCFCE7),
-          const Color(0xFF166534),
-        ),
+        'Completed',
+        const Color(0xFFDCFCE7),
+        const Color(0xFF166534),
+      ),
       OcrJobStatus.failed => (
-          'Failed',
-          const Color(0xFFFEE2E2),
-          const Color(0xFF991B1B),
-        ),
+        'Failed',
+        const Color(0xFFFEE2E2),
+        const Color(0xFF991B1B),
+      ),
     };
   }
 }

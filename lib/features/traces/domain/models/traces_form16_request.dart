@@ -4,12 +4,7 @@
 /// - [form16a]            — TDS certificate for non-salary income
 /// - [form16b]            — TDS certificate for immovable property sale
 /// - [justificationReport]— Report explaining TDS demand / short deductions
-enum Form16RequestType {
-  form16,
-  form16a,
-  form16b,
-  justificationReport,
-}
+enum Form16RequestType { form16, form16a, form16b, justificationReport }
 
 /// Lifecycle status of a TRACES download request.
 ///
@@ -105,13 +100,13 @@ class TracesForm16Request {
 
   @override
   int get hashCode => Object.hash(
-        requestId,
-        tan,
-        pan,
-        financialYear,
-        requestType,
-        status,
-        downloadUrl,
-        requestedAt,
-      );
+    requestId,
+    tan,
+    pan,
+    financialYear,
+    requestType,
+    status,
+    downloadUrl,
+    requestedAt,
+  );
 }

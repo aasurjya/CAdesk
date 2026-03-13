@@ -41,7 +41,10 @@ void main() {
 
     test('falls back gracefully for unknown year (uses nearest known)', () {
       // 2025 is beyond table — should not throw
-      expect(() => service.computeIndexedCost(100000, 2001, 2025), returnsNormally);
+      expect(
+        () => service.computeIndexedCost(100000, 2001, 2025),
+        returnsNormally,
+      );
     });
   });
 

@@ -86,8 +86,9 @@ void main() {
     test('JSON contains PersonalInfo with correct PAN', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       final personalInfo = itr1['PersonalInfo'] as Map<String, dynamic>;
       expect(personalInfo['PAN'], 'ABCDE1234F');
     });
@@ -95,32 +96,36 @@ void main() {
     test('JSON contains FilingStatus', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       expect(itr1.containsKey('FilingStatus'), isTrue);
     });
 
     test('JSON contains ITR1_IncomeDeductions', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       expect(itr1.containsKey('ITR1_IncomeDeductions'), isTrue);
     });
 
     test('JSON contains TaxComputation', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       expect(itr1.containsKey('TaxComputation'), isTrue);
     });
 
     test('income amounts are integers in JSON', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       final incomeDeductions =
           itr1['ITR1_IncomeDeductions'] as Map<String, dynamic>;
       expect(incomeDeductions['GrossSalary'], isA<int>());
@@ -157,8 +162,9 @@ void main() {
     test('GrossSalary in JSON matches gross salary from form (rupees)', () {
       final result = Itr1ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr1 = (decoded['ITR'] as Map<String, dynamic>)['ITR1']
-          as Map<String, dynamic>;
+      final itr1 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR1']
+              as Map<String, dynamic>;
       final incomeDeductions =
           itr1['ITR1_IncomeDeductions'] as Map<String, dynamic>;
       // grossSalary = 1000000, stored as integer rupees

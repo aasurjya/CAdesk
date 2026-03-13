@@ -340,10 +340,7 @@ void main() {
           'status': 'Z',
         },
       };
-      expect(
-        () => parser.parseForm16StatusResponse(json),
-        throwsArgumentError,
-      );
+      expect(() => parser.parseForm16StatusResponse(json), throwsArgumentError);
     });
 
     test('throws ArgumentError for unknown requestType', () {
@@ -359,10 +356,7 @@ void main() {
           'downloadUrl': 'https://traces.gov.in/download/REQ006',
         },
       };
-      expect(
-        () => parser.parseForm16StatusResponse(json),
-        throwsArgumentError,
-      );
+      expect(() => parser.parseForm16StatusResponse(json), throwsArgumentError);
     });
   });
 
@@ -405,7 +399,7 @@ void main() {
               'tdsDeducted': 5000,
               'tdsRequired': 10000,
               'shortfall': 5000,
-            }
+            },
           ],
           'lateDeductions': <Map<String, dynamic>>[],
           'totalShortfall': 5000,
@@ -436,7 +430,7 @@ void main() {
               'depositedDate': '15/11/2024',
               'daysLate': 8,
               'interest': 200,
-            }
+            },
           ],
           'totalShortfall': 0,
           'totalInterestDemand': 200,

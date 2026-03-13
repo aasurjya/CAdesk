@@ -39,10 +39,12 @@ class AisTisParser {
     final salarySources = _parseIncomeSources(aisData['salaryIncome']);
     final dividendSources = _parseIncomeSources(aisData['dividendIncome']);
     final interestSources = _parseIncomeSources(aisData['interestIncome']);
-    final capitalGainTransactions =
-        _parseCapGainTransactions(aisData['capitalGains']);
-    final foreignRemittances =
-        _parseForeignRemittances(aisData['foreignRemittance']);
+    final capitalGainTransactions = _parseCapGainTransactions(
+      aisData['capitalGains'],
+    );
+    final foreignRemittances = _parseForeignRemittances(
+      aisData['foreignRemittance'],
+    );
 
     return AisData(
       pan: pan,

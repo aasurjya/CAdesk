@@ -13,13 +13,9 @@ import 'package:ca_app/features/platform/domain/services/rbac_service.dart';
 // Service providers
 // ---------------------------------------------------------------------------
 
-final rbacServiceProvider = Provider<RbacService>(
-  (_) => RbacService.instance,
-);
+final rbacServiceProvider = Provider<RbacService>((_) => RbacService.instance);
 
-final mfaServiceProvider = Provider<MfaService>(
-  (_) => MfaService.instance,
-);
+final mfaServiceProvider = Provider<MfaService>((_) => MfaService.instance);
 
 final auditTrailServiceProvider = Provider<AuditTrailService>(
   (_) => AuditTrailService(),
@@ -60,17 +56,13 @@ class TeamMembersNotifier extends Notifier<List<AppUser>> {
 
   void updateRole(String userId, UserRole newRole) {
     state = List.unmodifiable(
-      state.map(
-        (u) => u.userId == userId ? u.copyWith(role: newRole) : u,
-      ),
+      state.map((u) => u.userId == userId ? u.copyWith(role: newRole) : u),
     );
   }
 
   void deactivate(String userId) {
     state = List.unmodifiable(
-      state.map(
-        (u) => u.userId == userId ? u.copyWith(isActive: false) : u,
-      ),
+      state.map((u) => u.userId == userId ? u.copyWith(isActive: false) : u),
     );
   }
 }

@@ -118,8 +118,16 @@ void main() {
       final after = DateTime.now();
       final minExpiry = before.add(const Duration(hours: 8));
       final maxExpiry = after.add(const Duration(hours: 8));
-      expect(session.expiresAt.isAfter(minExpiry) || session.expiresAt.isAtSameMomentAs(minExpiry), isTrue);
-      expect(session.expiresAt.isBefore(maxExpiry) || session.expiresAt.isAtSameMomentAs(maxExpiry), isTrue);
+      expect(
+        session.expiresAt.isAfter(minExpiry) ||
+            session.expiresAt.isAtSameMomentAs(minExpiry),
+        isTrue,
+      );
+      expect(
+        session.expiresAt.isBefore(maxExpiry) ||
+            session.expiresAt.isAtSameMomentAs(maxExpiry),
+        isTrue,
+      );
     });
 
     test('sessionId is non-empty', () async {
@@ -162,7 +170,9 @@ void main() {
         userId: 'u1',
         passwordHash: 'hash',
       );
-      final session = (await repo.authenticate(creds)).copyWith(isActive: false);
+      final session = (await repo.authenticate(
+        creds,
+      )).copyWith(isActive: false);
       expect(await repo.isSessionValid(session), isFalse);
     });
   });

@@ -43,18 +43,12 @@ void main() {
   group('NoticeTriageService.assessRisk', () {
     test('demand > 10L (₹10,00,000 = 100000000 paise) → critical', () {
       final notice = makeNotice(demandAmount: 100_000_001);
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.critical,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.critical);
     });
 
     test('demand exactly 10L → critical (boundary)', () {
       final notice = makeNotice(demandAmount: 100_000_000);
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.critical,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.critical);
     });
 
     test('search & seizure notice → critical regardless of demand', () {
@@ -62,26 +56,17 @@ void main() {
         noticeType: NoticeType.searchSeizure,
         demandAmount: 0,
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.critical,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.critical);
     });
 
     test('demand between 1L and 10L → high', () {
       final notice = makeNotice(demandAmount: 50_000_000); // ₹5L
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.high,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.high);
     });
 
     test('demand exactly 1L (10000000 paise) → high (boundary)', () {
       final notice = makeNotice(demandAmount: 10_000_000);
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.high,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.high);
     });
 
     test('reopening notice 148 → high', () {
@@ -89,10 +74,7 @@ void main() {
         noticeType: NoticeType.reopening148,
         demandAmount: null,
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.high,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.high);
     });
 
     test('143(1) intimation with small demand → medium', () {
@@ -100,10 +82,7 @@ void main() {
         noticeType: NoticeType.intimation143_1,
         demandAmount: 5_000_000, // ₹50k
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.medium,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.medium);
     });
 
     test('penalty notice 156 → medium', () {
@@ -111,10 +90,7 @@ void main() {
         noticeType: NoticeType.penalty156,
         demandAmount: 1_000_000, // ₹10k
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.medium,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.medium);
     });
 
     test('show cause notice with no demand → low', () {
@@ -122,10 +98,7 @@ void main() {
         noticeType: NoticeType.showCause,
         demandAmount: null,
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.low,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.low);
     });
 
     test('null demand with non-critical type → low', () {
@@ -133,10 +106,7 @@ void main() {
         noticeType: NoticeType.intimation143_1,
         demandAmount: null,
       );
-      expect(
-        NoticeTriageService.assessRisk(notice),
-        RiskLevel.low,
-      );
+      expect(NoticeTriageService.assessRisk(notice), RiskLevel.low);
     });
   });
 
@@ -247,21 +217,27 @@ void main() {
       expect(grounds, contains('Addition based on estimate'));
     });
 
-    test('148 reopening → limitation / tangible material / change of opinion', () {
-      final notice = makeNotice(noticeType: NoticeType.reopening148);
-      final grounds = NoticeTriageService.suggestGrounds(notice);
-      expect(grounds, contains('Reassessment beyond limitation period'));
-      expect(grounds, contains('No tangible material'));
-      expect(grounds, contains('Change of opinion'));
-    });
+    test(
+      '148 reopening → limitation / tangible material / change of opinion',
+      () {
+        final notice = makeNotice(noticeType: NoticeType.reopening148);
+        final grounds = NoticeTriageService.suggestGrounds(notice);
+        expect(grounds, contains('Reassessment beyond limitation period'));
+        expect(grounds, contains('No tangible material'));
+        expect(grounds, contains('Change of opinion'));
+      },
+    );
 
-    test('penalty notice 156 → bona fide / reasonable cause / no concealment', () {
-      final notice = makeNotice(noticeType: NoticeType.penalty156);
-      final grounds = NoticeTriageService.suggestGrounds(notice);
-      expect(grounds, contains('Bona fide belief'));
-      expect(grounds, contains('Reasonable cause'));
-      expect(grounds, contains('No concealment intent'));
-    });
+    test(
+      'penalty notice 156 → bona fide / reasonable cause / no concealment',
+      () {
+        final notice = makeNotice(noticeType: NoticeType.penalty156);
+        final grounds = NoticeTriageService.suggestGrounds(notice);
+        expect(grounds, contains('Bona fide belief'));
+        expect(grounds, contains('Reasonable cause'));
+        expect(grounds, contains('No concealment intent'));
+      },
+    );
 
     test('show cause notice → bona fide / reasonable cause grounds', () {
       final notice = makeNotice(noticeType: NoticeType.showCause);
@@ -305,10 +281,10 @@ void main() {
         noticeType: NoticeType.assessment143_3,
       );
       final result = NoticeTriageService.triage(notice);
-      expect(
-        [RecommendedAction.appeal, RecommendedAction.seekStay],
-        contains(result.recommendedAction),
-      );
+      expect([
+        RecommendedAction.appeal,
+        RecommendedAction.seekStay,
+      ], contains(result.recommendedAction));
     });
 
     test('143(1) low demand → recommended action is respond or pay', () {
@@ -317,10 +293,10 @@ void main() {
         demandAmount: 500_000, // ₹5k
       );
       final result = NoticeTriageService.triage(notice);
-      expect(
-        [RecommendedAction.respond, RecommendedAction.pay],
-        contains(result.recommendedAction),
-      );
+      expect([
+        RecommendedAction.respond,
+        RecommendedAction.pay,
+      ], contains(result.recommendedAction));
     });
 
     test('triage result has non-empty keyIssues', () {
@@ -360,7 +336,10 @@ void main() {
 
   group('TaxNotice model', () {
     test('copyWith returns new instance with updated field', () {
-      final original = makeNotice(noticeId: 'A1', status: NoticeStatus.received);
+      final original = makeNotice(
+        noticeId: 'A1',
+        status: NoticeStatus.received,
+      );
       final updated = original.copyWith(status: NoticeStatus.responseFiled);
       expect(updated.status, NoticeStatus.responseFiled);
       expect(original.status, NoticeStatus.received);

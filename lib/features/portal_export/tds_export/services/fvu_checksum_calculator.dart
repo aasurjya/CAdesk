@@ -54,7 +54,9 @@ class FvuChecksumCalculator {
     if (lastPipeIndex < 0) return false;
 
     final originalContent = fvuContentWithChecksum.substring(0, lastPipeIndex);
-    final appendedChecksum = fvuContentWithChecksum.substring(lastPipeIndex + 1);
+    final appendedChecksum = fvuContentWithChecksum.substring(
+      lastPipeIndex + 1,
+    );
 
     // Validate that the appended segment is a parseable integer
     if (int.tryParse(appendedChecksum) == null) return false;

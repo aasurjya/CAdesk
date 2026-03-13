@@ -101,7 +101,11 @@ void main() {
         state: GstFilingState.notFiled,
         period: '032025',
       );
-      final fee = GstStatusTracker.computeLateFee(status, today, dueDate: dueDate);
+      final fee = GstStatusTracker.computeLateFee(
+        status,
+        today,
+        dueDate: dueDate,
+      );
       expect(fee, 25000); // 5 * 5000 paise
     });
 
@@ -114,7 +118,11 @@ void main() {
         state: GstFilingState.notFiled,
         period: '032025',
       );
-      final fee = GstStatusTracker.computeLateFee(status, today, dueDate: dueDate);
+      final fee = GstStatusTracker.computeLateFee(
+        status,
+        today,
+        dueDate: dueDate,
+      );
       expect(fee, 1000000); // max ₹10,000 = 1000000 paise
     });
 
@@ -125,7 +133,11 @@ void main() {
         state: GstFilingState.notFiled,
         period: '032025',
       );
-      final fee = GstStatusTracker.computeLateFee(status, today, dueDate: dueDate);
+      final fee = GstStatusTracker.computeLateFee(
+        status,
+        today,
+        dueDate: dueDate,
+      );
       expect(fee, 0);
     });
   });
@@ -198,10 +210,7 @@ void main() {
     });
 
     test('returns false when filed on due date', () {
-      final status = makeStatus(
-        state: GstFilingState.filed,
-        filedAt: dueDate,
-      );
+      final status = makeStatus(state: GstFilingState.filed, filedAt: dueDate);
       final result = GstStatusTracker.isLate(
         status,
         today: DateTime(2025, 4, 25),

@@ -87,11 +87,11 @@ class RetryPolicy {
 
   @override
   int get hashCode => Object.hash(
-        maxAttempts,
-        initialDelaySeconds,
-        backoffMultiplier,
-        maxDelaySeconds,
-      );
+    maxAttempts,
+    initialDelaySeconds,
+    backoffMultiplier,
+    maxDelaySeconds,
+  );
 
   @override
   String toString() =>

@@ -71,8 +71,9 @@ class Form26AsParser {
         .toList();
 
     final pan = tdsEntries.isNotEmpty ? _extractPanFromCsvLine(lines[1]) : '';
-    final assessmentYear =
-        tdsEntries.isNotEmpty ? _extractAssessmentYearFromCsvLine(lines[1]) : '';
+    final assessmentYear = tdsEntries.isNotEmpty
+        ? _extractAssessmentYearFromCsvLine(lines[1])
+        : '';
     final totalTds = tdsEntries.fold<int>(0, (sum, e) => sum + e.tdsDeducted);
 
     return Form26AsData(

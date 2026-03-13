@@ -610,9 +610,7 @@ final filteredDocumentsProvider = Provider<List<SharedDocument>>((ref) {
   final docs = ref.watch(allDocumentsProvider);
   final filter = ref.watch(documentFilterProvider);
   if (filter == null) return docs;
-  return List.unmodifiable(
-    docs.where((d) => d.status == filter).toList(),
-  );
+  return List.unmodifiable(docs.where((d) => d.status == filter).toList());
 });
 
 // Client Queries

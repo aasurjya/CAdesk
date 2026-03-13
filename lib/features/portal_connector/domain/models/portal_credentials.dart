@@ -61,11 +61,6 @@ class PortalCredentials {
           tokenExpiry == other.tokenExpiry;
 
   @override
-  int get hashCode => Object.hash(
-        portal,
-        userId,
-        passwordHash,
-        sessionToken,
-        tokenExpiry,
-      );
+  int get hashCode =>
+      Object.hash(portal, userId, passwordHash, sessionToken, tokenExpiry);
 }

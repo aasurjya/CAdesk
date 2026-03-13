@@ -33,14 +33,16 @@ class RegulatoryDigest {
   /// Count of high-priority items: critical/high [ComplianceAlert]s plus
   /// [ImpactLevel.high] [RegulatoryUpdate]s.
   int get highPriorityCount {
-    final highAlerts = alerts.where(
-      (a) =>
-          a.priority == AlertPriority.critical ||
-          a.priority == AlertPriority.high,
-    ).length;
-    final highUpdates = updates.where(
-      (u) => u.impactLevel == ImpactLevel.high,
-    ).length;
+    final highAlerts = alerts
+        .where(
+          (a) =>
+              a.priority == AlertPriority.critical ||
+              a.priority == AlertPriority.high,
+        )
+        .length;
+    final highUpdates = updates
+        .where((u) => u.impactLevel == ImpactLevel.high)
+        .length;
     return highAlerts + highUpdates;
   }
 

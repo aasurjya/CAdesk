@@ -52,11 +52,6 @@ class AppealStage {
   }
 
   @override
-  int get hashCode => Object.hash(
-        forum,
-        outcome,
-        orderDate,
-        orderSummary,
-        reliefGranted,
-      );
+  int get hashCode =>
+      Object.hash(forum, outcome, orderDate, orderSummary, reliefGranted);
 }

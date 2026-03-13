@@ -85,8 +85,8 @@ Form16PrefillResult prefillFromOcr(ExtractedForm16 form16) {
 /// pre-filled result. Use `ref.read(prefillFromOcrProvider(form16))`.
 final prefillFromOcrProvider =
     Provider.family<Form16PrefillResult, ExtractedForm16>(
-  (ref, form16) => prefillFromOcr(form16),
-);
+      (ref, form16) => prefillFromOcr(form16),
+    );
 
 // ---------------------------------------------------------------------------
 // Prefill from existing Form16Data (TDS module)
@@ -119,8 +119,8 @@ Form16PrefillResult prefillFromForm16Data(Form16Data form16) {
 /// result. Use `ref.read(prefillFromForm16DataProvider(form16Data))`.
 final prefillFromForm16DataProvider =
     Provider.family<Form16PrefillResult, Form16Data>(
-  (ref, form16) => prefillFromForm16Data(form16),
-);
+      (ref, form16) => prefillFromForm16Data(form16),
+    );
 
 // ---------------------------------------------------------------------------
 // Mock Form 16 list provider (until real repository is wired)

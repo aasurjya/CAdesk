@@ -137,8 +137,10 @@ class DocumentValidatorService {
     }
 
     // Verify total = sum of line items + GST
-    final lineItemTotal =
-        invoice.lineItems.fold(0, (int sum, item) => sum + item.amount);
+    final lineItemTotal = invoice.lineItems.fold(
+      0,
+      (int sum, item) => sum + item.amount,
+    );
     final expectedTotal = lineItemTotal + invoice.gstAmount;
     final totalDiff = (invoice.totalAmount - expectedTotal).abs();
     if (invoice.lineItems.isNotEmpty && totalDiff > _balanceTolerance) {

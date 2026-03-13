@@ -23,15 +23,8 @@ class Gstr1JsonSerializer {
   /// [gstin] – GSTIN of the filing taxpayer (overrides data.gstin for the
   ///   output field, keeping the caller in control of portal identity).
   /// [period] – filing period in MMYYYY format, e.g. "032024".
-  GstrExportResult serialize(
-    Gstr1FormData data,
-    String gstin,
-    String period,
-  ) {
-    final payload = <String, Object?>{
-      'gstin': gstin,
-      'fp': period,
-    };
+  GstrExportResult serialize(Gstr1FormData data, String gstin, String period) {
+    final payload = <String, Object?>{'gstin': gstin, 'fp': period};
 
     var sectionCount = 0;
 
@@ -177,10 +170,7 @@ class Gstr1JsonSerializer {
     }
 
     return grouped.entries.map((entry) {
-      return {
-        'ctin': entry.key,
-        'nt': entry.value.map(_noteToJson).toList(),
-      };
+      return {'ctin': entry.key, 'nt': entry.value.map(_noteToJson).toList()};
     }).toList();
   }
 

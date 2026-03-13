@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 /// - amber  : confidence >= 0.60
 /// - red    : confidence <  0.60
 class ConfidenceChip extends StatelessWidget {
-  const ConfidenceChip({
-    super.key,
-    required this.confidence,
-  });
+  const ConfidenceChip({super.key, required this.confidence});
 
   final double confidence;
 
@@ -27,9 +24,9 @@ class ConfidenceChip extends StatelessWidget {
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: labelColor,
-              fontWeight: FontWeight.w700,
-            ),
+          color: labelColor,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

@@ -14,9 +14,10 @@ class AuditLogTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final (icon, iconColor) = _severityIcon(entry.severity);
-    final resource = [entry.resourceType, entry.resourceId]
-        .whereType<String>()
-        .join(' · ');
+    final resource = [
+      entry.resourceType,
+      entry.resourceId,
+    ].whereType<String>().join(' · ');
     final subtitle =
         '${entry.userName} · ${resource.isNotEmpty ? resource : 'N/A'}';
 

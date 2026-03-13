@@ -55,12 +55,7 @@ class ChatMessage {
   final bool isUser;
   final DateTime at;
 
-  ChatMessage copyWith({
-    String? id,
-    String? text,
-    bool? isUser,
-    DateTime? at,
-  }) {
+  ChatMessage copyWith({String? id, String? text, bool? isUser, DateTime? at}) {
     return ChatMessage(
       id: id ?? this.id,
       text: text ?? this.text,
@@ -97,8 +92,9 @@ class ChatNotifier extends Notifier<List<ChatMessage>> {
 }
 
 /// Provider for the list of chat messages.
-final chatMessagesProvider =
-    NotifierProvider<ChatNotifier, List<ChatMessage>>(ChatNotifier.new);
+final chatMessagesProvider = NotifierProvider<ChatNotifier, List<ChatMessage>>(
+  ChatNotifier.new,
+);
 
 // ---------------------------------------------------------------------------
 // Section search results
@@ -167,8 +163,7 @@ final calendarEventsProvider =
 /// Notifier for the currently viewed calendar month.
 class _SelectedMonthNotifier extends Notifier<DateTime> {
   @override
-  DateTime build() =>
-      DateTime(DateTime.now().year, DateTime.now().month);
+  DateTime build() => DateTime(DateTime.now().year, DateTime.now().month);
 
   void update(DateTime month) {
     state = month;

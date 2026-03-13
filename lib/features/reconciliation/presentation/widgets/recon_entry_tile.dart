@@ -8,11 +8,7 @@ import 'package:ca_app/features/reconciliation/data/providers/reconciliation_pro
 /// Shows the income type icon, source description, three columns for
 /// 26AS / AIS / ITR amounts, and a color-coded status badge.
 class ReconEntryTile extends StatelessWidget {
-  const ReconEntryTile({
-    super.key,
-    required this.entry,
-    this.onTap,
-  });
+  const ReconEntryTile({super.key, required this.entry, this.onTap});
 
   final ReconEntry entry;
   final VoidCallback? onTap;

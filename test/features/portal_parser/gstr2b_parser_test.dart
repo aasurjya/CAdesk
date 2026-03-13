@@ -62,12 +62,18 @@ void main() {
 
       test('parses supplier GSTIN from B2B entry', () {
         final result = parser.parseJson(sampleGstr2bJson);
-        expect(result.b2bEntries.first.supplierGstin, equals('29AADCS0472N1Z1'));
+        expect(
+          result.b2bEntries.first.supplierGstin,
+          equals('29AADCS0472N1Z1'),
+        );
       });
 
       test('parses supplier name from B2B entry', () {
         final result = parser.parseJson(sampleGstr2bJson);
-        expect(result.b2bEntries.first.supplierName, equals('Supplier Co Pvt Ltd'));
+        expect(
+          result.b2bEntries.first.supplierName,
+          equals('Supplier Co Pvt Ltd'),
+        );
       });
 
       test('parses invoice number', () {
@@ -101,7 +107,10 @@ void main() {
 
       test('parses itcAvailable Y as ItcAvailability.yes', () {
         final result = parser.parseJson(sampleGstr2bJson);
-        expect(result.b2bEntries.first.itcAvailable, equals(ItcAvailability.yes));
+        expect(
+          result.b2bEntries.first.itcAvailable,
+          equals(ItcAvailability.yes),
+        );
       });
 
       test('parses reverseCharge N as false', () {
@@ -243,7 +252,10 @@ void main() {
   }
 }''';
         final result = parser.parseJson(json);
-        expect(result.b2bEntries.first.itcAvailable, equals(ItcAvailability.no));
+        expect(
+          result.b2bEntries.first.itcAvailable,
+          equals(ItcAvailability.no),
+        );
       });
 
       test('parses reverseCharge Y as true', () {

@@ -107,7 +107,10 @@ void main() {
   </TDSDetails>
 </Form26AS>''';
         final result = parser.parseXml(xmlO);
-        expect(result.tdsEntries.first.status, equals(BookingStatus.overBooked));
+        expect(
+          result.tdsEntries.first.status,
+          equals(BookingStatus.overBooked),
+        );
       });
 
       test('parses multiple TDS entries', () {

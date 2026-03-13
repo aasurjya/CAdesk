@@ -111,8 +111,7 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
             'IFSC: SBIN0001001\n'
             'Opening Balance: 50000.00\n'
             'Closing Balance: 48250.75',
-      DocumentType.invoice ||
-      DocumentType.gstCertificate =>
+      DocumentType.invoice || DocumentType.gstCertificate =>
         'TAX INVOICE\n'
             'Invoice No.: INV-MOCK-001\n'
             'Invoice Date: 12-03-2026\n'
@@ -124,8 +123,7 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
         'FORM 26AS\nTAX CREDIT STATEMENT\nAssessment Year: 2025-26',
       DocumentType.panCard =>
         'INCOME TAX DEPARTMENT\nPERMANENT ACCOUNT NUMBER CARD',
-      DocumentType.aadhaarCard =>
-        'UNIQUE IDENTIFICATION AUTHORITY OF INDIA',
+      DocumentType.aadhaarCard => 'UNIQUE IDENTIFICATION AUTHORITY OF INDIA',
       DocumentType.salarySlip =>
         'SALARY SLIP\nBasic: 40000\nHRA: 16000\nNet Pay: 52000',
     };
@@ -181,7 +179,9 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
                         controller: _fileNameController,
                         decoration: InputDecoration(
                           hintText: 'e.g. Form16_Rajesh_AY2026.pdf',
-                          prefixIcon: const Icon(Icons.insert_drive_file_outlined),
+                          prefixIcon: const Icon(
+                            Icons.insert_drive_file_outlined,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -212,9 +212,7 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
                                 )
                               : const Icon(Icons.scanner_outlined),
                           label: Text(
-                            _isProcessing
-                                ? 'Processing…'
-                                : 'Process Document',
+                            _isProcessing ? 'Processing…' : 'Process Document',
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,

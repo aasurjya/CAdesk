@@ -1,4 +1,3 @@
-
 export 'package:ca_app/features/litigation/domain/models/tax_notice.dart'
     show UrgencyLevel;
 
@@ -21,12 +20,7 @@ enum RecommendedAction {
 }
 
 /// Risk classification of a tax notice.
-enum RiskLevel {
-  low,
-  medium,
-  high,
-  critical,
-}
+enum RiskLevel { low, medium, high, critical }
 
 /// Immutable model representing the AI triage output for a tax notice.
 ///
@@ -85,11 +79,10 @@ class NoticeTriageResult {
 
   @override
   int get hashCode => Object.hash(
-        noticeId,
-        recommendedAction,
-        riskLevel,
-        timelineAdvice,
-        estimatedDemand,
-      );
+    noticeId,
+    recommendedAction,
+    riskLevel,
+    timelineAdvice,
+    estimatedDemand,
+  );
 }
-

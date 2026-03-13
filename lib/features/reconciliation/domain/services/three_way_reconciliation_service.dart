@@ -156,7 +156,12 @@ class ThreeWayReconciliationService {
     );
 
     final unreported = identifyUnreportedIncome(ais, itr);
-    final recommendations = _buildRecommendations(vsAis, vsItr, aisVsItr, unreported);
+    final recommendations = _buildRecommendations(
+      vsAis,
+      vsItr,
+      aisVsItr,
+      unreported,
+    );
 
     return ThreeWayMatchResult(
       pan: pan,
@@ -189,7 +194,12 @@ class ThreeWayReconciliationService {
         ? (amount2 == 0 ? 0.0 : -100.0)
         : (variance / amount1) * 100.0;
 
-    final status = _classifyVariance(amount1, amount2, absVariance, thresholdPaise);
+    final status = _classifyVariance(
+      amount1,
+      amount2,
+      absVariance,
+      thresholdPaise,
+    );
 
     return ReconciliationVariance(
       source1Label: source1Label,

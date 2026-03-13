@@ -46,10 +46,7 @@ class ForeignAssetReportingService {
     List<ForeignAssetItem> assets,
     int financialYear,
   ) {
-    final totalClosing = assets.fold<int>(
-      0,
-      (sum, a) => sum + a.closingValue,
-    );
+    final totalClosing = assets.fold<int>(0, (sum, a) => sum + a.closingValue);
     final requiresScheduleFA = totalClosing >= _scheduleFaThresholdPaise;
 
     return ForeignAssetDeclaration(

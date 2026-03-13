@@ -82,7 +82,13 @@ void main() {
 
       test('→ totalTdsCredited sums across all deductors', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Co A', 'TAN001', 500000, 50000, 40000), // ₹100 short credit
+          _DeductorEntry(
+            'Co A',
+            'TAN001',
+            500000,
+            50000,
+            40000,
+          ), // ₹100 short credit
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
@@ -91,7 +97,13 @@ void main() {
 
       test('→ shortfall = deducted - credited', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Co A', 'TAN001', 500000, 50000, 30000), // shortfall 20000
+          _DeductorEntry(
+            'Co A',
+            'TAN001',
+            500000,
+            50000,
+            30000,
+          ), // shortfall 20000
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');

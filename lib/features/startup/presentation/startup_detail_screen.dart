@@ -96,8 +96,8 @@ class _InfoCard extends StatelessWidget {
               value: startup.entityType == StartupEntityType.company
                   ? 'Private Limited Company'
                   : startup.entityType == StartupEntityType.llp
-                      ? 'Limited Liability Partnership'
-                      : 'Partnership Firm',
+                  ? 'Limited Liability Partnership'
+                  : 'Partnership Firm',
             ),
           ],
         ),
@@ -130,9 +130,7 @@ class _DpiitSection extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  isRegistered
-                      ? Icons.verified_rounded
-                      : Icons.pending_rounded,
+                  isRegistered ? Icons.verified_rounded : Icons.pending_rounded,
                   color: isRegistered ? AppColors.success : AppColors.warning,
                   size: 24,
                 ),
@@ -156,10 +154,7 @@ class _DpiitSection extends StatelessWidget {
               },
             ),
             if (startup.dpiitNumber.isNotEmpty)
-              _DetailRow(
-                label: 'DPIIT Number',
-                value: startup.dpiitNumber,
-              ),
+              _DetailRow(label: 'DPIIT Number', value: startup.dpiitNumber),
             _DetailRow(
               label: 'Angel Tax Exemption',
               value: isRegistered ? 'Eligible (Sec 56(2)(viib))' : 'N/A',
@@ -176,10 +171,7 @@ class _DpiitSection extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _Iac80Section extends StatelessWidget {
-  const _Iac80Section({
-    required this.startup,
-    required this.deductionPaise,
-  });
+  const _Iac80Section({required this.startup, required this.deductionPaise});
 
   final StartupEntity startup;
   final int deductionPaise;
@@ -213,10 +205,7 @@ class _Iac80Section extends StatelessWidget {
                 Iac80Status.notApplied => 'Not Applied',
               },
             ),
-            _DetailRow(
-              label: 'Years Claimed',
-              value: '$yearsUsed of 3 (max)',
-            ),
+            _DetailRow(label: 'Years Claimed', value: '$yearsUsed of 3 (max)'),
             if (startup.financialYears80IACApplied.isNotEmpty)
               _DetailRow(
                 label: 'FYs Applied',
@@ -262,10 +251,7 @@ class _Iac80Section extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _AngelTaxSection extends StatelessWidget {
-  const _AngelTaxSection({
-    required this.startup,
-    required this.computation,
-  });
+  const _AngelTaxSection({required this.startup, required this.computation});
 
   final StartupEntity startup;
   final AngelTaxComputation computation;
@@ -408,8 +394,18 @@ String _formatPaise(int paise) {
 
 String _formatDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
 }

@@ -136,12 +136,14 @@ void main() {
 
   group('RefundTrackingService.isDelayed', () {
     test('returns true when not issued within 90 days of due date', () {
-      final tracker = makeTracker(
-        status: RefundTrackerStatus.processing,
-      );
+      final tracker = makeTracker(status: RefundTrackerStatus.processing);
       final today = returnDueDate.add(const Duration(days: 91));
       expect(
-        RefundTrackingService.isDelayed(tracker, today: today, returnDueDate: returnDueDate),
+        RefundTrackingService.isDelayed(
+          tracker,
+          today: today,
+          returnDueDate: returnDueDate,
+        ),
         isTrue,
       );
     });
@@ -154,7 +156,11 @@ void main() {
       );
       final today = returnDueDate.add(const Duration(days: 91));
       expect(
-        RefundTrackingService.isDelayed(tracker, today: today, returnDueDate: returnDueDate),
+        RefundTrackingService.isDelayed(
+          tracker,
+          today: today,
+          returnDueDate: returnDueDate,
+        ),
         isFalse,
       );
     });
@@ -163,7 +169,11 @@ void main() {
       final tracker = makeTracker(status: RefundTrackerStatus.processing);
       final today = returnDueDate.add(const Duration(days: 45));
       expect(
-        RefundTrackingService.isDelayed(tracker, today: today, returnDueDate: returnDueDate),
+        RefundTrackingService.isDelayed(
+          tracker,
+          today: today,
+          returnDueDate: returnDueDate,
+        ),
         isFalse,
       );
     });

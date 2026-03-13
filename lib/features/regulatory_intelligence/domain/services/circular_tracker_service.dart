@@ -25,7 +25,8 @@ class CircularTrackerService {
       effectiveDate: DateTime.utc(2024, 7, 23),
       impactLevel: ImpactLevel.high,
       affectedSections: const ['111A', 'Schedule III'],
-      url: 'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
+      url:
+          'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
       isRead: false,
     ),
     RegulatoryUpdate(
@@ -41,7 +42,8 @@ class CircularTrackerService {
       effectiveDate: DateTime.utc(2024, 7, 23),
       impactLevel: ImpactLevel.high,
       affectedSections: const ['112A', '10(38)'],
-      url: 'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
+      url:
+          'https://incometaxindia.gov.in/communications/act/finance-act-2024.pdf',
       isRead: false,
     ),
     RegulatoryUpdate(
@@ -89,7 +91,8 @@ class CircularTrackerService {
       effectiveDate: DateTime.utc(2024, 4, 1),
       impactLevel: ImpactLevel.high,
       affectedSections: const ['115BAC', '192'],
-      url: 'https://incometaxindia.gov.in/communications/circular/circular62024.pdf',
+      url:
+          'https://incometaxindia.gov.in/communications/circular/circular62024.pdf',
       isRead: false,
     ),
     RegulatoryUpdate(
@@ -174,7 +177,8 @@ class CircularTrackerService {
     ),
     RegulatoryUpdate(
       updateId: 'reg-011',
-      title: 'CBIC Notification 12/2024: E-Invoicing Threshold Reduced to ₹5 Cr',
+      title:
+          'CBIC Notification 12/2024: E-Invoicing Threshold Reduced to ₹5 Cr',
       summary:
           'Mandatory e-invoicing extended to taxpayers with aggregate turnover '
           'exceeding ₹5 crore from April 1, 2024.',
@@ -189,7 +193,8 @@ class CircularTrackerService {
     ),
     RegulatoryUpdate(
       updateId: 'reg-012',
-      title: 'ITAT Ruling: No Section 36(1)(va) Disallowance for Belated PF/ESI',
+      title:
+          'ITAT Ruling: No Section 36(1)(va) Disallowance for Belated PF/ESI',
       summary:
           'ITAT Mumbai holds that employee contribution to PF/ESI deposited '
           'before ITR filing due date cannot be disallowed under Section '
@@ -220,9 +225,8 @@ class CircularTrackerService {
   List<RegulatoryUpdate> searchUpdates(String query) {
     final q = query.toLowerCase();
     return _mockUpdates.where((u) {
-      final haystack =
-          '${u.title} ${u.summary} ${u.affectedSections.join(' ')}'
-              .toLowerCase();
+      final haystack = '${u.title} ${u.summary} ${u.affectedSections.join(' ')}'
+          .toLowerCase();
       return haystack.contains(q);
     }).toList();
   }
@@ -242,7 +246,9 @@ class CircularTrackerService {
     List<RegulatoryUpdate> updates,
     ImpactLevel minLevel,
   ) {
-    return updates.where((u) => _impactOrdinal(u.impactLevel) >= _impactOrdinal(minLevel)).toList();
+    return updates
+        .where((u) => _impactOrdinal(u.impactLevel) >= _impactOrdinal(minLevel))
+        .toList();
   }
 
   /// Returns a new [RegulatoryUpdate] with [isRead] set to `true`.

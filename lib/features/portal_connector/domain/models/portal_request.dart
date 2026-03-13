@@ -1,19 +1,8 @@
 /// Supported government portals for API integration.
-enum Portal {
-  itd,
-  gstn,
-  traces,
-  mca,
-  epfo,
-  nic,
-}
+enum Portal { itd, gstn, traces, mca, epfo, nic }
 
 /// HTTP methods supported by portal APIs.
-enum HttpMethod {
-  get,
-  post,
-  put,
-}
+enum HttpMethod { get, post, put }
 
 /// Immutable model representing an outbound request to a government portal.
 class PortalRequest {
@@ -89,12 +78,12 @@ class PortalRequest {
 
   @override
   int get hashCode => Object.hash(
-        requestId,
-        portal,
-        endpoint,
-        method,
-        body,
-        timeoutSeconds,
-        retryCount,
-      );
+    requestId,
+    portal,
+    endpoint,
+    method,
+    body,
+    timeoutSeconds,
+    retryCount,
+  );
 }

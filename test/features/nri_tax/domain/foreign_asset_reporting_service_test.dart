@@ -142,7 +142,9 @@ void main() {
       test('penalty is ₹10 lakh flat when 300% of tax is lower', () {
         // 300% of tax on ₹1 lakh at 30% = 300% × ₹30k = ₹90k < ₹10 lakh
         // So penalty = ₹10 lakh = 100,000,000 paise
-        final penalty = service.computePenaltyForNonDisclosure(10000000); // ₹1 lakh
+        final penalty = service.computePenaltyForNonDisclosure(
+          10000000,
+        ); // ₹1 lakh
         expect(penalty, 100000000); // ₹10 lakh in paise
       });
 
@@ -150,7 +152,9 @@ void main() {
         // Asset value ₹1 crore = 10,000,000,000 paise
         // Tax at 30% = ₹30 lakh; 300% = ₹90 lakh (> ₹10 lakh)
         // So penalty = 300% × ₹30 lakh = ₹90 lakh = 9,000,000,000 paise
-        final penalty = service.computePenaltyForNonDisclosure(1000000000); // ₹1 cr
+        final penalty = service.computePenaltyForNonDisclosure(
+          1000000000,
+        ); // ₹1 cr
         // 300% of 30% of ₹1cr = 0.9 × 1,000,000,000 = 900,000,000 paise = ₹90 lakh
         expect(penalty, 900000000);
       });
@@ -194,7 +198,10 @@ void main() {
           requiresScheduleFA: false,
           requiresFbar: false,
         );
-        final updated = original.copyWith(financialYear: 2025, requiresScheduleFA: true);
+        final updated = original.copyWith(
+          financialYear: 2025,
+          requiresScheduleFA: true,
+        );
         expect(updated.financialYear, 2025);
         expect(updated.requiresScheduleFA, true);
         expect(original.financialYear, 2024);
@@ -238,7 +245,10 @@ void main() {
           closingValue: 90000000,
           incomeAccrued: 500000,
         );
-        final updated = original.copyWith(country: 'SG', closingValue: 85000000);
+        final updated = original.copyWith(
+          country: 'SG',
+          closingValue: 85000000,
+        );
         expect(updated.country, 'SG');
         expect(updated.closingValue, 85000000);
         expect(original.country, 'US');
@@ -316,7 +326,10 @@ void main() {
           validFrom: DateTime(2024, 1, 1),
           validTo: DateTime(2025, 12, 31),
         );
-        final updated = original.copyWith(countryCode: 'GB', trcNumber: 'TRC-002');
+        final updated = original.copyWith(
+          countryCode: 'GB',
+          trcNumber: 'TRC-002',
+        );
         expect(updated.countryCode, 'GB');
         expect(updated.trcNumber, 'TRC-002');
         expect(original.countryCode, 'US');

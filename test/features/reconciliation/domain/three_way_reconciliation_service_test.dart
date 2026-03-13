@@ -144,18 +144,21 @@ void main() {
         expect(result.aisVsItr.status, VarianceStatus.matched);
       });
 
-      test('→ majorVariance detected when ITR income is significantly lower', () {
-        final result = ThreeWayReconciliationService.instance.reconcile(
-          _makeForm26As(totalIncome: 50000000),
-          _makeAis(totalIncome: 50000000),
-          _makeItr(totalIncome: 45000000), // ₹5,000 short = major
-          'ABCDE1234F',
-          '2025-26',
-        );
+      test(
+        '→ majorVariance detected when ITR income is significantly lower',
+        () {
+          final result = ThreeWayReconciliationService.instance.reconcile(
+            _makeForm26As(totalIncome: 50000000),
+            _makeAis(totalIncome: 50000000),
+            _makeItr(totalIncome: 45000000), // ₹5,000 short = major
+            'ABCDE1234F',
+            '2025-26',
+          );
 
-        expect(result.form26AsVsItr.status, VarianceStatus.majorVariance);
-        expect(result.aisVsItr.status, VarianceStatus.majorVariance);
-      });
+          expect(result.form26AsVsItr.status, VarianceStatus.majorVariance);
+          expect(result.aisVsItr.status, VarianceStatus.majorVariance);
+        },
+      );
 
       test('→ recommendations populated when variances exist', () {
         final result = ThreeWayReconciliationService.instance.reconcile(
@@ -205,9 +208,7 @@ void main() {
         final ais = _makeAisWithSources([
           _AisSource('SBI Bank', 200000), // ₹2,000
         ]);
-        final itr = _makeItrWithSources([
-          _ItrSource('SBI Bank', 200000),
-        ]);
+        final itr = _makeItrWithSources([_ItrSource('SBI Bank', 200000)]);
         final items = ThreeWayReconciliationService.instance
             .identifyUnreportedIncome(ais, itr);
         expect(items, isEmpty);
@@ -415,14 +416,18 @@ AisData _makeAis({required int totalIncome}) =>
     AisData(totalIncome: totalIncome, sources: const []);
 
 AisData _makeAisWithSources(List<_AisSource> sources) => AisData(
-      totalIncome: sources.fold(0, (s, e) => s + e.amount),
-      sources: sources.map((e) => AisIncomeSource(name: e.name, amount: e.amount)).toList(),
-    );
+  totalIncome: sources.fold(0, (s, e) => s + e.amount),
+  sources: sources
+      .map((e) => AisIncomeSource(name: e.name, amount: e.amount))
+      .toList(),
+);
 
 ItrFormData _makeItr({required int totalIncome}) =>
     ItrFormData(totalIncome: totalIncome, sources: const []);
 
 ItrFormData _makeItrWithSources(List<_ItrSource> sources) => ItrFormData(
-      totalIncome: sources.fold(0, (s, e) => s + e.amount),
-      sources: sources.map((e) => ItrIncomeSource(name: e.name, amount: e.amount)).toList(),
-    );
+  totalIncome: sources.fold(0, (s, e) => s + e.amount),
+  sources: sources
+      .map((e) => ItrIncomeSource(name: e.name, amount: e.amount))
+      .toList(),
+);

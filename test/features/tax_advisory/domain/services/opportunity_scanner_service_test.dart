@@ -50,8 +50,10 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
         opportunities.any((o) => o.type == OpportunityType.taxSaving),
@@ -77,8 +79,10 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
       final sec80cOpps = opportunities.where(
         (o) =>
             o.type == OpportunityType.taxSaving && o.sections.contains('80C'),
@@ -93,13 +97,12 @@ void main() {
 
   group('OpportunityScannerService.scan — 80D health insurance', () {
     test('returns 80D opportunity when no deductions claimed', () {
-      final opportunities =
-          OpportunityScannerService.instance.scan(baseIndividual, fy);
-
-      expect(
-        opportunities.any((o) => o.sections.contains('80D')),
-        isTrue,
+      final opportunities = OpportunityScannerService.instance.scan(
+        baseIndividual,
+        fy,
       );
+
+      expect(opportunities.any((o) => o.sections.contains('80D')), isTrue);
     });
   });
 
@@ -108,8 +111,7 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('OpportunityScannerService.scan — regime switch', () {
-    test(
-        'suggests switching to old regime when new regime and '
+    test('suggests switching to old regime when new regime and '
         'deductions > ₹3.75L', () {
       const profile = ClientProfile(
         pan: 'ABCDE1234F',
@@ -127,8 +129,10 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
         opportunities.any((o) => o.type == OpportunityType.restructuring),
@@ -159,13 +163,13 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
-        opportunities.any(
-          (o) => o.type == OpportunityType.investmentPlanning,
-        ),
+        opportunities.any((o) => o.type == OpportunityType.investmentPlanning),
         isTrue,
       );
     });
@@ -176,8 +180,7 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('OpportunityScannerService.scan — GST registration', () {
-    test(
-        'returns compliance gap for business income > ₹20L without GST', () {
+    test('returns compliance gap for business income > ₹20L without GST', () {
       const profile = ClientProfile(
         pan: 'ABCDE1234F',
         name: 'Test User',
@@ -194,8 +197,10 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
         opportunities.any((o) => o.type == OpportunityType.complianceGap),
@@ -220,8 +225,10 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       final gstGap = opportunities.where(
         (o) =>
@@ -254,8 +261,10 @@ void main() {
         ageGroup: AgeGroup.above60,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
         opportunities.any((o) => o.type == OpportunityType.retirementPlanning),
@@ -286,8 +295,10 @@ void main() {
         ageGroup: AgeGroup.forties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       expect(
         opportunities.any(
@@ -316,8 +327,10 @@ void main() {
         ageGroup: AgeGroup.forties,
       );
 
-      final opportunities =
-          OpportunityScannerService.instance.scan(profile, fy);
+      final opportunities = OpportunityScannerService.instance.scan(
+        profile,
+        fy,
+      );
 
       final scheduleAl = opportunities.where(
         (o) =>
@@ -348,8 +361,10 @@ void main() {
         sections: ['80C'],
       );
 
-      final score = OpportunityScannerService.instance
-          .scoreOpportunity(opp, baseIndividual);
+      final score = OpportunityScannerService.instance.scoreOpportunity(
+        opp,
+        baseIndividual,
+      );
 
       expect(score, greaterThanOrEqualTo(0.0));
       expect(score, lessThanOrEqualTo(1.0));
@@ -384,10 +399,14 @@ void main() {
         sections: ['80C'],
       );
 
-      final highScore = OpportunityScannerService.instance
-          .scoreOpportunity(highConf, baseIndividual);
-      final lowScore = OpportunityScannerService.instance
-          .scoreOpportunity(lowConf, baseIndividual);
+      final highScore = OpportunityScannerService.instance.scoreOpportunity(
+        highConf,
+        baseIndividual,
+      );
+      final lowScore = OpportunityScannerService.instance.scoreOpportunity(
+        lowConf,
+        baseIndividual,
+      );
 
       expect(highScore, greaterThan(lowScore));
     });

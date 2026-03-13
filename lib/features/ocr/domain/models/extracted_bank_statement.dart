@@ -70,10 +70,7 @@ class ExtractedBankStatement {
           closingBalance == other.closingBalance &&
           _listEquals(transactions, other.transactions);
 
-  bool _listEquals(
-    List<ExtractedTransaction> a,
-    List<ExtractedTransaction> b,
-  ) {
+  bool _listEquals(List<ExtractedTransaction> a, List<ExtractedTransaction> b) {
     if (a.length != b.length) return false;
     for (var i = 0; i < a.length; i++) {
       if (a[i] != b[i]) return false;
@@ -83,14 +80,14 @@ class ExtractedBankStatement {
 
   @override
   int get hashCode => Object.hash(
-        accountNumber,
-        bankName,
-        ifscCode,
-        period,
-        openingBalance,
-        closingBalance,
-        Object.hashAll(transactions),
-      );
+    accountNumber,
+    bankName,
+    ifscCode,
+    period,
+    openingBalance,
+    closingBalance,
+    Object.hashAll(transactions),
+  );
 
   @override
   String toString() =>

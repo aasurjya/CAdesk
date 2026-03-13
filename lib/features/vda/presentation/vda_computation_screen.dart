@@ -14,8 +14,8 @@ class VdaComputationScreen extends ConsumerWidget {
     final schedule = ref.watch(scheduleVdaProvider);
     final theme = Theme.of(context);
 
-    final netBalance = schedule.taxAtFlatRatePaise -
-        schedule.tdsDeducted1PercentPaise;
+    final netBalance =
+        schedule.taxAtFlatRatePaise - schedule.tdsDeducted1PercentPaise;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,17 +92,11 @@ class _RulesCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             _RuleItem(text: 'Flat 30% tax on gains (no slab benefit)'),
-            _RuleItem(
-              text: 'No deductions allowed except cost of acquisition',
-            ),
-            _RuleItem(
-              text: 'VDA losses cannot be set off against any income',
-            ),
+            _RuleItem(text: 'No deductions allowed except cost of acquisition'),
+            _RuleItem(text: 'VDA losses cannot be set off against any income'),
             _RuleItem(text: 'No indexation benefit on cost'),
             _RuleItem(text: '1% TDS under Sec 194S by buyer'),
-            _RuleItem(
-              text: 'Cess @4% and surcharge applicable additionally',
-            ),
+            _RuleItem(text: 'Cess @4% and surcharge applicable additionally'),
           ],
         ),
       ),
@@ -125,11 +119,7 @@ class _RuleItem extends StatelessWidget {
         children: [
           const Padding(
             padding: EdgeInsets.only(top: 4),
-            child: Icon(
-              Icons.circle,
-              size: 6,
-              color: AppColors.neutral400,
-            ),
+            child: Icon(Icons.circle, size: 6, color: AppColors.neutral400),
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -336,9 +326,7 @@ class _TransactionBreakdown extends StatelessWidget {
                         textAlign: TextAlign.end,
                         style: theme.textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: isProfit
-                              ? AppColors.success
-                              : AppColors.error,
+                          color: isProfit ? AppColors.success : AppColors.error,
                         ),
                       ),
                     ),

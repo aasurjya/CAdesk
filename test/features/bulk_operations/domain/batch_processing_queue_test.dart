@@ -25,10 +25,7 @@ void main() {
     int itemCount = 2,
     DateTime? createdAt,
   }) {
-    final items = List.generate(
-      itemCount,
-      (i) => makeItem(id: '$id-item-$i'),
-    );
+    final items = List.generate(itemCount, (i) => makeItem(id: '$id-item-$i'));
     return BatchJob(
       jobId: id,
       name: 'Job $id',
@@ -99,8 +96,12 @@ void main() {
       final t1 = DateTime(2025, 7, 1, 10, 0);
       final t2 = DateTime(2025, 7, 1, 10, 1);
       final queue = BatchProcessingQueue();
-      queue.enqueue(makeJob(id: 'first', priority: JobPriority.high, createdAt: t1));
-      queue.enqueue(makeJob(id: 'second', priority: JobPriority.high, createdAt: t2));
+      queue.enqueue(
+        makeJob(id: 'first', priority: JobPriority.high, createdAt: t1),
+      );
+      queue.enqueue(
+        makeJob(id: 'second', priority: JobPriority.high, createdAt: t2),
+      );
 
       final first = queue.dequeue();
       final second = queue.dequeue();

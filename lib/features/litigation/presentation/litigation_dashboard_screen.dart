@@ -28,9 +28,7 @@ class _LitigationDashboardScreenState
 
     final filtered = _filter == null
         ? notices
-        : notices
-            .where((n) => urgencyOf(n) == _filter)
-            .toList();
+        : notices.where((n) => urgencyOf(n) == _filter).toList();
 
     final totalCount = notices.length;
     final criticalCount = notices

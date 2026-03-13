@@ -102,22 +102,28 @@ void main() {
     });
 
     test('MessageType enum has all expected values', () {
-      expect(MessageType.values, containsAll([
-        MessageType.text,
-        MessageType.template,
-        MessageType.document,
-        MessageType.image,
-      ]));
+      expect(
+        MessageType.values,
+        containsAll([
+          MessageType.text,
+          MessageType.template,
+          MessageType.document,
+          MessageType.image,
+        ]),
+      );
     });
 
     test('MessageStatus enum has all expected values', () {
-      expect(MessageStatus.values, containsAll([
-        MessageStatus.queued,
-        MessageStatus.sent,
-        MessageStatus.delivered,
-        MessageStatus.read,
-        MessageStatus.failed,
-      ]));
+      expect(
+        MessageStatus.values,
+        containsAll([
+          MessageStatus.queued,
+          MessageStatus.sent,
+          MessageStatus.delivered,
+          MessageStatus.read,
+          MessageStatus.failed,
+        ]),
+      );
     });
   });
 
@@ -151,17 +157,13 @@ void main() {
     });
 
     test('sendTemplateMessage returns template message with sent status', () {
-      final msg = service.sendTemplateMessage(
-        '919876543210',
-        'document_shared',
-        {
-          'clientName': 'Ravi',
-          'caName': 'Sharma & Co',
-          'documentTitle': 'ITR-V',
-          'portalLink': 'https://portal.example.com',
-        },
-        'firm1',
-      );
+      final msg = service
+          .sendTemplateMessage('919876543210', 'document_shared', {
+            'clientName': 'Ravi',
+            'caName': 'Sharma & Co',
+            'documentTitle': 'ITR-V',
+            'portalLink': 'https://portal.example.com',
+          }, 'firm1');
       expect(msg.templateName, 'document_shared');
       expect(msg.messageType, MessageType.template);
       expect(msg.status, MessageStatus.sent);

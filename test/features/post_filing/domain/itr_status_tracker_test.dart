@@ -207,9 +207,7 @@ void main() {
 
     test('copyWith changes only specified field', () {
       final status = makeStatus();
-      final updated = status.copyWith(
-        currentState: FilingState.submitted,
-      );
+      final updated = status.copyWith(currentState: FilingState.submitted);
       expect(updated.currentState, FilingState.submitted);
       expect(updated.filingId, status.filingId);
     });

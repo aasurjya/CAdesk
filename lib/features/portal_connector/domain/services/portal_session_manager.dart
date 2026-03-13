@@ -28,7 +28,8 @@ class PortalSessionManager {
     PortalCredentials credentials,
     DateTime now,
   ) {
-    final lifetime = _kSessionLifetimes[credentials.portal] ?? _kDefaultLifetime;
+    final lifetime =
+        _kSessionLifetimes[credentials.portal] ?? _kDefaultLifetime;
     return PortalSession(
       sessionId: _generateSessionId(),
       portal: credentials.portal,
@@ -45,10 +46,7 @@ class PortalSessionManager {
   /// Returns a new [PortalSession] — the original is unchanged.
   static PortalSession refreshSession(PortalSession session, DateTime now) {
     final lifetime = _kSessionLifetimes[session.portal] ?? _kDefaultLifetime;
-    return session.copyWith(
-      lastActivityAt: now,
-      expiresAt: now.add(lifetime),
-    );
+    return session.copyWith(lastActivityAt: now, expiresAt: now.add(lifetime));
   }
 
   /// Invalidate [session] by marking it inactive.

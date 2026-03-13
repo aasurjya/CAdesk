@@ -35,7 +35,8 @@ void main() {
     pfContribution: const PfContribution(
       pfWagePaise: 1500000, // ₹15,000
       employeeSharePaise: 180000, // 12% of 15,000
-      employerEpsPaise: 124950, // 8.33% of 15,000 ~ 1249.50 → min ₹1,250 → 125000
+      employerEpsPaise:
+          124950, // 8.33% of 15,000 ~ 1249.50 → min ₹1,250 → 125000
       employerEpfPaise: 55050, // 3.67% of 15,000
       adminChargesPaise: 7500,
     ),
@@ -415,8 +416,7 @@ void main() {
           month,
           year,
         );
-        final expected =
-            runA.grossAfterLopPaise + runB.grossAfterLopPaise;
+        final expected = runA.grossAfterLopPaise + runB.grossAfterLopPaise;
         expect(result.totalWages, expected);
       });
 
@@ -427,7 +427,8 @@ void main() {
           month,
           year,
         );
-        final expected = runA.pfContribution.employeeSharePaise +
+        final expected =
+            runA.pfContribution.employeeSharePaise +
             runB.pfContribution.employeeSharePaise;
         expect(result.totalPfContribution, expected);
       });

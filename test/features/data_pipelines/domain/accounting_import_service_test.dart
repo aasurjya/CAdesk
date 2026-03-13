@@ -111,11 +111,7 @@ BADDATE,Payment,Office Rent,Bank Account,1500000,Monthly rent Jan 2024''';
           credit: 'Bank Account',
           amount: 1500000,
         ),
-        _makeEntry(
-          debit: 'Utilities',
-          credit: 'Bank Account',
-          amount: 300000,
-        ),
+        _makeEntry(debit: 'Utilities', credit: 'Bank Account', amount: 300000),
       ];
 
       // Double-entry is always balanced per entry (each entry has 1 debit and 1 credit)

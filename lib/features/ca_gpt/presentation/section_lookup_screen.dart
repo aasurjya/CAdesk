@@ -18,13 +18,7 @@ class SectionLookupScreen extends ConsumerStatefulWidget {
 class _SectionLookupScreenState extends ConsumerState<SectionLookupScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  static const _quickSearches = [
-    '194C',
-    '80C',
-    '10(10D)',
-    '44AD',
-    '139(1)',
-  ];
+  static const _quickSearches = ['194C', '80C', '10(10D)', '44AD', '139(1)'];
 
   @override
   void initState() {
@@ -200,9 +194,9 @@ class _NoResults extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             'No matching sections found',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral400,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),

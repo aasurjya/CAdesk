@@ -108,17 +108,17 @@ class DtaaBenefit {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        countryCode,
-        incomeType,
-        grossIncome,
-        withholdingTaxRate,
-        trcSubmitted,
-        form10fSubmitted,
-        dtaaTaxPaid,
-        reliefClaimed,
-        article,
-      );
+    pan,
+    countryCode,
+    incomeType,
+    grossIncome,
+    withholdingTaxRate,
+    trcSubmitted,
+    form10fSubmitted,
+    dtaaTaxPaid,
+    reliefClaimed,
+    article,
+  );
 
   @override
   String toString() =>

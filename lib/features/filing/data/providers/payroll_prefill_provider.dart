@@ -81,8 +81,7 @@ class PayrollPrefillService {
       return SalaryIncome.empty();
     }
 
-    final grossSalary =
-        payslips.fold<double>(0, (sum, p) => sum + p.grossPaid);
+    final grossSalary = payslips.fold<double>(0, (sum, p) => sum + p.grossPaid);
 
     // HRA and LTA exemptions are not separately tracked in PayrollMonth,
     // so we set Section 10 exemptions to zero (user can override manually).
@@ -96,8 +95,7 @@ class PayrollPrefillService {
 
     // Standard deduction for new regime AY 2025-26 onwards: Rs 75,000.
     // Capped at gross salary if gross is lower.
-    final standardDeduction =
-        grossSalary < 75000 ? grossSalary : 75000.0;
+    final standardDeduction = grossSalary < 75000 ? grossSalary : 75000.0;
 
     return SalaryIncome(
       grossSalary: grossSalary,
@@ -206,30 +204,30 @@ typedef PayrollPrefillParams = ({String employeeId, int financialYear});
 /// ```
 final payrollAnnualSummaryProvider =
     Provider.family<PayrollPrefillResult, PayrollPrefillParams>((ref, params) {
-  final allPayroll = ref.watch(payrollMonthsProvider);
-  final employees = ref.watch(employeesProvider);
-  final service = ref.watch(payrollPrefillServiceProvider);
+      final allPayroll = ref.watch(payrollMonthsProvider);
+      final employees = ref.watch(employeesProvider);
+      final service = ref.watch(payrollPrefillServiceProvider);
 
-  // Filter payroll records for this employee in the given FY
-  final employeePayslips = allPayroll
-      .where(
-        (record) =>
-            record.employeeId == params.employeeId &&
-            _isInFinancialYear(record, params.financialYear),
-      )
-      .toList();
+      // Filter payroll records for this employee in the given FY
+      final employeePayslips = allPayroll
+          .where(
+            (record) =>
+                record.employeeId == params.employeeId &&
+                _isInFinancialYear(record, params.financialYear),
+          )
+          .toList();
 
-  // Find employee name
-  final employee = employees.cast<Employee?>().firstWhere(
-    (e) => e?.id == params.employeeId,
-    orElse: () => null,
-  );
+      // Find employee name
+      final employee = employees.cast<Employee?>().firstWhere(
+        (e) => e?.id == params.employeeId,
+        orElse: () => null,
+      );
 
-  return service.buildResult(
-    payslips: employeePayslips,
-    employeeName: employee?.name ?? 'Unknown Employee',
-  );
-});
+      return service.buildResult(
+        payslips: employeePayslips,
+        employeeName: employee?.name ?? 'Unknown Employee',
+      );
+    });
 
 /// Provides the list of available financial years for payroll prefill.
 ///

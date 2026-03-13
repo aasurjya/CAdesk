@@ -92,14 +92,14 @@ class TracesChallanStatus {
 
   @override
   int get hashCode => Object.hash(
-        bsrCode,
-        challanDate,
-        challanSerial,
-        tan,
-        section,
-        depositedAmount,
-        status,
-        consumedAmount,
-        balanceAmount,
-      );
+    bsrCode,
+    challanDate,
+    challanSerial,
+    tan,
+    section,
+    depositedAmount,
+    status,
+    consumedAmount,
+    balanceAmount,
+  );
 }

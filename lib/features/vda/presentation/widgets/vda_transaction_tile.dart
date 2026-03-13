@@ -49,9 +49,7 @@ class VdaTransactionTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    isProfit
-                        ? '+${_formatPaise(gain)}'
-                        : _formatPaise(gain),
+                    isProfit ? '+${_formatPaise(gain)}' : _formatPaise(gain),
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: gainColor,
                       fontWeight: FontWeight.w700,
@@ -172,8 +170,18 @@ String _formatPaise(int paise) {
 
 String _formatDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
 }

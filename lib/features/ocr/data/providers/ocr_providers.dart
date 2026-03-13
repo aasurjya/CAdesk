@@ -323,10 +323,9 @@ class OcrJobListNotifier extends Notifier<List<OcrJob>> {
 // Providers
 // ---------------------------------------------------------------------------
 
-final ocrJobListProvider =
-    NotifierProvider<OcrJobListNotifier, List<OcrJob>>(
-      OcrJobListNotifier.new,
-    );
+final ocrJobListProvider = NotifierProvider<OcrJobListNotifier, List<OcrJob>>(
+  OcrJobListNotifier.new,
+);
 
 class OcrActiveJobNotifier extends Notifier<OcrJob?> {
   @override
@@ -335,8 +334,9 @@ class OcrActiveJobNotifier extends Notifier<OcrJob?> {
   void select(OcrJob? job) => state = job;
 }
 
-final ocrActiveJobProvider =
-    NotifierProvider<OcrActiveJobNotifier, OcrJob?>(OcrActiveJobNotifier.new);
+final ocrActiveJobProvider = NotifierProvider<OcrActiveJobNotifier, OcrJob?>(
+  OcrActiveJobNotifier.new,
+);
 
 final ocrPipelineProvider = Provider<OcrPipelineService>(
   (ref) => OcrPipelineService.instance,

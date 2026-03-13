@@ -90,14 +90,14 @@ class ForeignAssetItem {
 
   @override
   int get hashCode => Object.hash(
-        assetType,
-        country,
-        institution,
-        accountNumber,
-        peakValue,
-        closingValue,
-        incomeAccrued,
-      );
+    assetType,
+    country,
+    institution,
+    accountNumber,
+    peakValue,
+    closingValue,
+    incomeAccrued,
+  );
 
   @override
   String toString() =>

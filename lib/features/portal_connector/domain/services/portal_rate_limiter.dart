@@ -21,9 +21,8 @@ const Duration _kWindow = Duration(seconds: 60);
 /// The optional [now] parameter on [isAllowed] and [computeWaitTime] allows
 /// deterministic testing without `DateTime.now()` side-effects.
 class PortalRateLimiter {
-  const PortalRateLimiter({
-    Map<Portal, List<DateTime>>? history,
-  }) : _history = history ?? const {};
+  const PortalRateLimiter({Map<Portal, List<DateTime>>? history})
+    : _history = history ?? const {};
 
   /// Internal request history keyed by portal.
   final Map<Portal, List<DateTime>> _history;
@@ -39,7 +38,9 @@ class PortalRateLimiter {
 
   /// Records a request for [portal] at [at] and returns a new [PortalRateLimiter].
   PortalRateLimiter recordRequest(Portal portal, DateTime at) {
-    final existing = List<DateTime>.from(_history[portal] ?? const <DateTime>[]);
+    final existing = List<DateTime>.from(
+      _history[portal] ?? const <DateTime>[],
+    );
     existing.add(at);
     final updated = Map<Portal, List<DateTime>>.from(_history);
     updated[portal] = existing;

@@ -32,11 +32,7 @@ class WhatsAppService {
   ///
   /// Returns a [WhatsAppMessage] with [MessageStatus.sent] and [sentAt] set
   /// to now.
-  WhatsAppMessage sendTextMessage(
-    String to,
-    String message,
-    String firmId,
-  ) {
+  WhatsAppMessage sendTextMessage(String to, String message, String firmId) {
     return WhatsAppMessage(
       messageId: _generateMessageId(),
       to: to,
@@ -83,17 +79,12 @@ class WhatsAppService {
     PortalClient client,
     SharedDocument doc,
   ) {
-    return sendTemplateMessage(
-      client.mobile,
-      'document_shared',
-      {
-        'clientName': client.name,
-        'caName': 'Your CA',
-        'documentTitle': doc.title,
-        'portalLink': 'https://portal.caapp.in',
-      },
-      client.caFirmId,
-    );
+    return sendTemplateMessage(client.mobile, 'document_shared', {
+      'clientName': client.name,
+      'caName': 'Your CA',
+      'documentTitle': doc.title,
+      'portalLink': 'https://portal.caapp.in',
+    }, client.caFirmId);
   }
 
   /// Sends a deadline reminder to [client].
@@ -102,36 +93,23 @@ class WhatsAppService {
     String deadline,
     String filingType,
   ) {
-    return sendTemplateMessage(
-      client.mobile,
-      'deadline_reminder',
-      {
-        'filingType': filingType,
-        'deadline': deadline,
-        'requiredDocuments': 'relevant documents',
-      },
-      client.caFirmId,
-    );
+    return sendTemplateMessage(client.mobile, 'deadline_reminder', {
+      'filingType': filingType,
+      'deadline': deadline,
+      'requiredDocuments': 'relevant documents',
+    }, client.caFirmId);
   }
 
   /// Sends a payment reminder to [client] for [link].
   ///
   /// [link.amount] (paise) is converted to rupees for display.
-  WhatsAppMessage sendPaymentReminder(
-    PortalClient client,
-    PaymentLink link,
-  ) {
+  WhatsAppMessage sendPaymentReminder(PortalClient client, PaymentLink link) {
     final amountRupees = (link.amount / 100).toStringAsFixed(0);
-    return sendTemplateMessage(
-      client.mobile,
-      'payment_due',
-      {
-        'amount': amountRupees,
-        'dueDate': _formatDate(link.expiresAt),
-        'paymentLink': 'https://pay.caapp.in/${link.linkId}',
-      },
-      client.caFirmId,
-    );
+    return sendTemplateMessage(client.mobile, 'payment_due', {
+      'amount': amountRupees,
+      'dueDate': _formatDate(link.expiresAt),
+      'paymentLink': 'https://pay.caapp.in/${link.linkId}',
+    }, client.caFirmId);
   }
 
   // ---------------------------------------------------------------------------

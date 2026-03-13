@@ -14,16 +14,15 @@ void main() {
 
     test('includes ITR filing alert (Jul 31)', () {
       final alerts = service.generateAlerts(2025, today);
-      final itr = alerts.where(
-        (a) => a.title.toLowerCase().contains('itr'),
-      );
+      final itr = alerts.where((a) => a.title.toLowerCase().contains('itr'));
       expect(itr, isNotEmpty);
     });
 
     test('includes GSTR-9 filing alert (Dec 31)', () {
       final alerts = service.generateAlerts(2025, today);
       final gstr9 = alerts.where(
-        (a) => a.title.toLowerCase().contains('gstr-9') ||
+        (a) =>
+            a.title.toLowerCase().contains('gstr-9') ||
             a.title.toLowerCase().contains('gstr9'),
       );
       expect(gstr9, isNotEmpty);
@@ -32,7 +31,8 @@ void main() {
     test('includes Section 43B(h) MSME alert', () {
       final alerts = service.generateAlerts(2025, today);
       final msme = alerts.where(
-        (a) => a.title.toLowerCase().contains('msme') ||
+        (a) =>
+            a.title.toLowerCase().contains('msme') ||
             a.description.toLowerCase().contains('43b'),
       );
       expect(msme, isNotEmpty);
@@ -41,7 +41,8 @@ void main() {
     test('includes DIR-3 KYC alert (Sep 30)', () {
       final alerts = service.generateAlerts(2025, today);
       final dir3 = alerts.where(
-        (a) => a.title.toLowerCase().contains('dir-3') ||
+        (a) =>
+            a.title.toLowerCase().contains('dir-3') ||
             a.title.toLowerCase().contains('kyc'),
       );
       expect(dir3, isNotEmpty);
@@ -50,7 +51,8 @@ void main() {
     test('includes Finance Act 2024 TDS rate change alert', () {
       final alerts = service.generateAlerts(2025, today);
       final tds = alerts.where(
-        (a) => a.alertType == AlertType.rateChange &&
+        (a) =>
+            a.alertType == AlertType.rateChange &&
             (a.title.toLowerCase().contains('stcg') ||
                 a.title.toLowerCase().contains('ltcg') ||
                 a.description.toLowerCase().contains('finance act 2024')),

@@ -111,48 +111,88 @@ void main() {
     });
 
     test('serialize returns GstrExportResult with returnType gstr1', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.returnType, GstrReturnType.gstr1);
     });
 
     test('serialize sets gstin and period on result', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.gstin, '29AABCT1332L1ZB');
       expect(result.period, '032024');
     });
 
     test('serialize produces valid JSON string', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(() => jsonDecode(result.jsonPayload), returnsNormally);
     });
 
     test('JSON contains gstin field', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['gstin'], '29AABCT1332L1ZB');
     });
 
     test('JSON contains fp (filing period) field', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['fp'], '032024');
     });
 
     test('sectionCount is 0 for empty form data', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.sectionCount, 0);
     });
 
     test('exportedAt is set to a recent DateTime', () {
       final before = DateTime.now();
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final after = DateTime.now();
-      expect(result.exportedAt.isAfter(before) || result.exportedAt.isAtSameMomentAs(before), isTrue);
-      expect(result.exportedAt.isBefore(after) || result.exportedAt.isAtSameMomentAs(after), isTrue);
+      expect(
+        result.exportedAt.isAfter(before) ||
+            result.exportedAt.isAtSameMomentAs(before),
+        isTrue,
+      );
+      expect(
+        result.exportedAt.isBefore(after) ||
+            result.exportedAt.isAtSameMomentAs(after),
+        isTrue,
+      );
     });
 
     test('validationErrors is empty for valid form data', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.validationErrors, isEmpty);
     });
 
@@ -165,7 +205,11 @@ void main() {
       });
 
       test('b2b section absent when b2bInvoices empty', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2b'), isFalse);
       });
@@ -199,16 +243,24 @@ void main() {
         expect(inv['idt'], '01-03-2024');
       });
 
-      test('b2b invoice val is total invoice value as string with 2 decimals', () {
-        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
-        final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
-        final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
-        final b2b = json['b2b'] as List<Object?>;
-        final entry = b2b[0] as Map<String, Object?>;
-        final inv = (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
-        // taxableValue 10000 + cgst 900 + sgst 900 = 11800
-        expect(inv['val'], '11800.00');
-      });
+      test(
+        'b2b invoice val is total invoice value as string with 2 decimals',
+        () {
+          final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
+          final result = serializer.serialize(
+            form,
+            '29AABCT1332L1ZB',
+            '032024',
+          );
+          final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
+          final b2b = json['b2b'] as List<Object?>;
+          final entry = b2b[0] as Map<String, Object?>;
+          final inv =
+              (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
+          // taxableValue 10000 + cgst 900 + sgst 900 = 11800
+          expect(inv['val'], '11800.00');
+        },
+      );
 
       test('b2b invoice pos is place of supply', () {
         final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
@@ -227,7 +279,8 @@ void main() {
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
         final entry = b2b[0] as Map<String, Object?>;
-        final invJson = (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
+        final invJson =
+            (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
         expect(invJson['rchrg'], 'Y');
       });
 
@@ -237,7 +290,8 @@ void main() {
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
         final entry = b2b[0] as Map<String, Object?>;
-        final invJson = (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
+        final invJson =
+            (entry['inv'] as List<Object?>)[0] as Map<String, Object?>;
         expect(invJson['rchrg'], 'N');
       });
 
@@ -259,17 +313,24 @@ void main() {
         expect(itmDet['samt'], '900.00');
       });
 
-      test('two b2b invoices for same recipient are grouped under one ctin entry', () {
-        final inv2 = b2bInvoice().copyWith(invoiceNumber: 'INV002');
-        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice(), inv2]);
-        final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
-        final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
-        final b2b = json['b2b'] as List<Object?>;
-        // Same ctin => one group
-        expect(b2b.length, 1);
-        final entry = b2b[0] as Map<String, Object?>;
-        expect((entry['inv'] as List<Object?>).length, 2);
-      });
+      test(
+        'two b2b invoices for same recipient are grouped under one ctin entry',
+        () {
+          final inv2 = b2bInvoice().copyWith(invoiceNumber: 'INV002');
+          final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice(), inv2]);
+          final result = serializer.serialize(
+            form,
+            '29AABCT1332L1ZB',
+            '032024',
+          );
+          final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
+          final b2b = json['b2b'] as List<Object?>;
+          // Same ctin => one group
+          expect(b2b.length, 1);
+          final entry = b2b[0] as Map<String, Object?>;
+          expect((entry['inv'] as List<Object?>).length, 2);
+        },
+      );
 
       test('sectionCount increments when b2b present', () {
         final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
@@ -287,7 +348,11 @@ void main() {
       });
 
       test('b2cs section absent when no B2CS invoices', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2cs'), isFalse);
       });

@@ -68,8 +68,13 @@ class TdsMismatch {
           booksPaise == other.booksPaise;
 
   @override
-  int get hashCode =>
-      Object.hash(deductorTan, section, mismatchType, form26asPaise, booksPaise);
+  int get hashCode => Object.hash(
+    deductorTan,
+    section,
+    mismatchType,
+    form26asPaise,
+    booksPaise,
+  );
 }
 
 /// Immutable summary of a Form 26AS reconciliation run.
@@ -101,7 +106,8 @@ class ReconciliationSummary {
       bookedEntries: bookedEntries ?? this.bookedEntries,
       unmatchedEntries: unmatchedEntries ?? this.unmatchedEntries,
       overBookedEntries: overBookedEntries ?? this.overBookedEntries,
-      totalTdsCreditedPaise: totalTdsCreditedPaise ?? this.totalTdsCreditedPaise,
+      totalTdsCreditedPaise:
+          totalTdsCreditedPaise ?? this.totalTdsCreditedPaise,
     );
   }
 
@@ -207,8 +213,10 @@ class Form26AsReconciliationService {
       }
     }
 
-    final totalMatchedPaise =
-        matched.fold<int>(0, (sum, e) => sum + e.tdsDeducted);
+    final totalMatchedPaise = matched.fold<int>(
+      0,
+      (sum, e) => sum + e.tdsDeducted,
+    );
 
     return Form26AsReconciliationResult(
       matchedEntries: matched,
@@ -238,13 +246,15 @@ class Form26AsReconciliationService {
       final form26asPaise = form26asEntry.tdsDeducted;
 
       if (booksPaise != form26asPaise) {
-        mismatches.add(TdsMismatch(
-          deductorTan: form26asEntry.deductorTan,
-          section: form26asEntry.section,
-          mismatchType: MismatchType.amountDifference,
-          form26asPaise: form26asPaise,
-          booksPaise: booksPaise,
-        ));
+        mismatches.add(
+          TdsMismatch(
+            deductorTan: form26asEntry.deductorTan,
+            section: form26asEntry.section,
+            mismatchType: MismatchType.amountDifference,
+            form26asPaise: form26asPaise,
+            booksPaise: booksPaise,
+          ),
+        );
       }
     }
 

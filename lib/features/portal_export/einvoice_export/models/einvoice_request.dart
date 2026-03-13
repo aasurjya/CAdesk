@@ -48,21 +48,13 @@ class EInvoiceTranDetails {
 /// [no] invoice number (max 16 alphanumeric chars plus / and -).
 /// [dt] invoice date (serialised as DD/MM/YYYY in JSON output).
 class EInvoiceDocDetails {
-  EInvoiceDocDetails({
-    required this.typ,
-    required this.no,
-    required this.dt,
-  });
+  EInvoiceDocDetails({required this.typ, required this.no, required this.dt});
 
   final String typ;
   final String no;
   final DateTime dt;
 
-  EInvoiceDocDetails copyWith({
-    String? typ,
-    String? no,
-    DateTime? dt,
-  }) {
+  EInvoiceDocDetails copyWith({String? typ, String? no, DateTime? dt}) {
     return EInvoiceDocDetails(
       typ: typ ?? this.typ,
       no: no ?? this.no,

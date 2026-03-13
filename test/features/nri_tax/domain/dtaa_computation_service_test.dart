@@ -246,7 +246,10 @@ void main() {
           reliefClaimed: 0,
           article: 'Article 11',
         );
-        final updated = original.copyWith(trcSubmitted: true, dtaaTaxPaid: 1000000);
+        final updated = original.copyWith(
+          trcSubmitted: true,
+          dtaaTaxPaid: 1000000,
+        );
         expect(updated.trcSubmitted, true);
         expect(updated.dtaaTaxPaid, 1000000);
         expect(original.trcSubmitted, false);

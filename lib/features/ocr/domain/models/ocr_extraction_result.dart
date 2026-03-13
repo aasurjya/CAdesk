@@ -76,11 +76,11 @@ class OcrExtractionResult {
 
   @override
   int get hashCode => Object.hash(
-        document,
-        extractedData,
-        Object.hashAll(validationErrors),
-        requiresManualReview,
-      );
+    document,
+    extractedData,
+    Object.hashAll(validationErrors),
+    requiresManualReview,
+  );
 
   @override
   String toString() =>

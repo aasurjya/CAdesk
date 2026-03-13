@@ -10,16 +10,15 @@ void main() {
     required Portal portal,
     required int statusCode,
     String body = '{}',
-  }) =>
-      PortalResponse(
-        requestId: 'req-1',
-        portal: portal,
-        statusCode: statusCode,
-        body: body,
-        headers: const {},
-        latencyMs: 100,
-        timestamp: ts,
-      );
+  }) => PortalResponse(
+    requestId: 'req-1',
+    portal: portal,
+    statusCode: statusCode,
+    body: body,
+    headers: const {},
+    latencyMs: 100,
+    timestamp: ts,
+  );
 
   group('PortalErrorHandler.handleError', () {
     test('maps ITD 429 body to PortalError with rateLimitExceeded type', () {
@@ -158,16 +157,22 @@ void main() {
     test('5xx responses are retryable', () {
       for (final code in [500, 502, 503, 504]) {
         final response = makeResponse(portal: Portal.itd, statusCode: code);
-        expect(PortalErrorHandler.isRetryable(response), isTrue,
-            reason: '$code should be retryable');
+        expect(
+          PortalErrorHandler.isRetryable(response),
+          isTrue,
+          reason: '$code should be retryable',
+        );
       }
     });
 
     test('4xx responses are not retryable', () {
       for (final code in [400, 401, 403, 404, 429]) {
         final response = makeResponse(portal: Portal.itd, statusCode: code);
-        expect(PortalErrorHandler.isRetryable(response), isFalse,
-            reason: '$code should not be retryable');
+        expect(
+          PortalErrorHandler.isRetryable(response),
+          isFalse,
+          reason: '$code should not be retryable',
+        );
       }
     });
 

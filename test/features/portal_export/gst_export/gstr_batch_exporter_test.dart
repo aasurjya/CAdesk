@@ -117,7 +117,9 @@ void main() {
       });
 
       test('single form returns list with one result', () {
-        final results = exporter.exportGstr3bBatch([gstr3bForm(3)], '29AABCT1332L1ZB');
+        final results = exporter.exportGstr3bBatch([
+          gstr3bForm(3),
+        ], '29AABCT1332L1ZB');
         expect(results.length, 1);
       });
 
@@ -143,12 +145,16 @@ void main() {
       });
 
       test('all results have provided gstin', () {
-        final results = exporter.exportGstr3bBatch([gstr3bForm(3)], '27AABCE1234F1Z5');
+        final results = exporter.exportGstr3bBatch([
+          gstr3bForm(3),
+        ], '27AABCE1234F1Z5');
         expect(results[0].gstin, '27AABCE1234F1Z5');
       });
 
       test('results are immutable — list is unmodifiable', () {
-        final results = exporter.exportGstr3bBatch([gstr3bForm(3)], '29AABCT1332L1ZB');
+        final results = exporter.exportGstr3bBatch([
+          gstr3bForm(3),
+        ], '29AABCT1332L1ZB');
         expect(() => results.add(results[0]), throwsUnsupportedError);
       });
     });

@@ -210,7 +210,11 @@ class _ClientAySelector extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.person_rounded, size: 18, color: AppColors.primary),
+                const Icon(
+                  Icons.person_rounded,
+                  size: 18,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Rajesh Sharma',
@@ -442,9 +446,7 @@ class _RunReconButton extends StatelessWidget {
       label: const Text('Run Reconciliation'),
       style: FilledButton.styleFrom(
         minimumSize: const Size(double.infinity, 48),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
       ),
     );
   }

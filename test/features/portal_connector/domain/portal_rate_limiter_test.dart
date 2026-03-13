@@ -9,8 +9,11 @@ void main() {
     test('all portals are allowed with empty history', () {
       const limiter = PortalRateLimiter();
       for (final portal in Portal.values) {
-        expect(limiter.isAllowed(portal, now: t0), isTrue,
-            reason: 'Expected $portal to be allowed with empty history');
+        expect(
+          limiter.isAllowed(portal, now: t0),
+          isTrue,
+          reason: 'Expected $portal to be allowed with empty history',
+        );
       }
     });
 
@@ -26,7 +29,10 @@ void main() {
     test('allows up to 10 requests within 60 seconds', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 10; i++) {
-        expect(limiter.isAllowed(Portal.itd, now: t0.add(Duration(seconds: i))), isTrue);
+        expect(
+          limiter.isAllowed(Portal.itd, now: t0.add(Duration(seconds: i))),
+          isTrue,
+        );
         limiter = limiter.recordRequest(
           Portal.itd,
           t0.add(Duration(seconds: i)),
@@ -37,10 +43,16 @@ void main() {
     test('blocks 11th request within same 60-second window', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 10; i++) {
-        limiter = limiter.recordRequest(Portal.itd, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.itd,
+          t0.add(Duration(seconds: i)),
+        );
       }
       // Check isAllowed at t0 + 9s (all 10 are still inside the window)
-      expect(limiter.isAllowed(Portal.itd, now: t0.add(const Duration(seconds: 9))), isFalse);
+      expect(
+        limiter.isAllowed(Portal.itd, now: t0.add(const Duration(seconds: 9))),
+        isFalse,
+      );
     });
 
     test('allows request after 60-second window has passed', () {
@@ -64,7 +76,10 @@ void main() {
     test('allows up to 20 requests', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 20; i++) {
-        expect(limiter.isAllowed(Portal.gstn, now: t0.add(Duration(seconds: i))), isTrue);
+        expect(
+          limiter.isAllowed(Portal.gstn, now: t0.add(Duration(seconds: i))),
+          isTrue,
+        );
         limiter = limiter.recordRequest(
           Portal.gstn,
           t0.add(Duration(seconds: i)),
@@ -75,9 +90,18 @@ void main() {
     test('blocks 21st request within same window', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 20; i++) {
-        limiter = limiter.recordRequest(Portal.gstn, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.gstn,
+          t0.add(Duration(seconds: i)),
+        );
       }
-      expect(limiter.isAllowed(Portal.gstn, now: t0.add(const Duration(seconds: 19))), isFalse);
+      expect(
+        limiter.isAllowed(
+          Portal.gstn,
+          now: t0.add(const Duration(seconds: 19)),
+        ),
+        isFalse,
+      );
     });
   });
 
@@ -85,7 +109,10 @@ void main() {
     test('allows up to 5 requests', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 5; i++) {
-        expect(limiter.isAllowed(Portal.traces, now: t0.add(Duration(seconds: i))), isTrue);
+        expect(
+          limiter.isAllowed(Portal.traces, now: t0.add(Duration(seconds: i))),
+          isTrue,
+        );
         limiter = limiter.recordRequest(
           Portal.traces,
           t0.add(Duration(seconds: i)),
@@ -96,9 +123,18 @@ void main() {
     test('blocks 6th request within same window', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 5; i++) {
-        limiter = limiter.recordRequest(Portal.traces, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.traces,
+          t0.add(Duration(seconds: i)),
+        );
       }
-      expect(limiter.isAllowed(Portal.traces, now: t0.add(const Duration(seconds: 4))), isFalse);
+      expect(
+        limiter.isAllowed(
+          Portal.traces,
+          now: t0.add(const Duration(seconds: 4)),
+        ),
+        isFalse,
+      );
     });
   });
 
@@ -106,9 +142,15 @@ void main() {
     test('blocks 11th request', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 10; i++) {
-        limiter = limiter.recordRequest(Portal.mca, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.mca,
+          t0.add(Duration(seconds: i)),
+        );
       }
-      expect(limiter.isAllowed(Portal.mca, now: t0.add(const Duration(seconds: 9))), isFalse);
+      expect(
+        limiter.isAllowed(Portal.mca, now: t0.add(const Duration(seconds: 9))),
+        isFalse,
+      );
     });
   });
 
@@ -121,19 +163,31 @@ void main() {
     test('returns positive Duration when rate-limited', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 10; i++) {
-        limiter = limiter.recordRequest(Portal.itd, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.itd,
+          t0.add(Duration(seconds: i)),
+        );
       }
       // Check wait time at t0 + 9s (within the window, still blocked)
-      final wait = limiter.computeWaitTime(Portal.itd, now: t0.add(const Duration(seconds: 9)));
+      final wait = limiter.computeWaitTime(
+        Portal.itd,
+        now: t0.add(const Duration(seconds: 9)),
+      );
       expect(wait.inMilliseconds, greaterThan(0));
     });
 
     test('TRACES wait time does not exceed 60 seconds', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 5; i++) {
-        limiter = limiter.recordRequest(Portal.traces, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.traces,
+          t0.add(Duration(seconds: i)),
+        );
       }
-      final wait = limiter.computeWaitTime(Portal.traces, now: t0.add(const Duration(seconds: 4)));
+      final wait = limiter.computeWaitTime(
+        Portal.traces,
+        now: t0.add(const Duration(seconds: 4)),
+      );
       expect(wait.inSeconds, lessThanOrEqualTo(60));
     });
   });
@@ -142,7 +196,10 @@ void main() {
     test('rate-limiting ITD does not affect GSTN', () {
       var limiter = const PortalRateLimiter();
       for (var i = 0; i < 10; i++) {
-        limiter = limiter.recordRequest(Portal.itd, t0.add(Duration(seconds: i)));
+        limiter = limiter.recordRequest(
+          Portal.itd,
+          t0.add(Duration(seconds: i)),
+        );
       }
       final checkAt = t0.add(const Duration(seconds: 9));
       expect(limiter.isAllowed(Portal.itd, now: checkAt), isFalse);

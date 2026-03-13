@@ -109,16 +109,16 @@ class ResidentialStatus {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        financialYear,
-        daysInIndia,
-        daysInIndiaPrev1,
-        daysInIndiaPrev2,
-        daysInIndiaPrev3,
-        daysInIndiaPrev4,
-        status,
-        determination,
-      );
+    pan,
+    financialYear,
+    daysInIndia,
+    daysInIndiaPrev1,
+    daysInIndiaPrev2,
+    daysInIndiaPrev3,
+    daysInIndiaPrev4,
+    status,
+    determination,
+  );
 
   @override
   String toString() =>

@@ -190,9 +190,7 @@ class TracesResponseParser {
       case 'justificationReport':
         return Form16RequestType.justificationReport;
       default:
-        throw ArgumentError(
-          'Unknown TRACES Form 16 request type: "$typeStr"',
-        );
+        throw ArgumentError('Unknown TRACES Form 16 request type: "$typeStr"');
     }
   }
 
@@ -213,21 +211,15 @@ class TracesResponseParser {
     final totalShortfall = response['totalShortfall'] as int;
     final totalInterestDemand = response['totalInterestDemand'] as int;
 
-    final shortDeductionsRaw =
-        response['shortDeductions'] as List<dynamic>;
-    final lateDeductionsRaw =
-        response['lateDeductions'] as List<dynamic>;
+    final shortDeductionsRaw = response['shortDeductions'] as List<dynamic>;
+    final lateDeductionsRaw = response['lateDeductions'] as List<dynamic>;
 
     final shortDeductions = shortDeductionsRaw
-        .map(
-          (e) => _parseShortDeductionEntry(e as Map<String, dynamic>),
-        )
+        .map((e) => _parseShortDeductionEntry(e as Map<String, dynamic>))
         .toList();
 
     final lateDeductions = lateDeductionsRaw
-        .map(
-          (e) => _parseLateDeductionEntry(e as Map<String, dynamic>),
-        )
+        .map((e) => _parseLateDeductionEntry(e as Map<String, dynamic>))
         .toList();
 
     final quarter = TdsQuarter.values[quarterInt - 1];

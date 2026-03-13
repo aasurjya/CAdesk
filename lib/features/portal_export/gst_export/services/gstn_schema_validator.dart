@@ -89,7 +89,9 @@ class GstnSchemaValidator {
     final errors = <String>[];
 
     if (result.returnType != GstrReturnType.gstr3b) {
-      errors.add('Return type must be gstr3b but got ${result.returnType.name}');
+      errors.add(
+        'Return type must be gstr3b but got ${result.returnType.name}',
+      );
     }
 
     if (!validateGstin(result.gstin)) {
@@ -153,7 +155,12 @@ class GstnSchemaValidator {
       final sec = supDetails[section];
       if (sec is! Map<String, Object?>) continue;
       for (final field in amtFields) {
-        _assertAmountNonNegative(sec, field, 'sup_details.$section.$field', errors);
+        _assertAmountNonNegative(
+          sec,
+          field,
+          'sup_details.$section.$field',
+          errors,
+        );
       }
     }
   }

@@ -25,8 +25,9 @@ class EWayBillService {
     final totVal = req.valDtls.totInvVal;
     if (totVal <= _eWayBillThreshold) return false;
 
-    final hasGoods = req.itemList
-        .any((EInvoiceItem i) => i.isServc == EInvoiceIsServc.no);
+    final hasGoods = req.itemList.any(
+      (EInvoiceItem i) => i.isServc == EInvoiceIsServc.no,
+    );
     if (!hasGoods) return false;
 
     final distance = computeDistance(

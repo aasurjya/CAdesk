@@ -10,12 +10,7 @@ import 'package:ca_app/features/llp/domain/services/llp_form8_service.dart';
 // ---------------------------------------------------------------------------
 
 /// Filing status for a specific form.
-enum LlpFilingStatus {
-  filed,
-  overdue,
-  pending,
-  notDue,
-}
+enum LlpFilingStatus { filed, overdue, pending, notDue }
 
 /// Immutable presentation model for an LLP entity.
 class LlpEntity {
@@ -166,8 +161,9 @@ final _mockLlps = List<LlpEntity>.unmodifiable([
 // ---------------------------------------------------------------------------
 
 /// All LLPs list.
-final llpListProvider =
-    NotifierProvider<LlpListNotifier, List<LlpEntity>>(LlpListNotifier.new);
+final llpListProvider = NotifierProvider<LlpListNotifier, List<LlpEntity>>(
+  LlpListNotifier.new,
+);
 
 class LlpListNotifier extends Notifier<List<LlpEntity>> {
   @override
@@ -175,10 +171,9 @@ class LlpListNotifier extends Notifier<List<LlpEntity>> {
 }
 
 /// Selected LLP ID for detail screen.
-final selectedLlpIdProvider =
-    NotifierProvider<SelectedLlpIdNotifier, String>(
-      SelectedLlpIdNotifier.new,
-    );
+final selectedLlpIdProvider = NotifierProvider<SelectedLlpIdNotifier, String>(
+  SelectedLlpIdNotifier.new,
+);
 
 class SelectedLlpIdNotifier extends Notifier<String> {
   @override

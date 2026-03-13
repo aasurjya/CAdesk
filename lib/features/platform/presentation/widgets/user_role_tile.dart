@@ -6,11 +6,7 @@ import 'package:ca_app/features/platform/domain/models/app_user.dart';
 /// ListTile showing a team member with avatar initials, role chip, and last
 /// active relative time.
 class UserRoleTile extends StatelessWidget {
-  const UserRoleTile({
-    super.key,
-    required this.user,
-    this.onTap,
-  });
+  const UserRoleTile({super.key, required this.user, this.onTap});
 
   final AppUser user;
   final VoidCallback? onTap;
@@ -41,9 +37,7 @@ class UserRoleTile extends StatelessWidget {
       ),
       subtitle: Text(
         user.email,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: AppColors.neutral400,
-        ),
+        style: theme.textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
       ),
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,

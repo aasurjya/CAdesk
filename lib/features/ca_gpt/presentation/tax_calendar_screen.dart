@@ -16,14 +16,15 @@ class TaxCalendarScreen extends ConsumerWidget {
     final selectedMonth = ref.watch(selectedCalendarMonthProvider);
     final theme = Theme.of(context);
 
-    final deadlinesInMonth = allDeadlines
-        .where(
-          (d) =>
-              d.date.year == selectedMonth.year &&
-              d.date.month == selectedMonth.month,
-        )
-        .toList()
-      ..sort((a, b) => a.date.compareTo(b.date));
+    final deadlinesInMonth =
+        allDeadlines
+            .where(
+              (d) =>
+                  d.date.year == selectedMonth.year &&
+                  d.date.month == selectedMonth.month,
+            )
+            .toList()
+          ..sort((a, b) => a.date.compareTo(b.date));
 
     return Column(
       children: [
@@ -87,28 +88,42 @@ class _MonthNavigator extends StatelessWidget {
 
   static const _months = [
     '',
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   void _prev() {
     final current = ref.read(selectedCalendarMonthProvider);
-    ref.read(selectedCalendarMonthProvider.notifier).update(
-      DateTime(
-        current.month == 1 ? current.year - 1 : current.year,
-        current.month == 1 ? 12 : current.month - 1,
-      ),
-    );
+    ref
+        .read(selectedCalendarMonthProvider.notifier)
+        .update(
+          DateTime(
+            current.month == 1 ? current.year - 1 : current.year,
+            current.month == 1 ? 12 : current.month - 1,
+          ),
+        );
   }
 
   void _next() {
     final current = ref.read(selectedCalendarMonthProvider);
-    ref.read(selectedCalendarMonthProvider.notifier).update(
-      DateTime(
-        current.month == 12 ? current.year + 1 : current.year,
-        current.month == 12 ? 1 : current.month + 1,
-      ),
-    );
+    ref
+        .read(selectedCalendarMonthProvider.notifier)
+        .update(
+          DateTime(
+            current.month == 12 ? current.year + 1 : current.year,
+            current.month == 12 ? 1 : current.month + 1,
+          ),
+        );
   }
 
   @override
@@ -241,8 +256,8 @@ class _DayCell extends StatelessWidget {
     final today = DateTime.now();
     final isToday =
         today.day == day &&
-        today.month == (ModalRoute.of(context)?.settings.arguments as DateTime?)
-            ?.month;
+        today.month ==
+            (ModalRoute.of(context)?.settings.arguments as DateTime?)?.month;
 
     return Container(
       margin: const EdgeInsets.all(1),
@@ -294,9 +309,9 @@ class _NoDeadlines extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             'No deadlines this month',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.neutral400,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),

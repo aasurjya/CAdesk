@@ -93,5 +93,6 @@ class EvcRequest {
   }
 
   @override
-  int get hashCode => Object.hash(pan, mobile, email, evcMethod, otp, otpExpiry, status);
+  int get hashCode =>
+      Object.hash(pan, mobile, email, evcMethod, otp, otpExpiry, status);
 }

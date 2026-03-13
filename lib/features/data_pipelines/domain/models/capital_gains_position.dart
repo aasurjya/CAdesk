@@ -7,13 +7,7 @@ import 'package:ca_app/features/data_pipelines/domain/models/broker_transaction.
 /// - [stcgOther]: Short-term capital gains — other assets (slab rate)
 /// - [ltcgOther]: Long-term capital gains — other assets (Sec 112, 20% with indexation)
 /// - [exempt]: Exempt income (e.g. Equity LTCG within ₹1 lakh threshold)
-enum TaxCategory {
-  stcg111a,
-  ltcg112a,
-  stcgOther,
-  ltcgOther,
-  exempt,
-}
+enum TaxCategory { stcg111a, ltcg112a, stcgOther, ltcgOther, exempt }
 
 /// Immutable model representing a matched buy-sell capital gains position.
 ///

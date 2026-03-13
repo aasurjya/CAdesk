@@ -196,23 +196,39 @@ void main() {
 
   group('MockGstnRepository.getToken', () {
     test('returns a valid token', () async {
-      final token = await repo.getToken('29AABCT1332L000', 'testuser', '123456');
+      final token = await repo.getToken(
+        '29AABCT1332L000',
+        'testuser',
+        '123456',
+      );
       expect(token.accessToken, isNotEmpty);
       expect(token.tokenType, 'Bearer');
     });
 
     test('token is valid for 6 hours', () async {
-      final token = await repo.getToken('29AABCT1332L000', 'testuser', '123456');
+      final token = await repo.getToken(
+        '29AABCT1332L000',
+        'testuser',
+        '123456',
+      );
       expect(token.expiresIn, 6 * 3600);
     });
 
     test('token is not expired immediately after issue', () async {
-      final token = await repo.getToken('29AABCT1332L000', 'testuser', '123456');
+      final token = await repo.getToken(
+        '29AABCT1332L000',
+        'testuser',
+        '123456',
+      );
       expect(token.isExpired, isFalse);
     });
 
     test('expiresAt is issuedAt + expiresIn seconds', () async {
-      final token = await repo.getToken('29AABCT1332L000', 'testuser', '123456');
+      final token = await repo.getToken(
+        '29AABCT1332L000',
+        'testuser',
+        '123456',
+      );
       final expected = token.issuedAt.add(Duration(seconds: token.expiresIn));
       expect(token.expiresAt, expected);
     });

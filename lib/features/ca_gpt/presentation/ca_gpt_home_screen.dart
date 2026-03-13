@@ -52,7 +52,12 @@ class _CaGptHomeScreenState extends State<CaGptHomeScreen> {
   ];
 
   Widget _buildAppBarTitle(ThemeData theme) {
-    final labels = ['CA GPT Chat', 'Section Lookup', 'Notice Drafting', 'Tax Calendar'];
+    final labels = [
+      'CA GPT Chat',
+      'Section Lookup',
+      'Notice Drafting',
+      'Tax Calendar',
+    ];
     final subtitles = [
       'Ask any tax question',
       'Search Income Tax provisions',
@@ -168,8 +173,7 @@ class _WideLayout extends StatelessWidget {
             fontWeight: FontWeight.w700,
             fontSize: 12,
           ),
-          unselectedIconTheme:
-              const IconThemeData(color: AppColors.neutral400),
+          unselectedIconTheme: const IconThemeData(color: AppColors.neutral400),
           unselectedLabelTextStyle: const TextStyle(
             color: AppColors.neutral400,
             fontSize: 12,

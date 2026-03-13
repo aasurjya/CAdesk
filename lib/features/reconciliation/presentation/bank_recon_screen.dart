@@ -49,9 +49,7 @@ class BankReconScreen extends ConsumerWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: isWide
-            ? _WideLayout(recon: recon)
-            : _NarrowLayout(recon: recon),
+        child: isWide ? _WideLayout(recon: recon) : _NarrowLayout(recon: recon),
       ),
     );
   }

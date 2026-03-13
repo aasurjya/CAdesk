@@ -194,15 +194,13 @@ class _DownloadRequestCard extends StatelessWidget {
             _InfoRow(label: 'TAN', value: request.tan),
             _InfoRow(
               label: 'Financial Year',
-              value: 'FY ${request.financialYear - 1}-'
+              value:
+                  'FY ${request.financialYear - 1}-'
                   '${request.financialYear.toString().substring(2)}',
             ),
             _InfoRow(label: 'Quarter', value: 'Q${request.quarter}'),
             if (request.panList.isNotEmpty)
-              _InfoRow(
-                label: 'PANs',
-                value: request.panList.join(', '),
-              ),
+              _InfoRow(label: 'PANs', value: request.panList.join(', ')),
             _InfoRow(
               label: 'Requested',
               value: _formatDate(request.requestDate),
@@ -352,8 +350,18 @@ class _SectionHeader extends StatelessWidget {
 
 String _formatDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
 }

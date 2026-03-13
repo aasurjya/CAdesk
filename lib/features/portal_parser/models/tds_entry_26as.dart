@@ -92,8 +92,14 @@ class TdsEntry26As {
           status == other.status;
 
   @override
-  int get hashCode =>
-      Object.hash(deductorTan, section, amount, tdsDeducted, dateOfDeduction, status);
+  int get hashCode => Object.hash(
+    deductorTan,
+    section,
+    amount,
+    tdsDeducted,
+    dateOfDeduction,
+    status,
+  );
 
   @override
   String toString() =>

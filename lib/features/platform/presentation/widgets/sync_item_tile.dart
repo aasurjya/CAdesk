@@ -6,11 +6,7 @@ import 'package:ca_app/features/platform/domain/models/sync_queue_item.dart';
 /// ListTile showing a sync queue item with entity type icon, operation badge,
 /// status chip, and a retry button when failed.
 class SyncItemTile extends StatelessWidget {
-  const SyncItemTile({
-    super.key,
-    required this.item,
-    this.onRetry,
-  });
+  const SyncItemTile({super.key, required this.item, this.onRetry});
 
   final SyncQueueItem item;
   final VoidCallback? onRetry;

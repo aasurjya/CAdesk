@@ -98,11 +98,14 @@ void main() {
         expect(result.challanCount, equals(1));
       });
 
-      test('result recordCount matches total records (1 BH + 1 CD + 2 DD + 1 BT)', () {
-        final result = FvuFileGenerator.generate(structure, 'AAATA1234X');
-        // recordCount = total deductee entries
-        expect(result.recordCount, equals(2));
-      });
+      test(
+        'result recordCount matches total records (1 BH + 1 CD + 2 DD + 1 BT)',
+        () {
+          final result = FvuFileGenerator.generate(structure, 'AAATA1234X');
+          // recordCount = total deductee entries
+          expect(result.recordCount, equals(2));
+        },
+      );
 
       test('result tanNumber matches provided TAN', () {
         final result = FvuFileGenerator.generate(structure, 'AAATA1234X');

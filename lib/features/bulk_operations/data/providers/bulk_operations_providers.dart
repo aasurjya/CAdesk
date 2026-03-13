@@ -111,8 +111,7 @@ final batchStatsProvider = Provider<BatchStats>((ref) {
   final completedJobs = allJobs
       .where((j) => j.status == JobStatus.completed)
       .length;
-  final failedJobs =
-      allJobs.where((j) => j.status == JobStatus.failed).length;
+  final failedJobs = allJobs.where((j) => j.status == JobStatus.failed).length;
 
   final finished = completedJobs + failedJobs;
   final successRate = finished > 0 ? completedJobs / finished * 100 : 0.0;

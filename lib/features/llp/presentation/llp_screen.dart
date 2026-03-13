@@ -60,10 +60,7 @@ class LlpScreen extends ConsumerWidget {
               strikeOffRisk: strikeOffRisk,
             ),
             const SizedBox(height: 16),
-            _SectionHeader(
-              title: 'LLP Entities',
-              icon: Icons.business_rounded,
-            ),
+            _SectionHeader(title: 'LLP Entities', icon: Icons.business_rounded),
             const SizedBox(height: 10),
             ...llps.map(
               (llp) => Padding(

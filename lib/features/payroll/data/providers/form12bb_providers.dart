@@ -45,8 +45,7 @@ List<String> validateForm12bb(Form12bbDeclaration declaration) {
 
   // Landlord PAN required if annual rent > Rs 1,00,000
   if (declaration.annualRentPaid > Form12bbLimits.landlordPanThreshold) {
-    if (declaration.landlordPan == null ||
-        declaration.landlordPan!.isEmpty) {
+    if (declaration.landlordPan == null || declaration.landlordPan!.isEmpty) {
       errors.add('Landlord PAN is required when rent exceeds ₹1,00,000/year');
     } else if (!panRegex.hasMatch(declaration.landlordPan!)) {
       errors.add('Invalid landlord PAN format');
@@ -147,13 +146,12 @@ final List<Form12bbDeclaration> _mockDeclarations = [
 /// All Form 12BB declarations.
 final form12bbListProvider =
     NotifierProvider<Form12bbListNotifier, List<Form12bbDeclaration>>(
-  Form12bbListNotifier.new,
-);
+      Form12bbListNotifier.new,
+    );
 
 class Form12bbListNotifier extends Notifier<List<Form12bbDeclaration>> {
   @override
-  List<Form12bbDeclaration> build() =>
-      List.unmodifiable(_mockDeclarations);
+  List<Form12bbDeclaration> build() => List.unmodifiable(_mockDeclarations);
 
   void add(Form12bbDeclaration declaration) {
     state = List.unmodifiable([...state, declaration]);
@@ -169,17 +167,17 @@ class Form12bbListNotifier extends Notifier<List<Form12bbDeclaration>> {
 
 /// Empty default declaration for the form editor.
 Form12bbDeclaration _emptyDeclaration() => Form12bbDeclaration(
-      declarationId: '',
-      employeeId: '',
-      financialYear: 2025,
-      submittedAt: DateTime.now(),
-    );
+  declarationId: '',
+  employeeId: '',
+  financialYear: 2025,
+  submittedAt: DateTime.now(),
+);
 
 /// The declaration currently being edited.
 final activeForm12bbProvider =
     NotifierProvider<ActiveForm12bbNotifier, Form12bbDeclaration>(
-  ActiveForm12bbNotifier.new,
-);
+      ActiveForm12bbNotifier.new,
+    );
 
 class ActiveForm12bbNotifier extends Notifier<Form12bbDeclaration> {
   @override

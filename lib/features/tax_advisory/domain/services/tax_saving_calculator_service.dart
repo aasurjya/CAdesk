@@ -130,9 +130,7 @@ class TaxSavingCalculatorService {
     // If rent - 10% basic is negative the exemption is 0
     if (componentB <= 0) return 0;
 
-    return [componentA, componentB, componentC].reduce(
-      (a, b) => a < b ? a : b,
-    );
+    return [componentA, componentB, componentC].reduce((a, b) => a < b ? a : b);
   }
 
   // ---------------------------------------------------------------------------
@@ -241,7 +239,9 @@ class TaxSavingCalculatorService {
 
     // Section 87A rebate: ₹25,000 if taxable income ≤ ₹7L
     final incomeRs = taxableIncome / 100;
-    final rebate = incomeRs <= 700000 ? (baseTax < 2500000 ? baseTax : 2500000) : 0;
+    final rebate = incomeRs <= 700000
+        ? (baseTax < 2500000 ? baseTax : 2500000)
+        : 0;
     final taxAfterRebate = (baseTax - rebate).clamp(0, baseTax);
 
     return (taxAfterRebate * 1.04).round();

@@ -5,11 +5,7 @@ import 'package:ca_app/features/llp/data/providers/llp_providers.dart';
 
 /// Card widget displaying an LLP summary: name, LLPIN, compliance status, penalty.
 class LlpCard extends StatelessWidget {
-  const LlpCard({
-    super.key,
-    required this.llp,
-    required this.onTap,
-  });
+  const LlpCard({super.key, required this.llp, required this.onTap});
 
   final LlpEntity llp;
   final VoidCallback onTap;
@@ -17,7 +13,8 @@ class LlpCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hasOverdue = llp.form8Status == LlpFilingStatus.overdue ||
+    final hasOverdue =
+        llp.form8Status == LlpFilingStatus.overdue ||
         llp.form11Status == LlpFilingStatus.overdue ||
         llp.itr5Status == LlpFilingStatus.overdue;
 

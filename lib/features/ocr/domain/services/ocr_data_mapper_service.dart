@@ -58,17 +58,19 @@ class OcrDataMapperService {
   List<JournalEntry> mapTransactionsToJournalEntries(
     ExtractedBankStatement stmt,
   ) {
-    final entries = stmt.transactions.map((tx) {
-      final isDebit = tx.debit > 0;
-      final amount = isDebit ? tx.debit : tx.credit;
-      return JournalEntry(
-        date: tx.date,
-        description: tx.description,
-        amount: amount,
-        isDebit: isDebit,
-        referenceNumber: tx.referenceNumber,
-      );
-    }).toList(growable: false);
+    final entries = stmt.transactions
+        .map((tx) {
+          final isDebit = tx.debit > 0;
+          final amount = isDebit ? tx.debit : tx.credit;
+          return JournalEntry(
+            date: tx.date,
+            description: tx.description,
+            amount: amount,
+            isDebit: isDebit,
+            referenceNumber: tx.referenceNumber,
+          );
+        })
+        .toList(growable: false);
 
     return List.unmodifiable(entries);
   }

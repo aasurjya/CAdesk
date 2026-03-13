@@ -87,12 +87,15 @@ void main() {
   // ---------------------------------------------------------------------------
   group('PortalStatus enum', () {
     test('all values are present', () {
-      expect(PortalStatus.values, containsAll([
-        PortalStatus.invited,
-        PortalStatus.active,
-        PortalStatus.inactive,
-        PortalStatus.suspended,
-      ]));
+      expect(
+        PortalStatus.values,
+        containsAll([
+          PortalStatus.invited,
+          PortalStatus.active,
+          PortalStatus.inactive,
+          PortalStatus.suspended,
+        ]),
+      );
     });
   });
 
@@ -139,10 +142,7 @@ void main() {
         eSigned: false,
         status: DocumentStatus.shared,
       );
-      final viewed = doc.copyWith(
-        viewedAt: now,
-        status: DocumentStatus.viewed,
-      );
+      final viewed = doc.copyWith(viewedAt: now, status: DocumentStatus.viewed);
       expect(viewed.viewedAt, now);
       expect(viewed.status, DocumentStatus.viewed);
       expect(viewed.documentId, 'd1');
@@ -168,24 +168,30 @@ void main() {
     });
 
     test('DocumentType enum has expected values', () {
-      expect(DocumentType.values, containsAll([
-        DocumentType.itrV,
-        DocumentType.form16,
-        DocumentType.gstCertificate,
-        DocumentType.auditReport,
-        DocumentType.invoice,
-        DocumentType.other,
-      ]));
+      expect(
+        DocumentType.values,
+        containsAll([
+          DocumentType.itrV,
+          DocumentType.form16,
+          DocumentType.gstCertificate,
+          DocumentType.auditReport,
+          DocumentType.invoice,
+          DocumentType.other,
+        ]),
+      );
     });
 
     test('DocumentStatus enum has expected values', () {
-      expect(DocumentStatus.values, containsAll([
-        DocumentStatus.shared,
-        DocumentStatus.viewed,
-        DocumentStatus.downloaded,
-        DocumentStatus.eSigned,
-        DocumentStatus.expired,
-      ]));
+      expect(
+        DocumentStatus.values,
+        containsAll([
+          DocumentStatus.shared,
+          DocumentStatus.viewed,
+          DocumentStatus.downloaded,
+          DocumentStatus.eSigned,
+          DocumentStatus.expired,
+        ]),
+      );
     });
   });
 
@@ -217,17 +223,29 @@ void main() {
 
     test('inviteClient generates unique clientIds', () {
       final c1 = service.inviteClient(
-        'ABCDE1234F', 'A', 'a@b.com', '91111', 'firm1',
+        'ABCDE1234F',
+        'A',
+        'a@b.com',
+        '91111',
+        'firm1',
       );
       final c2 = service.inviteClient(
-        'XYZAB5678G', 'B', 'b@c.com', '91222', 'firm1',
+        'XYZAB5678G',
+        'B',
+        'b@c.com',
+        '91222',
+        'firm1',
       );
       expect(c1.clientId, isNot(equals(c2.clientId)));
     });
 
     test('generateInviteToken sets token and expiry 72h ahead', () {
       final client = service.inviteClient(
-        'ABCDE1234F', 'Ravi Kumar', 'ravi@example.com', '919876543210', 'firm1',
+        'ABCDE1234F',
+        'Ravi Kumar',
+        'ravi@example.com',
+        '919876543210',
+        'firm1',
       );
       final before = DateTime.now();
       final withToken = service.generateInviteToken(client);
@@ -247,7 +265,11 @@ void main() {
 
     test('generateInviteToken does not change portalStatus', () {
       final client = service.inviteClient(
-        'ABCDE1234F', 'Ravi', 'r@e.com', '91999', 'firm1',
+        'ABCDE1234F',
+        'Ravi',
+        'r@e.com',
+        '91999',
+        'firm1',
       );
       final withToken = service.generateInviteToken(client);
       expect(withToken.portalStatus, PortalStatus.invited);
@@ -255,7 +277,11 @@ void main() {
 
     test('activatePortal sets status to active when token matches', () {
       final client = service.inviteClient(
-        'ABCDE1234F', 'Ravi', 'r@e.com', '91999', 'firm1',
+        'ABCDE1234F',
+        'Ravi',
+        'r@e.com',
+        '91999',
+        'firm1',
       );
       final withToken = service.generateInviteToken(client);
       final active = service.activatePortal(withToken, withToken.inviteToken!);
@@ -264,7 +290,11 @@ void main() {
 
     test('activatePortal throws on wrong token', () {
       final client = service.inviteClient(
-        'ABCDE1234F', 'Ravi', 'r@e.com', '91999', 'firm1',
+        'ABCDE1234F',
+        'Ravi',
+        'r@e.com',
+        '91999',
+        'firm1',
       );
       final withToken = service.generateInviteToken(client);
       expect(
@@ -275,16 +305,17 @@ void main() {
 
     test('activatePortal throws on expired token', () {
       final client = service.inviteClient(
-        'ABCDE1234F', 'Ravi', 'r@e.com', '91999', 'firm1',
+        'ABCDE1234F',
+        'Ravi',
+        'r@e.com',
+        '91999',
+        'firm1',
       );
       final expired = client.copyWith(
         inviteToken: 'tok',
         inviteExpiry: DateTime.now().subtract(const Duration(hours: 1)),
       );
-      expect(
-        () => service.activatePortal(expired, 'tok'),
-        throwsArgumentError,
-      );
+      expect(() => service.activatePortal(expired, 'tok'), throwsArgumentError);
     });
 
     test('shareDocument creates SharedDocument with correct fields', () {
@@ -315,7 +346,12 @@ void main() {
     });
 
     test('markDocumentViewed updates viewedAt and status', () {
-      final doc = service.shareDocument('c1', 'd1', 'Form 16', DocumentType.form16);
+      final doc = service.shareDocument(
+        'c1',
+        'd1',
+        'Form 16',
+        DocumentType.form16,
+      );
       final viewed = service.markDocumentViewed(doc);
       expect(viewed.viewedAt, isNotNull);
       expect(viewed.status, DocumentStatus.viewed);
@@ -324,7 +360,10 @@ void main() {
 
     test('markDocumentSigned updates eSigned, eSignedAt and status', () {
       final doc = service.shareDocument(
-        'c1', 'd1', 'Audit Report', DocumentType.auditReport,
+        'c1',
+        'd1',
+        'Audit Report',
+        DocumentType.auditReport,
         requiresESign: true,
       );
       final signedAt = DateTime(2025, 6, 1, 14, 30);

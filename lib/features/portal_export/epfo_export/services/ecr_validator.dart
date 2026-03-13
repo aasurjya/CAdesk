@@ -35,8 +35,7 @@ class EcrValidator {
   // ---------------------------------------------------------------------------
 
   /// Returns true when [uan] is exactly 12 numeric digits.
-  bool validateUan(String uan) =>
-      RegExp(r'^\d{12}$').hasMatch(uan);
+  bool validateUan(String uan) => RegExp(r'^\d{12}$').hasMatch(uan);
 
   /// Returns true when [estId] is exactly 7 numeric digits.
   bool validateEstablishmentId(String estId) =>
@@ -60,9 +59,7 @@ class EcrValidator {
 
     // Gross wages must be non-negative
     if (row.grossWagesPaise < 0) {
-      errors.add(
-        'Gross wages (${row.grossWagesPaise}) must not be negative.',
-      );
+      errors.add('Gross wages (${row.grossWagesPaise}) must not be negative.');
     }
 
     // EPF wages must not exceed gross wages

@@ -71,12 +71,12 @@ class PortalSession {
 
   @override
   int get hashCode => Object.hash(
-        sessionId,
-        portal,
-        userId,
-        createdAt,
-        lastActivityAt,
-        isActive,
-        expiresAt,
-      );
+    sessionId,
+    portal,
+    userId,
+    createdAt,
+    lastActivityAt,
+    isActive,
+    expiresAt,
+  );
 }

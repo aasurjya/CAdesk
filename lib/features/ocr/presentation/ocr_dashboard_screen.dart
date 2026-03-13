@@ -115,8 +115,7 @@ class _OcrDashboardScreenState extends ConsumerState<OcrDashboardScreen>
               _JobList(
                 jobs: historyJobs,
                 emptyTitle: 'No processed documents',
-                emptySubtitle:
-                    'Completed and failed jobs will appear here.',
+                emptySubtitle: 'Completed and failed jobs will appear here.',
                 emptyIcon: Icons.history_outlined,
                 isWide: isWide,
               ),
@@ -257,9 +256,9 @@ class _CountBadge extends StatelessWidget {
       child: Text(
         '$count',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
+          color: Colors.white,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

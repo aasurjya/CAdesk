@@ -24,7 +24,8 @@ class DtaaComputationService {
 
   static const Map<String, Map<IncomeType, double>> _dtaaRates = {
     'US': {
-      IncomeType.dividend: 0.25, // Article 10: 25% (15% if ≥10% beneficial ownership)
+      IncomeType.dividend:
+          0.25, // Article 10: 25% (15% if ≥10% beneficial ownership)
       IncomeType.interest: 0.10, // Article 11
       IncomeType.royalty: 0.15, // Article 12
       IncomeType.capitalGains: 0.20,

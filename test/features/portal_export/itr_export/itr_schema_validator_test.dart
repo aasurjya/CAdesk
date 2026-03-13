@@ -13,11 +13,26 @@ void main() {
 
       test('invalid PAN returns false', () {
         expect(ItrSchemaValidator.validatePan(''), isFalse);
-        expect(ItrSchemaValidator.validatePan('ABCD1234F'), isFalse); // too short
-        expect(ItrSchemaValidator.validatePan('abcde1234f'), isFalse); // lowercase
-        expect(ItrSchemaValidator.validatePan('12345ABCDE'), isFalse); // digits first
-        expect(ItrSchemaValidator.validatePan('ABCDE12345'), isFalse); // last char digit
-        expect(ItrSchemaValidator.validatePan('ABCDE1234FF'), isFalse); // too long
+        expect(
+          ItrSchemaValidator.validatePan('ABCD1234F'),
+          isFalse,
+        ); // too short
+        expect(
+          ItrSchemaValidator.validatePan('abcde1234f'),
+          isFalse,
+        ); // lowercase
+        expect(
+          ItrSchemaValidator.validatePan('12345ABCDE'),
+          isFalse,
+        ); // digits first
+        expect(
+          ItrSchemaValidator.validatePan('ABCDE12345'),
+          isFalse,
+        ); // last char digit
+        expect(
+          ItrSchemaValidator.validatePan('ABCDE1234FF'),
+          isFalse,
+        ); // too long
       });
     });
 
@@ -44,28 +59,30 @@ void main() {
           'AssessmentYear': '2024-25',
           'GrossTotalIncome': 500000,
         };
-        final errors = ItrSchemaValidator.validateMandatoryFields(
-          json,
-          ['PAN', 'AssessmentYear', 'GrossTotalIncome'],
-        );
+        final errors = ItrSchemaValidator.validateMandatoryFields(json, [
+          'PAN',
+          'AssessmentYear',
+          'GrossTotalIncome',
+        ]);
         expect(errors, isEmpty);
       });
 
       test('returns missing field names', () {
         final json = <String, dynamic>{'PAN': 'ABCDE1234F'};
-        final errors = ItrSchemaValidator.validateMandatoryFields(
-          json,
-          ['PAN', 'AssessmentYear', 'GrossTotalIncome'],
-        );
+        final errors = ItrSchemaValidator.validateMandatoryFields(json, [
+          'PAN',
+          'AssessmentYear',
+          'GrossTotalIncome',
+        ]);
         expect(errors.length, 2);
         expect(errors, containsAll(['AssessmentYear', 'GrossTotalIncome']));
       });
 
       test('returns all fields as missing when json is empty', () {
-        final errors = ItrSchemaValidator.validateMandatoryFields(
-          {},
-          ['PAN', 'AssessmentYear'],
-        );
+        final errors = ItrSchemaValidator.validateMandatoryFields({}, [
+          'PAN',
+          'AssessmentYear',
+        ]);
         expect(errors.length, 2);
       });
     });

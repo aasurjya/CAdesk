@@ -132,15 +132,15 @@ class IrnGenerator {
     for (var chunkStart = 0; chunkStart < paddedLen; chunkStart += 64) {
       final w = List<int>.filled(64, 0);
       for (var i = 0; i < 16; i++) {
-        w[i] = (padded[chunkStart + i * 4] << 24) |
+        w[i] =
+            (padded[chunkStart + i * 4] << 24) |
             (padded[chunkStart + i * 4 + 1] << 16) |
             (padded[chunkStart + i * 4 + 2] << 8) |
             padded[chunkStart + i * 4 + 3];
       }
       for (var i = 16; i < 64; i++) {
-        final s0 = _rotr(w[i - 15], 7) ^
-            _rotr(w[i - 15], 18) ^
-            _shr(w[i - 15], 3);
+        final s0 =
+            _rotr(w[i - 15], 7) ^ _rotr(w[i - 15], 18) ^ _shr(w[i - 15], 3);
         final s1 =
             _rotr(w[i - 2], 17) ^ _rotr(w[i - 2], 19) ^ _shr(w[i - 2], 10);
         w[i] = _mask32(w[i - 16] + s0 + w[i - 7] + s1);
@@ -198,8 +198,7 @@ class IrnGenerator {
   }
 
   /// Right-rotate 32-bit integer [n] by [s] positions.
-  static int _rotr(int n, int s) =>
-      _mask32(((n >>> s) | (n << (32 - s))));
+  static int _rotr(int n, int s) => _mask32(((n >>> s) | (n << (32 - s))));
 
   /// Logical right shift, masking to 32 bits.
   static int _shr(int n, int s) => _mask32(n >>> s);

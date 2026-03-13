@@ -91,10 +91,7 @@ class ExtractedInvoice {
           gstAmount == other.gstAmount &&
           hsnCode == other.hsnCode;
 
-  bool _listEquals(
-    List<ExtractedLineItem> a,
-    List<ExtractedLineItem> b,
-  ) {
+  bool _listEquals(List<ExtractedLineItem> a, List<ExtractedLineItem> b) {
     if (a.length != b.length) return false;
     for (var i = 0; i < a.length; i++) {
       if (a[i] != b[i]) return false;
@@ -104,17 +101,17 @@ class ExtractedInvoice {
 
   @override
   int get hashCode => Object.hash(
-        invoiceNumber,
-        invoiceDate,
-        sellerName,
-        sellerGstin,
-        buyerName,
-        buyerGstin,
-        Object.hashAll(lineItems),
-        totalAmount,
-        gstAmount,
-        hsnCode,
-      );
+    invoiceNumber,
+    invoiceDate,
+    sellerName,
+    sellerGstin,
+    buyerName,
+    buyerGstin,
+    Object.hashAll(lineItems),
+    totalAmount,
+    gstAmount,
+    hsnCode,
+  );
 
   @override
   String toString() =>

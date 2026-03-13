@@ -24,11 +24,7 @@ class Gstr3bJsonSerializer {
   /// [data] – the summary tax return data for the period.
   /// [gstin] – GSTIN of the filing taxpayer.
   /// [period] – filing period in MMYYYY format, e.g. "032024".
-  GstrExportResult serialize(
-    Gstr3bFormData data,
-    String gstin,
-    String period,
-  ) {
+  GstrExportResult serialize(Gstr3bFormData data, String gstin, String period) {
     final payload = <String, Object?>{
       'gstin': gstin,
       'ret_period': period,
@@ -59,18 +55,18 @@ class Gstr3bJsonSerializer {
       'osup_nil_exmp': {
         'txval': _fmt(
           liability.otherOutward.igst +
-          liability.otherOutward.cgst +
-          liability.otherOutward.sgst +
-          liability.otherOutward.cess,
+              liability.otherOutward.cgst +
+              liability.otherOutward.sgst +
+              liability.otherOutward.cess,
         ),
       },
       'isup_rev': _taxRowToJson(liability.inwardRcm),
       'osup_det_non_gst': {
         'txval': _fmt(
           liability.nonGstOutward.igst +
-          liability.nonGstOutward.cgst +
-          liability.nonGstOutward.sgst +
-          liability.nonGstOutward.cess,
+              liability.nonGstOutward.cgst +
+              liability.nonGstOutward.sgst +
+              liability.nonGstOutward.cess,
         ),
       },
     };

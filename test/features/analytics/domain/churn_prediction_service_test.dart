@@ -189,9 +189,7 @@ void main() {
           completedDate: now.subtract(const Duration(days: 60)),
         ),
       ];
-      final invoices = [
-        _makeInvoice(clientId: 'c1', totalAmount: 100000),
-      ];
+      final invoices = [_makeInvoice(clientId: 'c1', totalAmount: 100000)];
 
       final result = service.scoreClient(client, history, invoices, now: now);
 
@@ -295,10 +293,7 @@ void main() {
       );
 
       // Multiple services adds 15, single deducts 10 → net 25 pts difference
-      expect(
-        multiResult.score,
-        greaterThan(singleResult.score),
-      );
+      expect(multiResult.score, greaterThan(singleResult.score));
     });
 
     test('adds 10 points for new client (< 6 months)', () {
@@ -392,7 +387,10 @@ void main() {
         recommendation: 'All good',
       );
 
-      final updated = original.copyWith(score: 45.0, churnRisk: ChurnRisk.medium);
+      final updated = original.copyWith(
+        score: 45.0,
+        churnRisk: ChurnRisk.medium,
+      );
       expect(updated.score, 45.0);
       expect(updated.churnRisk, ChurnRisk.medium);
       expect(updated.clientPan, original.clientPan);

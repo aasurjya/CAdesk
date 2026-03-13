@@ -137,16 +137,13 @@ class AccountingImportService {
       final creditAccount = fields[3].trim();
       final amountStr = fields[4].trim();
       final narration = fields[5].trim();
-      final reference =
-          hasReferenceColumn && fields.length > 6
-              ? fields[6].trim()
-              : null;
+      final reference = hasReferenceColumn && fields.length > 6
+          ? fields[6].trim()
+          : null;
 
       final date = DateTime.tryParse(dateStr);
       if (date == null) {
-        throw FormatException(
-          'Invalid date "$dateStr"; expected yyyy-MM-dd',
-        );
+        throw FormatException('Invalid date "$dateStr"; expected yyyy-MM-dd');
       }
 
       final amount = int.tryParse(amountStr);

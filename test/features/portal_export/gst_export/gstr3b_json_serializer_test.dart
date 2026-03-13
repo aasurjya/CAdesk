@@ -55,7 +55,12 @@ void main() {
     Gstr3bFormData formWithTaxLiability() {
       return emptyForm().copyWith(
         taxLiability: const Gstr3bTaxLiability(
-          outwardTaxable: Gstr3bTaxRow(igst: 0, cgst: 9000, sgst: 9000, cess: 0),
+          outwardTaxable: Gstr3bTaxRow(
+            igst: 0,
+            cgst: 9000,
+            sgst: 9000,
+            cess: 0,
+          ),
           outwardZeroRated: Gstr3bTaxRow(igst: 5000, cgst: 0, sgst: 0, cess: 0),
           otherOutward: zeroTaxRow,
           inwardRcm: Gstr3bTaxRow(igst: 1000, cgst: 0, sgst: 0, cess: 0),
@@ -82,58 +87,97 @@ void main() {
     }
 
     test('is a singleton', () {
-      expect(Gstr3bJsonSerializer.instance, same(Gstr3bJsonSerializer.instance));
+      expect(
+        Gstr3bJsonSerializer.instance,
+        same(Gstr3bJsonSerializer.instance),
+      );
     });
 
     test('serialize returns GstrExportResult with returnType gstr3b', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.returnType, GstrReturnType.gstr3b);
     });
 
     test('serialize sets gstin and period on result', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.gstin, '29AABCT1332L1ZB');
       expect(result.period, '032024');
     });
 
     test('serialize produces valid JSON string', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(() => jsonDecode(result.jsonPayload), returnsNormally);
     });
 
     test('JSON contains gstin field', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['gstin'], '29AABCT1332L1ZB');
     });
 
     test('JSON contains ret_period field', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['ret_period'], '032024');
     });
 
     test('validationErrors is empty for valid form data', () {
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       expect(result.validationErrors, isEmpty);
     });
 
     group('sup_details', () {
       test('JSON contains sup_details', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('sup_details'), isTrue);
       });
 
       test('sup_details contains osup_det for 3.1(a)', () {
-        final result = serializer.serialize(formWithTaxLiability(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithTaxLiability(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final supDetails = json['sup_details'] as Map<String, Object?>;
         expect(supDetails.containsKey('osup_det'), isTrue);
       });
 
       test('osup_det has correct camt and samt values', () {
-        final result = serializer.serialize(formWithTaxLiability(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithTaxLiability(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final supDetails = json['sup_details'] as Map<String, Object?>;
         final osupDet = supDetails['osup_det'] as Map<String, Object?>;
@@ -143,7 +187,11 @@ void main() {
       });
 
       test('osup_zero has correct iamt for zero-rated', () {
-        final result = serializer.serialize(formWithTaxLiability(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithTaxLiability(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final supDetails = json['sup_details'] as Map<String, Object?>;
         final osupZero = supDetails['osup_zero'] as Map<String, Object?>;
@@ -151,7 +199,11 @@ void main() {
       });
 
       test('isup_rev has correct iamt for RCM', () {
-        final result = serializer.serialize(formWithTaxLiability(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithTaxLiability(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final supDetails = json['sup_details'] as Map<String, Object?>;
         final isupRev = supDetails['isup_rev'] as Map<String, Object?>;
@@ -159,32 +211,51 @@ void main() {
       });
 
       test('osup_nil_exmp has txval field', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final supDetails = json['sup_details'] as Map<String, Object?>;
         final osupNil = supDetails['osup_nil_exmp'] as Map<String, Object?>;
         expect(osupNil.containsKey('txval'), isTrue);
       });
 
-      test('amounts in sup_details are formatted as strings with 2 decimals', () {
-        final result = serializer.serialize(formWithTaxLiability(), '29AABCT1332L1ZB', '032024');
-        final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
-        final supDetails = json['sup_details'] as Map<String, Object?>;
-        final osupDet = supDetails['osup_det'] as Map<String, Object?>;
-        expect(osupDet['camt'], isA<String>());
-        expect(osupDet['camt'] as String, contains('.'));
-      });
+      test(
+        'amounts in sup_details are formatted as strings with 2 decimals',
+        () {
+          final result = serializer.serialize(
+            formWithTaxLiability(),
+            '29AABCT1332L1ZB',
+            '032024',
+          );
+          final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
+          final supDetails = json['sup_details'] as Map<String, Object?>;
+          final osupDet = supDetails['osup_det'] as Map<String, Object?>;
+          expect(osupDet['camt'], isA<String>());
+          expect(osupDet['camt'] as String, contains('.'));
+        },
+      );
     });
 
     group('itc_elg', () {
       test('JSON contains itc_elg', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('itc_elg'), isTrue);
       });
 
       test('itc_elg contains itc_avl list', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         expect(itcElg.containsKey('itc_avl'), isTrue);
@@ -193,7 +264,11 @@ void main() {
       });
 
       test('itc_avl has entry with ty IMPG for import goods', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         final itcAvl = (itcElg['itc_avl'] as List<Object?>)
@@ -203,7 +278,11 @@ void main() {
       });
 
       test('itc_avl has entry with ty ISD for ISD credits', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         final itcAvl = (itcElg['itc_avl'] as List<Object?>)
@@ -213,7 +292,11 @@ void main() {
       });
 
       test('itc_avl has entry with ty OTH for other ITC', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         final itcAvl = (itcElg['itc_avl'] as List<Object?>)
@@ -224,7 +307,11 @@ void main() {
       });
 
       test('itc_elg contains itc_rev list', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         expect(itcElg.containsKey('itc_rev'), isTrue);
@@ -233,7 +320,11 @@ void main() {
       });
 
       test('itc_rev has entries for reversals', () {
-        final result = serializer.serialize(formWithItc(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          formWithItc(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final itcElg = json['itc_elg'] as Map<String, Object?>;
         final itcRev = (itcElg['itc_rev'] as List<Object?>)
@@ -246,13 +337,21 @@ void main() {
 
     group('intr_ltfee', () {
       test('JSON contains intr_ltfee', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('intr_ltfee'), isTrue);
       });
 
       test('intr_ltfee has intr_details and ltfee_details', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final intrLtfee = json['intr_ltfee'] as Map<String, Object?>;
         expect(intrLtfee.containsKey('intr_details'), isTrue);
@@ -260,7 +359,11 @@ void main() {
       });
 
       test('intr_details has zero amounts for empty form', () {
-        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(
+          emptyForm(),
+          '29AABCT1332L1ZB',
+          '032024',
+        );
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final intrLtfee = json['intr_ltfee'] as Map<String, Object?>;
         final intrDetails = intrLtfee['intr_details'] as Map<String, Object?>;
@@ -272,10 +375,22 @@ void main() {
 
     test('exportedAt is set', () {
       final before = DateTime.now();
-      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(
+        emptyForm(),
+        '29AABCT1332L1ZB',
+        '032024',
+      );
       final after = DateTime.now();
-      expect(result.exportedAt.isAfter(before) || result.exportedAt.isAtSameMomentAs(before), isTrue);
-      expect(result.exportedAt.isBefore(after) || result.exportedAt.isAtSameMomentAs(after), isTrue);
+      expect(
+        result.exportedAt.isAfter(before) ||
+            result.exportedAt.isAtSameMomentAs(before),
+        isTrue,
+      );
+      expect(
+        result.exportedAt.isBefore(after) ||
+            result.exportedAt.isAtSameMomentAs(after),
+        isTrue,
+      );
     });
   });
 }

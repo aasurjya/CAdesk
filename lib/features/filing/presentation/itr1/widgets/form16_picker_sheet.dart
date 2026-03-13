@@ -38,11 +38,8 @@ class _Form16PickerSheetState extends ConsumerState<Form16PickerSheet> {
     final colorScheme = theme.colorScheme;
 
     // Derive unique assessment years for the filter dropdown.
-    final assessmentYears = allRecords
-        .map((r) => r.assessmentYear)
-        .toSet()
-        .toList()
-      ..sort();
+    final assessmentYears =
+        allRecords.map((r) => r.assessmentYear).toSet().toList()..sort();
 
     // Filter records by selected AY if one is chosen.
     final filtered = _selectedFy == null
@@ -92,14 +89,9 @@ class _Form16PickerSheetState extends ConsumerState<Form16PickerSheet> {
                       isDense: true,
                     ),
                     items: [
-                      const DropdownMenuItem<String>(
-                        child: Text('All Years'),
-                      ),
+                      const DropdownMenuItem<String>(child: Text('All Years')),
                       ...assessmentYears.map(
-                        (ay) => DropdownMenuItem(
-                          value: ay,
-                          child: Text(ay),
-                        ),
+                        (ay) => DropdownMenuItem(value: ay, child: Text(ay)),
                       ),
                     ],
                     onChanged: (value) => setState(() => _selectedFy = value),
@@ -143,10 +135,7 @@ class _Form16PickerSheetState extends ConsumerState<Form16PickerSheet> {
 // ---------------------------------------------------------------------------
 
 class _Form16Tile extends StatelessWidget {
-  const _Form16Tile({
-    required this.record,
-    required this.onTap,
-  });
+  const _Form16Tile({required this.record, required this.onTap});
 
   final Form16Data record;
   final VoidCallback onTap;
@@ -174,8 +163,9 @@ class _Form16Tile extends StatelessWidget {
       'Mar',
     ];
     final monthIndex = dt.month;
-    final label =
-        monthIndex <= 12 && monthIndex >= 1 ? months[monthIndex] : '?';
+    final label = monthIndex <= 12 && monthIndex >= 1
+        ? months[monthIndex]
+        : '?';
     return '$label ${dt.year}';
   }
 
@@ -195,17 +185,12 @@ class _Form16Tile extends StatelessWidget {
       ),
       title: Text(
         record.employeeName,
-        style: theme.textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            record.employerName,
-            style: theme.textTheme.bodySmall,
-          ),
+          Text(record.employerName, style: theme.textTheme.bodySmall),
           Text(
             'PAN: ${record.employeePan}  |  TAN: ${record.employerTan}',
             style: theme.textTheme.bodySmall?.copyWith(

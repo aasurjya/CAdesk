@@ -42,5 +42,6 @@ class Permission {
   int get hashCode => code.hashCode;
 
   @override
-  String toString() => 'Permission(code: $code, module: $module, level: $level)';
+  String toString() =>
+      'Permission(code: $code, module: $module, level: $level)';
 }

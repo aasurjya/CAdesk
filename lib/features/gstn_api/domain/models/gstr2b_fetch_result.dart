@@ -1,9 +1,5 @@
 /// GSTR-2B document generation status.
-enum Gstr2bStatus {
-  generated,
-  notGenerated,
-  processing,
-}
+enum Gstr2bStatus { generated, notGenerated, processing }
 
 /// Immutable result of fetching a GSTR-2B statement from GSTN.
 ///
@@ -86,13 +82,13 @@ class Gstr2bFetchResult {
 
   @override
   int get hashCode => Object.hash(
-        gstin,
-        period,
-        status,
-        totalIgstCredit,
-        totalCgstCredit,
-        totalSgstCredit,
-        entryCount,
-        generatedAt,
-      );
+    gstin,
+    period,
+    status,
+    totalIgstCredit,
+    totalCgstCredit,
+    totalSgstCredit,
+    entryCount,
+    generatedAt,
+  );
 }

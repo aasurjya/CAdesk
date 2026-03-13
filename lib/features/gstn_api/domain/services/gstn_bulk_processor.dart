@@ -49,9 +49,7 @@ class GstnBulkProcessor {
 
     for (final batch in batches) {
       final batchResults = await Future.wait(
-        batch.map(
-          (gstin) => repo.getFilingStatus(gstin, returnType, period),
-        ),
+        batch.map((gstin) => repo.getFilingStatus(gstin, returnType, period)),
       );
       results.addAll(batchResults);
     }

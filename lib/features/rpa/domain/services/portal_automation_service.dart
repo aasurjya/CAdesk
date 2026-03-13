@@ -72,9 +72,7 @@ class PortalAutomationService {
       }
 
       if (!step.isOptional && step.selector.isEmpty) {
-        errors.add(
-          'Required step ${step.stepNumber} has an empty selector.',
-        );
+        errors.add('Required step ${step.stepNumber} has an empty selector.');
       }
     }
 

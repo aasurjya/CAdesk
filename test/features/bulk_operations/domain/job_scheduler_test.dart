@@ -106,9 +106,15 @@ void main() {
     test('returns schedules whose nextRunAt <= now and are enabled', () {
       final scheduler = JobScheduler();
       final schedules = [
-        makeSchedule(id: 's1', nextRunAt: now.subtract(const Duration(minutes: 1))),
+        makeSchedule(
+          id: 's1',
+          nextRunAt: now.subtract(const Duration(minutes: 1)),
+        ),
         makeSchedule(id: 's2', nextRunAt: now.add(const Duration(hours: 1))),
-        makeSchedule(id: 's3', nextRunAt: now.subtract(const Duration(hours: 2))),
+        makeSchedule(
+          id: 's3',
+          nextRunAt: now.subtract(const Duration(hours: 2)),
+        ),
       ];
       final due = scheduler.getDueJobs(schedules, now);
       expect(due.length, 2);
@@ -118,8 +124,15 @@ void main() {
     test('disabled schedules are excluded even if due', () {
       final scheduler = JobScheduler();
       final schedules = [
-        makeSchedule(id: 's1', nextRunAt: now.subtract(const Duration(hours: 1)), isEnabled: false),
-        makeSchedule(id: 's2', nextRunAt: now.subtract(const Duration(hours: 1))),
+        makeSchedule(
+          id: 's1',
+          nextRunAt: now.subtract(const Duration(hours: 1)),
+          isEnabled: false,
+        ),
+        makeSchedule(
+          id: 's2',
+          nextRunAt: now.subtract(const Duration(hours: 1)),
+        ),
       ];
       final due = scheduler.getDueJobs(schedules, now);
       expect(due.length, 1);

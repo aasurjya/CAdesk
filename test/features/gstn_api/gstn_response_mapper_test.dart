@@ -94,7 +94,10 @@ void main() {
     test('maps Cancelled status to cancelled enum', () {
       final json = {
         'status_cd': '1',
-        'data': {...(activeJson['data'] as Map<String, dynamic>), 'sts': 'Cancelled'},
+        'data': {
+          ...(activeJson['data'] as Map<String, dynamic>),
+          'sts': 'Cancelled',
+        },
       };
       final result = mapper.mapVerification(json);
       expect(result.status, GstnRegistrationStatus.cancelled);
@@ -103,7 +106,10 @@ void main() {
     test('maps Suspended status to suspended enum', () {
       final json = {
         'status_cd': '1',
-        'data': {...(activeJson['data'] as Map<String, dynamic>), 'sts': 'Suspended'},
+        'data': {
+          ...(activeJson['data'] as Map<String, dynamic>),
+          'sts': 'Suspended',
+        },
       };
       final result = mapper.mapVerification(json);
       expect(result.status, GstnRegistrationStatus.suspended);
@@ -149,7 +155,10 @@ void main() {
     test('returnFilingFrequency is quarterly for Composition', () {
       final json = {
         'status_cd': '1',
-        'data': {...(activeJson['data'] as Map<String, dynamic>), 'dty': 'Composition'},
+        'data': {
+          ...(activeJson['data'] as Map<String, dynamic>),
+          'dty': 'Composition',
+        },
       };
       final result = mapper.mapVerification(json);
       expect(result.returnFilingFrequency, ReturnFilingFrequency.quarterly);

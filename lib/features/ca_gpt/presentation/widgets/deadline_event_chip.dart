@@ -97,8 +97,18 @@ class DeadlineListTile extends StatelessWidget {
     final day = deadline.date.day.toString().padLeft(2, '0');
     final months = const [
       '',
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     final dateLabel =
         '$day ${months[deadline.date.month]} ${deadline.date.year}';

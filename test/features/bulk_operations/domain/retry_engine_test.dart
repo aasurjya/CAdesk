@@ -33,7 +33,8 @@ void main() {
   }
 
   BatchJob makeFailedJob({required String id, List<BatchJobItem>? items}) {
-    final jobItems = items ??
+    final jobItems =
+        items ??
         [
           makeFailedItem(id: '$id-item-1', attempts: 1),
           makeFailedItem(id: '$id-item-2', attempts: 2),
@@ -185,7 +186,10 @@ void main() {
       final retryJob = RetryEngine.createRetryJob(original);
 
       expect(retryJob.items.length, 2); // only the 2 failed items
-      expect(retryJob.items.every((i) => i.status == BatchJobItemStatus.pending), isTrue);
+      expect(
+        retryJob.items.every((i) => i.status == BatchJobItemStatus.pending),
+        isTrue,
+      );
     });
 
     test('new job has queued status', () {
@@ -201,7 +205,9 @@ void main() {
     });
 
     test('new job inherits priority from original', () {
-      final original = makeFailedJob(id: 'orig').copyWith(priority: JobPriority.critical);
+      final original = makeFailedJob(
+        id: 'orig',
+      ).copyWith(priority: JobPriority.critical);
       final retryJob = RetryEngine.createRetryJob(original);
       expect(retryJob.priority, JobPriority.critical);
     });

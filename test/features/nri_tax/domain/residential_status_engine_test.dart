@@ -129,7 +129,10 @@ void main() {
             ),
           );
         }
-        final result = engine.determine([...priorRecords, ...currentYear], 2024);
+        final result = engine.determine([
+          ...priorRecords,
+          ...currentYear,
+        ], 2024);
         expect(result.status, NriStatus.resident);
         expect(result.isRnor, false);
       });
@@ -231,50 +234,53 @@ void main() {
         expect(result.daysInIndia, 65);
       });
 
-      test('60 days + 365 prior years qualifies as Resident (may still be RNOR)', () {
-        // FY2023 = 1 Apr 2022 – 31 Mar 2023.
-        // Current FY (FY2023): 60 days (Apr 1 – May 30, 2022).
-        // Preceding 4 FYs (FY19, FY20, FY21, FY22): 91 days each = 364,
-        // plus 1 extra = 365. Qualifies via 60+365 rule.
-        // Prior 7-year total = 365 ≤ 729 → RNOR condition met.
-        final records = <StayRecord>[];
+      test(
+        '60 days + 365 prior years qualifies as Resident (may still be RNOR)',
+        () {
+          // FY2023 = 1 Apr 2022 – 31 Mar 2023.
+          // Current FY (FY2023): 60 days (Apr 1 – May 30, 2022).
+          // Preceding 4 FYs (FY19, FY20, FY21, FY22): 91 days each = 364,
+          // plus 1 extra = 365. Qualifies via 60+365 rule.
+          // Prior 7-year total = 365 ≤ 729 → RNOR condition met.
+          final records = <StayRecord>[];
 
-        // Current FY2023 record: 60 days Apr–May 2022
-        records.add(
-          StayRecord(
-            dateFrom: DateTime(2022, 4, 1),
-            dateTo: DateTime(2022, 5, 30), // 60 days in FY2023
-            country: 'IN',
-          ),
-        );
-
-        // Prior FYs: FY2022 (Apr2021–Mar2022), FY2021, FY2020, FY2019
-        // Each: 91 days (Apr–Jun of the year before)
-        for (final startYear in [2021, 2020, 2019, 2018]) {
+          // Current FY2023 record: 60 days Apr–May 2022
           records.add(
             StayRecord(
-              dateFrom: DateTime(startYear, 4, 1),
-              dateTo: DateTime(startYear, 6, 30), // 91 days
+              dateFrom: DateTime(2022, 4, 1),
+              dateTo: DateTime(2022, 5, 30), // 60 days in FY2023
               country: 'IN',
             ),
           );
-        }
-        // One extra day in FY2019 to reach 365
-        records.add(
-          StayRecord(
-            dateFrom: DateTime(2018, 7, 1),
-            dateTo: DateTime(2018, 7, 1), // 1 extra day
-            country: 'IN',
-          ),
-        );
 
-        final result = engine.determine(records, 2023);
-        // 60 days in FY2023 + 365 days in FY19-FY22 → Resident test passes
-        // Prior 7-year days = 365 ≤ 729 → RNOR
-        expect(result.daysInIndia, 60);
-        expect(result.status, NriStatus.rnor);
-        expect(result.isRnor, true);
-      });
+          // Prior FYs: FY2022 (Apr2021–Mar2022), FY2021, FY2020, FY2019
+          // Each: 91 days (Apr–Jun of the year before)
+          for (final startYear in [2021, 2020, 2019, 2018]) {
+            records.add(
+              StayRecord(
+                dateFrom: DateTime(startYear, 4, 1),
+                dateTo: DateTime(startYear, 6, 30), // 91 days
+                country: 'IN',
+              ),
+            );
+          }
+          // One extra day in FY2019 to reach 365
+          records.add(
+            StayRecord(
+              dateFrom: DateTime(2018, 7, 1),
+              dateTo: DateTime(2018, 7, 1), // 1 extra day
+              country: 'IN',
+            ),
+          );
+
+          final result = engine.determine(records, 2023);
+          // 60 days in FY2023 + 365 days in FY19-FY22 → Resident test passes
+          // Prior 7-year days = 365 ≤ 729 → RNOR
+          expect(result.daysInIndia, 60);
+          expect(result.status, NriStatus.rnor);
+          expect(result.isRnor, true);
+        },
+      );
     });
 
     // ─── determine — RNOR ─────────────────────────────────────────────────
@@ -333,50 +339,53 @@ void main() {
         expect(result.isRnor, true);
       });
 
-      test('Resident with 730 days in prior 7 years AND resident 2+ of 10 → not RNOR', () {
-        final records = <StayRecord>[];
-        // Current FY 2024: 200 days → Resident
-        records.add(
-          StayRecord(
-            dateFrom: DateTime(2023, 4, 1),
-            dateTo: DateTime(2023, 10, 17),
-            country: 'IN',
-          ),
-        );
-        // Prior 7 years: 105 days × 7 = 735 days (>729)
-        for (int y = 2016; y <= 2022; y++) {
+      test(
+        'Resident with 730 days in prior 7 years AND resident 2+ of 10 → not RNOR',
+        () {
+          final records = <StayRecord>[];
+          // Current FY 2024: 200 days → Resident
           records.add(
             StayRecord(
-              dateFrom: DateTime(y, 4, 1),
-              dateTo: DateTime(y, 7, 14), // 105 days
+              dateFrom: DateTime(2023, 4, 1),
+              dateTo: DateTime(2023, 10, 17),
               country: 'IN',
             ),
           );
-        }
-        // Prior 10 years residency: 3 years with ≥182 days (FY20, FY21, FY22)
-        // Already covered above for FY17..FY23 but need ≥182 for some years
-        // Replace years 2018-2022 with 200 days each (so 5 years ≥182 → resident in 5 of 10)
-        final records2 = <StayRecord>[];
-        records2.add(
-          StayRecord(
-            dateFrom: DateTime(2023, 4, 1),
-            dateTo: DateTime(2023, 10, 17), // 200 days FY24
-            country: 'IN',
-          ),
-        );
-        for (int y = 2018; y <= 2022; y++) {
+          // Prior 7 years: 105 days × 7 = 735 days (>729)
+          for (int y = 2016; y <= 2022; y++) {
+            records.add(
+              StayRecord(
+                dateFrom: DateTime(y, 4, 1),
+                dateTo: DateTime(y, 7, 14), // 105 days
+                country: 'IN',
+              ),
+            );
+          }
+          // Prior 10 years residency: 3 years with ≥182 days (FY20, FY21, FY22)
+          // Already covered above for FY17..FY23 but need ≥182 for some years
+          // Replace years 2018-2022 with 200 days each (so 5 years ≥182 → resident in 5 of 10)
+          final records2 = <StayRecord>[];
           records2.add(
             StayRecord(
-              dateFrom: DateTime(y, 4, 1),
-              dateTo: DateTime(y, 10, 17), // 200 days each
+              dateFrom: DateTime(2023, 4, 1),
+              dateTo: DateTime(2023, 10, 17), // 200 days FY24
               country: 'IN',
             ),
           );
-        }
-        final result = engine.determine(records2, 2024);
-        expect(result.status, NriStatus.resident);
-        expect(result.isRnor, false);
-      });
+          for (int y = 2018; y <= 2022; y++) {
+            records2.add(
+              StayRecord(
+                dateFrom: DateTime(y, 4, 1),
+                dateTo: DateTime(y, 10, 17), // 200 days each
+                country: 'IN',
+              ),
+            );
+          }
+          final result = engine.determine(records2, 2024);
+          expect(result.status, NriStatus.resident);
+          expect(result.isRnor, false);
+        },
+      );
     });
 
     // ─── ResidentialStatus model ───────────────────────────────────────────
@@ -466,7 +475,10 @@ void main() {
           status: NriStatus.resident,
           determination: 'original',
         );
-        final updated = original.copyWith(daysInIndia: 50, status: NriStatus.nri);
+        final updated = original.copyWith(
+          daysInIndia: 50,
+          status: NriStatus.nri,
+        );
         expect(updated.daysInIndia, 50);
         expect(updated.status, NriStatus.nri);
         expect(updated.pan, 'ABCDE1234F');

@@ -17,10 +17,12 @@ class StartupScreen extends ConsumerWidget {
     final startups = ref.watch(startupListProvider);
     final theme = Theme.of(context);
 
-    final dpiitRegistered =
-        startups.where((s) => s.dpiitStatus == DpiitStatus.registered).length;
-    final iac80Approved =
-        startups.where((s) => s.iac80Status == Iac80Status.approved).length;
+    final dpiitRegistered = startups
+        .where((s) => s.dpiitStatus == DpiitStatus.registered)
+        .length;
+    final iac80Approved = startups
+        .where((s) => s.iac80Status == Iac80Status.approved)
+        .length;
 
     return Scaffold(
       appBar: AppBar(
@@ -193,10 +195,13 @@ class _EligibilitySummaryCard extends StatelessWidget {
               netProfitPaise: s.netProfitPaise,
               financialYears80IACApplied: s.financialYears80IACApplied,
             );
-            final deduction =
-                Section80IACService.instance.computeDeduction(data, 2026);
-            final isExempt =
-                AngelTaxService.instance.isDpiitExempt(s.dpiitNumber);
+            final deduction = Section80IACService.instance.computeDeduction(
+              data,
+              2026,
+            );
+            final isExempt = AngelTaxService.instance.isDpiitExempt(
+              s.dpiitNumber,
+            );
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -231,8 +236,7 @@ class _EligibilitySummaryCard extends StatelessWidget {
                   Text(
                     isExempt ? 'Angel Tax Exempt' : 'Angel Tax Applicable',
                     style: theme.textTheme.labelSmall?.copyWith(
-                      color:
-                          isExempt ? AppColors.success : AppColors.warning,
+                      color: isExempt ? AppColors.success : AppColors.warning,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

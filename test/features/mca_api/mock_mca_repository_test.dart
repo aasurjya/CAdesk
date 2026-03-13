@@ -52,10 +52,7 @@ void main() {
     });
 
     test('throws ArgumentError for empty CIN', () async {
-      expect(
-        () => repository.lookupByCin(''),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repository.lookupByCin(''), throwsA(isA<ArgumentError>()));
     });
 
     test('works for unlisted company CIN starting with U', () async {
@@ -99,10 +96,7 @@ void main() {
     });
 
     test('throws ArgumentError for empty search term', () async {
-      expect(
-        () => repository.searchByName(''),
-        throwsA(isA<ArgumentError>()),
-      );
+      expect(() => repository.searchByName(''), throwsA(isA<ArgumentError>()));
     });
   });
 

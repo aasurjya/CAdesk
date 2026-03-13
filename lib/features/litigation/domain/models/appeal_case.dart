@@ -29,13 +29,7 @@ enum AppealStatus {
 }
 
 /// Outcome of a single stage in the appeal ladder.
-enum StageOutcome {
-  pending,
-  allowed,
-  partiallyAllowed,
-  dismissed,
-  withdrawn,
-}
+enum StageOutcome { pending, allowed, partiallyAllowed, dismissed, withdrawn }
 
 /// Events that can trigger a state transition in an appeal case.
 enum AppealEvent {

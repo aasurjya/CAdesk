@@ -17,14 +17,12 @@ class ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
       child: Row(
-        mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if (!isUser) ...[
-            _AssistantAvatar(),
-            const SizedBox(width: 8),
-          ],
+          if (!isUser) ...[_AssistantAvatar(), const SizedBox(width: 8)],
           Flexible(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -33,10 +31,8 @@ class ChatBubble extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
-                  bottomLeft:
-                      isUser ? const Radius.circular(16) : Radius.zero,
-                  bottomRight:
-                      isUser ? Radius.zero : const Radius.circular(16),
+                  bottomLeft: isUser ? const Radius.circular(16) : Radius.zero,
+                  bottomRight: isUser ? Radius.zero : const Radius.circular(16),
                 ),
               ),
               child: Text(

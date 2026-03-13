@@ -94,10 +94,7 @@ void main() {
 
   group('AppealManagementService.transitionAppeal', () {
     AppealCase baseAppeal() {
-      return AppealManagementService.createAppeal(
-        makeNotice(),
-        'Test grounds',
-      );
+      return AppealManagementService.createAppeal(makeNotice(), 'Test grounds');
     }
 
     test('filed event keeps status pending', () {
@@ -280,8 +277,9 @@ void main() {
         nextAction: 'File CIT(A)',
         history: [stage],
       );
-      final deadline =
-          AppealManagementService.computeStatuteOfLimitations(appeal);
+      final deadline = AppealManagementService.computeStatuteOfLimitations(
+        appeal,
+      );
       expect(deadline, DateTime(2026, 5, 31));
     });
 
@@ -306,8 +304,9 @@ void main() {
         nextAction: 'File ITAT',
         history: [stage],
       );
-      final deadline =
-          AppealManagementService.computeStatuteOfLimitations(appeal);
+      final deadline = AppealManagementService.computeStatuteOfLimitations(
+        appeal,
+      );
       expect(deadline, DateTime(2026, 6, 30));
     });
 
@@ -332,8 +331,9 @@ void main() {
         nextAction: 'File HC',
         history: [stage],
       );
-      final deadline =
-          AppealManagementService.computeStatuteOfLimitations(appeal);
+      final deadline = AppealManagementService.computeStatuteOfLimitations(
+        appeal,
+      );
       expect(deadline, DateTime(2026, 8, 29));
     });
   });
@@ -357,15 +357,12 @@ void main() {
         history: const [],
       );
       final ladder = AppealManagementService.getAppealLadder(appeal);
-      expect(
-        ladder,
-        [
-          AppealForum.cita,
-          AppealForum.itat,
-          AppealForum.highCourt,
-          AppealForum.supremeCourt,
-        ],
-      );
+      expect(ladder, [
+        AppealForum.cita,
+        AppealForum.itat,
+        AppealForum.highCourt,
+        AppealForum.supremeCourt,
+      ]);
     });
 
     test('from CIT(A) level → remaining: itat, HC, SC', () {
@@ -382,10 +379,11 @@ void main() {
         history: const [],
       );
       final ladder = AppealManagementService.getAppealLadder(appeal);
-      expect(
-        ladder,
-        [AppealForum.itat, AppealForum.highCourt, AppealForum.supremeCourt],
-      );
+      expect(ladder, [
+        AppealForum.itat,
+        AppealForum.highCourt,
+        AppealForum.supremeCourt,
+      ]);
     });
 
     test('from SC level → empty ladder', () {
@@ -424,8 +422,9 @@ void main() {
         nextAction: '',
         history: const [],
       );
-      final preDeposit =
-          AppealManagementService.computePreDepositRequired(appeal);
+      final preDeposit = AppealManagementService.computePreDepositRequired(
+        appeal,
+      );
       expect(preDeposit, 10_000_000); // 20% of 50L
     });
 
@@ -442,8 +441,9 @@ void main() {
         nextAction: '',
         history: const [],
       );
-      final preDeposit =
-          AppealManagementService.computePreDepositRequired(appeal);
+      final preDeposit = AppealManagementService.computePreDepositRequired(
+        appeal,
+      );
       expect(preDeposit, 0);
     });
 
@@ -460,8 +460,9 @@ void main() {
         nextAction: '',
         history: const [],
       );
-      final preDeposit =
-          AppealManagementService.computePreDepositRequired(appeal);
+      final preDeposit = AppealManagementService.computePreDepositRequired(
+        appeal,
+      );
       expect(preDeposit, 0);
     });
   });

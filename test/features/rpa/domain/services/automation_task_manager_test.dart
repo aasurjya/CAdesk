@@ -192,10 +192,7 @@ void main() {
 
       test('stores JSON-serialised result in resultData', () {
         final task = AutomationTaskManager.startTask(
-          AutomationTaskManager.createTask(
-            AutomationTaskType.challanFetch,
-            {},
-          ),
+          AutomationTaskManager.createTask(AutomationTaskType.challanFetch, {}),
         );
 
         final result = const AutomationResult(
@@ -337,29 +334,32 @@ void main() {
         expect(duration.inSeconds, greaterThan(0));
       });
 
-      test('multiple tasks → duration is at least sum of individual estimates',
-          () {
-        final tasks = [
-          AutomationTaskManager.createTask(
-            AutomationTaskType.tracesDownload,
-            {},
-          ),
-          AutomationTaskManager.createTask(AutomationTaskType.challanFetch, {}),
-          AutomationTaskManager.createTask(
-            AutomationTaskType.gstFilingStatus,
-            {},
-          ),
-        ];
+      test(
+        'multiple tasks → duration is at least sum of individual estimates',
+        () {
+          final tasks = [
+            AutomationTaskManager.createTask(
+              AutomationTaskType.tracesDownload,
+              {},
+            ),
+            AutomationTaskManager.createTask(
+              AutomationTaskType.challanFetch,
+              {},
+            ),
+            AutomationTaskManager.createTask(
+              AutomationTaskType.gstFilingStatus,
+              {},
+            ),
+          ];
 
-        final total = AutomationTaskManager.estimateBatchDuration(tasks);
-        final individual = tasks
-            .map(
-              (t) => AutomationTaskManager.estimateBatchDuration([t]),
-            )
-            .fold(Duration.zero, (a, b) => a + b);
+          final total = AutomationTaskManager.estimateBatchDuration(tasks);
+          final individual = tasks
+              .map((t) => AutomationTaskManager.estimateBatchDuration([t]))
+              .fold(Duration.zero, (a, b) => a + b);
 
-        expect(total.inSeconds, greaterThanOrEqualTo(individual.inSeconds));
-      });
+          expect(total.inSeconds, greaterThanOrEqualTo(individual.inSeconds));
+        },
+      );
     });
   });
 }

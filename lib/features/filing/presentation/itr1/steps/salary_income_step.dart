@@ -188,9 +188,9 @@ class _SalaryIncomeStepState extends ConsumerState<SalaryIncomeStep> {
           children: [
             Text(
               'Import from Form 16',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 10),
             Row(
@@ -294,8 +294,7 @@ class _SalaryIncomeStepState extends ConsumerState<SalaryIncomeStep> {
           Card(
             color: AppColors.primary,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

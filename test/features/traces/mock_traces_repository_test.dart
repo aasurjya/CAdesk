@@ -45,13 +45,16 @@ void main() {
       expect(result.verifiedAt.isAfter(before), isTrue);
     });
 
-    test('verifyPan returns TracesPanVerification with consistent fields', () async {
-      final result = await repo.verifyPan('ABCDE1234F');
-      // Confirm the same instance compares equal to itself (operator== sanity)
-      expect(result, equals(result));
-      // Confirm hashCode is stable for the same object
-      expect(result.hashCode, result.hashCode);
-    });
+    test(
+      'verifyPan returns TracesPanVerification with consistent fields',
+      () async {
+        final result = await repo.verifyPan('ABCDE1234F');
+        // Confirm the same instance compares equal to itself (operator== sanity)
+        expect(result, equals(result));
+        // Confirm hashCode is stable for the same object
+        expect(result.hashCode, result.hashCode);
+      },
+    );
 
     test('copyWith produces new instance with updated status', () async {
       final result = await repo.verifyPan('ABCDE1234F');
@@ -102,9 +105,7 @@ void main() {
         '00001',
         'MUMA12345B',
       );
-      final updated = result.copyWith(
-        status: ChallanBookingStatus.overBooked,
-      );
+      final updated = result.copyWith(status: ChallanBookingStatus.overBooked);
       expect(updated.status, ChallanBookingStatus.overBooked);
       expect(updated.bsrCode, result.bsrCode);
     });
@@ -112,52 +113,30 @@ void main() {
 
   group('MockTracesRepository.requestForm16', () {
     test('returns available status immediately', () async {
-      final result = await repo.requestForm16(
-        'MUMA12345B',
-        'ABCDE1234F',
-        2024,
-      );
+      final result = await repo.requestForm16('MUMA12345B', 'ABCDE1234F', 2024);
       expect(result.status, Form16RequestStatus.available);
     });
 
     test('returned request has correct tan and pan', () async {
-      final result = await repo.requestForm16(
-        'MUMA12345B',
-        'ABCDE1234F',
-        2024,
-      );
+      final result = await repo.requestForm16('MUMA12345B', 'ABCDE1234F', 2024);
       expect(result.tan, 'MUMA12345B');
       expect(result.pan, 'ABCDE1234F');
       expect(result.financialYear, 2024);
     });
 
     test('returned request has a non-empty requestId', () async {
-      final result = await repo.requestForm16(
-        'MUMA12345B',
-        'ABCDE1234F',
-        2024,
-      );
+      final result = await repo.requestForm16('MUMA12345B', 'ABCDE1234F', 2024);
       expect(result.requestId, isNotEmpty);
     });
 
     test('downloadUrl is non-null for available status', () async {
-      final result = await repo.requestForm16(
-        'MUMA12345B',
-        'ABCDE1234F',
-        2024,
-      );
+      final result = await repo.requestForm16('MUMA12345B', 'ABCDE1234F', 2024);
       expect(result.downloadUrl, isNotNull);
     });
 
     test('copyWith updates fields correctly', () async {
-      final result = await repo.requestForm16(
-        'MUMA12345B',
-        'ABCDE1234F',
-        2024,
-      );
-      final updated = result.copyWith(
-        status: Form16RequestStatus.downloaded,
-      );
+      final result = await repo.requestForm16('MUMA12345B', 'ABCDE1234F', 2024);
+      final updated = result.copyWith(status: Form16RequestStatus.downloaded);
       expect(updated.status, Form16RequestStatus.downloaded);
       expect(updated.requestId, result.requestId);
     });
@@ -166,21 +145,13 @@ void main() {
   group('MockTracesRepository.requestBulkForm16', () {
     test('returns one request per PAN', () async {
       final pans = ['ABCDE1234F', 'PQRST5678A', 'LMNOP9012B'];
-      final result = await repo.requestBulkForm16(
-        'MUMA12345B',
-        2024,
-        pans,
-      );
+      final result = await repo.requestBulkForm16('MUMA12345B', 2024, pans);
       expect(result.length, pans.length);
     });
 
     test('all bulk requests have available status', () async {
       final pans = ['ABCDE1234F', 'PQRST5678A'];
-      final results = await repo.requestBulkForm16(
-        'MUMA12345B',
-        2024,
-        pans,
-      );
+      final results = await repo.requestBulkForm16('MUMA12345B', 2024, pans);
       for (final req in results) {
         expect(req.status, Form16RequestStatus.available);
       }
@@ -194,11 +165,7 @@ void main() {
 
   group('MockTracesRepository.getJustificationReport', () {
     test('returns empty shortfall report by default', () async {
-      final result = await repo.getJustificationReport(
-        'MUMA12345B',
-        2024,
-        1,
-      );
+      final result = await repo.getJustificationReport('MUMA12345B', 2024, 1);
       expect(result.shortDeductions, isEmpty);
       expect(result.lateDeductions, isEmpty);
       expect(result.totalShortfall, 0);
@@ -206,32 +173,20 @@ void main() {
     });
 
     test('returned report has correct tan and financialYear', () async {
-      final result = await repo.getJustificationReport(
-        'MUMA12345B',
-        2024,
-        2,
-      );
+      final result = await repo.getJustificationReport('MUMA12345B', 2024, 2);
       expect(result.tan, 'MUMA12345B');
       expect(result.financialYear, 2024);
     });
 
     test('quarter maps correctly for all four quarters', () async {
       for (var q = 1; q <= 4; q++) {
-        final result = await repo.getJustificationReport(
-          'MUMA12345B',
-          2024,
-          q,
-        );
+        final result = await repo.getJustificationReport('MUMA12345B', 2024, q);
         expect(result.quarter.index + 1, q);
       }
     });
 
     test('copyWith updates totalShortfall', () async {
-      final result = await repo.getJustificationReport(
-        'MUMA12345B',
-        2024,
-        1,
-      );
+      final result = await repo.getJustificationReport('MUMA12345B', 2024, 1);
       final updated = result.copyWith(totalShortfall: 10000);
       expect(updated.totalShortfall, 10000);
       expect(updated.tan, result.tan);

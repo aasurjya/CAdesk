@@ -173,25 +173,25 @@ class Form12bbDeclaration {
 
   @override
   int get hashCode => Object.hash(
-        declarationId,
-        employeeId,
-        financialYear,
-        annualRentPaid,
-        landlordName,
-        landlordPan,
-        landlordAddress,
-        ltaClaimedAmount,
-        section80C,
-        section80CCD1B,
-        section80D,
-        section80E,
-        section80G,
-        section80TTA,
-        homeLoanInterest,
-        lenderName,
-        lenderPan,
-        Object.hash(submittedAt, isVerified),
-      );
+    declarationId,
+    employeeId,
+    financialYear,
+    annualRentPaid,
+    landlordName,
+    landlordPan,
+    landlordAddress,
+    ltaClaimedAmount,
+    section80C,
+    section80CCD1B,
+    section80D,
+    section80E,
+    section80G,
+    section80TTA,
+    homeLoanInterest,
+    lenderName,
+    lenderPan,
+    Object.hash(submittedAt, isVerified),
+  );
 
   @override
   String toString() =>

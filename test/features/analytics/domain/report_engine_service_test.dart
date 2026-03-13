@@ -24,10 +24,10 @@ void main() {
     });
 
     test('filters by multiple keys (AND)', () {
-      final result = service.filterData(
-        rows,
-        {'year': '2024', 'service': 'GST'},
-      );
+      final result = service.filterData(rows, {
+        'year': '2024',
+        'service': 'GST',
+      });
       expect(result.length, 1);
       expect(result.first['client'], 'Charlie');
     });

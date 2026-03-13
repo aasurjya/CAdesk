@@ -61,8 +61,7 @@ class BatchProcessingQueue {
   int getQueueDepth() {
     return _queue
         .where(
-          (j) =>
-              j.status == JobStatus.queued || j.status == JobStatus.running,
+          (j) => j.status == JobStatus.queued || j.status == JobStatus.running,
         )
         .length;
   }

@@ -193,9 +193,7 @@ void main() {
 
     test('copyWith changes only specified field', () {
       final tracker = makeTracker();
-      final updated = tracker.copyWith(
-        status: DemandTrackerStatus.inAppeal,
-      );
+      final updated = tracker.copyWith(status: DemandTrackerStatus.inAppeal);
       expect(updated.status, DemandTrackerStatus.inAppeal);
       expect(updated.pan, tracker.pan);
       expect(updated.demandAmount, tracker.demandAmount);

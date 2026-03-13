@@ -225,10 +225,7 @@ class _DocumentDetailSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _DetailRow(label: 'Type', value: document.documentType.label),
-          _DetailRow(
-            label: 'Shared on',
-            value: _formatDate(document.sharedAt),
-          ),
+          _DetailRow(label: 'Shared on', value: _formatDate(document.sharedAt)),
           if (document.expiresAt != null)
             _DetailRow(
               label: 'Expires',

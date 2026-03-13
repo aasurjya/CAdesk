@@ -43,9 +43,7 @@ class EInvoiceValidator {
     // Invoice date must not be in the future.
     final today = DateTime.now();
     if (request.docDtls.dt.isAfter(today)) {
-      errors.add(
-        'Invoice date ${request.docDtls.dt} is in the future',
-      );
+      errors.add('Invoice date ${request.docDtls.dt} is in the future');
     }
 
     // Item-level validation.
@@ -58,8 +56,10 @@ class EInvoiceValidator {
     }
 
     // Math check — sum of item assAmts must equal valDtls.assVal within ₹1.
-    final itemAssTotal = request.itemList
-        .fold(0.0, (double sum, EInvoiceItem i) => sum + i.assAmt);
+    final itemAssTotal = request.itemList.fold(
+      0.0,
+      (double sum, EInvoiceItem i) => sum + i.assAmt,
+    );
     if ((itemAssTotal - request.valDtls.assVal).abs() > _roundingTolerance) {
       errors.add(
         'ValDtls.assVal (${request.valDtls.assVal}) does not match '
@@ -68,8 +68,10 @@ class EInvoiceValidator {
     }
 
     // Math check — sum of item igstAmts must equal valDtls.igstVal.
-    final itemIgstTotal = request.itemList
-        .fold(0.0, (double sum, EInvoiceItem i) => sum + i.igstAmt);
+    final itemIgstTotal = request.itemList.fold(
+      0.0,
+      (double sum, EInvoiceItem i) => sum + i.igstAmt,
+    );
     if ((itemIgstTotal - request.valDtls.igstVal).abs() > _roundingTolerance) {
       errors.add(
         'ValDtls.igstVal (${request.valDtls.igstVal}) does not match '
@@ -78,8 +80,10 @@ class EInvoiceValidator {
     }
 
     // Math check — sum of item cgstAmts must equal valDtls.cgstVal.
-    final itemCgstTotal = request.itemList
-        .fold(0.0, (double sum, EInvoiceItem i) => sum + i.cgstAmt);
+    final itemCgstTotal = request.itemList.fold(
+      0.0,
+      (double sum, EInvoiceItem i) => sum + i.cgstAmt,
+    );
     if ((itemCgstTotal - request.valDtls.cgstVal).abs() > _roundingTolerance) {
       errors.add(
         'ValDtls.cgstVal (${request.valDtls.cgstVal}) does not match '
@@ -88,8 +92,10 @@ class EInvoiceValidator {
     }
 
     // Math check — sum of item sgstAmts must equal valDtls.sgstVal.
-    final itemSgstTotal = request.itemList
-        .fold(0.0, (double sum, EInvoiceItem i) => sum + i.sgstAmt);
+    final itemSgstTotal = request.itemList.fold(
+      0.0,
+      (double sum, EInvoiceItem i) => sum + i.sgstAmt,
+    );
     if ((itemSgstTotal - request.valDtls.sgstVal).abs() > _roundingTolerance) {
       errors.add(
         'ValDtls.sgstVal (${request.valDtls.sgstVal}) does not match '
@@ -98,8 +104,10 @@ class EInvoiceValidator {
     }
 
     // Math check — sum of totItemVals must equal valDtls.totInvVal.
-    final itemTotTotal = request.itemList
-        .fold(0.0, (double sum, EInvoiceItem i) => sum + i.totItemVal);
+    final itemTotTotal = request.itemList.fold(
+      0.0,
+      (double sum, EInvoiceItem i) => sum + i.totItemVal,
+    );
     if ((itemTotTotal - request.valDtls.totInvVal).abs() > _roundingTolerance) {
       errors.add(
         'ValDtls.totInvVal (${request.valDtls.totInvVal}) does not match '

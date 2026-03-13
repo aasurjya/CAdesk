@@ -71,9 +71,7 @@ class CapitalGainsPipelineService {
     final allPositions = <CapitalGainsPosition>[];
     for (final txList in grouped.values) {
       final buys =
-          txList
-              .where((t) => t.transactionType == TransactionType.buy)
-              .toList()
+          txList.where((t) => t.transactionType == TransactionType.buy).toList()
             ..sort((a, b) => a.date.compareTo(b.date));
       final sells =
           txList
@@ -115,8 +113,9 @@ class CapitalGainsPipelineService {
           continue;
         }
 
-        final consumed =
-            remainingToSell < lot.remaining ? remainingToSell : lot.remaining;
+        final consumed = remainingToSell < lot.remaining
+            ? remainingToSell
+            : lot.remaining;
 
         final acqCost = (lot.buy.price * consumed).round();
         final saleProceeds = (sell.price * consumed).round();
@@ -134,7 +133,8 @@ class CapitalGainsPipelineService {
             saleDate: sell.date,
             saleProceeds: saleProceeds,
             quantity: consumed,
-            indexedCost: null, // caller can invoke computeIndexedCost separately
+            indexedCost:
+                null, // caller can invoke computeIndexedCost separately
             gainLoss: gainLoss,
             holdingPeriod: holdingDays,
             isLongTerm: isLt,

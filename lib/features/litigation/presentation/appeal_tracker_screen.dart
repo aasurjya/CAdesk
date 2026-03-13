@@ -125,9 +125,7 @@ class _AppealCardState extends State<_AppealCard> {
 
             // Stepper timeline
             Theme(
-              data: theme.copyWith(
-                colorScheme: theme.colorScheme,
-              ),
+              data: theme.copyWith(colorScheme: theme.colorScheme),
               child: Stepper(
                 currentStep: _currentStep,
                 physics: const NeverScrollableScrollPhysics(),
@@ -179,10 +177,7 @@ class _AppealCardState extends State<_AppealCard> {
             : const Text('Pending'),
         content: Padding(
           padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            appeal.nextAction,
-            style: theme.textTheme.bodySmall,
-          ),
+          child: Text(appeal.nextAction, style: theme.textTheme.bodySmall),
         ),
         state: StepState.indexed,
         isActive: true,
@@ -194,7 +189,8 @@ class _AppealCardState extends State<_AppealCard> {
 
   StepState _stepState(StageOutcome outcome) {
     return switch (outcome) {
-      StageOutcome.allowed || StageOutcome.partiallyAllowed => StepState.complete,
+      StageOutcome.allowed ||
+      StageOutcome.partiallyAllowed => StepState.complete,
       StageOutcome.dismissed || StageOutcome.withdrawn => StepState.error,
       StageOutcome.pending => StepState.indexed,
     };
@@ -302,23 +298,43 @@ class _StatusBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w700,
-          color: fg,
-        ),
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: fg),
       ),
     );
   }
 
   static (String, Color, Color) _style(AppealStatus status) {
     return switch (status) {
-      AppealStatus.pending => ('Pending', const Color(0xFFFFF3E0), const Color(0xFFE65100)),
-      AppealStatus.admitted => ('Admitted', const Color(0xFFE3F2FD), const Color(0xFF0D47A1)),
-      AppealStatus.partialRelief => ('Partial Relief', const Color(0xFFE8F5E9), const Color(0xFF1B5E20)),
-      AppealStatus.fullRelief => ('Full Relief', const Color(0xFFE8F5E9), const Color(0xFF1B5E20)),
-      AppealStatus.dismissed => ('Dismissed', const Color(0xFFFFEBEE), const Color(0xFFB71C1C)),
-      AppealStatus.withdrawn => ('Withdrawn', const Color(0xFFF3E5F5), const Color(0xFF4A148C)),
+      AppealStatus.pending => (
+        'Pending',
+        const Color(0xFFFFF3E0),
+        const Color(0xFFE65100),
+      ),
+      AppealStatus.admitted => (
+        'Admitted',
+        const Color(0xFFE3F2FD),
+        const Color(0xFF0D47A1),
+      ),
+      AppealStatus.partialRelief => (
+        'Partial Relief',
+        const Color(0xFFE8F5E9),
+        const Color(0xFF1B5E20),
+      ),
+      AppealStatus.fullRelief => (
+        'Full Relief',
+        const Color(0xFFE8F5E9),
+        const Color(0xFF1B5E20),
+      ),
+      AppealStatus.dismissed => (
+        'Dismissed',
+        const Color(0xFFFFEBEE),
+        const Color(0xFFB71C1C),
+      ),
+      AppealStatus.withdrawn => (
+        'Withdrawn',
+        const Color(0xFFF3E5F5),
+        const Color(0xFF4A148C),
+      ),
     };
   }
 }

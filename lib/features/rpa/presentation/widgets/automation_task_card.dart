@@ -6,11 +6,7 @@ import 'package:ca_app/features/rpa/presentation/widgets/portal_badge.dart';
 /// Card displaying a single [AutomationTask] with status chip, progress bar,
 /// and last-run time.
 class AutomationTaskCard extends StatelessWidget {
-  const AutomationTaskCard({
-    required this.task,
-    this.onTap,
-    super.key,
-  });
+  const AutomationTaskCard({required this.task, this.onTap, super.key});
 
   final AutomationTask task;
   final VoidCallback? onTap;
@@ -72,8 +68,9 @@ class AutomationTaskCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 LinearProgressIndicator(
                   borderRadius: BorderRadius.circular(4),
-                  backgroundColor:
-                      theme.colorScheme.primary.withValues(alpha: 0.12),
+                  backgroundColor: theme.colorScheme.primary.withValues(
+                    alpha: 0.12,
+                  ),
                 ),
               ],
             ],

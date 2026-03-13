@@ -57,11 +57,15 @@ class JobSchedule {
     return JobSchedule(
       scheduleId: scheduleId ?? this.scheduleId,
       jobType: jobType ?? this.jobType,
-      cronExpression: clearCronExpression ? null : (cronExpression ?? this.cronExpression),
+      cronExpression: clearCronExpression
+          ? null
+          : (cronExpression ?? this.cronExpression),
       nextRunAt: nextRunAt ?? this.nextRunAt,
       isEnabled: isEnabled ?? this.isEnabled,
       lastRunAt: clearLastRunAt ? null : (lastRunAt ?? this.lastRunAt),
-      lastRunStatus: clearLastRunStatus ? null : (lastRunStatus ?? this.lastRunStatus),
+      lastRunStatus: clearLastRunStatus
+          ? null
+          : (lastRunStatus ?? this.lastRunStatus),
     );
   }
 

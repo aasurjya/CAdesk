@@ -89,11 +89,6 @@ class ReportDefinition {
   }
 
   @override
-  int get hashCode => Object.hash(
-    reportId,
-    name,
-    sortBy,
-    sortAscending,
-    format,
-  );
+  int get hashCode =>
+      Object.hash(reportId, name, sortBy, sortAscending, format);
 }

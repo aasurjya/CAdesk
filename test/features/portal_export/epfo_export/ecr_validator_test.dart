@@ -44,11 +44,17 @@ void main() {
 
     group('validateEstablishmentId', () {
       test('accepts valid 7-digit numeric establishment ID', () {
-        expect(EcrValidator.instance.validateEstablishmentId('7001234'), isTrue);
+        expect(
+          EcrValidator.instance.validateEstablishmentId('7001234'),
+          isTrue,
+        );
       });
 
       test('rejects ID shorter than 7 digits', () {
-        expect(EcrValidator.instance.validateEstablishmentId('123456'), isFalse);
+        expect(
+          EcrValidator.instance.validateEstablishmentId('123456'),
+          isFalse,
+        );
       });
 
       test('rejects ID longer than 7 digits', () {
@@ -70,7 +76,10 @@ void main() {
       });
 
       test('accepts all-zero ID', () {
-        expect(EcrValidator.instance.validateEstablishmentId('0000000'), isTrue);
+        expect(
+          EcrValidator.instance.validateEstablishmentId('0000000'),
+          isTrue,
+        );
       });
     });
 
@@ -112,10 +121,7 @@ void main() {
         );
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('epf wage')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('epf wage')), isTrue);
       });
 
       test('returns error when EPS wages exceed EPF wages', () {
@@ -125,10 +131,7 @@ void main() {
         );
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('eps wage')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('eps wage')), isTrue);
       });
 
       test('returns error when EPS wages exceed ₹15,000 ceiling', () {
@@ -138,43 +141,36 @@ void main() {
         );
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('eps')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('eps')), isTrue);
       });
 
-      test('returns error when employee EPF not approximately 12% of EPF wages',
-          () {
-        // EPF wages = 1500000 paise = ₹15,000. 12% = ₹1,800 = 180000 paise.
-        // Set to 100000 paise = ₹1,000 (way off).
-        final row = validRow.copyWith(employeeEpfPaise: 100000);
-        final errors = EcrValidator.instance.validateMemberRow(row);
-        expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('employee epf')),
-          isTrue,
-        );
-      });
+      test(
+        'returns error when employee EPF not approximately 12% of EPF wages',
+        () {
+          // EPF wages = 1500000 paise = ₹15,000. 12% = ₹1,800 = 180000 paise.
+          // Set to 100000 paise = ₹1,000 (way off).
+          final row = validRow.copyWith(employeeEpfPaise: 100000);
+          final errors = EcrValidator.instance.validateMemberRow(row);
+          expect(errors, isNotEmpty);
+          expect(
+            errors.any((e) => e.toLowerCase().contains('employee epf')),
+            isTrue,
+          );
+        },
+      );
 
       test('returns error when gross wages are negative', () {
         final row = validRow.copyWith(grossWagesPaise: -1);
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('gross')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('gross')), isTrue);
       });
 
       test('returns error when ncp days are negative', () {
         final row = validRow.copyWith(ncp: -1);
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('ncp')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('ncp')), isTrue);
       });
 
       test('returns error when ncp days exceed 31', () {
@@ -195,10 +191,7 @@ void main() {
         final row = validRow.copyWith(memberName: '');
         final errors = EcrValidator.instance.validateMemberRow(row);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('name')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('name')), isTrue);
       });
     });
 
@@ -222,10 +215,7 @@ void main() {
             '100123456789#~#John Doe#~#15000#~#15000#~#15000#~#15000#~#1800#~#1250#~#550#~#0#~#0#~#\n';
         final errors = EcrValidator.instance.validateEcrContent(noHeader);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('header')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('header')), isTrue);
       });
 
       test('returns error for empty content', () {
@@ -240,10 +230,7 @@ void main() {
             '100123456789#~#John Doe#~#15000#~#15000#~#15000#~#15000#~#1800#~#1250#~#0#~#\n';
         final errors = EcrValidator.instance.validateEcrContent(badRow);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('field')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('field')), isTrue);
       });
 
       test('returns error when data row has invalid UAN', () {
@@ -252,23 +239,18 @@ void main() {
             'BADUAN#~#John Doe#~#15000#~#15000#~#15000#~#15000#~#1800#~#1250#~#550#~#0#~#0#~#\n';
         final errors = EcrValidator.instance.validateEcrContent(badUanContent);
         expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('uan')),
-          isTrue,
-        );
+        expect(errors.any((e) => e.toLowerCase().contains('uan')), isTrue);
       });
 
       test('returns error when wages are negative in content', () {
         const negativeWageContent =
             '#~#EPFO#~#ECR#~#V2.0#~#7001234#~#03 2024#~#1#~#\n'
             '100123456789#~#John Doe#~#-100#~#15000#~#15000#~#15000#~#1800#~#1250#~#550#~#0#~#0#~#\n';
-        final errors =
-            EcrValidator.instance.validateEcrContent(negativeWageContent);
-        expect(errors, isNotEmpty);
-        expect(
-          errors.any((e) => e.toLowerCase().contains('negative')),
-          isTrue,
+        final errors = EcrValidator.instance.validateEcrContent(
+          negativeWageContent,
         );
+        expect(errors, isNotEmpty);
+        expect(errors.any((e) => e.toLowerCase().contains('negative')), isTrue);
       });
     });
   });

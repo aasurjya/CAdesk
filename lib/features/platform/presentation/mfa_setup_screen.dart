@@ -106,9 +106,7 @@ class _MfaSetupScreenState extends ConsumerState<MfaSetupScreen> {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.error,
-            ),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () {
               ref.read(mfaSetupProvider.notifier).setSetup(null);
               setState(() => _showBackupCodes = false);
@@ -268,9 +266,9 @@ class _QrCodePlaceholder extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'QR Code',
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: AppColors.neutral400,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: AppColors.neutral400),
           ),
         ],
       ),
@@ -346,10 +344,7 @@ class _StatusView extends StatelessWidget {
                   value: '${setup.backupCodes.length} available',
                 ),
                 const SizedBox(height: 8),
-                _InfoRow(
-                  label: 'Set up',
-                  value: _formatDate(setup.setupAt),
-                ),
+                _InfoRow(label: 'Set up', value: _formatDate(setup.setupAt)),
               ],
             ),
           ),
@@ -383,8 +378,18 @@ class _StatusView extends StatelessWidget {
 
   static String _month(int m) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return months[m - 1];
   }

@@ -13,10 +13,7 @@ void main() {
 
   group('TracesBatchProcessor.batchVerifyPans', () {
     test('verifies a single PAN', () async {
-      final results = await processor.batchVerifyPans(
-        ['ABCDE1234F'],
-        repo,
-      );
+      final results = await processor.batchVerifyPans(['ABCDE1234F'], repo);
       expect(results.length, 1);
       expect(results.first.pan, 'ABCDE1234F');
     });

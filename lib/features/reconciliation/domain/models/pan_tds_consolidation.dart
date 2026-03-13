@@ -64,12 +64,12 @@ class DeductorTdsSummary {
 
   @override
   int get hashCode => Object.hash(
-        deductorName,
-        deductorTan,
-        totalGrossAmount,
-        totalTdsDeducted,
-        totalTdsCredited,
-      );
+    deductorName,
+    deductorTan,
+    totalGrossAmount,
+    totalTdsDeducted,
+    totalTdsCredited,
+  );
 }
 
 /// Details of a TDS credit shortfall from a specific deductor.
@@ -201,12 +201,12 @@ class PanTdsConsolidation {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        assessmentYear,
-        Object.hashAll(deductorWiseSummary),
-        totalIncome,
-        totalTdsDeducted,
-        totalTdsCredited,
-        shortfall,
-      );
+    pan,
+    assessmentYear,
+    Object.hashAll(deductorWiseSummary),
+    totalIncome,
+    totalTdsDeducted,
+    totalTdsCredited,
+    shortfall,
+  );
 }

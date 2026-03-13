@@ -3,28 +3,13 @@
 // ---------------------------------------------------------------------------
 
 /// Legal entity type of the client.
-enum ClientType {
-  individual,
-  huf,
-  firm,
-  company,
-  trust,
-}
+enum ClientType { individual, huf, firm, company, trust }
 
 /// Income tax regime chosen by the client.
-enum TaxRegime {
-  old,
-  newRegime,
-}
+enum TaxRegime { old, newRegime }
 
 /// Age group bucket for the individual client.
-enum AgeGroup {
-  under30,
-  thirties,
-  forties,
-  fifties,
-  above60,
-}
+enum AgeGroup { under30, thirties, forties, fifties, above60 }
 
 // ---------------------------------------------------------------------------
 // Model

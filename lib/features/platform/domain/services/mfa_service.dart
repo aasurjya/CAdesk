@@ -41,12 +41,7 @@ class MfaService {
 
   /// Returns true if [code] matches the TOTP for [secret] at [time],
   /// checking [window] adjacent time-steps in each direction.
-  bool verifyTotp(
-    String secret,
-    String code,
-    DateTime time, {
-    int window = 1,
-  }) {
+  bool verifyTotp(String secret, String code, DateTime time, {int window = 1}) {
     for (var offset = -window; offset <= window; offset++) {
       final offsetTime = time.add(Duration(seconds: offset * 30));
       if (generateTotp(secret, offsetTime) == code) return true;

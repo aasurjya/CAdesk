@@ -14,12 +14,7 @@ enum DocumentType {
 }
 
 /// Lifecycle status of an OCR processing job.
-enum ProcessingStatus {
-  pending,
-  processing,
-  completed,
-  failed,
-}
+enum ProcessingStatus { pending, processing, completed, failed }
 
 /// Immutable representation of a raw OCR-scanned document before or after
 /// structured data extraction.
@@ -91,14 +86,14 @@ class OcrDocument {
 
   @override
   int get hashCode => Object.hash(
-        documentId,
-        documentType,
-        rawText,
-        confidence,
-        extractedAt,
-        pageCount,
-        processingStatus,
-      );
+    documentId,
+    documentType,
+    rawText,
+    confidence,
+    extractedAt,
+    pageCount,
+    processingStatus,
+  );
 
   @override
   String toString() =>

@@ -72,7 +72,10 @@ class DscSigningService {
       return request.copyWith(status: SigningStatus.failed);
     }
 
-    final signature = _computeMockSignature(request.documentHash, cert.serialNumber);
+    final signature = _computeMockSignature(
+      request.documentHash,
+      cert.serialNumber,
+    );
 
     return request.copyWith(
       status: SigningStatus.signed,
@@ -92,7 +95,10 @@ class DscSigningService {
     final sig = request.signature;
     if (sig == null || sig.isEmpty) return false;
 
-    final expected = _computeMockSignature(request.documentHash, cert.serialNumber);
+    final expected = _computeMockSignature(
+      request.documentHash,
+      cert.serialNumber,
+    );
     return sig == expected;
   }
 
@@ -110,7 +116,8 @@ class DscSigningService {
   /// Generates a unique, deterministic request id from document hash + PAN
   /// combined with a timestamp component for uniqueness across calls.
   static String _generateRequestId(String documentHash, String signerPan) {
-    final seed = '$documentHash-$signerPan-${DateTime.now().microsecondsSinceEpoch}';
+    final seed =
+        '$documentHash-$signerPan-${DateTime.now().microsecondsSinceEpoch}';
     final bytes = utf8.encode(seed);
     return sha256.convert(bytes).toString().substring(0, 16);
   }

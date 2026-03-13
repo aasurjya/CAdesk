@@ -59,7 +59,10 @@ void main() {
       test('encodes large amount correctly', () {
         // 10,00,000 rupees = 1,00,00,00,000 paise (but spec says paise as integer)
         // 1000000 paise = 10000 rupees
-        expect(FvuFieldEncoder.encodeAmount(1000000), equals('000000001000000'));
+        expect(
+          FvuFieldEncoder.encodeAmount(1000000),
+          equals('000000001000000'),
+        );
       });
 
       test('produces exactly 15 digits', () {
@@ -68,7 +71,10 @@ void main() {
 
       test('encodes typical TDS amount', () {
         // 1500000 paise = 15000.00 rupees
-        expect(FvuFieldEncoder.encodeAmount(1500000), equals('000000001500000'));
+        expect(
+          FvuFieldEncoder.encodeAmount(1500000),
+          equals('000000001500000'),
+        );
       });
     });
 
@@ -78,7 +84,10 @@ void main() {
       });
 
       test('trims whitespace', () {
-        expect(FvuFieldEncoder.encodePan('  ABCDE1234F  '), equals('ABCDE1234F'));
+        expect(
+          FvuFieldEncoder.encodePan('  ABCDE1234F  '),
+          equals('ABCDE1234F'),
+        );
       });
 
       test('returns PANNOTAVBL for empty string', () {
@@ -100,7 +109,10 @@ void main() {
       });
 
       test('trims whitespace', () {
-        expect(FvuFieldEncoder.encodeTan('  AAATA1234X  '), equals('AAATA1234X'));
+        expect(
+          FvuFieldEncoder.encodeTan('  AAATA1234X  '),
+          equals('AAATA1234X'),
+        );
       });
 
       test('pads to 10 chars if shorter', () {

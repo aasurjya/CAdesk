@@ -19,9 +19,7 @@ class RpaTaskDetailScreen extends ConsumerWidget {
     final (statusLabel, statusColor) = _statusInfo(task.status);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Task Detail'),
-      ),
+      appBar: AppBar(title: const Text('Task Detail')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -143,10 +141,7 @@ class _HeaderCard extends StatelessWidget {
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      Text(
-                        e.value,
-                        style: theme.textTheme.bodySmall,
-                      ),
+                      Text(e.value, style: theme.textTheme.bodySmall),
                     ],
                   ),
                 ),

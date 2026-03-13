@@ -1,15 +1,8 @@
 /// GST registration status on the GSTN portal.
-enum GstnRegistrationStatus {
-  active,
-  cancelled,
-  suspended,
-}
+enum GstnRegistrationStatus { active, cancelled, suspended }
 
 /// Frequency at which the taxpayer files GST returns.
-enum ReturnFilingFrequency {
-  monthly,
-  quarterly,
-}
+enum ReturnFilingFrequency { monthly, quarterly }
 
 /// Immutable result of a GSTIN verification lookup.
 class GstnVerificationResult {
@@ -90,13 +83,13 @@ class GstnVerificationResult {
 
   @override
   int get hashCode => Object.hash(
-        gstin,
-        legalName,
-        tradeName,
-        registrationDate,
-        status,
-        stateCode,
-        constitutionType,
-        returnFilingFrequency,
-      );
+    gstin,
+    legalName,
+    tradeName,
+    registrationDate,
+    status,
+    stateCode,
+    constitutionType,
+    returnFilingFrequency,
+  );
 }

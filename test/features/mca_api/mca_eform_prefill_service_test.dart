@@ -101,7 +101,11 @@ void main() {
       final form = _makeMgt7();
       final result = service.buildMgt7Prefill(form);
       for (final entry in result.entries) {
-        expect(entry.value, isA<String>(), reason: 'Key ${entry.key} is not a String');
+        expect(
+          entry.value,
+          isA<String>(),
+          reason: 'Key ${entry.key} is not a String',
+        );
       }
     });
 
@@ -187,7 +191,11 @@ void main() {
       final form = _makeAoc4();
       final result = service.buildAoc4Prefill(form);
       for (final entry in result.entries) {
-        expect(entry.value, isA<String>(), reason: 'Key ${entry.key} is not a String');
+        expect(
+          entry.value,
+          isA<String>(),
+          reason: 'Key ${entry.key} is not a String',
+        );
       }
     });
   });
@@ -250,7 +258,11 @@ void main() {
       final director = _makeDirector();
       final result = service.buildDir3KycPrefill(director);
       for (final entry in result.entries) {
-        expect(entry.value, isA<String>(), reason: 'Key ${entry.key} is not a String');
+        expect(
+          entry.value,
+          isA<String>(),
+          reason: 'Key ${entry.key} is not a String',
+        );
       }
     });
 

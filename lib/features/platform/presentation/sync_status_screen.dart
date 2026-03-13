@@ -23,7 +23,8 @@ class _SyncStatusScreenState extends ConsumerState<SyncStatusScreen> {
     final items = ref.watch(syncQueueProvider);
     final pending = items
         .where(
-          (i) => i.status == SyncStatus.pending || i.status == SyncStatus.failed,
+          (i) =>
+              i.status == SyncStatus.pending || i.status == SyncStatus.failed,
         )
         .toList();
     final theme = Theme.of(context);
@@ -115,7 +116,9 @@ class _SyncHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final statusColor = pendingCount == 0 ? AppColors.success : AppColors.warning;
+    final statusColor = pendingCount == 0
+        ? AppColors.success
+        : AppColors.warning;
 
     return Container(
       margin: const EdgeInsets.all(16),

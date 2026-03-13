@@ -152,31 +152,33 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('TaxSavingCalculatorService.computeOldVsNewRegime', () {
-    test('returns RegimeComparison with non-zero tax values for ₹10L income',
-        () {
-      const profile = ClientProfile(
-        pan: 'ABCDE1234F',
-        name: 'Test',
-        clientType: ClientType.individual,
-        annualIncome: 100000000, // ₹10L
-        taxRegime: TaxRegime.old,
-        currentDeductions: 15000000, // ₹1.5L — 80C maxed
-        currentTaxPaid: 0,
-        hasGstRegistration: false,
-        hasTdsDeductions: false,
-        hasCapitalGains: false,
-        hasForeignAssets: false,
-        hasBusinessIncome: false,
-        ageGroup: AgeGroup.thirties,
-      );
+    test(
+      'returns RegimeComparison with non-zero tax values for ₹10L income',
+      () {
+        const profile = ClientProfile(
+          pan: 'ABCDE1234F',
+          name: 'Test',
+          clientType: ClientType.individual,
+          annualIncome: 100000000, // ₹10L
+          taxRegime: TaxRegime.old,
+          currentDeductions: 15000000, // ₹1.5L — 80C maxed
+          currentTaxPaid: 0,
+          hasGstRegistration: false,
+          hasTdsDeductions: false,
+          hasCapitalGains: false,
+          hasForeignAssets: false,
+          hasBusinessIncome: false,
+          ageGroup: AgeGroup.thirties,
+        );
 
-      final comparison =
-          TaxSavingCalculatorService.instance.computeOldVsNewRegime(profile);
+        final comparison = TaxSavingCalculatorService.instance
+            .computeOldVsNewRegime(profile);
 
-      expect(comparison.oldRegimeTax, greaterThanOrEqualTo(0));
-      expect(comparison.newRegimeTax, greaterThanOrEqualTo(0));
-      expect(comparison.recommendation, isNotEmpty);
-    });
+        expect(comparison.oldRegimeTax, greaterThanOrEqualTo(0));
+        expect(comparison.newRegimeTax, greaterThanOrEqualTo(0));
+        expect(comparison.recommendation, isNotEmpty);
+      },
+    );
 
     test('old regime recommended when deductions are high (₹4L)', () {
       // ₹10L income, ₹4L deductions:
@@ -199,8 +201,8 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final comparison =
-          TaxSavingCalculatorService.instance.computeOldVsNewRegime(profile);
+      final comparison = TaxSavingCalculatorService.instance
+          .computeOldVsNewRegime(profile);
 
       // With ₹4L deductions, old regime should be better
       expect(comparison.oldRegimeTax, lessThan(comparison.newRegimeTax));
@@ -224,8 +226,8 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final comparison =
-          TaxSavingCalculatorService.instance.computeOldVsNewRegime(profile);
+      final comparison = TaxSavingCalculatorService.instance
+          .computeOldVsNewRegime(profile);
 
       // With only ₹50K deductions, new regime likely better at ₹15L
       expect(comparison.newRegimeTax, lessThan(comparison.oldRegimeTax));
@@ -249,8 +251,8 @@ void main() {
         ageGroup: AgeGroup.thirties,
       );
 
-      final comparison =
-          TaxSavingCalculatorService.instance.computeOldVsNewRegime(profile);
+      final comparison = TaxSavingCalculatorService.instance
+          .computeOldVsNewRegime(profile);
 
       final expectedSavings =
           (comparison.oldRegimeTax - comparison.newRegimeTax).abs();
@@ -264,8 +266,8 @@ void main() {
 
   group('TaxSavingCalculatorService.computeCapGainsHarvesting', () {
     test('returns 0 when no positions', () {
-      final saving =
-          TaxSavingCalculatorService.instance.computeCapGainsHarvesting([]);
+      final saving = TaxSavingCalculatorService.instance
+          .computeCapGainsHarvesting([]);
 
       expect(saving, 0);
     });
@@ -281,10 +283,8 @@ void main() {
         ),
       ];
 
-      final saving =
-          TaxSavingCalculatorService.instance.computeCapGainsHarvesting(
-        positions,
-      );
+      final saving = TaxSavingCalculatorService.instance
+          .computeCapGainsHarvesting(positions);
 
       expect(saving, 0);
     });
@@ -311,10 +311,8 @@ void main() {
         ),
       ];
 
-      final saving =
-          TaxSavingCalculatorService.instance.computeCapGainsHarvesting(
-        positions,
-      );
+      final saving = TaxSavingCalculatorService.instance
+          .computeCapGainsHarvesting(positions);
 
       // Loss = 100 × (800 - 500) paise × 100 = 30,000 × 100 = 3,000,000 paise
       // Tax saving at STCG 15% = 3,000,000 * 15 / 100 = 450,000 paise
@@ -339,10 +337,8 @@ void main() {
         ),
       ];
 
-      final saving =
-          TaxSavingCalculatorService.instance.computeCapGainsHarvesting(
-        positions,
-      );
+      final saving = TaxSavingCalculatorService.instance
+          .computeCapGainsHarvesting(positions);
 
       // LTCL = 10 × (1000 - 400) paise × 100 = 6,000 × 100 = 600,000 paise
       // LTCG available = 5 × (2000 - 1000) paise × 100 = 5,000 × 100 = 500,000 paise

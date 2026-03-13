@@ -29,7 +29,10 @@ class TriageResultCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: riskBg,
                     borderRadius: BorderRadius.circular(20),
@@ -71,7 +74,10 @@ class TriageResultCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('• ', style: TextStyle(fontWeight: FontWeight.w700)),
+                    const Text(
+                      '• ',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                     Expanded(
                       child: Text(issue, style: theme.textTheme.bodySmall),
                     ),
@@ -95,7 +101,10 @@ class TriageResultCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('• ', style: TextStyle(fontWeight: FontWeight.w700)),
+                    const Text(
+                      '• ',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                     Expanded(
                       child: Text(ground, style: theme.textTheme.bodySmall),
                     ),
@@ -128,10 +137,26 @@ class TriageResultCard extends StatelessWidget {
 
   static (String, Color, Color) _riskStyle(RiskLevel level) {
     return switch (level) {
-      RiskLevel.critical => ('CRITICAL RISK', const Color(0xFFFFEBEE), const Color(0xFFB71C1C)),
-      RiskLevel.high => ('HIGH RISK', const Color(0xFFFFF3E0), const Color(0xFFE65100)),
-      RiskLevel.medium => ('MEDIUM RISK', const Color(0xFFFFF8E1), const Color(0xFFF57F17)),
-      RiskLevel.low => ('LOW RISK', const Color(0xFFE8F5E9), const Color(0xFF1B5E20)),
+      RiskLevel.critical => (
+        'CRITICAL RISK',
+        const Color(0xFFFFEBEE),
+        const Color(0xFFB71C1C),
+      ),
+      RiskLevel.high => (
+        'HIGH RISK',
+        const Color(0xFFFFF3E0),
+        const Color(0xFFE65100),
+      ),
+      RiskLevel.medium => (
+        'MEDIUM RISK',
+        const Color(0xFFFFF8E1),
+        const Color(0xFFF57F17),
+      ),
+      RiskLevel.low => (
+        'LOW RISK',
+        const Color(0xFFE8F5E9),
+        const Color(0xFF1B5E20),
+      ),
     };
   }
 

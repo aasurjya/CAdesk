@@ -206,8 +206,8 @@ const _mockEntries = <ReconEntry>[
 /// All reconciliation entries (mock).
 final reconResultsProvider =
     NotifierProvider<ReconResultsNotifier, List<ReconEntry>>(
-  ReconResultsNotifier.new,
-);
+      ReconResultsNotifier.new,
+    );
 
 class ReconResultsNotifier extends Notifier<List<ReconEntry>> {
   @override
@@ -224,8 +224,8 @@ class ReconResultsNotifier extends Notifier<List<ReconEntry>> {
 /// Filter: which status to show.
 final reconFilterProvider =
     NotifierProvider<ReconFilterNotifier, ReconEntryStatus?>(
-  ReconFilterNotifier.new,
-);
+      ReconFilterNotifier.new,
+    );
 
 class ReconFilterNotifier extends Notifier<ReconEntryStatus?> {
   @override
@@ -271,16 +271,19 @@ final reconSummaryProvider = Provider<ReconSummary>((ref) {
   final all = ref.watch(reconResultsProvider);
   return ReconSummary(
     total: all.length,
-    matched:
-        all.where((e) => e.status == ReconEntryStatus.matched).length,
-    mismatched:
-        all.where((e) => e.status == ReconEntryStatus.mismatched).length,
-    missingIn26as:
-        all.where((e) => e.status == ReconEntryStatus.missingIn26as).length,
-    missingInAis:
-        all.where((e) => e.status == ReconEntryStatus.missingInAis).length,
-    missingInItr:
-        all.where((e) => e.status == ReconEntryStatus.missingInItr).length,
+    matched: all.where((e) => e.status == ReconEntryStatus.matched).length,
+    mismatched: all
+        .where((e) => e.status == ReconEntryStatus.mismatched)
+        .length,
+    missingIn26as: all
+        .where((e) => e.status == ReconEntryStatus.missingIn26as)
+        .length,
+    missingInAis: all
+        .where((e) => e.status == ReconEntryStatus.missingInAis)
+        .length,
+    missingInItr: all
+        .where((e) => e.status == ReconEntryStatus.missingInItr)
+        .length,
   );
 });
 
@@ -290,8 +293,8 @@ final reconSummaryProvider = Provider<ReconSummary>((ref) {
 
 final threeWayMatchResultProvider =
     NotifierProvider<ThreeWayMatchResultNotifier, ThreeWayMatchResult>(
-  ThreeWayMatchResultNotifier.new,
-);
+      ThreeWayMatchResultNotifier.new,
+    );
 
 class ThreeWayMatchResultNotifier extends Notifier<ThreeWayMatchResult> {
   @override
@@ -360,8 +363,8 @@ final _mockThreeWayResult = ThreeWayMatchResult(
 
 final bankReconciliationProvider =
     NotifierProvider<BankReconNotifier, BankReconciliation>(
-  BankReconNotifier.new,
-);
+      BankReconNotifier.new,
+    );
 
 class BankReconNotifier extends Notifier<BankReconciliation> {
   @override

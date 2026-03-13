@@ -68,13 +68,13 @@ class ShortDeductionEntry {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        section,
-        amountPaid,
-        tdsDeducted,
-        tdsRequired,
-        shortfall,
-      );
+    pan,
+    section,
+    amountPaid,
+    tdsDeducted,
+    tdsRequired,
+    shortfall,
+  );
 }
 
 /// A single late-deduction entry in a TRACES justification report.
@@ -143,14 +143,8 @@ class LateDeductionEntry {
   }
 
   @override
-  int get hashCode => Object.hash(
-        pan,
-        section,
-        dueDate,
-        depositedDate,
-        daysLate,
-        interest,
-      );
+  int get hashCode =>
+      Object.hash(pan, section, dueDate, depositedDate, daysLate, interest);
 }
 
 /// Immutable justification report for a TAN / quarter on TRACES.
@@ -228,12 +222,12 @@ class TracesJustificationReport {
 
   @override
   int get hashCode => Object.hash(
-        tan,
-        financialYear,
-        quarter,
-        totalShortfall,
-        totalInterestDemand,
-        shortDeductions.length,
-        lateDeductions.length,
-      );
+    tan,
+    financialYear,
+    quarter,
+    totalShortfall,
+    totalInterestDemand,
+    shortDeductions.length,
+    lateDeductions.length,
+  );
 }

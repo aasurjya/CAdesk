@@ -110,7 +110,8 @@ class ComplianceAlertService {
           today,
         ),
         applicableTo: const ['Individual', 'Firm', 'LLP', 'Company'],
-        penaltyIfMissed: '₹200/day (₹100 CGST + ₹100 SGST), max 0.5% of turnover',
+        penaltyIfMissed:
+            '₹200/day (₹100 CGST + ₹100 SGST), max 0.5% of turnover',
         priority: AlertPriority.high,
       ),
 
@@ -150,7 +151,8 @@ class ComplianceAlertService {
       // ------------------------------------------------------------------
       ComplianceAlert(
         alertId: 'alert-43bh-$fy',
-        title: 'Section 43B(h): MSME Payment Compliance – FY $prevYr-${fy % 100}',
+        title:
+            'Section 43B(h): MSME Payment Compliance – FY $prevYr-${fy % 100}',
         description:
             'Under Section 43B(h), payments to MSME suppliers must be made '
             'within 45 days (15 days where no written agreement) to claim '
@@ -159,7 +161,8 @@ class ComplianceAlertService {
         dueDate: null,
         daysRemaining: null,
         applicableTo: const ['Individual', 'HUF', 'Firm', 'LLP', 'Company'],
-        penaltyIfMissed: 'Disallowance of expenditure in current year; '
+        penaltyIfMissed:
+            'Disallowance of expenditure in current year; '
             'taxed in year of actual payment',
         priority: AlertPriority.high,
       ),
@@ -187,7 +190,8 @@ class ComplianceAlertService {
           'Company',
           'NRI',
         ],
-        penaltyIfMissed: 'Underpayment of advance tax; interest under 234B/234C',
+        penaltyIfMissed:
+            'Underpayment of advance tax; interest under 234B/234C',
         priority: AlertPriority.critical,
       ),
 
@@ -196,7 +200,8 @@ class ComplianceAlertService {
       // ------------------------------------------------------------------
       ComplianceAlert(
         alertId: 'alert-194t-$fy',
-        title: 'New TDS: Section 194T on Partner Salary (Effective Apr 1, 2025)',
+        title:
+            'New TDS: Section 194T on Partner Salary (Effective Apr 1, 2025)',
         description:
             'Finance Act 2024 inserts Section 194T requiring partnership '
             'firms to deduct 10% TDS on salary, remuneration, bonus, '
@@ -219,7 +224,8 @@ class ComplianceAlertService {
           today,
         ),
         applicableTo: const ['Firm', 'LLP'],
-        penaltyIfMissed: 'Interest under 201(1A) and disallowance under 40(a)(ia)',
+        penaltyIfMissed:
+            'Interest under 201(1A) and disallowance under 40(a)(ia)',
         priority: AlertPriority.high,
       ),
     ];
@@ -227,11 +233,13 @@ class ComplianceAlertService {
 
   /// Returns only [AlertPriority.critical] and [AlertPriority.high] alerts.
   List<ComplianceAlert> getPriorityAlerts(List<ComplianceAlert> alerts) {
-    return alerts.where(
-      (a) =>
-          a.priority == AlertPriority.critical ||
-          a.priority == AlertPriority.high,
-    ).toList();
+    return alerts
+        .where(
+          (a) =>
+              a.priority == AlertPriority.critical ||
+              a.priority == AlertPriority.high,
+        )
+        .toList();
   }
 
   /// Returns alerts whose [applicableTo] list contains [entityType].

@@ -26,7 +26,8 @@ void main() {
       final stcg = changes.where(
         (c) =>
             c.category == RateCategory.incomeTax &&
-            (c.oldValue.contains('15') || c.description.toLowerCase().contains('stcg')),
+            (c.oldValue.contains('15') ||
+                c.description.toLowerCase().contains('stcg')),
       );
       expect(stcg, isNotEmpty);
     });
@@ -36,7 +37,8 @@ void main() {
       final ltcg = changes.where(
         (c) =>
             c.category == RateCategory.incomeTax &&
-            (c.oldValue.contains('10') || c.description.toLowerCase().contains('ltcg')),
+            (c.oldValue.contains('10') ||
+                c.description.toLowerCase().contains('ltcg')),
       );
       expect(ltcg, isNotEmpty);
     });
@@ -67,13 +69,16 @@ void main() {
       expect(changes, isEmpty);
     });
 
-    test('Finance Act 2024 changes (Jul 23, 2024) are returned after 2024-01-01', () {
-      final changes = service.getChangesEffectiveAfter(DateTime(2024, 1, 1));
-      final fa2024 = changes.where(
-        (c) => c.circularReference.toLowerCase().contains('finance act 2024'),
-      );
-      expect(fa2024, isNotEmpty);
-    });
+    test(
+      'Finance Act 2024 changes (Jul 23, 2024) are returned after 2024-01-01',
+      () {
+        final changes = service.getChangesEffectiveAfter(DateTime(2024, 1, 1));
+        final fa2024 = changes.where(
+          (c) => c.circularReference.toLowerCase().contains('finance act 2024'),
+        );
+        expect(fa2024, isNotEmpty);
+      },
+    );
   });
 
   group('RateChangeTrackerService.getChangesForCategory', () {
@@ -121,7 +126,10 @@ void main() {
       expect(change.oldValue, '15%');
       expect(change.newValue, '20%');
       expect(change.circularReference, 'Finance Act 2024');
-      expect(change.affectedAssessees, ['Equity Investor', 'Mutual Fund Holder']);
+      expect(change.affectedAssessees, [
+        'Equity Investor',
+        'Mutual Fund Holder',
+      ]);
     });
 
     test('copyWith returns updated instance', () {

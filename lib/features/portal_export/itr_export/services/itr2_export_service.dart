@@ -61,7 +61,9 @@ class Itr2ExportService {
       itr2Map['ScheduleAL'] = _scheduleAl(data);
     }
 
-    return {'ITR': {'ITR2': itr2Map}};
+    return {
+      'ITR': {'ITR2': itr2Map},
+    };
   }
 
   static Map<String, dynamic> _personalInfo(
@@ -87,8 +89,9 @@ class Itr2ExportService {
     return {
       'ReturnFileSec': 11,
       'SeqNoOfSelf': '1',
-      'OptOutNewTaxRegime':
-          data.selectedRegime == TaxRegime.oldRegime ? 'Y' : 'N',
+      'OptOutNewTaxRegime': data.selectedRegime == TaxRegime.oldRegime
+          ? 'Y'
+          : 'N',
     };
   }
 

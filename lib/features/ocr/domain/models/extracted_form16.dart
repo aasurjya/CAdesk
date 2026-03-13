@@ -100,18 +100,18 @@ class ExtractedForm16 {
 
   @override
   int get hashCode => Object.hash(
-        employeePan,
-        employerTan,
-        employerName,
-        financialYear,
-        assessmentYear,
-        grossSalary,
-        taxableIncome,
-        tdsDeducted,
-        professionalTax,
-        standardDeduction,
-        confidence,
-      );
+    employeePan,
+    employerTan,
+    employerName,
+    financialYear,
+    assessmentYear,
+    grossSalary,
+    taxableIncome,
+    tdsDeducted,
+    professionalTax,
+    standardDeduction,
+    confidence,
+  );
 
   @override
   String toString() =>

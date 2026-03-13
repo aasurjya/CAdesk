@@ -28,8 +28,7 @@ void main() {
 
     test('createdAt is close to now', () {
       final before = DateTime.now().subtract(const Duration(seconds: 1));
-      final item =
-          service.enqueue('Client', 'c-1', SyncOperation.update, '{}');
+      final item = service.enqueue('Client', 'c-1', SyncOperation.update, '{}');
       final after = DateTime.now().add(const Duration(seconds: 1));
 
       expect(
@@ -39,8 +38,7 @@ void main() {
     });
 
     test('syncedAt and conflictResolution are null initially', () {
-      final item =
-          service.enqueue('Client', 'c-1', SyncOperation.create, '{}');
+      final item = service.enqueue('Client', 'c-1', SyncOperation.create, '{}');
       expect(item.syncedAt, isNull);
       expect(item.conflictResolution, isNull);
     });
@@ -131,8 +129,10 @@ void main() {
     test('sets status to conflicted with serverWins resolution', () {
       final item = service.enqueue('A', 'id-1', SyncOperation.update, '{}');
 
-      final resolved =
-          service.resolveConflict(item, ConflictResolution.serverWins);
+      final resolved = service.resolveConflict(
+        item,
+        ConflictResolution.serverWins,
+      );
 
       expect(resolved.status, SyncStatus.conflicted);
       expect(resolved.conflictResolution, ConflictResolution.serverWins);
@@ -142,8 +142,10 @@ void main() {
     test('sets status to conflicted with clientWins resolution', () {
       final item = service.enqueue('A', 'id-1', SyncOperation.update, '{}');
 
-      final resolved =
-          service.resolveConflict(item, ConflictResolution.clientWins);
+      final resolved = service.resolveConflict(
+        item,
+        ConflictResolution.clientWins,
+      );
 
       expect(resolved.conflictResolution, ConflictResolution.clientWins);
     });
@@ -151,8 +153,7 @@ void main() {
     test('sets status to conflicted with manual resolution', () {
       final item = service.enqueue('A', 'id-1', SyncOperation.update, '{}');
 
-      final resolved =
-          service.resolveConflict(item, ConflictResolution.manual);
+      final resolved = service.resolveConflict(item, ConflictResolution.manual);
 
       expect(resolved.conflictResolution, ConflictResolution.manual);
     });

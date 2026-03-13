@@ -53,8 +53,9 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
       setState(() {
         if (employees.isNotEmpty) {
           final active = employees.where((e) => e.isActive);
-          _selectedEmployeeId =
-              active.isNotEmpty ? active.first.id : employees.first.id;
+          _selectedEmployeeId = active.isNotEmpty
+              ? active.first.id
+              : employees.first.id;
         }
         if (fys.isNotEmpty) {
           _selectedFY = fys.first;
@@ -66,9 +67,10 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
   PayrollPrefillResult? get _currentResult {
     if (_selectedEmployeeId == null || _selectedFY == null) return null;
     return ref.read(
-      payrollAnnualSummaryProvider(
-        (employeeId: _selectedEmployeeId!, financialYear: _selectedFY!),
-      ),
+      payrollAnnualSummaryProvider((
+        employeeId: _selectedEmployeeId!,
+        financialYear: _selectedFY!,
+      )),
     );
   }
 
@@ -164,9 +166,7 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
               horizontal: 12,
               vertical: 10,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           ),
           isExpanded: true,
           items: activeEmployees
@@ -209,9 +209,7 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
               horizontal: 12,
               vertical: 10,
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           ),
           items: availableFYs
               .map(
@@ -286,7 +284,11 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
           children: [
             Row(
               children: [
-                Icon(Icons.preview_outlined, size: 18, color: AppColors.primary),
+                Icon(
+                  Icons.preview_outlined,
+                  size: 18,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   'Preview (${result.monthCount} months)',

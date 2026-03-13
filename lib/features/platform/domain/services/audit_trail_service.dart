@@ -72,12 +72,14 @@ class AuditTrailService {
     DateTime? from,
     DateTime? to,
   }) {
-    return _store.where((e) {
-      if (e.userId != userId) return false;
-      if (from != null && e.timestamp.isBefore(from)) return false;
-      if (to != null && e.timestamp.isAfter(to)) return false;
-      return true;
-    }).toList(growable: false);
+    return _store
+        .where((e) {
+          if (e.userId != userId) return false;
+          if (from != null && e.timestamp.isBefore(from)) return false;
+          if (to != null && e.timestamp.isAfter(to)) return false;
+          return true;
+        })
+        .toList(growable: false);
   }
 
   /// Returns the subset of [logs] whose severity index is >= [minSeverity].

@@ -88,7 +88,8 @@ void main() {
       });
 
       test('round-trip: append then verify succeeds', () {
-        const original = 'BH|AAATA1234X|26Q|2024|Q1\nCD|0012345|01042024\nBT|1|1|10000';
+        const original =
+            'BH|AAATA1234X|26Q|2024|Q1\nCD|0012345|01042024\nBT|1|1|10000';
         final signed = FvuChecksumCalculator.appendChecksum(original);
         expect(FvuChecksumCalculator.verifyChecksum(signed), isTrue);
       });

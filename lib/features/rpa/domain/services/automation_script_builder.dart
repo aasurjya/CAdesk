@@ -29,7 +29,8 @@ class AutomationScriptBuilder {
     int financialYear,
     List<String> pans,
   ) {
-    final fyLabel = '$financialYear-${(financialYear + 1).toString().substring(2)}';
+    final fyLabel =
+        '$financialYear-${(financialYear + 1).toString().substring(2)}';
     final panListValue = pans.join(',');
     final scriptId = _newId();
 

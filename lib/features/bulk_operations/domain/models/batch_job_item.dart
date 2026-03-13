@@ -1,11 +1,5 @@
 /// Status of a single item within a batch job.
-enum BatchJobItemStatus {
-  pending,
-  processing,
-  completed,
-  failed,
-  skipped,
-}
+enum BatchJobItemStatus { pending, processing, completed, failed, skipped }
 
 /// Immutable model representing one unit of work within a [BatchJob].
 ///
@@ -71,7 +65,9 @@ class BatchJobItem {
       payload: payload ?? this.payload,
       status: status ?? this.status,
       attempts: attempts ?? this.attempts,
-      lastAttemptAt: clearLastAttemptAt ? null : (lastAttemptAt ?? this.lastAttemptAt),
+      lastAttemptAt: clearLastAttemptAt
+          ? null
+          : (lastAttemptAt ?? this.lastAttemptAt),
       error: clearError ? null : (error ?? this.error),
       completedAt: clearCompletedAt ? null : (completedAt ?? this.completedAt),
     );

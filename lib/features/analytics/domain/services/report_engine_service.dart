@@ -22,14 +22,9 @@ class ReportEngineService {
   /// 1. Filter rows using [definition.filters].
   /// 2. Sort rows using [definition.sortBy] and [definition.sortAscending].
   /// 3. Compute metric totals.
-  ReportResult generateReport(
-    ReportDefinition definition,
-    List<Object> data,
-  ) {
+  ReportResult generateReport(ReportDefinition definition, List<Object> data) {
     // Convert data to typed rows; skip entries that are not Map<String, String>.
-    final allRows = data
-        .whereType<Map<String, String>>()
-        .toList();
+    final allRows = data.whereType<Map<String, String>>().toList();
 
     final filtered = filterData(allRows, definition.filters);
 

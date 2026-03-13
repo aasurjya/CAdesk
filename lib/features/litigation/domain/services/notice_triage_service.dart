@@ -68,7 +68,8 @@ class NoticeTriageService {
 
     if (demand >= _criticalDemandThreshold) return RiskLevel.critical;
 
-    if (demand >= _highDemandThreshold || notice.noticeType == NoticeType.reopening148) {
+    if (demand >= _highDemandThreshold ||
+        notice.noticeType == NoticeType.reopening148) {
       return RiskLevel.high;
     }
 
@@ -86,8 +87,7 @@ class NoticeTriageService {
   /// - Medium: 16–30 days.
   /// - Low: > 30 days.
   static UrgencyLevel computeUrgency(TaxNotice notice, DateTime today) {
-    final daysRemaining =
-        notice.responseDeadline.difference(today).inDays;
+    final daysRemaining = notice.responseDeadline.difference(today).inDays;
 
     if (daysRemaining <= _criticalDays) return UrgencyLevel.critical;
     if (daysRemaining <= _highDays) return UrgencyLevel.high;
@@ -179,10 +179,7 @@ class NoticeTriageService {
         type == NoticeType.scrutiny143_2;
   }
 
-  static RecommendedAction _recommendAction(
-    TaxNotice notice,
-    RiskLevel risk,
-  ) {
+  static RecommendedAction _recommendAction(TaxNotice notice, RiskLevel risk) {
     switch (risk) {
       case RiskLevel.critical:
         return RecommendedAction.seekStay;
@@ -193,8 +190,7 @@ class NoticeTriageService {
         if (notice.noticeType == NoticeType.intimation143_1 &&
             (notice.demandAmount ?? 0) < 5_000_000) {
           // < ₹50k: consider pay or respond
-          return notice.demandAmount != null &&
-                  notice.demandAmount! < 1_000_000
+          return notice.demandAmount != null && notice.demandAmount! < 1_000_000
               ? RecommendedAction.pay
               : RecommendedAction.respond;
         }
@@ -261,18 +257,15 @@ class NoticeTriageService {
     UrgencyLevel urgency,
     DateTime today,
   ) {
-    final daysRemaining =
-        notice.responseDeadline.difference(today).inDays;
+    final daysRemaining = notice.responseDeadline.difference(today).inDays;
 
     final prefix = switch (urgency) {
       UrgencyLevel.critical =>
         'URGENT: Only $daysRemaining day(s) remaining to respond.',
-      UrgencyLevel.high =>
-        'HIGH PRIORITY: $daysRemaining days to deadline.',
+      UrgencyLevel.high => 'HIGH PRIORITY: $daysRemaining days to deadline.',
       UrgencyLevel.medium =>
         '$daysRemaining days remaining — begin preparation.',
-      UrgencyLevel.low =>
-        '$daysRemaining days to deadline — plan response.',
+      UrgencyLevel.low => '$daysRemaining days to deadline — plan response.',
     };
 
     return '$prefix '

@@ -22,44 +22,72 @@ class OcrPipelineService {
   static final _gstinRegex = RegExp(r'\d{2}[A-Z]{5}\d{4}[A-Z]\d[A-Z]\d');
 
   // Form 16 extraction patterns
-  static final _employerNameRegex =
-      RegExp(r'(?:Name and address of the Employer|Employer):\s*(.+)', caseSensitive: false);
-  static final _ayRegex =
-      RegExp(r'Assessment Year:\s*(\d{4}-\d{2})', caseSensitive: false);
-  static final _grossSalaryRegex =
-      RegExp(r'Gross Salary:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _standardDeductionRegex =
-      RegExp(r'Standard Deduction:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _taxableSalaryRegex =
-      RegExp(r'Taxable (?:Salary|Income):\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _taxDeductedRegex =
-      RegExp(r'Tax Deducted:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
+  static final _employerNameRegex = RegExp(
+    r'(?:Name and address of the Employer|Employer):\s*(.+)',
+    caseSensitive: false,
+  );
+  static final _ayRegex = RegExp(
+    r'Assessment Year:\s*(\d{4}-\d{2})',
+    caseSensitive: false,
+  );
+  static final _grossSalaryRegex = RegExp(
+    r'Gross Salary:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _standardDeductionRegex = RegExp(
+    r'Standard Deduction:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _taxableSalaryRegex = RegExp(
+    r'Taxable (?:Salary|Income):\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _taxDeductedRegex = RegExp(
+    r'Tax Deducted:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
 
   // Bank statement patterns
-  static final _accountNumberRegex =
-      RegExp(r'Account Number:\s*([A-Z0-9X]+)', caseSensitive: false);
-  static final _ifscRegex =
-      RegExp(r'IFSC:\s*([A-Z]{4}[0-9]{7})', caseSensitive: false);
-  static final _openingBalanceRegex =
-      RegExp(r'Opening Balance:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _closingBalanceRegex =
-      RegExp(r'Closing Balance:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
+  static final _accountNumberRegex = RegExp(
+    r'Account Number:\s*([A-Z0-9X]+)',
+    caseSensitive: false,
+  );
+  static final _ifscRegex = RegExp(
+    r'IFSC:\s*([A-Z]{4}[0-9]{7})',
+    caseSensitive: false,
+  );
+  static final _openingBalanceRegex = RegExp(
+    r'Opening Balance:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _closingBalanceRegex = RegExp(
+    r'Closing Balance:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
 
   // Invoice patterns
-  static final _invoiceNumberRegex =
-      RegExp(r'Invoice No(?:\.)?:\s*([^\n]+)', caseSensitive: false);
-  static final _invoiceDateRegex =
-      RegExp(r'Invoice Date:\s*(\d{2}-\d{2}-\d{4})', caseSensitive: false);
-  static final _sellerNameRegex =
-      RegExp(r'Seller:\s*(.+)', caseSensitive: false);
-  static final _buyerNameRegex =
-      RegExp(r'Buyer:\s*(.+)', caseSensitive: false);
-  static final _totalAmountRegex =
-      RegExp(r'Total Amount:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _gstAmountRegex =
-      RegExp(r'GST Amount:\s*([\d,]+(?:\.\d+)?)', caseSensitive: false);
-  static final _hsnCodeRegex =
-      RegExp(r'HSN:\s*(\w+)', caseSensitive: false);
+  static final _invoiceNumberRegex = RegExp(
+    r'Invoice No(?:\.)?:\s*([^\n]+)',
+    caseSensitive: false,
+  );
+  static final _invoiceDateRegex = RegExp(
+    r'Invoice Date:\s*(\d{2}-\d{2}-\d{4})',
+    caseSensitive: false,
+  );
+  static final _sellerNameRegex = RegExp(
+    r'Seller:\s*(.+)',
+    caseSensitive: false,
+  );
+  static final _buyerNameRegex = RegExp(r'Buyer:\s*(.+)', caseSensitive: false);
+  static final _totalAmountRegex = RegExp(
+    r'Total Amount:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _gstAmountRegex = RegExp(
+    r'GST Amount:\s*([\d,]+(?:\.\d+)?)',
+    caseSensitive: false,
+  );
+  static final _hsnCodeRegex = RegExp(r'HSN:\s*(\w+)', caseSensitive: false);
 
   // -------------------------------------------------------------------------
   // Public API
@@ -88,9 +116,10 @@ class OcrPipelineService {
   }
 
   /// Extracts structured [ExtractedForm16] data from raw Form 16 text.
-  static final _tanLabelRegex =
-      RegExp(r'TAN(?:\sof\sDeductor)?:\s*([A-Z]{5}[0-9]{4}[A-Z])',
-          caseSensitive: false);
+  static final _tanLabelRegex = RegExp(
+    r'TAN(?:\sof\sDeductor)?:\s*([A-Z]{5}[0-9]{4}[A-Z])',
+    caseSensitive: false,
+  );
 
   ExtractedForm16 extractForm16(String rawText) {
     final pans = _panRegex.allMatches(rawText).map((m) => m.group(0)!).toList();
@@ -104,8 +133,7 @@ class OcrPipelineService {
 
     final employerName =
         _employerNameRegex.firstMatch(rawText)?.group(1)?.trim() ?? '';
-    final assessmentYear =
-        _ayRegex.firstMatch(rawText)?.group(1)?.trim() ?? '';
+    final assessmentYear = _ayRegex.firstMatch(rawText)?.group(1)?.trim() ?? '';
 
     final grossSalary = _parseAmount(_grossSalaryRegex, rawText);
     final standardDeduction = _parseAmount(_standardDeductionRegex, rawText);
@@ -175,8 +203,10 @@ class OcrPipelineService {
         _buyerNameRegex.firstMatch(rawText)?.group(1)?.trim() ?? '';
 
     // Extract GSTINs: all matches, then associate by context
-    final gstins =
-        _gstinRegex.allMatches(rawText).map((m) => m.group(0)!).toList();
+    final gstins = _gstinRegex
+        .allMatches(rawText)
+        .map((m) => m.group(0)!)
+        .toList();
     final sellerGstin = gstins.isNotEmpty ? gstins[0] : null;
     final buyerGstin = gstins.length > 1 ? gstins[1] : null;
 
@@ -222,9 +252,9 @@ class OcrPipelineService {
 
   String _findEmployeePan(String rawText, List<String> pans) {
     // Look for PAN immediately after "PAN of Employee" label
-    final empPanMatch =
-        RegExp(r'PAN of Employee:\s*([A-Z]{5}[0-9]{4}[A-Z])')
-            .firstMatch(rawText);
+    final empPanMatch = RegExp(
+      r'PAN of Employee:\s*([A-Z]{5}[0-9]{4}[A-Z])',
+    ).firstMatch(rawText);
     if (empPanMatch != null) return empPanMatch.group(1)!;
     // Otherwise return the last PAN found (employee typically listed last)
     return pans.isNotEmpty ? pans.last : '';
@@ -324,15 +354,19 @@ class OcrPipelineService {
       // Extract all decimal amounts from the remainder
       final amounts = _amountRegex
           .allMatches(remainder)
-          .map((m) =>
-              (double.tryParse(m.group(1)!.replaceAll(',', '')) ?? 0.0) * 100)
+          .map(
+            (m) =>
+                (double.tryParse(m.group(1)!.replaceAll(',', '')) ?? 0.0) * 100,
+          )
           .toList();
 
       if (amounts.isEmpty) continue;
 
       // Remove amounts from the description to get clean narration
-      final description =
-          remainder.replaceAll(_amountRegex, '').trim().replaceAll(RegExp(r'\s{2,}'), ' ');
+      final description = remainder
+          .replaceAll(_amountRegex, '')
+          .trim()
+          .replaceAll(RegExp(r'\s{2,}'), ' ');
 
       // Determine debit / credit / balance by position:
       // 3 amounts: debit, credit, balance (either may be 0 if the column was blank)
@@ -353,13 +387,12 @@ class OcrPipelineService {
         // column was empty and this amount belongs to the credit column.
         final firstAmt = amounts[0].round();
         final lastAmt = amounts[1].round();
-        final firstAmtStr =
-            _amountRegex.firstMatch(remainder)?.group(0) ?? '';
+        final firstAmtStr = _amountRegex.firstMatch(remainder)?.group(0) ?? '';
         final firstAmtIdx = remainder.indexOf(firstAmtStr);
         // Count trailing spaces before the first amount to determine context
         final gapBeforeFirst = remainder.substring(0, firstAmtIdx);
-        final trailingSpaces = gapBeforeFirst.length -
-            gapBeforeFirst.trimRight().length;
+        final trailingSpaces =
+            gapBeforeFirst.length - gapBeforeFirst.trimRight().length;
         if (trailingSpaces >= 12) {
           // Large gap → debit column was blank → this is a credit
           credit = firstAmt;

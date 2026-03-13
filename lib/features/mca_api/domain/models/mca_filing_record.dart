@@ -59,11 +59,11 @@ class McaFilingRecord {
 
   @override
   int get hashCode => Object.hash(
-        srn,
-        formType,
-        filedAt,
-        status,
-        documentDescription,
-        feesPaid,
-      );
+    srn,
+    formType,
+    filedAt,
+    status,
+    documentDescription,
+    feesPaid,
+  );
 }

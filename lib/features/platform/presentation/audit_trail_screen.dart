@@ -119,10 +119,7 @@ class _AuditTrailScreenState extends ConsumerState<AuditTrailScreen> {
 // ---------------------------------------------------------------------------
 
 class _SeverityFilterBar extends StatelessWidget {
-  const _SeverityFilterBar({
-    required this.selected,
-    required this.onSelected,
-  });
+  const _SeverityFilterBar({required this.selected, required this.onSelected});
 
   final LogSeverity? selected;
   final ValueChanged<LogSeverity?> onSelected;

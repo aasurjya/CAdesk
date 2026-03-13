@@ -9,8 +9,7 @@ import 'package:ca_app/features/practice/domain/models/staff_assignment.dart';
 class PracticeAnalyticsService {
   PracticeAnalyticsService._();
 
-  static final PracticeAnalyticsService instance =
-      PracticeAnalyticsService._();
+  static final PracticeAnalyticsService instance = PracticeAnalyticsService._();
 
   // ---------------------------------------------------------------------------
   // Public API
@@ -45,14 +44,14 @@ class PracticeAnalyticsService {
     final clientIds = invoices.map((inv) => inv.clientId).toSet();
     final totalClients = clientIds.length;
 
-    final allAssignments = engagements
-        .expand((e) => e.assignedStaff)
-        .toList();
+    final allAssignments = engagements.expand((e) => e.assignedStaff).toList();
 
     final revenueGrowth = computeRevenueGrowth(totalRevenue, priorRevenue);
     final complianceRate = computeFilingComplianceRate(engagements);
-    final utilizationRate =
-        computeUtilizationRate(allAssignments, totalAvailableHours);
+    final utilizationRate = computeUtilizationRate(
+      allAssignments,
+      totalAvailableHours,
+    );
 
     return PracticeMetrics(
       period: period,
@@ -112,8 +111,7 @@ class PracticeAnalyticsService {
     if (totalAvailableHours == 0) return 0.0;
     if (assignments.isEmpty) return 0.0;
 
-    final totalLogged =
-        assignments.fold(0, (sum, a) => sum + a.hoursLogged);
+    final totalLogged = assignments.fold(0, (sum, a) => sum + a.hoursLogged);
     final raw = totalLogged / totalAvailableHours;
     return raw.clamp(0.0, 1.0);
   }

@@ -87,7 +87,9 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
           'Common discrepancies include TDS mismatch with 26AS, disallowed deductions, or '
           'incorrect income heads. Use the Notice Drafting tab to generate a formal reply.';
     }
-    if (q.contains('deadline') || q.contains('due date') || q.contains('calendar')) {
+    if (q.contains('deadline') ||
+        q.contains('due date') ||
+        q.contains('calendar')) {
       return 'Key upcoming deadlines: ITR filing for non-audit cases is July 31 (AY 2026-27). '
           'Monthly TDS deposit is the 7th of each month. GSTR-1 is the 11th and GSTR-3B is '
           'the 20th. Check the Tax Calendar tab for your complete compliance schedule.';
@@ -132,11 +134,7 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
                   },
                 ),
         ),
-        _InputBar(
-          controller: _controller,
-          onSend: _sendMessage,
-          theme: theme,
-        ),
+        _InputBar(controller: _controller, onSend: _sendMessage, theme: theme),
       ],
     );
   }
@@ -194,7 +192,11 @@ class _TypingIndicator extends StatelessWidget {
               color: AppColors.secondary,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.auto_awesome, size: 16, color: Colors.white),
+            child: const Icon(
+              Icons.auto_awesome,
+              size: 16,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(width: 8),
           Container(

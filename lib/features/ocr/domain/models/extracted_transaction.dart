@@ -63,14 +63,8 @@ class ExtractedTransaction {
           referenceNumber == other.referenceNumber;
 
   @override
-  int get hashCode => Object.hash(
-        date,
-        description,
-        debit,
-        credit,
-        balance,
-        referenceNumber,
-      );
+  int get hashCode =>
+      Object.hash(date, description, debit, credit, balance, referenceNumber);
 
   @override
   String toString() =>

@@ -14,10 +14,7 @@ class PlatformHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final syncItems = ref.watch(syncQueueProvider);
     final pendingCount = syncItems
-        .where(
-          (i) =>
-              i.status.name == 'pending' || i.status.name == 'failed',
-        )
+        .where((i) => i.status.name == 'pending' || i.status.name == 'failed')
         .length;
     final theme = Theme.of(context);
 

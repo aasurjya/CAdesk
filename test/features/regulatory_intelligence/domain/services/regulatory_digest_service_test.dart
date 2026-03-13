@@ -33,7 +33,9 @@ void main() {
     test('totalItems equals sum of updates + alerts + rateChanges', () {
       final digest = service.generateDailyDigest(testDate);
       final expected =
-          digest.updates.length + digest.alerts.length + digest.rateChanges.length;
+          digest.updates.length +
+          digest.alerts.length +
+          digest.rateChanges.length;
       expect(digest.totalItems, equals(expected));
     });
 
@@ -72,7 +74,9 @@ void main() {
       final weekStart = DateTime(2025, 3, 10);
       final digest = service.generateWeeklySummary(weekStart);
       final expected =
-          digest.updates.length + digest.alerts.length + digest.rateChanges.length;
+          digest.updates.length +
+          digest.alerts.length +
+          digest.rateChanges.length;
       expect(digest.totalItems, equals(expected));
     });
   });

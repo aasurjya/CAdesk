@@ -92,7 +92,8 @@ void main() {
         chargeType: 'N',
         igstOnIntra: 'N',
       ),
-      docDtls: docDtls ??
+      docDtls:
+          docDtls ??
           EInvoiceDocDetails(
             typ: 'INV',
             no: 'INV001',
@@ -101,7 +102,8 @@ void main() {
       sellerDtls: sellerDtls ?? seller(),
       buyerDtls: buyerDtls ?? buyer(),
       itemList: itemList,
-      valDtls: valDtls ??
+      valDtls:
+          valDtls ??
           EInvoiceValueDetails(
             assVal: itemList.fold(0.0, (s, i) => s + i.assAmt),
             igstVal: itemList.fold(0.0, (s, i) => s + i.igstAmt),

@@ -14,12 +14,12 @@ void main() {
     required TxType type,
     String description = '',
   }) => BankTransaction(
-        id: id,
-        date: date,
-        amount: amount,
-        type: type,
-        description: description,
-      );
+    id: id,
+    date: date,
+    amount: amount,
+    type: type,
+    description: description,
+  );
 
   BookEntry bookEntry({
     required String id,
@@ -28,12 +28,12 @@ void main() {
     required TxType type,
     String description = '',
   }) => BookEntry(
-        id: id,
-        date: date,
-        amount: amount,
-        type: type,
-        description: description,
-      );
+    id: id,
+    date: date,
+    amount: amount,
+    type: type,
+    description: description,
+  );
 
   group('BankReconciliationService', () {
     // -----------------------------------------------------------------------
@@ -42,7 +42,12 @@ void main() {
     group('matchTransactions', () {
       test('→ matched when date and amount are identical', () {
         final date = DateTime(2025, 4, 10);
-        final bank = bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(
+          id: 'B1',
+          date: date,
+          amount: 100000,
+          type: TxType.credit,
+        );
         final books = [
           bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
         ];
@@ -54,9 +59,19 @@ void main() {
       test('→ matched when date is within ±3 days', () {
         final bankDate = DateTime(2025, 4, 10);
         final bookDate = DateTime(2025, 4, 12); // +2 days
-        final bank = bankTx(id: 'B2', date: bankDate, amount: 50000, type: TxType.debit);
+        final bank = bankTx(
+          id: 'B2',
+          date: bankDate,
+          amount: 50000,
+          type: TxType.debit,
+        );
         final books = [
-          bookEntry(id: 'K2', date: bookDate, amount: 50000, type: TxType.debit),
+          bookEntry(
+            id: 'K2',
+            date: bookDate,
+            amount: 50000,
+            type: TxType.debit,
+          ),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.matched);
@@ -65,37 +80,78 @@ void main() {
       test('→ unmatchedInBank when no book entry within ±3 days', () {
         final bankDate = DateTime(2025, 4, 10);
         final bookDate = DateTime(2025, 4, 20); // 10 days away
-        final bank = bankTx(id: 'B3', date: bankDate, amount: 50000, type: TxType.debit);
+        final bank = bankTx(
+          id: 'B3',
+          date: bankDate,
+          amount: 50000,
+          type: TxType.debit,
+        );
         final books = [
-          bookEntry(id: 'K3', date: bookDate, amount: 50000, type: TxType.debit),
+          bookEntry(
+            id: 'K3',
+            date: bookDate,
+            amount: 50000,
+            type: TxType.debit,
+          ),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.unmatchedInBank);
       });
 
-      test('→ unmatchedInBank when amount differs by more than ₹1 (100 paise)', () {
-        final date = DateTime(2025, 4, 10);
-        final bank = bankTx(id: 'B4', date: date, amount: 100000, type: TxType.credit);
-        final books = [
-          bookEntry(id: 'K4', date: date, amount: 100200, type: TxType.credit), // ₹2 diff
-        ];
-        final item = service.matchTransactions(bank, books);
-        expect(item.status, ReconItemStatus.unmatchedInBank);
-      });
+      test(
+        '→ unmatchedInBank when amount differs by more than ₹1 (100 paise)',
+        () {
+          final date = DateTime(2025, 4, 10);
+          final bank = bankTx(
+            id: 'B4',
+            date: date,
+            amount: 100000,
+            type: TxType.credit,
+          );
+          final books = [
+            bookEntry(
+              id: 'K4',
+              date: date,
+              amount: 100200,
+              type: TxType.credit,
+            ), // ₹2 diff
+          ];
+          final item = service.matchTransactions(bank, books);
+          expect(item.status, ReconItemStatus.unmatchedInBank);
+        },
+      );
 
-      test('→ matched when amount differs by exactly ₹1 (100 paise) — rounding', () {
-        final date = DateTime(2025, 4, 10);
-        final bank = bankTx(id: 'B5', date: date, amount: 100000, type: TxType.credit);
-        final books = [
-          bookEntry(id: 'K5', date: date, amount: 100100, type: TxType.credit), // ₹1 diff
-        ];
-        final item = service.matchTransactions(bank, books);
-        expect(item.status, ReconItemStatus.matched);
-      });
+      test(
+        '→ matched when amount differs by exactly ₹1 (100 paise) — rounding',
+        () {
+          final date = DateTime(2025, 4, 10);
+          final bank = bankTx(
+            id: 'B5',
+            date: date,
+            amount: 100000,
+            type: TxType.credit,
+          );
+          final books = [
+            bookEntry(
+              id: 'K5',
+              date: date,
+              amount: 100100,
+              type: TxType.credit,
+            ), // ₹1 diff
+          ];
+          final item = service.matchTransactions(bank, books);
+          expect(item.status, ReconItemStatus.matched);
+        },
+      );
 
       test('→ unmatchedInBank when Dr/Cr type differs', () {
         final date = DateTime(2025, 4, 10);
-        final bank = bankTx(id: 'B6', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(
+          id: 'B6',
+          date: date,
+          amount: 100000,
+          type: TxType.credit,
+        );
         final books = [
           bookEntry(id: 'K6', date: date, amount: 100000, type: TxType.debit),
         ];
@@ -199,19 +255,22 @@ void main() {
     // detectTimingDifferences
     // -----------------------------------------------------------------------
     group('detectTimingDifferences', () {
-      test('→ marks unmatched items as timing when date is recent (≤5 days)', () {
-        final recentDate = DateTime.now().subtract(const Duration(days: 2));
-        final item = BankReconItem(
-          transactionId: 'B1',
-          date: recentDate,
-          description: 'NEFT payment',
-          amount: 50000,
-          type: TxType.credit,
-          status: ReconItemStatus.unmatchedInBank,
-        );
-        final result = service.detectTimingDifferences([item]);
-        expect(result.first.status, ReconItemStatus.timing);
-      });
+      test(
+        '→ marks unmatched items as timing when date is recent (≤5 days)',
+        () {
+          final recentDate = DateTime.now().subtract(const Duration(days: 2));
+          final item = BankReconItem(
+            transactionId: 'B1',
+            date: recentDate,
+            description: 'NEFT payment',
+            amount: 50000,
+            type: TxType.credit,
+            status: ReconItemStatus.unmatchedInBank,
+          );
+          final result = service.detectTimingDifferences([item]);
+          expect(result.first.status, ReconItemStatus.timing);
+        },
+      );
 
       test('→ keeps unmatchedInBank for old unmatched items', () {
         final oldDate = DateTime.now().subtract(const Duration(days: 30));

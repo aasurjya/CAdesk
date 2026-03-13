@@ -5,11 +5,7 @@ import 'package:ca_app/features/rpa/presentation/widgets/portal_badge.dart';
 
 /// Grid card for a single [AutomationScript] in the script library.
 class ScriptCard extends StatelessWidget {
-  const ScriptCard({
-    required this.script,
-    required this.onRun,
-    super.key,
-  });
+  const ScriptCard({required this.script, required this.onRun, super.key});
 
   final AutomationScript script;
   final VoidCallback onRun;

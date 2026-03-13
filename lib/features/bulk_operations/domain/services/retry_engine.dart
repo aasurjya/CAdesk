@@ -33,10 +33,13 @@ class RetryEngine {
   ///
   /// [attemptNumber] is 1-based: pass 1 for the first retry.
   static Duration computeRetryDelay(int attemptNumber, RetryPolicy policy) {
-    final rawSeconds = policy.initialDelaySeconds *
+    final rawSeconds =
+        policy.initialDelaySeconds *
         math.pow(policy.backoffMultiplier, attemptNumber - 1);
-    final cappedSeconds =
-        math.min(rawSeconds, policy.maxDelaySeconds.toDouble());
+    final cappedSeconds = math.min(
+      rawSeconds,
+      policy.maxDelaySeconds.toDouble(),
+    );
     return Duration(seconds: cappedSeconds.round());
   }
 
@@ -66,7 +69,8 @@ class RetryEngine {
         .map(retryItem)
         .toList();
 
-    final newJobId = 'retry-${failedJob.jobId}-${DateTime.now().millisecondsSinceEpoch}';
+    final newJobId =
+        'retry-${failedJob.jobId}-${DateTime.now().millisecondsSinceEpoch}';
 
     return BatchJob(
       jobId: newJobId,

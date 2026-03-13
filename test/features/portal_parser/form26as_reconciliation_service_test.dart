@@ -62,10 +62,13 @@ void main() {
         expect(result.matchedEntries, hasLength(1));
       });
 
-      test('result contains unmatched entries when no filed return for TAN', () {
-        final result = service.reconcile(form26as, []);
-        expect(result.unmatchedEntries, hasLength(1));
-      });
+      test(
+        'result contains unmatched entries when no filed return for TAN',
+        () {
+          final result = service.reconcile(form26as, []);
+          expect(result.unmatchedEntries, hasLength(1));
+        },
+      );
 
       test('totalCreditedPaise equals form26as totalTdsCredited', () {
         final result = service.reconcile(form26as, [matchingReturn]);
@@ -113,7 +116,10 @@ void main() {
         );
         final mismatches = service.findMismatches(form26as, [deducteeEntry]);
         expect(mismatches, hasLength(1));
-        expect(mismatches.first.mismatchType, equals(MismatchType.amountDifference));
+        expect(
+          mismatches.first.mismatchType,
+          equals(MismatchType.amountDifference),
+        );
       });
 
       test('mismatch contains form26asPaise and booksPaise', () {

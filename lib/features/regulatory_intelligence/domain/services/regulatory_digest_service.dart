@@ -46,8 +46,9 @@ class RegulatoryDigestService {
   /// Pulls a broader set of updates (up to 20) to reflect a week's worth of
   /// regulatory activity.
   RegulatoryDigest generateWeeklySummary(DateTime weekStart) {
-    final fyEndYear =
-        weekStart.month >= 4 ? weekStart.year + 1 : weekStart.year;
+    final fyEndYear = weekStart.month >= 4
+        ? weekStart.year + 1
+        : weekStart.year;
     final updates = _circularTracker.getLatestUpdates(limit: 20);
     final alerts = _alertService.generateAlerts(fyEndYear, weekStart);
     final rateChanges = _rateTracker.getRecentChanges(limit: 10);

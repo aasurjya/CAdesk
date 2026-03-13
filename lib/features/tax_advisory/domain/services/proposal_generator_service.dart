@@ -13,8 +13,7 @@ import 'package:ca_app/features/tax_advisory/domain/models/tax_opportunity.dart'
 class ProposalGeneratorService {
   ProposalGeneratorService._();
 
-  static final ProposalGeneratorService instance =
-      ProposalGeneratorService._();
+  static final ProposalGeneratorService instance = ProposalGeneratorService._();
 
   // ---------------------------------------------------------------------------
   // Constants (paise)
@@ -40,10 +39,7 @@ class ProposalGeneratorService {
     final ranked = rankOpportunities(opportunities);
     final top5 = ranked.take(_topNForSaving).toList();
 
-    final totalSaving = top5.fold<int>(
-      0,
-      (sum, o) => sum + o.potentialSaving,
-    );
+    final totalSaving = top5.fold<int>(0, (sum, o) => sum + o.potentialSaving);
 
     final fee = computeProposedFee(opportunities);
     final roi = fee > 0 ? totalSaving / fee : 0.0;
@@ -164,10 +160,7 @@ class ProposalGeneratorService {
     }
   }
 
-  String _sectionContent(
-    OpportunityType type,
-    List<TaxOpportunity> opps,
-  ) {
+  String _sectionContent(OpportunityType type, List<TaxOpportunity> opps) {
     final titles = opps.map((o) => '• ${o.title}').join('\n');
     return 'The following ${opps.length} opportunity(ies) have been '
         'identified in this category:\n$titles';

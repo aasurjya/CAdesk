@@ -137,12 +137,14 @@ void main() {
       expect(errors, isNotEmpty);
     });
 
-    test('error when closing balance does not match last transaction balance',
-        () {
-      final stmt = validStatement.copyWith(closingBalance: 8000000);
-      final errors = validator.validateBankStatement(stmt);
-      expect(errors, anyElement(contains('closing')));
-    });
+    test(
+      'error when closing balance does not match last transaction balance',
+      () {
+        final stmt = validStatement.copyWith(closingBalance: 8000000);
+        final errors = validator.validateBankStatement(stmt);
+        expect(errors, anyElement(contains('closing')));
+      },
+    );
 
     test('tolerance of ±100 paise (1 INR) is allowed', () {
       // Adjust closing by 50 paise — within tolerance

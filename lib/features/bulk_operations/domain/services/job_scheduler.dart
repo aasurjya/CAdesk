@@ -72,9 +72,6 @@ class JobScheduler {
     DateTime lastRunAt,
     String status,
   ) {
-    return schedule.copyWith(
-      lastRunAt: lastRunAt,
-      lastRunStatus: status,
-    );
+    return schedule.copyWith(lastRunAt: lastRunAt, lastRunStatus: status);
   }
 }

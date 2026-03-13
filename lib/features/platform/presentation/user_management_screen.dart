@@ -190,8 +190,7 @@ class _MemberList extends StatelessWidget {
       itemBuilder: (_, i) => Column(
         children: [
           UserRoleTile(user: members[i], onTap: () => onMemberTap(members[i])),
-          if (i < members.length - 1)
-            const Divider(indent: 72, height: 1),
+          if (i < members.length - 1) const Divider(indent: 72, height: 1),
         ],
       ),
     );

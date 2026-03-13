@@ -129,10 +129,7 @@ class BankReconciliationService {
   ///
   /// Returns a [BankReconItem] with [ReconItemStatus.matched] if a match is
   /// found, or [ReconItemStatus.unmatchedInBank] if no match could be made.
-  BankReconItem matchTransactions(
-    BankTransaction bank,
-    List<BookEntry> books,
-  ) {
+  BankReconItem matchTransactions(BankTransaction bank, List<BookEntry> books) {
     for (final book in books) {
       if (_isMatch(bank, book)) {
         return BankReconItem(

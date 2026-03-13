@@ -52,10 +52,7 @@ void main() {
 
       test('changes only specified fields', () {
         final ran = DateTime(2026, 3, 12);
-        final copy = script.copyWith(
-          successRate: 0.88,
-          lastRunAt: ran,
-        );
+        final copy = script.copyWith(successRate: 0.88, lastRunAt: ran);
 
         expect(copy.successRate, 0.88);
         expect(copy.lastRunAt, ran);

@@ -43,13 +43,13 @@ void main() {
       });
 
       test('returns non-empty String for all known codes', () {
-        const knownCodes = [
-          'RET191001',
-          'RET191002',
-          'RET191003',
-        ];
+        const knownCodes = ['RET191001', 'RET191002', 'RET191003'];
         for (final code in knownCodes) {
-          expect(mapper.getMessage(code), isNotEmpty, reason: 'code $code returned empty');
+          expect(
+            mapper.getMessage(code),
+            isNotEmpty,
+            reason: 'code $code returned empty',
+          );
         }
       });
     });

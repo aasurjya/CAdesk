@@ -2,10 +2,7 @@ import 'package:ca_app/features/mca_api/domain/models/mca_filing_record.dart';
 
 /// Immutable collection of all MCA filings for a company.
 class McaFilingHistory {
-  const McaFilingHistory({
-    required this.cin,
-    required this.filings,
-  });
+  const McaFilingHistory({required this.cin, required this.filings});
 
   /// CIN of the company whose filings are listed.
   final String cin;
@@ -16,15 +13,10 @@ class McaFilingHistory {
   /// or null if [filings] is empty.
   DateTime? get lastFiledDate {
     if (filings.isEmpty) return null;
-    return filings
-        .map((f) => f.filedAt)
-        .reduce((a, b) => a.isAfter(b) ? a : b);
+    return filings.map((f) => f.filedAt).reduce((a, b) => a.isAfter(b) ? a : b);
   }
 
-  McaFilingHistory copyWith({
-    String? cin,
-    List<McaFilingRecord>? filings,
-  }) {
+  McaFilingHistory copyWith({String? cin, List<McaFilingRecord>? filings}) {
     return McaFilingHistory(
       cin: cin ?? this.cin,
       filings: filings ?? this.filings,

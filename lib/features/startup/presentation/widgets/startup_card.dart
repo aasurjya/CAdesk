@@ -6,11 +6,7 @@ import 'package:ca_app/features/startup/domain/services/section80iac_service.dar
 
 /// Card widget displaying a startup summary: name, DPIIT badge, 80-IAC status.
 class StartupCard extends StatelessWidget {
-  const StartupCard({
-    super.key,
-    required this.startup,
-    required this.onTap,
-  });
+  const StartupCard({super.key, required this.startup, required this.onTap});
 
   final StartupEntity startup;
   final VoidCallback onTap;

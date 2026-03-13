@@ -8,11 +8,7 @@ import 'package:ca_app/core/theme/app_colors.dart';
 /// Used on the detail screen to show side-by-side comparisons between
 /// 26AS, AIS, and ITR values.
 class ComparisonCard extends StatelessWidget {
-  const ComparisonCard({
-    super.key,
-    required this.title,
-    required this.columns,
-  });
+  const ComparisonCard({super.key, required this.title, required this.columns});
 
   /// Section title (e.g. "Salary — Infosys Ltd").
   final String title;
@@ -121,10 +117,7 @@ class ComparisonCard extends StatelessWidget {
 
 /// A single column in a [ComparisonCard].
 class ComparisonColumn {
-  const ComparisonColumn({
-    required this.label,
-    required this.amountPaise,
-  });
+  const ComparisonColumn({required this.label, required this.amountPaise});
 
   final String label;
   final int amountPaise;
@@ -148,15 +141,13 @@ class _ColumnWidget extends StatelessWidget {
     final amountColor = isZero
         ? AppColors.error
         : (hasDifference && !isHighest)
-            ? AppColors.warning
-            : AppColors.neutral900;
+        ? AppColors.warning
+        : AppColors.neutral900;
 
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isZero
-            ? AppColors.error.withAlpha(8)
-            : AppColors.neutral50,
+        color: isZero ? AppColors.error.withAlpha(8) : AppColors.neutral50,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isZero ? AppColors.error.withAlpha(40) : AppColors.neutral100,

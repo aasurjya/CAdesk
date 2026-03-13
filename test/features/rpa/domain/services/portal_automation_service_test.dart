@@ -24,19 +24,21 @@ void main() {
         expect(result.taskId, script.scriptId);
       });
 
-      test('success result has stepsCompleted equal to script step count',
-          () async {
-        final script = AutomationScriptBuilder.buildTracesForm16Script(
-          'AAATA1234X',
-          2024,
-          ['ABCDE1234F'],
-        );
+      test(
+        'success result has stepsCompleted equal to script step count',
+        () async {
+          final script = AutomationScriptBuilder.buildTracesForm16Script(
+            'AAATA1234X',
+            2024,
+            ['ABCDE1234F'],
+          );
 
-        final result = await service.executeScript(script, {});
+          final result = await service.executeScript(script, {});
 
-        expect(result.stepsCompleted, script.steps.length);
-        expect(result.stepsFailed, 0);
-      });
+          expect(result.stepsCompleted, script.steps.length);
+          expect(result.stepsFailed, 0);
+        },
+      );
 
       test('success is true for mock execution', () async {
         final script = AutomationScriptBuilder.buildChallanStatusScript(
@@ -254,12 +256,14 @@ void main() {
         expect(script.steps, isNotEmpty);
       });
 
-      test('unknown portal+task returns a fallback script with empty steps',
-          () {
-        final script = service.getScriptTemplate('unknown', 'nonexistent');
+      test(
+        'unknown portal+task returns a fallback script with empty steps',
+        () {
+          final script = service.getScriptTemplate('unknown', 'nonexistent');
 
-        expect(script, isA<AutomationScript>());
-      });
+          expect(script, isA<AutomationScript>());
+        },
+      );
     });
 
     // -------------------------------------------------------------------------

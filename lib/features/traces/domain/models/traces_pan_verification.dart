@@ -71,12 +71,6 @@ class TracesPanVerification {
   }
 
   @override
-  int get hashCode => Object.hash(
-        pan,
-        name,
-        status,
-        aadhaarLinked,
-        dateOfBirth,
-        verifiedAt,
-      );
+  int get hashCode =>
+      Object.hash(pan, name, status, aadhaarLinked, dateOfBirth, verifiedAt);
 }

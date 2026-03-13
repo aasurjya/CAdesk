@@ -53,7 +53,10 @@ class NoticeDetailScreen extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _DetailRow(label: 'Assessment Year', value: notice.assessmentYear),
+                  _DetailRow(
+                    label: 'Assessment Year',
+                    value: notice.assessmentYear,
+                  ),
                   _DetailRow(label: 'Section', value: notice.section),
                   _DetailRow(label: 'Issued By', value: notice.issuedBy),
                   _DetailRow(
@@ -115,10 +118,8 @@ class NoticeDetailScreen extends ConsumerWidget {
             children: [
               Expanded(
                 child: FilledButton.icon(
-                  onPressed: () => context.push(
-                    '/litigation/response',
-                    extra: notice,
-                  ),
+                  onPressed: () =>
+                      context.push('/litigation/response', extra: notice),
                   icon: const Icon(Icons.edit_document),
                   label: const Text('Draft Response'),
                 ),
@@ -215,11 +216,7 @@ class _TypeBadge extends StatelessWidget {
 }
 
 class _DetailRow extends StatelessWidget {
-  const _DetailRow({
-    required this.label,
-    required this.value,
-    this.valueColor,
-  });
+  const _DetailRow({required this.label, required this.value, this.valueColor});
 
   final String label;
   final String value;

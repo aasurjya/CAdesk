@@ -53,8 +53,11 @@ void main() {
     test('all values are non-negative integers', () {
       final result = mapper.mapToItrIncome(sampleForm16);
       for (final entry in result.entries) {
-        expect(entry.value, greaterThanOrEqualTo(0),
-            reason: '${entry.key} should be non-negative');
+        expect(
+          entry.value,
+          greaterThanOrEqualTo(0),
+          reason: '${entry.key} should be non-negative',
+        );
       }
     });
   });

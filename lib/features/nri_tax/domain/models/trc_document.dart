@@ -76,13 +76,13 @@ class TrcDocument {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        countryCode,
-        trcNumber,
-        issuingAuthority,
-        validFrom,
-        validTo,
-      );
+    pan,
+    countryCode,
+    trcNumber,
+    issuingAuthority,
+    validFrom,
+    validTo,
+  );
 
   @override
   String toString() =>

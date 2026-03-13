@@ -160,15 +160,15 @@ class ThreeWayMatchResult {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        assessmentYear,
-        form26AsTotal,
-        aisTotalIncome,
-        itrTotalIncome,
-        form26AsVsAis,
-        form26AsVsItr,
-        aisVsItr,
-        Object.hashAll(unreportedIncome),
-        Object.hashAll(recommendations),
-      );
+    pan,
+    assessmentYear,
+    form26AsTotal,
+    aisTotalIncome,
+    itrTotalIncome,
+    form26AsVsAis,
+    form26AsVsItr,
+    aisVsItr,
+    Object.hashAll(unreportedIncome),
+    Object.hashAll(recommendations),
+  );
 }

@@ -6,8 +6,7 @@ class RateChangeTrackerService {
   RateChangeTrackerService._();
 
   /// Singleton instance.
-  static final RateChangeTrackerService instance =
-      RateChangeTrackerService._();
+  static final RateChangeTrackerService instance = RateChangeTrackerService._();
 
   // ---------------------------------------------------------------------------
   // Mock data — Finance Act 2024 and key FY 2024-25 rate changes

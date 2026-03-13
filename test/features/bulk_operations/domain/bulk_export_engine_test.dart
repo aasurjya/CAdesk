@@ -10,11 +10,9 @@ void main() {
     return ClientData(clientId: id, clientName: name, pan: 'ABCDE1234F');
   }
 
-  BatchJob makeCompletedJob({
-    required String id,
-    List<BatchJobItem>? items,
-  }) {
-    final jobItems = items ??
+  BatchJob makeCompletedJob({required String id, List<BatchJobItem>? items}) {
+    final jobItems =
+        items ??
         [
           BatchJobItem(
             itemId: '$id-item-1',
@@ -75,7 +73,10 @@ void main() {
       final engine = BulkExportEngine();
       final clients = [makeClient(id: 'c1'), makeClient(id: 'c2')];
       final job = engine.createExportJob(clients, 'PDF');
-      expect(job.items.every((i) => i.status == BatchJobItemStatus.pending), isTrue);
+      expect(
+        job.items.every((i) => i.status == BatchJobItemStatus.pending),
+        isTrue,
+      );
     });
 
     test('totalItems computed correctly', () {

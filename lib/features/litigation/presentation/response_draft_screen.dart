@@ -14,8 +14,7 @@ class ResponseDraftScreen extends StatefulWidget {
   final TaxNotice notice;
 
   @override
-  State<ResponseDraftScreen> createState() =>
-      _ResponseDraftScreenState();
+  State<ResponseDraftScreen> createState() => _ResponseDraftScreenState();
 }
 
 class _ResponseDraftScreenState extends State<ResponseDraftScreen> {
@@ -28,9 +27,7 @@ class _ResponseDraftScreenState extends State<ResponseDraftScreen> {
     _selectedTemplate = ResponseTemplateService.getTemplate(
       widget.notice.noticeType,
     );
-    _controller = TextEditingController(
-      text: _filledText(_selectedTemplate),
-    );
+    _controller = TextEditingController(text: _filledText(_selectedTemplate));
   }
 
   @override
@@ -84,15 +81,15 @@ class _ResponseDraftScreenState extends State<ResponseDraftScreen> {
   Future<void> _copyToClipboard() async {
     await Clipboard.setData(ClipboardData(text: _controller.text));
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Copied to clipboard')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
   }
 
   void _exportPdf() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('PDF export — coming soon')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('PDF export — coming soon')));
   }
 
   @override
@@ -161,10 +158,7 @@ class _ResponseDraftScreenState extends State<ResponseDraftScreen> {
                   contentPadding: const EdgeInsets.all(14),
                   hintText: 'Response text...',
                 ),
-                style: const TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 13,
-                ),
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
                 onChanged: (_) => setState(() {}),
               ),
             ),

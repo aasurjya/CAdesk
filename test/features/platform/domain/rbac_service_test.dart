@@ -6,10 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final service = RbacService.instance;
 
-  AppUser makeUser({
-    required UserRole role,
-    bool isActive = true,
-  }) {
+  AppUser makeUser({required UserRole role, bool isActive = true}) {
     return AppUser(
       userId: 'user-1',
       email: 'test@example.com',

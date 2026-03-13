@@ -88,8 +88,9 @@ class Itr1ExportService {
     return {
       'ReturnFileSec': 11, // Section 139(1) — original return, on due date
       'SeqNoOfSelf': '1',
-      'OptOutNewTaxRegime':
-          data.selectedRegime == TaxRegime.oldRegime ? 'Y' : 'N',
+      'OptOutNewTaxRegime': data.selectedRegime == TaxRegime.oldRegime
+          ? 'Y'
+          : 'N',
     };
   }
 

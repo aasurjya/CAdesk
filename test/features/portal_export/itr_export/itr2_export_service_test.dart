@@ -89,8 +89,9 @@ void main() {
     test('JSON contains PersonalInfo with correct PAN', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       final personalInfo = itr2['PersonalInfo'] as Map<String, dynamic>;
       expect(personalInfo['PAN'], 'BCDFE5678G');
     });
@@ -98,32 +99,36 @@ void main() {
     test('JSON contains ScheduleCG', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       expect(itr2.containsKey('ScheduleCG'), isTrue);
     });
 
     test('JSON contains Schedule112A', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       expect(itr2.containsKey('Schedule112A'), isTrue);
     });
 
     test('JSON contains ScheduleFA', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       expect(itr2.containsKey('ScheduleFA'), isTrue);
     });
 
     test('ScheduleCG STCG 111A tax rate is 20%', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       final cg = itr2['ScheduleCG'] as Map<String, dynamic>;
       final shortTerm = cg['ShortTerm'] as Map<String, dynamic>;
       final stcg111A = shortTerm['STCG_111A'] as Map<String, dynamic>;
@@ -133,8 +138,9 @@ void main() {
     test('ScheduleCG LTCG 112A tax rate is 12.5%', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       final cg = itr2['ScheduleCG'] as Map<String, dynamic>;
       final longTerm = cg['LongTerm'] as Map<String, dynamic>;
       final ltcg112A = longTerm['LTCG_112A'] as Map<String, dynamic>;
@@ -144,8 +150,9 @@ void main() {
     test('ScheduleCG LTCG 112A exemption limit is 125000', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       final cg = itr2['ScheduleCG'] as Map<String, dynamic>;
       final longTerm = cg['LongTerm'] as Map<String, dynamic>;
       final ltcg112A = longTerm['LTCG_112A'] as Map<String, dynamic>;
@@ -155,8 +162,9 @@ void main() {
     test('ScheduleAL is absent when income is below 50L', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
       final decoded = jsonDecode(result.jsonPayload) as Map<String, dynamic>;
-      final itr2 = (decoded['ITR'] as Map<String, dynamic>)['ITR2']
-          as Map<String, dynamic>;
+      final itr2 =
+          (decoded['ITR'] as Map<String, dynamic>)['ITR2']
+              as Map<String, dynamic>;
       // Income ~= 2000000 - 200000 - 75000 = 1725000, below 5000000
       expect(itr2.containsKey('ScheduleAL'), isFalse);
     });
@@ -169,8 +177,10 @@ void main() {
 
     test('checksum matches payload SHA-256', () {
       final result = Itr2ExportService.export(sampleData, '2024-25');
-      final expectedChecksum =
-          _sha256Placeholder(result.jsonPayload, result.checksum);
+      final expectedChecksum = _sha256Placeholder(
+        result.jsonPayload,
+        result.checksum,
+      );
       expect(result.checksum, expectedChecksum);
     });
   });

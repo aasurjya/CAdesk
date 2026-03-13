@@ -13,10 +13,7 @@ import 'package:ca_app/features/ocr/presentation/widgets/extracted_field_tile.da
 ///
 /// Receives an [OcrJob] via GoRouter [extra] parameter.
 class OcrResultScreen extends ConsumerStatefulWidget {
-  const OcrResultScreen({
-    super.key,
-    required this.job,
-  });
+  const OcrResultScreen({super.key, required this.job});
 
   final OcrJob job;
 
@@ -88,9 +85,7 @@ class _OcrResultScreenState extends ConsumerState<OcrResultScreen> {
                               child: Text('No extraction result available.'),
                             ),
                           ),
-                        const SliverToBoxAdapter(
-                          child: SizedBox(height: 120),
-                        ),
+                        const SliverToBoxAdapter(child: SizedBox(height: 120)),
                       ],
                     ),
                   ),
@@ -110,10 +105,7 @@ class _OcrResultScreenState extends ConsumerState<OcrResultScreen> {
 // ---------------------------------------------------------------------------
 
 class _DocumentHeader extends StatelessWidget {
-  const _DocumentHeader({
-    required this.job,
-    required this.editMode,
-  });
+  const _DocumentHeader({required this.job, required this.editMode});
 
   final OcrJob job;
   final bool editMode;
@@ -327,86 +319,86 @@ class _ExtractedFieldsSection extends StatelessWidget {
   List<_FieldEntry> _fieldsFor(OcrExtractedData data) {
     return switch (data) {
       Form16ExtractedData(:final data) => [
-          _FieldEntry(
-            'Employee PAN',
-            data.employeePan,
-            data.employeePan.isNotEmpty ? 0.95 : 0.4,
-          ),
-          _FieldEntry(
-            'Employer TAN',
-            data.employerTan,
-            data.employerTan.isNotEmpty ? 0.93 : 0.4,
-          ),
-          _FieldEntry('Employer Name', data.employerName, 0.88),
-          _FieldEntry('Assessment Year', data.assessmentYear, 0.96),
-          _FieldEntry(
-            'Gross Salary',
-            '₹${_formatPaise(data.grossSalary)}',
-            data.grossSalary > 0 ? 0.92 : 0.5,
-          ),
-          _FieldEntry(
-            'Standard Deduction',
-            '₹${_formatPaise(data.standardDeduction)}',
-            0.90,
-          ),
-          _FieldEntry(
-            'Taxable Income',
-            '₹${_formatPaise(data.taxableIncome)}',
-            data.taxableIncome > 0 ? 0.91 : 0.5,
-          ),
-          _FieldEntry(
-            'TDS Deducted',
-            '₹${_formatPaise(data.tdsDeducted)}',
-            data.tdsDeducted > 0 ? 0.89 : 0.45,
-          ),
-        ],
+        _FieldEntry(
+          'Employee PAN',
+          data.employeePan,
+          data.employeePan.isNotEmpty ? 0.95 : 0.4,
+        ),
+        _FieldEntry(
+          'Employer TAN',
+          data.employerTan,
+          data.employerTan.isNotEmpty ? 0.93 : 0.4,
+        ),
+        _FieldEntry('Employer Name', data.employerName, 0.88),
+        _FieldEntry('Assessment Year', data.assessmentYear, 0.96),
+        _FieldEntry(
+          'Gross Salary',
+          '₹${_formatPaise(data.grossSalary)}',
+          data.grossSalary > 0 ? 0.92 : 0.5,
+        ),
+        _FieldEntry(
+          'Standard Deduction',
+          '₹${_formatPaise(data.standardDeduction)}',
+          0.90,
+        ),
+        _FieldEntry(
+          'Taxable Income',
+          '₹${_formatPaise(data.taxableIncome)}',
+          data.taxableIncome > 0 ? 0.91 : 0.5,
+        ),
+        _FieldEntry(
+          'TDS Deducted',
+          '₹${_formatPaise(data.tdsDeducted)}',
+          data.tdsDeducted > 0 ? 0.89 : 0.45,
+        ),
+      ],
       BankStatementExtractedData(:final data) => [
-          _FieldEntry('Account Number', data.accountNumber, 0.92),
-          _FieldEntry('Bank Name', data.bankName, 0.90),
-          _FieldEntry('IFSC Code', data.ifscCode, 0.91),
-          _FieldEntry('Period', data.period, 0.85),
-          _FieldEntry(
-            'Opening Balance',
-            '₹${_formatPaise(data.openingBalance)}',
-            0.88,
-          ),
-          _FieldEntry(
-            'Closing Balance',
-            '₹${_formatPaise(data.closingBalance)}',
-            0.88,
-          ),
-          _FieldEntry(
-            'Transactions',
-            '${data.transactions.length} entries',
-            0.85,
-          ),
-        ],
+        _FieldEntry('Account Number', data.accountNumber, 0.92),
+        _FieldEntry('Bank Name', data.bankName, 0.90),
+        _FieldEntry('IFSC Code', data.ifscCode, 0.91),
+        _FieldEntry('Period', data.period, 0.85),
+        _FieldEntry(
+          'Opening Balance',
+          '₹${_formatPaise(data.openingBalance)}',
+          0.88,
+        ),
+        _FieldEntry(
+          'Closing Balance',
+          '₹${_formatPaise(data.closingBalance)}',
+          0.88,
+        ),
+        _FieldEntry(
+          'Transactions',
+          '${data.transactions.length} entries',
+          0.85,
+        ),
+      ],
       InvoiceExtractedData(:final data) => [
-          _FieldEntry('Invoice Number', data.invoiceNumber, 0.91),
-          _FieldEntry(
-            'Invoice Date',
-            data.invoiceDate != null
-                ? '${data.invoiceDate!.day.toString().padLeft(2, '0')}-'
+        _FieldEntry('Invoice Number', data.invoiceNumber, 0.91),
+        _FieldEntry(
+          'Invoice Date',
+          data.invoiceDate != null
+              ? '${data.invoiceDate!.day.toString().padLeft(2, '0')}-'
                     '${data.invoiceDate!.month.toString().padLeft(2, '0')}-'
                     '${data.invoiceDate!.year}'
-                : '',
-            data.invoiceDate != null ? 0.87 : 0.4,
-          ),
-          _FieldEntry('Seller Name', data.sellerName, 0.88),
-          _FieldEntry('Seller GSTIN', data.sellerGstin ?? '', 0.82),
-          _FieldEntry('Buyer Name', data.buyerName, 0.86),
-          _FieldEntry('Buyer GSTIN', data.buyerGstin ?? '', 0.82),
-          _FieldEntry(
-            'Total Amount',
-            '₹${_formatPaise(data.totalAmount)}',
-            data.totalAmount > 0 ? 0.90 : 0.4,
-          ),
-          _FieldEntry(
-            'GST Amount',
-            '₹${_formatPaise(data.gstAmount)}',
-            data.gstAmount > 0 ? 0.88 : 0.45,
-          ),
-        ],
+              : '',
+          data.invoiceDate != null ? 0.87 : 0.4,
+        ),
+        _FieldEntry('Seller Name', data.sellerName, 0.88),
+        _FieldEntry('Seller GSTIN', data.sellerGstin ?? '', 0.82),
+        _FieldEntry('Buyer Name', data.buyerName, 0.86),
+        _FieldEntry('Buyer GSTIN', data.buyerGstin ?? '', 0.82),
+        _FieldEntry(
+          'Total Amount',
+          '₹${_formatPaise(data.totalAmount)}',
+          data.totalAmount > 0 ? 0.90 : 0.4,
+        ),
+        _FieldEntry(
+          'GST Amount',
+          '₹${_formatPaise(data.gstAmount)}',
+          data.gstAmount > 0 ? 0.88 : 0.45,
+        ),
+      ],
       UnknownExtractedData() => const [],
     };
   }

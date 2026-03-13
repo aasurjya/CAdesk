@@ -18,7 +18,8 @@ void main() {
     });
 
     test('parses valid Zerodha CSV with buy and sell rows', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 2024-01-05,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,2500.00,ORD001,TRD001,2024-01-05 10:30:00
 2024-06-10,RELIANCE,INE002A01018,NSE,EQ,EQ,sell,10,2800.00,ORD002,TRD002,2024-06-10 14:00:00''';
 
@@ -31,7 +32,8 @@ void main() {
     });
 
     test('parses buy transaction fields correctly', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 2024-01-05,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,2500.00,ORD001,TRD001,2024-01-05 10:30:00''';
 
       final result = service.parseZerodhaTradeBook(csv);
@@ -50,7 +52,8 @@ void main() {
     });
 
     test('parses sell transaction type correctly', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 2024-06-10,RELIANCE,INE002A01018,NSE,EQ,EQ,sell,10,2800.00,ORD002,TRD002,2024-06-10 14:00:00''';
 
       final result = service.parseZerodhaTradeBook(csv);
@@ -73,7 +76,8 @@ void main() {
     });
 
     test('records error for malformed row', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 BADDATE,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,2500.00,ORD001,TRD001,2024-01-05 10:30:00''';
 
       final result = service.parseZerodhaTradeBook(csv);
@@ -83,7 +87,8 @@ BADDATE,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,2500.00,ORD001,TRD001,2024-01-05 
     });
 
     test('records error for invalid price', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 2024-01-05,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,NOTANUMBER,ORD001,TRD001,2024-01-05 10:30:00''';
 
       final result = service.parseZerodhaTradeBook(csv);
@@ -92,7 +97,8 @@ BADDATE,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,10,2500.00,ORD001,TRD001,2024-01-05 
     });
 
     test('records error for invalid quantity', () {
-      const csv = '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
+      const csv =
+          '''Date,Tradingsymbol,ISIN,Exchange,Segment,Series,Trade Type,Quantity,Price,Order ID,Trade ID,Order Execution Time
 2024-01-05,RELIANCE,INE002A01018,NSE,EQ,EQ,buy,NOTANUMBER,2500.00,ORD001,TRD001,2024-01-05 10:30:00''';
 
       final result = service.parseZerodhaTradeBook(csv);

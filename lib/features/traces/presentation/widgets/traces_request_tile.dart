@@ -49,7 +49,8 @@ class TracesRequestTile extends StatelessWidget {
                 const SizedBox(width: 16),
                 _MetaItem(
                   label: 'FY',
-                  value: 'FY ${request.financialYear - 1}-'
+                  value:
+                      'FY ${request.financialYear - 1}-'
                       '${request.financialYear.toString().substring(2)}',
                 ),
                 const SizedBox(width: 16),
@@ -181,8 +182,18 @@ String _labelForType(TracesRequestType type) {
 
 String _formatDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
 }

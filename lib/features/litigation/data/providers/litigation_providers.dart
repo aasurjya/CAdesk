@@ -145,8 +145,7 @@ final _mockAppeals = <AppealCase>[
     filingDate: DateTime(2025, 11, 10),
     hearingDate: DateTime(2026, 4, 5),
     status: AppealStatus.admitted,
-    nextAction:
-        'Prepare written submissions for CIT(A) hearing on 05/04/2026.',
+    nextAction: 'Prepare written submissions for CIT(A) hearing on 05/04/2026.',
     nextActionDate: DateTime(2026, 3, 29),
     history: const [
       AppealStage(
@@ -183,7 +182,8 @@ final _mockAppeals = <AppealCase>[
         forum: AppealForum.cita,
         outcome: StageOutcome.partiallyAllowed,
         orderDate: DateTime(2025, 6, 18),
-        orderSummary: 'CIT(A) granted partial relief on long-term capital gains.',
+        orderSummary:
+            'CIT(A) granted partial relief on long-term capital gains.',
         reliefGranted: 15_00_00_000,
       ),
     ],
@@ -223,9 +223,7 @@ class AppealListNotifier extends Notifier<List<AppealCase>> {
 
   void update(AppealCase updated) {
     state = List.unmodifiable(
-      state
-          .map((a) => a.caseId == updated.caseId ? updated : a)
-          .toList(),
+      state.map((a) => a.caseId == updated.caseId ? updated : a).toList(),
     );
   }
 }

@@ -1,24 +1,12 @@
 /// Return type for GSTN filings.
-enum GstnReturnType {
-  gstr1,
-  gstr3b,
-  gstr9,
-  gstr9c,
-}
+enum GstnReturnType { gstr1, gstr3b, gstr9, gstr9c }
 
 /// Filing lifecycle status as tracked by the GSTN portal.
 ///
 /// Mirrors the status codes returned by the GSTN API:
 /// NF = notFiled, SAV = saved, SUB = submitted, CNF = filed,
 /// PRO = processed, REJ = rejected.
-enum GstnReturnStatus {
-  notFiled,
-  saved,
-  submitted,
-  filed,
-  processed,
-  rejected,
-}
+enum GstnReturnStatus { notFiled, saved, submitted, filed, processed, rejected }
 
 /// Immutable snapshot of a GSTN return's filing state.
 class GstnFilingStatus {
@@ -95,13 +83,13 @@ class GstnFilingStatus {
 
   @override
   int get hashCode => Object.hash(
-        gstin,
-        returnType,
-        period,
-        status,
-        arn,
-        filedAt,
-        processedAt,
-        errorMessage,
-      );
+    gstin,
+    returnType,
+    period,
+    status,
+    arn,
+    filedAt,
+    processedAt,
+    errorMessage,
+  );
 }

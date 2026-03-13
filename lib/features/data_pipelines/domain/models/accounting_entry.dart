@@ -1,13 +1,5 @@
 /// Source accounting system from which the entry was imported.
-enum AccountingSource {
-  tally,
-  zoho,
-  sap,
-  quickbooks,
-  busy,
-  marg,
-  csv,
-}
+enum AccountingSource { tally, zoho, sap, quickbooks, busy, marg, csv }
 
 /// Immutable model representing a double-entry accounting record.
 ///

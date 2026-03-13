@@ -31,9 +31,7 @@ class _RpaScriptLibraryScreenState
         : scripts.where((s) => s.targetPortal == _filter).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Script Library'),
-      ),
+      appBar: AppBar(title: const Text('Script Library')),
       body: Column(
         children: [
           _FilterRow(

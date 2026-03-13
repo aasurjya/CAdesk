@@ -71,7 +71,9 @@ class SectionResultCard extends StatelessWidget {
             Wrap(
               spacing: 6,
               runSpacing: 4,
-              children: article.sections.map((s) => _SectionTag(label: s)).toList(),
+              children: article.sections
+                  .map((s) => _SectionTag(label: s))
+                  .toList(),
             ),
           ],
         ),
@@ -164,4 +166,3 @@ class _SectionTag extends StatelessWidget {
     );
   }
 }
-

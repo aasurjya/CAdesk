@@ -20,11 +20,7 @@ class StayRecord {
   /// ISO alpha-2 country code (use "IN" for India).
   final String country;
 
-  StayRecord copyWith({
-    DateTime? dateFrom,
-    DateTime? dateTo,
-    String? country,
-  }) {
+  StayRecord copyWith({DateTime? dateFrom, DateTime? dateTo, String? country}) {
     return StayRecord(
       dateFrom: dateFrom ?? this.dateFrom,
       dateTo: dateTo ?? this.dateTo,
@@ -73,10 +69,7 @@ class ResidentialStatusEngine {
   /// based on the supplied [stayRecords].
   ///
   /// [financialYear] = 2024 → FY 2023-24 (1 Apr 2023 – 31 Mar 2024).
-  ResidentialStatus determine(
-    List<StayRecord> stayRecords,
-    int financialYear,
-  ) {
+  ResidentialStatus determine(List<StayRecord> stayRecords, int financialYear) {
     final currentDays = computeDaysInIndia(stayRecords, financialYear);
     final prev1 = computeDaysInIndia(stayRecords, financialYear - 1);
     final prev2 = computeDaysInIndia(stayRecords, financialYear - 2);
@@ -138,7 +131,9 @@ class ResidentialStatusEngine {
     for (final record in records) {
       if (record.country != 'IN') continue;
       // Clip to FY boundaries
-      final from = record.dateFrom.isBefore(fyStart) ? fyStart : record.dateFrom;
+      final from = record.dateFrom.isBefore(fyStart)
+          ? fyStart
+          : record.dateFrom;
       final to = record.dateTo.isAfter(fyEnd) ? fyEnd : record.dateTo;
       if (to.isBefore(from)) continue;
       final days = to.difference(from).inDays + 1;
@@ -210,9 +205,7 @@ class ResidentialStatusEngine {
 
     final reasons = <String>[];
     if (days7 <= 729) {
-      reasons.add(
-        'India days in preceding 7 years: $days7 (≤ 729)',
-      );
+      reasons.add('India days in preceding 7 years: $days7 (≤ 729)');
     }
     if (nriYears >= 9) {
       reasons.add('NRI in $nriYears of preceding 10 years (≥ 9)');

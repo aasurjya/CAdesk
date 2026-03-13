@@ -93,7 +93,8 @@ class _LlpInfoCard extends StatelessWidget {
             ),
             _DetailRow(
               label: 'Financial Year',
-              value: 'FY ${llp.financialYear - 1}-'
+              value:
+                  'FY ${llp.financialYear - 1}-'
                   '${llp.financialYear.toString().substring(2)}',
             ),
           ],
@@ -183,8 +184,7 @@ class _PartnersCard extends StatelessWidget {
                                   ),
                                   child: Text(
                                     'DP',
-                                    style: theme.textTheme.labelSmall
-                                        ?.copyWith(
+                                    style: theme.textTheme.labelSmall?.copyWith(
                                       color: AppColors.primary,
                                       fontWeight: FontWeight.w700,
                                       fontSize: 9,
@@ -298,8 +298,8 @@ class _FilingRow extends StatelessWidget {
             status == LlpFilingStatus.filed
                 ? Icons.check_circle_rounded
                 : status == LlpFilingStatus.overdue
-                    ? Icons.error_rounded
-                    : Icons.schedule_rounded,
+                ? Icons.error_rounded
+                : Icons.schedule_rounded,
             color: color,
             size: 20,
           ),
@@ -383,10 +383,8 @@ class _PenaltyCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            if (f11Penalty != null)
-              _PenaltyRow(penalty: f11Penalty!),
-            if (f8Penalty != null)
-              _PenaltyRow(penalty: f8Penalty!),
+            if (f11Penalty != null) _PenaltyRow(penalty: f11Penalty!),
+            if (f8Penalty != null) _PenaltyRow(penalty: f8Penalty!),
             const Divider(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -504,8 +502,18 @@ String _formatPaise(int paise) {
 
 String _formatDate(DateTime dt) {
   const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
 }

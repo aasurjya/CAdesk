@@ -35,7 +35,8 @@ class AppealManagementService {
   /// The [grounds] argument captures the appellant's grounds of appeal.
   static AppealCase createAppeal(TaxNotice notice, String grounds) {
     final now = DateTime.now();
-    final caseId = '${notice.pan}-${notice.assessmentYear}-${now.millisecondsSinceEpoch}';
+    final caseId =
+        '${notice.pan}-${notice.assessmentYear}-${now.millisecondsSinceEpoch}';
 
     return AppealCase(
       caseId: caseId,
@@ -46,7 +47,8 @@ class AppealManagementService {
       amountInDispute: notice.demandAmount ?? 0,
       filingDate: now,
       status: AppealStatus.pending,
-      nextAction: 'File Form 35 before CIT(A) within 30 days of AO order. '
+      nextAction:
+          'File Form 35 before CIT(A) within 30 days of AO order. '
           'Grounds: $grounds',
       history: const [],
     );
@@ -71,19 +73,22 @@ class AppealManagementService {
     switch (event) {
       case AppealEvent.filed:
         return appeal.copyWith(
-          nextAction: 'Await admission notice from ${_forumName(appeal.currentForum)}',
+          nextAction:
+              'Await admission notice from ${_forumName(appeal.currentForum)}',
         );
 
       case AppealEvent.admitted:
         return appeal.copyWith(
           status: AppealStatus.admitted,
-          nextAction: 'Await hearing date from ${_forumName(appeal.currentForum)}',
+          nextAction:
+              'Await hearing date from ${_forumName(appeal.currentForum)}',
         );
 
       case AppealEvent.hearingScheduled:
         return appeal.copyWith(
           hearingDate: hearingDate,
-          nextAction: 'Prepare for hearing on ${_formatDate(hearingDate ?? DateTime.now())}',
+          nextAction:
+              'Prepare for hearing on ${_formatDate(hearingDate ?? DateTime.now())}',
         );
 
       case AppealEvent.orderPassed:
@@ -211,7 +216,8 @@ class AppealManagementService {
     return appeal.copyWith(
       currentForum: nextForum,
       status: AppealStatus.pending,
-      nextAction: 'File appeal before ${_forumName(nextForum)} '
+      nextAction:
+          'File appeal before ${_forumName(nextForum)} '
           'within statutory limitation period.',
     );
   }
@@ -242,12 +248,10 @@ class AppealManagementService {
     };
   }
 
-  static String _nextActionAfterOrder(
-    StageOutcome outcome,
-    AppealForum forum,
-  ) {
+  static String _nextActionAfterOrder(StageOutcome outcome, AppealForum forum) {
     return switch (outcome) {
-      StageOutcome.allowed => 'Order in assessee\'s favour — verify demand cancellation.',
+      StageOutcome.allowed =>
+        'Order in assessee\'s favour — verify demand cancellation.',
       StageOutcome.partiallyAllowed =>
         'Partial relief granted — evaluate further appeal to ${_forumName(_nextForumInLadder(forum) ?? forum)}.',
       StageOutcome.dismissed =>

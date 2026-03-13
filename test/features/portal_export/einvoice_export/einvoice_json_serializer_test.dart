@@ -17,7 +17,8 @@ void main() {
     List<GstInvoiceItem>? items,
   }) {
     final date = invoiceDate ?? DateTime(2024, 3, 1);
-    final lineItems = items ??
+    final lineItems =
+        items ??
         [
           const GstInvoiceItem(
             description: 'Office Laptop',
@@ -171,8 +172,7 @@ void main() {
         '29AABCT1332L1ZY',
         '36AABCT1332L1ZY',
       );
-      final itemAssTotal =
-          req.itemList.fold(0.0, (s, i) => s + i.assAmt);
+      final itemAssTotal = req.itemList.fold(0.0, (s, i) => s + i.assAmt);
       expect(req.valDtls.assVal, closeTo(itemAssTotal, 0.01));
     });
   });

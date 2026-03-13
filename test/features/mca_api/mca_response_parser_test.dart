@@ -346,8 +346,7 @@ void main() {
 
     test('parses under processing status correctly', () {
       final procJson = Map<String, dynamic>.from(validJson);
-      (procJson['data'] as Map<String, dynamic>)['status'] =
-          'Under Processing';
+      (procJson['data'] as Map<String, dynamic>)['status'] = 'Under Processing';
       final result = parser.parseFormStatus(procJson);
       expect(result.status, McaEFormStatusValue.underProcessing);
     });

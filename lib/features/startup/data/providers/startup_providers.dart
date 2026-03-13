@@ -9,19 +9,10 @@ import 'package:ca_app/features/startup/domain/services/section80iac_service.dar
 // ---------------------------------------------------------------------------
 
 /// DPIIT registration status.
-enum DpiitStatus {
-  registered,
-  pending,
-  notApplied,
-}
+enum DpiitStatus { registered, pending, notApplied }
 
 /// Status of 80-IAC application.
-enum Iac80Status {
-  approved,
-  applied,
-  notEligible,
-  notApplied,
-}
+enum Iac80Status { approved, applied, notEligible, notApplied }
 
 /// Immutable model for a startup entity used in the presentation layer.
 class StartupEntity {
@@ -147,10 +138,7 @@ class SelectedStartupIdNotifier extends Notifier<String> {
 final selectedStartupProvider = Provider<StartupEntity>((ref) {
   final id = ref.watch(selectedStartupIdProvider);
   final list = ref.watch(startupListProvider);
-  return list.firstWhere(
-    (s) => s.id == id,
-    orElse: () => list.first,
-  );
+  return list.firstWhere((s) => s.id == id, orElse: () => list.first);
 });
 
 /// 80-IAC deduction computation for the selected startup.
@@ -173,9 +161,7 @@ final startupAngelTaxProvider = Provider<AngelTaxComputation?>((ref) {
   final startup = ref.watch(selectedStartupProvider);
   if (startup.lastFundingIssuePricePaise == 0) return null;
 
-  final isExempt = AngelTaxService.instance.isDpiitExempt(
-    startup.dpiitNumber,
-  );
+  final isExempt = AngelTaxService.instance.isDpiitExempt(startup.dpiitNumber);
   final input = AngelTaxInput(
     issuePricePaise: startup.lastFundingIssuePricePaise,
     fairMarketValuePaise: startup.lastFundingFmvPaise,

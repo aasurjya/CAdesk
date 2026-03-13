@@ -80,7 +80,10 @@ void main() {
       test('parses interest income sources', () {
         final result = parser.parseAis(sampleAisJson);
         expect(result.interestSources, hasLength(1));
-        expect(result.interestSources.first.sourceDescription, equals('SBI Bank'));
+        expect(
+          result.interestSources.first.sourceDescription,
+          equals('SBI Bank'),
+        );
       });
 
       test('converts interest amount to paise', () {
@@ -88,11 +91,14 @@ void main() {
         expect(result.interestSources.first.amount, equals(1000000));
       });
 
-      test('returns empty capital gain and foreign remittance lists when absent', () {
-        final result = parser.parseAis(sampleAisJson);
-        expect(result.capitalGainTransactions, isEmpty);
-        expect(result.foreignRemittances, isEmpty);
-      });
+      test(
+        'returns empty capital gain and foreign remittance lists when absent',
+        () {
+          final result = parser.parseAis(sampleAisJson);
+          expect(result.capitalGainTransactions, isEmpty);
+          expect(result.foreignRemittances, isEmpty);
+        },
+      );
 
       test('parses feedbackStatus M as modified', () {
         const json = '''

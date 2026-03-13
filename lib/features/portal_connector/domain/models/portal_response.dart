@@ -77,12 +77,12 @@ class PortalResponse {
 
   @override
   int get hashCode => Object.hash(
-        requestId,
-        portal,
-        statusCode,
-        body,
-        latencyMs,
-        timestamp,
-        errorMessage,
-      );
+    requestId,
+    portal,
+    statusCode,
+    body,
+    latencyMs,
+    timestamp,
+    errorMessage,
+  );
 }

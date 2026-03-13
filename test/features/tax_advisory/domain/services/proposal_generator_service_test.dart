@@ -68,8 +68,11 @@ void main() {
 
   group('ProposalGeneratorService.rankOpportunities', () {
     test('sorts by potentialSaving × confidence descending', () {
-      final ranked = ProposalGeneratorService.instance
-          .rankOpportunities([opp2, opp3, opp1]);
+      final ranked = ProposalGeneratorService.instance.rankOpportunities([
+        opp2,
+        opp3,
+        opp1,
+      ]);
 
       // opp1: 30000 * 0.9 = 27000
       // opp2: 20000 * 0.85 = 17000
@@ -80,14 +83,15 @@ void main() {
     });
 
     test('returns same length list', () {
-      final ranked = ProposalGeneratorService.instance
-          .rankOpportunities([opp1, opp2]);
+      final ranked = ProposalGeneratorService.instance.rankOpportunities([
+        opp1,
+        opp2,
+      ]);
       expect(ranked.length, 2);
     });
 
     test('empty list returns empty list', () {
-      final ranked =
-          ProposalGeneratorService.instance.rankOpportunities([]);
+      final ranked = ProposalGeneratorService.instance.rankOpportunities([]);
       expect(ranked.isEmpty, isTrue);
     });
   });
@@ -99,8 +103,7 @@ void main() {
   group('ProposalGeneratorService.computeProposedFee', () {
     test('base fee ₹5,000 when no potential savings', () {
       // opp3 has 0 savings
-      final fee = ProposalGeneratorService.instance
-          .computeProposedFee([opp3]);
+      final fee = ProposalGeneratorService.instance.computeProposedFee([opp3]);
 
       // base = ₹5,000 = 500000 paise
       expect(fee, 500000);
@@ -108,8 +111,7 @@ void main() {
 
     test('fee = ₹5,000 + 10% of savings, within cap', () {
       // opp1: ₹30K savings → fee = ₹5K + 10% of ₹30K = ₹5K + ₹3K = ₹8K
-      final fee = ProposalGeneratorService.instance
-          .computeProposedFee([opp1]);
+      final fee = ProposalGeneratorService.instance.computeProposedFee([opp1]);
 
       // 500000 + (3000000 * 10 / 100) = 500000 + 300000 = 800000
       expect(fee, 800000);
@@ -131,8 +133,9 @@ void main() {
         sections: ['80C'],
       );
 
-      final fee =
-          ProposalGeneratorService.instance.computeProposedFee([bigOpp]);
+      final fee = ProposalGeneratorService.instance.computeProposedFee([
+        bigOpp,
+      ]);
 
       // cap = ₹50K = 5000000 paise
       expect(fee, 5000000);
@@ -140,8 +143,10 @@ void main() {
 
     test('fee adds savings from multiple opportunities', () {
       // opp1 ₹30K + opp2 ₹20K = ₹50K savings → 10% = ₹5K → total ₹10K
-      final fee = ProposalGeneratorService.instance
-          .computeProposedFee([opp1, opp2]);
+      final fee = ProposalGeneratorService.instance.computeProposedFee([
+        opp1,
+        opp2,
+      ]);
 
       // 500000 + ((3000000 + 2000000) * 10 / 100) = 500000 + 500000 = 1000000
       expect(fee, 1000000);
@@ -154,54 +159,67 @@ void main() {
 
   group('ProposalGeneratorService.generate', () {
     test('returns AdvisoryProposal with correct clientPan', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1, opp2, opp3]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1, opp2, opp3],
+      );
 
       expect(proposal.clientPan, 'ABCDE1234F');
     });
 
     test('proposal includes non-empty proposalId', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1],
+      );
 
       expect(proposal.proposalId.isNotEmpty, isTrue);
     });
 
     test('totalPotentialSaving sums top 5 opportunities', () {
       // Only 2 opps here: opp1 ₹30K + opp2 ₹20K = ₹50K
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1, opp2]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1, opp2],
+      );
 
       expect(proposal.totalPotentialSaving, 5000000); // ₹50K in paise
     });
 
     test('roi = totalPotentialSaving / proposedFee', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1, opp2]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1, opp2],
+      );
 
-      final expectedRoi =
-          proposal.totalPotentialSaving / proposal.proposedFee;
+      final expectedRoi = proposal.totalPotentialSaving / proposal.proposedFee;
       expect(proposal.roi, closeTo(expectedRoi, 0.001));
     });
 
     test('executiveSummary is non-empty', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1, opp2]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1, opp2],
+      );
 
       expect(proposal.executiveSummary.isNotEmpty, isTrue);
     });
 
     test('sections list is non-empty when opportunities provided', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1, opp2, opp3]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1, opp2, opp3],
+      );
 
       expect(proposal.sections.isNotEmpty, isTrue);
     });
 
     test('proposal generatedAt is recent', () {
       final before = DateTime.now().subtract(const Duration(seconds: 1));
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, [opp1]);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [opp1],
+      );
       final after = DateTime.now().add(const Duration(seconds: 1));
 
       expect(
@@ -212,8 +230,10 @@ void main() {
     });
 
     test('handles empty opportunities list', () {
-      final proposal = ProposalGeneratorService.instance
-          .generate(sampleProfile, []);
+      final proposal = ProposalGeneratorService.instance.generate(
+        sampleProfile,
+        [],
+      );
 
       expect(proposal.totalPotentialSaving, 0);
       expect(proposal.opportunities.isEmpty, isTrue);
@@ -226,31 +246,22 @@ void main() {
 
   group('ProposalGeneratorService.generateExecutiveSummary', () {
     test('includes client name in summary', () {
-      final summary =
-          ProposalGeneratorService.instance.generateExecutiveSummary(
-        sampleProfile,
-        [opp1, opp2, opp3],
-      );
+      final summary = ProposalGeneratorService.instance
+          .generateExecutiveSummary(sampleProfile, [opp1, opp2, opp3]);
 
       expect(summary.contains('Ramesh Kumar'), isTrue);
     });
 
     test('handles fewer than 3 opportunities gracefully', () {
-      final summary =
-          ProposalGeneratorService.instance.generateExecutiveSummary(
-        sampleProfile,
-        [opp1],
-      );
+      final summary = ProposalGeneratorService.instance
+          .generateExecutiveSummary(sampleProfile, [opp1]);
 
       expect(summary.isNotEmpty, isTrue);
     });
 
     test('empty opportunities returns non-empty summary', () {
-      final summary =
-          ProposalGeneratorService.instance.generateExecutiveSummary(
-        sampleProfile,
-        [],
-      );
+      final summary = ProposalGeneratorService.instance
+          .generateExecutiveSummary(sampleProfile, []);
 
       expect(summary.isNotEmpty, isTrue);
     });

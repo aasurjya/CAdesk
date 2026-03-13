@@ -141,10 +141,10 @@ class _MutableSummary {
 
   /// Returns a new [_MutableSummary] with this [entry]'s amounts added.
   _MutableSummary add(Form26AsEntry entry) => _MutableSummary(
-        deductorName: deductorName,
-        deductorTan: deductorTan,
-        totalGrossAmount: totalGrossAmount + entry.grossAmount,
-        totalTdsDeducted: totalTdsDeducted + entry.tdsDeducted,
-        totalTdsCredited: totalTdsCredited + entry.tdsCredited,
-      );
+    deductorName: deductorName,
+    deductorTan: deductorTan,
+    totalGrossAmount: totalGrossAmount + entry.grossAmount,
+    totalTdsDeducted: totalTdsDeducted + entry.tdsDeducted,
+    totalTdsCredited: totalTdsCredited + entry.tdsCredited,
+  );
 }

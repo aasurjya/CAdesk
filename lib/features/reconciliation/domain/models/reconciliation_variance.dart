@@ -99,13 +99,13 @@ class ReconciliationVariance {
 
   @override
   int get hashCode => Object.hash(
-        source1Label,
-        source2Label,
-        source1Amount,
-        source2Amount,
-        variance,
-        variancePercent,
-        status,
-        threshold,
-      );
+    source1Label,
+    source2Label,
+    source1Amount,
+    source2Amount,
+    variance,
+    variancePercent,
+    status,
+    threshold,
+  );
 }

@@ -31,10 +31,26 @@ class UrgencyBadge extends StatelessWidget {
 
   static (String, Color, Color) _style(UrgencyLevel level) {
     return switch (level) {
-      UrgencyLevel.critical => ('CRITICAL', const Color(0xFFFFEBEE), const Color(0xFFB71C1C)),
-      UrgencyLevel.high => ('HIGH', const Color(0xFFFFF3E0), const Color(0xFFE65100)),
-      UrgencyLevel.medium => ('MEDIUM', const Color(0xFFFFF8E1), const Color(0xFFF57F17)),
-      UrgencyLevel.low => ('LOW', const Color(0xFFE8F5E9), const Color(0xFF1B5E20)),
+      UrgencyLevel.critical => (
+        'CRITICAL',
+        const Color(0xFFFFEBEE),
+        const Color(0xFFB71C1C),
+      ),
+      UrgencyLevel.high => (
+        'HIGH',
+        const Color(0xFFFFF3E0),
+        const Color(0xFFE65100),
+      ),
+      UrgencyLevel.medium => (
+        'MEDIUM',
+        const Color(0xFFFFF8E1),
+        const Color(0xFFF57F17),
+      ),
+      UrgencyLevel.low => (
+        'LOW',
+        const Color(0xFFE8F5E9),
+        const Color(0xFF1B5E20),
+      ),
     };
   }
 }

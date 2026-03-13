@@ -71,10 +71,7 @@ class OfflineSyncService {
   ///
   /// Comparison is performed by re-encoding [serverVersion] and doing a
   /// string equality check against the local [SyncQueueItem.payload].
-  bool detectConflict(
-    SyncQueueItem item,
-    Map<String, dynamic> serverVersion,
-  ) {
+  bool detectConflict(SyncQueueItem item, Map<String, dynamic> serverVersion) {
     final serverJson = jsonEncode(serverVersion);
     return item.payload != serverJson;
   }
@@ -97,8 +94,6 @@ class OfflineSyncService {
 
   /// Returns the number of items in [SyncStatus.pending] state.
   int getPendingCount() {
-    return _queue.values
-        .where((i) => i.status == SyncStatus.pending)
-        .length;
+    return _queue.values.where((i) => i.status == SyncStatus.pending).length;
   }
 }

@@ -10,8 +10,9 @@ void main() {
   late List<SigningRequest> sampleRequests;
 
   setUp(() {
-    testCert = DscSigningService.detectAvailableTokens()
-        .firstWhere((c) => c.serialNumber == 'TEST001');
+    testCert = DscSigningService.detectAvailableTokens().firstWhere(
+      (c) => c.serialNumber == 'TEST001',
+    );
 
     sampleRequests = List.generate(
       3,

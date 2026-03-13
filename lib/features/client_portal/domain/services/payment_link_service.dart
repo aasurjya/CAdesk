@@ -67,11 +67,7 @@ class PaymentLinkService {
 
   /// Returns a copy of [link] with [PaymentLinkStatus.paid] status,
   /// [paidAt] set to [paidAt], and [paymentReference] set to [reference].
-  PaymentLink markPaid(
-    PaymentLink link,
-    String reference,
-    DateTime paidAt,
-  ) {
+  PaymentLink markPaid(PaymentLink link, String reference, DateTime paidAt) {
     return link.copyWith(
       status: PaymentLinkStatus.paid,
       paymentReference: reference,

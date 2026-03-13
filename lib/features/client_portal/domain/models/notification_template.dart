@@ -89,11 +89,11 @@ class NotificationTemplate {
 
   @override
   int get hashCode => Object.hash(
-        templateId,
-        name,
-        channel,
-        templateText,
-        useCase,
-        Object.hashAll(placeholders),
-      );
+    templateId,
+    name,
+    channel,
+    templateText,
+    useCase,
+    Object.hashAll(placeholders),
+  );
 }

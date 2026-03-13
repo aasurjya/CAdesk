@@ -14,12 +14,7 @@ enum OpportunityType {
 }
 
 /// How urgent it is to act on the opportunity.
-enum OpportunityUrgency {
-  immediate,
-  thisYear,
-  nextYear,
-  longTerm,
-}
+enum OpportunityUrgency { immediate, thisYear, nextYear, longTerm }
 
 // ---------------------------------------------------------------------------
 // Model
@@ -39,8 +34,10 @@ class TaxOpportunity {
     required this.requiredAction,
     required this.estimatedFee,
     required this.sections,
-  }) : assert(confidence >= 0.0 && confidence <= 1.0,
-            'confidence must be between 0.0 and 1.0');
+  }) : assert(
+         confidence >= 0.0 && confidence <= 1.0,
+         'confidence must be between 0.0 and 1.0',
+       );
 
   /// Unique identifier for this opportunity.
   final String opportunityId;

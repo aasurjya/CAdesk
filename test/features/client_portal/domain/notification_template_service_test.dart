@@ -63,22 +63,28 @@ void main() {
     });
 
     test('NotificationChannel enum has all expected values', () {
-      expect(NotificationChannel.values, containsAll([
-        NotificationChannel.whatsapp,
-        NotificationChannel.email,
-        NotificationChannel.sms,
-        NotificationChannel.push,
-      ]));
+      expect(
+        NotificationChannel.values,
+        containsAll([
+          NotificationChannel.whatsapp,
+          NotificationChannel.email,
+          NotificationChannel.sms,
+          NotificationChannel.push,
+        ]),
+      );
     });
 
     test('NotificationUseCase enum has all expected values', () {
-      expect(NotificationUseCase.values, containsAll([
-        NotificationUseCase.documentShared,
-        NotificationUseCase.deadlineReminder,
-        NotificationUseCase.paymentDue,
-        NotificationUseCase.filingComplete,
-        NotificationUseCase.otp,
-      ]));
+      expect(
+        NotificationUseCase.values,
+        containsAll([
+          NotificationUseCase.documentShared,
+          NotificationUseCase.deadlineReminder,
+          NotificationUseCase.paymentDue,
+          NotificationUseCase.filingComplete,
+          NotificationUseCase.otp,
+        ]),
+      );
     });
   });
 
@@ -165,19 +171,22 @@ void main() {
       expect(filled, isNot(contains('}')));
     });
 
-    test('fillTemplate with partial variables leaves unreplaced placeholders', () {
-      const template = NotificationTemplate(
-        templateId: 'x',
-        name: 'test',
-        channel: NotificationChannel.whatsapp,
-        templateText: 'Hello {clientName}, your {thing} is ready.',
-        placeholders: ['clientName', 'thing'],
-        useCase: NotificationUseCase.documentShared,
-      );
-      final filled = service.fillTemplate(template, {'clientName': 'Ravi'});
-      expect(filled, contains('Ravi'));
-      expect(filled, contains('{thing}')); // unreplaced stays
-    });
+    test(
+      'fillTemplate with partial variables leaves unreplaced placeholders',
+      () {
+        const template = NotificationTemplate(
+          templateId: 'x',
+          name: 'test',
+          channel: NotificationChannel.whatsapp,
+          templateText: 'Hello {clientName}, your {thing} is ready.',
+          placeholders: ['clientName', 'thing'],
+          useCase: NotificationUseCase.documentShared,
+        );
+        final filled = service.fillTemplate(template, {'clientName': 'Ravi'});
+        expect(filled, contains('Ravi'));
+        expect(filled, contains('{thing}')); // unreplaced stays
+      },
+    );
 
     test('fillTemplate with deadlineReminder replaces variables correctly', () {
       final template = service.getTemplate(

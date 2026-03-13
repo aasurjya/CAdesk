@@ -47,10 +47,12 @@ class BulkSigningService {
       return req;
     }).toList();
 
-    final completedCount =
-        processed.where((r) => r.status == SigningStatus.signed).length;
-    final failedCount =
-        processed.where((r) => r.status == SigningStatus.failed).length;
+    final completedCount = processed
+        .where((r) => r.status == SigningStatus.signed)
+        .length;
+    final failedCount = processed
+        .where((r) => r.status == SigningStatus.failed)
+        .length;
 
     final status = _resolveJobStatus(
       total: processed.length,

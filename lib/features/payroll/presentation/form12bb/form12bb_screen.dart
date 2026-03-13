@@ -53,9 +53,9 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
     if (widget.employeeId != null) {
       // Schedule after build to access ref
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.read(activeForm12bbProvider.notifier).setEmployee(
-              widget.employeeId!,
-            );
+        ref
+            .read(activeForm12bbProvider.notifier)
+            .setEmployee(widget.employeeId!);
       });
     }
   }
@@ -114,8 +114,9 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
     final declaration = ref.read(activeForm12bbProvider);
     final errors = validateForm12bb(declaration);
     if (!_formKey.currentState!.validate() || errors.isNotEmpty) {
-      final message =
-          errors.isNotEmpty ? errors.first : 'Please fix the errors above';
+      final message = errors.isNotEmpty
+          ? errors.first
+          : 'Please fix the errors above';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
@@ -167,7 +168,8 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           // Employee + FY header
           _HeaderBar(
             employeeName: selectedEmployee?.name ?? 'Select Employee',
-            financialYear: 'FY ${declaration.financialYear}-'
+            financialYear:
+                'FY ${declaration.financialYear}-'
                 '${(declaration.financialYear + 1) % 100}',
           ),
           // Form body
@@ -234,10 +236,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           decoration: const InputDecoration(
             labelText: 'Landlord Name',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         const SizedBox(height: 12),
@@ -277,10 +276,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           decoration: const InputDecoration(
             labelText: 'Landlord Address',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
       ],
@@ -312,7 +308,8 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
       icon: Icons.account_balance_rounded,
       trailing: SectionTotalChip(
         label: 'VI-A',
-        amountPaise: _toPaise(_s80CCtrl.text) +
+        amountPaise:
+            _toPaise(_s80CCtrl.text) +
             _toPaise(_s80CCD1BCtrl.text) +
             _toPaise(_s80DCtrl.text) +
             _toPaise(_s80ECtrl.text) +
@@ -349,8 +346,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           controller: _s80CCD1BCtrl,
           maxLimitPaise: Form12bbLimits.section80CCD1B,
           maxLimitLabel: 'Max ₹50,000',
-          tooltipMessage:
-              'Additional NPS contribution over and above 80C',
+          tooltipMessage: 'Additional NPS contribution over and above 80C',
           onChanged: (_) => _syncToProvider(),
         ),
         DeductionField(
@@ -372,8 +368,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
         DeductionField(
           label: 'Section 80G — Donations',
           controller: _s80GCtrl,
-          tooltipMessage:
-              'Donations to approved funds/charities under 80G',
+          tooltipMessage: 'Donations to approved funds/charities under 80G',
           onChanged: (_) => _syncToProvider(),
         ),
         DeductionField(
@@ -413,10 +408,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           decoration: const InputDecoration(
             labelText: 'Lender Name',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         const SizedBox(height: 12),
@@ -426,10 +418,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
           decoration: const InputDecoration(
             labelText: 'Lender PAN',
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
           validator: (value) {
             if (value != null &&
@@ -450,10 +439,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
 // ---------------------------------------------------------------------------
 
 class _HeaderBar extends StatelessWidget {
-  const _HeaderBar({
-    required this.employeeName,
-    required this.financialYear,
-  });
+  const _HeaderBar({required this.employeeName, required this.financialYear});
 
   final String employeeName;
   final String financialYear;
@@ -466,11 +452,7 @@ class _HeaderBar extends StatelessWidget {
       color: AppColors.surface,
       child: Row(
         children: [
-          const Icon(
-            Icons.person_rounded,
-            size: 18,
-            color: AppColors.primary,
-          ),
+          const Icon(Icons.person_rounded, size: 18, color: AppColors.primary),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -590,9 +572,7 @@ class _TotalBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
       decoration: const BoxDecoration(
         color: AppColors.surface,
-        border: Border(
-          top: BorderSide(color: AppColors.neutral200),
-        ),
+        border: Border(top: BorderSide(color: AppColors.neutral200)),
       ),
       child: SafeArea(
         top: false,
@@ -605,10 +585,7 @@ class _TotalBar extends StatelessWidget {
                 children: [
                   const Text(
                     'Total Deductions',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: AppColors.neutral400,
-                    ),
+                    style: TextStyle(fontSize: 11, color: AppColors.neutral400),
                   ),
                   Text(
                     totalLabel,

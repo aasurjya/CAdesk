@@ -162,7 +162,8 @@ class EcrFileGenerator {
       grossWagesPaise: run.grossAfterLopPaise,
       epfWagesPaise: run.pfContribution.pfWagePaise,
       epsWagesPaise: run.pfContribution.pfWagePaise, // EPS = EPF wage per spec
-      edliWagesPaise: run.pfContribution.pfWagePaise, // EDLI = EPF wage per spec
+      edliWagesPaise:
+          run.pfContribution.pfWagePaise, // EDLI = EPF wage per spec
       employeeEpfPaise: run.pfContribution.employeeSharePaise,
       employerEpsPaise: run.pfContribution.employerEpsPaise,
       employerEpfPaise: run.pfContribution.employerEpfPaise,

@@ -42,9 +42,7 @@ class ItrExportEngine {
   static ItrType detectItrType(Object formData) {
     if (formData is Itr1FormData) return ItrType.itr1;
     if (formData is Itr2FormData) return ItrType.itr2;
-    throw ArgumentError(
-      'Cannot detect ITR type for ${formData.runtimeType}.',
-    );
+    throw ArgumentError('Cannot detect ITR type for ${formData.runtimeType}.');
   }
 
   /// Computes the SHA-256 hex checksum of [jsonPayload].

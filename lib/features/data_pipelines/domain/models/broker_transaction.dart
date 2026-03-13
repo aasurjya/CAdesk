@@ -12,26 +12,10 @@ enum Broker {
 }
 
 /// Asset class of the traded instrument.
-enum AssetType {
-  equity,
-  mutualFund,
-  ncd,
-  bond,
-  etf,
-  derivative,
-  commodity,
-}
+enum AssetType { equity, mutualFund, ncd, bond, etf, derivative, commodity }
 
 /// Type of transaction.
-enum TransactionType {
-  buy,
-  sell,
-  dividend,
-  bonus,
-  split,
-  merger,
-  redemption,
-}
+enum TransactionType { buy, sell, dividend, bonus, split, merger, redemption }
 
 /// Immutable model representing a single broker transaction.
 ///

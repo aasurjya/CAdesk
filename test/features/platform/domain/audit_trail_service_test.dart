@@ -145,12 +145,24 @@ void main() {
 
     test('filters by date range when from and to are provided', () {
       final base = DateTime(2025, 6, 1);
-      service.log('user-1', 'Alice', 'BEFORE',
-          overrideTimestamp: base.subtract(const Duration(days: 2)));
-      service.log('user-1', 'Alice', 'WITHIN',
-          overrideTimestamp: base.add(const Duration(days: 1)));
-      service.log('user-1', 'Alice', 'AFTER',
-          overrideTimestamp: base.add(const Duration(days: 10)));
+      service.log(
+        'user-1',
+        'Alice',
+        'BEFORE',
+        overrideTimestamp: base.subtract(const Duration(days: 2)),
+      );
+      service.log(
+        'user-1',
+        'Alice',
+        'WITHIN',
+        overrideTimestamp: base.add(const Duration(days: 1)),
+      );
+      service.log(
+        'user-1',
+        'Alice',
+        'AFTER',
+        overrideTimestamp: base.add(const Duration(days: 10)),
+      );
 
       final logs = service.getLogsForUser(
         'user-1',

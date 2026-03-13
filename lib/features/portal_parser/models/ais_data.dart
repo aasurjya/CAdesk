@@ -53,7 +53,8 @@ class AisData {
       salarySources: salarySources ?? this.salarySources,
       dividendSources: dividendSources ?? this.dividendSources,
       interestSources: interestSources ?? this.interestSources,
-      capitalGainTransactions: capitalGainTransactions ?? this.capitalGainTransactions,
+      capitalGainTransactions:
+          capitalGainTransactions ?? this.capitalGainTransactions,
       foreignRemittances: foreignRemittances ?? this.foreignRemittances,
     );
   }

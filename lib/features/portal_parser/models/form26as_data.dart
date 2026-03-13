@@ -62,7 +62,8 @@ class Form26AsData {
       tdsEntries: tdsEntries ?? this.tdsEntries,
       tcsTcsEntries: tcsTcsEntries ?? this.tcsTcsEntries,
       advanceTaxEntries: advanceTaxEntries ?? this.advanceTaxEntries,
-      selfAssessmentEntries: selfAssessmentEntries ?? this.selfAssessmentEntries,
+      selfAssessmentEntries:
+          selfAssessmentEntries ?? this.selfAssessmentEntries,
       refundEntries: refundEntries ?? this.refundEntries,
       totalTdsCredited: totalTdsCredited ?? this.totalTdsCredited,
       totalTcsCredited: totalTcsCredited ?? this.totalTcsCredited,

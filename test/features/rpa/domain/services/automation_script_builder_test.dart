@@ -79,8 +79,7 @@ void main() {
 
         final fyStep = script.steps.firstWhere(
           (s) =>
-              s.action == StepAction.select &&
-              s.selector == '#financialYear',
+              s.action == StepAction.select && s.selector == '#financialYear',
         );
         expect(fyStep, isNotNull);
         expect(fyStep.value, contains('2024'));

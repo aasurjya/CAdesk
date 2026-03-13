@@ -1,14 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 /// Tax / duty category affected by the rate change.
-enum RateCategory {
-  incomeTax,
-  gst,
-  tds,
-  tcs,
-  customs,
-  stampDuty,
-}
+enum RateCategory { incomeTax, gst, tds, tcs, customs, stampDuty }
 
 /// Immutable model representing a change in a tax rate, duty, or threshold
 /// introduced by a statutory instrument (Finance Act, Notification, etc.).

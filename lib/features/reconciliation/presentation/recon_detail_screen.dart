@@ -88,20 +88,20 @@ class _ReconDetailScreenState extends ConsumerState<ReconDetailScreen> {
   void _handleAction(String action) {
     final updatedEntry = switch (action) {
       'accept_ais' => _entry.copyWith(
-          amountItr: _entry.amountAis,
-          amount26as: _entry.amount26as > 0 ? _entry.amount26as : _entry.amountAis,
-          status: ReconEntryStatus.matched,
-          notes: '${_notesController.text}\nAccepted AIS value'.trim(),
-        ),
+        amountItr: _entry.amountAis,
+        amount26as: _entry.amount26as > 0
+            ? _entry.amount26as
+            : _entry.amountAis,
+        status: ReconEntryStatus.matched,
+        notes: '${_notesController.text}\nAccepted AIS value'.trim(),
+      ),
       'accept_26as' => _entry.copyWith(
-          amountItr: _entry.amount26as,
-          amountAis: _entry.amountAis > 0 ? _entry.amountAis : _entry.amount26as,
-          status: ReconEntryStatus.matched,
-          notes: '${_notesController.text}\nAccepted 26AS value'.trim(),
-        ),
-      _ => _entry.copyWith(
-          notes: _notesController.text,
-        ),
+        amountItr: _entry.amount26as,
+        amountAis: _entry.amountAis > 0 ? _entry.amountAis : _entry.amount26as,
+        status: ReconEntryStatus.matched,
+        notes: '${_notesController.text}\nAccepted 26AS value'.trim(),
+      ),
+      _ => _entry.copyWith(notes: _notesController.text),
     };
 
     ref.read(reconResultsProvider.notifier).updateEntry(updatedEntry);
@@ -192,14 +192,8 @@ class _WideDetailLayout extends StatelessWidget {
                     label: '26AS',
                     amountPaise: entry.amount26as,
                   ),
-                  ComparisonColumn(
-                    label: 'AIS',
-                    amountPaise: entry.amountAis,
-                  ),
-                  ComparisonColumn(
-                    label: 'ITR',
-                    amountPaise: entry.amountItr,
-                  ),
+                  ComparisonColumn(label: 'AIS', amountPaise: entry.amountAis),
+                  ComparisonColumn(label: 'ITR', amountPaise: entry.amountItr),
                 ],
               ),
             ],
@@ -278,8 +272,14 @@ class _StatusHeader extends StatelessWidget {
   static (String, Color) _resolve(ReconEntryStatus status) {
     return switch (status) {
       ReconEntryStatus.matched => ('All sources matched', AppColors.success),
-      ReconEntryStatus.mismatched => ('Amounts differ across sources', AppColors.warning),
-      ReconEntryStatus.missingIn26as => ('Not found in Form 26AS', AppColors.error),
+      ReconEntryStatus.mismatched => (
+        'Amounts differ across sources',
+        AppColors.warning,
+      ),
+      ReconEntryStatus.missingIn26as => (
+        'Not found in Form 26AS',
+        AppColors.error,
+      ),
       ReconEntryStatus.missingInAis => ('Not found in AIS', AppColors.error),
       ReconEntryStatus.missingInItr => ('Not declared in ITR', AppColors.error),
     };
@@ -347,10 +347,7 @@ class _ActionButtons extends StatelessWidget {
 }
 
 class _NotesField extends StatelessWidget {
-  const _NotesField({
-    required this.controller,
-    required this.onAction,
-  });
+  const _NotesField({required this.controller, required this.onAction});
 
   final TextEditingController controller;
   final void Function(String) onAction;

@@ -1,13 +1,7 @@
 import 'package:ca_app/features/bulk_operations/domain/models/batch_job_item.dart';
 
 /// Type of work performed by a [BatchJob].
-enum JobType {
-  itrFiling,
-  gstFiling,
-  tdsFiling,
-  bulkExport,
-  bulkSigning,
-}
+enum JobType { itrFiling, gstFiling, tdsFiling, bulkExport, bulkSigning }
 
 /// Priority level for scheduling a [BatchJob].
 ///
@@ -25,14 +19,7 @@ enum JobPriority {
 }
 
 /// Lifecycle status of a [BatchJob].
-enum JobStatus {
-  queued,
-  running,
-  paused,
-  completed,
-  failed,
-  cancelled,
-}
+enum JobStatus { queued, running, paused, completed, failed, cancelled }
 
 /// Immutable model representing a batch of related filing or export operations.
 ///
@@ -94,8 +81,7 @@ class BatchJob {
   /// Fraction of items completed, in the range [0.0, 1.0].
   ///
   /// Returns 0.0 when there are no items to avoid division by zero.
-  double get progress =>
-      totalItems == 0 ? 0.0 : completedItems / totalItems;
+  double get progress => totalItems == 0 ? 0.0 : completedItems / totalItems;
 
   // ── Immutable update ───────────────────────────────────────────────────────
 

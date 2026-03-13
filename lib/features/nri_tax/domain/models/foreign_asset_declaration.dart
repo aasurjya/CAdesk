@@ -78,13 +78,13 @@ class ForeignAssetDeclaration {
 
   @override
   int get hashCode => Object.hash(
-        pan,
-        financialYear,
-        Object.hashAll(assets),
-        totalForeignAssetValue,
-        requiresScheduleFA,
-        requiresFbar,
-      );
+    pan,
+    financialYear,
+    Object.hashAll(assets),
+    totalForeignAssetValue,
+    requiresScheduleFA,
+    requiresFbar,
+  );
 
   @override
   String toString() =>

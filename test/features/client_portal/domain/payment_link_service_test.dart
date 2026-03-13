@@ -75,12 +75,15 @@ void main() {
     });
 
     test('PaymentLinkStatus enum has all expected values', () {
-      expect(PaymentLinkStatus.values, containsAll([
-        PaymentLinkStatus.active,
-        PaymentLinkStatus.paid,
-        PaymentLinkStatus.expired,
-        PaymentLinkStatus.cancelled,
-      ]));
+      expect(
+        PaymentLinkStatus.values,
+        containsAll([
+          PaymentLinkStatus.active,
+          PaymentLinkStatus.paid,
+          PaymentLinkStatus.expired,
+          PaymentLinkStatus.cancelled,
+        ]),
+      );
     });
   });
 
@@ -136,7 +139,12 @@ void main() {
     });
 
     test('generateUpiLink encodes special characters in description', () {
-      final link = service.createPaymentLink('c1', 'inv1', 50000, 'GST & filing');
+      final link = service.createPaymentLink(
+        'c1',
+        'inv1',
+        50000,
+        'GST & filing',
+      );
       final upiLink = service.generateUpiLink(link, 'ca@upi');
       expect(upiLink, isNotEmpty);
       expect(upiLink, startsWith('upi://pay?'));

@@ -123,8 +123,9 @@ void main() {
     late SigningRequest pendingRequest;
 
     setUp(() {
-      testCert = DscSigningService.detectAvailableTokens()
-          .firstWhere((c) => c.serialNumber == 'TEST001');
+      testCert = DscSigningService.detectAvailableTokens().firstWhere(
+        (c) => c.serialNumber == 'TEST001',
+      );
       pendingRequest = DscSigningService.createSigningRequest(
         'deadbeef1234567890abcdef',
         DocumentType.itrV,
@@ -170,7 +171,10 @@ void main() {
         validTo: DateTime(2021),
         keyUsage: const ['digitalSignature', 'nonRepudiation'],
       );
-      final result = DscSigningService.signDocument(pendingRequest, expiredCert);
+      final result = DscSigningService.signDocument(
+        pendingRequest,
+        expiredCert,
+      );
       expect(result.status, SigningStatus.failed);
     });
 
@@ -184,7 +188,10 @@ void main() {
         validTo: DateTime.now().add(const Duration(days: 365)),
         keyUsage: const ['keyEncipherment'],
       );
-      final result = DscSigningService.signDocument(pendingRequest, invalidCert);
+      final result = DscSigningService.signDocument(
+        pendingRequest,
+        invalidCert,
+      );
       expect(result.status, SigningStatus.failed);
     });
   });
@@ -195,8 +202,9 @@ void main() {
     late DscCertificate testCert;
 
     setUp(() {
-      testCert = DscSigningService.detectAvailableTokens()
-          .firstWhere((c) => c.serialNumber == 'TEST001');
+      testCert = DscSigningService.detectAvailableTokens().firstWhere(
+        (c) => c.serialNumber == 'TEST001',
+      );
     });
 
     test('verifies a correctly signed request → true', () {
@@ -236,8 +244,9 @@ void main() {
 
   group('DscSigningService.isTokenValid', () {
     test('valid test certificate → true', () {
-      final cert = DscSigningService.detectAvailableTokens()
-          .firstWhere((c) => c.serialNumber == 'TEST001');
+      final cert = DscSigningService.detectAvailableTokens().firstWhere(
+        (c) => c.serialNumber == 'TEST001',
+      );
       expect(DscSigningService.isTokenValid(cert), isTrue);
     });
 

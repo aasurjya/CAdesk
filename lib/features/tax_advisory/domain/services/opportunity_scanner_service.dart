@@ -18,12 +18,14 @@ class OpportunityScannerService {
   static const int _section80cLimit = 15000000; // ₹1,50,000
   static const int _section80dSelfFamily = 2500000; // ₹25,000
   static const int _section80ttbSenior = 5000000; // ₹50,000
-  static const int _gstThreshold = 200000000; // ₹20,00,000 (20L) = 200,000,000 paise
+  static const int _gstThreshold =
+      200000000; // ₹20,00,000 (20L) = 200,000,000 paise
 
   // ₹3.75L — break-even deductions for old vs new regime
   static const int _regimeBreakevenDeductions = 37500000;
 
-  static const int _scheduleAlThreshold = 500000000; // ₹50,00,000 (50L) = 500,000,000 paise
+  static const int _scheduleAlThreshold =
+      500000000; // ₹50,00,000 (50L) = 500,000,000 paise
 
   // Urgency score weights for scoring
   static const Map<OpportunityUrgency, double> _urgencyWeights = {
@@ -60,8 +62,7 @@ class OpportunityScannerService {
   ///
   /// Returns a value in [0.0, 1.0] combining confidence and urgency weight.
   double scoreOpportunity(TaxOpportunity opp, ClientProfile profile) {
-    final urgencyWeight =
-        _urgencyWeights[opp.urgency] ?? 0.5;
+    final urgencyWeight = _urgencyWeights[opp.urgency] ?? 0.5;
 
     // Weighted combination: 70% confidence, 30% urgency
     final raw = (opp.confidence * 0.7) + (urgencyWeight * 0.3);
@@ -120,7 +121,9 @@ class OpportunityScannerService {
     if (profile.currentDeductions >= _section80dSelfFamily) return const [];
 
     final isSenior = profile.ageGroup == AgeGroup.above60;
-    final selfLimit = isSenior ? 5000000 : _section80dSelfFamily; // ₹50K or ₹25K
+    final selfLimit = isSenior
+        ? 5000000
+        : _section80dSelfFamily; // ₹50K or ₹25K
     final marginalRate = _marginalRate(profile.annualIncome);
     final saving = (selfLimit * marginalRate).round();
 
