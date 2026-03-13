@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   // ── Helpers ──────────────────────────────────────────────────────────
 
-  EInvoiceRequest _buildRequest({
+  EInvoiceRequest buildRequest({
     double totInvVal = 60000.0,
     double igstVal = 0.0,
     EInvoiceIsServc isServc = EInvoiceIsServc.no,
@@ -72,17 +72,17 @@ void main() {
 
   group('EWayBillService.isEWayBillRequired', () {
     test('returns true when value > 50000 with goods and interstate', () {
-      final req = _buildRequest(totInvVal: 60000.0);
+      final req = buildRequest(totInvVal: 60000.0);
       expect(EWayBillService.isEWayBillRequired(req), isTrue);
     });
 
     test('returns false when value <= 50000', () {
-      final req = _buildRequest(totInvVal: 40000.0);
+      final req = buildRequest(totInvVal: 40000.0);
       expect(EWayBillService.isEWayBillRequired(req), isFalse);
     });
 
     test('returns false when all items are services', () {
-      final req = _buildRequest(
+      final req = buildRequest(
         totInvVal: 60000.0,
         isServc: EInvoiceIsServc.yes,
       );
@@ -90,7 +90,7 @@ void main() {
     });
 
     test('returns true when value exactly 50001', () {
-      final req = _buildRequest(totInvVal: 50001.0);
+      final req = buildRequest(totInvVal: 50001.0);
       expect(EWayBillService.isEWayBillRequired(req), isTrue);
     });
   });
@@ -111,7 +111,7 @@ void main() {
 
   group('EWayBillService.buildEWayBillPayload', () {
     test('returns map with required keys', () {
-      final req = _buildRequest(totInvVal: 60000.0);
+      final req = buildRequest(totInvVal: 60000.0);
       final payload = EWayBillService.buildEWayBillPayload(
         req,
         '1',
@@ -128,19 +128,19 @@ void main() {
     });
 
     test('docNo matches invoice number', () {
-      final req = _buildRequest(totInvVal: 60000.0);
+      final req = buildRequest(totInvVal: 60000.0);
       final payload = EWayBillService.buildEWayBillPayload(req, '1', 'VH0001');
       expect(payload['docNo'], equals('INV001'));
     });
 
     test('fromGstin matches seller GSTIN', () {
-      final req = _buildRequest(totInvVal: 60000.0);
+      final req = buildRequest(totInvVal: 60000.0);
       final payload = EWayBillService.buildEWayBillPayload(req, '1', 'VH0001');
       expect(payload['fromGstin'], equals(req.sellerDtls.gstin));
     });
 
     test('toGstin matches buyer GSTIN', () {
-      final req = _buildRequest(totInvVal: 60000.0);
+      final req = buildRequest(totInvVal: 60000.0);
       final payload = EWayBillService.buildEWayBillPayload(req, '1', 'VH0001');
       expect(payload['toGstin'], equals(req.buyerDtls.gstin));
     });

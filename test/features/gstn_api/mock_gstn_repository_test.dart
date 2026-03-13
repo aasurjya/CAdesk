@@ -3,7 +3,6 @@ import 'package:ca_app/features/gstn_api/data/mock_gstn_repository.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_filing_status.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_verification_result.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstr2b_fetch_result.dart';
-import 'package:ca_app/features/gstn_api/domain/models/gstn_token.dart';
 
 void main() {
   late MockGstnRepository repo;

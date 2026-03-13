@@ -38,7 +38,7 @@ void main() {
           List.generate(5, (_) => 65 + (i % 26)),
         );
         final digits = (1000 + i % 9000).toString();
-        return '${letters}${digits}A';
+        return '$letters${digits}A';
       });
       final results = await processor.batchVerifyPans(pans, repo);
       expect(results.length, 50);
@@ -50,7 +50,7 @@ void main() {
         final c1 = String.fromCharCode(65 + i ~/ 26 % 26);
         final c2 = String.fromCharCode(65 + i % 26);
         final digits = (1000 + (i % 9000)).toString().padLeft(4, '0');
-        return 'A${c1}${c2}DE${digits}F';
+        return 'A$c1${c2}DE${digits}F';
       });
       final results = await processor.batchVerifyPans(pans, repo);
       expect(results.length, 75);
@@ -104,7 +104,7 @@ void main() {
         final c1 = String.fromCharCode(65 + i ~/ 26 % 26);
         final c2 = String.fromCharCode(65 + i % 26);
         final digits = (1000 + (i % 9000)).toString().padLeft(4, '0');
-        return 'A${c1}${c2}DE${digits}F';
+        return 'A$c1${c2}DE${digits}F';
       });
       final results = await processor.batchRequestForm16(
         'MUMA12345B',

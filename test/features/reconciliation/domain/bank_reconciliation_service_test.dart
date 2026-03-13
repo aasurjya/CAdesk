@@ -7,7 +7,7 @@ void main() {
   final service = BankReconciliationService.instance;
 
   // Convenience helpers
-  BankTransaction _bankTx({
+  BankTransaction bankTx({
     required String id,
     required DateTime date,
     required int amount,
@@ -21,7 +21,7 @@ void main() {
         description: description,
       );
 
-  BookEntry _bookEntry({
+  BookEntry bookEntry({
     required String id,
     required DateTime date,
     required int amount,
@@ -42,9 +42,9 @@ void main() {
     group('matchTransactions', () {
       test('→ matched when date and amount are identical', () {
         final date = DateTime(2025, 4, 10);
-        final bank = _bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit);
         final books = [
-          _bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
+          bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.matched);
@@ -54,9 +54,9 @@ void main() {
       test('→ matched when date is within ±3 days', () {
         final bankDate = DateTime(2025, 4, 10);
         final bookDate = DateTime(2025, 4, 12); // +2 days
-        final bank = _bankTx(id: 'B2', date: bankDate, amount: 50000, type: TxType.debit);
+        final bank = bankTx(id: 'B2', date: bankDate, amount: 50000, type: TxType.debit);
         final books = [
-          _bookEntry(id: 'K2', date: bookDate, amount: 50000, type: TxType.debit),
+          bookEntry(id: 'K2', date: bookDate, amount: 50000, type: TxType.debit),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.matched);
@@ -65,9 +65,9 @@ void main() {
       test('→ unmatchedInBank when no book entry within ±3 days', () {
         final bankDate = DateTime(2025, 4, 10);
         final bookDate = DateTime(2025, 4, 20); // 10 days away
-        final bank = _bankTx(id: 'B3', date: bankDate, amount: 50000, type: TxType.debit);
+        final bank = bankTx(id: 'B3', date: bankDate, amount: 50000, type: TxType.debit);
         final books = [
-          _bookEntry(id: 'K3', date: bookDate, amount: 50000, type: TxType.debit),
+          bookEntry(id: 'K3', date: bookDate, amount: 50000, type: TxType.debit),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.unmatchedInBank);
@@ -75,9 +75,9 @@ void main() {
 
       test('→ unmatchedInBank when amount differs by more than ₹1 (100 paise)', () {
         final date = DateTime(2025, 4, 10);
-        final bank = _bankTx(id: 'B4', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(id: 'B4', date: date, amount: 100000, type: TxType.credit);
         final books = [
-          _bookEntry(id: 'K4', date: date, amount: 100200, type: TxType.credit), // ₹2 diff
+          bookEntry(id: 'K4', date: date, amount: 100200, type: TxType.credit), // ₹2 diff
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.unmatchedInBank);
@@ -85,9 +85,9 @@ void main() {
 
       test('→ matched when amount differs by exactly ₹1 (100 paise) — rounding', () {
         final date = DateTime(2025, 4, 10);
-        final bank = _bankTx(id: 'B5', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(id: 'B5', date: date, amount: 100000, type: TxType.credit);
         final books = [
-          _bookEntry(id: 'K5', date: date, amount: 100100, type: TxType.credit), // ₹1 diff
+          bookEntry(id: 'K5', date: date, amount: 100100, type: TxType.credit), // ₹1 diff
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.matched);
@@ -95,16 +95,16 @@ void main() {
 
       test('→ unmatchedInBank when Dr/Cr type differs', () {
         final date = DateTime(2025, 4, 10);
-        final bank = _bankTx(id: 'B6', date: date, amount: 100000, type: TxType.credit);
+        final bank = bankTx(id: 'B6', date: date, amount: 100000, type: TxType.credit);
         final books = [
-          _bookEntry(id: 'K6', date: date, amount: 100000, type: TxType.debit),
+          bookEntry(id: 'K6', date: date, amount: 100000, type: TxType.debit),
         ];
         final item = service.matchTransactions(bank, books);
         expect(item.status, ReconItemStatus.unmatchedInBank);
       });
 
       test('→ unmatchedInBank when books list is empty', () {
-        final bank = _bankTx(
+        final bank = bankTx(
           id: 'B7',
           date: DateTime(2025, 4, 1),
           amount: 5000,
@@ -122,12 +122,12 @@ void main() {
       test('→ isBalanced true when bank and book balances match', () {
         final date = DateTime(2025, 4, 5);
         final bankStmt = [
-          _bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
-          _bankTx(id: 'B2', date: date, amount: 50000, type: TxType.debit),
+          bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
+          bankTx(id: 'B2', date: date, amount: 50000, type: TxType.debit),
         ];
         final bookEntries = [
-          _bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
-          _bookEntry(id: 'K2', date: date, amount: 50000, type: TxType.debit),
+          bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
+          bookEntry(id: 'K2', date: date, amount: 50000, type: TxType.debit),
         ];
         final recon = service.reconcile(
           bankStatement: bankStmt,
@@ -159,7 +159,7 @@ void main() {
       test('→ unmatched bank transactions are in unreconciledItems', () {
         final date = DateTime(2025, 4, 5);
         final bankStmt = [
-          _bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
+          bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
         ];
         final recon = service.reconcile(
           bankStatement: bankStmt,
@@ -176,10 +176,10 @@ void main() {
       test('→ matched items are in reconciledItems', () {
         final date = DateTime(2025, 4, 5);
         final bankStmt = [
-          _bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
+          bankTx(id: 'B1', date: date, amount: 100000, type: TxType.credit),
         ];
         final bookEntries = [
-          _bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
+          bookEntry(id: 'K1', date: date, amount: 100000, type: TxType.credit),
         ];
         final recon = service.reconcile(
           bankStatement: bankStmt,

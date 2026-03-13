@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/gstn_api/data/mock_gstn_repository.dart';
-import 'package:ca_app/features/gstn_api/domain/models/gstn_filing_status.dart';
-import 'package:ca_app/features/gstn_api/domain/models/gstn_verification_result.dart';
 import 'package:ca_app/features/gstn_api/domain/services/gstn_bulk_processor.dart';
 
 void main() {

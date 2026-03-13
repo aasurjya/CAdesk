@@ -291,11 +291,13 @@ class SectionLookupService {
     return _articles.where((article) {
       for (final term in terms) {
         // Match on section numbers
-        if (article.sections.any((s) => s.toLowerCase().contains(term)))
+        if (article.sections.any((s) => s.toLowerCase().contains(term))) {
           return true;
+        }
         // Match on keywords
-        if (article.keywords.any((k) => k.toLowerCase().contains(term)))
+        if (article.keywords.any((k) => k.toLowerCase().contains(term))) {
           return true;
+        }
         // Match on title/content
         if (article.title.toLowerCase().contains(term)) return true;
         if (article.content.toLowerCase().contains(term)) return true;

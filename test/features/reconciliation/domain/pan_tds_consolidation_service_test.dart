@@ -11,7 +11,7 @@ void main() {
   // Test data helpers
   // ---------------------------------------------------------------------------
 
-  Form26AsData _makeForm26AsWithEntries(List<_DeductorEntry> entries) =>
+  Form26AsData makeForm26AsWithEntries(List<_DeductorEntry> entries) =>
       Form26AsData(
         totalIncome: entries.fold(0, (s, e) => s + e.grossAmount),
         entries: entries
@@ -33,7 +33,7 @@ void main() {
     // -----------------------------------------------------------------------
     group('groupByDeductor', () {
       test('→ groups entries by TAN', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('ABC Ltd', 'TAN001', 500000, 50000, 50000),
           _DeductorEntry('ABC Ltd', 'TAN001', 300000, 30000, 30000),
           _DeductorEntry('XYZ Ltd', 'TAN002', 1000000, 100000, 100000),
@@ -45,7 +45,7 @@ void main() {
       });
 
       test('→ single entry per TAN', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Only Co', 'TAN999', 200000, 20000, 20000),
         ]);
         final grouped = service.groupByDeductor(data);
@@ -72,7 +72,7 @@ void main() {
       });
 
       test('→ totalTdsDeducted sums across all deductors', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
@@ -81,7 +81,7 @@ void main() {
       });
 
       test('→ totalTdsCredited sums across all deductors', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Co A', 'TAN001', 500000, 50000, 40000), // ₹100 short credit
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
@@ -90,7 +90,7 @@ void main() {
       });
 
       test('→ shortfall = deducted - credited', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Co A', 'TAN001', 500000, 50000, 30000), // shortfall 20000
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
@@ -99,7 +99,7 @@ void main() {
       });
 
       test('→ zero shortfall when all TDS is credited', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
           _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
@@ -108,7 +108,7 @@ void main() {
       });
 
       test('→ deductorWiseSummary has one entry per unique TAN', () {
-        final data = _makeForm26AsWithEntries([
+        final data = makeForm26AsWithEntries([
           _DeductorEntry('Co A', 'TAN001', 100000, 10000, 10000),
           _DeductorEntry('Co A', 'TAN001', 200000, 20000, 20000), // same TAN
           _DeductorEntry('Co B', 'TAN002', 500000, 50000, 50000),

@@ -11,7 +11,7 @@ void main() {
     });
 
     // Helper to build a minimal GstrExportResult
-    GstrExportResult _validGstr1Result({String payload = '{"gstin":"29AABCT1332L1ZB","fp":"032024","b2b":[]}'}) =>
+    GstrExportResult validGstr1Result({String payload = '{"gstin":"29AABCT1332L1ZB","fp":"032024","b2b":[]}'}) =>
         GstrExportResult(
           returnType: GstrReturnType.gstr1,
           gstin: '29AABCT1332L1ZB',
@@ -22,7 +22,7 @@ void main() {
           validationErrors: const [],
         );
 
-    GstrExportResult _validGstr3bResult({String payload = '{"gstin":"29AABCT1332L1ZB","ret_period":"032024"}'}) =>
+    GstrExportResult validGstr3bResult({String payload = '{"gstin":"29AABCT1332L1ZB","ret_period":"032024"}'}) =>
         GstrExportResult(
           returnType: GstrReturnType.gstr3b,
           gstin: '29AABCT1332L1ZB',
@@ -115,19 +115,19 @@ void main() {
 
     group('validateGstr1', () {
       test('valid GSTR-1 result returns empty error list', () {
-        final errors = validator.validateGstr1(_validGstr1Result());
+        final errors = validator.validateGstr1(validGstr1Result());
         expect(errors, isEmpty);
       });
 
       test('invalid GSTIN in result returns error', () {
-        final result = _validGstr1Result().copyWith(gstin: 'INVALID');
+        final result = validGstr1Result().copyWith(gstin: 'INVALID');
         final errors = validator.validateGstr1(result);
         expect(errors, isNotEmpty);
         expect(errors.any((e) => e.contains('GSTIN')), isTrue);
       });
 
       test('invalid period in result returns error', () {
-        final result = _validGstr1Result().copyWith(period: '132024');
+        final result = validGstr1Result().copyWith(period: '132024');
         final errors = validator.validateGstr1(result);
         expect(errors, isNotEmpty);
         expect(errors.any((e) => e.toLowerCase().contains('period')), isTrue);
@@ -168,7 +168,7 @@ void main() {
     }
   ]
 }''';
-        final result = _validGstr1Result(payload: payload);
+        final result = validGstr1Result(payload: payload);
         final errors = validator.validateGstr1(result);
         expect(errors.any((e) => e.toLowerCase().contains('negative')), isTrue);
       });
@@ -176,19 +176,19 @@ void main() {
 
     group('validateGstr3b', () {
       test('valid GSTR-3B result returns empty error list', () {
-        final errors = validator.validateGstr3b(_validGstr3bResult());
+        final errors = validator.validateGstr3b(validGstr3bResult());
         expect(errors, isEmpty);
       });
 
       test('invalid GSTIN in result returns error', () {
-        final result = _validGstr3bResult().copyWith(gstin: 'INVALID');
+        final result = validGstr3bResult().copyWith(gstin: 'INVALID');
         final errors = validator.validateGstr3b(result);
         expect(errors, isNotEmpty);
         expect(errors.any((e) => e.contains('GSTIN')), isTrue);
       });
 
       test('invalid period in result returns error', () {
-        final result = _validGstr3bResult().copyWith(period: '002024');
+        final result = validGstr3bResult().copyWith(period: '002024');
         final errors = validator.validateGstr3b(result);
         expect(errors, isNotEmpty);
       });
@@ -216,7 +216,7 @@ void main() {
     "osup_det": {"txval": "1000.00", "iamt": "0.00", "camt": "-90.00", "samt": "90.00", "csamt": "0.00"}
   }
 }''';
-        final result = _validGstr3bResult(payload: payload);
+        final result = validGstr3bResult(payload: payload);
         final errors = validator.validateGstr3b(result);
         expect(errors.any((e) => e.toLowerCase().contains('negative')), isTrue);
       });

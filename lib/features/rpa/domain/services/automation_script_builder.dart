@@ -1,6 +1,5 @@
 import 'package:ca_app/features/rpa/domain/models/automation_script.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_step.dart';
-import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 
 /// Builds pre-defined [AutomationScript] instances for common CA portal tasks.
 ///

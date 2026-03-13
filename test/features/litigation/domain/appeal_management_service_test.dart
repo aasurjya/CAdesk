@@ -9,7 +9,7 @@ void main() {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  TaxNotice _makeNotice({
+  TaxNotice makeNotice({
     String noticeId = 'N001',
     NoticeType noticeType = NoticeType.assessment143_3,
     int demandAmount = 50_000_000, // ₹5L
@@ -36,7 +36,7 @@ void main() {
 
   group('AppealManagementService.createAppeal', () {
     test('creates appeal with correct PAN and AY from notice', () {
-      final notice = _makeNotice(pan: 'XYZPQ9876G', assessmentYear: '2022-23');
+      final notice = makeNotice(pan: 'XYZPQ9876G', assessmentYear: '2022-23');
       final appeal = AppealManagementService.createAppeal(
         notice,
         'Addition without jurisdiction',
@@ -46,43 +46,43 @@ void main() {
     });
 
     test('new appeal starts at CIT(A) forum', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.currentForum, AppealForum.cita);
     });
 
     test('new appeal status is pending', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.status, AppealStatus.pending);
     });
 
     test('originalDemand matches notice demandAmount', () {
-      final notice = _makeNotice(demandAmount: 80_000_000);
+      final notice = makeNotice(demandAmount: 80_000_000);
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.originalDemand, 80_000_000);
     });
 
     test('amountInDispute defaults to originalDemand on creation', () {
-      final notice = _makeNotice(demandAmount: 30_000_000);
+      final notice = makeNotice(demandAmount: 30_000_000);
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.amountInDispute, 30_000_000);
     });
 
     test('filingDate is set', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.filingDate, isNotNull);
     });
 
     test('history is empty on creation', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.history, isEmpty);
     });
 
     test('caseId is non-empty', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final appeal = AppealManagementService.createAppeal(notice, 'grounds');
       expect(appeal.caseId, isNotEmpty);
     });
@@ -93,15 +93,15 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('AppealManagementService.transitionAppeal', () {
-    AppealCase _baseAppeal() {
+    AppealCase baseAppeal() {
       return AppealManagementService.createAppeal(
-        _makeNotice(),
+        makeNotice(),
         'Test grounds',
       );
     }
 
     test('filed event keeps status pending', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.filed,
@@ -110,7 +110,7 @@ void main() {
     });
 
     test('admitted event updates status to admitted', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.admitted,
@@ -119,7 +119,7 @@ void main() {
     });
 
     test('hearingScheduled event sets hearingDate', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.hearingScheduled,
@@ -129,7 +129,7 @@ void main() {
     });
 
     test('orderPassed with partial relief → partialRelief status', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.orderPassed,
@@ -142,7 +142,7 @@ void main() {
     });
 
     test('orderPassed with full relief → fullRelief status', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.orderPassed,
@@ -155,7 +155,7 @@ void main() {
     });
 
     test('orderPassed dismissed → dismissed status', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.orderPassed,
@@ -168,7 +168,7 @@ void main() {
     });
 
     test('furtherAppeal transitions forum from CIT(A) to ITAT', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final withOrder = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.orderPassed,
@@ -225,7 +225,7 @@ void main() {
     });
 
     test('withdrawn event → withdrawn status', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.withdrawn,
@@ -234,14 +234,14 @@ void main() {
     });
 
     test('transition is immutable — original not mutated', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final originalStatus = appeal.status;
       AppealManagementService.transitionAppeal(appeal, AppealEvent.admitted);
       expect(appeal.status, originalStatus);
     });
 
     test('orderPassed appends stage to history', () {
-      final appeal = _baseAppeal();
+      final appeal = baseAppeal();
       final updated = AppealManagementService.transitionAppeal(
         appeal,
         AppealEvent.orderPassed,

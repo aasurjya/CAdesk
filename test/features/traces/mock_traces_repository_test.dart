@@ -3,7 +3,6 @@ import 'package:ca_app/features/traces/data/mock_traces_repository.dart';
 import 'package:ca_app/features/traces/domain/models/traces_pan_verification.dart';
 import 'package:ca_app/features/traces/domain/models/traces_challan_status.dart';
 import 'package:ca_app/features/traces/domain/models/traces_form16_request.dart';
-import 'package:ca_app/features/traces/domain/models/traces_justification_report.dart';
 
 void main() {
   late MockTracesRepository repo;
@@ -74,7 +73,6 @@ void main() {
     });
 
     test('consumed amount equals deposited amount', () async {
-      const depositedAmount = 50000;
       final result = await repo.getChallanStatus(
         '0001234',
         DateTime(2024, 4, 1),

@@ -1,6 +1,5 @@
 import 'package:ca_app/features/rpa/domain/models/automation_script.dart';
 import 'package:ca_app/features/rpa/domain/models/automation_step.dart';
-import 'package:ca_app/features/rpa/domain/models/automation_task.dart';
 import 'package:ca_app/features/rpa/domain/services/automation_script_builder.dart';
 import 'package:ca_app/features/rpa/domain/services/portal_automation_service.dart';
 import 'package:flutter_test/flutter_test.dart';

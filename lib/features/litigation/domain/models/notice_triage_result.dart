@@ -1,4 +1,3 @@
-import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
 
 export 'package:ca_app/features/litigation/domain/models/tax_notice.dart'
     show UrgencyLevel;

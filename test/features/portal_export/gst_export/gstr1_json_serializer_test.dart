@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:ca_app/features/gst/domain/models/gstr1/gstr1_at.dart';
 import 'package:ca_app/features/gst/domain/models/gstr1/gstr1_b2b_invoice.dart';
 import 'package:ca_app/features/gst/domain/models/gstr1/gstr1_b2c_invoice.dart';
 import 'package:ca_app/features/gst/domain/models/gstr1/gstr1_cdnr.dart';
@@ -18,7 +17,7 @@ void main() {
       serializer = Gstr1JsonSerializer.instance;
     });
 
-    Gstr1FormData _emptyForm() => const Gstr1FormData(
+    Gstr1FormData emptyForm() => const Gstr1FormData(
       gstin: '29AABCT1332L1ZB',
       periodMonth: 3,
       periodYear: 2024,
@@ -30,7 +29,7 @@ void main() {
       advanceTax: [],
     );
 
-    Gstr1B2bInvoice _b2bInvoice() => Gstr1B2bInvoice(
+    Gstr1B2bInvoice b2bInvoice() => Gstr1B2bInvoice(
       invoiceNumber: 'INV001',
       invoiceDate: DateTime(2024, 3, 1),
       recipientGstin: '01AABCE2207R1Z5',
@@ -47,7 +46,7 @@ void main() {
       reverseCharge: false,
     );
 
-    Gstr1B2cInvoice _b2csInvoice() => Gstr1B2cInvoice(
+    Gstr1B2cInvoice b2csInvoice() => Gstr1B2cInvoice(
       invoiceDate: DateTime(2024, 3, 5),
       placeOfSupply: '29',
       isInterState: false,
@@ -60,7 +59,7 @@ void main() {
       category: B2cCategory.small,
     );
 
-    Gstr1B2cInvoice _b2clInvoice() => Gstr1B2cInvoice(
+    Gstr1B2cInvoice b2clInvoice() => Gstr1B2cInvoice(
       invoiceNumber: 'B2CL001',
       invoiceDate: DateTime(2024, 3, 10),
       placeOfSupply: '27',
@@ -74,7 +73,7 @@ void main() {
       category: B2cCategory.large,
     );
 
-    Gstr1Cdnr _cdnrNote() => Gstr1Cdnr(
+    Gstr1Cdnr cdnrNote() => Gstr1Cdnr(
       noteNumber: 'CN001',
       noteDate: DateTime(2024, 3, 15),
       noteType: CdnrNoteType.creditNote,
@@ -92,7 +91,7 @@ void main() {
       gstRate: 18.0,
     );
 
-    Gstr1Exp _exportInvoice() => Gstr1Exp(
+    Gstr1Exp exportInvoice() => Gstr1Exp(
       invoiceNumber: 'EXP001',
       invoiceDate: DateTime(2024, 3, 20),
       exportType: ExportType.withPayment,
@@ -112,67 +111,67 @@ void main() {
     });
 
     test('serialize returns GstrExportResult with returnType gstr1', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       expect(result.returnType, GstrReturnType.gstr1);
     });
 
     test('serialize sets gstin and period on result', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       expect(result.gstin, '29AABCT1332L1ZB');
       expect(result.period, '032024');
     });
 
     test('serialize produces valid JSON string', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       expect(() => jsonDecode(result.jsonPayload), returnsNormally);
     });
 
     test('JSON contains gstin field', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['gstin'], '29AABCT1332L1ZB');
     });
 
     test('JSON contains fp (filing period) field', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
       expect(json['fp'], '032024');
     });
 
     test('sectionCount is 0 for empty form data', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       expect(result.sectionCount, 0);
     });
 
     test('exportedAt is set to a recent DateTime', () {
       final before = DateTime.now();
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       final after = DateTime.now();
       expect(result.exportedAt.isAfter(before) || result.exportedAt.isAtSameMomentAs(before), isTrue);
       expect(result.exportedAt.isBefore(after) || result.exportedAt.isAtSameMomentAs(after), isTrue);
     });
 
     test('validationErrors is empty for valid form data', () {
-      final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+      final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
       expect(result.validationErrors, isEmpty);
     });
 
     group('b2b section', () {
       test('b2b section present when b2bInvoices non-empty', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2b'), isTrue);
       });
 
       test('b2b section absent when b2bInvoices empty', () {
-        final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2b'), isFalse);
       });
 
       test('b2b entry has ctin matching recipient GSTIN', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -181,7 +180,7 @@ void main() {
       });
 
       test('b2b invoice has correct inum', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -191,7 +190,7 @@ void main() {
       });
 
       test('b2b invoice date formatted as DD-MM-YYYY', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -201,7 +200,7 @@ void main() {
       });
 
       test('b2b invoice val is total invoice value as string with 2 decimals', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -212,7 +211,7 @@ void main() {
       });
 
       test('b2b invoice pos is place of supply', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -222,8 +221,8 @@ void main() {
       });
 
       test('b2b invoice rchrg is Y for reverse charge', () {
-        final inv = _b2bInvoice().copyWith(reverseCharge: true);
-        final form = _emptyForm().copyWith(b2bInvoices: [inv]);
+        final inv = b2bInvoice().copyWith(reverseCharge: true);
+        final form = emptyForm().copyWith(b2bInvoices: [inv]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -233,7 +232,7 @@ void main() {
       });
 
       test('b2b invoice rchrg is N for non-reverse charge', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -243,7 +242,7 @@ void main() {
       });
 
       test('b2b invoice itms has num and itm_det with correct tax amounts', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -261,8 +260,8 @@ void main() {
       });
 
       test('two b2b invoices for same recipient are grouped under one ctin entry', () {
-        final inv2 = _b2bInvoice().copyWith(invoiceNumber: 'INV002');
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice(), inv2]);
+        final inv2 = b2bInvoice().copyWith(invoiceNumber: 'INV002');
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice(), inv2]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2b = json['b2b'] as List<Object?>;
@@ -273,7 +272,7 @@ void main() {
       });
 
       test('sectionCount increments when b2b present', () {
-        final form = _emptyForm().copyWith(b2bInvoices: [_b2bInvoice()]);
+        final form = emptyForm().copyWith(b2bInvoices: [b2bInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         expect(result.sectionCount, greaterThan(0));
       });
@@ -281,20 +280,20 @@ void main() {
 
     group('b2cs section', () {
       test('b2cs section present when B2CS invoices present', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2csInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2csInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2cs'), isTrue);
       });
 
       test('b2cs section absent when no B2CS invoices', () {
-        final result = serializer.serialize(_emptyForm(), '29AABCT1332L1ZB', '032024');
+        final result = serializer.serialize(emptyForm(), '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2cs'), isFalse);
       });
 
       test('b2cs entry has typ field set to OE', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2csInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2csInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2cs = json['b2cs'] as List<Object?>;
@@ -303,7 +302,7 @@ void main() {
       });
 
       test('b2cs entry has pos and rt', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2csInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2csInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2cs = json['b2cs'] as List<Object?>;
@@ -313,7 +312,7 @@ void main() {
       });
 
       test('b2cs entry has txval as string with 2 decimals', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2csInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2csInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2cs = json['b2cs'] as List<Object?>;
@@ -324,14 +323,14 @@ void main() {
 
     group('b2cl section', () {
       test('b2cl section present when B2CL invoices present', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2clInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2clInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('b2cl'), isTrue);
       });
 
       test('b2cl entry has pos and inv list', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2clInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2clInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2cl = json['b2cl'] as List<Object?>;
@@ -341,7 +340,7 @@ void main() {
       });
 
       test('b2cl invoice has inum idt val', () {
-        final form = _emptyForm().copyWith(b2cInvoices: [_b2clInvoice()]);
+        final form = emptyForm().copyWith(b2cInvoices: [b2clInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final b2cl = json['b2cl'] as List<Object?>;
@@ -356,14 +355,14 @@ void main() {
 
     group('cdnr section', () {
       test('cdnr section present when creditDebitNotes non-empty', () {
-        final form = _emptyForm().copyWith(creditDebitNotes: [_cdnrNote()]);
+        final form = emptyForm().copyWith(creditDebitNotes: [cdnrNote()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('cdnr'), isTrue);
       });
 
       test('cdnr entry has ctin', () {
-        final form = _emptyForm().copyWith(creditDebitNotes: [_cdnrNote()]);
+        final form = emptyForm().copyWith(creditDebitNotes: [cdnrNote()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final cdnr = json['cdnr'] as List<Object?>;
@@ -372,7 +371,7 @@ void main() {
       });
 
       test('cdnr note has ntNum ntDt ntty val', () {
-        final form = _emptyForm().copyWith(creditDebitNotes: [_cdnrNote()]);
+        final form = emptyForm().copyWith(creditDebitNotes: [cdnrNote()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final cdnr = json['cdnr'] as List<Object?>;
@@ -386,8 +385,8 @@ void main() {
       });
 
       test('debit note type maps to D', () {
-        final dn = _cdnrNote().copyWith(noteType: CdnrNoteType.debitNote);
-        final form = _emptyForm().copyWith(creditDebitNotes: [dn]);
+        final dn = cdnrNote().copyWith(noteType: CdnrNoteType.debitNote);
+        final form = emptyForm().copyWith(creditDebitNotes: [dn]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final cdnr = json['cdnr'] as List<Object?>;
@@ -399,14 +398,14 @@ void main() {
 
     group('exp section', () {
       test('exp section present when exports non-empty', () {
-        final form = _emptyForm().copyWith(exports: [_exportInvoice()]);
+        final form = emptyForm().copyWith(exports: [exportInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         expect(json.containsKey('exp'), isTrue);
       });
 
       test('exp entry has expTyp and inv list', () {
-        final form = _emptyForm().copyWith(exports: [_exportInvoice()]);
+        final form = emptyForm().copyWith(exports: [exportInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final exp = json['exp'] as List<Object?>;
@@ -416,7 +415,7 @@ void main() {
       });
 
       test('exp invoice has inum idt val sbNum sbDt', () {
-        final form = _emptyForm().copyWith(exports: [_exportInvoice()]);
+        final form = emptyForm().copyWith(exports: [exportInvoice()]);
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         final json = jsonDecode(result.jsonPayload) as Map<String, Object?>;
         final exp = json['exp'] as List<Object?>;
@@ -433,9 +432,9 @@ void main() {
 
     group('sectionCount', () {
       test('sectionCount reflects number of populated sections', () {
-        final form = _emptyForm().copyWith(
-          b2bInvoices: [_b2bInvoice()],
-          exports: [_exportInvoice()],
+        final form = emptyForm().copyWith(
+          b2bInvoices: [b2bInvoice()],
+          exports: [exportInvoice()],
         );
         final result = serializer.serialize(form, '29AABCT1332L1ZB', '032024');
         expect(result.sectionCount, 2);

@@ -8,7 +8,7 @@ void main() {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  TaxNotice _makeNotice({
+  TaxNotice makeNotice({
     String noticeId = 'N001',
     String pan = 'ABCDE1234F',
     String assessmentYear = '2023-24',
@@ -42,7 +42,7 @@ void main() {
 
   group('NoticeTriageService.assessRisk', () {
     test('demand > 10L (₹10,00,000 = 100000000 paise) → critical', () {
-      final notice = _makeNotice(demandAmount: 100_000_001);
+      final notice = makeNotice(demandAmount: 100_000_001);
       expect(
         NoticeTriageService.assessRisk(notice),
         RiskLevel.critical,
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('demand exactly 10L → critical (boundary)', () {
-      final notice = _makeNotice(demandAmount: 100_000_000);
+      final notice = makeNotice(demandAmount: 100_000_000);
       expect(
         NoticeTriageService.assessRisk(notice),
         RiskLevel.critical,
@@ -58,7 +58,7 @@ void main() {
     });
 
     test('search & seizure notice → critical regardless of demand', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.searchSeizure,
         demandAmount: 0,
       );
@@ -69,7 +69,7 @@ void main() {
     });
 
     test('demand between 1L and 10L → high', () {
-      final notice = _makeNotice(demandAmount: 50_000_000); // ₹5L
+      final notice = makeNotice(demandAmount: 50_000_000); // ₹5L
       expect(
         NoticeTriageService.assessRisk(notice),
         RiskLevel.high,
@@ -77,7 +77,7 @@ void main() {
     });
 
     test('demand exactly 1L (10000000 paise) → high (boundary)', () {
-      final notice = _makeNotice(demandAmount: 10_000_000);
+      final notice = makeNotice(demandAmount: 10_000_000);
       expect(
         NoticeTriageService.assessRisk(notice),
         RiskLevel.high,
@@ -85,7 +85,7 @@ void main() {
     });
 
     test('reopening notice 148 → high', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.reopening148,
         demandAmount: null,
       );
@@ -96,7 +96,7 @@ void main() {
     });
 
     test('143(1) intimation with small demand → medium', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.intimation143_1,
         demandAmount: 5_000_000, // ₹50k
       );
@@ -107,7 +107,7 @@ void main() {
     });
 
     test('penalty notice 156 → medium', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.penalty156,
         demandAmount: 1_000_000, // ₹10k
       );
@@ -118,7 +118,7 @@ void main() {
     });
 
     test('show cause notice with no demand → low', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.showCause,
         demandAmount: null,
       );
@@ -129,7 +129,7 @@ void main() {
     });
 
     test('null demand with non-critical type → low', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.intimation143_1,
         demandAmount: null,
       );
@@ -148,7 +148,7 @@ void main() {
     test('< 7 days to deadline → critical', () {
       final deadline = DateTime(2026, 3, 15);
       final today = DateTime(2026, 3, 10); // 5 days before
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.critical,
@@ -158,7 +158,7 @@ void main() {
     test('exactly 7 days to deadline → critical (boundary)', () {
       final deadline = DateTime(2026, 3, 17);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.critical,
@@ -168,7 +168,7 @@ void main() {
     test('8 days to deadline → high', () {
       final deadline = DateTime(2026, 3, 18);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.high,
@@ -178,7 +178,7 @@ void main() {
     test('15 days to deadline → high (boundary)', () {
       final deadline = DateTime(2026, 3, 25);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.high,
@@ -188,7 +188,7 @@ void main() {
     test('16 days to deadline → medium', () {
       final deadline = DateTime(2026, 3, 26);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.medium,
@@ -198,7 +198,7 @@ void main() {
     test('30 days to deadline → medium (boundary)', () {
       final deadline = DateTime(2026, 4, 9);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.medium,
@@ -208,7 +208,7 @@ void main() {
     test('31 days to deadline → low', () {
       final deadline = DateTime(2026, 4, 10);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.low,
@@ -218,7 +218,7 @@ void main() {
     test('past deadline → critical', () {
       final deadline = DateTime(2026, 3, 1);
       final today = DateTime(2026, 3, 10);
-      final notice = _makeNotice(responseDeadline: deadline);
+      final notice = makeNotice(responseDeadline: deadline);
       expect(
         NoticeTriageService.computeUrgency(notice, today),
         UrgencyLevel.critical,
@@ -232,7 +232,7 @@ void main() {
 
   group('NoticeTriageService.suggestGrounds', () {
     test('143(1) notice → TDS / advance tax / arithmetical error grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.intimation143_1);
+      final notice = makeNotice(noticeType: NoticeType.intimation143_1);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, contains('TDS credit mismatch'));
       expect(grounds, contains('Advance tax credit not given'));
@@ -240,7 +240,7 @@ void main() {
     });
 
     test('143(3) scrutiny → addition without jurisdiction etc.', () {
-      final notice = _makeNotice(noticeType: NoticeType.assessment143_3);
+      final notice = makeNotice(noticeType: NoticeType.assessment143_3);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, contains('Addition without jurisdiction'));
       expect(grounds, contains('No opportunity of hearing'));
@@ -248,7 +248,7 @@ void main() {
     });
 
     test('148 reopening → limitation / tangible material / change of opinion', () {
-      final notice = _makeNotice(noticeType: NoticeType.reopening148);
+      final notice = makeNotice(noticeType: NoticeType.reopening148);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, contains('Reassessment beyond limitation period'));
       expect(grounds, contains('No tangible material'));
@@ -256,7 +256,7 @@ void main() {
     });
 
     test('penalty notice 156 → bona fide / reasonable cause / no concealment', () {
-      final notice = _makeNotice(noticeType: NoticeType.penalty156);
+      final notice = makeNotice(noticeType: NoticeType.penalty156);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, contains('Bona fide belief'));
       expect(grounds, contains('Reasonable cause'));
@@ -264,25 +264,25 @@ void main() {
     });
 
     test('show cause notice → bona fide / reasonable cause grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.showCause);
+      final notice = makeNotice(noticeType: NoticeType.showCause);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });
 
     test('scrutiny 143(2) notice → grounds for scrutiny response', () {
-      final notice = _makeNotice(noticeType: NoticeType.scrutiny143_2);
+      final notice = makeNotice(noticeType: NoticeType.scrutiny143_2);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });
 
     test('high pitch assessment → high pitch grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.highPitchAssessment);
+      final notice = makeNotice(noticeType: NoticeType.highPitchAssessment);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });
 
     test('search & seizure → search/seizure grounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.searchSeizure);
+      final notice = makeNotice(noticeType: NoticeType.searchSeizure);
       final grounds = NoticeTriageService.suggestGrounds(notice);
       expect(grounds, isNotEmpty);
     });
@@ -294,13 +294,13 @@ void main() {
 
   group('NoticeTriageService.triage', () {
     test('returns NoticeTriageResult with correct noticeId', () {
-      final notice = _makeNotice(noticeId: 'N999');
+      final notice = makeNotice(noticeId: 'N999');
       final result = NoticeTriageService.triage(notice);
       expect(result.noticeId, 'N999');
     });
 
     test('critical demand → recommended action is appeal or seek stay', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         demandAmount: 200_000_000, // ₹20L
         noticeType: NoticeType.assessment143_3,
       );
@@ -312,7 +312,7 @@ void main() {
     });
 
     test('143(1) low demand → recommended action is respond or pay', () {
-      final notice = _makeNotice(
+      final notice = makeNotice(
         noticeType: NoticeType.intimation143_1,
         demandAmount: 500_000, // ₹5k
       );
@@ -324,31 +324,31 @@ void main() {
     });
 
     test('triage result has non-empty keyIssues', () {
-      final notice = _makeNotice(noticeType: NoticeType.reopening148);
+      final notice = makeNotice(noticeType: NoticeType.reopening148);
       final result = NoticeTriageService.triage(notice);
       expect(result.keyIssues, isNotEmpty);
     });
 
     test('triage result has non-empty suggestedGrounds', () {
-      final notice = _makeNotice(noticeType: NoticeType.assessment143_3);
+      final notice = makeNotice(noticeType: NoticeType.assessment143_3);
       final result = NoticeTriageService.triage(notice);
       expect(result.suggestedGrounds, isNotEmpty);
     });
 
     test('triage result has non-empty timelineAdvice', () {
-      final notice = _makeNotice();
+      final notice = makeNotice();
       final result = NoticeTriageService.triage(notice);
       expect(result.timelineAdvice, isNotEmpty);
     });
 
     test('triage preserves demand amount in estimatedDemand', () {
-      final notice = _makeNotice(demandAmount: 5_000_000);
+      final notice = makeNotice(demandAmount: 5_000_000);
       final result = NoticeTriageService.triage(notice);
       expect(result.estimatedDemand, 5_000_000);
     });
 
     test('triage with null demand → estimatedDemand is 0', () {
-      final notice = _makeNotice(demandAmount: null);
+      final notice = makeNotice(demandAmount: null);
       final result = NoticeTriageService.triage(notice);
       expect(result.estimatedDemand, 0);
     });
@@ -360,26 +360,26 @@ void main() {
 
   group('TaxNotice model', () {
     test('copyWith returns new instance with updated field', () {
-      final original = _makeNotice(noticeId: 'A1', status: NoticeStatus.received);
+      final original = makeNotice(noticeId: 'A1', status: NoticeStatus.received);
       final updated = original.copyWith(status: NoticeStatus.responseFiled);
       expect(updated.status, NoticeStatus.responseFiled);
       expect(original.status, NoticeStatus.received);
     });
 
     test('equality by noticeId', () {
-      final a = _makeNotice(noticeId: 'X1');
-      final b = _makeNotice(noticeId: 'X1');
+      final a = makeNotice(noticeId: 'X1');
+      final b = makeNotice(noticeId: 'X1');
       expect(a, equals(b));
     });
 
     test('different noticeIds → not equal', () {
-      final a = _makeNotice(noticeId: 'X1');
-      final b = _makeNotice(noticeId: 'X2');
+      final a = makeNotice(noticeId: 'X1');
+      final b = makeNotice(noticeId: 'X2');
       expect(a, isNot(equals(b)));
     });
 
     test('hashCode equals noticeId hashCode', () {
-      final n = _makeNotice(noticeId: 'HASH1');
+      final n = makeNotice(noticeId: 'HASH1');
       expect(n.hashCode, n.noticeId.hashCode);
     });
   });

@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   // ── Helpers ──────────────────────────────────────────────────────────
 
-  EInvoicePartyDetails _seller({
+  EInvoicePartyDetails seller({
     String gstin = '29AABCT1332L1ZY',
     String legalName = 'ABC Pvt Ltd',
     String address1 = '123 Main St',
@@ -24,7 +24,7 @@ void main() {
     );
   }
 
-  EInvoicePartyDetails _buyer({
+  EInvoicePartyDetails buyer({
     String gstin = '36AABCT1332L1ZY',
     String legalName = 'XYZ Ltd',
     String address1 = '456 Other St',
@@ -44,7 +44,7 @@ void main() {
     );
   }
 
-  EInvoiceItem _item({
+  EInvoiceItem makeItem({
     int slNo = 1,
     String prdDesc = 'Office Chair',
     EInvoiceIsServc isServc = EInvoiceIsServc.no,
@@ -78,14 +78,14 @@ void main() {
     );
   }
 
-  EInvoiceRequest _validRequest({
+  EInvoiceRequest validRequest({
     List<EInvoiceItem>? items,
     EInvoicePartyDetails? sellerDtls,
     EInvoicePartyDetails? buyerDtls,
     EInvoiceDocDetails? docDtls,
     EInvoiceValueDetails? valDtls,
   }) {
-    final itemList = items ?? [_item()];
+    final itemList = items ?? [makeItem()];
     return EInvoiceRequest(
       tranDtls: const EInvoiceTranDetails(
         supTyp: 'B2B',
@@ -98,8 +98,8 @@ void main() {
             no: 'INV001',
             dt: DateTime(2024, 3, 1),
           ),
-      sellerDtls: sellerDtls ?? _seller(),
-      buyerDtls: buyerDtls ?? _buyer(),
+      sellerDtls: sellerDtls ?? seller(),
+      buyerDtls: buyerDtls ?? buyer(),
       itemList: itemList,
       valDtls: valDtls ??
           EInvoiceValueDetails(
@@ -214,24 +214,24 @@ void main() {
 
   group('EInvoiceValidator.validate', () {
     test('returns empty list for valid request', () {
-      final errors = EInvoiceValidator.validate(_validRequest());
+      final errors = EInvoiceValidator.validate(validRequest());
       expect(errors, isEmpty);
     });
 
     test('returns error for invalid seller GSTIN', () {
-      final req = _validRequest(sellerDtls: _seller(gstin: 'SHORT'));
+      final req = validRequest(sellerDtls: seller(gstin: 'SHORT'));
       final errors = EInvoiceValidator.validate(req);
       expect(errors, anyElement(contains('Seller GSTIN')));
     });
 
     test('returns error for invalid buyer GSTIN', () {
-      final req = _validRequest(buyerDtls: _buyer(gstin: 'TOOSHORT'));
+      final req = validRequest(buyerDtls: buyer(gstin: 'TOOSHORT'));
       final errors = EInvoiceValidator.validate(req);
       expect(errors, anyElement(contains('Buyer GSTIN')));
     });
 
     test('returns error for invalid invoice number', () {
-      final req = _validRequest(
+      final req = validRequest(
         docDtls: EInvoiceDocDetails(
           typ: 'INV',
           no: 'INV NUMBER WITH SPACES!!',
@@ -243,7 +243,7 @@ void main() {
     });
 
     test('returns error for future invoice date', () {
-      final req = _validRequest(
+      final req = validRequest(
         docDtls: EInvoiceDocDetails(
           typ: 'INV',
           no: 'INV001',
@@ -255,14 +255,14 @@ void main() {
     });
 
     test('returns error for invalid HSN code in item', () {
-      final badItem = _item(hsnCd: '12');
-      final req = _validRequest(items: [badItem]);
+      final badItem = makeItem(hsnCd: '12');
+      final req = validRequest(items: [badItem]);
       final errors = EInvoiceValidator.validate(req);
       expect(errors, anyElement(contains('HSN')));
     });
 
     test('returns error when item totals do not match valDtls', () {
-      final req = _validRequest(
+      final req = validRequest(
         valDtls: const EInvoiceValueDetails(
           assVal: 999.0,
           igstVal: 0.0,
@@ -276,7 +276,7 @@ void main() {
     });
 
     test('returns no error for single-item B2B with correct totals', () {
-      final item = _item(
+      final item = makeItem(
         hsnCd: '8471',
         assAmt: 1000.0,
         igstAmt: 180.0,
@@ -285,7 +285,7 @@ void main() {
         totItemVal: 1180.0,
         gstRt: 18.0,
       );
-      final req = _validRequest(
+      final req = validRequest(
         items: [item],
         valDtls: const EInvoiceValueDetails(
           assVal: 1000.0,

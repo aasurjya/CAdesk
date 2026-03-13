@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   // ── Helpers ──────────────────────────────────────────────────────────
 
-  GstInvoice _buildGstInvoice({
+  GstInvoice buildGstInvoice({
     String invoiceNumber = 'INV001',
     DateTime? invoiceDate,
     bool isInterState = true,
@@ -57,7 +57,7 @@ void main() {
 
   group('EInvoiceJsonSerializer.buildRequest', () {
     test('version defaults to "1.1"', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -67,7 +67,7 @@ void main() {
     });
 
     test('maps invoice number to docDtls.no', () {
-      final invoice = _buildGstInvoice(invoiceNumber: 'INV/2024/001');
+      final invoice = buildGstInvoice(invoiceNumber: 'INV/2024/001');
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -78,7 +78,7 @@ void main() {
 
     test('maps invoice date to docDtls.dt', () {
       final date = DateTime(2024, 3, 15);
-      final invoice = _buildGstInvoice(invoiceDate: date);
+      final invoice = buildGstInvoice(invoiceDate: date);
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -88,7 +88,7 @@ void main() {
     });
 
     test('maps supplierGstin to sellerDtls.gstin', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -98,7 +98,7 @@ void main() {
     });
 
     test('maps buyerGstin to buyerDtls.gstin', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -108,7 +108,7 @@ void main() {
     });
 
     test('maps goods item with IsServc = N', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -118,7 +118,7 @@ void main() {
     });
 
     test('maps service item with IsServc = Y', () {
-      final invoice = _buildGstInvoice(
+      final invoice = buildGstInvoice(
         items: [
           const GstInvoiceItem(
             description: 'Consulting',
@@ -145,7 +145,7 @@ void main() {
     });
 
     test('inter-state invoice sets supTyp to B2B', () {
-      final invoice = _buildGstInvoice(isInterState: true);
+      final invoice = buildGstInvoice(isInterState: true);
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -155,7 +155,7 @@ void main() {
     });
 
     test('reverse charge sets chargeType to Y', () {
-      final invoice = _buildGstInvoice(reverseCharge: true);
+      final invoice = buildGstInvoice(reverseCharge: true);
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -165,7 +165,7 @@ void main() {
     });
 
     test('valDtls totals match sum of items', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final req = EInvoiceJsonSerializer.buildRequest(
         invoice,
         '29AABCT1332L1ZY',
@@ -322,7 +322,7 @@ void main() {
 
   group('EInvoiceJsonSerializer.serialize', () {
     test('returns result with non-empty requestPayload', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final result = EInvoiceJsonSerializer.serialize(
         invoice,
         '29AABCT1332L1ZY',
@@ -332,7 +332,7 @@ void main() {
     });
 
     test('returns result with null response (not yet submitted)', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final result = EInvoiceJsonSerializer.serialize(
         invoice,
         '29AABCT1332L1ZY',
@@ -342,7 +342,7 @@ void main() {
     });
 
     test('returns result with exportedAt set', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final before = DateTime.now();
       final result = EInvoiceJsonSerializer.serialize(
         invoice,
@@ -363,7 +363,7 @@ void main() {
     });
 
     test('validation errors list is empty for valid invoice', () {
-      final invoice = _buildGstInvoice();
+      final invoice = buildGstInvoice();
       final result = EInvoiceJsonSerializer.serialize(
         invoice,
         '29AABCT1332L1ZY',
@@ -373,7 +373,7 @@ void main() {
     });
 
     test('validation errors list is non-empty for bad invoice number', () {
-      final invoice = _buildGstInvoice(invoiceNumber: 'INV NUMBER INVALID!@#');
+      final invoice = buildGstInvoice(invoiceNumber: 'INV NUMBER INVALID!@#');
       final result = EInvoiceJsonSerializer.serialize(
         invoice,
         '29AABCT1332L1ZY',

@@ -5,8 +5,6 @@ import 'package:ca_app/features/clients/domain/models/client.dart';
 import 'package:ca_app/features/clients/domain/models/client_type.dart';
 import 'package:ca_app/features/practice/domain/models/billing_invoice.dart';
 import 'package:ca_app/features/practice/domain/models/engagement.dart';
-import 'package:ca_app/features/practice/domain/models/staff_assignment.dart';
-import 'package:ca_app/features/practice/domain/models/workflow_task.dart';
 
 // ---------------------------------------------------------------------------
 // Helpers
