@@ -12,6 +12,12 @@ import 'package:ca_app/core/database/tables/tds_challans_table.dart';
 import 'package:ca_app/core/database/tables/invoices_table.dart';
 import 'package:ca_app/core/database/tables/payments_table.dart';
 import 'package:ca_app/core/database/tables/tasks_table.dart';
+import 'package:ca_app/core/database/tables/firm_operations_table.dart';
+import 'package:ca_app/core/database/tables/payroll_table.dart';
+import 'package:ca_app/core/database/tables/audit_table.dart';
+import 'package:ca_app/core/database/tables/mca_table.dart';
+import 'package:ca_app/core/database/tables/reconciliation_table.dart';
+import 'package:ca_app/core/database/tables/portal_connector_table.dart';
 import 'package:ca_app/core/database/daos/clients_dao.dart';
 import 'package:ca_app/core/database/daos/sync_dao.dart';
 import 'package:ca_app/core/database/daos/itr_filings_dao.dart';
@@ -41,6 +47,15 @@ const _syncUuid = Uuid();
     InvoicesTable,
     PaymentsTable,
     TasksTable,
+    FirmInfoTable,
+    TeamMembersTable,
+    ClientAssignmentsTable,
+    PayrollEntriesTable,
+    AuditAssignmentsTable,
+    AuditReportsTable,
+    MCAFilingsTable,
+    ReconciliationResultsTable,
+    PortalCredentialsTable,
   ],
   daos: [
     ClientsDao,
@@ -56,7 +71,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -71,6 +86,17 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(invoicesTable);
         await m.createTable(paymentsTable);
         await m.createTable(tasksTable);
+      }
+      if (from < 3) {
+        await m.createTable(firmInfoTable);
+        await m.createTable(teamMembersTable);
+        await m.createTable(clientAssignmentsTable);
+        await m.createTable(payrollEntriesTable);
+        await m.createTable(auditAssignmentsTable);
+        await m.createTable(auditReportsTable);
+        await m.createTable(mCAFilingsTable);
+        await m.createTable(reconciliationResultsTable);
+        await m.createTable(portalCredentialsTable);
       }
     },
   );
