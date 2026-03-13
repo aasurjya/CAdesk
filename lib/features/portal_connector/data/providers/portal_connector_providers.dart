@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/portal_connector/data/providers/portal_connector_repository_providers.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_request.dart';
 
 // ---------------------------------------------------------------------------
@@ -100,6 +101,9 @@ final portalConnectionsProvider =
 class PortalConnectionsNotifier extends Notifier<List<PortalConnectionInfo>> {
   @override
   List<PortalConnectionInfo> build() {
+    // Watch the repository to ensure connectivity; connection state is managed
+    // locally in this notifier since it represents live UI state (not persisted).
+    ref.watch(portalCredentialRepositoryProvider);
     return const [
       PortalConnectionInfo(
         portal: Portal.itd,

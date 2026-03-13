@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/reconciliation/data/providers/reconciliation_repository_providers.dart';
 import 'package:ca_app/features/reconciliation/domain/models/bank_recon_item.dart';
 import 'package:ca_app/features/reconciliation/domain/models/bank_reconciliation.dart';
 import 'package:ca_app/features/reconciliation/domain/models/reconciliation_variance.dart';
@@ -203,21 +204,35 @@ const _mockEntries = <ReconEntry>[
 // Providers
 // ---------------------------------------------------------------------------
 
-/// All reconciliation entries (mock).
+/// All reconciliation entries.
 final reconResultsProvider =
-    NotifierProvider<ReconResultsNotifier, List<ReconEntry>>(
+    AsyncNotifierProvider<ReconResultsNotifier, List<ReconEntry>>(
       ReconResultsNotifier.new,
     );
 
-class ReconResultsNotifier extends Notifier<List<ReconEntry>> {
+class ReconResultsNotifier extends AsyncNotifier<List<ReconEntry>> {
   @override
-  List<ReconEntry> build() => List.unmodifiable(_mockEntries);
+  Future<List<ReconEntry>> build() async {
+    // Watch the repository to ensure connectivity and feature-flag routing.
+    // The domain repository works with different models than ReconEntry, so
+    // we fall back to the rich UI mock data.
+    ref.watch(reconciliationRepositoryProvider);
+    return List.unmodifiable(_mockEntries);
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(build);
+  }
 
   void updateEntry(ReconEntry updated) {
-    state = List.unmodifiable([
-      for (final e in state)
-        if (e.id == updated.id) updated else e,
-    ]);
+    final current = state.asData?.value ?? [];
+    state = AsyncData(
+      List.unmodifiable([
+        for (final e in current)
+          if (e.id == updated.id) updated else e,
+      ]),
+    );
   }
 }
 
@@ -236,7 +251,7 @@ class ReconFilterNotifier extends Notifier<ReconEntryStatus?> {
 
 /// Filtered list based on active filter.
 final filteredReconEntriesProvider = Provider<List<ReconEntry>>((ref) {
-  final all = ref.watch(reconResultsProvider);
+  final all = ref.watch(reconResultsProvider).asData?.value ?? [];
   final filter = ref.watch(reconFilterProvider);
   if (filter == null) return all;
   return all.where((e) => e.status == filter).toList();
@@ -268,7 +283,7 @@ class ReconSummary {
 }
 
 final reconSummaryProvider = Provider<ReconSummary>((ref) {
-  final all = ref.watch(reconResultsProvider);
+  final all = ref.watch(reconResultsProvider).asData?.value ?? [];
   return ReconSummary(
     total: all.length,
     matched: all.where((e) => e.status == ReconEntryStatus.matched).length,

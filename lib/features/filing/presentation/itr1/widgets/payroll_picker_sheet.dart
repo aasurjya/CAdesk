@@ -47,7 +47,7 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
     // Pre-select the first active employee and latest FY
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final employees = ref.read(employeesProvider);
+      final employees = ref.read(employeesProvider).asData?.value ?? [];
       final fys = ref.read(payrollAvailableFYsProvider);
 
       setState(() {
@@ -77,7 +77,7 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final employees = ref.watch(employeesProvider);
+    final employees = ref.watch(employeesProvider).asData?.value ?? [];
     final availableFYs = ref.watch(payrollAvailableFYsProvider);
 
     return Container(

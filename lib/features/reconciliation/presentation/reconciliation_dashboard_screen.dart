@@ -14,6 +14,7 @@ class ReconciliationDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final reconAsync = ref.watch(reconResultsProvider);
     final summary = ref.watch(reconSummaryProvider);
     final entries = ref.watch(filteredReconEntriesProvider);
     final activeFilter = ref.watch(reconFilterProvider);
@@ -51,7 +52,33 @@ class ReconciliationDashboardScreen extends ConsumerWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: isWide
+        child: reconAsync.isLoading && entries.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : reconAsync.hasError && entries.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Failed to load reconciliation data',
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () =>
+                          ref.invalidate(reconResultsProvider),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              )
+            : isWide
             ? _WideLayout(
                 summary: summary,
                 entries: entries,

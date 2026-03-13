@@ -205,7 +205,7 @@ typedef PayrollPrefillParams = ({String employeeId, int financialYear});
 final payrollAnnualSummaryProvider =
     Provider.family<PayrollPrefillResult, PayrollPrefillParams>((ref, params) {
       final allPayroll = ref.watch(payrollMonthsProvider);
-      final employees = ref.watch(employeesProvider);
+      final employeeList = ref.watch(employeesProvider).asData?.value ?? [];
       final service = ref.watch(payrollPrefillServiceProvider);
 
       // Filter payroll records for this employee in the given FY
@@ -218,7 +218,7 @@ final payrollAnnualSummaryProvider =
           .toList();
 
       // Find employee name
-      final employee = employees.cast<Employee?>().firstWhere(
+      final employee = employeeList.cast<Employee?>().firstWhere(
         (e) => e?.id == params.employeeId,
         orElse: () => null,
       );

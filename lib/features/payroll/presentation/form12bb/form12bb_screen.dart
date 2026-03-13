@@ -141,7 +141,7 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
   @override
   Widget build(BuildContext context) {
     final totalPaise = ref.watch(form12bbTotalDeductionsProvider);
-    final employees = ref.watch(employeesProvider);
+    final employees = ref.watch(employeesProvider).asData?.value ?? [];
     final declaration = ref.watch(activeForm12bbProvider);
     final selectedEmployee = employees
         .where((e) => e.id == declaration.employeeId)

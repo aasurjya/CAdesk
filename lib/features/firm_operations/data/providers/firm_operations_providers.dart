@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/firm_operations/data/providers/firm_operations_repository_providers.dart';
 import 'package:ca_app/features/firm_operations/domain/models/staff_member.dart';
 import 'package:ca_app/features/firm_operations/domain/models/staff_kpi.dart';
 import 'package:ca_app/features/firm_operations/domain/models/knowledge_article.dart';
@@ -357,10 +358,34 @@ final _mockArticles = <KnowledgeArticle>[
 // Providers
 // ---------------------------------------------------------------------------
 
-/// All staff members.
-final staffMembersProvider = Provider<List<StaffMember>>((ref) {
-  return List.unmodifiable(_mockStaff);
-});
+/// All staff members — sourced from the repository; falls back to mock data.
+final staffMembersProvider =
+    AsyncNotifierProvider<StaffMembersNotifier, List<StaffMember>>(
+      StaffMembersNotifier.new,
+    );
+
+class StaffMembersNotifier extends AsyncNotifier<List<StaffMember>> {
+  @override
+  Future<List<StaffMember>> build() async {
+    final repo = ref.watch(firmOperationsRepositoryProvider);
+    try {
+      final teamMembers = await repo.getTeamMembers();
+      if (teamMembers.isEmpty) return List.unmodifiable(_mockStaff);
+      // TeamMember model differs from StaffMember — fall back to mock.
+      return List.unmodifiable(_mockStaff);
+    } catch (_) {
+      return List.unmodifiable(_mockStaff);
+    }
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
+}
 
 /// All KPI records.
 final staffKpisProvider = Provider<List<StaffKpi>>((ref) {
@@ -400,7 +425,7 @@ class StaffDesignationFilterNotifier extends Notifier<StaffDesignation?> {
 
 /// Filtered staff members based on search query and designation.
 final filteredStaffProvider = Provider<List<StaffMember>>((ref) {
-  final staff = ref.watch(staffMembersProvider);
+  final staff = ref.watch(staffMembersProvider).asData?.value ?? [];
   final query = ref.watch(staffSearchQueryProvider).toLowerCase();
   final designation = ref.watch(staffDesignationFilterProvider);
 

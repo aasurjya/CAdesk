@@ -408,7 +408,33 @@ class _DocumentsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final docsAsync = ref.watch(allDocumentsProvider);
     final docs = ref.watch(filteredDocumentsProvider);
+
+    if (docsAsync.isLoading && docs.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (docsAsync.hasError && docs.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load documents',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(allDocumentsProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
     if (docs.isEmpty) {
       return _buildEmpty(context, 'No documents found');

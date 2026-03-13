@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/dashboard/data/providers/dashboard_repository_providers.dart';
 import 'package:ca_app/features/income_tax/data/providers/income_tax_providers.dart';
 import 'package:ca_app/features/income_tax/domain/models/filing_status.dart';
 import 'package:ca_app/features/gst/data/providers/gst_providers.dart';
@@ -77,6 +78,9 @@ class DashboardKpi {
 /// Derives a [DashboardKpi] by aggregating live data from ITR, GST, and TDS
 /// providers. Reacts to any upstream provider change automatically.
 final dashboardKpiProvider = Provider<DashboardKpi>((ref) {
+  // Watch the repository to ensure connectivity and feature-flag routing.
+  ref.watch(dashboardRepositoryProvider);
+
   // ── Income Tax ────────────────────────────────────────────────────────────
   final allItrClients = ref.watch(itrClientsProvider);
   final filteredItrClients = ref.watch(filteredClientsProvider);

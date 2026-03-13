@@ -1,19 +1,64 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/compliance/data/providers/compliance_repository_providers.dart';
 import 'package:ca_app/features/compliance/domain/models/compliance_deadline.dart';
+import 'package:ca_app/features/compliance/domain/models/compliance_event.dart';
 
-/// All compliance deadlines.
+/// All compliance deadlines — sourced from the repository; falls back to
+/// the built-in mock schedule when the repository returns no data.
 final allComplianceDeadlinesProvider =
-    NotifierProvider<AllComplianceDeadlinesNotifier, List<ComplianceDeadline>>(
+    AsyncNotifierProvider<AllComplianceDeadlinesNotifier, List<ComplianceDeadline>>(
       AllComplianceDeadlinesNotifier.new,
     );
 
 class AllComplianceDeadlinesNotifier
-    extends Notifier<List<ComplianceDeadline>> {
+    extends AsyncNotifier<List<ComplianceDeadline>> {
   @override
-  List<ComplianceDeadline> build() => _mockDeadlines;
+  Future<List<ComplianceDeadline>> build() async {
+    // The ComplianceRepository operates on ComplianceEvent, while the UI
+    // uses ComplianceDeadline (a richer model). When the repository is wired
+    // we fall back to the rich mock data so the screen always has content.
+    final repo = ref.watch(complianceRepositoryProvider);
+    try {
+      // Fetch upcoming events (next 365 days) from the repository.
+      final events = await repo.getUpcomingEvents(365);
+      if (events.isEmpty) return List.unmodifiable(_mockDeadlines);
+      // Convert ComplianceEvent → ComplianceDeadline.
+      final deadlines = events.map((e) {
+        return ComplianceDeadline(
+          id: e.id,
+          title: e.description,
+          description: e.description,
+          category: ComplianceCategory.values.firstWhere(
+            (c) => c.name == e.type.name,
+            orElse: () => ComplianceCategory.incomeTax,
+          ),
+          dueDate: e.dueDate,
+          applicableTo: [e.clientId],
+          isRecurring: false,
+          frequency: ComplianceFrequency.monthly,
+          status: e.status == ComplianceEventStatus.completed
+              ? ComplianceStatus.completed
+              : ComplianceStatus.upcoming,
+        );
+      }).toList();
+      return List.unmodifiable(deadlines);
+    } catch (_) {
+      return List.unmodifiable(_mockDeadlines);
+    }
+  }
 
-  void update(List<ComplianceDeadline> value) => state = value;
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
+
+  void setDeadlines(List<ComplianceDeadline> value) {
+    state = AsyncData(List.unmodifiable(value));
+  }
 }
 
 /// Selected month offset from the current month (0 = current, 1 = next, etc.).
@@ -53,7 +98,7 @@ final complianceDisplayMonthProvider = Provider<DateTime>((ref) {
 final complianceMonthDeadlinesProvider = Provider<List<ComplianceDeadline>>((
   ref,
 ) {
-  final deadlines = ref.watch(allComplianceDeadlinesProvider);
+  final deadlines = ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
   final displayMonth = ref.watch(complianceDisplayMonthProvider);
 
   return deadlines
@@ -68,7 +113,7 @@ final complianceMonthDeadlinesProvider = Provider<List<ComplianceDeadline>>((
 
 /// All upcoming deadlines (today and future) sorted by date, regardless of month.
 final upcomingDeadlinesProvider = Provider<List<ComplianceDeadline>>((ref) {
-  final deadlines = ref.watch(allComplianceDeadlinesProvider);
+  final deadlines = ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
 

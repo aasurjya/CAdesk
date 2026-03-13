@@ -290,7 +290,46 @@ class _CompaniesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final companies = ref.watch(mcaCompaniesProvider);
+    final companiesAsync = ref.watch(mcaCompaniesProvider);
+    final companies = companiesAsync.asData?.value ?? [];
+
+    if (companiesAsync.isLoading && companies.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (companiesAsync.hasError && companies.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            const Text('Failed to load companies'),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(mcaCompaniesProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (companies.isEmpty) {
+      return const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.business_outlined, size: 48, color: AppColors.neutral200),
+            SizedBox(height: 12),
+            Text(
+              'No companies found',
+              style: TextStyle(color: AppColors.neutral400, fontSize: 14),
+            ),
+          ],
+        ),
+      );
+    }
 
     return ListView.builder(
       padding: const EdgeInsets.only(top: 4, bottom: 80),
@@ -309,7 +348,30 @@ class _FilingsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final filingsAsync = ref.watch(mcaFilingsProvider);
     final filings = ref.watch(mcaFilteredFilingsProvider);
+
+    if (filingsAsync.isLoading && filings.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (filingsAsync.hasError && filings.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            const Text('Failed to load filings'),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(mcaFilingsProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
     if (filings.isEmpty) {
       return const Center(
@@ -500,7 +562,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final companies = ref.watch(mcaCompaniesProvider);
+    final companies = ref.watch(mcaCompaniesProvider).asData?.value ?? [];
     final theme = Theme.of(context);
 
     return Padding(

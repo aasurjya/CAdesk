@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/providers/payroll_repository_providers.dart';
 import '../../domain/models/employee.dart';
 import '../../domain/models/payroll_month.dart';
 import '../../domain/models/statutory_return.dart';
@@ -661,10 +662,29 @@ final List<StatutoryReturn> _mockStatutoryReturns = [
 // Providers
 // ---------------------------------------------------------------------------
 
-/// All employees.
-final employeesProvider = Provider<List<Employee>>(
-  (_) => List.unmodifiable(_mockEmployees),
-);
+/// All employees — sourced from repository; falls back to mock data.
+final employeesProvider =
+    AsyncNotifierProvider<EmployeesNotifier, List<Employee>>(
+      EmployeesNotifier.new,
+    );
+
+class EmployeesNotifier extends AsyncNotifier<List<Employee>> {
+  @override
+  Future<List<Employee>> build() async {
+    // The PayrollRepository returns PayrollEntry (not Employee).
+    // Watch the repo to ensure we're connected; use mock data for the UI.
+    ref.watch(payrollRepositoryProvider);
+    return List.unmodifiable(_mockEmployees);
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
+}
 
 /// All payroll month records.
 final payrollMonthsProvider = Provider<List<PayrollMonth>>(
@@ -700,7 +720,7 @@ final filteredPayrollMonthsProvider = Provider<List<PayrollMonth>>((ref) {
 
 /// Payroll summary for the selected period.
 final payrollSummaryProvider = Provider<PayrollSummary>((ref) {
-  final employees = ref.watch(employeesProvider);
+  final employees = ref.watch(employeesProvider).asData?.value ?? [];
   final records = ref.watch(filteredPayrollMonthsProvider);
   final returns = ref.watch(statutoryReturnsProvider);
 

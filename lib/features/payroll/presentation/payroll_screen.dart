@@ -317,8 +317,38 @@ class _EmployeesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final employees = ref.watch(employeesProvider);
+    final employeesAsync = ref.watch(employeesProvider);
     final period = ref.watch(payrollSelectedPeriodProvider);
+
+    if (employeesAsync.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (employeesAsync.hasError) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load employees',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(employeesProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final employees = employeesAsync.value ?? [];
+    if (employees.isEmpty) {
+      return const _EmptyState(message: 'No employees found');
+    }
 
     return ListView.builder(
       padding: const EdgeInsets.only(top: 4, bottom: 80),
@@ -346,7 +376,7 @@ class _MonthlyPayrollTab extends ConsumerWidget {
     WidgetRef ref,
     PayrollMonth record,
   ) {
-    final employees = ref.read(employeesProvider);
+    final employees = ref.read(employeesProvider).asData?.value ?? [];
     final employee = employees
         .where((e) => e.id == record.employeeId)
         .firstOrNull;

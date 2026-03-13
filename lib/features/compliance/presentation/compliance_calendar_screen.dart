@@ -52,9 +52,35 @@ class _CalendarView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final deadlinesAsync = ref.watch(allComplianceDeadlinesProvider);
     final displayMonth = ref.watch(complianceDisplayMonthProvider);
     final deadlines = ref.watch(complianceMonthDeadlinesProvider);
     final dots = ref.watch(complianceCalendarDotsProvider);
+
+    if (deadlinesAsync.isLoading && deadlines.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (deadlinesAsync.hasError && deadlines.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load compliance data',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(allComplianceDeadlinesProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Column(
       children: [
@@ -90,8 +116,34 @@ class _ListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final deadlinesAsync = ref.watch(allComplianceDeadlinesProvider);
     final deadlines = ref.watch(upcomingDeadlinesProvider);
     final theme = Theme.of(context);
+
+    if (deadlinesAsync.isLoading && deadlines.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (deadlinesAsync.hasError && deadlines.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load compliance data',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(allComplianceDeadlinesProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
 
     if (deadlines.isEmpty) {
       return Center(

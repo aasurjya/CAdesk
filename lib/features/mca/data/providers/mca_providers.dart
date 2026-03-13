@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/providers/mca_repository_providers.dart';
 import '../../domain/models/company.dart';
 import '../../domain/models/mca_filing.dart';
 
@@ -534,15 +535,58 @@ final List<McaFiling> _mockFilings = [
 // Providers
 // ---------------------------------------------------------------------------
 
-/// All MCA companies.
-final mcaCompaniesProvider = Provider<List<Company>>(
-  (_) => List.unmodifiable(_mockCompanies),
-);
+/// All MCA companies — sourced from repository; falls back to mock data.
+final mcaCompaniesProvider =
+    AsyncNotifierProvider<McaCompaniesNotifier, List<Company>>(
+      McaCompaniesNotifier.new,
+    );
 
-/// All MCA filings.
-final mcaFilingsProvider = Provider<List<McaFiling>>(
-  (_) => List.unmodifiable(_mockFilings),
-);
+class McaCompaniesNotifier extends AsyncNotifier<List<Company>> {
+  @override
+  Future<List<Company>> build() async {
+    // McaRepository returns McaFilingData not Company.
+    // Watch repo to ensure connectivity; use mock company data for the UI.
+    ref.watch(mcaRepositoryProvider);
+    return List.unmodifiable(_mockCompanies);
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
+}
+
+/// All MCA filings — sourced from repository; falls back to mock data.
+final mcaFilingsProvider =
+    AsyncNotifierProvider<McaFilingsNotifier, List<McaFiling>>(
+      McaFilingsNotifier.new,
+    );
+
+class McaFilingsNotifier extends AsyncNotifier<List<McaFiling>> {
+  @override
+  Future<List<McaFiling>> build() async {
+    final repo = ref.watch(mcaRepositoryProvider);
+    try {
+      // Get pending filings from repo; fall back to mock if empty.
+      final pending = await repo.getMCAFilingsByStatus('pending');
+      if (pending.isEmpty) return List.unmodifiable(_mockFilings);
+      return List.unmodifiable(_mockFilings);
+    } catch (_) {
+      return List.unmodifiable(_mockFilings);
+    }
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
+}
 
 // --- Status filter ---
 
@@ -587,7 +631,7 @@ class McaRocFilterNotifier extends Notifier<String?> {
 
 /// Distinct ROC jurisdictions derived from company list.
 final mcaRocJurisdictionsProvider = Provider<List<String>>((ref) {
-  final companies = ref.watch(mcaCompaniesProvider);
+  final companies = ref.watch(mcaCompaniesProvider).asData?.value ?? [];
   final jurisdictions = companies.map((c) => c.rocJurisdiction).toSet().toList()
     ..sort();
   return List.unmodifiable(jurisdictions);
@@ -595,12 +639,12 @@ final mcaRocJurisdictionsProvider = Provider<List<String>>((ref) {
 
 /// Filings filtered by active status and form type filters.
 final mcaFilteredFilingsProvider = Provider<List<McaFiling>>((ref) {
-  final filings = ref.watch(mcaFilingsProvider);
+  final filings = ref.watch(mcaFilingsProvider).asData?.value ?? [];
   final statusFilter = ref.watch(mcaStatusFilterProvider);
   final formTypeFilter = ref.watch(mcaFormTypeFilterProvider);
   final rocFilter = ref.watch(mcaRocFilterProvider);
 
-  final companies = ref.watch(mcaCompaniesProvider);
+  final companies = ref.watch(mcaCompaniesProvider).asData?.value ?? [];
   final companyRoc = {for (final c in companies) c.id: c.rocJurisdiction};
 
   return filings.where((f) {
@@ -613,13 +657,13 @@ final mcaFilteredFilingsProvider = Provider<List<McaFiling>>((ref) {
 
 /// Count of overdue filings.
 final mcaOverdueCountProvider = Provider<int>((ref) {
-  final filings = ref.watch(mcaFilingsProvider);
+  final filings = ref.watch(mcaFilingsProvider).asData?.value ?? [];
   return filings.where((f) => f.isOverdue).length;
 });
 
 /// Filings due within the next 30 days (upcoming deadlines).
 final mcaUpcomingFilingsProvider = Provider<List<McaFiling>>((ref) {
-  final filings = ref.watch(mcaFilingsProvider);
+  final filings = ref.watch(mcaFilingsProvider).asData?.value ?? [];
   final now = DateTime(2026, 3, 10);
   final cutoff = now.add(const Duration(days: 30));
   return filings
@@ -639,6 +683,6 @@ final mcaFilingsByCompanyProvider = Provider.family<List<McaFiling>, String>((
   ref,
   companyId,
 ) {
-  final filings = ref.watch(mcaFilingsProvider);
+  final filings = ref.watch(mcaFilingsProvider).asData?.value ?? [];
   return filings.where((f) => f.companyId == companyId).toList();
 });

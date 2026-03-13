@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/audit/data/providers/audit_repository_providers.dart';
 import 'package:ca_app/features/audit/domain/models/form3cd.dart';
 import 'package:ca_app/features/audit/domain/models/form3cd_clause.dart';
 
@@ -96,30 +97,45 @@ class AuditReportSummary {
 // ---------------------------------------------------------------------------
 
 final auditReportListProvider =
-    NotifierProvider<AuditReportListNotifier, List<AuditReportSummary>>(
+    AsyncNotifierProvider<AuditReportListNotifier, List<AuditReportSummary>>(
       AuditReportListNotifier.new,
     );
 
-class AuditReportListNotifier extends Notifier<List<AuditReportSummary>> {
+class AuditReportListNotifier extends AsyncNotifier<List<AuditReportSummary>> {
   @override
-  List<AuditReportSummary> build() =>
-      List<AuditReportSummary>.unmodifiable(_mockReports);
+  Future<List<AuditReportSummary>> build() async {
+    // AuditRepository returns AuditAssignment/AuditReport models.
+    // Watch repo to ensure connectivity; use rich mock data for the UI layer.
+    ref.watch(auditRepositoryProvider);
+    return List<AuditReportSummary>.unmodifiable(_mockReports);
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async {
+      ref.invalidateSelf();
+      return build();
+    });
+  }
 
   void updateStatus({
     required String reportId,
     required AuditReportStatus status,
     double? completionPercent,
   }) {
-    state = List<AuditReportSummary>.unmodifiable(
-      state.map((r) {
-        if (r.id == reportId) {
-          return r.copyWith(
-            status: status,
-            completionPercent: completionPercent,
-          );
-        }
-        return r;
-      }),
+    final current = state.asData?.value ?? [];
+    state = AsyncData(
+      List<AuditReportSummary>.unmodifiable(
+        current.map((r) {
+          if (r.id == reportId) {
+            return r.copyWith(
+              status: status,
+              completionPercent: completionPercent,
+            );
+          }
+          return r;
+        }),
+      ),
     );
   }
 }
@@ -154,7 +170,7 @@ class AuditFormFilterNotifier extends Notifier<AuditFormType?> {
 
 // Filtered list
 final filteredAuditReportsProvider = Provider<List<AuditReportSummary>>((ref) {
-  final reports = ref.watch(auditReportListProvider);
+  final reports = ref.watch(auditReportListProvider).asData?.value ?? [];
   final filter = ref.watch(auditFormFilterProvider);
   if (filter == null) return reports;
   return reports.where((r) => r.formType == filter).toList();

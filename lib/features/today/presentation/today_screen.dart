@@ -16,7 +16,8 @@ class TodayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final allDeadlines = ref.watch(allComplianceDeadlinesProvider);
+    final allDeadlines =
+        ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final endOfWeek = today.add(Duration(days: 7 - today.weekday));

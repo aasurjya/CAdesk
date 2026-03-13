@@ -14,6 +14,7 @@ class AuditReportScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filter = ref.watch(auditFormFilterProvider);
+    final reportsAsync = ref.watch(auditReportListProvider);
     final reports = ref.watch(filteredAuditReportsProvider);
     final theme = Theme.of(context);
 
@@ -57,7 +58,33 @@ class AuditReportScreen extends ConsumerWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: ListView(
+        child: reportsAsync.isLoading && reports.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : reportsAsync.hasError && reports.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Failed to load audit reports',
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () =>
+                          ref.invalidate(auditReportListProvider),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              )
+            : ListView(
           padding: const EdgeInsets.all(16),
           children: [
             // Filter chips

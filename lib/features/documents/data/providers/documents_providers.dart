@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/documents/data/providers/document_repository_providers.dart';
 import 'package:ca_app/features/documents/domain/models/document.dart';
 import 'package:ca_app/features/documents/domain/models/document_folder.dart';
+import 'package:ca_app/features/documents/domain/repositories/document_repository.dart';
 
 // ---------------------------------------------------------------------------
 // Mock data — 20 documents across 8 clients
@@ -418,15 +420,36 @@ final _mockFolders = <DocumentFolder>[
 // ---------------------------------------------------------------------------
 
 final allDocumentsProvider =
-    NotifierProvider<AllDocumentsNotifier, List<Document>>(
+    AsyncNotifierProvider<AllDocumentsNotifier, List<Document>>(
       AllDocumentsNotifier.new,
     );
 
-class AllDocumentsNotifier extends Notifier<List<Document>> {
+class AllDocumentsNotifier extends AsyncNotifier<List<Document>> {
   @override
-  List<Document> build() => List.unmodifiable(_mockDocuments);
+  Future<List<Document>> build() async {
+    final repo = ref.watch(documentRepositoryProvider);
+    return _load(repo);
+  }
 
-  void update(List<Document> value) => state = List.unmodifiable(value);
+  Future<List<Document>> _load(DocumentRepository repo) async {
+    try {
+      final results = await repo.searchDocuments('');
+      if (results.isEmpty) return List.unmodifiable(_mockDocuments);
+      return List.unmodifiable(results);
+    } catch (_) {
+      return List.unmodifiable(_mockDocuments);
+    }
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    final repo = ref.read(documentRepositoryProvider);
+    state = await AsyncValue.guard(() => _load(repo));
+  }
+
+  void setDocuments(List<Document> value) {
+    state = AsyncData(List.unmodifiable(value));
+  }
 }
 
 final allFoldersProvider =
@@ -481,7 +504,7 @@ class DocClientFilterNotifier extends Notifier<String?> {
 
 /// Computed list of filtered documents.
 final filteredDocumentsProvider = Provider<List<Document>>((ref) {
-  final docs = ref.watch(allDocumentsProvider);
+  final docs = ref.watch(allDocumentsProvider).asData?.value ?? [];
   final query = ref.watch(docSearchQueryProvider).toLowerCase().trim();
   final category = ref.watch(docCategoryFilterProvider);
   final clientId = ref.watch(docClientFilterProvider);
@@ -526,7 +549,7 @@ final filteredFoldersProvider = Provider<List<DocumentFolder>>((ref) {
 final docSummaryProvider = Provider<({int total, int shared, int folders})>((
   ref,
 ) {
-  final docs = ref.watch(allDocumentsProvider);
+  final docs = ref.watch(allDocumentsProvider).asData?.value ?? [];
   final folders = ref.watch(allFoldersProvider);
   final shared = docs.where((d) => d.isSharedWithClient).length;
   return (total: docs.length, shared: shared, folders: folders.length);
