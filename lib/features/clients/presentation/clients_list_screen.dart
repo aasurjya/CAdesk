@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
@@ -64,7 +65,7 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
   }
 
   Future<void> _onRefresh() async {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await ref.read(allClientsProvider.notifier).refresh();
   }
 
   void _launchPhone(String? phone) {
@@ -81,6 +82,66 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (_) => ClientDetailScreen(clientId: client.id),
+      ),
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    ThemeData theme,
+    List<Client> clients,
+    AsyncValue<List<Client>> clientsAsync,
+    ClientType? selectedType,
+    ClientStatus? selectedStatus,
+  ) {
+    if (clientsAsync.isLoading && clients.isEmpty) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (clientsAsync.hasError && clients.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            const SizedBox(height: 12),
+            Text(
+              'Failed to load clients',
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => ref.invalidate(allClientsProvider),
+              child: const Text('Retry'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (clients.isEmpty) {
+      return _EmptyState(
+        hasFilters:
+            selectedType != null ||
+            selectedStatus != null ||
+            _searchController.text.isNotEmpty,
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: ListView.builder(
+        padding: const EdgeInsets.only(bottom: 80),
+        itemCount: clients.length,
+        itemBuilder: (context, index) {
+          final client = clients[index];
+          return ClientTile(
+            client: client,
+            onTap: () => _navigateToDetail(context, client),
+            onCall: () => _launchPhone(client.phone),
+            onEmail: () => _launchEmail(client.email),
+          );
+        },
       ),
     );
   }
@@ -131,6 +192,7 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final clients = ref.watch(filteredClientsProvider);
+    final clientsAsync = ref.watch(allClientsProvider);
     final selectedType = ref.watch(selectedTypeFilterProvider);
     final selectedStatus = ref.watch(selectedStatusFilterProvider);
 
@@ -215,35 +277,20 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
             ),
           ),
           Expanded(
-            child: clients.isEmpty
-                ? _EmptyState(
-                    hasFilters:
-                        selectedType != null ||
-                        selectedStatus != null ||
-                        _searchController.text.isNotEmpty,
-                  )
-                : RefreshIndicator(
-                    onRefresh: _onRefresh,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 80),
-                      itemCount: clients.length,
-                      itemBuilder: (context, index) {
-                        final client = clients[index];
-                        return ClientTile(
-                          client: client,
-                          onTap: () => _navigateToDetail(context, client),
-                          onCall: () => _launchPhone(client.phone),
-                          onEmail: () => _launchEmail(client.email),
-                        );
-                      },
-                    ),
-                  ),
+            child: _buildBody(
+              context,
+              theme,
+              clients,
+              clientsAsync,
+              selectedType,
+              selectedStatus,
+            ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'clients_list_fab',
-        onPressed: () {},
+        onPressed: () => context.push('/clients/new'),
         icon: const Icon(Icons.person_add),
         label: const Text('Add Client'),
       ),

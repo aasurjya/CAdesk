@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="auth-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
+    </linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="a-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748B"/>
+    </marker>
+    <filter id="s">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="700" fill="#F8FAFC" rx="12"/>
+  <text x="500" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#0F172A">Authentication &amp; RBAC Flow</text>
+  <text x="500" y="62" text-anchor="middle" font-size="12" fill="#64748B">Supabase Auth + JWT claims + Go middleware + PostgreSQL RLS</text>
+
+  <!-- ==================== AUTH FLOW ==================== -->
+  <text x="60" y="105" font-size="13" font-weight="700" fill="#7C3AED">Authentication Sequence</text>
+
+  <!-- Flutter App -->
+  <rect x="40" y="125" width="180" height="50" rx="10" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="2" filter="url(#s)"/>
+  <text x="130" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#5B21B6">Flutter App</text>
+  <text x="130" y="165" text-anchor="middle" font-size="9" fill="#7C3AED">Email OTP / Google SSO</text>
+
+  <!-- Supabase Auth -->
+  <rect x="320" y="125" width="180" height="50" rx="10" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2" filter="url(#s)"/>
+  <text x="410" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">Supabase Auth</text>
+  <text x="410" y="165" text-anchor="middle" font-size="9" fill="#10B981">GoTrue (open source)</text>
+
+  <!-- Go API -->
+  <rect x="600" y="125" width="180" height="50" rx="10" fill="#ECFEFF" stroke="#A5F3FC" stroke-width="2" filter="url(#s)"/>
+  <text x="690" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#0E7490">Go API Gateway</text>
+  <text x="690" y="165" text-anchor="middle" font-size="9" fill="#0891B2">JWT Validation MW</text>
+
+  <!-- Supabase PG -->
+  <rect x="600" y="225" width="180" height="50" rx="10" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2" filter="url(#s)"/>
+  <text x="690" y="248" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">Supabase PG</text>
+  <text x="690" y="265" text-anchor="middle" font-size="9" fill="#10B981">RLS Policies</text>
+
+  <!-- Flow arrows -->
+  <line x1="220" y1="140" x2="318" y2="140" stroke="#7C3AED" stroke-width="2" marker-end="url(#a)"/>
+  <text x="270" y="133" text-anchor="middle" font-size="9" font-weight="600" fill="#7C3AED">1. Login</text>
+
+  <line x1="318" y1="160" x2="222" y2="160" stroke="#10B981" stroke-width="2" marker-end="url(#a)"/>
+  <text x="270" y="175" text-anchor="middle" font-size="9" font-weight="600" fill="#10B981">2. JWT + Refresh</text>
+
+  <line x1="220" y1="150" x2="598" y2="150" stroke="#7C3AED" stroke-width="2" marker-end="url(#a)" stroke-dasharray="8,4"/>
+  <text x="430" y="144" text-anchor="middle" font-size="9" font-weight="600" fill="#7C3AED">3. API call (Bearer JWT + Idempotency-Key)</text>
+
+  <line x1="690" y1="175" x2="690" y2="223" stroke="#64748B" stroke-width="2" marker-end="url(#a-gray)"/>
+  <text x="710" y="203" font-size="9" font-weight="600" fill="#64748B">4. Query</text>
+
+  <!-- JWT Claims box -->
+  <rect x="40" y="215" width="240" height="140" rx="12" fill="#fff" stroke="#C4B5FD" stroke-width="2" filter="url(#s)"/>
+  <text x="160" y="240" text-anchor="middle" font-size="12" font-weight="700" fill="#5B21B6">JWT Claims</text>
+  <rect x="55" y="252" width="210" height="90" rx="6" fill="#F5F3FF"/>
+  <text x="65" y="272" font-size="10" font-family="monospace" fill="#4C1D95">{</text>
+  <text x="75" y="290" font-size="10" font-family="monospace" fill="#4C1D95">"sub": "user-uuid",</text>
+  <text x="75" y="305" font-size="10" font-family="monospace" fill="#4C1D95">"firm_id": "firm-uuid",</text>
+  <text x="75" y="320" font-size="10" font-family="monospace" fill="#4C1D95">"role": "manager",</text>
+  <text x="75" y="335" font-size="10" font-family="monospace" fill="#4C1D95">"email": "ca@firm.in"</text>
+  <text x="65" y="340" font-size="10" font-family="monospace" fill="#4C1D95">}</text>
+
+  <!-- ==================== RBAC TABLE ==================== -->
+  <text x="60" y="400" font-size="13" font-weight="700" fill="#7C3AED">Role-Based Access Control (RBAC)</text>
+
+  <!-- Table header -->
+  <rect x="40" y="415" width="920" height="35" rx="8" fill="url(#auth-grad)"/>
+  <text x="120" y="437" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Role</text>
+  <text x="280" y="437" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Scope</text>
+  <text x="480" y="437" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Can See</text>
+  <text x="720" y="437" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Can Modify</text>
+  <text x="900" y="437" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">Billing</text>
+
+  <!-- Row 1: Owner -->
+  <rect x="40" y="450" width="920" height="40" rx="0" fill="#F5F3FF"/>
+  <text x="120" y="475" text-anchor="middle" font-size="11" font-weight="700" fill="#5B21B6">owner</text>
+  <text x="280" y="475" text-anchor="middle" font-size="10" fill="#334155">Firm-wide</text>
+  <text x="480" y="475" text-anchor="middle" font-size="10" fill="#334155">Everything</text>
+  <text x="720" y="475" text-anchor="middle" font-size="10" fill="#334155">Everything + firm settings</text>
+  <rect x="885" y="462" width="30" height="16" rx="4" fill="#10B981"/>
+  <text x="900" y="474" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Yes</text>
+
+  <!-- Row 2: Partner -->
+  <rect x="40" y="490" width="920" height="40" rx="0" fill="#fff"/>
+  <text x="120" y="515" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">partner</text>
+  <text x="280" y="515" text-anchor="middle" font-size="10" fill="#334155">Firm-wide</text>
+  <text x="480" y="515" text-anchor="middle" font-size="10" fill="#334155">Everything</text>
+  <text x="720" y="515" text-anchor="middle" font-size="10" fill="#334155">Assigned clients, billing</text>
+  <rect x="885" y="502" width="30" height="16" rx="4" fill="#10B981"/>
+  <text x="900" y="514" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Yes</text>
+
+  <!-- Row 3: Manager -->
+  <rect x="40" y="530" width="920" height="40" rx="0" fill="#F5F3FF"/>
+  <text x="120" y="555" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">manager</text>
+  <text x="280" y="555" text-anchor="middle" font-size="10" fill="#334155">Team-level</text>
+  <text x="480" y="555" text-anchor="middle" font-size="10" fill="#334155">Own team's clients</text>
+  <text x="720" y="555" text-anchor="middle" font-size="10" fill="#334155">Assigned clients</text>
+  <rect x="885" y="542" width="30" height="16" rx="4" fill="#F59E0B"/>
+  <text x="900" y="554" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">View</text>
+
+  <!-- Row 4: Staff -->
+  <rect x="40" y="570" width="920" height="40" rx="0" fill="#fff"/>
+  <text x="120" y="595" text-anchor="middle" font-size="11" font-weight="600" fill="#7C3AED">staff</text>
+  <text x="280" y="595" text-anchor="middle" font-size="10" fill="#334155">Individual</text>
+  <text x="480" y="595" text-anchor="middle" font-size="10" fill="#334155">Assigned clients only</text>
+  <text x="720" y="595" text-anchor="middle" font-size="10" fill="#334155">Assigned work only</text>
+  <rect x="885" y="582" width="30" height="16" rx="4" fill="#EF4444"/>
+  <text x="900" y="594" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">No</text>
+
+  <!-- Row 5: Intern -->
+  <rect x="40" y="610" width="920" height="40" rx="0" fill="#F5F3FF" stroke="#E2E8F0" stroke-width="0 0 1 0"/>
+  <text x="120" y="635" text-anchor="middle" font-size="11" font-weight="600" fill="#7C3AED">intern</text>
+  <text x="280" y="635" text-anchor="middle" font-size="10" fill="#334155">Individual</text>
+  <text x="480" y="635" text-anchor="middle" font-size="10" fill="#334155">Assigned tasks only</text>
+  <text x="720" y="635" text-anchor="middle" font-size="10" fill="#334155">Submit for review only</text>
+  <rect x="885" y="622" width="30" height="16" rx="4" fill="#EF4444"/>
+  <text x="900" y="634" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">No</text>
+
+  <!-- Enforcement note -->
+  <rect x="40" y="665" width="920" height="25" rx="6" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+  <text x="500" y="682" text-anchor="middle" font-size="10" font-weight="600" fill="#92400E">Enforced at 3 levels: Go middleware (API) + Supabase RLS (database) + Flutter GoRouter guards (UI)</text>
+
+  <!-- Token storage box -->
+  <rect x="320" y="215" width="240" height="140" rx="12" fill="#fff" stroke="#A5F3FC" stroke-width="2" filter="url(#s)"/>
+  <text x="440" y="240" text-anchor="middle" font-size="12" font-weight="700" fill="#0E7490">Token Storage</text>
+
+  <rect x="335" y="255" width="210" height="28" rx="6" fill="#ECFEFF"/>
+  <text x="340" y="274" font-size="10" fill="#0E7490">Access JWT → flutter_secure_storage</text>
+
+  <rect x="335" y="290" width="210" height="28" rx="6" fill="#ECFEFF"/>
+  <text x="340" y="309" font-size="10" fill="#0E7490">Refresh token → Keychain/Keystore</text>
+
+  <rect x="335" y="325" width="210" height="28" rx="6" fill="#FEF2F2"/>
+  <text x="340" y="344" font-size="10" fill="#DC2626">Portal creds → Supabase Vault ONLY</text>
+
+  <!-- Security badge -->
+  <rect x="830" y="125" width="130" height="155" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="2" filter="url(#s)"/>
+  <text x="895" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">Security</text>
+  <text x="895" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">Invariants</text>
+  <text x="845" y="175" font-size="9" fill="#334155">TLS 1.3 everywhere</text>
+  <text x="845" y="193" font-size="9" fill="#334155">No secrets in app</text>
+  <text x="845" y="211" font-size="9" fill="#334155">Idempotency keys</text>
+  <text x="845" y="229" font-size="9" fill="#334155">PAN/Aadhaar redacted</text>
+  <text x="845" y="247" font-size="9" fill="#334155">HMAC on webhooks</text>
+  <text x="845" y="265" font-size="9" fill="#334155">DPDP Act compliant</text>
+</svg>

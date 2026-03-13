@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 750" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="header-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366F1"/>
+    </marker>
+    <marker id="arr-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#F59E0B"/>
+    </marker>
+    <filter id="sh">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="750" fill="#F8FAFC" rx="12"/>
+  <text x="550" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#0F172A">Data Flow — Three-Tier Strategy</text>
+  <text x="550" y="62" text-anchor="middle" font-size="12" fill="#64748B">Offline-first reads, server-wins sync, ephemeral cache</text>
+
+  <!-- ==================== TIER 1: LOCAL (DRIFT) ==================== -->
+  <rect x="30" y="100" width="320" height="580" rx="16" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" filter="url(#sh)"/>
+  <rect x="30" y="100" width="320" height="40" rx="16" fill="#3B82F6"/>
+  <rect x="30" y="124" width="320" height="16" fill="#3B82F6"/>
+  <text x="190" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">TIER 1: Device (Drift SQLite)</text>
+
+  <text x="50" y="165" font-size="11" font-weight="600" fill="#1E40AF">Characteristics</text>
+  <text x="50" y="185" font-size="10" fill="#334155">Latency: &lt;1ms (local disk)</text>
+  <text x="50" y="203" font-size="10" fill="#334155">Availability: 100% (always local)</text>
+  <text x="50" y="221" font-size="10" fill="#334155">Encryption: SQLCipher (AES-256)</text>
+  <text x="50" y="239" font-size="10" fill="#334155">Schema: Drift Table classes (type-safe)</text>
+
+  <!-- Read path -->
+  <rect x="50" y="265" width="280" height="90" rx="10" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="190" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">READ PATH (Offline-First)</text>
+  <text x="60" y="310" font-size="10" fill="#334155">1. UI reads from Drift (always fast)</text>
+  <text x="60" y="328" font-size="10" fill="#334155">2. Background: check server for updates</text>
+  <text x="60" y="346" font-size="10" fill="#334155">3. If newer data → update Drift → notify UI</text>
+
+  <!-- Write path -->
+  <rect x="50" y="370" width="280" height="115" rx="10" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="190" y="393" text-anchor="middle" font-size="11" font-weight="700" fill="#1D4ED8">WRITE PATH (Queue + Sync)</text>
+  <text x="60" y="415" font-size="10" fill="#334155">1. Write to Drift immediately (optimistic)</text>
+  <text x="60" y="433" font-size="10" fill="#334155">2. Add to sync_queue table (dirty flag)</text>
+  <text x="60" y="451" font-size="10" fill="#334155">3. On connectivity → push to server</text>
+  <text x="60" y="469" font-size="10" fill="#334155">4. Server accepts or rejects (version check)</text>
+
+  <!-- Conflict -->
+  <rect x="50" y="500" width="280" height="100" rx="10" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="190" y="523" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">CONFLICT RESOLUTION</text>
+  <text x="60" y="545" font-size="10" fill="#334155">Strategy: Server-Wins</text>
+  <text x="60" y="563" font-size="10" fill="#334155">On conflict: overwrite local + notify user</text>
+  <text x="60" y="581" font-size="10" fill="#334155">Conflict log in sync_conflicts table</text>
+
+  <!-- Stored data -->
+  <rect x="50" y="615" width="280" height="50" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="190" y="638" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Stored: Clients, ITR, GST, TDS, Tasks,</text>
+  <text x="190" y="654" text-anchor="middle" font-size="10" fill="#3B82F6">Billing, Documents (metadata), Compliance</text>
+
+  <!-- ==================== TIER 2: CLOUD (SUPABASE) ==================== -->
+  <rect x="390" y="100" width="320" height="580" rx="16" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2" filter="url(#sh)"/>
+  <rect x="390" y="100" width="320" height="40" rx="16" fill="#10B981"/>
+  <rect x="390" y="124" width="320" height="16" fill="#10B981"/>
+  <text x="550" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">TIER 2: Cloud (Supabase PG)</text>
+
+  <text x="410" y="165" font-size="11" font-weight="600" fill="#065F46">Characteristics</text>
+  <text x="410" y="185" font-size="10" fill="#334155">Latency: 10-50ms (Mumbai DC)</text>
+  <text x="410" y="203" font-size="10" fill="#334155">Availability: 99.9% (Supabase Pro SLA)</text>
+  <text x="410" y="221" font-size="10" fill="#334155">Multi-tenant: RLS per firm_id</text>
+  <text x="410" y="239" font-size="10" fill="#334155">Backup: PITR (7 days) + daily pg_dump</text>
+
+  <!-- RLS -->
+  <rect x="410" y="265" width="280" height="80" rx="10" fill="#fff" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="550" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">ROW-LEVEL SECURITY</text>
+  <text x="420" y="310" font-size="10" fill="#334155">Every table: firm_id = jwt.firm_id</text>
+  <text x="420" y="328" font-size="10" fill="#334155">Sensitive tables: + role check (RBAC)</text>
+
+  <!-- Realtime -->
+  <rect x="410" y="360" width="280" height="80" rx="10" fill="#fff" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="550" y="383" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">REALTIME (WebSocket)</text>
+  <text x="420" y="405" font-size="10" fill="#334155">Job status → push to Flutter</text>
+  <text x="420" y="423" font-size="10" fill="#334155">Limit: ~500 concurrent (use sparingly)</text>
+
+  <!-- Indexing -->
+  <rect x="410" y="455" width="280" height="100" rx="10" fill="#fff" stroke="#86EFAC" stroke-width="1.5"/>
+  <text x="550" y="478" text-anchor="middle" font-size="11" font-weight="700" fill="#065F46">INDEX STRATEGY</text>
+  <text x="420" y="500" font-size="10" fill="#334155">Baseline: (firm_id), (firm_id, created_at)</text>
+  <text x="420" y="518" font-size="10" fill="#334155">Search: GIN tsvector on name/PAN/email</text>
+  <text x="420" y="536" font-size="10" fill="#334155">Hot queries: partial indexes on status</text>
+
+  <!-- Stored data -->
+  <rect x="410" y="570" width="280" height="95" rx="8" fill="#D1FAE5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="550" y="593" text-anchor="middle" font-size="10" font-weight="600" fill="#065F46">Source of truth for:</text>
+  <text x="420" y="613" font-size="10" fill="#334155">All 74 module tables + audit_log</text>
+  <text x="420" y="631" font-size="10" fill="#334155">jobs, sync_queue, feature_flags</text>
+  <text x="420" y="649" font-size="10" fill="#334155">consent_log, portal_credentials (Vault)</text>
+
+  <!-- ==================== TIER 3: CACHE (REDIS) ==================== -->
+  <rect x="750" y="100" width="320" height="580" rx="16" fill="#FEF2F2" stroke="#FECACA" stroke-width="2" filter="url(#sh)"/>
+  <rect x="750" y="100" width="320" height="40" rx="16" fill="#EF4444"/>
+  <rect x="750" y="124" width="320" height="16" fill="#EF4444"/>
+  <text x="910" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">TIER 3: Cache (Upstash Redis)</text>
+
+  <text x="770" y="165" font-size="11" font-weight="600" fill="#991B1B">Characteristics</text>
+  <text x="770" y="185" font-size="10" fill="#334155">Latency: &lt;5ms (HTTP API, Mumbai)</text>
+  <text x="770" y="203" font-size="10" fill="#334155">Persistence: NONE (ephemeral by design)</text>
+  <text x="770" y="221" font-size="10" fill="#334155">Failure mode: rebuild from PG (slower)</text>
+  <text x="770" y="239" font-size="10" fill="#334155">Scaling: serverless, per-command billing</text>
+
+  <!-- Keys -->
+  <rect x="770" y="265" width="280" height="210" rx="10" fill="#fff" stroke="#FCA5A5" stroke-width="1.5"/>
+  <text x="910" y="288" text-anchor="middle" font-size="11" font-weight="700" fill="#DC2626">KEY STRUCTURE</text>
+
+  <text x="780" y="315" font-size="10" font-weight="600" fill="#991B1B">session:{portal}:{client_id}</text>
+  <text x="780" y="332" font-size="9" fill="#64748B">Portal session token — TTL: 15min</text>
+
+  <text x="780" y="355" font-size="10" font-weight="600" fill="#991B1B">job:{job_id}</text>
+  <text x="780" y="372" font-size="9" fill="#64748B">Job state JSON — TTL: 24h</text>
+
+  <text x="780" y="395" font-size="10" font-weight="600" fill="#991B1B">rate:{firm_id}:{scope}</text>
+  <text x="780" y="412" font-size="9" fill="#64748B">Sliding window counter — TTL: 60s</text>
+
+  <text x="780" y="435" font-size="10" font-weight="600" fill="#991B1B">idem:{key}</text>
+  <text x="780" y="452" font-size="9" fill="#64748B">Response cache — TTL: 24h</text>
+
+  <text x="780" y="468" font-size="10" font-weight="600" fill="#991B1B">rpa:queue (sorted set)</text>
+
+  <!-- Failure recovery -->
+  <rect x="770" y="490" width="280" height="75" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+  <text x="910" y="513" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">ON REDIS FAILURE</text>
+  <text x="780" y="535" font-size="10" fill="#334155">Rate limit: in-memory fallback (Go)</text>
+  <text x="780" y="553" font-size="10" fill="#334155">Sessions: re-auth to portals (slow)</text>
+
+  <rect x="770" y="580" width="280" height="85" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+  <text x="910" y="603" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">INVARIANT</text>
+  <text x="780" y="625" font-size="10" fill="#334155">Redis is NEVER the source of truth.</text>
+  <text x="780" y="643" font-size="10" fill="#334155">All durable state lives in Supabase PG.</text>
+  <text x="780" y="655" font-size="10" fill="#334155">If Redis dies, system is slower but correct.</text>
+
+  <!-- Sync arrows -->
+  <path d="M 350 400 Q 370 400 390 400" stroke="#6366F1" stroke-width="2.5" fill="none" marker-end="url(#arr)"/>
+  <text x="365" y="392" text-anchor="middle" font-size="9" font-weight="600" fill="#6366F1" transform="rotate(-90 365 392)">Sync</text>
+
+  <path d="M 710 350 Q 730 350 750 350" stroke="#EF4444" stroke-width="2.5" fill="none" marker-end="url(#arr-red)"/>
+  <text x="730" y="342" text-anchor="middle" font-size="9" font-weight="600" fill="#EF4444" transform="rotate(-90 730 342)">Cache</text>
+
+  <!-- Bottom: Data lifecycle -->
+  <rect x="30" y="700" width="1040" height="35" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="550" y="722" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Data Lifecycle: Write → Drift (instant) → Sync Queue → Supabase PG (durable) → Redis (cache) → Drift (read-back)</text>
+</svg>

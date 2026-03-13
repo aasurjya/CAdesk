@@ -782,7 +782,7 @@ class ClientHealthDistribution {
 
 final practiceKpiProvider = Provider<PracticeKpi>((ref) {
   final invoices = ref.watch(allInvoicesProvider);
-  final clients = ref.watch(allClientsProvider);
+  final clients = ref.watch(allClientsProvider).asData?.value ?? <Client>[];
   final itrClients = ref.watch(itrClientsProvider);
 
   // Revenue = sum of paid amounts across all non-cancelled invoices

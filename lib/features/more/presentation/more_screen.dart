@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ca_app/core/auth/supabase_auth_provider.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 
-class MoreScreen extends StatefulWidget {
+class MoreScreen extends ConsumerStatefulWidget {
   const MoreScreen({super.key});
 
   @override
-  State<MoreScreen> createState() => _MoreScreenState();
+  ConsumerState<MoreScreen> createState() => _MoreScreenState();
 }
 
-class _MoreScreenState extends State<MoreScreen> {
+class _MoreScreenState extends ConsumerState<MoreScreen> {
   bool _isGridView = true;
+  bool _isSigningOut = false;
 
   static const _menuItems = <_MenuItem>[
     // Quick Access
@@ -393,8 +396,14 @@ class _MoreScreenState extends State<MoreScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: OutlinedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.logout, color: AppColors.error),
+            onPressed: _isSigningOut ? null : _signOut,
+            icon: _isSigningOut
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.logout, color: AppColors.error),
             label: const Text(
               'Sign Out',
               style: TextStyle(color: AppColors.error),
@@ -417,6 +426,24 @@ class _MoreScreenState extends State<MoreScreen> {
         const SizedBox(height: 32),
       ],
     );
+  }
+
+  Future<void> _signOut() async {
+    setState(() => _isSigningOut = true);
+    try {
+      await ref.read(authProvider.notifier).signOut();
+      // Router's auth redirect will navigate to /login automatically.
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign out failed: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSigningOut = false);
+      }
+    }
   }
 }
 

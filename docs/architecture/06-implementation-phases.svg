@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 520" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="p1-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="p2-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97706;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="p3-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+    <filter id="f">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="520" fill="#F8FAFC" rx="12"/>
+  <text x="550" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#0F172A">Implementation Phases</text>
+  <text x="550" y="58" text-anchor="middle" font-size="12" fill="#64748B">Progressive rollout: Foundation → Portal Integration → Full Automation</text>
+
+  <!-- Timeline bar -->
+  <rect x="50" y="75" width="1000" height="8" rx="4" fill="#E2E8F0"/>
+  <rect x="50" y="75" width="300" height="8" rx="4" fill="url(#p1-grad)"/>
+  <rect x="350" y="75" width="330" height="8" rx="4" fill="url(#p2-grad)"/>
+  <rect x="680" y="75" width="370" height="8" rx="4" fill="url(#p3-grad)"/>
+
+  <!-- Phase markers -->
+  <circle cx="50" cy="79" r="6" fill="#3B82F6" stroke="#fff" stroke-width="2"/>
+  <circle cx="350" cy="79" r="6" fill="#F59E0B" stroke="#fff" stroke-width="2"/>
+  <circle cx="680" cy="79" r="6" fill="#10B981" stroke="#fff" stroke-width="2"/>
+  <circle cx="1050" cy="79" r="6" fill="#10B981" stroke="#fff" stroke-width="2"/>
+
+  <!-- ==================== PHASE 1 ==================== -->
+  <rect x="30" y="100" width="320" height="400" rx="16" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" filter="url(#f)"/>
+  <rect x="30" y="100" width="320" height="50" rx="16" fill="url(#p1-grad)"/>
+  <rect x="30" y="134" width="320" height="16" fill="url(#p1-grad)"/>
+  <text x="190" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Phase 1 — Foundation</text>
+  <text x="190" y="140" text-anchor="middle" font-size="10" fill="#BFDBFE">2-3 sprints</text>
+
+  <text x="50" y="175" font-size="11" font-weight="700" fill="#1E40AF">Goal</text>
+  <text x="50" y="193" font-size="10" fill="#334155">End-to-end flow for 1 module (clients)</text>
+
+  <text x="50" y="220" font-size="11" font-weight="700" fill="#1E40AF">Deliverables</text>
+  <rect x="48" y="228" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="236" font-size="10" fill="#334155">Go backend (chi + Fly.io Mumbai)</text>
+  <rect x="48" y="246" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="254" font-size="10" fill="#334155">Supabase project + RLS + Auth</text>
+  <rect x="48" y="264" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="272" font-size="10" fill="#334155">Flutter: Dio + Drift + Supabase SDK</text>
+  <rect x="48" y="282" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="290" font-size="10" fill="#334155">api_client.dart + interceptors</text>
+  <rect x="48" y="300" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="308" font-size="10" fill="#334155">Drift schema (top 10 modules)</text>
+  <rect x="48" y="318" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="326" font-size="10" fill="#334155">Feature flag infrastructure</text>
+  <rect x="48" y="336" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="344" font-size="10" fill="#334155">Sync engine (basic)</text>
+  <rect x="48" y="354" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="362" font-size="10" fill="#334155">ClientRepositoryImpl (first real)</text>
+  <rect x="48" y="372" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="380" font-size="10" fill="#334155">Sentry + Prometheus + logging</text>
+  <rect x="48" y="390" width="8" height="8" rx="2" fill="#3B82F6"/>
+  <text x="64" y="398" font-size="10" fill="#334155">GitHub Actions (Flutter + Go CI)</text>
+
+  <rect x="45" y="420" width="290" height="35" rx="6" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+  <text x="190" y="436" text-anchor="middle" font-size="9" font-weight="700" fill="#1E40AF">EXIT: Tests green, CRUD e2e, metrics visible</text>
+  <text x="190" y="449" text-anchor="middle" font-size="9" fill="#3B82F6">Modules with real impl: 1 / 74</text>
+
+  <!-- Scaling target -->
+  <rect x="45" y="462" width="290" height="25" rx="4" fill="#fff" stroke="#BFDBFE" stroke-width="1"/>
+  <text x="190" y="479" text-anchor="middle" font-size="9" fill="#64748B">50 users | 500 req/min | &lt;500ms p95</text>
+
+  <!-- ==================== PHASE 2 ==================== -->
+  <rect x="375" y="100" width="330" height="400" rx="16" fill="#FFFBEB" stroke="#FDE68A" stroke-width="2" filter="url(#f)"/>
+  <rect x="375" y="100" width="330" height="50" rx="16" fill="url(#p2-grad)"/>
+  <rect x="375" y="134" width="330" height="16" fill="url(#p2-grad)"/>
+  <text x="540" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Phase 2 — Portal Integration</text>
+  <text x="540" y="140" text-anchor="middle" font-size="10" fill="#FEF3C7">3-4 sprints</text>
+
+  <text x="395" y="175" font-size="11" font-weight="700" fill="#92400E">Goal</text>
+  <text x="395" y="193" font-size="10" fill="#334155">Govt portal access via Go proxy</text>
+
+  <text x="395" y="220" font-size="11" font-weight="700" fill="#92400E">Deliverables</text>
+  <rect x="393" y="228" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="236" font-size="10" fill="#334155">Circuit breakers (per portal)</text>
+  <rect x="393" y="246" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="254" font-size="10" fill="#334155">Multi-level rate limiting</text>
+  <rect x="393" y="264" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="272" font-size="10" fill="#334155">GSTN direct API (sandbox → prod)</text>
+  <rect x="393" y="282" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="290" font-size="10" fill="#334155">MCA direct API</text>
+  <rect x="393" y="300" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="308" font-size="10" fill="#334155">TRACES RPA (Form 16 bulk download)</text>
+  <rect x="393" y="318" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="326" font-size="10" fill="#334155">ITD RPA (return status)</text>
+  <rect x="393" y="336" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="344" font-size="10" fill="#334155">Redis job queue + DLQ</text>
+  <rect x="393" y="354" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="362" font-size="10" fill="#334155">R2 storage + presigned URLs</text>
+  <rect x="393" y="372" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="380" font-size="10" fill="#334155">Supabase Realtime + polling fallback</text>
+  <rect x="393" y="390" width="8" height="8" rx="2" fill="#F59E0B"/>
+  <text x="409" y="398" font-size="10" fill="#334155">RPA health monitoring + smoke tests</text>
+
+  <rect x="390" y="420" width="300" height="35" rx="6" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1"/>
+  <text x="540" y="436" text-anchor="middle" font-size="9" font-weight="700" fill="#92400E">EXIT: File GSTR-1, download Form 16</text>
+  <text x="540" y="449" text-anchor="middle" font-size="9" fill="#D97706">Modules with real impl: 10 / 74</text>
+
+  <rect x="390" y="462" width="300" height="25" rx="4" fill="#fff" stroke="#FDE68A" stroke-width="1"/>
+  <text x="540" y="479" text-anchor="middle" font-size="9" fill="#64748B">500 users | 5K req/min | &lt;300ms p95</text>
+
+  <!-- ==================== PHASE 3 ==================== -->
+  <rect x="730" y="100" width="340" height="400" rx="16" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2" filter="url(#f)"/>
+  <rect x="730" y="100" width="340" height="50" rx="16" fill="url(#p3-grad)"/>
+  <rect x="730" y="134" width="340" height="16" fill="url(#p3-grad)"/>
+  <text x="900" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Phase 3 — Full Automation</text>
+  <text x="900" y="140" text-anchor="middle" font-size="10" fill="#D1FAE5">4-6 sprints</text>
+
+  <text x="750" y="175" font-size="11" font-weight="700" fill="#065F46">Goal</text>
+  <text x="750" y="193" font-size="10" fill="#334155">All 74 modules live, batch ops working</text>
+
+  <text x="750" y="220" font-size="11" font-weight="700" fill="#065F46">Deliverables</text>
+  <rect x="748" y="228" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="236" font-size="10" fill="#334155">Remaining 64 *RepositoryImpl</text>
+  <rect x="748" y="246" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="254" font-size="10" fill="#334155">Batch job engine (bulk ops)</text>
+  <rect x="748" y="264" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="272" font-size="10" fill="#334155">EPFO RPA integration</text>
+  <rect x="748" y="282" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="290" font-size="10" fill="#334155">Data pipelines (GSTR-2B, 26AS, IRN)</text>
+  <rect x="748" y="300" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="308" font-size="10" fill="#334155">Full sync engine + conflict UI</text>
+  <rect x="748" y="318" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="326" font-size="10" fill="#334155">DPDP Act compliance</text>
+  <rect x="748" y="336" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="344" font-size="10" fill="#334155">iOS TestFlight (Fastlane)</text>
+  <rect x="748" y="354" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="362" font-size="10" fill="#334155">Filing season surge plan</text>
+  <rect x="748" y="372" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="380" font-size="10" fill="#334155">Alerting + runbooks + on-call</text>
+  <rect x="748" y="390" width="8" height="8" rx="2" fill="#10B981"/>
+  <text x="764" y="398" font-size="10" fill="#334155">Load test (50K req/min target)</text>
+
+  <rect x="745" y="420" width="310" height="35" rx="6" fill="#D1FAE5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="900" y="436" text-anchor="middle" font-size="9" font-weight="700" fill="#065F46">EXIT: 74/74 modules, &lt;200ms p95, DLQ &lt;10</text>
+  <text x="900" y="449" text-anchor="middle" font-size="9" fill="#10B981">Modules with real impl: 74 / 74</text>
+
+  <rect x="745" y="462" width="310" height="25" rx="4" fill="#fff" stroke="#86EFAC" stroke-width="1"/>
+  <text x="900" y="479" text-anchor="middle" font-size="9" fill="#64748B">5,000 users | 50K req/min | &lt;200ms p95 | 99.9% uptime</text>
+</svg>

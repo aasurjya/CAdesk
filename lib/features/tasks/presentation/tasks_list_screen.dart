@@ -15,6 +15,7 @@ class TasksListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final allTasksAsync = ref.watch(allTasksProvider);
     final tasks = ref.watch(filteredTasksProvider);
     final counts = ref.watch(taskCountsProvider);
     final selectedFilter = ref.watch(taskStatusFilterProvider);
@@ -38,70 +39,107 @@ class TasksListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Summary filter chips
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
-            child: Row(
+      body: allTasksAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (error, _) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _SummaryChip(
-                  label: 'All',
-                  count: counts['all'] ?? 0,
-                  isSelected: selectedFilter == 0,
-                  onTap: () =>
-                      ref.read(taskStatusFilterProvider.notifier).update(0),
+                const Icon(Icons.error_outline_rounded, size: 64,
+                    color: AppColors.error),
+                const SizedBox(height: 16),
+                Text(
+                  'Failed to load tasks',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                const SizedBox(width: 8),
-                _SummaryChip(
-                  label: 'Pending',
-                  count: counts['pending'] ?? 0,
-                  isSelected: selectedFilter == 1,
-                  onTap: () =>
-                      ref.read(taskStatusFilterProvider.notifier).update(1),
+                const SizedBox(height: 8),
+                Text(
+                  error.toString(),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.neutral600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(width: 8),
-                _SummaryChip(
-                  label: 'In Progress',
-                  count: counts['inProgress'] ?? 0,
-                  isSelected: selectedFilter == 2,
-                  onTap: () =>
-                      ref.read(taskStatusFilterProvider.notifier).update(2),
-                ),
-                const SizedBox(width: 8),
-                _SummaryChip(
-                  label: 'Overdue',
-                  count: counts['overdue'] ?? 0,
-                  isSelected: selectedFilter == 3,
-                  isUrgent: true,
-                  onTap: () =>
-                      ref.read(taskStatusFilterProvider.notifier).update(3),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () =>
+                      ref.read(allTasksProvider.notifier).refresh(),
+                  icon: const Icon(Icons.refresh_rounded),
+                  label: const Text('Retry'),
                 ),
               ],
             ),
           ),
-          // Task list
-          Expanded(
-            child: tasks.isEmpty
-                ? _EmptyState(hasFilters: selectedFilter != 0)
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
-                    itemCount: tasks.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      final task = tasks[index];
-                      return TaskCard(
-                        task: task,
-                        onTap: () => _showTaskDetail(context, task),
-                        onSwipeComplete: () =>
-                            _completeTask(context, ref, task),
-                      );
-                    },
+        ),
+        data: (_) => Column(
+          children: [
+            // Summary filter chips
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+              child: Row(
+                children: [
+                  _SummaryChip(
+                    label: 'All',
+                    count: counts['all'] ?? 0,
+                    isSelected: selectedFilter == 0,
+                    onTap: () =>
+                        ref.read(taskStatusFilterProvider.notifier).update(0),
                   ),
-          ),
-        ],
+                  const SizedBox(width: 8),
+                  _SummaryChip(
+                    label: 'Pending',
+                    count: counts['pending'] ?? 0,
+                    isSelected: selectedFilter == 1,
+                    onTap: () =>
+                        ref.read(taskStatusFilterProvider.notifier).update(1),
+                  ),
+                  const SizedBox(width: 8),
+                  _SummaryChip(
+                    label: 'In Progress',
+                    count: counts['inProgress'] ?? 0,
+                    isSelected: selectedFilter == 2,
+                    onTap: () =>
+                        ref.read(taskStatusFilterProvider.notifier).update(2),
+                  ),
+                  const SizedBox(width: 8),
+                  _SummaryChip(
+                    label: 'Overdue',
+                    count: counts['overdue'] ?? 0,
+                    isSelected: selectedFilter == 3,
+                    isUrgent: true,
+                    onTap: () =>
+                        ref.read(taskStatusFilterProvider.notifier).update(3),
+                  ),
+                ],
+              ),
+            ),
+            // Task list
+            Expanded(
+              child: tasks.isEmpty
+                  ? _EmptyState(hasFilters: selectedFilter != 0)
+                  : ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
+                      itemCount: tasks.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        final task = tasks[index];
+                        return TaskCard(
+                          task: task,
+                          onTap: () => _showTaskDetail(context, task),
+                          onSwipeComplete: () =>
+                              _completeTask(context, ref, task),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'tasks_list_fab',
@@ -112,17 +150,12 @@ class TasksListScreen extends ConsumerWidget {
   }
 
   void _completeTask(BuildContext context, WidgetRef ref, Task task) {
-    final tasks = ref.read(allTasksProvider);
-    final updated = tasks.map((t) {
-      if (t.id == task.id) {
-        return t.copyWith(
-          status: TaskStatus.completed,
-          completedDate: DateTime.now(),
-        );
-      }
-      return t;
-    }).toList();
-    ref.read(allTasksProvider.notifier).update(updated);
+    final originalTask = task;
+    final completedTask = task.copyWith(
+      status: TaskStatus.completed,
+      completedDate: DateTime.now(),
+    );
+    ref.read(allTasksProvider.notifier).updateTask(completedTask);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -130,7 +163,7 @@ class TasksListScreen extends ConsumerWidget {
         action: SnackBarAction(
           label: 'Undo',
           onPressed: () {
-            ref.read(allTasksProvider.notifier).update(tasks);
+            ref.read(allTasksProvider.notifier).updateTask(originalTask);
           },
         ),
       ),

@@ -1,0 +1,281 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="flutter-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#027DFD;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0553B1;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="go-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ADD8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#007D9C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="supa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3ECF8E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A8F5C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="redis-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF4438;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C62828;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="rpa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E44D26;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B7361B;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F6821F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#D97B16;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.1"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748B"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#027DFD"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3ECF8E"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#F8FAFC" rx="12"/>
+
+  <!-- Title -->
+  <text x="600" y="45" text-anchor="middle" font-size="22" font-weight="700" fill="#0F172A">CADesk — System Architecture</text>
+  <text x="600" y="68" text-anchor="middle" font-size="13" fill="#64748B">Practice Management for Chartered Accountants (India)</text>
+
+  <!-- CLIENTS ROW -->
+  <text x="110" y="115" text-anchor="middle" font-size="11" font-weight="600" fill="#94A3B8" letter-spacing="1.5">CLIENTS</text>
+
+  <!-- iPhone -->
+  <rect x="30" y="130" width="60" height="50" rx="8" fill="#fff" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="60" y="152" text-anchor="middle" font-size="9" font-weight="600" fill="#334155">iPhone</text>
+  <text x="60" y="167" text-anchor="middle" font-size="8" fill="#94A3B8">iOS</text>
+
+  <!-- iPad -->
+  <rect x="105" y="130" width="60" height="50" rx="8" fill="#fff" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="135" y="152" text-anchor="middle" font-size="9" font-weight="600" fill="#334155">iPad</text>
+  <text x="135" y="167" text-anchor="middle" font-size="8" fill="#94A3B8">iPadOS</text>
+
+  <!-- MacBook -->
+  <rect x="180" y="130" width="60" height="50" rx="8" fill="#fff" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="210" y="152" text-anchor="middle" font-size="9" font-weight="600" fill="#334155">MacBook</text>
+  <text x="210" y="167" text-anchor="middle" font-size="8" fill="#94A3B8">macOS</text>
+
+  <!-- Web Browser -->
+  <rect x="255" y="130" width="60" height="50" rx="8" fill="#fff" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="285" y="152" text-anchor="middle" font-size="9" font-weight="600" fill="#334155">Browser</text>
+  <text x="285" y="167" text-anchor="middle" font-size="8" fill="#94A3B8">Web</text>
+
+  <!-- Arrows from clients down -->
+  <line x1="60" y1="180" x2="60" y2="210" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="135" y1="180" x2="135" y2="210" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="210" y1="180" x2="210" y2="210" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="285" y1="180" x2="285" y2="210" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ==================== FLUTTER APP LAYER ==================== -->
+  <rect x="20" y="210" width="530" height="260" rx="16" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="20" y="210" width="530" height="36" rx="16" fill="url(#flutter-grad)"/>
+  <rect x="20" y="230" width="530" height="16" fill="url(#flutter-grad)"/>
+  <text x="285" y="233" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Flutter App (Dart)</text>
+
+  <!-- Riverpod -->
+  <rect x="40" y="260" width="110" height="45" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="95" y="280" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Riverpod</text>
+  <text x="95" y="294" text-anchor="middle" font-size="9" fill="#64748B">State Mgmt</text>
+
+  <!-- GoRouter -->
+  <rect x="165" y="260" width="110" height="45" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="220" y="280" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">GoRouter</text>
+  <text x="220" y="294" text-anchor="middle" font-size="9" fill="#64748B">Navigation</text>
+
+  <!-- Feature Flags -->
+  <rect x="290" y="260" width="110" height="45" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="345" y="280" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Feature Flags</text>
+  <text x="345" y="294" text-anchor="middle" font-size="9" fill="#64748B">Remote Config</text>
+
+  <!-- Sentry -->
+  <rect x="415" y="260" width="110" height="45" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="470" y="280" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Sentry</text>
+  <text x="470" y="294" text-anchor="middle" font-size="9" fill="#64748B">Error Tracking</text>
+
+  <!-- Domain Layer -->
+  <rect x="40" y="320" width="235" height="50" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="157" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">Domain Layer (FROZEN)</text>
+  <text x="157" y="358" text-anchor="middle" font-size="9" fill="#3B82F6">74 Modules / Abstract Repos / Models</text>
+
+  <!-- Data Layer -->
+  <rect x="290" y="320" width="235" height="50" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="407" y="343" text-anchor="middle" font-size="11" font-weight="700" fill="#1E40AF">Data Layer</text>
+  <text x="407" y="358" text-anchor="middle" font-size="9" fill="#3B82F6">*RepositoryImpl / Mappers / Sources</text>
+
+  <!-- Drift SQLite -->
+  <rect x="40" y="385" width="155" height="50" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="117" y="407" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Drift (SQLite)</text>
+  <text x="117" y="423" text-anchor="middle" font-size="9" fill="#64748B">Offline DB + Encrypted</text>
+
+  <!-- Dio HTTP -->
+  <rect x="210" y="385" width="155" height="50" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="287" y="407" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Dio HTTP Client</text>
+  <text x="287" y="423" text-anchor="middle" font-size="9" fill="#64748B">+ Retry + Idempotency</text>
+
+  <!-- Sync Engine -->
+  <rect x="380" y="385" width="155" height="50" rx="8" fill="#fff" stroke="#93C5FD" stroke-width="1.5"/>
+  <text x="457" y="407" text-anchor="middle" font-size="10" font-weight="600" fill="#1E40AF">Sync Engine</text>
+  <text x="457" y="423" text-anchor="middle" font-size="9" fill="#64748B">Conflict Resolution</text>
+
+  <!-- Arrow from Dio down to Go API -->
+  <line x1="287" y1="470" x2="287" y2="510" stroke="#027DFD" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+  <text x="310" y="495" font-size="9" font-weight="600" fill="#027DFD">HTTPS + JWT</text>
+
+  <!-- ==================== GO API GATEWAY ==================== -->
+  <rect x="20" y="515" width="530" height="160" rx="16" fill="#ECFEFF" stroke="#A5F3FC" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="20" y="515" width="530" height="36" rx="16" fill="url(#go-grad)"/>
+  <rect x="20" y="535" width="530" height="16" fill="url(#go-grad)"/>
+  <text x="285" y="538" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Go API Gateway (chi router) — Fly.io Mumbai</text>
+
+  <!-- Go internal boxes -->
+  <rect x="40" y="565" width="95" height="45" rx="6" fill="#fff" stroke="#67E8F9" stroke-width="1.5"/>
+  <text x="87" y="584" text-anchor="middle" font-size="9" font-weight="600" fill="#0E7490">Auth MW</text>
+  <text x="87" y="598" text-anchor="middle" font-size="8" fill="#94A3B8">JWT + RBAC</text>
+
+  <rect x="145" y="565" width="95" height="45" rx="6" fill="#fff" stroke="#67E8F9" stroke-width="1.5"/>
+  <text x="192" y="584" text-anchor="middle" font-size="9" font-weight="600" fill="#0E7490">Rate Limit</text>
+  <text x="192" y="598" text-anchor="middle" font-size="8" fill="#94A3B8">Multi-level</text>
+
+  <rect x="250" y="565" width="95" height="45" rx="6" fill="#fff" stroke="#67E8F9" stroke-width="1.5"/>
+  <text x="297" y="584" text-anchor="middle" font-size="9" font-weight="600" fill="#0E7490">Portal Proxy</text>
+  <text x="297" y="598" text-anchor="middle" font-size="8" fill="#94A3B8">GSTN MCA ITD</text>
+
+  <rect x="355" y="565" width="95" height="45" rx="6" fill="#fff" stroke="#67E8F9" stroke-width="1.5"/>
+  <text x="402" y="584" text-anchor="middle" font-size="9" font-weight="600" fill="#0E7490">Job Queue</text>
+  <text x="402" y="598" text-anchor="middle" font-size="8" fill="#94A3B8">+ DLQ</text>
+
+  <rect x="460" y="565" width="75" height="45" rx="6" fill="#fff" stroke="#67E8F9" stroke-width="1.5"/>
+  <text x="497" y="584" text-anchor="middle" font-size="9" font-weight="600" fill="#0E7490">Circuit</text>
+  <text x="497" y="598" text-anchor="middle" font-size="8" fill="#94A3B8">Breakers</text>
+
+  <!-- Observability bar -->
+  <rect x="40" y="622" width="495" height="30" rx="6" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1"/>
+  <text x="287" y="641" text-anchor="middle" font-size="9" font-weight="600" fill="#0D9488">OpenTelemetry Traces + Prometheus Metrics + Structured Logging (slog)</text>
+
+  <!-- ==================== INFRASTRUCTURE LAYER ==================== -->
+  <text x="600" y="720" text-anchor="middle" font-size="11" font-weight="600" fill="#94A3B8" letter-spacing="1.5">INFRASTRUCTURE</text>
+
+  <!-- Supabase -->
+  <rect x="20" y="735" width="220" height="140" rx="12" fill="#ECFDF5" stroke="#86EFAC" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="20" y="735" width="220" height="32" rx="12" fill="url(#supa-grad)"/>
+  <rect x="20" y="751" width="220" height="16" fill="url(#supa-grad)"/>
+  <text x="130" y="755" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Supabase (ap-south-1)</text>
+  <text x="40" y="790" font-size="10" fill="#166534">PostgreSQL + RLS</text>
+  <text x="40" y="808" font-size="10" fill="#166534">Auth (Email OTP + Google)</text>
+  <text x="40" y="826" font-size="10" fill="#166534">Realtime (WebSocket)</text>
+  <text x="40" y="844" font-size="10" fill="#166534">Vault (AES-256 creds)</text>
+  <text x="40" y="862" font-size="10" fill="#166534">Edge Functions</text>
+
+  <!-- Redis -->
+  <rect x="260" y="735" width="200" height="140" rx="12" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="260" y="735" width="200" height="32" rx="12" fill="url(#redis-grad)"/>
+  <rect x="260" y="751" width="200" height="16" fill="url(#redis-grad)"/>
+  <text x="360" y="755" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Upstash Redis</text>
+  <text x="280" y="790" font-size="10" fill="#991B1B">Session tokens (TTL 15m)</text>
+  <text x="280" y="808" font-size="10" fill="#991B1B">Job state (TTL 24h)</text>
+  <text x="280" y="826" font-size="10" fill="#991B1B">Rate limit counters</text>
+  <text x="280" y="844" font-size="10" fill="#991B1B">Idempotency keys</text>
+  <text x="280" y="862" font-size="10" fill="#991B1B">Circuit breaker state</text>
+
+  <!-- Cloudflare -->
+  <rect x="480" y="735" width="200" height="140" rx="12" fill="#FFF7ED" stroke="#FDBA74" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="480" y="735" width="200" height="32" rx="12" fill="url(#cf-grad)"/>
+  <rect x="480" y="751" width="200" height="16" fill="url(#cf-grad)"/>
+  <text x="580" y="755" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">Cloudflare</text>
+  <text x="500" y="790" font-size="10" fill="#9A3412">Pages (Flutter Web CDN)</text>
+  <text x="500" y="808" font-size="10" fill="#9A3412">R2 (PDF/FVU storage)</text>
+  <text x="500" y="826" font-size="10" fill="#9A3412">Presigned URL downloads</text>
+  <text x="500" y="844" font-size="10" fill="#9A3412">Global edge caching</text>
+
+  <!-- Arrows from Go to infra -->
+  <line x1="130" y1="675" x2="130" y2="735" stroke="#3ECF8E" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <line x1="360" y1="675" x2="360" y2="735" stroke="#FF4438" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="500" y1="675" x2="580" y2="735" stroke="#F6821F" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ==================== RPA SIDE PANEL ==================== -->
+  <rect x="620" y="210" width="270" height="340" rx="16" fill="#FFF1F2" stroke="#FECDD3" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="620" y="210" width="270" height="36" rx="16" fill="url(#rpa-grad)"/>
+  <rect x="620" y="230" width="270" height="16" fill="url(#rpa-grad)"/>
+  <text x="755" y="233" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">Playwright RPA Workers</text>
+  <text x="755" y="258" text-anchor="middle" font-size="10" fill="#9F1239">Node.js — Fly.io Mumbai (separate app)</text>
+
+  <!-- RPA internals -->
+  <rect x="640" y="275" width="230" height="38" rx="6" fill="#fff" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="755" y="295" text-anchor="middle" font-size="10" font-weight="600" fill="#9F1239">Redis Job Consumer</text>
+  <text x="755" y="305" text-anchor="middle" font-size="8" fill="#94A3B8">Pop from rpa:queue sorted set</text>
+
+  <rect x="640" y="323" width="230" height="38" rx="6" fill="#fff" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="755" y="343" text-anchor="middle" font-size="10" font-weight="600" fill="#9F1239">Browser Pool Manager</text>
+  <text x="755" y="353" text-anchor="middle" font-size="8" fill="#94A3B8">1 Chromium instance per worker</text>
+
+  <rect x="640" y="371" width="230" height="38" rx="6" fill="#fff" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="755" y="391" text-anchor="middle" font-size="10" font-weight="600" fill="#9F1239">DOM Checksum Validator</text>
+  <text x="755" y="401" text-anchor="middle" font-size="8" fill="#94A3B8">Detect portal HTML changes</text>
+
+  <rect x="640" y="419" width="230" height="38" rx="6" fill="#fff" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="755" y="439" text-anchor="middle" font-size="10" font-weight="600" fill="#9F1239">Screenshot on Failure</text>
+  <text x="755" y="449" text-anchor="middle" font-size="8" fill="#94A3B8">Capture + upload to R2</text>
+
+  <!-- Portal targets -->
+  <rect x="640" y="470" width="70" height="30" rx="6" fill="#FFF" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="675" y="490" text-anchor="middle" font-size="9" font-weight="600" fill="#9F1239">ITD</text>
+  <rect x="720" y="470" width="70" height="30" rx="6" fill="#FFF" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="755" y="490" text-anchor="middle" font-size="9" font-weight="600" fill="#9F1239">TRACES</text>
+  <rect x="800" y="470" width="70" height="30" rx="6" fill="#FFF" stroke="#FDA4AF" stroke-width="1"/>
+  <text x="835" y="490" text-anchor="middle" font-size="9" font-weight="600" fill="#9F1239">EPFO</text>
+  <text x="755" y="525" text-anchor="middle" font-size="9" fill="#94A3B8">Government Portals (browser automation)</text>
+
+  <!-- Arrow from Go API to RPA -->
+  <line x1="550" y1="590" x2="620" y2="340" stroke="#E44D26" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="6,3"/>
+  <text x="570" y="450" font-size="9" font-weight="600" fill="#E44D26" transform="rotate(-50 570 450)">Redis Queue</text>
+
+  <!-- ==================== GOVT PORTALS (direct API) ==================== -->
+  <rect x="940" y="210" width="240" height="200" rx="16" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1060" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#5B21B6">Government APIs</text>
+  <text x="1060" y="258" text-anchor="middle" font-size="10" fill="#7C3AED">Direct REST (via Go proxy)</text>
+
+  <rect x="960" y="275" width="200" height="35" rx="6" fill="#fff" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="1060" y="297" text-anchor="middle" font-size="10" font-weight="600" fill="#5B21B6">GSTN (GST Network)</text>
+
+  <rect x="960" y="320" width="200" height="35" rx="6" fill="#fff" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="1060" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#5B21B6">MCA (Ministry of Corp)</text>
+
+  <rect x="960" y="365" width="200" height="35" rx="6" fill="#fff" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="1060" y="387" text-anchor="middle" font-size="10" font-weight="600" fill="#5B21B6">e-Invoice (IRN Webhook)</text>
+
+  <!-- Arrow from Go to Govt APIs -->
+  <line x1="550" y1="570" x2="940" y2="330" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="6,3"/>
+  <text x="730" y="435" font-size="9" font-weight="600" fill="#7C3AED" transform="rotate(-18 730 435)">REST + Circuit Breaker</text>
+
+  <!-- ==================== MONITORING SIDE ==================== -->
+  <rect x="940" y="470" width="240" height="150" rx="16" fill="#FEF9C3" stroke="#FDE047" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1060" y="498" text-anchor="middle" font-size="13" font-weight="700" fill="#854D0E">Observability</text>
+
+  <text x="960" y="525" font-size="10" fill="#854D0E">Sentry — errors + performance</text>
+  <text x="960" y="545" font-size="10" fill="#854D0E">Grafana Cloud — dashboards</text>
+  <text x="960" y="565" font-size="10" fill="#854D0E">Prometheus — metrics</text>
+  <text x="960" y="585" font-size="10" fill="#854D0E">OpenTelemetry — traces</text>
+  <text x="960" y="605" font-size="10" fill="#854D0E">status.cadesk.app — portal health</text>
+
+  <!-- Legend -->
+  <rect x="940" y="735" width="240" height="140" rx="12" fill="#fff" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="1060" y="760" text-anchor="middle" font-size="11" font-weight="700" fill="#334155">Legend</text>
+  <line x1="960" y1="775" x2="990" y2="775" stroke="#027DFD" stroke-width="2.5"/>
+  <text x="1000" y="779" font-size="10" fill="#334155">HTTPS (JWT auth)</text>
+  <line x1="960" y1="798" x2="990" y2="798" stroke="#E44D26" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1000" y="802" font-size="10" fill="#334155">Redis queue (async)</text>
+  <line x1="960" y1="821" x2="990" y2="821" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="1000" y="825" font-size="10" fill="#334155">REST API (circuit-broken)</text>
+  <line x1="960" y1="844" x2="990" y2="844" stroke="#3ECF8E" stroke-width="2"/>
+  <text x="1000" y="848" font-size="10" fill="#334155">Database connection</text>
+  <line x1="960" y1="860" x2="990" y2="860" stroke="#94A3B8" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="1000" y="864" font-size="10" fill="#334155">Client connection</text>
+</svg>

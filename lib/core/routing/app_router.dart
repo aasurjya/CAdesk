@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ca_app/core/auth/auth_state.dart';
+import 'package:ca_app/core/auth/supabase_auth_provider.dart';
 import 'package:ca_app/core/widgets/adaptive_scaffold.dart';
+import 'package:ca_app/features/auth/presentation/login_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_screen.dart';
 import 'package:ca_app/features/today/presentation/today_screen.dart';
 import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
@@ -77,6 +80,7 @@ import 'package:ca_app/features/practice/presentation/practice_dashboard_screen.
 import 'package:ca_app/features/practice/presentation/workflow_list_screen.dart';
 import 'package:ca_app/features/practice/presentation/assignment_screen.dart';
 import 'package:ca_app/features/practice/presentation/capacity_screen.dart';
+import 'package:ca_app/features/clients/presentation/client_form_screen.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
@@ -85,11 +89,48 @@ final _todayNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'today');
 final _docsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'docs');
 final _moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
 
+/// A [ChangeNotifier] that bridges [authProvider] to GoRouter's
+/// [refreshListenable], triggering a route re-evaluation whenever
+/// the authentication state changes.
+class _AuthListenable extends ChangeNotifier {
+  _AuthListenable(Ref ref) {
+    ref.listen(authProvider, (_, _) => notifyListeners());
+  }
+}
+
 final appRouterProvider = Provider<GoRouter>((ref) {
+  final listenable = _AuthListenable(ref);
+  ref.onDispose(listenable.dispose);
+
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/',
+    refreshListenable: listenable,
+    redirect: (context, state) {
+      final authAsync = ref.read(authProvider);
+
+      // While loading auth state, don't redirect.
+      if (authAsync.isLoading) return null;
+
+      final authState = authAsync.asData?.value;
+      final isOnLogin = state.matchedLocation == '/login';
+
+      // Not authenticated → go to login.
+      if (authState is AuthUnauthenticated || authState == null) {
+        return isOnLogin ? null : '/login';
+      }
+
+      // Authenticated but on login → go home.
+      if (authState is AuthAuthenticated && isOnLogin) return '/';
+
+      return null;
+    },
     routes: [
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return AdaptiveScaffold(navigationShell: navigationShell);
@@ -119,6 +160,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) {
                       final clientId = state.pathParameters['clientId']!;
                       return ClientDetailScreen(clientId: clientId);
+                    },
+                  ),
+                  GoRoute(
+                    path: 'new',
+                    name: 'clientNew',
+                    builder: (context, state) => const ClientFormScreen(),
+                  ),
+                  GoRoute(
+                    path: ':clientId/edit',
+                    name: 'clientEdit',
+                    builder: (context, state) {
+                      final clientId = state.pathParameters['clientId']!;
+                      return ClientFormScreen(clientId: clientId);
                     },
                   ),
                 ],

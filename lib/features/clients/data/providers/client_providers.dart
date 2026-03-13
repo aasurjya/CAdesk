@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/clients/data/providers/client_repository_providers.dart';
 import 'package:ca_app/features/clients/domain/models/client.dart';
 import 'package:ca_app/features/clients/domain/models/client_type.dart';
+import 'package:ca_app/features/clients/domain/repositories/client_repository.dart';
 
 // ---------------------------------------------------------------------------
 // ClientHealthScore model
@@ -593,25 +595,51 @@ enum ClientSortOption {
   final String label;
 }
 
-final allClientsProvider = NotifierProvider<AllClientsNotifier, List<Client>>(
-  AllClientsNotifier.new,
-);
+final allClientsProvider =
+    AsyncNotifierProvider<AllClientsNotifier, List<Client>>(
+      AllClientsNotifier.new,
+    );
 
-class AllClientsNotifier extends Notifier<List<Client>> {
+class AllClientsNotifier extends AsyncNotifier<List<Client>> {
   @override
-  List<Client> build() => List.unmodifiable(mockClients);
+  Future<List<Client>> build() async {
+    final repo = ref.watch(clientRepositoryProvider);
+    return _fetchAndWatch(repo);
+  }
 
-  void update(List<Client> value) => state = value;
+  Future<List<Client>> _fetchAndWatch(ClientRepository repo) async {
+    final stream = repo.watchAll();
+
+    // Subscribe to local stream for live updates.
+    final sub = stream.listen((clients) {
+      if (state.hasValue) {
+        state = AsyncData(List.unmodifiable(clients));
+      }
+    });
+    ref.onDispose(sub.cancel);
+
+    // Fetch from remote to populate local cache; fall back to stream on error.
+    try {
+      return await repo.getAll();
+    } catch (_) {
+      return stream.first;
+    }
+  }
 
   /// Replaces the client with [updated.id] in the state list.
   void updateClient(Client updated) {
-    final current = state.toList();
+    final current = state.asData?.value ?? [];
     final idx = current.indexWhere((c) => c.id == updated.id);
-    if (idx == -1) {
-      return;
-    }
-    current[idx] = updated;
-    state = List.unmodifiable(current);
+    if (idx == -1) return;
+    final next = List<Client>.of(current)..[idx] = updated;
+    state = AsyncData(List.unmodifiable(next));
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => ref.read(clientRepositoryProvider).getAll(),
+    );
   }
 }
 
@@ -663,7 +691,7 @@ class SortOptionNotifier extends Notifier<ClientSortOption> {
 }
 
 final filteredClientsProvider = Provider<List<Client>>((ref) {
-  final clients = ref.watch(allClientsProvider);
+  final clients = ref.watch(allClientsProvider).asData?.value ?? [];
   final query = ref.watch(searchQueryProvider).toLowerCase().trim();
   final statusFilter = ref.watch(selectedStatusFilterProvider);
   final typeFilter = ref.watch(selectedTypeFilterProvider);
@@ -706,7 +734,7 @@ final filteredClientsProvider = Provider<List<Client>>((ref) {
 });
 
 final clientByIdProvider = Provider.family<Client?, String>((ref, id) {
-  final clients = ref.watch(allClientsProvider);
+  final clients = ref.watch(allClientsProvider).asData?.value ?? [];
   try {
     return clients.firstWhere((c) => c.id == id);
   } catch (_) {
