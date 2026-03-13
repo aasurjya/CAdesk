@@ -77,8 +77,9 @@ class BankReconciliation {
     if (other.period != period) return false;
     if (other.bankBalance != bankBalance) return false;
     if (other.bookBalance != bookBalance) return false;
-    if (other.unreconciledItems.length != unreconciledItems.length)
+    if (other.unreconciledItems.length != unreconciledItems.length) {
       return false;
+    }
     if (other.reconciledItems.length != reconciledItems.length) return false;
     for (var i = 0; i < unreconciledItems.length; i++) {
       if (other.unreconciledItems[i] != unreconciledItems[i]) return false;
