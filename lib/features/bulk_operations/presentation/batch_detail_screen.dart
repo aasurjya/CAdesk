@@ -96,10 +96,7 @@ class BatchDetailScreen extends ConsumerWidget {
                     final updatedJobs = batch.jobs.map((j) {
                       if (j.jobId == job.jobId &&
                           j.status == JobStatus.failed) {
-                        return j.copyWith(
-                          status: JobStatus.retrying,
-                          errorMessage: null,
-                        );
+                        return j.copyWith(status: JobStatus.queued);
                       }
                       return j;
                     }).toList();

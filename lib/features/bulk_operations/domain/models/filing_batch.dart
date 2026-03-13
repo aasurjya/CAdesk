@@ -76,7 +76,7 @@ class FilingBatch {
 
   /// Number of completed (success) jobs.
   int get completedCount =>
-      jobs.where((j) => j.status == JobStatus.success).length;
+      jobs.where((j) => j.status == JobStatus.completed).length;
 
   /// Number of failed jobs.
   int get failedCount => jobs.where((j) => j.status == JobStatus.failed).length;

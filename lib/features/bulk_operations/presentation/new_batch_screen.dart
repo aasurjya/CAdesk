@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/bulk_operations/domain/models/batch_job.dart';
+import 'package:ca_app/features/bulk_operations/domain/models/batch_job_item.dart';
 import 'package:ca_app/features/bulk_operations/domain/models/filing_batch.dart';
 import 'package:ca_app/features/bulk_operations/data/providers/bulk_operations_providers.dart';
 
@@ -176,16 +177,29 @@ class _NewBatchScreenState extends ConsumerState<NewBatchScreen> {
   }
 
   void _startBatch() {
+    final now = DateTime.now();
     final jobs = _selectedClientIds.map((clientId) {
       final client = _availableClients.firstWhere((c) => c.id == clientId);
       final jobType = _jobTypeForBatchType(_selectedType);
       return BatchJob(
-        jobId: 'job-${DateTime.now().microsecondsSinceEpoch}-$clientId',
-        clientName: client.name,
-        clientId: clientId,
+        jobId: 'job-${now.microsecondsSinceEpoch}-$clientId',
+        name: '${client.name} — ${_selectedType.label}',
         jobType: jobType,
+        priority: JobPriority.normal,
+        items: [
+          BatchJobItem(
+            itemId: 'item-${now.microsecondsSinceEpoch}-$clientId',
+            clientName: client.name,
+            pan: clientId,
+            payload: '{"type":"${_selectedType.label}","fy":"$_selectedFY"}',
+            status: BatchJobItemStatus.pending,
+            attempts: 0,
+          ),
+        ],
         status: JobStatus.queued,
-        errorMessage: null,
+        completedItems: 0,
+        failedItems: 0,
+        createdAt: now,
       );
     }).toList();
 
@@ -203,16 +217,16 @@ class _NewBatchScreenState extends ConsumerState<NewBatchScreen> {
     Navigator.of(context).pop();
   }
 
-  static String _jobTypeForBatchType(BatchType type) {
+  static JobType _jobTypeForBatchType(BatchType type) {
     switch (type) {
       case BatchType.itrFiling:
-        return 'ITR-1';
+        return JobType.itrFiling;
       case BatchType.gstFiling:
-        return 'GSTR-3B';
+        return JobType.gstFiling;
       case BatchType.tdsReturns:
-        return 'TDS 24Q';
+        return JobType.tdsFiling;
       case BatchType.form16Bulk:
-        return 'Form 16';
+        return JobType.bulkExport;
     }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/bulk_operations/domain/models/batch_job.dart';
 
-/// Tile showing a single job's status, client name, and optional error.
+/// Tile showing a single job's status, name, and optional error from items.
 class JobStatusTile extends StatelessWidget {
   const JobStatusTile({super.key, required this.job, required this.onRetry});
 
@@ -13,6 +13,12 @@ class JobStatusTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    // Surface the first failed item's error, if any.
+    final firstError = job.items
+        .where((item) => item.error != null)
+        .map((item) => item.error)
+        .firstOrNull;
 
     return Card(
       clipBehavior: Clip.antiAlias,
@@ -28,7 +34,7 @@ class JobStatusTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        job.clientName,
+                        job.name,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColors.neutral900,
@@ -36,7 +42,7 @@ class JobStatusTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        job.jobType,
+                        _jobTypeLabel(job.jobType),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: AppColors.neutral400,
                         ),
@@ -47,7 +53,7 @@ class JobStatusTile extends StatelessWidget {
                 _JobStatusChip(status: job.status),
               ],
             ),
-            if (job.errorMessage != null) ...[
+            if (firstError != null) ...[
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
@@ -57,7 +63,7 @@ class JobStatusTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  job.errorMessage!,
+                  firstError,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: AppColors.error,
                   ),
@@ -84,6 +90,21 @@ class JobStatusTile extends StatelessWidget {
       ),
     );
   }
+
+  static String _jobTypeLabel(JobType type) {
+    switch (type) {
+      case JobType.itrFiling:
+        return 'ITR Filing';
+      case JobType.gstFiling:
+        return 'GST Filing';
+      case JobType.tdsFiling:
+        return 'TDS Filing';
+      case JobType.bulkExport:
+        return 'Bulk Export';
+      case JobType.bulkSigning:
+        return 'Bulk Signing';
+    }
+  }
 }
 
 class _JobStatusChip extends StatelessWidget {
@@ -109,7 +130,7 @@ class _JobStatusChip extends StatelessWidget {
           Icon(icon, size: 12, color: color),
           const SizedBox(width: 4),
           Text(
-            status.label,
+            _statusLabel(status),
             style: theme.textTheme.labelSmall?.copyWith(
               color: color,
               fontWeight: FontWeight.w700,
@@ -120,9 +141,26 @@ class _JobStatusChip extends StatelessWidget {
     );
   }
 
+  static String _statusLabel(JobStatus status) {
+    switch (status) {
+      case JobStatus.queued:
+        return 'Queued';
+      case JobStatus.running:
+        return 'Running';
+      case JobStatus.paused:
+        return 'Paused';
+      case JobStatus.completed:
+        return 'Completed';
+      case JobStatus.failed:
+        return 'Failed';
+      case JobStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+
   static Color _chipColor(JobStatus status) {
     switch (status) {
-      case JobStatus.success:
+      case JobStatus.completed:
         return AppColors.success;
       case JobStatus.failed:
         return AppColors.error;
@@ -130,14 +168,16 @@ class _JobStatusChip extends StatelessWidget {
         return AppColors.secondary;
       case JobStatus.queued:
         return AppColors.neutral400;
-      case JobStatus.retrying:
+      case JobStatus.paused:
         return AppColors.accent;
+      case JobStatus.cancelled:
+        return AppColors.neutral400;
     }
   }
 
   static IconData _chipIcon(JobStatus status) {
     switch (status) {
-      case JobStatus.success:
+      case JobStatus.completed:
         return Icons.check_circle_outline_rounded;
       case JobStatus.failed:
         return Icons.error_outline_rounded;
@@ -145,8 +185,10 @@ class _JobStatusChip extends StatelessWidget {
         return Icons.sync_rounded;
       case JobStatus.queued:
         return Icons.schedule_rounded;
-      case JobStatus.retrying:
-        return Icons.replay_rounded;
+      case JobStatus.paused:
+        return Icons.pause_circle_outline_rounded;
+      case JobStatus.cancelled:
+        return Icons.cancel_outlined;
     }
   }
 }

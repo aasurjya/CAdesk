@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/features/bulk_operations/domain/models/batch_job.dart';
+import 'package:ca_app/features/bulk_operations/domain/models/batch_job_item.dart';
 import 'package:ca_app/features/bulk_operations/domain/models/filing_batch.dart';
 
 // ---------------------------------------------------------------------------
@@ -36,7 +37,7 @@ class BatchListNotifier extends Notifier<List<FilingBatch>> {
         if (batch.batchId != batchId) return batch;
         final updatedJobs = batch.jobs.map((job) {
           if (job.status == JobStatus.failed) {
-            return job.copyWith(status: JobStatus.retrying, errorMessage: null);
+            return job.copyWith(status: JobStatus.queued);
           }
           return job;
         }).toList();
@@ -108,9 +109,10 @@ final batchStatsProvider = Provider<BatchStats>((ref) {
   final allJobs = batches.expand((b) => b.jobs).toList();
   final totalJobs = allJobs.length;
   final completedJobs = allJobs
-      .where((j) => j.status == JobStatus.success)
+      .where((j) => j.status == JobStatus.completed)
       .length;
-  final failedJobs = allJobs.where((j) => j.status == JobStatus.failed).length;
+  final failedJobs =
+      allJobs.where((j) => j.status == JobStatus.failed).length;
 
   final finished = completedJobs + failedJobs;
   final successRate = finished > 0 ? completedJobs / finished * 100 : 0.0;
@@ -130,194 +132,462 @@ final batchStatsProvider = Provider<BatchStats>((ref) {
 
 final _now = DateTime.now();
 
-const _mockBatchJobs1 = <BatchJob>[
+final _mockBatchJobs1 = <BatchJob>[
   BatchJob(
     jobId: 'job-101',
-    clientName: 'Rajesh Kumar Sharma',
-    clientId: '1',
-    jobType: 'ITR-1',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Rajesh Kumar Sharma — ITR-1',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-101-1',
+        clientName: 'Rajesh Kumar Sharma',
+        pan: 'ABCPS1234A',
+        payload: '{"form":"ITR-1","ay":"2026-27"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 3)),
   ),
   BatchJob(
     jobId: 'job-102',
-    clientName: 'Priya Mehta',
-    clientId: '2',
-    jobType: 'ITR-1',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Priya Mehta — ITR-1',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-102-1',
+        clientName: 'Priya Mehta',
+        pan: 'BMPPM5678B',
+        payload: '{"form":"ITR-1","ay":"2026-27"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 3)),
   ),
   BatchJob(
     jobId: 'job-103',
-    clientName: 'Deepak Patel',
-    clientId: '9',
-    jobType: 'ITR-4',
+    name: 'Deepak Patel — ITR-4',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-103-1',
+        clientName: 'Deepak Patel',
+        pan: 'CNDPP9012C',
+        payload: '{"form":"ITR-4","ay":"2026-27"}',
+        status: BatchJobItemStatus.processing,
+        attempts: 1,
+      ),
+    ],
     status: JobStatus.running,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 3)),
   ),
   BatchJob(
     jobId: 'job-104',
-    clientName: 'Vikram Singh Rathore',
-    clientId: '14',
-    jobType: 'ITR-1',
+    name: 'Vikram Singh Rathore — ITR-1',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-104-1',
+        clientName: 'Vikram Singh Rathore',
+        pan: 'DOVSR3456D',
+        payload: '{"form":"ITR-1","ay":"2026-27"}',
+        status: BatchJobItemStatus.pending,
+        attempts: 0,
+      ),
+    ],
     status: JobStatus.queued,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 3)),
   ),
   BatchJob(
     jobId: 'job-105',
-    clientName: 'Anil Gupta HUF',
-    clientId: '7',
-    jobType: 'ITR-2',
+    name: 'Anil Gupta HUF — ITR-2',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-105-1',
+        clientName: 'Anil Gupta HUF',
+        pan: 'EUFAG7890E',
+        payload: '{"form":"ITR-2","ay":"2026-27"}',
+        status: BatchJobItemStatus.failed,
+        attempts: 2,
+        error: 'PAN verification failed — mismatch with Form 26AS',
+      ),
+    ],
     status: JobStatus.failed,
-    errorMessage: 'PAN verification failed — mismatch with Form 26AS',
+    completedItems: 0,
+    failedItems: 1,
+    createdAt: _now.subtract(const Duration(hours: 3)),
   ),
 ];
 
-const _mockBatchJobs2 = <BatchJob>[
+final _mockBatchJobs2 = <BatchJob>[
   BatchJob(
     jobId: 'job-201',
-    clientName: 'ABC Infra Pvt Ltd',
-    clientId: '3',
-    jobType: 'GSTR-3B',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'ABC Infra Pvt Ltd — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-201-1',
+        clientName: 'ABC Infra Pvt Ltd',
+        pan: '27AABCA1234A1ZA',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
   BatchJob(
     jobId: 'job-202',
-    clientName: 'Mehta & Sons',
-    clientId: '4',
-    jobType: 'GSTR-3B',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Mehta & Sons — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-202-1',
+        clientName: 'Mehta & Sons',
+        pan: '24AABCM5678B1ZB',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
   BatchJob(
     jobId: 'job-203',
-    clientName: 'TechVista Solutions LLP',
-    clientId: '6',
-    jobType: 'GSTR-3B',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'TechVista Solutions LLP — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-203-1',
+        clientName: 'TechVista Solutions LLP',
+        pan: '29AABCT9012C1ZC',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
   BatchJob(
     jobId: 'job-204',
-    clientName: 'GreenLeaf Organics LLP',
-    clientId: '13',
-    jobType: 'GSTR-3B',
+    name: 'GreenLeaf Organics LLP — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-204-1',
+        clientName: 'GreenLeaf Organics LLP',
+        pan: '06AABCG3456D1ZD',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.failed,
+        attempts: 2,
+        error: 'ITC mismatch — GSTR-2B reconciliation pending',
+      ),
+    ],
     status: JobStatus.failed,
-    errorMessage: 'ITC mismatch — GSTR-2B reconciliation pending',
+    completedItems: 0,
+    failedItems: 1,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
   BatchJob(
     jobId: 'job-205',
-    clientName: 'Bharat Electronics Ltd',
-    clientId: '8',
-    jobType: 'GSTR-3B',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Bharat Electronics Ltd — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-205-1',
+        clientName: 'Bharat Electronics Ltd',
+        pan: '29AABCB7890E1ZE',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
   BatchJob(
     jobId: 'job-206',
-    clientName: 'Hindustan Traders AOP',
-    clientId: '12',
-    jobType: 'GSTR-3B',
+    name: 'Hindustan Traders AOP — GSTR-3B',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-206-1',
+        clientName: 'Hindustan Traders AOP',
+        pan: '27AABCH1234F1ZF',
+        payload: '{"form":"GSTR-3B","period":"022026"}',
+        status: BatchJobItemStatus.processing,
+        attempts: 1,
+      ),
+    ],
     status: JobStatus.running,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(hours: 8)),
   ),
 ];
 
-const _mockBatchJobs3 = <BatchJob>[
+final _mockBatchJobs3 = <BatchJob>[
   BatchJob(
     jobId: 'job-301',
-    clientName: 'ABC Infra Pvt Ltd',
-    clientId: '3',
-    jobType: 'TDS 24Q',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'ABC Infra Pvt Ltd — TDS 24Q',
+    jobType: JobType.tdsFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-301-1',
+        clientName: 'ABC Infra Pvt Ltd',
+        pan: '27AABCA1234A1ZA',
+        payload: '{"form":"24Q","quarter":"Q3","fy":"2025-26"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 2)),
   ),
   BatchJob(
     jobId: 'job-302',
-    clientName: 'Bharat Electronics Ltd',
-    clientId: '8',
-    jobType: 'TDS 26Q',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Bharat Electronics Ltd — TDS 26Q',
+    jobType: JobType.tdsFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-302-1',
+        clientName: 'Bharat Electronics Ltd',
+        pan: '29AABCB7890E1ZE',
+        payload: '{"form":"26Q","quarter":"Q3","fy":"2025-26"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 2)),
   ),
   BatchJob(
     jobId: 'job-303',
-    clientName: 'TechVista Solutions LLP',
-    clientId: '6',
-    jobType: 'TDS 24Q',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'TechVista Solutions LLP — TDS 24Q',
+    jobType: JobType.tdsFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-303-1',
+        clientName: 'TechVista Solutions LLP',
+        pan: '29AABCT9012C1ZC',
+        payload: '{"form":"24Q","quarter":"Q3","fy":"2025-26"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 2)),
   ),
   BatchJob(
     jobId: 'job-304',
-    clientName: 'Mehta & Sons',
-    clientId: '4',
-    jobType: 'TDS 26Q',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Mehta & Sons — TDS 26Q',
+    jobType: JobType.tdsFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-304-1',
+        clientName: 'Mehta & Sons',
+        pan: '24AABCM5678B1ZB',
+        payload: '{"form":"26Q","quarter":"Q3","fy":"2025-26"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 2)),
   ),
 ];
 
-const _mockBatchJobs4 = <BatchJob>[
+final _mockBatchJobs4 = <BatchJob>[
   BatchJob(
     jobId: 'job-401',
-    clientName: 'Rajesh Kumar Sharma',
-    clientId: '1',
-    jobType: 'ITR-1',
+    name: 'Rajesh Kumar Sharma — ITR-1',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-401-1',
+        clientName: 'Rajesh Kumar Sharma',
+        pan: 'ABCPS1234A',
+        payload: '{"form":"ITR-1","ay":"2026-27"}',
+        status: BatchJobItemStatus.pending,
+        attempts: 0,
+      ),
+    ],
     status: JobStatus.queued,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(minutes: 30)),
   ),
   BatchJob(
     jobId: 'job-402',
-    clientName: 'Priya Mehta',
-    clientId: '2',
-    jobType: 'ITR-1',
+    name: 'Priya Mehta — ITR-1',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-402-1',
+        clientName: 'Priya Mehta',
+        pan: 'BMPPM5678B',
+        payload: '{"form":"ITR-1","ay":"2026-27"}',
+        status: BatchJobItemStatus.pending,
+        attempts: 0,
+      ),
+    ],
     status: JobStatus.queued,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(minutes: 30)),
   ),
   BatchJob(
     jobId: 'job-403',
-    clientName: 'Deepak Patel',
-    clientId: '9',
-    jobType: 'ITR-4',
+    name: 'Deepak Patel — ITR-4',
+    jobType: JobType.itrFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-403-1',
+        clientName: 'Deepak Patel',
+        pan: 'CNDPP9012C',
+        payload: '{"form":"ITR-4","ay":"2026-27"}',
+        status: BatchJobItemStatus.pending,
+        attempts: 0,
+      ),
+    ],
     status: JobStatus.queued,
-    errorMessage: null,
+    completedItems: 0,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(minutes: 30)),
   ),
 ];
 
-const _mockBatchJobs5 = <BatchJob>[
+final _mockBatchJobs5 = <BatchJob>[
   BatchJob(
     jobId: 'job-501',
-    clientName: 'ABC Infra Pvt Ltd',
-    clientId: '3',
-    jobType: 'GSTR-1',
+    name: 'ABC Infra Pvt Ltd — GSTR-1',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-501-1',
+        clientName: 'ABC Infra Pvt Ltd',
+        pan: '27AABCA1234A1ZA',
+        payload: '{"form":"GSTR-1","period":"012026"}',
+        status: BatchJobItemStatus.failed,
+        attempts: 2,
+        error: 'HSN summary mismatch with B2B invoices',
+      ),
+    ],
     status: JobStatus.failed,
-    errorMessage: 'HSN summary mismatch with B2B invoices',
+    completedItems: 0,
+    failedItems: 1,
+    createdAt: _now.subtract(const Duration(days: 1)),
   ),
   BatchJob(
     jobId: 'job-502',
-    clientName: 'TechVista Solutions LLP',
-    clientId: '6',
-    jobType: 'GSTR-1',
+    name: 'TechVista Solutions LLP — GSTR-1',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-502-1',
+        clientName: 'TechVista Solutions LLP',
+        pan: '29AABCT9012C1ZC',
+        payload: '{"form":"GSTR-1","period":"012026"}',
+        status: BatchJobItemStatus.failed,
+        attempts: 2,
+        error: 'E-invoice IRN not generated for 3 invoices',
+      ),
+    ],
     status: JobStatus.failed,
-    errorMessage: 'E-invoice IRN not generated for 3 invoices',
+    completedItems: 0,
+    failedItems: 1,
+    createdAt: _now.subtract(const Duration(days: 1)),
   ),
   BatchJob(
     jobId: 'job-503',
-    clientName: 'Bharat Electronics Ltd',
-    clientId: '8',
-    jobType: 'GSTR-1',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Bharat Electronics Ltd — GSTR-1',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-503-1',
+        clientName: 'Bharat Electronics Ltd',
+        pan: '29AABCB7890E1ZE',
+        payload: '{"form":"GSTR-1","period":"012026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 1)),
   ),
   BatchJob(
     jobId: 'job-504',
-    clientName: 'Mehta & Sons',
-    clientId: '4',
-    jobType: 'GSTR-1',
-    status: JobStatus.success,
-    errorMessage: null,
+    name: 'Mehta & Sons — GSTR-1',
+    jobType: JobType.gstFiling,
+    priority: JobPriority.normal,
+    items: const [
+      BatchJobItem(
+        itemId: 'item-504-1',
+        clientName: 'Mehta & Sons',
+        pan: '24AABCM5678B1ZB',
+        payload: '{"form":"GSTR-1","period":"012026"}',
+        status: BatchJobItemStatus.completed,
+        attempts: 1,
+      ),
+    ],
+    status: JobStatus.completed,
+    completedItems: 1,
+    failedItems: 0,
+    createdAt: _now.subtract(const Duration(days: 1)),
   ),
 ];
 
