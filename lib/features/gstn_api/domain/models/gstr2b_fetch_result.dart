@@ -1,13 +1,9 @@
 /// GSTR-2B document generation status.
-<<<<<<< HEAD
 enum Gstr2bStatus {
   generated,
   notGenerated,
   processing,
 }
-=======
-enum Gstr2bStatus { generated, notGenerated, processing }
->>>>>>> worktree-agent-a23e0ce3
 
 /// Immutable result of fetching a GSTR-2B statement from GSTN.
 ///
@@ -90,7 +86,6 @@ class Gstr2bFetchResult {
 
   @override
   int get hashCode => Object.hash(
-<<<<<<< HEAD
         gstin,
         period,
         status,
@@ -100,15 +95,4 @@ class Gstr2bFetchResult {
         entryCount,
         generatedAt,
       );
-=======
-    gstin,
-    period,
-    status,
-    totalIgstCredit,
-    totalCgstCredit,
-    totalSgstCredit,
-    entryCount,
-    generatedAt,
-  );
->>>>>>> worktree-agent-a23e0ce3
 }

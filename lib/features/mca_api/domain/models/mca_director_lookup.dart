@@ -1,13 +1,9 @@
 /// Approval status of a director on the MCA portal.
-<<<<<<< HEAD
 enum McaDirectorStatus {
   approved,
   disqualified,
   deactivated,
 }
-=======
-enum McaDirectorStatus { approved, disqualified, deactivated }
->>>>>>> worktree-agent-a23e0ce3
 
 /// Immutable result of a DIN lookup on the MCA portal.
 class McaDirectorLookup {
@@ -75,11 +71,11 @@ class McaDirectorLookup {
 
   @override
   int get hashCode => Object.hash(
-    din,
-    directorName,
-    dateOfBirth,
-    fatherName,
-    nationality,
-    status,
-  );
+        din,
+        directorName,
+        dateOfBirth,
+        fatherName,
+        nationality,
+        status,
+      );
 }
