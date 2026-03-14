@@ -53,6 +53,5 @@ class CompanySearchResult {
           roc == other.roc;
 
   @override
-  int get hashCode =>
-      Object.hash(cin, name, status, incorporationDate, roc);
+  int get hashCode => Object.hash(cin, name, status, incorporationDate, roc);
 }

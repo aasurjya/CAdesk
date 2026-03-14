@@ -50,21 +50,15 @@ class MockFilingRecordRepository implements FilingRecordRepository {
 
   @override
   Future<List<FilingRecord>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.clientId == clientId).toList());
 
   @override
   Future<List<FilingRecord>> getByType(FilingType type) async =>
-      List.unmodifiable(
-        _state.where((r) => r.filingType == type).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.filingType == type).toList());
 
   @override
   Future<List<FilingRecord>> getByStatus(FilingStatus status) async =>
-      List.unmodifiable(
-        _state.where((r) => r.status == status).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.status == status).toList());
 
   @override
   Future<bool> updateStatus(String id, FilingStatus status) async {
@@ -105,10 +99,9 @@ class MockFilingRecordRepository implements FilingRecordRepository {
   }
 
   @override
-  Stream<List<FilingRecord>> watchByClient(String clientId) =>
-      _controller.stream.map(
-        (list) => list.where((r) => r.clientId == clientId).toList(),
-      );
+  Stream<List<FilingRecord>> watchByClient(String clientId) => _controller
+      .stream
+      .map((list) => list.where((r) => r.clientId == clientId).toList());
 
   void dispose() => _controller.close();
 }

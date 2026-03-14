@@ -123,9 +123,7 @@ class AuditMapper {
       reportDate: Value(report.reportDate),
       reportedBy: Value(report.reportedBy),
       auditFindings: Value(
-        report.auditFindings != null
-            ? jsonEncode(report.auditFindings)
-            : null,
+        report.auditFindings != null ? jsonEncode(report.auditFindings) : null,
       ),
     );
   }

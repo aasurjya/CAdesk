@@ -10,10 +10,9 @@ class AuditLocalSource {
   final AppDatabase _db;
 
   /// Insert a new audit assignment and return its ID.
-  Future<String> insertAuditAssignment(AuditAssignment assignment) =>
-      _db.auditDao.insertAuditAssignment(
-        AuditMapper.assignmentToCompanion(assignment),
-      );
+  Future<String> insertAuditAssignment(AuditAssignment assignment) => _db
+      .auditDao
+      .insertAuditAssignment(AuditMapper.assignmentToCompanion(assignment));
 
   /// Get all audit assignments for a specific client.
   Future<List<AuditAssignment>> getAuditsByClient(String clientId) async {
@@ -31,22 +30,15 @@ class AuditLocalSource {
   Future<bool> updateAuditStatus(
     String auditId,
     AuditAssignmentStatus status,
-  ) =>
-      _db.auditDao.updateAuditStatus(auditId, status.name);
+  ) => _db.auditDao.updateAuditStatus(auditId, status.name);
 
   /// Insert a new audit report and return its ID.
   Future<String> insertAuditReport(AuditReport report) =>
-      _db.auditDao.insertAuditReport(
-        AuditMapper.reportToCompanion(report),
-      );
+      _db.auditDao.insertAuditReport(AuditMapper.reportToCompanion(report));
 
   /// Get the audit report for a specific client and financial year.
-  Future<AuditReport?> getAuditReportByClient(
-    String clientId,
-    int year,
-  ) async {
-    final row =
-        await _db.auditDao.getAuditReportByClient(clientId, year);
+  Future<AuditReport?> getAuditReportByClient(String clientId, int year) async {
+    final row = await _db.auditDao.getAuditReportByClient(clientId, year);
     return row != null ? AuditMapper.reportFromRow(row) : null;
   }
 }

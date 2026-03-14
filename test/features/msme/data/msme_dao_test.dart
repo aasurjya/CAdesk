@@ -45,37 +45,37 @@ void main() {
     group('insertMsmeRecord', () {
       test('inserts record and returns non-empty ID', () async {
         final record = createTestRecord();
-        final id = await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        final id = await database.msmeDao.insertMsmeRecord(
+          MsmeMapper.toCompanion(record),
+        );
         expect(id, isNotEmpty);
       });
 
       test('stored record has correct clientId', () async {
         final record = createTestRecord(clientId: 'msme-insert-client');
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
-        final rows = await database.msmeDao
-            .getMsmeRecordsByClient('msme-insert-client');
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
+        final rows = await database.msmeDao.getMsmeRecordsByClient(
+          'msme-insert-client',
+        );
         expect(rows.any((r) => r.id == record.id), isTrue);
       });
 
       test('stored record has correct udyamNumber', () async {
-        final record =
-            createTestRecord(udyamNumber: 'UDYAM-DL-07-0099999');
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
-        final rows =
-            await database.msmeDao.getMsmeRecordsByClient(record.clientId);
+        final record = createTestRecord(udyamNumber: 'UDYAM-DL-07-0099999');
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
+        final rows = await database.msmeDao.getMsmeRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.udyamNumber, 'UDYAM-DL-07-0099999');
       });
 
       test('stored record has correct category', () async {
         final record = createTestRecord(category: MsmeCategory.medium);
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
-        final rows =
-            await database.msmeDao.getMsmeRecordsByClient(record.clientId);
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
+        final rows = await database.msmeDao.getMsmeRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         final domain = MsmeMapper.fromRow(row);
         expect(domain.category, MsmeCategory.medium);
@@ -87,32 +87,31 @@ void main() {
         final clientId = 'msme-by-client-x';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(r1));
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(r2));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(r1));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(r2));
 
-        final results =
-            await database.msmeDao.getMsmeRecordsByClient(clientId);
+        final results = await database.msmeDao.getMsmeRecordsByClient(clientId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.msmeDao.getMsmeRecordsByClient('no-such-client');
+        final results = await database.msmeDao.getMsmeRecordsByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
       test('filters records by client correctly', () async {
         final clientA = 'msme-filter-a';
         final clientB = 'msme-filter-b';
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(createTestRecord(clientId: clientA)));
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(createTestRecord(clientId: clientB)));
+        await database.msmeDao.insertMsmeRecord(
+          MsmeMapper.toCompanion(createTestRecord(clientId: clientA)),
+        );
+        await database.msmeDao.insertMsmeRecord(
+          MsmeMapper.toCompanion(createTestRecord(clientId: clientB)),
+        );
 
-        final results =
-            await database.msmeDao.getMsmeRecordsByClient(clientA);
+        final results = await database.msmeDao.getMsmeRecordsByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
     });
@@ -120,21 +119,21 @@ void main() {
     group('getMsmeRecordsByCategory', () {
       test('returns records with matching category', () async {
         final record = createTestRecord(category: MsmeCategory.small);
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
 
-        final results = await database.msmeDao
-            .getMsmeRecordsByCategory(MsmeCategory.small.name);
+        final results = await database.msmeDao.getMsmeRecordsByCategory(
+          MsmeCategory.small.name,
+        );
         expect(results.any((r) => r.id == record.id), isTrue);
       });
 
       test('excludes records with different category', () async {
         final record = createTestRecord(category: MsmeCategory.medium);
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
 
-        final results = await database.msmeDao
-            .getMsmeRecordsByCategory(MsmeCategory.micro.name);
+        final results = await database.msmeDao.getMsmeRecordsByCategory(
+          MsmeCategory.micro.name,
+        );
         expect(results.where((r) => r.id == record.id), isEmpty);
       });
     });
@@ -142,17 +141,16 @@ void main() {
     group('getMsmeRecordsByStatus', () {
       test('returns records with matching status', () async {
         final record = createTestRecord(status: 'active');
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
 
-        final results =
-            await database.msmeDao.getMsmeRecordsByStatus('active');
+        final results = await database.msmeDao.getMsmeRecordsByStatus('active');
         expect(results.any((r) => r.id == record.id), isTrue);
       });
 
       test('returns empty for non-existent status', () async {
-        final results =
-            await database.msmeDao.getMsmeRecordsByStatus('xyz-unknown');
+        final results = await database.msmeDao.getMsmeRecordsByStatus(
+          'xyz-unknown',
+        );
         expect(results, isEmpty);
       });
     });
@@ -160,31 +158,33 @@ void main() {
     group('updateMsmeRecord', () {
       test('updates record fields correctly', () async {
         final record = createTestRecord(status: 'active');
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
 
         final updated = record.copyWith(status: 'cancelled');
-        final success = await database.msmeDao
-            .updateMsmeRecord(MsmeMapper.toCompanion(updated));
+        final success = await database.msmeDao.updateMsmeRecord(
+          MsmeMapper.toCompanion(updated),
+        );
         expect(success, isTrue);
 
-        final rows =
-            await database.msmeDao.getMsmeRecordsByClient(record.clientId);
+        final rows = await database.msmeDao.getMsmeRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.status, 'cancelled');
       });
 
       test('updates category correctly', () async {
         final record = createTestRecord(category: MsmeCategory.micro);
-        await database.msmeDao
-            .insertMsmeRecord(MsmeMapper.toCompanion(record));
+        await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(record));
 
         final updated = record.copyWith(category: MsmeCategory.small);
-        await database.msmeDao
-            .updateMsmeRecord(MsmeMapper.toCompanion(updated));
+        await database.msmeDao.updateMsmeRecord(
+          MsmeMapper.toCompanion(updated),
+        );
 
-        final rows =
-            await database.msmeDao.getMsmeRecordsByClient(record.clientId);
+        final rows = await database.msmeDao.getMsmeRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         final domain = MsmeMapper.fromRow(row);
         expect(domain.category, MsmeCategory.small);

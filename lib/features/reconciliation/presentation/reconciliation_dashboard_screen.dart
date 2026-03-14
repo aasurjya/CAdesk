@@ -71,8 +71,7 @@ class ReconciliationDashboardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     TextButton(
-                      onPressed: () =>
-                          ref.invalidate(reconResultsProvider),
+                      onPressed: () => ref.invalidate(reconResultsProvider),
                       child: const Text('Retry'),
                     ),
                   ],

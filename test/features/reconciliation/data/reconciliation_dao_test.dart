@@ -106,8 +106,7 @@ void main() {
     });
 
     test('stored result has correct reconciliation type', () async {
-      final result =
-          makeResult(type: ReconciliationType.gstr2b);
+      final result = makeResult(type: ReconciliationType.gstr2b);
       await dao.insertReconciliationResult(
         ReconciliationMapper.toCompanion(result),
       );
@@ -157,8 +156,7 @@ void main() {
     });
 
     test('returns empty list for unknown client', () async {
-      final rows =
-          await dao.getReconciliationsByClient('no-such-client-xyz');
+      final rows = await dao.getReconciliationsByClient('no-such-client-xyz');
       expect(rows, isEmpty);
     });
 
@@ -186,12 +184,27 @@ void main() {
   group('getReconciliationByType', () {
     test('returns results filtered by type and client', () async {
       const clientId = 'client-bytype';
-      final r1 = makeResult(clientId: clientId, type: ReconciliationType.tds26as);
-      final r2 = makeResult(clientId: clientId, type: ReconciliationType.gstr2b);
-      final r3 = makeResult(clientId: clientId, type: ReconciliationType.tds26as);
-      await dao.insertReconciliationResult(ReconciliationMapper.toCompanion(r1));
-      await dao.insertReconciliationResult(ReconciliationMapper.toCompanion(r2));
-      await dao.insertReconciliationResult(ReconciliationMapper.toCompanion(r3));
+      final r1 = makeResult(
+        clientId: clientId,
+        type: ReconciliationType.tds26as,
+      );
+      final r2 = makeResult(
+        clientId: clientId,
+        type: ReconciliationType.gstr2b,
+      );
+      final r3 = makeResult(
+        clientId: clientId,
+        type: ReconciliationType.tds26as,
+      );
+      await dao.insertReconciliationResult(
+        ReconciliationMapper.toCompanion(r1),
+      );
+      await dao.insertReconciliationResult(
+        ReconciliationMapper.toCompanion(r2),
+      );
+      await dao.insertReconciliationResult(
+        ReconciliationMapper.toCompanion(r3),
+      );
 
       final rows = await dao.getReconciliationByType(
         ReconciliationType.tds26as.name,
@@ -242,8 +255,7 @@ void main() {
 
   group('updateReconciliationStatus', () {
     test('updates status and returns true', () async {
-      final result =
-          makeResult(status: ReconciliationStatus.pending);
+      final result = makeResult(status: ReconciliationStatus.pending);
       await dao.insertReconciliationResult(
         ReconciliationMapper.toCompanion(result),
       );
@@ -259,8 +271,7 @@ void main() {
     });
 
     test('updates status from pending to reviewed', () async {
-      final result =
-          makeResult(status: ReconciliationStatus.pending);
+      final result = makeResult(status: ReconciliationStatus.pending);
       await dao.insertReconciliationResult(
         ReconciliationMapper.toCompanion(result),
       );
@@ -303,10 +314,7 @@ void main() {
     });
 
     test('returns false for non-existent result ID', () async {
-      final success = await dao.updateDiscrepanciesJson(
-        'no-such-result',
-        '[]',
-      );
+      final success = await dao.updateDiscrepanciesJson('no-such-result', '[]');
       expect(success, isFalse);
     });
   });
@@ -320,8 +328,12 @@ void main() {
       // Insert a few results to ensure there is data.
       final r1 = makeResult();
       final r2 = makeResult();
-      await dao.insertReconciliationResult(ReconciliationMapper.toCompanion(r1));
-      await dao.insertReconciliationResult(ReconciliationMapper.toCompanion(r2));
+      await dao.insertReconciliationResult(
+        ReconciliationMapper.toCompanion(r1),
+      );
+      await dao.insertReconciliationResult(
+        ReconciliationMapper.toCompanion(r2),
+      );
 
       final all = await dao.getAllResults();
       expect(all.length, greaterThanOrEqualTo(2));
@@ -348,8 +360,7 @@ void main() {
         ReconciliationMapper.toCompanion(result),
       );
 
-      final updated =
-          result.copyWith(status: ReconciliationStatus.completed);
+      final updated = result.copyWith(status: ReconciliationStatus.completed);
       await dao.upsertReconciliationResult(
         ReconciliationMapper.toCompanion(updated),
       );
@@ -394,10 +405,7 @@ void main() {
 
     test('fromRow round-trip preserves discrepancies', () async {
       final disc = makeDiscrepancy(resultId: 'row-rt-1');
-      final result = makeResult(
-        id: 'row-rt-1',
-        discrepancies: [disc],
-      );
+      final result = makeResult(id: 'row-rt-1', discrepancies: [disc]);
       final companion = ReconciliationMapper.toCompanion(result);
       await dao.insertReconciliationResult(companion);
 
@@ -463,10 +471,7 @@ void main() {
     });
 
     test('copyWith preserves all unchanged fields', () {
-      final original = makeResult(
-        totalMatched: 42,
-        period: 'FY 2024-25',
-      );
+      final original = makeResult(totalMatched: 42, period: 'FY 2024-25');
       final updated = original.copyWith(status: ReconciliationStatus.completed);
 
       expect(updated.totalMatched, equals(42));

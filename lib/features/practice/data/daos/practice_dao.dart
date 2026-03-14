@@ -18,10 +18,9 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Get all workflows ordered by name.
-  Future<List<WorkflowRow>> getAllWorkflows() =>
-      (select(practiceWorkflowsTable)
-            ..orderBy([(t) => OrderingTerm.asc(t.name)]))
-          .get();
+  Future<List<WorkflowRow>> getAllWorkflows() => (select(
+    practiceWorkflowsTable,
+  )..orderBy([(t) => OrderingTerm.asc(t.name)])).get();
 
   /// Get workflows filtered by category.
   Future<List<WorkflowRow>> getByCategory(String category) =>
@@ -31,27 +30,25 @@ class PracticeDao extends DatabaseAccessor<AppDatabase>
           .get();
 
   /// Get a workflow by its ID.
-  Future<WorkflowRow?> getWorkflowById(String id) =>
-      (select(practiceWorkflowsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<WorkflowRow?> getWorkflowById(String id) => (select(
+    practiceWorkflowsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   /// Update a workflow.
   /// Returns true if a row was affected, false otherwise.
-  Future<bool> updateWorkflow(
-    PracticeWorkflowsTableCompanion companion,
-  ) async {
-    final rowsAffected = await (update(practiceWorkflowsTable)
-          ..where((t) => t.id.equals(companion.id.value)))
-        .write(companion);
+  Future<bool> updateWorkflow(PracticeWorkflowsTableCompanion companion) async {
+    final rowsAffected = await (update(
+      practiceWorkflowsTable,
+    )..where((t) => t.id.equals(companion.id.value))).write(companion);
     return rowsAffected > 0;
   }
 
   /// Delete a workflow by ID.
   /// Returns true if a row was affected.
   Future<bool> deleteWorkflow(String id) async {
-    final rowsAffected =
-        await (delete(practiceWorkflowsTable)..where((t) => t.id.equals(id)))
-            .go();
+    final rowsAffected = await (delete(
+      practiceWorkflowsTable,
+    )..where((t) => t.id.equals(id))).go();
     return rowsAffected > 0;
   }
 

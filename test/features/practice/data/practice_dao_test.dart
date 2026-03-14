@@ -96,40 +96,52 @@ void main() {
       test('returns all inserted workflows', () async {
         final w1 = makeWorkflow();
         final w2 = makeWorkflow();
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w1));
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w2));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w1),
+        );
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w2),
+        );
 
         final all = await database.practiceDao.getAllWorkflows();
         final ids = all.map((r) => r.id).toSet();
         expect(ids, containsAll([w1.id, w2.id]));
       });
 
-      test('returns empty list when no workflows exist for unused prefix', () async {
-        // All workflows are in the same DB; we just verify the method returns a list
-        final all = await database.practiceDao.getAllWorkflows();
-        expect(all, isA<List>());
-      });
+      test(
+        'returns empty list when no workflows exist for unused prefix',
+        () async {
+          // All workflows are in the same DB; we just verify the method returns a list
+          final all = await database.practiceDao.getAllWorkflows();
+          expect(all, isA<List>());
+        },
+      );
     });
 
     group('getByCategory', () {
       test('returns only workflows matching the given category', () async {
         final gst = makeWorkflow(category: WorkflowCategory.gstFiling);
         final audit = makeWorkflow(category: WorkflowCategory.audit);
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(gst));
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(audit));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(gst),
+        );
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(audit),
+        );
 
-        final results = await database.practiceDao
-            .getByCategory(WorkflowCategory.gstFiling.name);
-        expect(results.every((r) => r.category == WorkflowCategory.gstFiling.name), isTrue);
+        final results = await database.practiceDao.getByCategory(
+          WorkflowCategory.gstFiling.name,
+        );
+        expect(
+          results.every((r) => r.category == WorkflowCategory.gstFiling.name),
+          isTrue,
+        );
       });
 
       test('returns empty list for category with no workflows', () async {
-        final results = await database.practiceDao
-            .getByCategory(WorkflowCategory.mca.name);
+        final results = await database.practiceDao.getByCategory(
+          WorkflowCategory.mca.name,
+        );
         expect(results, isEmpty);
       });
     });
@@ -138,10 +150,12 @@ void main() {
       test('returns only active workflows', () async {
         final active = makeWorkflow(isActive: true);
         final inactive = makeWorkflow(isActive: false);
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(active));
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(inactive));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(active),
+        );
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(inactive),
+        );
 
         final results = await database.practiceDao.getActiveWorkflows();
         expect(results.every((r) => r.isActive), isTrue);
@@ -154,8 +168,9 @@ void main() {
     group('updateWorkflow', () {
       test('update returns true for existing workflow', () async {
         final w = makeWorkflow();
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w),
+        );
         final updated = w.copyWith(name: 'Updated Name', estimatedDays: 10);
         final result = await database.practiceDao.updateWorkflow(
           PracticeMapper.workflowToCompanion(updated),
@@ -165,8 +180,9 @@ void main() {
 
       test('updated workflow has new name', () async {
         final w = makeWorkflow();
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w),
+        );
         final updated = w.copyWith(name: 'Renamed Workflow');
         await database.practiceDao.updateWorkflow(
           PracticeMapper.workflowToCompanion(updated),
@@ -187,24 +203,27 @@ void main() {
     group('deleteWorkflow', () {
       test('delete returns true for existing workflow', () async {
         final w = makeWorkflow();
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w),
+        );
         final result = await database.practiceDao.deleteWorkflow(w.id);
         expect(result, isTrue);
       });
 
       test('deleted workflow is no longer retrievable', () async {
         final w = makeWorkflow();
-        await database.practiceDao
-            .insertWorkflow(PracticeMapper.workflowToCompanion(w));
+        await database.practiceDao.insertWorkflow(
+          PracticeMapper.workflowToCompanion(w),
+        );
         await database.practiceDao.deleteWorkflow(w.id);
         final row = await database.practiceDao.getWorkflowById(w.id);
         expect(row, isNull);
       });
 
       test('delete returns false for non-existent workflow', () async {
-        final result =
-            await database.practiceDao.deleteWorkflow('non-existent-xyz');
+        final result = await database.practiceDao.deleteWorkflow(
+          'non-existent-xyz',
+        );
         expect(result, isFalse);
       });
     });

@@ -15,9 +15,7 @@ class SebiMapper {
     return SebiComplianceData(
       id: json['id'] as String,
       clientId: json['client_id'] as String,
-      complianceType: _safeType(
-        json['compliance_type'] as String? ?? 'other',
-      ),
+      complianceType: _safeType(json['compliance_type'] as String? ?? 'other'),
       dueDate: DateTime.parse(
         json['due_date'] as String? ?? DateTime.now().toIso8601String(),
       ),

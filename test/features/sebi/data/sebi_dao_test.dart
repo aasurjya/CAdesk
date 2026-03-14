@@ -46,28 +46,31 @@ void main() {
     group('insertSebiCompliance', () {
       test('inserts record and returns non-empty ID', () async {
         final compliance = createTestCompliance();
-        final id = await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final id = await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
         expect(id, isNotEmpty);
       });
 
       test('stored record has correct clientId', () async {
-        final compliance =
-            createTestCompliance(clientId: 'sebi-insert-client');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient('sebi-insert-client');
+        final compliance = createTestCompliance(clientId: 'sebi-insert-client');
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          'sebi-insert-client',
+        );
         expect(rows.any((r) => r.id == compliance.id), isTrue);
       });
 
       test('stored record has correct complianceType', () async {
-        final compliance =
-            createTestCompliance(complianceType: SebiType.lodr);
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient(compliance.clientId);
+        final compliance = createTestCompliance(complianceType: SebiType.lodr);
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          compliance.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == compliance.id);
         final domain = SebiMapper.fromRow(row);
         expect(domain.complianceType, SebiType.lodr);
@@ -75,10 +78,12 @@ void main() {
 
       test('stored record has correct status', () async {
         final compliance = createTestCompliance(status: 'filed');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient(compliance.clientId);
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          compliance.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == compliance.id);
         expect(row.status, 'filed');
       });
@@ -87,10 +92,12 @@ void main() {
         final compliance = createTestCompliance(
           description: 'Quarterly PIT disclosure',
         );
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient(compliance.clientId);
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          compliance.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == compliance.id);
         expect(row.description, 'Quarterly PIT disclosure');
       });
@@ -101,19 +108,19 @@ void main() {
         final clientId = 'sebi-by-client-x';
         final c1 = createTestCompliance(clientId: clientId);
         final c2 = createTestCompliance(clientId: clientId);
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(c1));
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(c2));
+        await database.sebiDao.insertSebiCompliance(SebiMapper.toCompanion(c1));
+        await database.sebiDao.insertSebiCompliance(SebiMapper.toCompanion(c2));
 
-        final results =
-            await database.sebiDao.getSebiComplianceByClient(clientId);
+        final results = await database.sebiDao.getSebiComplianceByClient(
+          clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results = await database.sebiDao
-            .getSebiComplianceByClient('no-such-client');
+        final results = await database.sebiDao.getSebiComplianceByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -127,32 +134,37 @@ void main() {
           SebiMapper.toCompanion(createTestCompliance(clientId: clientB)),
         );
 
-        final results =
-            await database.sebiDao.getSebiComplianceByClient(clientA);
+        final results = await database.sebiDao.getSebiComplianceByClient(
+          clientA,
+        );
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
     });
 
     group('getSebiComplianceByType', () {
       test('returns records with matching compliance type', () async {
-        final compliance =
-            createTestCompliance(complianceType: SebiType.sast);
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(complianceType: SebiType.sast);
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results = await database.sebiDao
-            .getSebiComplianceByType(SebiType.sast.name);
+        final results = await database.sebiDao.getSebiComplianceByType(
+          SebiType.sast.name,
+        );
         expect(results.any((r) => r.id == compliance.id), isTrue);
       });
 
       test('excludes records with different type', () async {
-        final compliance =
-            createTestCompliance(complianceType: SebiType.takeovers);
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(
+          complianceType: SebiType.takeovers,
+        );
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results = await database.sebiDao
-            .getSebiComplianceByType(SebiType.pit.name);
+        final results = await database.sebiDao.getSebiComplianceByType(
+          SebiType.pit.name,
+        );
         expect(results.where((r) => r.id == compliance.id), isEmpty);
       });
     });
@@ -160,49 +172,54 @@ void main() {
     group('getOverdueSebiCompliance', () {
       test('returns records past due date with pending status', () async {
         final past = DateTime.now().subtract(const Duration(days: 10));
-        final compliance =
-            createTestCompliance(dueDate: past, status: 'pending');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(
+          dueDate: past,
+          status: 'pending',
+        );
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results =
-            await database.sebiDao.getOverdueSebiCompliance();
+        final results = await database.sebiDao.getOverdueSebiCompliance();
         expect(results.any((r) => r.id == compliance.id), isTrue);
       });
 
       test('does not return future-dated records as overdue', () async {
         final future = DateTime.now().add(const Duration(days: 30));
-        final compliance =
-            createTestCompliance(dueDate: future, status: 'pending');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(
+          dueDate: future,
+          status: 'pending',
+        );
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results =
-            await database.sebiDao.getOverdueSebiCompliance();
+        final results = await database.sebiDao.getOverdueSebiCompliance();
         expect(results.where((r) => r.id == compliance.id), isEmpty);
       });
 
       test('does not return filed records as overdue', () async {
         final past = DateTime.now().subtract(const Duration(days: 5));
-        final compliance =
-            createTestCompliance(dueDate: past, status: 'filed');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(dueDate: past, status: 'filed');
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results =
-            await database.sebiDao.getOverdueSebiCompliance();
+        final results = await database.sebiDao.getOverdueSebiCompliance();
         expect(results.where((r) => r.id == compliance.id), isEmpty);
       });
 
       test('does not return exempted records as overdue', () async {
         final past = DateTime.now().subtract(const Duration(days: 5));
-        final compliance =
-            createTestCompliance(dueDate: past, status: 'exempted');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        final compliance = createTestCompliance(
+          dueDate: past,
+          status: 'exempted',
+        );
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final results =
-            await database.sebiDao.getOverdueSebiCompliance();
+        final results = await database.sebiDao.getOverdueSebiCompliance();
         expect(results.where((r) => r.id == compliance.id), isEmpty);
       });
     });
@@ -210,34 +227,44 @@ void main() {
     group('updateSebiComplianceStatus', () {
       test('updates status from pending to filed', () async {
         final compliance = createTestCompliance(status: 'pending');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
 
-        final success = await database.sebiDao
-            .updateSebiComplianceStatus(compliance.id, 'filed');
+        final success = await database.sebiDao.updateSebiComplianceStatus(
+          compliance.id,
+          'filed',
+        );
         expect(success, isTrue);
 
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient(compliance.clientId);
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          compliance.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == compliance.id);
         expect(updated.status, 'filed');
       });
 
       test('returns false for non-existent ID', () async {
-        final success = await database.sebiDao
-            .updateSebiComplianceStatus('non-existent-id', 'filed');
+        final success = await database.sebiDao.updateSebiComplianceStatus(
+          'non-existent-id',
+          'filed',
+        );
         expect(success, isFalse);
       });
 
       test('updates status to overdue', () async {
         final compliance = createTestCompliance(status: 'pending');
-        await database.sebiDao
-            .insertSebiCompliance(SebiMapper.toCompanion(compliance));
-        await database.sebiDao
-            .updateSebiComplianceStatus(compliance.id, 'overdue');
+        await database.sebiDao.insertSebiCompliance(
+          SebiMapper.toCompanion(compliance),
+        );
+        await database.sebiDao.updateSebiComplianceStatus(
+          compliance.id,
+          'overdue',
+        );
 
-        final rows = await database.sebiDao
-            .getSebiComplianceByClient(compliance.clientId);
+        final rows = await database.sebiDao.getSebiComplianceByClient(
+          compliance.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == compliance.id);
         expect(updated.status, 'overdue');
       });

@@ -6,10 +6,7 @@ import 'package:ca_app/features/analytics/domain/models/client_metric.dart';
 import 'package:ca_app/features/analytics/domain/repositories/analytics_repository.dart';
 
 class AnalyticsRepositoryImpl implements AnalyticsRepository {
-  const AnalyticsRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const AnalyticsRepositoryImpl({required this.remote, required this.local});
 
   final AnalyticsRemoteSource remote;
   final AnalyticsLocalSource local;

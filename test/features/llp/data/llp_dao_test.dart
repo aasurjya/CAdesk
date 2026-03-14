@@ -54,17 +54,18 @@ void main() {
       test('stored filing has correct clientId', () async {
         final filing = createTestFiling(clientId: 'insert-client-a');
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(filing));
-        final rows =
-            await database.llpDao.getLlpFilingsByClient('insert-client-a');
+        final rows = await database.llpDao.getLlpFilingsByClient(
+          'insert-client-a',
+        );
         expect(rows.any((r) => r.id == filing.id), isTrue);
       });
 
       test('stored filing has correct formType', () async {
-        final filing =
-            createTestFiling(formType: LlpFormType.form8);
+        final filing = createTestFiling(formType: LlpFormType.form8);
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(filing));
-        final rows =
-            await database.llpDao.getLlpFilingsByClient(filing.clientId);
+        final rows = await database.llpDao.getLlpFilingsByClient(
+          filing.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == filing.id);
         final domain = LlpMapper.fromRow(row);
         expect(domain.formType, LlpFormType.form8);
@@ -73,8 +74,9 @@ void main() {
       test('stored filing has correct financialYear', () async {
         final filing = createTestFiling(financialYear: '2023-24');
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(filing));
-        final rows =
-            await database.llpDao.getLlpFilingsByClient(filing.clientId);
+        final rows = await database.llpDao.getLlpFilingsByClient(
+          filing.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == filing.id);
         expect(row.financialYear, '2023-24');
       });
@@ -88,27 +90,28 @@ void main() {
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(f1));
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(f2));
 
-        final results =
-            await database.llpDao.getLlpFilingsByClient(clientId);
+        final results = await database.llpDao.getLlpFilingsByClient(clientId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.llpDao.getLlpFilingsByClient('non-existent');
+        final results = await database.llpDao.getLlpFilingsByClient(
+          'non-existent',
+        );
         expect(results, isEmpty);
       });
 
       test('filters filings by client correctly', () async {
         final clientA = 'llp-filter-a';
         final clientB = 'llp-filter-b';
-        await database.llpDao
-            .insertLlpFiling(LlpMapper.toCompanion(createTestFiling(clientId: clientA)));
-        await database.llpDao
-            .insertLlpFiling(LlpMapper.toCompanion(createTestFiling(clientId: clientB)));
+        await database.llpDao.insertLlpFiling(
+          LlpMapper.toCompanion(createTestFiling(clientId: clientA)),
+        );
+        await database.llpDao.insertLlpFiling(
+          LlpMapper.toCompanion(createTestFiling(clientId: clientB)),
+        );
 
-        final results =
-            await database.llpDao.getLlpFilingsByClient(clientA);
+        final results = await database.llpDao.getLlpFilingsByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
     });
@@ -116,21 +119,31 @@ void main() {
     group('getLlpFilingsByYear', () {
       test('returns filings for matching client and year', () async {
         final clientId = 'llp-year-client';
-        final f = createTestFiling(clientId: clientId, financialYear: '2024-25');
+        final f = createTestFiling(
+          clientId: clientId,
+          financialYear: '2024-25',
+        );
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(f));
 
-        final results =
-            await database.llpDao.getLlpFilingsByYear(clientId, '2024-25');
+        final results = await database.llpDao.getLlpFilingsByYear(
+          clientId,
+          '2024-25',
+        );
         expect(results.any((r) => r.id == f.id), isTrue);
       });
 
       test('excludes filings from different year', () async {
         final clientId = 'llp-year-diff-client';
-        final f = createTestFiling(clientId: clientId, financialYear: '2022-23');
+        final f = createTestFiling(
+          clientId: clientId,
+          financialYear: '2022-23',
+        );
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(f));
 
-        final results =
-            await database.llpDao.getLlpFilingsByYear(clientId, '2024-25');
+        final results = await database.llpDao.getLlpFilingsByYear(
+          clientId,
+          '2024-25',
+        );
         expect(results.where((r) => r.id == f.id), isEmpty);
       });
     });
@@ -140,12 +153,15 @@ void main() {
         final filing = createTestFiling(status: 'pending');
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(filing));
 
-        final success =
-            await database.llpDao.updateLlpFilingStatus(filing.id, 'filed');
+        final success = await database.llpDao.updateLlpFilingStatus(
+          filing.id,
+          'filed',
+        );
         expect(success, isTrue);
 
-        final rows =
-            await database.llpDao.getLlpFilingsByClient(filing.clientId);
+        final rows = await database.llpDao.getLlpFilingsByClient(
+          filing.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == filing.id);
         expect(updated.status, 'filed');
       });
@@ -163,8 +179,9 @@ void main() {
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(filing));
         await database.llpDao.updateLlpFilingStatus(filing.id, 'approved');
 
-        final rows =
-            await database.llpDao.getLlpFilingsByClient(filing.clientId);
+        final rows = await database.llpDao.getLlpFilingsByClient(
+          filing.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == filing.id);
         expect(updated.status, 'approved');
       });

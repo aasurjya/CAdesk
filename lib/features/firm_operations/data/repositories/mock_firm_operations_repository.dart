@@ -143,7 +143,5 @@ class MockFirmOperationsRepository implements FirmOperationsRepository {
 
   @override
   Future<List<ClientAssignment>> getClientsAssignedTo(String memberId) async =>
-      List.unmodifiable(
-        _assignments.where((a) => a.assignedToId == memberId),
-      );
+      List.unmodifiable(_assignments.where((a) => a.assignedToId == memberId));
 }

@@ -10,17 +10,19 @@ import 'package:ca_app/features/staff_monitoring/domain/repositories/staff_monit
 
 final staffMonitoringRemoteSourceProvider =
     Provider<StaffMonitoringRemoteSource>((ref) {
-  return StaffMonitoringRemoteSource(Supabase.instance.client);
-});
+      return StaffMonitoringRemoteSource(Supabase.instance.client);
+    });
 
-final staffMonitoringLocalSourceProvider =
-    Provider<StaffMonitoringLocalSource>((ref) {
-  final db = ref.watch(appDatabaseProvider);
-  return StaffMonitoringLocalSource(db);
-});
+final staffMonitoringLocalSourceProvider = Provider<StaffMonitoringLocalSource>(
+  (ref) {
+    final db = ref.watch(appDatabaseProvider);
+    return StaffMonitoringLocalSource(db);
+  },
+);
 
-final staffMonitoringRepositoryProvider =
-    Provider<StaffMonitoringRepository>((ref) {
+final staffMonitoringRepositoryProvider = Provider<StaffMonitoringRepository>((
+  ref,
+) {
   final flags = ref.watch(featureFlagProvider);
   final useReal =
       flags.asData?.value.isEnabled('staff_monitoring_real_repo') ?? false;

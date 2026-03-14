@@ -19,9 +19,9 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
   @override
   Future<List<StartupEntity>> getStartupEntities() async {
     final response = await _client.from(_entitiesTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_entityFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_entityFromJson).toList();
   }
 
   @override
@@ -43,9 +43,9 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
         .from(_entitiesTable)
         .select()
         .eq('recognition_status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_entityFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_entityFromJson).toList();
   }
 
   @override
@@ -79,11 +79,13 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
 
   @override
   Future<List<StartupFiling>> getStartupFilings() async {
-    final response =
-        await _client.from(_filingsTable).select().order('due_date');
-    return List<Map<String, dynamic>>.from(response)
-        .map(_filingFromJson)
-        .toList();
+    final response = await _client
+        .from(_filingsTable)
+        .select()
+        .order('due_date');
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_filingFromJson).toList();
   }
 
   @override
@@ -106,9 +108,9 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
         .select()
         .eq('startup_id', startupId)
         .order('due_date');
-    return List<Map<String, dynamic>>.from(response)
-        .map(_filingFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_filingFromJson).toList();
   }
 
   @override
@@ -119,9 +121,9 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
         .from(_filingsTable)
         .select()
         .eq('status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_filingFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_filingFromJson).toList();
   }
 
   @override
@@ -154,60 +156,63 @@ class StartupComplianceRepositoryImpl implements StartupComplianceRepository {
   // ---------------------------------------------------------------------------
 
   StartupEntity _entityFromJson(Map<String, dynamic> j) => StartupEntity(
-        id: j['id'] as String,
-        entityName: j['entity_name'] as String,
-        dpiitNumber: j['dpiit_number'] as String,
-        incorporationDate:
-            DateTime.parse(j['incorporation_date'] as String),
-        sector: j['sector'] as String,
-        turnover: (j['turnover'] as num).toDouble(),
-        isBelow100Cr: j['is_below_100cr'] as bool,
-        section80IACStatus: Section80IACStatus.values
-            .firstWhere((s) => s.name == j['section_80iac_status'] as String),
-        taxHolidayStartYear: j['tax_holiday_start_year'] as int?,
-        taxHolidayEndYear: j['tax_holiday_end_year'] as int?,
-        recognitionStatus: RecognitionStatus.values
-            .firstWhere((s) => s.name == j['recognition_status'] as String),
-        investmentRounds: const [],
-      );
+    id: j['id'] as String,
+    entityName: j['entity_name'] as String,
+    dpiitNumber: j['dpiit_number'] as String,
+    incorporationDate: DateTime.parse(j['incorporation_date'] as String),
+    sector: j['sector'] as String,
+    turnover: (j['turnover'] as num).toDouble(),
+    isBelow100Cr: j['is_below_100cr'] as bool,
+    section80IACStatus: Section80IACStatus.values.firstWhere(
+      (s) => s.name == j['section_80iac_status'] as String,
+    ),
+    taxHolidayStartYear: j['tax_holiday_start_year'] as int?,
+    taxHolidayEndYear: j['tax_holiday_end_year'] as int?,
+    recognitionStatus: RecognitionStatus.values.firstWhere(
+      (s) => s.name == j['recognition_status'] as String,
+    ),
+    investmentRounds: const [],
+  );
 
   Map<String, dynamic> _entityToJson(StartupEntity e) => {
-        'id': e.id,
-        'entity_name': e.entityName,
-        'dpiit_number': e.dpiitNumber,
-        'incorporation_date': e.incorporationDate.toIso8601String(),
-        'sector': e.sector,
-        'turnover': e.turnover,
-        'is_below_100cr': e.isBelow100Cr,
-        'section_80iac_status': e.section80IACStatus.name,
-        'tax_holiday_start_year': e.taxHolidayStartYear,
-        'tax_holiday_end_year': e.taxHolidayEndYear,
-        'recognition_status': e.recognitionStatus.name,
-      };
+    'id': e.id,
+    'entity_name': e.entityName,
+    'dpiit_number': e.dpiitNumber,
+    'incorporation_date': e.incorporationDate.toIso8601String(),
+    'sector': e.sector,
+    'turnover': e.turnover,
+    'is_below_100cr': e.isBelow100Cr,
+    'section_80iac_status': e.section80IACStatus.name,
+    'tax_holiday_start_year': e.taxHolidayStartYear,
+    'tax_holiday_end_year': e.taxHolidayEndYear,
+    'recognition_status': e.recognitionStatus.name,
+  };
 
   StartupFiling _filingFromJson(Map<String, dynamic> j) => StartupFiling(
-        id: j['id'] as String,
-        startupId: j['startup_id'] as String,
-        entityName: j['entity_name'] as String,
-        filingType: StartupFilingType.values
-            .firstWhere((t) => t.name == j['filing_type'] as String),
-        dueDate: DateTime.parse(j['due_date'] as String),
-        filedDate: j['filed_date'] != null
-            ? DateTime.parse(j['filed_date'] as String)
-            : null,
-        status: StartupFilingStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
-        remarks: j['remarks'] as String?,
-      );
+    id: j['id'] as String,
+    startupId: j['startup_id'] as String,
+    entityName: j['entity_name'] as String,
+    filingType: StartupFilingType.values.firstWhere(
+      (t) => t.name == j['filing_type'] as String,
+    ),
+    dueDate: DateTime.parse(j['due_date'] as String),
+    filedDate: j['filed_date'] != null
+        ? DateTime.parse(j['filed_date'] as String)
+        : null,
+    status: StartupFilingStatus.values.firstWhere(
+      (s) => s.name == j['status'] as String,
+    ),
+    remarks: j['remarks'] as String?,
+  );
 
   Map<String, dynamic> _filingToJson(StartupFiling f) => {
-        'id': f.id,
-        'startup_id': f.startupId,
-        'entity_name': f.entityName,
-        'filing_type': f.filingType.name,
-        'due_date': f.dueDate.toIso8601String(),
-        'filed_date': f.filedDate?.toIso8601String(),
-        'status': f.status.name,
-        'remarks': f.remarks,
-      };
+    'id': f.id,
+    'startup_id': f.startupId,
+    'entity_name': f.entityName,
+    'filing_type': f.filingType.name,
+    'due_date': f.dueDate.toIso8601String(),
+    'filed_date': f.filedDate?.toIso8601String(),
+    'status': f.status.name,
+    'remarks': f.remarks,
+  };
 }

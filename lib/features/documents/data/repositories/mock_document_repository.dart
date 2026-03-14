@@ -3,9 +3,8 @@ import 'package:ca_app/features/documents/domain/repositories/document_repositor
 
 /// Mock implementation of DocumentRepository for testing and offline mode.
 class MockDocumentRepository implements DocumentRepository {
-  MockDocumentRepository({
-    List<Document>? documents,
-  }) : _documents = documents ?? [];
+  MockDocumentRepository({List<Document>? documents})
+    : _documents = documents ?? [];
 
   final List<Document> _documents;
 

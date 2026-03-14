@@ -22,9 +22,7 @@ class MockRpaRepository implements RpaRepository {
 
   @override
   Future<List<RpaTask>> getByStatus(RpaStatus status) async {
-    return List.unmodifiable(
-      _tasks.where((t) => t.status == status).toList(),
-    );
+    return List.unmodifiable(_tasks.where((t) => t.status == status).toList());
   }
 
   @override

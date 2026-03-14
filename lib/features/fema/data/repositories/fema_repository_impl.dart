@@ -6,10 +6,7 @@ import 'package:ca_app/features/fema/domain/repositories/fema_repository.dart';
 
 /// Concrete [FemaRepository] — remote-first with local Drift cache fallback.
 class FemaRepositoryImpl implements FemaRepository {
-  const FemaRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const FemaRepositoryImpl({required this.remote, required this.local});
 
   final FemaRemoteSource remote;
   final FemaLocalSource local;

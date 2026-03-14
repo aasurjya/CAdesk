@@ -103,10 +103,9 @@ class MockPracticeBenchmarkingRepository
   @override
   Future<List<BenchmarkMetric>> getBenchmarkMetricsByCategory(
     String category,
-  ) async =>
-      List.unmodifiable(
-        _metricState.where((m) => m.category == category).toList(),
-      );
+  ) async => List.unmodifiable(
+    _metricState.where((m) => m.category == category).toList(),
+  );
 
   @override
   Future<String> insertBenchmarkMetric(BenchmarkMetric metric) async {

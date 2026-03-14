@@ -86,8 +86,10 @@ void main() {
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
         );
-        final results =
-            await database.analyticsDao.getByPeriod(snap.firmId, '2026-03');
+        final results = await database.analyticsDao.getByPeriod(
+          snap.firmId,
+          '2026-03',
+        );
         expect(results.any((r) => r.id == snap.id), isTrue);
       });
 
@@ -96,8 +98,10 @@ void main() {
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
         );
-        final results =
-            await database.analyticsDao.getByPeriod(snap.firmId, snap.period);
+        final results = await database.analyticsDao.getByPeriod(
+          snap.firmId,
+          snap.period,
+        );
         final row = results.firstWhere((r) => r.id == snap.id);
         expect(row.totalRevenue, 987654.0);
       });
@@ -107,8 +111,10 @@ void main() {
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
         );
-        final results =
-            await database.analyticsDao.getByPeriod(snap.firmId, snap.period);
+        final results = await database.analyticsDao.getByPeriod(
+          snap.firmId,
+          snap.period,
+        );
         final row = results.firstWhere((r) => r.id == snap.id);
         expect(row.totalClients, 150);
       });
@@ -118,9 +124,10 @@ void main() {
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
         );
-        final result =
-            (await database.analyticsDao.getByPeriod(snap.firmId, snap.period))
-                .firstWhere((r) => r.id == snap.id);
+        final result = (await database.analyticsDao.getByPeriod(
+          snap.firmId,
+          snap.period,
+        )).firstWhere((r) => r.id == snap.id);
         expect(result.topModule, 'itr');
       });
     });
@@ -133,14 +140,15 @@ void main() {
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
         );
-        final results =
-            await database.analyticsDao.getByPeriod(firmId, period);
+        final results = await database.analyticsDao.getByPeriod(firmId, period);
         expect(results.length, greaterThanOrEqualTo(1));
       });
 
       test('returns empty list for unknown period', () async {
-        final results =
-            await database.analyticsDao.getByPeriod('firm-1', 'unknown-period');
+        final results = await database.analyticsDao.getByPeriod(
+          'firm-1',
+          'unknown-period',
+        );
         expect(results, isEmpty);
       });
 
@@ -208,8 +216,9 @@ void main() {
         await database.analyticsDao.insertClientMetric(
           AnalyticsMapper.metricToCompanion(metric),
         );
-        final results =
-            await database.analyticsDao.getClientMetrics('client-insert-test');
+        final results = await database.analyticsDao.getClientMetrics(
+          'client-insert-test',
+        );
         expect(results.any((r) => r.id == metric.id), isTrue);
       });
 
@@ -218,8 +227,9 @@ void main() {
         await database.analyticsDao.insertClientMetric(
           AnalyticsMapper.metricToCompanion(metric),
         );
-        final results =
-            await database.analyticsDao.getClientMetrics(metric.clientId);
+        final results = await database.analyticsDao.getClientMetrics(
+          metric.clientId,
+        );
         final row = results.firstWhere((r) => r.id == metric.id);
         expect(row.revenue, 42500.0);
       });
@@ -229,8 +239,9 @@ void main() {
         await database.analyticsDao.insertClientMetric(
           AnalyticsMapper.metricToCompanion(metric),
         );
-        final results =
-            await database.analyticsDao.getClientMetrics(metric.clientId);
+        final results = await database.analyticsDao.getClientMetrics(
+          metric.clientId,
+        );
         final row = results.firstWhere((r) => r.id == metric.id);
         final domain = AnalyticsMapper.metricFromRow(row);
         expect(domain.satisfactionScore, isNull);
@@ -241,8 +252,9 @@ void main() {
         await database.analyticsDao.insertClientMetric(
           AnalyticsMapper.metricToCompanion(metric),
         );
-        final results =
-            await database.analyticsDao.getClientMetrics(metric.clientId);
+        final results = await database.analyticsDao.getClientMetrics(
+          metric.clientId,
+        );
         final row = results.firstWhere((r) => r.id == metric.id);
         expect(row.filingsCompleted, 12);
       });
@@ -264,8 +276,9 @@ void main() {
       });
 
       test('returns empty list for unknown client', () async {
-        final results =
-            await database.analyticsDao.getClientMetrics('no-such-client');
+        final results = await database.analyticsDao.getClientMetrics(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -284,28 +297,33 @@ void main() {
     });
 
     group('getRevenueByPeriod', () {
-      test('returns metrics for matching period ordered by revenue desc',
-          () async {
-        final period = '2026-rev-period';
-        final low = makeMetric(period: period, revenue: 5000);
-        final high = makeMetric(period: period, revenue: 50000);
-        await database.analyticsDao.insertClientMetric(
-          AnalyticsMapper.metricToCompanion(low),
-        );
-        await database.analyticsDao.insertClientMetric(
-          AnalyticsMapper.metricToCompanion(high),
-        );
-        final results = await database.analyticsDao.getRevenueByPeriod(period);
-        expect(results.length, greaterThanOrEqualTo(2));
-        final revenues = results.map((r) => r.revenue).toList();
-        for (var i = 0; i < revenues.length - 1; i++) {
-          expect(revenues[i], greaterThanOrEqualTo(revenues[i + 1]));
-        }
-      });
+      test(
+        'returns metrics for matching period ordered by revenue desc',
+        () async {
+          final period = '2026-rev-period';
+          final low = makeMetric(period: period, revenue: 5000);
+          final high = makeMetric(period: period, revenue: 50000);
+          await database.analyticsDao.insertClientMetric(
+            AnalyticsMapper.metricToCompanion(low),
+          );
+          await database.analyticsDao.insertClientMetric(
+            AnalyticsMapper.metricToCompanion(high),
+          );
+          final results = await database.analyticsDao.getRevenueByPeriod(
+            period,
+          );
+          expect(results.length, greaterThanOrEqualTo(2));
+          final revenues = results.map((r) => r.revenue).toList();
+          for (var i = 0; i < revenues.length - 1; i++) {
+            expect(revenues[i], greaterThanOrEqualTo(revenues[i + 1]));
+          }
+        },
+      );
 
       test('returns empty for unknown period', () async {
-        final results =
-            await database.analyticsDao.getRevenueByPeriod('unknown-period-x');
+        final results = await database.analyticsDao.getRevenueByPeriod(
+          'unknown-period-x',
+        );
         expect(results, isEmpty);
       });
     });

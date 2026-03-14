@@ -7,10 +7,7 @@ import 'package:ca_app/features/mca/domain/repositories/mca_repository.dart';
 /// Concrete [McaRepository] that reads from Supabase and falls back to the
 /// local Drift cache on any network / server error.
 class McaRepositoryImpl implements McaRepository {
-  const McaRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const McaRepositoryImpl({required this.remote, required this.local});
 
   final McaRemoteSource remote;
   final McaLocalSource local;

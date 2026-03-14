@@ -74,10 +74,7 @@ class TracesService {
       dio: dio,
       path: '/app/ais/downloadAIS',
       sessionCookie: creds,
-      body: {
-        'pan': pan.toUpperCase(),
-        'assessmentYear': assessmentYear,
-      },
+      body: {'pan': pan.toUpperCase(), 'assessmentYear': assessmentYear},
     );
     return _parseAis(
       _decodeBody(response.data),
@@ -249,7 +246,8 @@ class TracesService {
     if (status == 401 || status == 403) {
       throw PortalAuthException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
+        message:
+            _extractMessage(e.response?.data) ??
             'TRACES authentication failed. Please re-login.',
         statusCode: status,
       );
@@ -259,15 +257,16 @@ class TracesService {
       final retryAfter = _parseRetryAfter(e.response?.headers);
       throw PortalRateLimitException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
-            'TRACES rate limit exceeded.',
+        message:
+            _extractMessage(e.response?.data) ?? 'TRACES rate limit exceeded.',
         retryAfterSeconds: retryAfter,
       );
     }
 
     throw PortalUnavailableException(
       portal: _kPortal,
-      message: _extractMessage(e.response?.data) ??
+      message:
+          _extractMessage(e.response?.data) ??
           e.message ??
           'TRACES portal is currently unavailable.',
       statusCode: status,
@@ -285,7 +284,8 @@ class TracesService {
     if (credential == null || !credential.isTokenValid) {
       throw const PortalAuthException(
         portal: _kPortal,
-        message: 'TRACES session has expired or no credentials configured. '
+        message:
+            'TRACES session has expired or no credentials configured. '
             'Please log in via Settings → Portal Connectors → TRACES.',
       );
     }

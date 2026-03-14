@@ -19,7 +19,8 @@ final complianceLocalSourceProvider = Provider<ComplianceLocalSource>((ref) {
 
 final complianceRepositoryProvider = Provider<ComplianceRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal = flags.asData?.value.isEnabled('compliance_real_repo') ?? false;
+  final useReal =
+      flags.asData?.value.isEnabled('compliance_real_repo') ?? false;
 
   if (!useReal) {
     return MockComplianceRepository();

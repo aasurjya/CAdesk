@@ -7,9 +7,10 @@ import 'package:ca_app/features/compliance/domain/models/compliance_event.dart';
 /// All compliance deadlines — sourced from the repository; falls back to
 /// the built-in mock schedule when the repository returns no data.
 final allComplianceDeadlinesProvider =
-    AsyncNotifierProvider<AllComplianceDeadlinesNotifier, List<ComplianceDeadline>>(
-      AllComplianceDeadlinesNotifier.new,
-    );
+    AsyncNotifierProvider<
+      AllComplianceDeadlinesNotifier,
+      List<ComplianceDeadline>
+    >(AllComplianceDeadlinesNotifier.new);
 
 class AllComplianceDeadlinesNotifier
     extends AsyncNotifier<List<ComplianceDeadline>> {
@@ -98,7 +99,8 @@ final complianceDisplayMonthProvider = Provider<DateTime>((ref) {
 final complianceMonthDeadlinesProvider = Provider<List<ComplianceDeadline>>((
   ref,
 ) {
-  final deadlines = ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
+  final deadlines =
+      ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
   final displayMonth = ref.watch(complianceDisplayMonthProvider);
 
   return deadlines
@@ -113,7 +115,8 @@ final complianceMonthDeadlinesProvider = Provider<List<ComplianceDeadline>>((
 
 /// All upcoming deadlines (today and future) sorted by date, regardless of month.
 final upcomingDeadlinesProvider = Provider<List<ComplianceDeadline>>((ref) {
-  final deadlines = ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
+  final deadlines =
+      ref.watch(allComplianceDeadlinesProvider).asData?.value ?? [];
   final now = DateTime.now();
   final today = DateTime(now.year, now.month, now.day);
 

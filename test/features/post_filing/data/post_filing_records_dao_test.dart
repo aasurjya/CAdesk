@@ -58,8 +58,9 @@ void main() {
         await database.postFilingRecordsDao.insertRecord(
           PostFilingRecordMapper.toCompanion(record),
         );
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         expect(retrieved?.clientId, record.clientId);
       });
 
@@ -68,8 +69,9 @@ void main() {
         await database.postFilingRecordsDao.insertRecord(
           PostFilingRecordMapper.toCompanion(record),
         );
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         expect(retrieved?.filingId, 'specific-filing-id');
       });
 
@@ -80,8 +82,9 @@ void main() {
         await database.postFilingRecordsDao.insertRecord(
           PostFilingRecordMapper.toCompanion(record),
         );
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         final domain = retrieved != null
             ? PostFilingRecordMapper.fromRow(retrieved)
             : null;
@@ -93,8 +96,9 @@ void main() {
         await database.postFilingRecordsDao.insertRecord(
           PostFilingRecordMapper.toCompanion(record),
         );
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         final domain = retrieved != null
             ? PostFilingRecordMapper.fromRow(retrieved)
             : null;
@@ -106,8 +110,9 @@ void main() {
         await database.postFilingRecordsDao.insertRecord(
           PostFilingRecordMapper.toCompanion(record),
         );
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         expect(retrieved?.notes, 'Verified via Aadhaar OTP');
       });
     });
@@ -124,8 +129,9 @@ void main() {
           PostFilingRecordMapper.toCompanion(r2),
         );
 
-        final results =
-            await database.postFilingRecordsDao.getByFiling(filingId);
+        final results = await database.postFilingRecordsDao.getByFiling(
+          filingId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
@@ -148,8 +154,9 @@ void main() {
           PostFilingRecordMapper.toCompanion(r2),
         );
 
-        final results =
-            await database.postFilingRecordsDao.getByFiling(filingA);
+        final results = await database.postFilingRecordsDao.getByFiling(
+          filingA,
+        );
         expect(results.every((r) => r.filingId == filingA), isTrue);
       });
     });
@@ -166,8 +173,9 @@ void main() {
           PostFilingRecordMapper.toCompanion(r2),
         );
 
-        final results =
-            await database.postFilingRecordsDao.getByClient(clientId);
+        final results = await database.postFilingRecordsDao.getByClient(
+          clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
@@ -180,31 +188,34 @@ void main() {
     });
 
     group('updateStatus', () {
-      test('updates status from pending to completed with completedAt',
-          () async {
-        final record = createTestRecord(status: PostFilingStatus.pending);
-        await database.postFilingRecordsDao.insertRecord(
-          PostFilingRecordMapper.toCompanion(record),
-        );
+      test(
+        'updates status from pending to completed with completedAt',
+        () async {
+          final record = createTestRecord(status: PostFilingStatus.pending);
+          await database.postFilingRecordsDao.insertRecord(
+            PostFilingRecordMapper.toCompanion(record),
+          );
 
-        final completedAt = DateTime(2025, 7, 16);
-        final success = await database.postFilingRecordsDao.updateStatus(
-          record.id,
-          PostFilingStatus.completed.name,
-          completedAt: completedAt,
-          notes: 'Completed successfully',
-        );
-        expect(success, isTrue);
+          final completedAt = DateTime(2025, 7, 16);
+          final success = await database.postFilingRecordsDao.updateStatus(
+            record.id,
+            PostFilingStatus.completed.name,
+            completedAt: completedAt,
+            notes: 'Completed successfully',
+          );
+          expect(success, isTrue);
 
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
-        final domain = retrieved != null
-            ? PostFilingRecordMapper.fromRow(retrieved)
-            : null;
-        expect(domain?.status, PostFilingStatus.completed);
-        expect(domain?.completedAt, completedAt);
-        expect(domain?.notes, 'Completed successfully');
-      });
+          final retrieved = await database.postFilingRecordsDao.getById(
+            record.id,
+          );
+          final domain = retrieved != null
+              ? PostFilingRecordMapper.fromRow(retrieved)
+              : null;
+          expect(domain?.status, PostFilingStatus.completed);
+          expect(domain?.completedAt, completedAt);
+          expect(domain?.notes, 'Completed successfully');
+        },
+      );
 
       test('updates status to failed', () async {
         final record = createTestRecord(status: PostFilingStatus.inProgress);
@@ -217,8 +228,9 @@ void main() {
           PostFilingStatus.failed.name,
         );
 
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         final domain = retrieved != null
             ? PostFilingRecordMapper.fromRow(retrieved)
             : null;
@@ -264,10 +276,7 @@ void main() {
         );
 
         final pending = await database.postFilingRecordsDao.getPending();
-        expect(
-          pending.where((r) => r.id == record.id).isEmpty,
-          isTrue,
-        );
+        expect(pending.where((r) => r.id == record.id).isEmpty, isTrue);
       });
     });
 
@@ -278,8 +287,9 @@ void main() {
           PostFilingRecordMapper.toCompanion(record),
         );
 
-        final retrieved =
-            await database.postFilingRecordsDao.getById(record.id);
+        final retrieved = await database.postFilingRecordsDao.getById(
+          record.id,
+        );
         expect(retrieved != null, isTrue);
         expect(retrieved?.id, record.id);
       });
@@ -299,8 +309,9 @@ void main() {
           PostFilingRecordMapper.toCompanion(record),
         );
 
-        final stream =
-            database.postFilingRecordsDao.watchByClient(record.clientId);
+        final stream = database.postFilingRecordsDao.watchByClient(
+          record.clientId,
+        );
         expect(
           stream,
           emits(

@@ -10,9 +10,7 @@ class ComplianceLocalSource {
 
   /// Insert a new compliance event
   Future<String> insertEvent(ComplianceEvent event) async {
-    return _db.complianceDao.insertEvent(
-      ComplianceMapper.toCompanion(event),
-    );
+    return _db.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
   }
 
   /// Get all compliance events for a specific client
@@ -34,11 +32,15 @@ class ComplianceLocalSource {
   }
 
   /// Update the status of a compliance event
-  Future<bool> updateEventStatus(String eventId, ComplianceEventStatus status) =>
-      _db.complianceDao.updateEventStatus(eventId, status.name);
+  Future<bool> updateEventStatus(
+    String eventId,
+    ComplianceEventStatus status,
+  ) => _db.complianceDao.updateEventStatus(eventId, status.name);
 
   /// Get all compliance events of a specific type
-  Future<List<ComplianceEvent>> getEventsByType(ComplianceEventType type) async {
+  Future<List<ComplianceEvent>> getEventsByType(
+    ComplianceEventType type,
+  ) async {
     final rows = await _db.complianceDao.getEventsByType(type.name);
     return rows.map(ComplianceMapper.fromRow).toList();
   }
@@ -54,12 +56,13 @@ class ComplianceLocalSource {
       _db.complianceDao.updateEvent(ComplianceMapper.toCompanion(event));
 
   /// Delete a compliance event
-  Future<bool> deleteEvent(String eventId) => _db.complianceDao.deleteEvent(eventId);
+  Future<bool> deleteEvent(String eventId) =>
+      _db.complianceDao.deleteEvent(eventId);
 
   /// Watch compliance events for a specific client (real-time updates)
   Stream<List<ComplianceEvent>> watchEventsByClient(String clientId) {
-    return _db.complianceDao.watchEventsByClient(clientId).map(
-      (rows) => rows.map(ComplianceMapper.fromRow).toList(),
-    );
+    return _db.complianceDao
+        .watchEventsByClient(clientId)
+        .map((rows) => rows.map(ComplianceMapper.fromRow).toList());
   }
 }

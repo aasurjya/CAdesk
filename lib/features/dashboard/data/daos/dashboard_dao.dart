@@ -43,10 +43,7 @@ class DashboardDao extends DatabaseAccessor<AppDatabase>
 
   /// Total filed returns (ITR + GST + TDS) for the firm, optionally filtered
   /// by [period] (assessment year / financial year string, e.g. '2025-26').
-  Future<int> getFiledReturnsCount(
-    String firmId, {
-    String period = '',
-  }) async {
+  Future<int> getFiledReturnsCount(String firmId, {String period = ''}) async {
     final itrCount = await _countItrFiled(firmId, period: period);
     final gstCount = await _countGstFiled(firmId);
     final tdsCount = await _countTdsFiled(firmId);
@@ -149,8 +146,7 @@ class DashboardDao extends DatabaseAccessor<AppDatabase>
     final query = selectOnly(tasksTable)
       ..addColumns([countExpr])
       ..where(
-        tasksTable.firmId.equals(firmId) &
-            tasksTable.status.equals('overdue'),
+        tasksTable.firmId.equals(firmId) & tasksTable.status.equals('overdue'),
       );
     final row = await query.getSingle();
     return row.read(countExpr) ?? 0;
@@ -159,18 +155,18 @@ class DashboardDao extends DatabaseAccessor<AppDatabase>
   // ── Upcoming deadlines ────────────────────────────────────────────────────
 
   /// Count of tasks due within the next [daysAhead] days (pending status).
-  Future<int> getUpcomingDeadlines(
-    String firmId, {
-    int daysAhead = 30,
-  }) async {
+  Future<int> getUpcomingDeadlines(String firmId, {int daysAhead = 30}) async {
     final now = DateTime.now();
-    final cutoff = DateTime(now.year, now.month, now.day)
-        .add(Duration(days: daysAhead))
-        .toIso8601String()
-        .substring(0, 10);
-    final today = DateTime(now.year, now.month, now.day)
-        .toIso8601String()
-        .substring(0, 10);
+    final cutoff = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).add(Duration(days: daysAhead)).toIso8601String().substring(0, 10);
+    final today = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).toIso8601String().substring(0, 10);
 
     final countExpr = tasksTable.id.count();
     final query = selectOnly(tasksTable)
@@ -193,16 +189,22 @@ class DashboardDao extends DatabaseAccessor<AppDatabase>
     String firmId, {
     int limit = 10,
   }) async {
-    final rows = await (select(itrFilingsTable)
-          ..where(
-            (t) =>
-                t.firmId.equals(firmId) &
-                t.filingStatus.isIn(['filed', 'verified', 'processed']) &
-                t.filedDate.isNotNull(),
-          )
-          ..orderBy([(t) => OrderingTerm(expression: t.filedDate, mode: OrderingMode.desc)])
-          ..limit(limit))
-        .get();
+    final rows =
+        await (select(itrFilingsTable)
+              ..where(
+                (t) =>
+                    t.firmId.equals(firmId) &
+                    t.filingStatus.isIn(['filed', 'verified', 'processed']) &
+                    t.filedDate.isNotNull(),
+              )
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.filedDate,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(limit))
+            .get();
 
     return rows.map((row) {
       return RecentFiling(
@@ -217,10 +219,7 @@ class DashboardDao extends DatabaseAccessor<AppDatabase>
   // ── Top clients ───────────────────────────────────────────────────────────
 
   /// Returns the [limit] top clients by total billing amount for the firm.
-  Future<List<TopClient>> getTopClients(
-    String firmId, {
-    int limit = 5,
-  }) async {
+  Future<List<TopClient>> getTopClients(String firmId, {int limit = 5}) async {
     final clientNameExpr = invoicesTable.clientName;
     final clientIdExpr = invoicesTable.clientId;
     final sumExpr = invoicesTable.grandTotal.sum();

@@ -10,9 +10,7 @@ class PortalImportMapper {
     return PortalImport(
       id: json['id'] as String,
       clientId: json['client_id'] as String,
-      importType: _safeImportType(
-        json['import_type'] as String? ?? 'form26as',
-      ),
+      importType: _safeImportType(json['import_type'] as String? ?? 'form26as'),
       importDate: DateTime.parse(
         json['import_date'] as String? ?? DateTime.now().toIso8601String(),
       ),

@@ -30,8 +30,9 @@ class StaffMonitoringRepositoryImpl implements StaffMonitoringRepository {
   Future<List<StaffActivity>> getByStaff(String staffId) async {
     try {
       final jsonList = await remote.fetchByStaff(staffId);
-      final activities =
-          jsonList.map(StaffMonitoringMapper.activityFromJson).toList();
+      final activities = jsonList
+          .map(StaffMonitoringMapper.activityFromJson)
+          .toList();
       for (final a in activities) {
         await local.insertActivity(a);
       }
@@ -45,8 +46,9 @@ class StaffMonitoringRepositoryImpl implements StaffMonitoringRepository {
   Future<List<StaffActivity>> getByPeriod(DateTime from, DateTime to) async {
     try {
       final jsonList = await remote.fetchByPeriod(from, to);
-      final activities =
-          jsonList.map(StaffMonitoringMapper.activityFromJson).toList();
+      final activities = jsonList
+          .map(StaffMonitoringMapper.activityFromJson)
+          .toList();
       return List.unmodifiable(activities);
     } catch (_) {
       return local.getByPeriod(from, to);
@@ -57,8 +59,9 @@ class StaffMonitoringRepositoryImpl implements StaffMonitoringRepository {
   Future<List<StaffActivity>> getByClient(String clientId) async {
     try {
       final jsonList = await remote.fetchByClient(clientId);
-      final activities =
-          jsonList.map(StaffMonitoringMapper.activityFromJson).toList();
+      final activities = jsonList
+          .map(StaffMonitoringMapper.activityFromJson)
+          .toList();
       return List.unmodifiable(activities);
     } catch (_) {
       return local.getByClient(clientId);

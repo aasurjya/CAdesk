@@ -12,13 +12,14 @@ import 'package:ca_app/features/practice_benchmarking/domain/repositories/practi
 /// [PracticeBenchmarkingRepositoryImpl] is used.
 final practiceBenchmarkingRepositoryProvider =
     Provider<PracticeBenchmarkingRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('practice_benchmarking_real_repo') ?? false;
+      final flags = ref.watch(featureFlagProvider);
+      final useReal =
+          flags.asData?.value.isEnabled('practice_benchmarking_real_repo') ??
+          false;
 
-  if (!useReal) {
-    return MockPracticeBenchmarkingRepository();
-  }
+      if (!useReal) {
+        return MockPracticeBenchmarkingRepository();
+      }
 
-  return PracticeBenchmarkingRepositoryImpl(Supabase.instance.client);
-});
+      return PracticeBenchmarkingRepositoryImpl(Supabase.instance.client);
+    });

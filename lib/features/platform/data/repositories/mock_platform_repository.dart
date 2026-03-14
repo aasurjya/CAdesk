@@ -160,9 +160,7 @@ class MockPlatformRepository implements PlatformRepository {
 
   @override
   Future<List<AppUser>> getUsersByFirm(String firmId) async =>
-      List.unmodifiable(
-        _userState.where((u) => u.firmId == firmId).toList(),
-      );
+      List.unmodifiable(_userState.where((u) => u.firmId == firmId).toList());
 
   @override
   Future<String> insertUser(AppUser user) async {
@@ -198,17 +196,14 @@ class MockPlatformRepository implements PlatformRepository {
 
   @override
   Future<List<AuditLogEntry>> getAuditLogsByUser(String userId) async =>
-      List.unmodifiable(
-        _auditState.where((l) => l.userId == userId).toList(),
-      );
+      List.unmodifiable(_auditState.where((l) => l.userId == userId).toList());
 
   @override
   Future<List<AuditLogEntry>> getAuditLogsBySeverity(
     LogSeverity severity,
-  ) async =>
-      List.unmodifiable(
-        _auditState.where((l) => l.severity == severity).toList(),
-      );
+  ) async => List.unmodifiable(
+    _auditState.where((l) => l.severity == severity).toList(),
+  );
 
   @override
   Future<String> insertAuditLog(AuditLogEntry entry) async {
@@ -226,9 +221,7 @@ class MockPlatformRepository implements PlatformRepository {
 
   @override
   Future<List<PushNotification>> getNotificationsByUser(String userId) async =>
-      List.unmodifiable(
-        _notifState.where((n) => n.userId == userId).toList(),
-      );
+      List.unmodifiable(_notifState.where((n) => n.userId == userId).toList());
 
   @override
   Future<String> insertNotification(PushNotification notification) async {
@@ -238,11 +231,12 @@ class MockPlatformRepository implements PlatformRepository {
 
   @override
   Future<bool> markNotificationRead(String notificationId) async {
-    final idx =
-        _notifState.indexWhere((n) => n.notificationId == notificationId);
+    final idx = _notifState.indexWhere(
+      (n) => n.notificationId == notificationId,
+    );
     if (idx == -1) return false;
-    final updated = List<PushNotification>.of(_notifState)..[idx] =
-        _notifState[idx].copyWith(readAt: DateTime.now());
+    final updated = List<PushNotification>.of(_notifState)
+      ..[idx] = _notifState[idx].copyWith(readAt: DateTime.now());
     _notifState
       ..clear()
       ..addAll(updated);
@@ -261,9 +255,7 @@ class MockPlatformRepository implements PlatformRepository {
   Future<List<SyncQueueItem>> getSyncQueueItemsByStatus(
     SyncStatus status,
   ) async =>
-      List.unmodifiable(
-        _syncState.where((i) => i.status == status).toList(),
-      );
+      List.unmodifiable(_syncState.where((i) => i.status == status).toList());
 
   @override
   Future<String> insertSyncQueueItem(SyncQueueItem item) async {
@@ -278,8 +270,8 @@ class MockPlatformRepository implements PlatformRepository {
   ) async {
     final idx = _syncState.indexWhere((i) => i.itemId == itemId);
     if (idx == -1) return false;
-    final updated = List<SyncQueueItem>.of(_syncState)..[idx] =
-        _syncState[idx].copyWith(status: status);
+    final updated = List<SyncQueueItem>.of(_syncState)
+      ..[idx] = _syncState[idx].copyWith(status: status);
     _syncState
       ..clear()
       ..addAll(updated);

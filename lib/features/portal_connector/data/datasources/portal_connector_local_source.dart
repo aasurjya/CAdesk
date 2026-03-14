@@ -27,8 +27,7 @@ class PortalConnectorLocalSource {
 
   /// Retrieve the stored [PortalCredential] for [portalType], or `null`.
   Future<PortalCredential?> getCredential(PortalType portalType) async {
-    final row =
-        await _db.portalConnectorDao.getCredential(portalType.name);
+    final row = await _db.portalConnectorDao.getCredential(portalType.name);
     return row != null ? PortalConnectorMapper.fromRow(row) : null;
   }
 
@@ -58,9 +57,7 @@ class PortalConnectorLocalSource {
 
   /// If the credential has a plaintext-looking password (not already in
   /// "IV:ciphertext" format), encrypt it before persisting.
-  Future<PortalCredential> _ensureEncrypted(
-    PortalCredential credential,
-  ) async {
+  Future<PortalCredential> _ensureEncrypted(PortalCredential credential) async {
     final raw = credential.encryptedPassword;
     if (raw == null || raw.contains(':')) {
       // Already encrypted or absent — no-op.

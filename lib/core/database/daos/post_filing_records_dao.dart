@@ -10,17 +10,18 @@ class PostFilingRecordsDao extends DatabaseAccessor<AppDatabase>
   PostFilingRecordsDao(super.db);
 
   /// Insert a new post-filing record, returning its ID.
-  Future<String> insertRecord(
-    PostFilingRecordsTableCompanion companion,
-  ) async {
+  Future<String> insertRecord(PostFilingRecordsTableCompanion companion) async {
     await into(postFilingRecordsTable).insert(companion);
-    final rows = await (select(postFilingRecordsTable)
-          ..orderBy([
-            (t) =>
-                OrderingTerm(expression: t.createdAt, mode: OrderingMode.desc),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(postFilingRecordsTable)
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     return rows.isNotEmpty ? rows.first.id : '';
   }
 
@@ -49,10 +50,9 @@ class PostFilingRecordsDao extends DatabaseAccessor<AppDatabase>
           .get();
 
   /// Watch records for a client (reactive).
-  Stream<List<PostFilingRecordRow>> watchByClient(String clientId) =>
-      (select(postFilingRecordsTable)
-            ..where((t) => t.clientId.equals(clientId)))
-          .watch();
+  Stream<List<PostFilingRecordRow>> watchByClient(String clientId) => (select(
+    postFilingRecordsTable,
+  )..where((t) => t.clientId.equals(clientId))).watch();
 
   /// Update the status of a record. Returns true if updated.
   Future<bool> updateStatus(
@@ -61,9 +61,10 @@ class PostFilingRecordsDao extends DatabaseAccessor<AppDatabase>
     DateTime? completedAt,
     String? notes,
   }) async {
-    final rowsAffected = await (update(postFilingRecordsTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final rowsAffected =
+        await (update(
+          postFilingRecordsTable,
+        )..where((t) => t.id.equals(id))).write(
           PostFilingRecordsTableCompanion(
             status: Value(status),
             completedAt: Value(completedAt),
@@ -80,17 +81,15 @@ class PostFilingRecordsDao extends DatabaseAccessor<AppDatabase>
       (select(postFilingRecordsTable)
             ..where((t) => t.status.equals('pending'))
             ..orderBy([
-              (t) => OrderingTerm(
-                expression: t.createdAt,
-                mode: OrderingMode.asc,
-              ),
+              (t) =>
+                  OrderingTerm(expression: t.createdAt, mode: OrderingMode.asc),
             ]))
           .get();
 
   /// Get a single record by ID.
-  Future<PostFilingRecordRow?> getById(String id) =>
-      (select(postFilingRecordsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<PostFilingRecordRow?> getById(String id) => (select(
+    postFilingRecordsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   /// Upsert a post-filing record.
   Future<void> upsert(PostFilingRecordsTableCompanion companion) =>

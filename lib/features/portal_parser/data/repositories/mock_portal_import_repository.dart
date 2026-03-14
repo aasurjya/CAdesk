@@ -46,25 +46,19 @@ class MockPortalImportRepository implements PortalImportRepository {
 
   @override
   Future<List<PortalImport>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((i) => i.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((i) => i.clientId == clientId).toList());
 
   @override
   Future<List<PortalImport>> getByType(ImportType type) async =>
-      List.unmodifiable(
-        _state.where((i) => i.importType == type).toList(),
-      );
+      List.unmodifiable(_state.where((i) => i.importType == type).toList());
 
   @override
-  Future<PortalImport?> getLatest(
-    String clientId,
-    ImportType type,
-  ) async {
-    final matches = _state
-        .where((i) => i.clientId == clientId && i.importType == type)
-        .toList()
-      ..sort((a, b) => b.importDate.compareTo(a.importDate));
+  Future<PortalImport?> getLatest(String clientId, ImportType type) async {
+    final matches =
+        _state
+            .where((i) => i.clientId == clientId && i.importType == type)
+            .toList()
+          ..sort((a, b) => b.importDate.compareTo(a.importDate));
     return matches.isNotEmpty ? matches.first : null;
   }
 
@@ -100,10 +94,9 @@ class MockPortalImportRepository implements PortalImportRepository {
   }
 
   @override
-  Stream<List<PortalImport>> watchByClient(String clientId) =>
-      _controller.stream.map(
-        (list) => list.where((i) => i.clientId == clientId).toList(),
-      );
+  Stream<List<PortalImport>> watchByClient(String clientId) => _controller
+      .stream
+      .map((list) => list.where((i) => i.clientId == clientId).toList());
 
   void dispose() => _controller.close();
 }

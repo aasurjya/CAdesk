@@ -5,9 +5,7 @@ import 'package:ca_app/features/compliance/domain/models/compliance_event.dart';
 import 'package:ca_app/features/compliance/data/mappers/compliance_mapper.dart';
 
 AppDatabase _createTestDatabase() {
-  return AppDatabase(
-    executor: NativeDatabase.memory(),
-  );
+  return AppDatabase(executor: NativeDatabase.memory());
 }
 
 void main() {
@@ -85,15 +83,23 @@ void main() {
         final event1 = createTestEvent();
         final event2 = createTestEvent(clientId: event1.clientId);
 
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event1));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event2));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event1),
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event2),
+        );
 
-        final results = await database.complianceDao.getEventsByClient(event1.clientId);
+        final results = await database.complianceDao.getEventsByClient(
+          event1.clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results = await database.complianceDao.getEventsByClient('non-existent');
+        final results = await database.complianceDao.getEventsByClient(
+          'non-existent',
+        );
         expect(results, isEmpty);
       });
 
@@ -103,21 +109,26 @@ void main() {
         final event1 = createTestEvent(clientId: client1Id);
         final event2 = createTestEvent(clientId: client2Id);
 
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event1));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event2));
-
-        final results = await database.complianceDao.getEventsByClient(client1Id);
-        expect(
-          results.every((e) => e.clientId == client1Id),
-          isTrue,
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event1),
         );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event2),
+        );
+
+        final results = await database.complianceDao.getEventsByClient(
+          client1Id,
+        );
+        expect(results.every((e) => e.clientId == client1Id), isTrue);
       });
     });
 
     group('getEventById', () {
       test('retrieves event by ID', () async {
         final event = createTestEvent();
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final retrieved = await database.complianceDao.getEventById(event.id);
         expect(retrieved != null, isTrue);
@@ -125,7 +136,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved = await database.complianceDao.getEventById('non-existent-id');
+        final retrieved = await database.complianceDao.getEventById(
+          'non-existent-id',
+        );
         expect(retrieved == null, isTrue);
       });
     });
@@ -141,9 +154,15 @@ void main() {
         final event2 = createTestEvent(dueDate: inFiveDays);
         final event3 = createTestEvent(dueDate: inTenDays);
 
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event1));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event2));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event3));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event1),
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event2),
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event3),
+        );
 
         final upcoming = await database.complianceDao.getUpcomingEvents(7);
         expect(upcoming.length, greaterThanOrEqualTo(2));
@@ -151,15 +170,17 @@ void main() {
 
       test('returns empty list when no upcoming events', () async {
         final pastDate = DateTime.now().subtract(Duration(days: 10));
-        final event = createTestEvent(dueDate: pastDate, status: ComplianceEventStatus.completed);
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        final event = createTestEvent(
+          dueDate: pastDate,
+          status: ComplianceEventStatus.completed,
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final upcoming = await database.complianceDao.getUpcomingEvents(7);
         // Past completed events should not be included
-        expect(
-          upcoming.where((e) => e.id == event.id).isEmpty,
-          isTrue,
-        );
+        expect(upcoming.where((e) => e.id == event.id).isEmpty, isTrue);
       });
     });
 
@@ -170,13 +191,12 @@ void main() {
           dueDate: yesterday,
           status: ComplianceEventStatus.pending,
         );
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final overdue = await database.complianceDao.getOverdueEvents();
-        expect(
-          overdue.where((e) => e.id == event.id).isNotEmpty,
-          isTrue,
-        );
+        expect(overdue.where((e) => e.id == event.id).isNotEmpty, isTrue);
       });
 
       test('excludes completed overdue events', () async {
@@ -185,32 +205,32 @@ void main() {
           dueDate: yesterday,
           status: ComplianceEventStatus.completed,
         );
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final overdue = await database.complianceDao.getOverdueEvents();
-        expect(
-          overdue.where((e) => e.id == event.id).isEmpty,
-          isTrue,
-        );
+        expect(overdue.where((e) => e.id == event.id).isEmpty, isTrue);
       });
 
       test('excludes future events', () async {
         final tomorrow = DateTime.now().add(Duration(days: 1));
         final event = createTestEvent(dueDate: tomorrow);
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final overdue = await database.complianceDao.getOverdueEvents();
-        expect(
-          overdue.where((e) => e.id == event.id).isEmpty,
-          isTrue,
-        );
+        expect(overdue.where((e) => e.id == event.id).isEmpty, isTrue);
       });
     });
 
     group('updateEventStatus', () {
       test('updates event status successfully', () async {
         final event = createTestEvent();
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final success = await database.complianceDao.updateEventStatus(
           event.id,
@@ -224,7 +244,9 @@ void main() {
 
       test('updates status from pending to completed', () async {
         final event = createTestEvent(status: ComplianceEventStatus.pending);
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         await database.complianceDao.updateEventStatus(
           event.id,
@@ -242,17 +264,30 @@ void main() {
         final event2 = createTestEvent(type: ComplianceEventType.itr);
         final event3 = createTestEvent(type: ComplianceEventType.gst);
 
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event1));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event2));
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event3));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event1),
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event2),
+        );
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event3),
+        );
 
-        final results = await database.complianceDao.getEventsByType(ComplianceEventType.itr.name);
+        final results = await database.complianceDao.getEventsByType(
+          ComplianceEventType.itr.name,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
-        expect(results.every((e) => e.type == ComplianceEventType.itr.name), isTrue);
+        expect(
+          results.every((e) => e.type == ComplianceEventType.itr.name),
+          isTrue,
+        );
       });
 
       test('returns empty list for non-existent type', () async {
-        final results = await database.complianceDao.getEventsByType(ComplianceEventType.audit.name);
+        final results = await database.complianceDao.getEventsByType(
+          ComplianceEventType.audit.name,
+        );
         expect(results, isEmpty);
       });
     });
@@ -260,7 +295,9 @@ void main() {
     group('updateEvent', () {
       test('updates event successfully', () async {
         final event = createTestEvent();
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final updated = event.copyWith(
           status: ComplianceEventStatus.filed,
@@ -278,10 +315,14 @@ void main() {
 
       test('updates event with penalty', () async {
         final event = createTestEvent();
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final updated = event.copyWith(penalty: 5000.0);
-        await database.complianceDao.updateEvent(ComplianceMapper.toCompanion(updated));
+        await database.complianceDao.updateEvent(
+          ComplianceMapper.toCompanion(updated),
+        );
 
         final retrieved = await database.complianceDao.getEventById(event.id);
         expect(retrieved?.penalty, 5000.0);
@@ -291,7 +332,9 @@ void main() {
     group('deleteEvent', () {
       test('deletes event successfully', () async {
         final event = createTestEvent();
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
         final success = await database.complianceDao.deleteEvent(event.id);
         expect(success, isTrue);
@@ -301,7 +344,9 @@ void main() {
       });
 
       test('returns false when deleting non-existent event', () async {
-        final success = await database.complianceDao.deleteEvent('non-existent');
+        final success = await database.complianceDao.deleteEvent(
+          'non-existent',
+        );
         expect(success, isFalse);
       });
     });
@@ -310,13 +355,22 @@ void main() {
       test('emits events for client on watch', () async {
         final event = createTestEvent();
 
-        await database.complianceDao.insertEvent(ComplianceMapper.toCompanion(event));
+        await database.complianceDao.insertEvent(
+          ComplianceMapper.toCompanion(event),
+        );
 
-        final stream = database.complianceDao.watchEventsByClient(event.clientId);
+        final stream = database.complianceDao.watchEventsByClient(
+          event.clientId,
+        );
         expect(
           stream,
-          emits(isA<List<ComplianceEventRow>>()
-              .having((rows) => rows.isNotEmpty, 'has events', true)),
+          emits(
+            isA<List<ComplianceEventRow>>().having(
+              (rows) => rows.isNotEmpty,
+              'has events',
+              true,
+            ),
+          ),
         );
       });
     });

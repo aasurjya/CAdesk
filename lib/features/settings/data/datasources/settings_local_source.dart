@@ -12,10 +12,9 @@ class SettingsLocalSource {
     return row != null ? SettingsMapper.fromRow(row) : null;
   }
 
-  Future<void> upsertSettings(AppSettings settings, {String firmId = ''}) =>
-      _db.settingsDao.upsertSettings(
-        SettingsMapper.toCompanion(settings, firmId: firmId),
-      );
+  Future<void> upsertSettings(AppSettings settings, {String firmId = ''}) => _db
+      .settingsDao
+      .upsertSettings(SettingsMapper.toCompanion(settings, firmId: firmId));
 
   Future<void> deleteSettings() => _db.settingsDao.deleteSettings();
 }

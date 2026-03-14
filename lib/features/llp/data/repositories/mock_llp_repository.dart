@@ -52,9 +52,7 @@ class MockLlpRepository implements LlpRepository {
 
   @override
   Future<List<LlpFiling>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((f) => f.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((f) => f.clientId == clientId).toList());
 
   @override
   Future<List<LlpFiling>> getByYear(String clientId, String year) async =>
@@ -68,8 +66,8 @@ class MockLlpRepository implements LlpRepository {
   Future<bool> updateStatus(String id, String status) async {
     final idx = _state.indexWhere((f) => f.id == id);
     if (idx == -1) return false;
-    final updated = List<LlpFiling>.of(_state)..[idx] =
-        _state[idx].copyWith(status: status);
+    final updated = List<LlpFiling>.of(_state)
+      ..[idx] = _state[idx].copyWith(status: status);
     _state
       ..clear()
       ..addAll(updated);

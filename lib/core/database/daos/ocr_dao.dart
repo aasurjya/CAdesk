@@ -61,9 +61,7 @@ class OcrDao extends DatabaseAccessor<AppDatabase> with _$OcrDaoMixin {
             ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
           .get();
 
-  Future<int> cleanup(DateTime beforeDate) =>
-      (delete(ocrJobsTable)..where((t) => t.createdAt.isSmallerThan(
-            Variable(beforeDate),
-          )))
-          .go();
+  Future<int> cleanup(DateTime beforeDate) => (delete(
+    ocrJobsTable,
+  )..where((t) => t.createdAt.isSmallerThan(Variable(beforeDate)))).go();
 }

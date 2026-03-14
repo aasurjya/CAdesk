@@ -120,12 +120,9 @@ class MockStartupComplianceRepository implements StartupComplianceRepository {
   @override
   Future<List<StartupEntity>> getStartupEntitiesByRecognitionStatus(
     RecognitionStatus status,
-  ) async =>
-      List.unmodifiable(
-        _entityState
-            .where((e) => e.recognitionStatus == status)
-            .toList(),
-      );
+  ) async => List.unmodifiable(
+    _entityState.where((e) => e.recognitionStatus == status).toList(),
+  );
 
   @override
   Future<String> insertStartupEntity(StartupEntity entity) async {
@@ -168,18 +165,15 @@ class MockStartupComplianceRepository implements StartupComplianceRepository {
   @override
   Future<List<StartupFiling>> getStartupFilingsByStartup(
     String startupId,
-  ) async =>
-      List.unmodifiable(
-        _filingState.where((f) => f.startupId == startupId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _filingState.where((f) => f.startupId == startupId).toList(),
+  );
 
   @override
   Future<List<StartupFiling>> getStartupFilingsByStatus(
     StartupFilingStatus status,
   ) async =>
-      List.unmodifiable(
-        _filingState.where((f) => f.status == status).toList(),
-      );
+      List.unmodifiable(_filingState.where((f) => f.status == status).toList());
 
   @override
   Future<String> insertStartupFiling(StartupFiling filing) async {

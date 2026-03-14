@@ -12,7 +12,9 @@ class PayrollRemoteSource {
 
   /// Fetch all payroll entries for a [clientId] in a [year].
   Future<List<Map<String, dynamic>>> fetchByClient(
-      String clientId, int year) async {
+    String clientId,
+    int year,
+  ) async {
     final response = await _client
         .from(_table)
         .select()
@@ -24,7 +26,9 @@ class PayrollRemoteSource {
 
   /// Fetch all payroll entries for an [employeeId] in a [year].
   Future<List<Map<String, dynamic>>> fetchByEmployee(
-      String employeeId, int year) async {
+    String employeeId,
+    int year,
+  ) async {
     final response = await _client
         .from(_table)
         .select()
@@ -36,7 +40,10 @@ class PayrollRemoteSource {
 
   /// Fetch all payroll entries for a [clientId] in a specific [month]/[year].
   Future<List<Map<String, dynamic>>> fetchByMonth(
-      String clientId, int month, int year) async {
+    String clientId,
+    int month,
+    int year,
+  ) async {
     final response = await _client
         .from(_table)
         .select()
@@ -48,14 +55,15 @@ class PayrollRemoteSource {
 
   /// Insert a new payroll entry. Returns the persisted row.
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 
   /// Update an existing payroll entry by [id]. Returns the updated row.
   Future<Map<String, dynamic>> update(
-      String id, Map<String, dynamic> data) async {
+    String id,
+    Map<String, dynamic> data,
+  ) async {
     final response = await _client
         .from(_table)
         .update(data)

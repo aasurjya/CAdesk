@@ -46,15 +46,11 @@ class MockPostFilingRecordRepository implements PostFilingRecordRepository {
 
   @override
   Future<List<PostFilingRecord>> getByFiling(String filingId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.filingId == filingId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.filingId == filingId).toList());
 
   @override
   Future<List<PostFilingRecord>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.clientId == clientId).toList());
 
   @override
   Future<bool> updateStatus(
@@ -79,10 +75,9 @@ class MockPostFilingRecordRepository implements PostFilingRecordRepository {
   }
 
   @override
-  Future<List<PostFilingRecord>> getPending() async =>
-      List.unmodifiable(
-        _state.where((r) => r.status == PostFilingStatus.pending).toList(),
-      );
+  Future<List<PostFilingRecord>> getPending() async => List.unmodifiable(
+    _state.where((r) => r.status == PostFilingStatus.pending).toList(),
+  );
 
   @override
   Future<PostFilingRecord?> getById(String id) async {
@@ -94,10 +89,9 @@ class MockPostFilingRecordRepository implements PostFilingRecordRepository {
   }
 
   @override
-  Stream<List<PostFilingRecord>> watchByClient(String clientId) =>
-      _controller.stream.map(
-        (list) => list.where((r) => r.clientId == clientId).toList(),
-      );
+  Stream<List<PostFilingRecord>> watchByClient(String clientId) => _controller
+      .stream
+      .map((list) => list.where((r) => r.clientId == clientId).toList());
 
   void dispose() => _controller.close();
 }

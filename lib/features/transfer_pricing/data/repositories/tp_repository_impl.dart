@@ -5,10 +5,7 @@ import 'package:ca_app/features/transfer_pricing/domain/models/tp_transaction.da
 import 'package:ca_app/features/transfer_pricing/domain/repositories/tp_transaction_repository.dart';
 
 class TpRepositoryImpl implements TpTransactionRepository {
-  const TpRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const TpRepositoryImpl({required this.remote, required this.local});
 
   final TpRemoteSource remote;
   final TpLocalSource local;

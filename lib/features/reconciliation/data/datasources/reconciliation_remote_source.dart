@@ -37,15 +37,17 @@ class ReconciliationRemoteSource {
 
   /// Fetch a single result by ID.
   Future<Map<String, dynamic>?> fetchById(String id) async {
-    final response =
-        await _client.from(_table).select().eq('id', id).maybeSingle();
+    final response = await _client
+        .from(_table)
+        .select()
+        .eq('id', id)
+        .maybeSingle();
     return response;
   }
 
   /// Insert a new reconciliation result. Returns the created row.
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 
@@ -67,7 +69,10 @@ class ReconciliationRemoteSource {
   Future<bool> updateStatus(String id, String status) async {
     await _client
         .from(_table)
-        .update({'status': status, 'updated_at': DateTime.now().toIso8601String()})
+        .update({
+          'status': status,
+          'updated_at': DateTime.now().toIso8601String(),
+        })
         .eq('id', id);
     return true;
   }

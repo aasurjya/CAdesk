@@ -8,8 +8,7 @@ import 'package:ca_app/features/assessment/data/repositories/assessment_reposito
 import 'package:ca_app/features/assessment/data/repositories/mock_assessment_repository.dart';
 import 'package:ca_app/features/assessment/domain/repositories/assessment_repository.dart';
 
-final assessmentRemoteSourceProvider =
-    Provider<AssessmentRemoteSource>((ref) {
+final assessmentRemoteSourceProvider = Provider<AssessmentRemoteSource>((ref) {
   return AssessmentRemoteSource(Supabase.instance.client);
 });
 

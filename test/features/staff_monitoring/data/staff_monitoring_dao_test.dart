@@ -70,7 +70,9 @@ void main() {
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(activity),
         );
-        final results = await database.staffMonitoringDao.getByStaff('staff-insert-test');
+        final results = await database.staffMonitoringDao.getByStaff(
+          'staff-insert-test',
+        );
         expect(results.any((r) => r.id == activity.id), isTrue);
       });
 
@@ -79,8 +81,9 @@ void main() {
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(activity),
         );
-        final results =
-            await database.staffMonitoringDao.getByStaff(activity.staffId);
+        final results = await database.staffMonitoringDao.getByStaff(
+          activity.staffId,
+        );
         final row = results.firstWhere((r) => r.id == activity.id);
         expect(row.activityType, ActivityType.clientCall.name);
       });
@@ -90,8 +93,9 @@ void main() {
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(activity),
         );
-        final results =
-            await database.staffMonitoringDao.getByStaff(activity.staffId);
+        final results = await database.staffMonitoringDao.getByStaff(
+          activity.staffId,
+        );
         final row = results.firstWhere((r) => r.id == activity.id);
         expect(row.durationMinutes, 120);
       });
@@ -101,8 +105,9 @@ void main() {
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(activity),
         );
-        final results =
-            await database.staffMonitoringDao.getByStaff(activity.staffId);
+        final results = await database.staffMonitoringDao.getByStaff(
+          activity.staffId,
+        );
         final row = results.firstWhere((r) => r.id == activity.id);
         expect(row.clientId, isNull);
       });
@@ -124,8 +129,9 @@ void main() {
       });
 
       test('returns empty for unknown staff', () async {
-        final results =
-            await database.staffMonitoringDao.getByStaff('no-such-staff');
+        final results = await database.staffMonitoringDao.getByStaff(
+          'no-such-staff',
+        );
         expect(results, isEmpty);
       });
 
@@ -133,10 +139,14 @@ void main() {
         final staffA = 'staff-filter-a';
         final staffB = 'staff-filter-b';
         await database.staffMonitoringDao.insertActivity(
-          StaffMonitoringMapper.activityToCompanion(makeActivity(staffId: staffA)),
+          StaffMonitoringMapper.activityToCompanion(
+            makeActivity(staffId: staffA),
+          ),
         );
         await database.staffMonitoringDao.insertActivity(
-          StaffMonitoringMapper.activityToCompanion(makeActivity(staffId: staffB)),
+          StaffMonitoringMapper.activityToCompanion(
+            makeActivity(staffId: staffB),
+          ),
         );
         final results = await database.staffMonitoringDao.getByStaff(staffA);
         expect(results.every((r) => r.staffId == staffA), isTrue);
@@ -191,8 +201,9 @@ void main() {
       });
 
       test('returns empty list for unknown client', () async {
-        final results =
-            await database.staffMonitoringDao.getByClient('no-client-x');
+        final results = await database.staffMonitoringDao.getByClient(
+          'no-client-x',
+        );
         expect(results, isEmpty);
       });
 

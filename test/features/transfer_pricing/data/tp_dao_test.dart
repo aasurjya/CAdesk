@@ -135,8 +135,12 @@ void main() {
         final clientId = 'tp-client-unique-b';
         final t1 = createTransaction(clientId: clientId);
         final t2 = createTransaction(clientId: clientId);
-        await database.tpDao.insertTransaction(TpTransactionMapper.toCompanion(t1));
-        await database.tpDao.insertTransaction(TpTransactionMapper.toCompanion(t2));
+        await database.tpDao.insertTransaction(
+          TpTransactionMapper.toCompanion(t1),
+        );
+        await database.tpDao.insertTransaction(
+          TpTransactionMapper.toCompanion(t2),
+        );
         final rows = await database.tpDao.getByClient(clientId);
         expect(rows.length, greaterThanOrEqualTo(2));
       });

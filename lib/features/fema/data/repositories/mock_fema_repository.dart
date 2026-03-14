@@ -62,9 +62,7 @@ class MockFemaRepository implements FemaRepository {
 
   @override
   Future<List<FemaFilingData>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((f) => f.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((f) => f.clientId == clientId).toList());
 
   @override
   Future<List<FemaFilingData>> getByType(FemaType filingType) async =>
@@ -76,8 +74,8 @@ class MockFemaRepository implements FemaRepository {
   Future<bool> updateStatus(String id, String status) async {
     final idx = _state.indexWhere((f) => f.id == id);
     if (idx == -1) return false;
-    final updated = List<FemaFilingData>.of(_state)..[idx] =
-        _state[idx].copyWith(status: status);
+    final updated = List<FemaFilingData>.of(_state)
+      ..[idx] = _state[idx].copyWith(status: status);
     _state
       ..clear()
       ..addAll(updated);
@@ -89,9 +87,7 @@ class MockFemaRepository implements FemaRepository {
       List.unmodifiable(
         _state
             .where(
-              (f) =>
-                  f.clientId == clientId &&
-                  f.transactionDate.year == year,
+              (f) => f.clientId == clientId && f.transactionDate.year == year,
             )
             .toList(),
       );

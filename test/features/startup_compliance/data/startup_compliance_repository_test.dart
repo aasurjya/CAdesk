@@ -148,8 +148,9 @@ void main() {
       });
 
       test('getStartupFilingsByStatus filters correctly', () async {
-        final filings =
-            await repo.getStartupFilingsByStatus(StartupFilingStatus.pending);
+        final filings = await repo.getStartupFilingsByStatus(
+          StartupFilingStatus.pending,
+        );
         expect(
           filings.every((f) => f.status == StartupFilingStatus.pending),
           isTrue,

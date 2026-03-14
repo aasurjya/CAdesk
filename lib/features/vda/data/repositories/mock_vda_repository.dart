@@ -63,10 +63,7 @@ class MockVdaRepository implements VdaRepository {
   }
 
   @override
-  Future<double> getTdsDeducted(
-    String clientId,
-    String assessmentYear,
-  ) async {
+  Future<double> getTdsDeducted(String clientId, String assessmentYear) async {
     var total = 0.0;
     for (final r in _state) {
       if (r.clientId == clientId && r.assessmentYear == assessmentYear) {

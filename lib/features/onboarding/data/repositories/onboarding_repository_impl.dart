@@ -21,9 +21,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   @override
   Future<List<KycRecord>> getKycRecords() async {
     final response = await _client.from(_kycTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_kycFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(response).map(_kycFromJson).toList();
   }
 
   @override
@@ -43,9 +41,7 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
         .from(_kycTable)
         .select()
         .eq('kyc_status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_kycFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(response).map(_kycFromJson).toList();
   }
 
   @override
@@ -80,9 +76,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   @override
   Future<List<OnboardingChecklist>> getChecklists() async {
     final response = await _client.from(_checklistTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_checklistFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_checklistFromJson).toList();
   }
 
   @override
@@ -93,9 +89,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
         .from(_checklistTable)
         .select()
         .eq('client_id', clientId);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_checklistFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_checklistFromJson).toList();
   }
 
   @override
@@ -130,9 +126,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   @override
   Future<List<DocumentExpiry>> getDocumentExpiries() async {
     final response = await _client.from(_expiryTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_expiryFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_expiryFromJson).toList();
   }
 
   @override
@@ -143,9 +139,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
         .from(_expiryTable)
         .select()
         .eq('client_id', clientId);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_expiryFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_expiryFromJson).toList();
   }
 
   @override
@@ -156,9 +152,9 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
         .from(_expiryTable)
         .select()
         .eq('status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_expiryFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_expiryFromJson).toList();
   }
 
   @override
@@ -191,37 +187,38 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
   // ---------------------------------------------------------------------------
 
   KycRecord _kycFromJson(Map<String, dynamic> j) => KycRecord(
-        id: j['id'] as String,
-        clientId: j['client_id'] as String,
-        clientName: j['client_name'] as String,
-        kycStatus: KycStatus.values
-            .firstWhere((s) => s.name == j['kyc_status'] as String),
-        aadhaarVerified: j['aadhaar_verified'] as bool,
-        panVerified: j['pan_verified'] as bool,
-        ckycKin: j['ckyc_kin'] as String,
-        submittedAt: DateTime.parse(j['submitted_at'] as String),
-        verifiedAt: j['verified_at'] != null
-            ? DateTime.parse(j['verified_at'] as String)
-            : null,
-        expiryDate: j['expiry_date'] != null
-            ? DateTime.parse(j['expiry_date'] as String)
-            : null,
-        remarks: j['remarks'] as String? ?? '',
-      );
+    id: j['id'] as String,
+    clientId: j['client_id'] as String,
+    clientName: j['client_name'] as String,
+    kycStatus: KycStatus.values.firstWhere(
+      (s) => s.name == j['kyc_status'] as String,
+    ),
+    aadhaarVerified: j['aadhaar_verified'] as bool,
+    panVerified: j['pan_verified'] as bool,
+    ckycKin: j['ckyc_kin'] as String,
+    submittedAt: DateTime.parse(j['submitted_at'] as String),
+    verifiedAt: j['verified_at'] != null
+        ? DateTime.parse(j['verified_at'] as String)
+        : null,
+    expiryDate: j['expiry_date'] != null
+        ? DateTime.parse(j['expiry_date'] as String)
+        : null,
+    remarks: j['remarks'] as String? ?? '',
+  );
 
   Map<String, dynamic> _kycToJson(KycRecord r) => {
-        'id': r.id,
-        'client_id': r.clientId,
-        'client_name': r.clientName,
-        'kyc_status': r.kycStatus.name,
-        'aadhaar_verified': r.aadhaarVerified,
-        'pan_verified': r.panVerified,
-        'ckyc_kin': r.ckycKin,
-        'submitted_at': r.submittedAt.toIso8601String(),
-        'verified_at': r.verifiedAt?.toIso8601String(),
-        'expiry_date': r.expiryDate?.toIso8601String(),
-        'remarks': r.remarks,
-      };
+    'id': r.id,
+    'client_id': r.clientId,
+    'client_name': r.clientName,
+    'kyc_status': r.kycStatus.name,
+    'aadhaar_verified': r.aadhaarVerified,
+    'pan_verified': r.panVerified,
+    'ckyc_kin': r.ckycKin,
+    'submitted_at': r.submittedAt.toIso8601String(),
+    'verified_at': r.verifiedAt?.toIso8601String(),
+    'expiry_date': r.expiryDate?.toIso8601String(),
+    'remarks': r.remarks,
+  };
 
   OnboardingChecklist _checklistFromJson(Map<String, dynamic> j) =>
       OnboardingChecklist(
@@ -238,36 +235,38 @@ class OnboardingRepositoryImpl implements OnboardingRepository {
       );
 
   Map<String, dynamic> _checklistToJson(OnboardingChecklist c) => {
-        'id': c.id,
-        'client_id': c.clientId,
-        'client_name': c.clientName,
-        'service_type': c.serviceType,
-        'overall_progress': c.overallProgress,
-        'created_at': c.createdAt.toIso8601String(),
-        'completed_at': c.completedAt?.toIso8601String(),
-      };
+    'id': c.id,
+    'client_id': c.clientId,
+    'client_name': c.clientName,
+    'service_type': c.serviceType,
+    'overall_progress': c.overallProgress,
+    'created_at': c.createdAt.toIso8601String(),
+    'completed_at': c.completedAt?.toIso8601String(),
+  };
 
   DocumentExpiry _expiryFromJson(Map<String, dynamic> j) => DocumentExpiry(
-        id: j['id'] as String,
-        clientId: j['client_id'] as String,
-        clientName: j['client_name'] as String,
-        documentType: DocumentType.values
-            .firstWhere((t) => t.name == j['document_type'] as String),
-        expiryDate: DateTime.parse(j['expiry_date'] as String),
-        reminderSentAt: j['reminder_sent_at'] != null
-            ? DateTime.parse(j['reminder_sent_at'] as String)
-            : null,
-        status: ExpiryStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
-      );
+    id: j['id'] as String,
+    clientId: j['client_id'] as String,
+    clientName: j['client_name'] as String,
+    documentType: DocumentType.values.firstWhere(
+      (t) => t.name == j['document_type'] as String,
+    ),
+    expiryDate: DateTime.parse(j['expiry_date'] as String),
+    reminderSentAt: j['reminder_sent_at'] != null
+        ? DateTime.parse(j['reminder_sent_at'] as String)
+        : null,
+    status: ExpiryStatus.values.firstWhere(
+      (s) => s.name == j['status'] as String,
+    ),
+  );
 
   Map<String, dynamic> _expiryToJson(DocumentExpiry d) => {
-        'id': d.id,
-        'client_id': d.clientId,
-        'client_name': d.clientName,
-        'document_type': d.documentType.name,
-        'expiry_date': d.expiryDate.toIso8601String(),
-        'reminder_sent_at': d.reminderSentAt?.toIso8601String(),
-        'status': d.status.name,
-      };
+    'id': d.id,
+    'client_id': d.clientId,
+    'client_name': d.clientName,
+    'document_type': d.documentType.name,
+    'expiry_date': d.expiryDate.toIso8601String(),
+    'reminder_sent_at': d.reminderSentAt?.toIso8601String(),
+    'status': d.status.name,
+  };
 }

@@ -12,13 +12,14 @@ import 'package:ca_app/features/startup_compliance/domain/repositories/startup_c
 /// [StartupComplianceRepositoryImpl] is used.
 final startupComplianceRepositoryProvider =
     Provider<StartupComplianceRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('startup_compliance_real_repo') ?? false;
+      final flags = ref.watch(featureFlagProvider);
+      final useReal =
+          flags.asData?.value.isEnabled('startup_compliance_real_repo') ??
+          false;
 
-  if (!useReal) {
-    return MockStartupComplianceRepository();
-  }
+      if (!useReal) {
+        return MockStartupComplianceRepository();
+      }
 
-  return StartupComplianceRepositoryImpl(Supabase.instance.client);
-});
+      return StartupComplianceRepositoryImpl(Supabase.instance.client);
+    });

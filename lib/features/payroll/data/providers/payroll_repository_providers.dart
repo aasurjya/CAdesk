@@ -25,8 +25,7 @@ final payrollLocalSourceProvider = Provider<PayrollLocalSource>((ref) {
 /// flag is enabled, in which case [PayrollRepositoryImpl] is used.
 final payrollRepositoryProvider = Provider<PayrollRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('payroll_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('payroll_real_repo') ?? false;
 
   if (!useReal) {
     return MockPayrollRepository();

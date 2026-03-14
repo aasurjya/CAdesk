@@ -14,7 +14,9 @@ class DocumentMapper {
       clientId: json['client_id'] as String,
       clientName: json['client_name'] as String,
       title: json['title'] as String,
-      category: _safeDocumentCategory(json['category'] as String? ?? 'miscellaneous'),
+      category: _safeDocumentCategory(
+        json['category'] as String? ?? 'miscellaneous',
+      ),
       fileType: _safeDocumentFileType(json['file_type'] as String? ?? 'pdf'),
       fileSize: json['file_size'] as int? ?? 0,
       uploadedBy: json['uploaded_by'] as String,

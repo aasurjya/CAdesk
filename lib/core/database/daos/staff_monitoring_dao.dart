@@ -11,9 +11,8 @@ class StaffMonitoringDao extends DatabaseAccessor<AppDatabase>
 
   // --- StaffActivity ops ---
 
-  Future<void> insertActivity(
-    StaffActivitiesTableCompanion companion,
-  ) => into(staffActivitiesTable).insertOnConflictUpdate(companion);
+  Future<void> insertActivity(StaffActivitiesTableCompanion companion) =>
+      into(staffActivitiesTable).insertOnConflictUpdate(companion);
 
   Future<List<StaffActivityRow>> getByStaff(String staffId) =>
       (select(staffActivitiesTable)
@@ -21,10 +20,7 @@ class StaffMonitoringDao extends DatabaseAccessor<AppDatabase>
             ..orderBy([(t) => OrderingTerm.desc(t.startTime)]))
           .get();
 
-  Future<List<StaffActivityRow>> getByPeriod(
-    DateTime from,
-    DateTime to,
-  ) =>
+  Future<List<StaffActivityRow>> getByPeriod(DateTime from, DateTime to) =>
       (select(staffActivitiesTable)
             ..where(
               (t) =>
@@ -42,17 +38,11 @@ class StaffMonitoringDao extends DatabaseAccessor<AppDatabase>
 
   // --- StaffPerformance ops ---
 
-  Future<void> insertPerformance(
-    StaffPerformanceTableCompanion companion,
-  ) => into(staffPerformanceTable).insertOnConflictUpdate(companion);
+  Future<void> insertPerformance(StaffPerformanceTableCompanion companion) =>
+      into(staffPerformanceTable).insertOnConflictUpdate(companion);
 
-  Future<StaffPerformanceRow?> getPerformance(
-    String staffId,
-    String period,
-  ) =>
+  Future<StaffPerformanceRow?> getPerformance(String staffId, String period) =>
       (select(staffPerformanceTable)
-            ..where(
-              (t) => t.staffId.equals(staffId) & t.period.equals(period),
-            ))
+            ..where((t) => t.staffId.equals(staffId) & t.period.equals(period)))
           .getSingleOrNull();
 }

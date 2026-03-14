@@ -203,17 +203,14 @@ class MockRegulatoryIntelligenceRepository
 
   @override
   Future<List<RegulatoryUpdate>> getUpdatesBySource(RegSource source) async =>
-      List.unmodifiable(
-        _updateState.where((u) => u.source == source).toList(),
-      );
+      List.unmodifiable(_updateState.where((u) => u.source == source).toList());
 
   @override
   Future<List<RegulatoryUpdate>> getUpdatesByImpactLevel(
     ImpactLevel impactLevel,
-  ) async =>
-      List.unmodifiable(
-        _updateState.where((u) => u.impactLevel == impactLevel).toList(),
-      );
+  ) async => List.unmodifiable(
+    _updateState.where((u) => u.impactLevel == impactLevel).toList(),
+  );
 
   @override
   Future<String> insertUpdate(RegulatoryUpdate update) async {
@@ -225,8 +222,8 @@ class MockRegulatoryIntelligenceRepository
   Future<bool> markUpdateAsRead(String id) async {
     final idx = _updateState.indexWhere((u) => u.updateId == id);
     if (idx == -1) return false;
-    final updated = List<RegulatoryUpdate>.of(_updateState)..[idx] =
-        _updateState[idx].copyWith(isRead: true);
+    final updated = List<RegulatoryUpdate>.of(_updateState)
+      ..[idx] = _updateState[idx].copyWith(isRead: true);
     _updateState
       ..clear()
       ..addAll(updated);
@@ -257,10 +254,9 @@ class MockRegulatoryIntelligenceRepository
   @override
   Future<List<ComplianceAlert>> getAlertsByPriority(
     AlertPriority priority,
-  ) async =>
-      List.unmodifiable(
-        _alertState.where((a) => a.priority == priority).toList(),
-      );
+  ) async => List.unmodifiable(
+    _alertState.where((a) => a.priority == priority).toList(),
+  );
 
   @override
   Future<String> insertAlert(ComplianceAlert alert) async {
@@ -313,10 +309,9 @@ class MockRegulatoryIntelligenceRepository
   @override
   Future<List<ClientImpactAlert>> getClientImpactAlertsByCircular(
     String circularId,
-  ) async =>
-      List.unmodifiable(
-        _impactState.where((a) => a.circularId == circularId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _impactState.where((a) => a.circularId == circularId).toList(),
+  );
 
   @override
   Future<String> insertClientImpactAlert(ClientImpactAlert alert) async {
@@ -328,8 +323,8 @@ class MockRegulatoryIntelligenceRepository
   Future<bool> updateClientImpactAlertStatus(String id, String status) async {
     final idx = _impactState.indexWhere((a) => a.id == id);
     if (idx == -1) return false;
-    final updated = List<ClientImpactAlert>.of(_impactState)..[idx] =
-        _impactState[idx].copyWith(status: status);
+    final updated = List<ClientImpactAlert>.of(_impactState)
+      ..[idx] = _impactState[idx].copyWith(status: status);
     _impactState
       ..clear()
       ..addAll(updated);

@@ -104,16 +104,16 @@ class PortalCredential {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        portalType,
-        username,
-        encryptedPassword,
-        grantToken,
-        refreshToken,
-        expiresAt,
-        lastSyncDate,
-        status,
-      );
+    id,
+    portalType,
+    username,
+    encryptedPassword,
+    grantToken,
+    refreshToken,
+    expiresAt,
+    lastSyncDate,
+    status,
+  );
 
   @override
   String toString() =>

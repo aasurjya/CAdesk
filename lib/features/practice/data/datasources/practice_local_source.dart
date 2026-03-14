@@ -7,10 +7,8 @@ class PracticeLocalSource {
 
   final AppDatabase _db;
 
-  Future<String> insertWorkflow(Workflow workflow) =>
-      _db.practiceDao.insertWorkflow(
-        PracticeMapper.workflowToCompanion(workflow),
-      );
+  Future<String> insertWorkflow(Workflow workflow) => _db.practiceDao
+      .insertWorkflow(PracticeMapper.workflowToCompanion(workflow));
 
   Future<List<Workflow>> getAllWorkflows() async {
     final rows = await _db.practiceDao.getAllWorkflows();
@@ -27,13 +25,10 @@ class PracticeLocalSource {
     return row != null ? PracticeMapper.workflowFromRow(row) : null;
   }
 
-  Future<bool> updateWorkflow(Workflow workflow) =>
-      _db.practiceDao.updateWorkflow(
-        PracticeMapper.workflowToCompanion(workflow),
-      );
+  Future<bool> updateWorkflow(Workflow workflow) => _db.practiceDao
+      .updateWorkflow(PracticeMapper.workflowToCompanion(workflow));
 
-  Future<bool> deleteWorkflow(String id) =>
-      _db.practiceDao.deleteWorkflow(id);
+  Future<bool> deleteWorkflow(String id) => _db.practiceDao.deleteWorkflow(id);
 
   Future<List<Workflow>> getActiveWorkflows() async {
     final rows = await _db.practiceDao.getActiveWorkflows();

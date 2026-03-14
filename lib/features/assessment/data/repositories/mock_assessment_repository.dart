@@ -67,9 +67,7 @@ class MockAssessmentRepository implements AssessmentRepository {
 
   @override
   Future<List<AssessmentCase>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((c) => c.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((c) => c.clientId == clientId).toList());
 
   @override
   Future<List<AssessmentCase>> getByYear(String assessmentYear) async =>
@@ -79,14 +77,10 @@ class MockAssessmentRepository implements AssessmentRepository {
 
   @override
   Future<List<AssessmentCase>> getByType(AssessmentType caseType) async =>
-      List.unmodifiable(
-        _state.where((c) => c.caseType == caseType).toList(),
-      );
+      List.unmodifiable(_state.where((c) => c.caseType == caseType).toList());
 
   @override
-  Future<List<AssessmentCase>> getByStatus(
-    AssessmentCaseStatus status,
-  ) async =>
+  Future<List<AssessmentCase>> getByStatus(AssessmentCaseStatus status) async =>
       List.unmodifiable(_state.where((c) => c.status == status).toList());
 
   @override

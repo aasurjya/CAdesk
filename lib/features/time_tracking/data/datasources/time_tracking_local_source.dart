@@ -31,8 +31,11 @@ class TimeTrackingLocalSource {
   }
 
   Future<double> getTotalHours(String clientId, int month, int year) async {
-    final rows =
-        await _db.timeEntriesDao.getEntriesForMonth(clientId, month, year);
+    final rows = await _db.timeEntriesDao.getEntriesForMonth(
+      clientId,
+      month,
+      year,
+    );
     final totalMinutes = rows.fold<int>(0, (sum, r) => sum + r.durationMinutes);
     return totalMinutes / 60.0;
   }

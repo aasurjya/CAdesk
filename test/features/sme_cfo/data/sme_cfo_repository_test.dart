@@ -41,8 +41,9 @@ void main() {
       });
 
       test('getDeliverablesByStatus filters correctly', () async {
-        final deliverables =
-            await repo.getDeliverablesByStatus(DeliverableStatus.pending);
+        final deliverables = await repo.getDeliverablesByStatus(
+          DeliverableStatus.pending,
+        );
         expect(
           deliverables.every((d) => d.status == DeliverableStatus.pending),
           isTrue,
@@ -130,8 +131,9 @@ void main() {
       });
 
       test('getRetainersByStatus filters correctly', () async {
-        final retainers =
-            await repo.getRetainersByStatus(CfoRetainerStatus.active);
+        final retainers = await repo.getRetainersByStatus(
+          CfoRetainerStatus.active,
+        );
         expect(
           retainers.every((r) => r.status == CfoRetainerStatus.active),
           isTrue,

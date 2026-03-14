@@ -44,8 +44,7 @@ class TaxNoticeRemoteSource {
   }
 
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 

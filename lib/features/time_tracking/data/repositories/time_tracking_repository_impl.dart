@@ -5,10 +5,7 @@ import 'package:ca_app/features/time_tracking/domain/models/time_entry.dart';
 import 'package:ca_app/features/time_tracking/domain/repositories/time_tracking_repository.dart';
 
 class TimeTrackingRepositoryImpl implements TimeTrackingRepository {
-  const TimeTrackingRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const TimeTrackingRepositoryImpl({required this.remote, required this.local});
 
   final TimeTrackingRemoteSource remote;
   final TimeTrackingLocalSource local;
@@ -43,9 +40,7 @@ class TimeTrackingRepositoryImpl implements TimeTrackingRepository {
   Future<List<TimeEntry>> getByDateRange(DateTime from, DateTime to) async {
     try {
       final jsonList = await remote.fetchByDateRange(from, to);
-      return List.unmodifiable(
-        jsonList.map(TimeEntryMapper.fromJson).toList(),
-      );
+      return List.unmodifiable(jsonList.map(TimeEntryMapper.fromJson).toList());
     } catch (_) {
       return local.getByDateRange(from, to);
     }
@@ -71,9 +66,7 @@ class TimeTrackingRepositoryImpl implements TimeTrackingRepository {
   Future<List<TimeEntry>> getUnbilled(String clientId) async {
     try {
       final jsonList = await remote.fetchUnbilled(clientId);
-      return List.unmodifiable(
-        jsonList.map(TimeEntryMapper.fromJson).toList(),
-      );
+      return List.unmodifiable(jsonList.map(TimeEntryMapper.fromJson).toList());
     } catch (_) {
       return local.getUnbilled(clientId);
     }

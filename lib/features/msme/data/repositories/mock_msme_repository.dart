@@ -46,9 +46,7 @@ class MockMsmeRepository implements MsmeRepository {
 
   @override
   Future<List<MsmeRecord>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.clientId == clientId).toList());
 
   @override
   Future<bool> update(MsmeRecord record) async {
@@ -63,9 +61,7 @@ class MockMsmeRepository implements MsmeRepository {
 
   @override
   Future<List<MsmeRecord>> getByCategory(MsmeCategory category) async =>
-      List.unmodifiable(
-        _state.where((r) => r.category == category).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.category == category).toList());
 
   @override
   Future<List<MsmeRecord>> getByStatus(String status) async =>

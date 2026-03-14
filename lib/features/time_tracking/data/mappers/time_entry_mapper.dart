@@ -67,7 +67,9 @@ class TimeEntryMapper {
       durationMinutes: row.durationMinutes,
       isBillable: !row.isBilled, // isBilled in DB maps inversely to isBillable
       hourlyRate: row.billingRate,
-      billedAmount: row.isBilled ? (row.billingRate * row.durationMinutes / 60) : 0.0,
+      billedAmount: row.isBilled
+          ? (row.billingRate * row.durationMinutes / 60)
+          : 0.0,
       status: _safeStatus(row.status),
     );
   }

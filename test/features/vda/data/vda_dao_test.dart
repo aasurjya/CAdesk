@@ -119,7 +119,9 @@ void main() {
         final record = createRecord(gainLoss: 100.0);
         await database.vdaDao.insertRecord(VdaRecordMapper.toCompanion(record));
         final updated = record.copyWith(gainLoss: 999.0);
-        await database.vdaDao.insertRecord(VdaRecordMapper.toCompanion(updated));
+        await database.vdaDao.insertRecord(
+          VdaRecordMapper.toCompanion(updated),
+        );
         final row = await database.vdaDao.getById(record.id);
         expect(row?.gainLoss, 999.0);
       });
@@ -219,7 +221,10 @@ void main() {
       });
 
       test('returns 0 for client with no records', () async {
-        final total = await database.vdaDao.getTdsDeducted('ghost-tds', '2024-25');
+        final total = await database.vdaDao.getTdsDeducted(
+          'ghost-tds',
+          '2024-25',
+        );
         expect(total, 0.0);
       });
     });

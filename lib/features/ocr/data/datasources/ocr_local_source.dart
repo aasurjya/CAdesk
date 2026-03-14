@@ -25,26 +25,23 @@ class OcrLocalSource {
     OcrStatus status, {
     DateTime? completedAt,
     String? errorMessage,
-  }) =>
-      _db.ocrDao.updateStatus(
-        id,
-        status.name,
-        completedAt: completedAt,
-        errorMessage: errorMessage,
-      );
+  }) => _db.ocrDao.updateStatus(
+    id,
+    status.name,
+    completedAt: completedAt,
+    errorMessage: errorMessage,
+  );
 
   Future<bool> updateParsedData(
     String id,
     String parsedDataJson,
     double confidence,
-  ) =>
-      _db.ocrDao.updateParsedData(id, parsedDataJson, confidence);
+  ) => _db.ocrDao.updateParsedData(id, parsedDataJson, confidence);
 
   Future<List<OcrJob>> getByDocType(OcrDocType documentType) async {
     final rows = await _db.ocrDao.getByDocType(documentType.name);
     return rows.map(OcrMapper.fromRow).toList();
   }
 
-  Future<int> cleanup(DateTime beforeDate) =>
-      _db.ocrDao.cleanup(beforeDate);
+  Future<int> cleanup(DateTime beforeDate) => _db.ocrDao.cleanup(beforeDate);
 }

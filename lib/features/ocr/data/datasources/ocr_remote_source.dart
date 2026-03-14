@@ -6,8 +6,11 @@ class OcrRemoteSource {
   final SupabaseClient _client;
 
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from('ocr_jobs').insert(data).select().single();
+    final response = await _client
+        .from('ocr_jobs')
+        .insert(data)
+        .select()
+        .single();
     return response;
   }
 
@@ -50,15 +53,13 @@ class OcrRemoteSource {
     String parsedDataJson,
     double confidence,
   ) async {
-    await _client.from('ocr_jobs').update({
-      'parsed_data': parsedDataJson,
-      'confidence': confidence,
-    }).eq('id', id);
+    await _client
+        .from('ocr_jobs')
+        .update({'parsed_data': parsedDataJson, 'confidence': confidence})
+        .eq('id', id);
   }
 
-  Future<List<Map<String, dynamic>>> fetchByDocType(
-    String documentType,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchByDocType(String documentType) async {
     final response = await _client
         .from('ocr_jobs')
         .select()

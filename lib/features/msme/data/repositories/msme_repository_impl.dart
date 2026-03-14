@@ -6,10 +6,7 @@ import 'package:ca_app/features/msme/domain/repositories/msme_repository.dart';
 
 /// Concrete [MsmeRepository] — remote-first with local Drift cache fallback.
 class MsmeRepositoryImpl implements MsmeRepository {
-  const MsmeRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const MsmeRepositoryImpl({required this.remote, required this.local});
 
   final MsmeRemoteSource remote;
   final MsmeLocalSource local;

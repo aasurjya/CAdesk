@@ -10,8 +10,7 @@ class AppSettingsTable extends Table {
   TextColumn get firmId => text().withDefault(const Constant(''))();
   TextColumn get themeMode =>
       text().withDefault(const Constant('system'))(); // AppThemeMode.name
-  TextColumn get language =>
-      text().withDefault(const Constant('English'))();
+  TextColumn get language => text().withDefault(const Constant('English'))();
   BoolColumn get notificationsEnabled =>
       boolean().withDefault(const Constant(true))();
   BoolColumn get emailNotifications =>
@@ -22,24 +21,17 @@ class AppSettingsTable extends Table {
       boolean().withDefault(const Constant(true))();
   BoolColumn get biometricEnabled =>
       boolean().withDefault(const Constant(false))();
-  IntColumn get autoLockMinutes =>
-      integer().withDefault(const Constant(5))();
-  TextColumn get defaultCurrency =>
-      text().withDefault(const Constant('INR'))();
+  IntColumn get autoLockMinutes => integer().withDefault(const Constant(5))();
+  TextColumn get defaultCurrency => text().withDefault(const Constant('INR'))();
   TextColumn get defaultFinancialYear =>
       text().withDefault(const Constant('2025-26'))();
-  TextColumn get firmName =>
-      text().withDefault(const Constant(''))();
-  TextColumn get firmAddress =>
-      text().withDefault(const Constant(''))();
-  TextColumn get firmGstin =>
-      text().withDefault(const Constant(''))();
+  TextColumn get firmName => text().withDefault(const Constant(''))();
+  TextColumn get firmAddress => text().withDefault(const Constant(''))();
+  TextColumn get firmGstin => text().withDefault(const Constant(''))();
   TextColumn get caRegistrationNumber =>
       text().withDefault(const Constant(''))();
-  BoolColumn get udinEnabled =>
-      boolean().withDefault(const Constant(true))();
-  DateTimeColumn get updatedAt =>
-      dateTime().withDefault(currentDateAndTime)();
+  BoolColumn get udinEnabled => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
 
   @override
   Set<Column> get primaryKey => {id};

@@ -47,8 +47,11 @@ class TasksListScreen extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.error_outline_rounded, size: 64,
-                    color: AppColors.error),
+                const Icon(
+                  Icons.error_outline_rounded,
+                  size: 64,
+                  color: AppColors.error,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   'Failed to load tasks',
@@ -59,9 +62,9 @@ class TasksListScreen extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Text(
                   error.toString(),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppColors.neutral600,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.neutral600),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),

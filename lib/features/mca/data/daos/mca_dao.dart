@@ -15,15 +15,16 @@ class McaDao extends DatabaseAccessor<AppDatabase> with _$McaDaoMixin {
   /// Insert a filing companion and return the row ID.
   Future<String> insertMCAFiling(MCAFilingsTableCompanion companion) async {
     await into(mCAFilingsTable).insert(companion);
-    final rows = await (select(mCAFilingsTable)
-          ..orderBy([
-            (t) => OrderingTerm(
-              expression: t.createdAt,
-              mode: OrderingMode.desc,
-            ),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(mCAFilingsTable)
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     return rows.isNotEmpty ? rows.first.id : '';
   }
 
@@ -32,9 +33,7 @@ class McaDao extends DatabaseAccessor<AppDatabase> with _$McaDaoMixin {
   // ---------------------------------------------------------------------------
 
   /// Retrieve all filings for a given client.
-  Future<List<MCAFilingsTableData>> getMCAFilingsByClient(
-    String clientId,
-  ) =>
+  Future<List<MCAFilingsTableData>> getMCAFilingsByClient(String clientId) =>
       (select(mCAFilingsTable)
             ..where((t) => t.clientId.equals(clientId))
             ..orderBy([(t) => OrderingTerm(expression: t.dueDate)]))
@@ -47,8 +46,7 @@ class McaDao extends DatabaseAccessor<AppDatabase> with _$McaDaoMixin {
   ) =>
       (select(mCAFilingsTable)
             ..where(
-              (t) =>
-                  t.clientId.equals(clientId) & t.financialYear.equals(year),
+              (t) => t.clientId.equals(clientId) & t.financialYear.equals(year),
             )
             ..orderBy([(t) => OrderingTerm(expression: t.dueDate)]))
           .get();
@@ -79,9 +77,9 @@ class McaDao extends DatabaseAccessor<AppDatabase> with _$McaDaoMixin {
   }
 
   /// Retrieve a single filing by ID.
-  Future<MCAFilingsTableData?> getMCAFilingById(String id) =>
-      (select(mCAFilingsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<MCAFilingsTableData?> getMCAFilingById(String id) => (select(
+    mCAFilingsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   // ---------------------------------------------------------------------------
   // Updates

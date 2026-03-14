@@ -44,8 +44,7 @@ class Director {
           appointmentDate == other.appointmentDate;
 
   @override
-  int get hashCode =>
-      Object.hash(din, name, designation, appointmentDate);
+  int get hashCode => Object.hash(din, name, designation, appointmentDate);
 }
 
 /// Full company details fetched from the MCA portal.
@@ -123,13 +122,13 @@ class CompanyDetails {
 
   @override
   int get hashCode => Object.hash(
-        cin,
-        name,
-        registeredAddress,
-        authorizedCapital,
-        paidUpCapital,
-        status,
-        incorporationDate,
-        roc,
-      );
+    cin,
+    name,
+    registeredAddress,
+    authorizedCapital,
+    paidUpCapital,
+    status,
+    incorporationDate,
+    roc,
+  );
 }

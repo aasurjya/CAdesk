@@ -112,8 +112,9 @@ void main() {
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.assessmentDao.getByClient('no-such-client');
+        final results = await database.assessmentDao.getByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -138,16 +139,14 @@ void main() {
           );
         }
 
-        final results =
-            await database.assessmentDao.getByYear('AY 2024-25');
+        final results = await database.assessmentDao.getByYear('AY 2024-25');
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(c1.id), isTrue);
         expect(ids.contains(c2.id), isFalse);
       });
 
       test('returns empty list for non-existent year', () async {
-        final results =
-            await database.assessmentDao.getByYear('AY 1990-91');
+        final results = await database.assessmentDao.getByYear('AY 1990-91');
         expect(results, isEmpty);
       });
     });
@@ -162,16 +161,18 @@ void main() {
           );
         }
 
-        final results = await database.assessmentDao
-            .getByType(AssessmentType.intimation143_1.name);
+        final results = await database.assessmentDao.getByType(
+          AssessmentType.intimation143_1.name,
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(intimation.id), isTrue);
         expect(ids.contains(scrutiny.id), isFalse);
       });
 
       test('returns empty list for type with no cases', () async {
-        final results =
-            await database.assessmentDao.getByType(AssessmentType.itat.name);
+        final results = await database.assessmentDao.getByType(
+          AssessmentType.itat.name,
+        );
         expect(results, isEmpty);
       });
     });
@@ -186,8 +187,9 @@ void main() {
           );
         }
 
-        final results = await database.assessmentDao
-            .getByStatus(AssessmentCaseStatus.open.name);
+        final results = await database.assessmentDao.getByStatus(
+          AssessmentCaseStatus.open.name,
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(open.id), isTrue);
         expect(ids.contains(closed.id), isFalse);
@@ -246,8 +248,9 @@ void main() {
           );
         }
 
-        final results =
-            await database.assessmentDao.getOverdueDemands(DateTime.now());
+        final results = await database.assessmentDao.getOverdueDemands(
+          DateTime.now(),
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(overdue.id), isTrue);
         expect(ids.contains(future.id), isFalse);
@@ -262,8 +265,9 @@ void main() {
           AssessmentCaseMapper.toCompanion(closed),
         );
 
-        final results =
-            await database.assessmentDao.getOverdueDemands(DateTime.now());
+        final results = await database.assessmentDao.getOverdueDemands(
+          DateTime.now(),
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(closed.id), isFalse);
       });

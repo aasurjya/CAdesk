@@ -4,7 +4,9 @@ import 'package:ca_app/core/database/tables/firm_operations_table.dart';
 
 part 'firm_operations_dao.g.dart';
 
-@DriftAccessor(tables: [FirmInfoTable, TeamMembersTable, ClientAssignmentsTable])
+@DriftAccessor(
+  tables: [FirmInfoTable, TeamMembersTable, ClientAssignmentsTable],
+)
 class FirmOperationsDao extends DatabaseAccessor<AppDatabase>
     with _$FirmOperationsDaoMixin {
   FirmOperationsDao(super.db);
@@ -47,24 +49,24 @@ class FirmOperationsDao extends DatabaseAccessor<AppDatabase>
 
   /// Updates an existing team member. Returns true if a row was affected.
   Future<bool> updateTeamMember(TeamMembersTableCompanion companion) async {
-    final rowsAffected = await (update(teamMembersTable)
-          ..where((t) => t.id.equals(companion.id.value)))
-        .write(companion);
+    final rowsAffected = await (update(
+      teamMembersTable,
+    )..where((t) => t.id.equals(companion.id.value))).write(companion);
     return rowsAffected > 0;
   }
 
   /// Deletes a team member by id. Returns true if a row was deleted.
   Future<bool> deleteTeamMember(String memberId) async {
-    final rowsAffected =
-        await (delete(teamMembersTable)..where((t) => t.id.equals(memberId)))
-            .go();
+    final rowsAffected = await (delete(
+      teamMembersTable,
+    )..where((t) => t.id.equals(memberId))).go();
     return rowsAffected > 0;
   }
 
   /// Returns a single team member by id, or null if not found.
-  Future<TeamMembersTableData?> getTeamMemberById(String memberId) =>
-      (select(teamMembersTable)..where((t) => t.id.equals(memberId)))
-          .getSingleOrNull();
+  Future<TeamMembersTableData?> getTeamMemberById(String memberId) => (select(
+    teamMembersTable,
+  )..where((t) => t.id.equals(memberId))).getSingleOrNull();
 
   // ---------------------------------------------------------------------------
   // ClientAssignments
@@ -93,8 +95,7 @@ class FirmOperationsDao extends DatabaseAccessor<AppDatabase>
   /// Returns all assignments for a given client.
   Future<List<ClientAssignmentsTableData>> getAssignmentsForClient(
     String clientId,
-  ) =>
-      (select(clientAssignmentsTable)
-            ..where((t) => t.clientId.equals(clientId)))
-          .get();
+  ) => (select(
+    clientAssignmentsTable,
+  )..where((t) => t.clientId.equals(clientId))).get();
 }

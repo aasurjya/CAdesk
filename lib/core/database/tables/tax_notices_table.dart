@@ -24,8 +24,7 @@ class TaxNoticesTable extends Table {
   RealColumn get demandAmount => real().nullable()();
 
   /// Stores [NoticeStatus.name].
-  TextColumn get status =>
-      text().withDefault(const Constant('received'))();
+  TextColumn get status => text().withDefault(const Constant('received'))();
 
   /// ISO8601 date string of when the response was filed.
   TextColumn get responseDate => text().nullable()();

@@ -67,8 +67,7 @@ class RpaDao extends DatabaseAccessor<AppDatabase> with _$RpaDaoMixin {
   Future<List<RpaTaskRow>> getPending() =>
       (select(rpaTasksTable)
             ..where(
-              (t) =>
-                  t.status.equals('scheduled') | t.status.equals('running'),
+              (t) => t.status.equals('scheduled') | t.status.equals('running'),
             )
             ..orderBy([(t) => OrderingTerm.asc(t.scheduledAt)]))
           .get();

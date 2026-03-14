@@ -25,9 +25,7 @@ class StaffMonitoringMapper {
     );
   }
 
-  static StaffActivitiesTableCompanion activityToCompanion(
-    StaffActivity a,
-  ) {
+  static StaffActivitiesTableCompanion activityToCompanion(StaffActivity a) {
     return StaffActivitiesTableCompanion(
       id: Value(a.id.isEmpty ? _uuid.v4() : a.id),
       staffId: Value(a.staffId),

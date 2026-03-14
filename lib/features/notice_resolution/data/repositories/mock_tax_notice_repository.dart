@@ -55,11 +55,9 @@ class MockTaxNoticeRepository implements TaxNoticeRepository {
   }
 
   @override
-  Future<List<TaxNotice>> getOverdue(DateTime asOf) async =>
-      List.unmodifiable(
-        _state.where(
-          (n) =>
-              n.dueDate.isBefore(asOf) && n.status != NoticeStatus.disposed,
-        ),
-      );
+  Future<List<TaxNotice>> getOverdue(DateTime asOf) async => List.unmodifiable(
+    _state.where(
+      (n) => n.dueDate.isBefore(asOf) && n.status != NoticeStatus.disposed,
+    ),
+  );
 }

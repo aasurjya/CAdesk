@@ -26,8 +26,7 @@ const List<int> _kChecksumWeights = [
   1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, // 14 weights for chars 1-14
 ];
 
-const String _kCharset =
-    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const String _kCharset = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 /// Service providing GSTN portal API integration.
 ///
@@ -176,7 +175,8 @@ class GstnApiService {
     if (status == 401 || status == 403) {
       throw PortalAuthException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
+        message:
+            _extractMessage(e.response?.data) ??
             'Authentication failed. Check your GSTN API key.',
         statusCode: status,
       );
@@ -186,7 +186,8 @@ class GstnApiService {
       final retryAfter = _parseRetryAfter(e.response?.headers);
       throw PortalRateLimitException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
+        message:
+            _extractMessage(e.response?.data) ??
             'GSTN API rate limit exceeded.',
         retryAfterSeconds: retryAfter,
       );
@@ -195,7 +196,8 @@ class GstnApiService {
     // 5xx or connectivity issues
     throw PortalUnavailableException(
       portal: _kPortal,
-      message: _extractMessage(e.response?.data) ??
+      message:
+          _extractMessage(e.response?.data) ??
           e.message ??
           'GSTN portal is currently unavailable.',
       statusCode: status,
@@ -206,15 +208,14 @@ class GstnApiService {
   // Private helpers — credentials
   // -------------------------------------------------------------------------
 
-  static Future<String> _resolveApiKey(
-    PortalCredentialRepository repo,
-  ) async {
+  static Future<String> _resolveApiKey(PortalCredentialRepository repo) async {
     final credential = await repo.getCredential(PortalType.gstn);
     final token = credential?.grantToken ?? credential?.encryptedPassword;
     if (token == null || token.isEmpty) {
       throw const PortalAuthException(
         portal: _kPortal,
-        message: 'No GSTN API key configured. Please add credentials in '
+        message:
+            'No GSTN API key configured. Please add credentials in '
             'Settings → Portal Connectors → GSTN.',
       );
     }
@@ -237,8 +238,9 @@ class GstnApiService {
       status: _parseRegistrationStatus(taxpayer['sts'] as String?),
       stateCode: taxpayer['stjCd'] as String? ?? '',
       constitutionType: taxpayer['ctb'] as String? ?? '',
-      returnFilingFrequency:
-          freq == 'Q' ? ReturnFilingFrequency.quarterly : ReturnFilingFrequency.monthly,
+      returnFilingFrequency: freq == 'Q'
+          ? ReturnFilingFrequency.quarterly
+          : ReturnFilingFrequency.monthly,
     );
   }
 
@@ -273,8 +275,7 @@ class GstnApiService {
     required String period,
   }) {
     final filingData = (data['filing'] as Map<String, dynamic>?) ?? data;
-    final statusStr =
-        (filingData['status'] as String? ?? 'NF').toUpperCase();
+    final statusStr = (filingData['status'] as String? ?? 'NF').toUpperCase();
     return GstnFilingStatus(
       gstin: gstin,
       returnType: _parseReturnType(returnType),

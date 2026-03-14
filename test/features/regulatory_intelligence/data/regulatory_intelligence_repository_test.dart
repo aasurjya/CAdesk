@@ -223,14 +223,16 @@ void main() {
         expect(success, isTrue);
       });
 
-      test('updateClientImpactAlertStatus returns false for unknown id',
-          () async {
-        final success = await repo.updateClientImpactAlertStatus(
-          'no-such-id',
-          'Reviewed',
-        );
-        expect(success, isFalse);
-      });
+      test(
+        'updateClientImpactAlertStatus returns false for unknown id',
+        () async {
+          final success = await repo.updateClientImpactAlertStatus(
+            'no-such-id',
+            'Reviewed',
+          );
+          expect(success, isFalse);
+        },
+      );
     });
   });
 }

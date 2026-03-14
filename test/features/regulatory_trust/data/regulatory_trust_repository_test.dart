@@ -34,8 +34,9 @@ void main() {
       });
 
       test('getSecurityControlsByCategory filters correctly', () async {
-        final controls =
-            await repo.getSecurityControlsByCategory(SecurityControlCategory.soc2);
+        final controls = await repo.getSecurityControlsByCategory(
+          SecurityControlCategory.soc2,
+        );
         expect(
           controls.every((c) => c.category == SecurityControlCategory.soc2),
           isTrue,

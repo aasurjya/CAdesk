@@ -19,8 +19,7 @@ final nriTaxLocalSourceProvider = Provider<NriTaxLocalSource>((ref) {
 
 final nriTaxRepositoryProvider = Provider<NriTaxRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('nri_tax_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('nri_tax_real_repo') ?? false;
 
   if (!useReal) {
     return MockNriTaxRepository();

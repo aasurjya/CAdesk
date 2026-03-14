@@ -45,9 +45,7 @@ class MockStartupRepository implements StartupRepository {
 
   @override
   Future<List<StartupRecord>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.clientId == clientId).toList());
 
   @override
   Future<bool> update(StartupRecord record) async {
@@ -70,9 +68,7 @@ class MockStartupRepository implements StartupRepository {
   Future<List<StartupRecord>> getEligibleForExemptions() async =>
       List.unmodifiable(
         _state
-            .where(
-              (r) => r.section80IacEligible || r.section56ExemptEligible,
-            )
+            .where((r) => r.section80IacEligible || r.section56ExemptEligible)
             .toList(),
       );
 }

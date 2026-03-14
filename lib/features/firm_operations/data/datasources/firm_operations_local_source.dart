@@ -30,20 +30,16 @@ class FirmOperationsLocalSource {
   // TeamMembers
   // ---------------------------------------------------------------------------
 
-  Future<String> insertTeamMember(TeamMember member) =>
-      _db.firmOperationsDao.insertTeamMember(
-        FirmOperationsMapper.teamMemberToCompanion(member),
-      );
+  Future<String> insertTeamMember(TeamMember member) => _db.firmOperationsDao
+      .insertTeamMember(FirmOperationsMapper.teamMemberToCompanion(member));
 
   Future<List<TeamMember>> getTeamMembers(String firmId) async {
     final rows = await _db.firmOperationsDao.getTeamMembers(firmId);
     return rows.map(FirmOperationsMapper.teamMemberFromRow).toList();
   }
 
-  Future<bool> updateTeamMember(TeamMember member) =>
-      _db.firmOperationsDao.updateTeamMember(
-        FirmOperationsMapper.teamMemberToCompanion(member),
-      );
+  Future<bool> updateTeamMember(TeamMember member) => _db.firmOperationsDao
+      .updateTeamMember(FirmOperationsMapper.teamMemberToCompanion(member));
 
   Future<bool> deleteTeamMember(String memberId) =>
       _db.firmOperationsDao.deleteTeamMember(memberId);

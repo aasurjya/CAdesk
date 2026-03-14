@@ -57,17 +57,18 @@ class McaApiService {
     required PortalCredentialRepository credentialRepository,
   }) async {
     if (query.trim().isEmpty) {
-      throw ArgumentError.value(query, 'query', 'Search query must not be empty.');
+      throw ArgumentError.value(
+        query,
+        'query',
+        'Search query must not be empty.',
+      );
     }
     final apiKey = await _resolveApiKey(credentialRepository);
     final response = await _get(
       dio: dio,
       path: '/MCA21/mds/efiling/getCompanyMasterDataForGovt',
       apiKey: apiKey,
-      queryParameters: {
-        'company_name': query,
-        'type': 'search',
-      },
+      queryParameters: {'company_name': query, 'type': 'search'},
     );
     final body = _decodeBody(response.data);
     final list = body['companyData'] as List<dynamic>? ?? const [];
@@ -211,7 +212,8 @@ class McaApiService {
     if (status == 401 || status == 403) {
       throw PortalAuthException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
+        message:
+            _extractMessage(e.response?.data) ??
             'MCA API authentication failed. Check your API key.',
         statusCode: status,
       );
@@ -221,15 +223,16 @@ class McaApiService {
       final retryAfter = _parseRetryAfter(e.response?.headers);
       throw PortalRateLimitException(
         portal: _kPortal,
-        message: _extractMessage(e.response?.data) ??
-            'MCA API rate limit exceeded.',
+        message:
+            _extractMessage(e.response?.data) ?? 'MCA API rate limit exceeded.',
         retryAfterSeconds: retryAfter,
       );
     }
 
     throw PortalUnavailableException(
       portal: _kPortal,
-      message: _extractMessage(e.response?.data) ??
+      message:
+          _extractMessage(e.response?.data) ??
           e.message ??
           'MCA portal is currently unavailable.',
       statusCode: status,
@@ -240,15 +243,14 @@ class McaApiService {
   // Private helpers — credentials
   // -------------------------------------------------------------------------
 
-  static Future<String> _resolveApiKey(
-    PortalCredentialRepository repo,
-  ) async {
+  static Future<String> _resolveApiKey(PortalCredentialRepository repo) async {
     final credential = await repo.getCredential(PortalType.mca);
     final token = credential?.grantToken ?? credential?.encryptedPassword;
     if (token == null || token.isEmpty) {
       throw const PortalAuthException(
         portal: _kPortal,
-        message: 'No MCA API key configured. Please add credentials in '
+        message:
+            'No MCA API key configured. Please add credentials in '
             'Settings → Portal Connectors → MCA.',
       );
     }
@@ -290,8 +292,7 @@ class McaApiService {
       cin: data['cin'] as String? ?? '',
       name: data['company_name'] as String? ?? '',
       status: _parseCompanyStatus(data['company_status'] as String?),
-      incorporationDate:
-          _parseDate(data['date_of_incorporation'] as String?),
+      incorporationDate: _parseDate(data['date_of_incorporation'] as String?),
       roc: data['roc_code'] as String? ?? '',
     );
   }
@@ -305,14 +306,12 @@ class McaApiService {
     return CompanyDetails(
       cin: data['cin'] as String? ?? '',
       name: data['company_name'] as String? ?? '',
-      registeredAddress:
-          data['registered_address'] as String? ?? '',
+      registeredAddress: data['registered_address'] as String? ?? '',
       authorizedCapital: _parsePaise(data['authorized_capital']),
       paidUpCapital: _parsePaise(data['paid_up_capital']),
       directors: directorList,
       status: _parseCompanyStatus(data['company_status'] as String?),
-      incorporationDate:
-          _parseDate(data['date_of_incorporation'] as String?),
+      incorporationDate: _parseDate(data['date_of_incorporation'] as String?),
       roc: data['roc_code'] as String? ?? '',
     );
   }
@@ -322,8 +321,7 @@ class McaApiService {
       din: data['din'] as String? ?? '',
       name: data['director_name'] as String? ?? '',
       designation: data['designation'] as String? ?? '',
-      appointmentDate:
-          _parseDateOpt(data['date_of_appointment'] as String?),
+      appointmentDate: _parseDateOpt(data['date_of_appointment'] as String?),
     );
   }
 
@@ -333,8 +331,7 @@ class McaApiService {
       formType: data['form_type'] as String? ?? '',
       filedAt: _parseDate(data['date_of_filing'] as String?),
       status: data['status'] as String? ?? '',
-      documentDescription:
-          data['document_description'] as String? ?? '',
+      documentDescription: data['document_description'] as String? ?? '',
       feesPaid: _parsePaise(data['fees_paid']),
     );
   }
@@ -356,16 +353,18 @@ class McaApiService {
       amount: _parsePaise(data['amount']),
       dateOfCreation: _parseDate(data['date_of_creation'] as String?),
       status: _parseChargeStatus(data['status'] as String?),
-      dateOfSatisfaction:
-          _parseDateOpt(data['date_of_satisfaction'] as String?),
+      dateOfSatisfaction: _parseDateOpt(
+        data['date_of_satisfaction'] as String?,
+      ),
       assets: data['assets_description'] as String?,
     );
   }
 
   static DirectorDetails _parseDirectorDetails(Map<String, dynamic> data) {
-    final companies = (data['associated_companies'] as List<dynamic>? ?? const [])
-        .whereType<String>()
-        .toList(growable: false);
+    final companies =
+        (data['associated_companies'] as List<dynamic>? ?? const [])
+            .whereType<String>()
+            .toList(growable: false);
 
     return DirectorDetails(
       din: data['din'] as String? ?? '',

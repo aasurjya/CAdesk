@@ -5,10 +5,7 @@ import 'package:ca_app/features/rpa/domain/models/rpa_task.dart';
 import 'package:ca_app/features/rpa/domain/repositories/rpa_repository.dart';
 
 class RpaRepositoryImpl implements RpaRepository {
-  const RpaRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const RpaRepositoryImpl({required this.remote, required this.local});
 
   final RpaRemoteSource remote;
   final RpaLocalSource local;

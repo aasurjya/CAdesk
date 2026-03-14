@@ -51,9 +51,7 @@ class PostFilingRecordMapper {
   }
 
   // PostFilingRecord → Drift companion
-  static PostFilingRecordsTableCompanion toCompanion(
-    PostFilingRecord record,
-  ) {
+  static PostFilingRecordsTableCompanion toCompanion(PostFilingRecord record) {
     return PostFilingRecordsTableCompanion(
       id: Value(record.id),
       clientId: Value(record.clientId),

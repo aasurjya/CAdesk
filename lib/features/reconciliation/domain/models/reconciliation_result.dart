@@ -107,8 +107,7 @@ class ReconciliationResult {
   final DateTime updatedAt;
 
   /// Whether the reconciliation has unresolved discrepancies.
-  bool get hasUnresolvedDiscrepancies =>
-      discrepancies.any((d) => !d.resolved);
+  bool get hasUnresolvedDiscrepancies => discrepancies.any((d) => !d.resolved);
 
   /// Count of unresolved discrepancies.
   int get unresolvedCount => discrepancies.where((d) => !d.resolved).length;

@@ -9,8 +9,9 @@ import 'package:ca_app/features/renewal_expiry/domain/repositories/renewal_expir
 ///
 /// Returns [MockRenewalExpiryRepository] unless the `renewal_expiry_real_repo`
 /// feature flag is enabled, in which case [RenewalExpiryRepositoryImpl] is used.
-final renewalExpiryRepositoryProvider =
-    Provider<RenewalExpiryRepository>((ref) {
+final renewalExpiryRepositoryProvider = Provider<RenewalExpiryRepository>((
+  ref,
+) {
   final flags = ref.watch(featureFlagProvider);
   final useReal =
       flags.asData?.value.isEnabled('renewal_expiry_real_repo') ?? false;

@@ -105,10 +105,7 @@ class _ClientsListScreenState extends ConsumerState<ClientsListScreen> {
           children: [
             const Icon(Icons.error_outline, size: 48, color: Colors.grey),
             const SizedBox(height: 12),
-            Text(
-              'Failed to load clients',
-              style: theme.textTheme.titleMedium,
-            ),
+            Text('Failed to load clients', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
             TextButton(
               onPressed: () => ref.invalidate(allClientsProvider),

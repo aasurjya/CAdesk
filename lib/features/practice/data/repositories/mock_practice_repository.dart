@@ -66,8 +66,7 @@ class MockPracticeRepository implements PracticeRepository {
   }
 
   @override
-  Future<List<Workflow>> getAllWorkflows() async =>
-      List.unmodifiable(_state);
+  Future<List<Workflow>> getAllWorkflows() async => List.unmodifiable(_state);
 
   @override
   Future<List<Workflow>> getByCategory(WorkflowCategory category) async =>

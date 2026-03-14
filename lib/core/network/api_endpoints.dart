@@ -83,12 +83,10 @@ class McaEndpoints {
       '/MCA21/mds/efiling/getCompanyMasterDataForGovt';
 
   /// Filing history for a CIN. Query params: cin, year (optional).
-  static const String filingHistory =
-      '/MCA21/mds/efiling/getFilingHistory';
+  static const String filingHistory = '/MCA21/mds/efiling/getFilingHistory';
 
   /// DIN master data lookup. Query param: din.
-  static const String dinMasterData =
-      '/MCA21/mds/efiling/getDINMasterData';
+  static const String dinMasterData = '/MCA21/mds/efiling/getDINMasterData';
 
   /// Director master data (full profile). Query param: din.
   static const String directorMasterData =

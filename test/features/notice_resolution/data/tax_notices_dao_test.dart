@@ -137,8 +137,12 @@ void main() {
         final clientId = 'notice-client-unique';
         final n1 = createNotice(clientId: clientId);
         final n2 = createNotice(clientId: clientId);
-        await database.taxNoticesDao.insertNotice(TaxNoticeMapper.toCompanion(n1));
-        await database.taxNoticesDao.insertNotice(TaxNoticeMapper.toCompanion(n2));
+        await database.taxNoticesDao.insertNotice(
+          TaxNoticeMapper.toCompanion(n1),
+        );
+        await database.taxNoticesDao.insertNotice(
+          TaxNoticeMapper.toCompanion(n2),
+        );
         final rows = await database.taxNoticesDao.getByClient(clientId);
         expect(rows.length, greaterThanOrEqualTo(2));
       });
@@ -211,7 +215,10 @@ void main() {
       });
 
       test('returns false for non-existent ID', () async {
-        final ok = await database.taxNoticesDao.updateStatus('ghost', 'disposed');
+        final ok = await database.taxNoticesDao.updateStatus(
+          'ghost',
+          'disposed',
+        );
         expect(ok, isFalse);
       });
 
@@ -230,17 +237,22 @@ void main() {
     });
 
     group('getOverdue', () {
-      test('returns notices whose dueDate is before asOf and not disposed', () async {
-        final pastDue = createNotice(
-          status: NoticeStatus.received,
-          dueDate: DateTime(2024, 1, 1),
-        );
-        await database.taxNoticesDao.insertNotice(
-          TaxNoticeMapper.toCompanion(pastDue),
-        );
-        final rows = await database.taxNoticesDao.getOverdue(DateTime(2025, 1, 1));
-        expect(rows.any((r) => r.id == pastDue.id), isTrue);
-      });
+      test(
+        'returns notices whose dueDate is before asOf and not disposed',
+        () async {
+          final pastDue = createNotice(
+            status: NoticeStatus.received,
+            dueDate: DateTime(2024, 1, 1),
+          );
+          await database.taxNoticesDao.insertNotice(
+            TaxNoticeMapper.toCompanion(pastDue),
+          );
+          final rows = await database.taxNoticesDao.getOverdue(
+            DateTime(2025, 1, 1),
+          );
+          expect(rows.any((r) => r.id == pastDue.id), isTrue);
+        },
+      );
 
       test('does not return disposed notices even if overdue', () async {
         final disposed = createNotice(
@@ -250,7 +262,9 @@ void main() {
         await database.taxNoticesDao.insertNotice(
           TaxNoticeMapper.toCompanion(disposed),
         );
-        final rows = await database.taxNoticesDao.getOverdue(DateTime(2025, 1, 1));
+        final rows = await database.taxNoticesDao.getOverdue(
+          DateTime(2025, 1, 1),
+        );
         expect(rows.any((r) => r.id == disposed.id), isFalse);
       });
 
@@ -262,7 +276,9 @@ void main() {
         await database.taxNoticesDao.insertNotice(
           TaxNoticeMapper.toCompanion(future),
         );
-        final rows = await database.taxNoticesDao.getOverdue(DateTime(2025, 1, 1));
+        final rows = await database.taxNoticesDao.getOverdue(
+          DateTime(2025, 1, 1),
+        );
         expect(rows.any((r) => r.id == future.id), isFalse);
       });
     });

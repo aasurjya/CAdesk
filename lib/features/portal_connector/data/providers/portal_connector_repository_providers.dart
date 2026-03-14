@@ -12,33 +12,35 @@ import 'package:ca_app/features/portal_connector/domain/repositories/portal_cred
 /// Provides the [PortalConnectorRemoteSource] backed by Supabase.
 final portalConnectorRemoteSourceProvider =
     Provider<PortalConnectorRemoteSource>((ref) {
-  return PortalConnectorRemoteSource(Supabase.instance.client);
-});
+      return PortalConnectorRemoteSource(Supabase.instance.client);
+    });
 
 /// Provides the [PortalConnectorLocalSource] backed by the local Drift DB.
-final portalConnectorLocalSourceProvider =
-    Provider<PortalConnectorLocalSource>((ref) {
-  final db = ref.watch(appDatabaseProvider);
-  return PortalConnectorLocalSource(db);
-});
+final portalConnectorLocalSourceProvider = Provider<PortalConnectorLocalSource>(
+  (ref) {
+    final db = ref.watch(appDatabaseProvider);
+    return PortalConnectorLocalSource(db);
+  },
+);
 
 /// Provides the [PortalCredentialRepository].
 ///
 /// Uses the real [PortalConnectorRepositoryImpl] when the
 /// `portal_connector_real_repo` feature flag is enabled; otherwise falls back
 /// to the [MockPortalCredentialRepository] for offline/dev use.
-final portalCredentialRepositoryProvider =
-    Provider<PortalCredentialRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('portal_connector_real_repo') ?? false;
+final portalCredentialRepositoryProvider = Provider<PortalCredentialRepository>(
+  (ref) {
+    final flags = ref.watch(featureFlagProvider);
+    final useReal =
+        flags.asData?.value.isEnabled('portal_connector_real_repo') ?? false;
 
-  if (!useReal) {
-    return MockPortalCredentialRepository();
-  }
+    if (!useReal) {
+      return MockPortalCredentialRepository();
+    }
 
-  return PortalConnectorRepositoryImpl(
-    local: ref.watch(portalConnectorLocalSourceProvider),
-    remote: ref.watch(portalConnectorRemoteSourceProvider),
-  );
-});
+    return PortalConnectorRepositoryImpl(
+      local: ref.watch(portalConnectorLocalSourceProvider),
+      remote: ref.watch(portalConnectorRemoteSourceProvider),
+    );
+  },
+);

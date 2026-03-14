@@ -5,9 +5,7 @@ import 'package:ca_app/features/documents/domain/models/document.dart';
 import 'package:ca_app/features/documents/data/mappers/document_mapper.dart';
 
 AppDatabase _createTestDatabase() {
-  return AppDatabase(
-    executor: NativeDatabase.memory(),
-  );
+  return AppDatabase(executor: NativeDatabase.memory());
 }
 
 void main() {
@@ -68,15 +66,23 @@ void main() {
         final doc1 = createTestDocument();
         final doc2 = createTestDocument(clientId: doc1.clientId);
 
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc1));
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc2));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc1),
+        );
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc2),
+        );
 
-        final results = await database.documentsDao.getDocumentsByClient(doc1.clientId);
+        final results = await database.documentsDao.getDocumentsByClient(
+          doc1.clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results = await database.documentsDao.getDocumentsByClient('non-existent');
+        final results = await database.documentsDao.getDocumentsByClient(
+          'non-existent',
+        );
         expect(results, isEmpty);
       });
     });
@@ -85,21 +91,34 @@ void main() {
       test('emits documents for client on watch', () async {
         final doc = createTestDocument();
 
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
-        final stream = database.documentsDao.watchDocumentsByClient(doc.clientId);
+        final stream = database.documentsDao.watchDocumentsByClient(
+          doc.clientId,
+        );
         expect(
           stream,
-          emits(isA<List<DocumentRow>>()
-              .having((rows) => rows.isNotEmpty, 'has documents', true)),
+          emits(
+            isA<List<DocumentRow>>().having(
+              (rows) => rows.isNotEmpty,
+              'has documents',
+              true,
+            ),
+          ),
         );
       });
     });
 
     group('getDocumentsByCategory', () {
       test('returns documents of specific category', () async {
-        final catDoc1 = createTestDocument(category: DocumentCategory.gstReturns);
-        final catDoc2 = createTestDocument(category: DocumentCategory.gstReturns);
+        final catDoc1 = createTestDocument(
+          category: DocumentCategory.gstReturns,
+        );
+        final catDoc2 = createTestDocument(
+          category: DocumentCategory.gstReturns,
+        );
 
         await database.documentsDao.insertDocument(
           DocumentMapper.toCompanion(catDoc1),
@@ -108,12 +127,16 @@ void main() {
           DocumentMapper.toCompanion(catDoc2),
         );
 
-        final results = await database.documentsDao.getDocumentsByCategory('gstReturns');
+        final results = await database.documentsDao.getDocumentsByCategory(
+          'gstReturns',
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent category', () async {
-        final results = await database.documentsDao.getDocumentsByCategory('nonexistent');
+        final results = await database.documentsDao.getDocumentsByCategory(
+          'nonexistent',
+        );
         expect(results, isEmpty);
       });
     });
@@ -121,7 +144,9 @@ void main() {
     group('getDocumentById', () {
       test('retrieves document by ID', () async {
         final doc = createTestDocument();
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
         final retrieved = await database.documentsDao.getDocumentById(doc.id);
         expect(retrieved != null, isTrue);
@@ -129,7 +154,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved = await database.documentsDao.getDocumentById('non-existent-id');
+        final retrieved = await database.documentsDao.getDocumentById(
+          'non-existent-id',
+        );
         expect(retrieved == null, isTrue);
       });
     });
@@ -137,7 +164,9 @@ void main() {
     group('updateDocument', () {
       test('updates document successfully', () async {
         final doc = createTestDocument();
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
         final updated = doc.copyWith(title: 'Updated Title', version: 2);
         final success = await database.documentsDao.updateDocument(
@@ -151,10 +180,14 @@ void main() {
 
       test('increments version on update', () async {
         final doc = createTestDocument();
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
         final updated = doc.copyWith(version: 2);
-        await database.documentsDao.updateDocument(DocumentMapper.toCompanion(updated));
+        await database.documentsDao.updateDocument(
+          DocumentMapper.toCompanion(updated),
+        );
 
         final retrieved = await database.documentsDao.getDocumentById(doc.id);
         expect(retrieved?.version, 2);
@@ -164,7 +197,9 @@ void main() {
     group('deleteDocument', () {
       test('deletes document successfully', () async {
         final doc = createTestDocument();
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
         final success = await database.documentsDao.deleteDocument(doc.id);
         expect(success, isTrue);
@@ -179,8 +214,12 @@ void main() {
         final doc1 = createTestDocument(title: 'Tax Return 2024');
         final doc2 = createTestDocument(title: 'GST Return 2024');
 
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc1));
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc2));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc1),
+        );
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc2),
+        );
 
         final results = await database.documentsDao.searchDocuments('Tax');
         expect(
@@ -192,14 +231,18 @@ void main() {
       test('finds documents by tags', () async {
         final doc = createTestDocument();
 
-        await database.documentsDao.insertDocument(DocumentMapper.toCompanion(doc));
+        await database.documentsDao.insertDocument(
+          DocumentMapper.toCompanion(doc),
+        );
 
         final results = await database.documentsDao.searchDocuments('itR');
         expect(results.isNotEmpty, isTrue);
       });
 
       test('returns empty list for non-matching query', () async {
-        final results = await database.documentsDao.searchDocuments('nonexistent123xyz');
+        final results = await database.documentsDao.searchDocuments(
+          'nonexistent123xyz',
+        );
         expect(results, isEmpty);
       });
     });

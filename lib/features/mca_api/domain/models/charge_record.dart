@@ -70,12 +70,12 @@ class ChargeRecord {
 
   @override
   int get hashCode => Object.hash(
-        chargeId,
-        holderName,
-        amount,
-        dateOfCreation,
-        status,
-        dateOfSatisfaction,
-        assets,
-      );
+    chargeId,
+    holderName,
+    amount,
+    dateOfCreation,
+    status,
+    dateOfSatisfaction,
+    assets,
+  );
 }

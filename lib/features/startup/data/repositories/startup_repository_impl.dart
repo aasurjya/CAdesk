@@ -6,10 +6,7 @@ import 'package:ca_app/features/startup/domain/repositories/startup_repository.d
 
 /// Concrete [StartupRepository] — remote-first with local Drift cache fallback.
 class StartupRepositoryImpl implements StartupRepository {
-  const StartupRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const StartupRepositoryImpl({required this.remote, required this.local});
 
   final StartupRemoteSource remote;
   final StartupLocalSource local;
@@ -43,10 +40,7 @@ class StartupRepositoryImpl implements StartupRepository {
   @override
   Future<bool> update(StartupRecord record) async {
     try {
-      final json = await remote.update(
-        record.id,
-        StartupMapper.toJson(record),
-      );
+      final json = await remote.update(record.id, StartupMapper.toJson(record));
       final updated = StartupMapper.fromJson(json);
       return local.update(updated);
     } catch (_) {

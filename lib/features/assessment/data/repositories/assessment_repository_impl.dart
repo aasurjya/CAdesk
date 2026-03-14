@@ -5,10 +5,7 @@ import 'package:ca_app/features/assessment/domain/models/assessment_case.dart';
 import 'package:ca_app/features/assessment/domain/repositories/assessment_repository.dart';
 
 class AssessmentRepositoryImpl implements AssessmentRepository {
-  const AssessmentRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const AssessmentRepositoryImpl({required this.remote, required this.local});
 
   final AssessmentRemoteSource remote;
   final AssessmentLocalSource local;
@@ -66,9 +63,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
   }
 
   @override
-  Future<List<AssessmentCase>> getByStatus(
-    AssessmentCaseStatus status,
-  ) async {
+  Future<List<AssessmentCase>> getByStatus(AssessmentCaseStatus status) async {
     try {
       final jsonList = await remote.fetchByStatus(status.name);
       return List.unmodifiable(

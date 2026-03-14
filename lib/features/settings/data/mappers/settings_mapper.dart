@@ -28,8 +28,7 @@ class SettingsMapper {
       firmName: json['firm_name'] as String? ?? '',
       firmAddress: json['firm_address'] as String? ?? '',
       firmGstin: json['firm_gstin'] as String? ?? '',
-      caRegistrationNumber:
-          json['ca_registration_number'] as String? ?? '',
+      caRegistrationNumber: json['ca_registration_number'] as String? ?? '',
       udinEnabled: json['udin_enabled'] as bool? ?? true,
     );
   }

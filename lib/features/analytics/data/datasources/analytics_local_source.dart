@@ -8,10 +8,8 @@ class AnalyticsLocalSource {
 
   final AppDatabase _db;
 
-  Future<void> insertSnapshot(AnalyticsSnapshot snapshot) =>
-      _db.analyticsDao.insertSnapshot(
-        AnalyticsMapper.snapshotToCompanion(snapshot),
-      );
+  Future<void> insertSnapshot(AnalyticsSnapshot snapshot) => _db.analyticsDao
+      .insertSnapshot(AnalyticsMapper.snapshotToCompanion(snapshot));
 
   Future<List<AnalyticsSnapshot>> getByPeriod(
     String firmId,
@@ -26,10 +24,8 @@ class AnalyticsLocalSource {
     return row != null ? AnalyticsMapper.snapshotFromRow(row) : null;
   }
 
-  Future<void> insertClientMetric(ClientMetric metric) =>
-      _db.analyticsDao.insertClientMetric(
-        AnalyticsMapper.metricToCompanion(metric),
-      );
+  Future<void> insertClientMetric(ClientMetric metric) => _db.analyticsDao
+      .insertClientMetric(AnalyticsMapper.metricToCompanion(metric));
 
   Future<List<ClientMetric>> getClientMetrics(String clientId) async {
     final rows = await _db.analyticsDao.getClientMetrics(clientId);

@@ -58,8 +58,9 @@ void main() {
         final cred = createTestCredential(portalType: PortalType.gstn);
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.gstn.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.gstn.name,
+        );
         expect(retrieved?.portalType, PortalType.gstn.name);
       });
 
@@ -70,8 +71,9 @@ void main() {
         );
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.traces.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.traces.name,
+        );
         expect(retrieved?.username, 'traces_user');
       });
 
@@ -82,8 +84,9 @@ void main() {
         );
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.mca.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.mca.name,
+        );
         expect(retrieved?.encryptedPassword, 'IV123:ciphertext456');
       });
 
@@ -96,8 +99,9 @@ void main() {
         );
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.epfo.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.epfo.name,
+        );
         expect(retrieved?.grantToken, 'grant-abc');
         expect(retrieved?.refreshToken, 'refresh-xyz');
         expect(retrieved?.expiresAt, isNotNull);
@@ -107,8 +111,9 @@ void main() {
     group('getCredential', () {
       test('returns null for non-existent portal type', () async {
         // Use a unique portal type not stored in this test group
-        final result = await database.portalConnectorDao
-            .getCredential('non_existent_portal');
+        final result = await database.portalConnectorDao.getCredential(
+          'non_existent_portal',
+        );
         expect(result, isNull);
       });
 
@@ -119,8 +124,9 @@ void main() {
         );
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.itd.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.itd.name,
+        );
         expect(retrieved, isNotNull);
         expect(retrieved?.username, 'itd_user');
       });
@@ -159,8 +165,9 @@ void main() {
           PortalConnectorMapper.toCompanion(updated),
         );
 
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.traces.name);
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.traces.name,
+        );
         expect(retrieved?.username, 'new_traces_user');
       });
 
@@ -180,8 +187,9 @@ void main() {
           PortalConnectorMapper.toCompanion(cred),
         );
 
-        final success = await database.portalConnectorDao
-            .deleteCredential(PortalType.mca.name);
+        final success = await database.portalConnectorDao.deleteCredential(
+          PortalType.mca.name,
+        );
         expect(success, isTrue);
       });
 
@@ -191,24 +199,28 @@ void main() {
           PortalConnectorMapper.toCompanion(cred),
         );
 
-        await database.portalConnectorDao
-            .deleteCredential(PortalType.epfo.name);
-        final retrieved = await database.portalConnectorDao
-            .getCredential(PortalType.epfo.name);
+        await database.portalConnectorDao.deleteCredential(
+          PortalType.epfo.name,
+        );
+        final retrieved = await database.portalConnectorDao.getCredential(
+          PortalType.epfo.name,
+        );
         expect(retrieved, isNull);
       });
 
       test('returns false when deleting non-existent portal type', () async {
-        final success = await database.portalConnectorDao
-            .deleteCredential('not_here');
+        final success = await database.portalConnectorDao.deleteCredential(
+          'not_here',
+        );
         expect(success, isFalse);
       });
     });
 
     group('getSyncStatus', () {
       test('returns null for portal with no status set', () async {
-        final result = await database.portalConnectorDao
-            .getSyncStatus('portal_without_status');
+        final result = await database.portalConnectorDao.getSyncStatus(
+          'portal_without_status',
+        );
         expect(result, isNull);
       });
 
@@ -225,8 +237,9 @@ void main() {
           PortalType.itd.name,
           'syncing',
         );
-        final result = await database.portalConnectorDao
-            .getSyncStatus(PortalType.itd.name);
+        final result = await database.portalConnectorDao.getSyncStatus(
+          PortalType.itd.name,
+        );
         expect(result, 'syncing');
       });
     });
@@ -248,13 +261,16 @@ void main() {
         expect(success, isTrue);
       });
 
-      test('returns false when updating status for non-existent portal', () async {
-        final success = await database.portalConnectorDao.updateSyncStatus(
-          'non_existent',
-          'syncing',
-        );
-        expect(success, isFalse);
-      });
+      test(
+        'returns false when updating status for non-existent portal',
+        () async {
+          final success = await database.portalConnectorDao.updateSyncStatus(
+            'non_existent',
+            'syncing',
+          );
+          expect(success, isFalse);
+        },
+      );
     });
 
     group('PortalCredential model', () {
@@ -351,8 +367,9 @@ void main() {
         final companion = PortalConnectorMapper.toCompanion(cred);
         await database.portalConnectorDao.storeCredential(companion);
 
-        final row = await database.portalConnectorDao
-            .getCredential(PortalType.itd.name);
+        final row = await database.portalConnectorDao.getCredential(
+          PortalType.itd.name,
+        );
         expect(row, isNotNull);
         final mapped = PortalConnectorMapper.fromRow(row!);
 

@@ -39,13 +39,12 @@ class PortalImportLocalSource {
     ImportStatus status, {
     int? parsedRecords,
     String? errorMessage,
-  }) =>
-      _db.portalImportsDao.updateStatus(
-        id,
-        status.name,
-        parsedRecords: parsedRecords,
-        errorMessage: errorMessage,
-      );
+  }) => _db.portalImportsDao.updateStatus(
+    id,
+    status.name,
+    parsedRecords: parsedRecords,
+    errorMessage: errorMessage,
+  );
 
   Future<PortalImport?> getById(String id) async {
     final row = await _db.portalImportsDao.getById(id);

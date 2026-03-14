@@ -9,10 +9,7 @@ import 'package:ca_app/features/payroll/domain/repositories/payroll_repository.d
 /// Attempts remote (Supabase) operations first; falls back to local cache
 /// (Drift/SQLite) on any network error.
 class PayrollRepositoryImpl implements PayrollRepository {
-  const PayrollRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const PayrollRepositoryImpl({required this.remote, required this.local});
 
   final PayrollRemoteSource remote;
   final PayrollLocalSource local;
@@ -31,7 +28,9 @@ class PayrollRepositoryImpl implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByClient(
-      String clientId, int year) async {
+    String clientId,
+    int year,
+  ) async {
     try {
       final jsonList = await remote.fetchByClient(clientId, year);
       final entries = jsonList.map(PayrollMapper.fromJson).toList();
@@ -46,7 +45,9 @@ class PayrollRepositoryImpl implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByEmployee(
-      String employeeId, int year) async {
+    String employeeId,
+    int year,
+  ) async {
     try {
       final jsonList = await remote.fetchByEmployee(employeeId, year);
       final entries = jsonList.map(PayrollMapper.fromJson).toList();
@@ -62,8 +63,7 @@ class PayrollRepositoryImpl implements PayrollRepository {
   @override
   Future<bool> updatePayrollEntry(PayrollEntry entry) async {
     try {
-      final json =
-          await remote.update(entry.id, PayrollMapper.toJson(entry));
+      final json = await remote.update(entry.id, PayrollMapper.toJson(entry));
       final updated = PayrollMapper.fromJson(json);
       await local.updatePayrollEntry(updated);
       return true;
@@ -85,7 +85,10 @@ class PayrollRepositoryImpl implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByMonth(
-      String clientId, int month, int year) async {
+    String clientId,
+    int month,
+    int year,
+  ) async {
     try {
       final jsonList = await remote.fetchByMonth(clientId, month, year);
       final entries = jsonList.map(PayrollMapper.fromJson).toList();

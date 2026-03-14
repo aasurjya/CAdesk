@@ -5,9 +5,7 @@ class StaffMonitoringRemoteSource {
 
   final SupabaseClient _client;
 
-  Future<Map<String, dynamic>> insertActivity(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Map<String, dynamic>> insertActivity(Map<String, dynamic> data) async {
     final response = await _client
         .from('staff_activities')
         .insert(data)

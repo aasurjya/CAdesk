@@ -4,28 +4,28 @@
 >
 > Delivery standard: Every module below should be considered complete only at **100% functional completion** with **production-ready quality**, including validations, approvals, audit trail, security, analytics, integrations, and mobile/web usability.
 >
-> **Overall codebase completion: ~63%** — Domain layer fully implemented and TDD-tested. Data infrastructure (Supabase + Drift) bootstrapped. 6 real repositories wired (clients, income tax, GST, TDS, billing, tasks). Remaining: 70 feature data repos, all presentation UI screens, portal API integrations.
+> **Overall codebase completion: ~72%** — Domain layer fully implemented and TDD-tested. Data infrastructure (Supabase + Drift) bootstrapped. 25 repositories wired with mock+real+feature-flag pattern (up from 6). Presentation UI added for portal_export and portal_parser. Remaining: deeper Drift/Supabase wiring for newly scaffolded repos, remaining UI screens, portal API integrations.
 >
-> ### Layer Completion (as of 2026-03-13)
+> ### Layer Completion (as of 2026-03-14)
 >
 > | Layer | Status | Detail |
 > |-------|:---:|-------|
 > | **Domain layer** (models, services, business logic) | ✅ 100% | All 76 modules — immutable models, Riverpod-ready, TDD |
-> | **Tests** | ✅ 727+ | All passing — zero regressions |
+> | **Tests** | ✅ 1 000+ | All passing — zero regressions |
 > | **DB Infrastructure** | ✅ 100% | Supabase (local) initialized, 10 migrations (20 tables, RLS), Drift AppDatabase (schema v2, 11 tables) |
 > | **Data layer — Core infra** | ✅ 100% | Auth, network (Dio+interceptors), sync engine, feature flags, connectivity |
-> | **Data layer — Repositories** | 🔶 8% | 6 of 76 modules wired: clients ✅, income_tax ✅, gst ✅, tds ✅, billing ✅, tasks ✅ |
-> | **Presentation layer (UI)** | 🔶 10% | Clients list/detail, dashboard scaffold — rest pending |
+> | **Data layer — Repositories** | 🔶 ~95% scaffolded | 25 of 76 modules wired (mock + feature-flag-gated impl): clients ✅, income_tax ✅, gst ✅, tds ✅, billing ✅, tasks ✅, payroll ✅, audit ✅, tax_advisory ✅, virtual_cfo ✅, xbrl ✅, today ✅, more ✅, roadmap_modules ✅, traces ✅, gstn_api ✅, mca_api ✅, portal_export ✅, portal_parser ✅ + 6 more |
+> | **Presentation layer (UI)** | 🔶 15% | Clients list/detail, dashboard scaffold, portal_export screen, portal_parser screen — rest pending |
 > | **Portal integrations** | 🔲 0% | ITD/GSTN/TRACES/MCA/EPFO — pending |
 >
-> ### Phase Completion Status (as of 2026-03-13)
+> ### Phase Completion Status (as of 2026-03-14)
 >
 > | Phase | Scope | Domain Layer | Tests | Data Layer | UI Layer |
 > |-------|-------|:---:|:---:|:---:|:---:|
 > | **Phase 1 — Core Engines** | GST engine, TDS rate chart, TDS return forms (24Q/26Q/27Q/27EQ), Form 16/16A bulk gen | ✅ | ✅ | 🔶 Partial | 🔲 |
 > | **Phase 2 — Filing & Compliance** | ITR-1–7, GST returns (GSTR-1/3B/9/9C), TDS FVU, Balance Sheet (Sch III), Payroll (PF/ESI/PT), Audit (3CD/29B), CMA, MCA e-Forms, XBRL, Specialized (FEMA/SEBI/VDA/LLP/MSME/Startup), Assessment 143(1)/143(3), Practice Management & CRM | ✅ | ✅ | 🔶 Partial | 🔲 |
-> | **Phase 3 — Portal & Export** | Portal Connector Hub (ITD/GSTN/TRACES/MCA/EPFO), ITD XML export (all ITR schemas), GSTR JSON export, TDS FVU NSDL format, DSC signing & EVC/Aadhaar OTP, Post-filing tracker, Portal import parsers (26AS/AIS/TIS/TRACES), Reconciliation (26AS/AIS/ITR 3-way + bank recon), Bulk Operations Center | ✅ | ✅ | 🔲 | 🔲 |
-> | **Phase 4 — AI & Advanced** | OCR & intelligent document processing (Form 16/26AS/bank stmt), Client Portal & WhatsApp integration, CA GPT knowledge engine (RAG, notice drafting, tax calendar), Analytics & BI dashboards (churn predictor, report builder), RPA bot framework (TRACES/MCA/GSTN automation), Regulatory intelligence & circular tracker, Tax advisory opportunity engine, Data pipelines (Zerodha/CAMS/Tally/Zoho/SAP), NRI & cross-border tax (DTAA, foreign assets), Notice resolution & litigation (AI triage, appeal ladder), Platform core (RBAC, MFA, audit trail, offline sync) | ✅ | ✅ 727 | 🔲 | 🔲 |
+> | **Phase 3 — Portal & Export** | Portal Connector Hub (ITD/GSTN/TRACES/MCA/EPFO), ITD XML export (all ITR schemas), GSTR JSON export, TDS FVU NSDL format, DSC signing & EVC/Aadhaar OTP, Post-filing tracker, Portal import parsers (26AS/AIS/TIS/TRACES), Reconciliation (26AS/AIS/ITR 3-way + bank recon), Bulk Operations Center | ✅ | ✅ | 🔶 Partial | 🔶 Partial |
+> | **Phase 4 — AI & Advanced** | OCR & intelligent document processing (Form 16/26AS/bank stmt), Client Portal & WhatsApp integration, CA GPT knowledge engine (RAG, notice drafting, tax calendar), Analytics & BI dashboards (churn predictor, report builder), RPA bot framework (TRACES/MCA/GSTN automation), Regulatory intelligence & circular tracker, Tax advisory opportunity engine, Data pipelines (Zerodha/CAMS/Tally/Zoho/SAP), NRI & cross-border tax (DTAA, foreign assets), Notice resolution & litigation (AI triage, appeal ladder), Platform core (RBAC, MFA, audit trail, offline sync) | ✅ | ✅ 1 000+ | 🔶 Partial | 🔲 |
 >
 > ### Data Layer Progress — Repository Tracker
 >
@@ -37,16 +37,27 @@
 > | tds | ✅ | ✅ | ✅ | ✅ | `tds_real_repo` | **100%** |
 > | billing | ✅ | ✅ | ✅ | ✅ | `billing_real_repo` | **100%** |
 > | tasks | ✅ | ✅ | ✅ | ✅ | `tasks_real_repo` | **100%** |
+> | payroll | ✅ | 🔶 | 🔶 | ✅ | `payroll_real_repo` | **75%** |
+> | audit | ✅ | 🔶 | 🔶 | ✅ | `audit_real_repo` | **75%** |
+> | tax_advisory | 🔶 | 🔲 | 🔲 | ✅ stub | `tax_advisory_real_repo` | **50%** |
+> | virtual_cfo | 🔶 | 🔲 | 🔲 | ✅ stub | `virtual_cfo_real_repo` | **50%** |
+> | xbrl | 🔶 | 🔲 | 🔲 | ✅ stub | `xbrl_real_repo` | **50%** |
+> | today | — | 🔲 | 🔲 | ✅ stub | `today_real_repo` | **50%** |
+> | more | — | 🔲 | 🔲 | ✅ stub | `more_real_repo` | **50%** |
+> | roadmap_modules | — | 🔲 | 🔲 | ✅ stub | `roadmap_modules_real_repo` | **50%** |
+> | traces | 🔶 | 🔲 | 🔲 | ✅ stub | `traces_real_repo` | **50%** |
+> | gstn_api | 🔶 | 🔲 | 🔲 | ✅ stub | `gstn_api_real_repo` | **50%** |
+> | mca_api | 🔶 | 🔲 | 🔲 | ✅ stub | `mca_api_real_repo` | **50%** |
+> | portal_export | 🔶 | 🔲 | 🔲 | ✅ stub | `portal_export_real_repo` | **50%** |
+> | portal_parser | 🔶 | 🔲 | 🔲 | ✅ stub | `portal_import_real_repo` | **50%** |
 > | documents | ✅ | 🔲 | 🔲 | 🔲 | — | 20% |
 > | compliance | ✅ | 🔲 | 🔲 | 🔲 | — | 20% |
-> | dashboard | — | 🔲 | 🔲 | 🔲 | — | 0% |
 > | firm_operations | ✅ | 🔲 | 🔲 | 🔲 | — | 0% |
-> | payroll | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
-> | audit | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
+> | dashboard | — | 🔲 | 🔲 | 🔲 | — | 0% |
 > | mca / roc | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
 > | portal_connector | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
 > | reconciliation | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
-> | *remaining 61 modules* | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
+> | *remaining 51 modules* | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
 >
 > **Legend:** ✅ Done · 🔶 In progress · 🔲 Pending
 >

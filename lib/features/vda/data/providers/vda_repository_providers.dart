@@ -19,8 +19,7 @@ final vdaLocalSourceProvider = Provider<VdaLocalSource>((ref) {
 
 final vdaRepositoryProvider = Provider<VdaRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('vda_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('vda_real_repo') ?? false;
 
   if (!useReal) {
     return MockVdaRepository();

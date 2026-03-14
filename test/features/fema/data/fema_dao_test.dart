@@ -48,26 +48,27 @@ void main() {
     group('insertFemaFiling', () {
       test('inserts filing and returns non-empty ID', () async {
         final filing = createTestFiling();
-        final id = await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        final id = await database.femaDao.insertFemaFiling(
+          FemaMapper.toCompanion(filing),
+        );
         expect(id, isNotEmpty);
       });
 
       test('stored filing has correct clientId', () async {
         final filing = createTestFiling(clientId: 'fema-insert-client');
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
-        final rows = await database.femaDao
-            .getFemaFilingsByClient('fema-insert-client');
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          'fema-insert-client',
+        );
         expect(rows.any((r) => r.id == filing.id), isTrue);
       });
 
       test('stored filing has correct filingType', () async {
         final filing = createTestFiling(filingType: FemaType.ecb);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
-        final rows =
-            await database.femaDao.getFemaFilingsByClient(filing.clientId);
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          filing.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == filing.id);
         final domain = FemaMapper.fromRow(row);
         expect(domain.filingType, FemaType.ecb);
@@ -75,20 +76,20 @@ void main() {
 
       test('stored filing has correct currency', () async {
         final filing = createTestFiling(currency: 'EUR');
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
-        final rows =
-            await database.femaDao.getFemaFilingsByClient(filing.clientId);
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          filing.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == filing.id);
         expect(row.currency, 'EUR');
       });
 
       test('stored filing preserves approvalRequired flag', () async {
         final filing = createTestFiling(approvalRequired: true);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
-        final rows =
-            await database.femaDao.getFemaFilingsByClient(filing.clientId);
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          filing.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == filing.id);
         expect(row.approvalRequired, isTrue);
       });
@@ -99,19 +100,17 @@ void main() {
         final clientId = 'fema-by-client-x';
         final f1 = createTestFiling(clientId: clientId);
         final f2 = createTestFiling(clientId: clientId);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(f1));
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(f2));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(f1));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(f2));
 
-        final results =
-            await database.femaDao.getFemaFilingsByClient(clientId);
+        final results = await database.femaDao.getFemaFilingsByClient(clientId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.femaDao.getFemaFilingsByClient('no-such-client');
+        final results = await database.femaDao.getFemaFilingsByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -125,8 +124,7 @@ void main() {
           FemaMapper.toCompanion(createTestFiling(clientId: clientB)),
         );
 
-        final results =
-            await database.femaDao.getFemaFilingsByClient(clientA);
+        final results = await database.femaDao.getFemaFilingsByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
     });
@@ -134,21 +132,21 @@ void main() {
     group('getFemaFilingsByType', () {
       test('returns filings with matching type', () async {
         final filing = createTestFiling(filingType: FemaType.odi);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
 
-        final results =
-            await database.femaDao.getFemaFilingsByType(FemaType.odi.name);
+        final results = await database.femaDao.getFemaFilingsByType(
+          FemaType.odi.name,
+        );
         expect(results.any((r) => r.id == filing.id), isTrue);
       });
 
       test('excludes filings with different type', () async {
         final filing = createTestFiling(filingType: FemaType.compounding);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
 
-        final results =
-            await database.femaDao.getFemaFilingsByType(FemaType.odi.name);
+        final results = await database.femaDao.getFemaFilingsByType(
+          FemaType.odi.name,
+        );
         expect(results.where((r) => r.id == filing.id), isEmpty);
       });
     });
@@ -156,34 +154,37 @@ void main() {
     group('updateFemaFilingStatus', () {
       test('updates status from pending to filed', () async {
         final filing = createTestFiling(status: 'pending');
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
 
-        final success = await database.femaDao
-            .updateFemaFilingStatus(filing.id, 'filed');
+        final success = await database.femaDao.updateFemaFilingStatus(
+          filing.id,
+          'filed',
+        );
         expect(success, isTrue);
 
-        final rows =
-            await database.femaDao.getFemaFilingsByClient(filing.clientId);
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          filing.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == filing.id);
         expect(updated.status, 'filed');
       });
 
       test('returns false for non-existent filing ID', () async {
-        final success = await database.femaDao
-            .updateFemaFilingStatus('non-existent-id', 'filed');
+        final success = await database.femaDao.updateFemaFilingStatus(
+          'non-existent-id',
+          'filed',
+        );
         expect(success, isFalse);
       });
 
       test('updates status to compounding', () async {
         final filing = createTestFiling(status: 'pending');
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
-        await database.femaDao
-            .updateFemaFilingStatus(filing.id, 'compounding');
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.updateFemaFilingStatus(filing.id, 'compounding');
 
-        final rows =
-            await database.femaDao.getFemaFilingsByClient(filing.clientId);
+        final rows = await database.femaDao.getFemaFilingsByClient(
+          filing.clientId,
+        );
         final updated = rows.firstWhere((r) => r.id == filing.id);
         expect(updated.status, 'compounding');
       });
@@ -193,22 +194,24 @@ void main() {
       test('returns filings in the specified calendar year', () async {
         final date = DateTime(2024, 7, 1);
         final filing = createTestFiling(transactionDate: date);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
 
-        final results = await database.femaDao
-            .getFemaFilingsByYear(filing.clientId, 2024);
+        final results = await database.femaDao.getFemaFilingsByYear(
+          filing.clientId,
+          2024,
+        );
         expect(results.any((r) => r.id == filing.id), isTrue);
       });
 
       test('excludes filings from different year', () async {
         final date = DateTime(2022, 3, 15);
         final filing = createTestFiling(transactionDate: date);
-        await database.femaDao
-            .insertFemaFiling(FemaMapper.toCompanion(filing));
+        await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(filing));
 
-        final results = await database.femaDao
-            .getFemaFilingsByYear(filing.clientId, 2024);
+        final results = await database.femaDao.getFemaFilingsByYear(
+          filing.clientId,
+          2024,
+        );
         expect(results.where((r) => r.id == filing.id), isEmpty);
       });
     });

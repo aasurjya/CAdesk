@@ -10,8 +10,9 @@ import 'package:ca_app/features/regulatory_trust/domain/repositories/regulatory_
 /// Returns [MockRegulatoryTrustRepository] unless the
 /// `regulatory_trust_real_repo` feature flag is enabled, in which case
 /// [RegulatoryTrustRepositoryImpl] is used.
-final regulatoryTrustRepositoryProvider =
-    Provider<RegulatoryTrustRepository>((ref) {
+final regulatoryTrustRepositoryProvider = Provider<RegulatoryTrustRepository>((
+  ref,
+) {
   final flags = ref.watch(featureFlagProvider);
   final useReal =
       flags.asData?.value.isEnabled('regulatory_trust_real_repo') ?? false;

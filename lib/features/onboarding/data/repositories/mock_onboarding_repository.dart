@@ -83,11 +83,7 @@ class MockOnboardingRepository implements OnboardingRepository {
           isRequired: true,
           isCompleted: true,
         ),
-        ChecklistItem(
-          name: 'MOA Draft',
-          isRequired: true,
-          isCompleted: false,
-        ),
+        ChecklistItem(name: 'MOA Draft', isRequired: true, isCompleted: false),
       ],
       overallProgress: 0.5,
       createdAt: DateTime(2026, 2, 1),
@@ -98,11 +94,7 @@ class MockOnboardingRepository implements OnboardingRepository {
       clientName: 'Reddy Tech Solutions',
       serviceType: 'ITR Filing',
       items: const [
-        ChecklistItem(
-          name: 'Form 16',
-          isRequired: true,
-          isCompleted: true,
-        ),
+        ChecklistItem(name: 'Form 16', isRequired: true, isCompleted: true),
         ChecklistItem(
           name: 'Capital Gains Statement',
           isRequired: false,
@@ -156,8 +148,7 @@ class MockOnboardingRepository implements OnboardingRepository {
   // ---------------------------------------------------------------------------
 
   @override
-  Future<List<KycRecord>> getKycRecords() async =>
-      List.unmodifiable(_kycState);
+  Future<List<KycRecord>> getKycRecords() async => List.unmodifiable(_kycState);
 
   @override
   Future<KycRecord?> getKycRecordById(String id) async {
@@ -167,9 +158,7 @@ class MockOnboardingRepository implements OnboardingRepository {
 
   @override
   Future<List<KycRecord>> getKycRecordsByStatus(KycStatus status) async =>
-      List.unmodifiable(
-        _kycState.where((r) => r.kycStatus == status).toList(),
-      );
+      List.unmodifiable(_kycState.where((r) => r.kycStatus == status).toList());
 
   @override
   Future<String> insertKycRecord(KycRecord record) async {
@@ -206,10 +195,9 @@ class MockOnboardingRepository implements OnboardingRepository {
   @override
   Future<List<OnboardingChecklist>> getChecklistsByClient(
     String clientId,
-  ) async =>
-      List.unmodifiable(
-        _checklistState.where((c) => c.clientId == clientId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _checklistState.where((c) => c.clientId == clientId).toList(),
+  );
 
   @override
   Future<String> insertChecklist(OnboardingChecklist checklist) async {
@@ -221,8 +209,8 @@ class MockOnboardingRepository implements OnboardingRepository {
   Future<bool> updateChecklist(OnboardingChecklist checklist) async {
     final idx = _checklistState.indexWhere((c) => c.id == checklist.id);
     if (idx == -1) return false;
-    final updated =
-        List<OnboardingChecklist>.of(_checklistState)..[idx] = checklist;
+    final updated = List<OnboardingChecklist>.of(_checklistState)
+      ..[idx] = checklist;
     _checklistState
       ..clear()
       ..addAll(updated);
@@ -247,18 +235,15 @@ class MockOnboardingRepository implements OnboardingRepository {
   @override
   Future<List<DocumentExpiry>> getDocumentExpiriesByClient(
     String clientId,
-  ) async =>
-      List.unmodifiable(
-        _expiryState.where((d) => d.clientId == clientId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _expiryState.where((d) => d.clientId == clientId).toList(),
+  );
 
   @override
   Future<List<DocumentExpiry>> getDocumentExpiriesByStatus(
     ExpiryStatus status,
   ) async =>
-      List.unmodifiable(
-        _expiryState.where((d) => d.status == status).toList(),
-      );
+      List.unmodifiable(_expiryState.where((d) => d.status == status).toList());
 
   @override
   Future<String> insertDocumentExpiry(DocumentExpiry expiry) async {

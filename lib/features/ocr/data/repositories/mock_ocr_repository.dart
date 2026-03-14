@@ -22,9 +22,7 @@ class MockOcrRepository implements OcrRepository {
 
   @override
   Future<List<OcrJob>> getByStatus(OcrStatus status) async {
-    return List.unmodifiable(
-      _jobs.where((j) => j.status == status).toList(),
-    );
+    return List.unmodifiable(_jobs.where((j) => j.status == status).toList());
   }
 
   @override

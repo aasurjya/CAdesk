@@ -17,8 +17,7 @@ class FemaMapper {
       clientId: json['client_id'] as String,
       filingType: _safeFilingType(json['filing_type'] as String? ?? 'other'),
       transactionDate: DateTime.parse(
-        json['transaction_date'] as String? ??
-            DateTime.now().toIso8601String(),
+        json['transaction_date'] as String? ?? DateTime.now().toIso8601String(),
       ),
       amount: json['amount'] as String? ?? '0',
       currency: json['currency'] as String? ?? 'INR',

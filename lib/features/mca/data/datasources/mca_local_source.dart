@@ -45,8 +45,7 @@ class McaLocalSource {
     return row != null ? McaMapper.fromRow(row) : null;
   }
 
-  Stream<List<McaFilingData>> watchMCAFilingsByClient(String clientId) =>
-      _dao
-          .watchMCAFilingsByClient(clientId)
-          .map((rows) => rows.map(McaMapper.fromRow).toList());
+  Stream<List<McaFilingData>> watchMCAFilingsByClient(String clientId) => _dao
+      .watchMCAFilingsByClient(clientId)
+      .map((rows) => rows.map(McaMapper.fromRow).toList());
 }

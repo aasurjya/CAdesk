@@ -29,9 +29,7 @@ class AnalyticsRemoteSource {
     return response;
   }
 
-  Future<Map<String, dynamic>> insertSnapshot(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Map<String, dynamic>> insertSnapshot(Map<String, dynamic> data) async {
     final response = await _client
         .from('analytics_snapshots')
         .insert(data)
@@ -40,9 +38,7 @@ class AnalyticsRemoteSource {
     return response;
   }
 
-  Future<List<Map<String, dynamic>>> fetchClientMetrics(
-    String clientId,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchClientMetrics(String clientId) async {
     final response = await _client
         .from('client_metrics')
         .select()
@@ -62,9 +58,7 @@ class AnalyticsRemoteSource {
     return response;
   }
 
-  Future<List<Map<String, dynamic>>> fetchRevenueByPeriod(
-    String period,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchRevenueByPeriod(String period) async {
     final response = await _client
         .from('client_metrics')
         .select()

@@ -6,10 +6,7 @@ import 'package:ca_app/features/documents/domain/repositories/document_repositor
 
 /// Implementation of DocumentRepository with fallback to local cache on network error.
 class DocumentRepositoryImpl implements DocumentRepository {
-  const DocumentRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const DocumentRepositoryImpl({required this.remote, required this.local});
 
   final DocumentsRemoteSource remote;
   final DocumentsLocalSource local;

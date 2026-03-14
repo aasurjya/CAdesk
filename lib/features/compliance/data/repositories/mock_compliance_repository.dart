@@ -23,10 +23,12 @@ class MockComplianceRepository implements ComplianceRepository {
     final today = DateTime.now();
     final futureDate = today.add(Duration(days: daysAhead));
     return _events.values
-        .where((e) =>
-            e.dueDate.isAfter(today) &&
-            e.dueDate.isBefore(futureDate) &&
-            e.status != ComplianceEventStatus.completed)
+        .where(
+          (e) =>
+              e.dueDate.isAfter(today) &&
+              e.dueDate.isBefore(futureDate) &&
+              e.status != ComplianceEventStatus.completed,
+        )
         .toList();
   }
 
@@ -34,13 +36,19 @@ class MockComplianceRepository implements ComplianceRepository {
   Future<List<ComplianceEvent>> getOverdueEvents() async {
     final today = DateTime.now();
     return _events.values
-        .where((e) =>
-            e.dueDate.isBefore(today) && e.status != ComplianceEventStatus.completed)
+        .where(
+          (e) =>
+              e.dueDate.isBefore(today) &&
+              e.status != ComplianceEventStatus.completed,
+        )
         .toList();
   }
 
   @override
-  Future<bool> updateEventStatus(String eventId, ComplianceEventStatus status) async {
+  Future<bool> updateEventStatus(
+    String eventId,
+    ComplianceEventStatus status,
+  ) async {
     final event = _events[eventId];
     if (event == null) return false;
     _events[eventId] = event.copyWith(status: status);
@@ -48,7 +56,9 @@ class MockComplianceRepository implements ComplianceRepository {
   }
 
   @override
-  Future<List<ComplianceEvent>> getEventsByType(ComplianceEventType type) async {
+  Future<List<ComplianceEvent>> getEventsByType(
+    ComplianceEventType type,
+  ) async {
     return _events.values.where((e) => e.type == type).toList();
   }
 

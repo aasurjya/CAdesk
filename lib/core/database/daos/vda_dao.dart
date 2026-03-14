@@ -11,8 +11,9 @@ class VdaDao extends DatabaseAccessor<AppDatabase> with _$VdaDaoMixin {
   Future<void> insertRecord(VdaRecordsTableCompanion companion) =>
       into(vdaRecordsTable).insertOnConflictUpdate(companion);
 
-  Future<List<VdaRecordRow>> getByClient(String clientId) =>
-      (select(vdaRecordsTable)..where((t) => t.clientId.equals(clientId))).get();
+  Future<List<VdaRecordRow>> getByClient(String clientId) => (select(
+    vdaRecordsTable,
+  )..where((t) => t.clientId.equals(clientId))).get();
 
   Future<List<VdaRecordRow>> getByYear(String assessmentYear) => (select(
     vdaRecordsTable,
@@ -23,13 +24,13 @@ class VdaDao extends DatabaseAccessor<AppDatabase> with _$VdaDaoMixin {
     String clientId,
     String assessmentYear,
   ) async {
-    final rows = await (select(vdaRecordsTable)
-          ..where(
-            (t) =>
-                t.clientId.equals(clientId) &
-                t.assessmentYear.equals(assessmentYear),
-          ))
-        .get();
+    final rows =
+        await (select(vdaRecordsTable)..where(
+              (t) =>
+                  t.clientId.equals(clientId) &
+                  t.assessmentYear.equals(assessmentYear),
+            ))
+            .get();
     var total = 0.0;
     for (final r in rows) {
       total += r.gainLoss;
@@ -38,17 +39,14 @@ class VdaDao extends DatabaseAccessor<AppDatabase> with _$VdaDaoMixin {
   }
 
   /// Computes total TDS deducted for a client in a given assessment year.
-  Future<double> getTdsDeducted(
-    String clientId,
-    String assessmentYear,
-  ) async {
-    final rows = await (select(vdaRecordsTable)
-          ..where(
-            (t) =>
-                t.clientId.equals(clientId) &
-                t.assessmentYear.equals(assessmentYear),
-          ))
-        .get();
+  Future<double> getTdsDeducted(String clientId, String assessmentYear) async {
+    final rows =
+        await (select(vdaRecordsTable)..where(
+              (t) =>
+                  t.clientId.equals(clientId) &
+                  t.assessmentYear.equals(assessmentYear),
+            ))
+            .get();
     var total = 0.0;
     for (final r in rows) {
       total += r.tdsDeducted;
@@ -56,9 +54,9 @@ class VdaDao extends DatabaseAccessor<AppDatabase> with _$VdaDaoMixin {
     return total;
   }
 
-  Future<VdaRecordRow?> getById(String id) =>
-      (select(vdaRecordsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<VdaRecordRow?> getById(String id) => (select(
+    vdaRecordsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   Future<void> deleteRecord(String id) =>
       (delete(vdaRecordsTable)..where((t) => t.id.equals(id))).go();

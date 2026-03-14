@@ -19,8 +19,7 @@ final analyticsLocalSourceProvider = Provider<AnalyticsLocalSource>((ref) {
 
 final analyticsRepositoryProvider = Provider<AnalyticsRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('analytics_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('analytics_real_repo') ?? false;
 
   if (!useReal) {
     return MockAnalyticsRepository();

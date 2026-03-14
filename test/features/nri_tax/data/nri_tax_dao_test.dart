@@ -104,7 +104,9 @@ void main() {
         final record = createRecord(status: NriTaxStatus.draft);
         await database.nriTaxDao.insertRecord(NriTaxMapper.toCompanion(record));
         final updated = record.copyWith(status: NriTaxStatus.filed);
-        await database.nriTaxDao.insertRecord(NriTaxMapper.toCompanion(updated));
+        await database.nriTaxDao.insertRecord(
+          NriTaxMapper.toCompanion(updated),
+        );
         final row = await database.nriTaxDao.getById(record.id);
         expect(row?.status, 'filed');
       });
@@ -129,10 +131,12 @@ void main() {
       test('filters by client correctly', () async {
         final clientA = 'nri-client-filter-a';
         final clientB = 'nri-client-filter-b';
-        await database.nriTaxDao
-            .insertRecord(NriTaxMapper.toCompanion(createRecord(clientId: clientA)));
-        await database.nriTaxDao
-            .insertRecord(NriTaxMapper.toCompanion(createRecord(clientId: clientB)));
+        await database.nriTaxDao.insertRecord(
+          NriTaxMapper.toCompanion(createRecord(clientId: clientA)),
+        );
+        await database.nriTaxDao.insertRecord(
+          NriTaxMapper.toCompanion(createRecord(clientId: clientB)),
+        );
         final rows = await database.nriTaxDao.getByClient(clientA);
         expect(rows.every((r) => r.clientId == clientA), isTrue);
       });
@@ -175,8 +179,10 @@ void main() {
       });
 
       test('updateStatus returns false for non-existent ID', () async {
-        final success =
-            await database.nriTaxDao.updateStatus('ghost-id', 'filed');
+        final success = await database.nriTaxDao.updateStatus(
+          'ghost-id',
+          'filed',
+        );
         expect(success, isFalse);
       });
 

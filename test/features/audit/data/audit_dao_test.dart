@@ -71,8 +71,7 @@ void main() {
       test('inserts assignment and returns non-empty ID', () async {
         final assignment = createTestAssignment();
         final companion = AuditMapper.assignmentToCompanion(assignment);
-        final id =
-            await database.auditDao.insertAuditAssignment(companion);
+        final id = await database.auditDao.insertAuditAssignment(companion);
         expect(id, isNotEmpty);
       });
 
@@ -80,20 +79,22 @@ void main() {
         final assignment = createTestAssignment();
         final companion = AuditMapper.assignmentToCompanion(assignment);
         await database.auditDao.insertAuditAssignment(companion);
-        final retrieved =
-            await database.auditDao.getAssignmentById(assignment.id);
+        final retrieved = await database.auditDao.getAssignmentById(
+          assignment.id,
+        );
         expect(retrieved?.clientId, assignment.clientId);
       });
 
       test('stored assignment has correct status', () async {
-        final assignment =
-            createTestAssignment(status: AuditAssignmentStatus.inProgress);
+        final assignment = createTestAssignment(
+          status: AuditAssignmentStatus.inProgress,
+        );
         final companion = AuditMapper.assignmentToCompanion(assignment);
         await database.auditDao.insertAuditAssignment(companion);
-        final row =
-            await database.auditDao.getAssignmentById(assignment.id);
-        final retrieved =
-            row != null ? AuditMapper.assignmentFromRow(row) : null;
+        final row = await database.auditDao.getAssignmentById(assignment.id);
+        final retrieved = row != null
+            ? AuditMapper.assignmentFromRow(row)
+            : null;
         expect(retrieved?.status, AuditAssignmentStatus.inProgress);
       });
 
@@ -101,8 +102,9 @@ void main() {
         final assignment = createTestAssignment(financialYear: '2023-24');
         final companion = AuditMapper.assignmentToCompanion(assignment);
         await database.auditDao.insertAuditAssignment(companion);
-        final retrieved =
-            await database.auditDao.getAssignmentById(assignment.id);
+        final retrieved = await database.auditDao.getAssignmentById(
+          assignment.id,
+        );
         expect(retrieved?.financialYear, '2023-24');
       });
     });
@@ -112,19 +114,21 @@ void main() {
         final clientId = 'test-client-by-client-a';
         final a1 = createTestAssignment(clientId: clientId);
         final a2 = createTestAssignment(clientId: clientId);
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a1));
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a2));
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a1),
+        );
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a2),
+        );
 
-        final results =
-            await database.auditDao.getAuditsByClient(clientId);
+        final results = await database.auditDao.getAuditsByClient(clientId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.auditDao.getAuditsByClient('non-existent-client');
+        final results = await database.auditDao.getAuditsByClient(
+          'non-existent-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -133,10 +137,12 @@ void main() {
         final clientB = 'client-filter-b';
         final a1 = createTestAssignment(clientId: clientA);
         final a2 = createTestAssignment(clientId: clientB);
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a1));
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a2));
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a1),
+        );
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a2),
+        );
 
         final results = await database.auditDao.getAuditsByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
@@ -148,19 +154,21 @@ void main() {
         final auditorId = 'auditor-unique-x1';
         final a1 = createTestAssignment(auditorId: auditorId);
         final a2 = createTestAssignment(auditorId: auditorId);
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a1));
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a2));
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a1),
+        );
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a2),
+        );
 
-        final results =
-            await database.auditDao.getAuditsByAuditor(auditorId);
+        final results = await database.auditDao.getAuditsByAuditor(auditorId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent auditor', () async {
-        final results =
-            await database.auditDao.getAuditsByAuditor('non-existent-auditor');
+        final results = await database.auditDao.getAuditsByAuditor(
+          'non-existent-auditor',
+        );
         expect(results, isEmpty);
       });
 
@@ -169,23 +177,23 @@ void main() {
         final auditorB = 'auditor-filter-p2';
         final a1 = createTestAssignment(auditorId: auditorA);
         final a2 = createTestAssignment(auditorId: auditorB);
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a1));
-        await database.auditDao
-            .insertAuditAssignment(AuditMapper.assignmentToCompanion(a2));
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a1),
+        );
+        await database.auditDao.insertAuditAssignment(
+          AuditMapper.assignmentToCompanion(a2),
+        );
 
         final results = await database.auditDao.getAuditsByAuditor(auditorA);
-        expect(
-          results.every((r) => r.auditorId == auditorA),
-          isTrue,
-        );
+        expect(results.every((r) => r.auditorId == auditorA), isTrue);
       });
     });
 
     group('updateAuditStatus', () {
       test('updates status from scheduled to inProgress', () async {
-        final assignment =
-            createTestAssignment(status: AuditAssignmentStatus.scheduled);
+        final assignment = createTestAssignment(
+          status: AuditAssignmentStatus.scheduled,
+        );
         await database.auditDao.insertAuditAssignment(
           AuditMapper.assignmentToCompanion(assignment),
         );
@@ -196,10 +204,12 @@ void main() {
         );
         expect(success, isTrue);
 
-        final updatedRow =
-            await database.auditDao.getAssignmentById(assignment.id);
-        final retrieved =
-            updatedRow != null ? AuditMapper.assignmentFromRow(updatedRow) : null;
+        final updatedRow = await database.auditDao.getAssignmentById(
+          assignment.id,
+        );
+        final retrieved = updatedRow != null
+            ? AuditMapper.assignmentFromRow(updatedRow)
+            : null;
         expect(retrieved?.status, AuditAssignmentStatus.inProgress);
       });
 
@@ -214,12 +224,12 @@ void main() {
           AuditAssignmentStatus.completed.name,
         );
 
-        final completedRow =
-            await database.auditDao.getAssignmentById(assignment.id);
-        final retrieved =
-            completedRow != null
-                ? AuditMapper.assignmentFromRow(completedRow)
-                : null;
+        final completedRow = await database.auditDao.getAssignmentById(
+          assignment.id,
+        );
+        final retrieved = completedRow != null
+            ? AuditMapper.assignmentFromRow(completedRow)
+            : null;
         expect(retrieved?.status, AuditAssignmentStatus.completed);
       });
 
@@ -301,8 +311,10 @@ void main() {
           AuditMapper.reportToCompanion(report),
         );
 
-        final retrieved =
-            await database.auditDao.getAuditReportByClient(clientId, 2024);
+        final retrieved = await database.auditDao.getAuditReportByClient(
+          clientId,
+          2024,
+        );
         expect(retrieved != null, isTrue);
         expect(retrieved?.clientId, clientId);
         expect(retrieved?.year, 2024);
@@ -323,8 +335,10 @@ void main() {
           AuditMapper.reportToCompanion(report),
         );
 
-        final retrieved =
-            await database.auditDao.getAuditReportByClient(clientId, 2023);
+        final retrieved = await database.auditDao.getAuditReportByClient(
+          clientId,
+          2023,
+        );
         expect(retrieved == null, isTrue);
       });
     });

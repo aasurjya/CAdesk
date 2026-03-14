@@ -33,16 +33,15 @@ class RpaLocalSource {
     String? result,
     String? errorMessage,
     int? retryCount,
-  }) =>
-      _db.rpaDao.updateStatus(
-        id,
-        status.name,
-        startedAt: startedAt,
-        completedAt: completedAt,
-        result: result,
-        errorMessage: errorMessage,
-        retryCount: retryCount,
-      );
+  }) => _db.rpaDao.updateStatus(
+    id,
+    status.name,
+    startedAt: startedAt,
+    completedAt: completedAt,
+    result: result,
+    errorMessage: errorMessage,
+    retryCount: retryCount,
+  );
 
   Future<List<RpaTask>> getScheduled(DateTime beforeTime) async {
     final rows = await _db.rpaDao.getScheduled(beforeTime);

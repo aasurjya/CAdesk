@@ -138,10 +138,7 @@ void main() {
 
       test('deleteSettings is idempotent when no row exists', () async {
         // Delete from empty table should not throw
-        await expectLater(
-          database.settingsDao.deleteSettings(),
-          completes,
-        );
+        await expectLater(database.settingsDao.deleteSettings(), completes);
       });
     });
 

@@ -64,7 +64,9 @@ class MockPayrollRepository implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByClient(
-      String clientId, int year) async {
+    String clientId,
+    int year,
+  ) async {
     return List.unmodifiable(
       _state.where((e) => e.clientId == clientId && e.year == year).toList(),
     );
@@ -72,7 +74,9 @@ class MockPayrollRepository implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByEmployee(
-      String employeeId, int year) async {
+    String employeeId,
+    int year,
+  ) async {
     return List.unmodifiable(
       _state
           .where((e) => e.employeeId == employeeId && e.year == year)
@@ -100,11 +104,15 @@ class MockPayrollRepository implements PayrollRepository {
 
   @override
   Future<List<PayrollEntry>> getPayrollByMonth(
-      String clientId, int month, int year) async {
+    String clientId,
+    int month,
+    int year,
+  ) async {
     return List.unmodifiable(
       _state
-          .where((e) =>
-              e.clientId == clientId && e.month == month && e.year == year)
+          .where(
+            (e) => e.clientId == clientId && e.month == month && e.year == year,
+          )
           .toList(),
     );
   }

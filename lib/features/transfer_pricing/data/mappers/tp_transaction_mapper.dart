@@ -16,8 +16,7 @@ class TpTransactionMapper {
       assessmentYear: json['assessment_year'] as String,
       relatedParty: json['related_party'] as String,
       transactionType: json['transaction_type'] as String,
-      transactionValue:
-          (json['transaction_value'] as num?)?.toDouble() ?? 0.0,
+      transactionValue: (json['transaction_value'] as num?)?.toDouble() ?? 0.0,
       tpMethod: _safeTpMethod(json['tp_method'] as String? ?? 'tnmm'),
       documentationDue: _parseDate(json['documentation_due'] as String?),
       status: _safeStatus(json['status'] as String? ?? 'draft'),

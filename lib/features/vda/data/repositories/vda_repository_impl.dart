@@ -5,10 +5,7 @@ import 'package:ca_app/features/vda/domain/models/vda_record.dart';
 import 'package:ca_app/features/vda/domain/repositories/vda_repository.dart';
 
 class VdaRepositoryImpl implements VdaRepository {
-  const VdaRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const VdaRepositoryImpl({required this.remote, required this.local});
 
   final VdaRemoteSource remote;
   final VdaLocalSource local;
@@ -53,17 +50,11 @@ class VdaRepositoryImpl implements VdaRepository {
   }
 
   @override
-  Future<double> getTotalGainLoss(
-    String clientId,
-    String assessmentYear,
-  ) =>
+  Future<double> getTotalGainLoss(String clientId, String assessmentYear) =>
       local.getTotalGainLoss(clientId, assessmentYear);
 
   @override
-  Future<double> getTdsDeducted(
-    String clientId,
-    String assessmentYear,
-  ) =>
+  Future<double> getTdsDeducted(String clientId, String assessmentYear) =>
       local.getTdsDeducted(clientId, assessmentYear);
 
   @override

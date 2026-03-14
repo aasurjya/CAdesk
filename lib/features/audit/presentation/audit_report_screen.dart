@@ -77,44 +77,44 @@ class AuditReportScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
                     TextButton(
-                      onPressed: () =>
-                          ref.invalidate(auditReportListProvider),
+                      onPressed: () => ref.invalidate(auditReportListProvider),
                       child: const Text('Retry'),
                     ),
                   ],
                 ),
               )
             : ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Filter chips
-            _FilterRow(activeFilter: filter),
-            const SizedBox(height: 16),
+                padding: const EdgeInsets.all(16),
+                children: [
+                  // Filter chips
+                  _FilterRow(activeFilter: filter),
+                  const SizedBox(height: 16),
 
-            // Reports
-            if (reports.isEmpty)
-              _EmptyState()
-            else
-              ...reports.map(
-                (report) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: AuditReportTile(
-                    report: report,
-                    onTap: () {
-                      ref
-                          .read(activeAuditReportProvider.notifier)
-                          .select(report);
-                      final route = report.formType == AuditFormType.form3cd
-                          ? '/audit-reports/3cd'
-                          : '/audit-reports/29b';
-                      context.push(route);
-                    },
-                  ),
-                ),
+                  // Reports
+                  if (reports.isEmpty)
+                    _EmptyState()
+                  else
+                    ...reports.map(
+                      (report) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: AuditReportTile(
+                          report: report,
+                          onTap: () {
+                            ref
+                                .read(activeAuditReportProvider.notifier)
+                                .select(report);
+                            final route =
+                                report.formType == AuditFormType.form3cd
+                                ? '/audit-reports/3cd'
+                                : '/audit-reports/29b';
+                            context.push(route);
+                          },
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 80), // FAB clearance
+                ],
               ),
-            const SizedBox(height: 80), // FAB clearance
-          ],
-        ),
       ),
     );
   }

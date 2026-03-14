@@ -20,9 +20,7 @@ class MockPortalCredentialRepository implements PortalCredentialRepository {
         status: type == PortalType.itd || type == PortalType.gstn
             ? 'connected'
             : 'disconnected',
-        lastSyncDate: type == PortalType.itd
-            ? DateTime(2026, 3, 10)
-            : null,
+        lastSyncDate: type == PortalType.itd ? DateTime(2026, 3, 10) : null,
       );
     }
   }

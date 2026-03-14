@@ -50,10 +50,7 @@ class FilingRecordRemoteSource {
     return response;
   }
 
-  Future<Map<String, dynamic>> updateStatus(
-    String id,
-    String status,
-  ) async {
+  Future<Map<String, dynamic>> updateStatus(String id, String status) async {
     final response = await _client
         .from('filing_records')
         .update({'status': status})

@@ -18,11 +18,9 @@ class TimeEntriesTable extends Table {
   DateTimeColumn get endTime => dateTime().nullable()();
   IntColumn get durationMinutes => integer().withDefault(const Constant(0))();
   RealColumn get billingRate => real().withDefault(const Constant(0.0))();
-  BoolColumn get isBilled =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get isBilled => boolean().withDefault(const Constant(false))();
   TextColumn get notes => text().nullable()();
-  TextColumn get status =>
-      text().withDefault(const Constant('completed'))();
+  TextColumn get status => text().withDefault(const Constant('completed'))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
 

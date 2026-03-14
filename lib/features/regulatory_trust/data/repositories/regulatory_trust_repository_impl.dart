@@ -19,9 +19,9 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
   @override
   Future<List<SecurityControl>> getSecurityControls() async {
     final response = await _client.from(_controlsTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_controlFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_controlFromJson).toList();
   }
 
   @override
@@ -43,9 +43,9 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
         .from(_controlsTable)
         .select()
         .eq('category', category.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_controlFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_controlFromJson).toList();
   }
 
   @override
@@ -56,9 +56,9 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
         .from(_controlsTable)
         .select()
         .eq('status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_controlFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_controlFromJson).toList();
   }
 
   @override
@@ -96,9 +96,9 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
         .from(_scansTable)
         .select()
         .order('scan_date', ascending: false);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_scanFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_scanFromJson).toList();
   }
 
   @override
@@ -118,9 +118,9 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
         .from(_scansTable)
         .select()
         .eq('status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_scanFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_scanFromJson).toList();
   }
 
   @override
@@ -135,10 +135,7 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
 
   @override
   Future<bool> updateVaptScan(VaptScan scan) async {
-    await _client
-        .from(_scansTable)
-        .update(_scanToJson(scan))
-        .eq('id', scan.id);
+    await _client.from(_scansTable).update(_scanToJson(scan)).eq('id', scan.id);
     return true;
   }
 
@@ -153,61 +150,64 @@ class RegulatoryTrustRepositoryImpl implements RegulatoryTrustRepository {
   // ---------------------------------------------------------------------------
 
   SecurityControl _controlFromJson(Map<String, dynamic> j) => SecurityControl(
-        id: j['id'] as String,
-        title: j['title'] as String,
-        category: SecurityControlCategory.values
-            .firstWhere((c) => c.name == j['category'] as String),
-        status: SecurityControlStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
-        severity: ControlSeverity.values
-            .firstWhere((s) => s.name == j['severity'] as String),
-        lastAssessmentDate:
-            DateTime.parse(j['last_assessment_date'] as String),
-        nextDueDate: DateTime.parse(j['next_due_date'] as String),
-        owner: j['owner'] as String?,
-        notes: j['notes'] as String?,
-      );
+    id: j['id'] as String,
+    title: j['title'] as String,
+    category: SecurityControlCategory.values.firstWhere(
+      (c) => c.name == j['category'] as String,
+    ),
+    status: SecurityControlStatus.values.firstWhere(
+      (s) => s.name == j['status'] as String,
+    ),
+    severity: ControlSeverity.values.firstWhere(
+      (s) => s.name == j['severity'] as String,
+    ),
+    lastAssessmentDate: DateTime.parse(j['last_assessment_date'] as String),
+    nextDueDate: DateTime.parse(j['next_due_date'] as String),
+    owner: j['owner'] as String?,
+    notes: j['notes'] as String?,
+  );
 
   Map<String, dynamic> _controlToJson(SecurityControl c) => {
-        'id': c.id,
-        'title': c.title,
-        'category': c.category.name,
-        'status': c.status.name,
-        'severity': c.severity.name,
-        'last_assessment_date': c.lastAssessmentDate.toIso8601String(),
-        'next_due_date': c.nextDueDate.toIso8601String(),
-        'owner': c.owner,
-        'notes': c.notes,
-      };
+    'id': c.id,
+    'title': c.title,
+    'category': c.category.name,
+    'status': c.status.name,
+    'severity': c.severity.name,
+    'last_assessment_date': c.lastAssessmentDate.toIso8601String(),
+    'next_due_date': c.nextDueDate.toIso8601String(),
+    'owner': c.owner,
+    'notes': c.notes,
+  };
 
   VaptScan _scanFromJson(Map<String, dynamic> j) => VaptScan(
-        id: j['id'] as String,
-        title: j['title'] as String,
-        scanDate: DateTime.parse(j['scan_date'] as String),
-        status: VaptScanStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
-        criticalFindings: j['critical_findings'] as int,
-        highFindings: j['high_findings'] as int,
-        mediumFindings: j['medium_findings'] as int,
-        lowFindings: j['low_findings'] as int,
-        remediationDeadline: j['remediation_deadline'] != null
-            ? DateTime.parse(j['remediation_deadline'] as String)
-            : null,
-        vendor: j['vendor'] as String?,
-        scope: j['scope'] as String?,
-      );
+    id: j['id'] as String,
+    title: j['title'] as String,
+    scanDate: DateTime.parse(j['scan_date'] as String),
+    status: VaptScanStatus.values.firstWhere(
+      (s) => s.name == j['status'] as String,
+    ),
+    criticalFindings: j['critical_findings'] as int,
+    highFindings: j['high_findings'] as int,
+    mediumFindings: j['medium_findings'] as int,
+    lowFindings: j['low_findings'] as int,
+    remediationDeadline: j['remediation_deadline'] != null
+        ? DateTime.parse(j['remediation_deadline'] as String)
+        : null,
+    vendor: j['vendor'] as String?,
+    scope: j['scope'] as String?,
+  );
 
   Map<String, dynamic> _scanToJson(VaptScan s) => {
-        'id': s.id,
-        'title': s.title,
-        'scan_date': s.scanDate.toIso8601String(),
-        'status': s.status.name,
-        'critical_findings': s.criticalFindings,
-        'high_findings': s.highFindings,
-        'medium_findings': s.mediumFindings,
-        'low_findings': s.lowFindings,
-        'remediation_deadline': s.remediationDeadline?.toIso8601String(),
-        'vendor': s.vendor,
-        'scope': s.scope,
-      };
+    'id': s.id,
+    'title': s.title,
+    'scan_date': s.scanDate.toIso8601String(),
+    'status': s.status.name,
+    'critical_findings': s.criticalFindings,
+    'high_findings': s.highFindings,
+    'medium_findings': s.mediumFindings,
+    'low_findings': s.lowFindings,
+    'remediation_deadline': s.remediationDeadline?.toIso8601String(),
+    'vendor': s.vendor,
+    'scope': s.scope,
+  };
 }

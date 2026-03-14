@@ -38,7 +38,9 @@ class FirmOperationsRepositoryImpl implements FirmOperationsRepository {
   @override
   Future<bool> updateFirmInfo(FirmInfo firmInfo) async {
     try {
-      await remote.upsertFirmInfo(FirmOperationsMapper.firmInfoToJson(firmInfo));
+      await remote.upsertFirmInfo(
+        FirmOperationsMapper.firmInfoToJson(firmInfo),
+      );
       await local.upsertFirmInfo(firmInfo);
       return true;
     } catch (_) {

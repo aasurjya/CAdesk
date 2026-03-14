@@ -102,18 +102,16 @@ class MockRegulatoryTrustRepository implements RegulatoryTrustRepository {
   @override
   Future<List<SecurityControl>> getSecurityControlsByCategory(
     SecurityControlCategory category,
-  ) async =>
-      List.unmodifiable(
-        _controlState.where((c) => c.category == category).toList(),
-      );
+  ) async => List.unmodifiable(
+    _controlState.where((c) => c.category == category).toList(),
+  );
 
   @override
   Future<List<SecurityControl>> getSecurityControlsByStatus(
     SecurityControlStatus status,
-  ) async =>
-      List.unmodifiable(
-        _controlState.where((c) => c.status == status).toList(),
-      );
+  ) async => List.unmodifiable(
+    _controlState.where((c) => c.status == status).toList(),
+  );
 
   @override
   Future<String> insertSecurityControl(SecurityControl control) async {
@@ -144,8 +142,7 @@ class MockRegulatoryTrustRepository implements RegulatoryTrustRepository {
   // ---------------------------------------------------------------------------
 
   @override
-  Future<List<VaptScan>> getVaptScans() async =>
-      List.unmodifiable(_scanState);
+  Future<List<VaptScan>> getVaptScans() async => List.unmodifiable(_scanState);
 
   @override
   Future<VaptScan?> getVaptScanById(String id) async {
@@ -155,9 +152,7 @@ class MockRegulatoryTrustRepository implements RegulatoryTrustRepository {
 
   @override
   Future<List<VaptScan>> getVaptScansByStatus(VaptScanStatus status) async =>
-      List.unmodifiable(
-        _scanState.where((s) => s.status == status).toList(),
-      );
+      List.unmodifiable(_scanState.where((s) => s.status == status).toList());
 
   @override
   Future<String> insertVaptScan(VaptScan scan) async {

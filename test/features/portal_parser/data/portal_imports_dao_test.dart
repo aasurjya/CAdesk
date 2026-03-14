@@ -70,8 +70,9 @@ void main() {
           PortalImportMapper.toCompanion(import),
         );
         final retrieved = await database.portalImportsDao.getById(import.id);
-        final domain =
-            retrieved != null ? PortalImportMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? PortalImportMapper.fromRow(retrieved)
+            : null;
         expect(domain?.importType, ImportType.ais);
       });
 
@@ -81,8 +82,9 @@ void main() {
           PortalImportMapper.toCompanion(import),
         );
         final retrieved = await database.portalImportsDao.getById(import.id);
-        final domain =
-            retrieved != null ? PortalImportMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? PortalImportMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ImportStatus.completed);
       });
 
@@ -163,8 +165,9 @@ void main() {
           PortalImportMapper.toCompanion(i3),
         );
 
-        final results =
-            await database.portalImportsDao.getByType(ImportType.tis.name);
+        final results = await database.portalImportsDao.getByType(
+          ImportType.tis.name,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
         expect(
           results.every((r) => r.importType == ImportType.tis.name),
@@ -232,8 +235,9 @@ void main() {
         expect(success, isTrue);
 
         final retrieved = await database.portalImportsDao.getById(import.id);
-        final domain =
-            retrieved != null ? PortalImportMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? PortalImportMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ImportStatus.completed);
         expect(domain?.parsedRecords, 55);
       });
@@ -251,8 +255,9 @@ void main() {
         );
 
         final retrieved = await database.portalImportsDao.getById(import.id);
-        final domain =
-            retrieved != null ? PortalImportMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? PortalImportMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ImportStatus.failed);
         expect(domain?.errorMessage, 'Invalid XML structure');
       });
@@ -279,8 +284,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved =
-            await database.portalImportsDao.getById('non-existent-portal-id');
+        final retrieved = await database.portalImportsDao.getById(
+          'non-existent-portal-id',
+        );
         expect(retrieved == null, isTrue);
       });
     });

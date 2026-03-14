@@ -6,10 +6,7 @@ import 'package:ca_app/features/compliance/domain/repositories/compliance_reposi
 
 /// Implementation of ComplianceRepository with fallback to local cache on network error.
 class ComplianceRepositoryImpl implements ComplianceRepository {
-  const ComplianceRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const ComplianceRepositoryImpl({required this.remote, required this.local});
 
   final ComplianceRemoteSource remote;
   final ComplianceLocalSource local;
@@ -77,7 +74,10 @@ class ComplianceRepositoryImpl implements ComplianceRepository {
   }
 
   @override
-  Future<bool> updateEventStatus(String eventId, ComplianceEventStatus status) async {
+  Future<bool> updateEventStatus(
+    String eventId,
+    ComplianceEventStatus status,
+  ) async {
     try {
       await remote.updateEventStatus(eventId, status.name);
       return local.updateEventStatus(eventId, status);
@@ -88,7 +88,9 @@ class ComplianceRepositoryImpl implements ComplianceRepository {
   }
 
   @override
-  Future<List<ComplianceEvent>> getEventsByType(ComplianceEventType type) async {
+  Future<List<ComplianceEvent>> getEventsByType(
+    ComplianceEventType type,
+  ) async {
     try {
       final jsonList = await remote.fetchEventsByType(type.name);
       final events = jsonList.map(ComplianceMapper.fromJson).toList();
@@ -120,7 +122,10 @@ class ComplianceRepositoryImpl implements ComplianceRepository {
   @override
   Future<bool> updateEvent(ComplianceEvent event) async {
     try {
-      final json = await remote.updateEvent(event.id, ComplianceMapper.toJson(event));
+      final json = await remote.updateEvent(
+        event.id,
+        ComplianceMapper.toJson(event),
+      );
       final updated = ComplianceMapper.fromJson(json);
       await local.updateEvent(updated);
       return true;

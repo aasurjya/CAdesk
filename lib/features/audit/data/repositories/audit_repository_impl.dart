@@ -8,10 +8,7 @@ import 'package:ca_app/features/audit/domain/repositories/audit_repository.dart'
 /// Implementation of AuditRepository with remote-first strategy and
 /// local cache fallback on network failure.
 class AuditRepositoryImpl implements AuditRepository {
-  const AuditRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const AuditRepositoryImpl({required this.remote, required this.local});
 
   final AuditRemoteSource remote;
   final AuditLocalSource local;
@@ -34,8 +31,7 @@ class AuditRepositoryImpl implements AuditRepository {
   Future<List<AuditAssignment>> getAuditsByClient(String clientId) async {
     try {
       final jsonList = await remote.fetchAuditsByClient(clientId);
-      final assignments =
-          jsonList.map(AuditMapper.assignmentFromJson).toList();
+      final assignments = jsonList.map(AuditMapper.assignmentFromJson).toList();
       for (final a in assignments) {
         await local.insertAuditAssignment(a);
       }
@@ -49,8 +45,7 @@ class AuditRepositoryImpl implements AuditRepository {
   Future<List<AuditAssignment>> getAuditsByAuditor(String auditorId) async {
     try {
       final jsonList = await remote.fetchAuditsByAuditor(auditorId);
-      final assignments =
-          jsonList.map(AuditMapper.assignmentFromJson).toList();
+      final assignments = jsonList.map(AuditMapper.assignmentFromJson).toList();
       for (final a in assignments) {
         await local.insertAuditAssignment(a);
       }
@@ -88,13 +83,9 @@ class AuditRepositoryImpl implements AuditRepository {
   }
 
   @override
-  Future<AuditReport?> getAuditReportByClient(
-    String clientId,
-    int year,
-  ) async {
+  Future<AuditReport?> getAuditReportByClient(String clientId, int year) async {
     try {
-      final json =
-          await remote.fetchAuditReportByClient(clientId, year);
+      final json = await remote.fetchAuditReportByClient(clientId, year);
       if (json == null) return null;
       final report = AuditMapper.reportFromJson(json);
       await local.insertAuditReport(report);

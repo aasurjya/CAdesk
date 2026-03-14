@@ -92,36 +92,37 @@ void main() {
         final e2 = makeEntry(clientId: 'client-filter-x');
         final e3 = makeEntry(clientId: 'client-other');
         for (final e in [e1, e2, e3]) {
-          await database.timeEntriesDao
-              .insertEntry(TimeEntryMapper.toCompanion(e));
+          await database.timeEntriesDao.insertEntry(
+            TimeEntryMapper.toCompanion(e),
+          );
         }
 
-        final results =
-            await database.timeEntriesDao.getByClient('client-filter-x');
+        final results = await database.timeEntriesDao.getByClient(
+          'client-filter-x',
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids, containsAll([e1.id, e2.id]));
         expect(ids.contains(e3.id), isFalse);
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.timeEntriesDao.getByClient('no-such-client');
+        final results = await database.timeEntriesDao.getByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
     });
 
     group('getByDateRange', () {
       test('returns entries within date range', () async {
-        final inRange = makeEntry(
-          startTime: DateTime(2026, 3, 10, 10),
+        final inRange = makeEntry(startTime: DateTime(2026, 3, 10, 10));
+        final outOfRange = makeEntry(startTime: DateTime(2026, 1, 5, 10));
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(inRange),
         );
-        final outOfRange = makeEntry(
-          startTime: DateTime(2026, 1, 5, 10),
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(outOfRange),
         );
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(inRange));
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(outOfRange));
 
         final results = await database.timeEntriesDao.getByDateRange(
           DateTime(2026, 3, 1),
@@ -152,13 +153,14 @@ void main() {
           clientId: clientId,
           status: TimeEntryStatus.completed,
         );
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(billed));
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(unbilled));
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(billed),
+        );
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(unbilled),
+        );
 
-        final results =
-            await database.timeEntriesDao.getUnbilled(clientId);
+        final results = await database.timeEntriesDao.getUnbilled(clientId);
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(unbilled.id), isTrue);
         expect(ids.contains(billed.id), isFalse);
@@ -176,21 +178,29 @@ void main() {
           clientId: clientId,
           startTime: DateTime(2026, 4, 1, 10),
         );
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(march));
-        await database.timeEntriesDao
-            .insertEntry(TimeEntryMapper.toCompanion(april));
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(march),
+        );
+        await database.timeEntriesDao.insertEntry(
+          TimeEntryMapper.toCompanion(april),
+        );
 
-        final results = await database.timeEntriesDao
-            .getEntriesForMonth(clientId, 3, 2026);
+        final results = await database.timeEntriesDao.getEntriesForMonth(
+          clientId,
+          3,
+          2026,
+        );
         final ids = results.map((r) => r.id).toSet();
         expect(ids.contains(march.id), isTrue);
         expect(ids.contains(april.id), isFalse);
       });
 
       test('returns empty list when no entries in month', () async {
-        final results = await database.timeEntriesDao
-            .getEntriesForMonth('no-client', 12, 2020);
+        final results = await database.timeEntriesDao.getEntriesForMonth(
+          'no-client',
+          12,
+          2020,
+        );
         expect(results, isEmpty);
       });
     });
@@ -201,8 +211,10 @@ void main() {
         await database.timeEntriesDao.insertEntry(
           TimeEntryMapper.toCompanion(e),
         );
-        final updated =
-            e.copyWith(durationMinutes: 200, status: TimeEntryStatus.billed);
+        final updated = e.copyWith(
+          durationMinutes: 200,
+          status: TimeEntryStatus.billed,
+        );
         final result = await database.timeEntriesDao.updateEntry(
           TimeEntryMapper.toCompanion(updated),
         );
@@ -252,8 +264,9 @@ void main() {
       });
 
       test('delete returns false for non-existent ID', () async {
-        final result =
-            await database.timeEntriesDao.deleteEntry('ghost-delete-id');
+        final result = await database.timeEntriesDao.deleteEntry(
+          'ghost-delete-id',
+        );
         expect(result, isFalse);
       });
     });

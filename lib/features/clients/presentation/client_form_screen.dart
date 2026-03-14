@@ -187,9 +187,7 @@ class _ClientFormScreenState extends ConsumerState<ClientFormScreen> {
     final submitLabel = _isEditMode ? 'Update Client' : 'Create Client';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -264,9 +262,9 @@ class _SectionHeader extends StatelessWidget {
     return Text(
       label,
       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+        fontWeight: FontWeight.w600,
+        color: Theme.of(context).colorScheme.primary,
+      ),
     );
   }
 }
@@ -432,10 +430,7 @@ class _StateField extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ClientTypeDropdown extends StatelessWidget {
-  const _ClientTypeDropdown({
-    required this.selected,
-    required this.onChanged,
-  });
+  const _ClientTypeDropdown({required this.selected, required this.onChanged});
 
   final ClientType selected;
   final ValueChanged<ClientType?> onChanged;
@@ -450,10 +445,7 @@ class _ClientTypeDropdown extends StatelessWidget {
         prefixIcon: Icon(Icons.business_center_outlined),
       ),
       items: ClientType.values.map((type) {
-        return DropdownMenuItem(
-          value: type,
-          child: Text(type.label),
-        );
+        return DropdownMenuItem(value: type, child: Text(type.label));
       }).toList(),
       onChanged: onChanged,
       validator: (v) {
@@ -465,10 +457,7 @@ class _ClientTypeDropdown extends StatelessWidget {
 }
 
 class _StatusDropdown extends StatelessWidget {
-  const _StatusDropdown({
-    required this.selected,
-    required this.onChanged,
-  });
+  const _StatusDropdown({required this.selected, required this.onChanged});
 
   final ClientStatus selected;
   final ValueChanged<ClientStatus?> onChanged;
@@ -483,10 +472,7 @@ class _StatusDropdown extends StatelessWidget {
         prefixIcon: Icon(Icons.toggle_on_outlined),
       ),
       items: ClientStatus.values.map((status) {
-        return DropdownMenuItem(
-          value: status,
-          child: Text(status.label),
-        );
+        return DropdownMenuItem(value: status, child: Text(status.label));
       }).toList(),
       onChanged: onChanged,
       validator: (v) {
@@ -502,10 +488,7 @@ class _StatusDropdown extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ServicesChips extends StatelessWidget {
-  const _ServicesChips({
-    required this.selected,
-    required this.onToggle,
-  });
+  const _ServicesChips({required this.selected, required this.onToggle});
 
   final List<ServiceType> selected;
   final ValueChanged<ServiceType> onToggle;
@@ -521,8 +504,7 @@ class _ServicesChips extends StatelessWidget {
           label: Text(service.label),
           selected: isSelected,
           onSelected: (_) => onToggle(service),
-          selectedColor:
-              Theme.of(context).colorScheme.primaryContainer,
+          selectedColor: Theme.of(context).colorScheme.primaryContainer,
           checkmarkColor: Theme.of(context).colorScheme.onPrimaryContainer,
         );
       }).toList(),

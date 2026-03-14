@@ -20,9 +20,9 @@ class PracticeBenchmarkingRepositoryImpl
   @override
   Future<List<BenchmarkMetric>> getBenchmarkMetrics() async {
     final response = await _client.from(_metricsTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_metricFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_metricFromJson).toList();
   }
 
   @override
@@ -44,9 +44,9 @@ class PracticeBenchmarkingRepositoryImpl
         .from(_metricsTable)
         .select()
         .eq('category', category);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_metricFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_metricFromJson).toList();
   }
 
   @override
@@ -81,9 +81,9 @@ class PracticeBenchmarkingRepositoryImpl
   @override
   Future<List<GrowthScore>> getGrowthScores() async {
     final response = await _client.from(_scoresTable).select();
-    return List<Map<String, dynamic>>.from(response)
-        .map(_scoreFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_scoreFromJson).toList();
   }
 
   @override
@@ -127,46 +127,46 @@ class PracticeBenchmarkingRepositoryImpl
   // ---------------------------------------------------------------------------
 
   BenchmarkMetric _metricFromJson(Map<String, dynamic> j) => BenchmarkMetric(
-        id: j['id'] as String,
-        metricName: j['metric_name'] as String,
-        category: j['category'] as String,
-        yourValue: (j['your_value'] as num).toDouble(),
-        peerMedian: (j['peer_median'] as num).toDouble(),
-        topQuartile: (j['top_quartile'] as num).toDouble(),
-        unit: j['unit'] as String,
-        trend: j['trend'] as String,
-        trendPercent: (j['trend_percent'] as num).toDouble(),
-      );
+    id: j['id'] as String,
+    metricName: j['metric_name'] as String,
+    category: j['category'] as String,
+    yourValue: (j['your_value'] as num).toDouble(),
+    peerMedian: (j['peer_median'] as num).toDouble(),
+    topQuartile: (j['top_quartile'] as num).toDouble(),
+    unit: j['unit'] as String,
+    trend: j['trend'] as String,
+    trendPercent: (j['trend_percent'] as num).toDouble(),
+  );
 
   Map<String, dynamic> _metricToJson(BenchmarkMetric m) => {
-        'id': m.id,
-        'metric_name': m.metricName,
-        'category': m.category,
-        'your_value': m.yourValue,
-        'peer_median': m.peerMedian,
-        'top_quartile': m.topQuartile,
-        'unit': m.unit,
-        'trend': m.trend,
-        'trend_percent': m.trendPercent,
-      };
+    'id': m.id,
+    'metric_name': m.metricName,
+    'category': m.category,
+    'your_value': m.yourValue,
+    'peer_median': m.peerMedian,
+    'top_quartile': m.topQuartile,
+    'unit': m.unit,
+    'trend': m.trend,
+    'trend_percent': m.trendPercent,
+  };
 
   GrowthScore _scoreFromJson(Map<String, dynamic> j) => GrowthScore(
-        id: j['id'] as String,
-        dimension: j['dimension'] as String,
-        score: (j['score'] as num).toDouble(),
-        peerAverage: (j['peer_average'] as num).toDouble(),
-        grade: j['grade'] as String,
-        insight: j['insight'] as String,
-        recommendations: List<String>.from(j['recommendations'] as List),
-      );
+    id: j['id'] as String,
+    dimension: j['dimension'] as String,
+    score: (j['score'] as num).toDouble(),
+    peerAverage: (j['peer_average'] as num).toDouble(),
+    grade: j['grade'] as String,
+    insight: j['insight'] as String,
+    recommendations: List<String>.from(j['recommendations'] as List),
+  );
 
   Map<String, dynamic> _scoreToJson(GrowthScore s) => {
-        'id': s.id,
-        'dimension': s.dimension,
-        'score': s.score,
-        'peer_average': s.peerAverage,
-        'grade': s.grade,
-        'insight': s.insight,
-        'recommendations': s.recommendations,
-      };
+    'id': s.id,
+    'dimension': s.dimension,
+    'score': s.score,
+    'peer_average': s.peerAverage,
+    'grade': s.grade,
+    'insight': s.insight,
+    'recommendations': s.recommendations,
+  };
 }

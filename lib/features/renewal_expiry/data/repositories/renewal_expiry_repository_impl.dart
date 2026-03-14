@@ -18,11 +18,13 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
 
   @override
   Future<List<RenewalItem>> getRenewalItems() async {
-    final response =
-        await _client.from(_renewalTable).select().order('due_date');
-    return List<Map<String, dynamic>>.from(response)
-        .map(_renewalFromJson)
-        .toList();
+    final response = await _client
+        .from(_renewalTable)
+        .select()
+        .order('due_date');
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_renewalFromJson).toList();
   }
 
   @override
@@ -43,9 +45,9 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
         .select()
         .eq('client_id', clientId)
         .order('due_date');
-    return List<Map<String, dynamic>>.from(response)
-        .map(_renewalFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_renewalFromJson).toList();
   }
 
   @override
@@ -56,9 +58,9 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
         .from(_renewalTable)
         .select()
         .eq('status', status.name);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_renewalFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_renewalFromJson).toList();
   }
 
   @override
@@ -96,9 +98,9 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
         .from(_contractTable)
         .select()
         .order('end_date');
-    return List<Map<String, dynamic>>.from(response)
-        .map(_contractFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_contractFromJson).toList();
   }
 
   @override
@@ -120,9 +122,9 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
         .from(_contractTable)
         .select()
         .eq('client_id', clientId);
-    return List<Map<String, dynamic>>.from(response)
-        .map(_contractFromJson)
-        .toList();
+    return List<Map<String, dynamic>>.from(
+      response,
+    ).map(_contractFromJson).toList();
   }
 
   @override
@@ -155,36 +157,38 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
   // ---------------------------------------------------------------------------
 
   RenewalItem _renewalFromJson(Map<String, dynamic> j) => RenewalItem(
-        id: j['id'] as String,
-        clientId: j['client_id'] as String,
-        clientName: j['client_name'] as String,
-        itemType: RenewalItemType.values
-            .firstWhere((t) => t.name == j['item_type'] as String),
-        dueDate: DateTime.parse(j['due_date'] as String),
-        renewedDate: j['renewed_date'] != null
-            ? DateTime.parse(j['renewed_date'] as String)
-            : null,
-        status: RenewalStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
-        fee: (j['fee'] as num).toDouble(),
-        reminderSentAt: j['reminder_sent_at'] != null
-            ? DateTime.parse(j['reminder_sent_at'] as String)
-            : null,
-        notes: j['notes'] as String? ?? '',
-      );
+    id: j['id'] as String,
+    clientId: j['client_id'] as String,
+    clientName: j['client_name'] as String,
+    itemType: RenewalItemType.values.firstWhere(
+      (t) => t.name == j['item_type'] as String,
+    ),
+    dueDate: DateTime.parse(j['due_date'] as String),
+    renewedDate: j['renewed_date'] != null
+        ? DateTime.parse(j['renewed_date'] as String)
+        : null,
+    status: RenewalStatus.values.firstWhere(
+      (s) => s.name == j['status'] as String,
+    ),
+    fee: (j['fee'] as num).toDouble(),
+    reminderSentAt: j['reminder_sent_at'] != null
+        ? DateTime.parse(j['reminder_sent_at'] as String)
+        : null,
+    notes: j['notes'] as String? ?? '',
+  );
 
   Map<String, dynamic> _renewalToJson(RenewalItem i) => {
-        'id': i.id,
-        'client_id': i.clientId,
-        'client_name': i.clientName,
-        'item_type': i.itemType.name,
-        'due_date': i.dueDate.toIso8601String(),
-        'renewed_date': i.renewedDate?.toIso8601String(),
-        'status': i.status.name,
-        'fee': i.fee,
-        'reminder_sent_at': i.reminderSentAt?.toIso8601String(),
-        'notes': i.notes,
-      };
+    'id': i.id,
+    'client_id': i.clientId,
+    'client_name': i.clientName,
+    'item_type': i.itemType.name,
+    'due_date': i.dueDate.toIso8601String(),
+    'renewed_date': i.renewedDate?.toIso8601String(),
+    'status': i.status.name,
+    'fee': i.fee,
+    'reminder_sent_at': i.reminderSentAt?.toIso8601String(),
+    'notes': i.notes,
+  };
 
   RetainerContract _contractFromJson(Map<String, dynamic> j) =>
       RetainerContract(
@@ -196,19 +200,20 @@ class RenewalExpiryRepositoryImpl implements RenewalExpiryRepository {
         startDate: DateTime.parse(j['start_date'] as String),
         endDate: DateTime.parse(j['end_date'] as String),
         autoRenew: j['auto_renew'] as bool,
-        status: RetainerStatus.values
-            .firstWhere((s) => s.name == j['status'] as String),
+        status: RetainerStatus.values.firstWhere(
+          (s) => s.name == j['status'] as String,
+        ),
       );
 
   Map<String, dynamic> _contractToJson(RetainerContract c) => {
-        'id': c.id,
-        'client_id': c.clientId,
-        'client_name': c.clientName,
-        'service_scope': c.serviceScope,
-        'monthly_fee': c.monthlyFee,
-        'start_date': c.startDate.toIso8601String(),
-        'end_date': c.endDate.toIso8601String(),
-        'auto_renew': c.autoRenew,
-        'status': c.status.name,
-      };
+    'id': c.id,
+    'client_id': c.clientId,
+    'client_name': c.clientName,
+    'service_scope': c.serviceScope,
+    'monthly_fee': c.monthlyFee,
+    'start_date': c.startDate.toIso8601String(),
+    'end_date': c.endDate.toIso8601String(),
+    'auto_renew': c.autoRenew,
+    'status': c.status.name,
+  };
 }

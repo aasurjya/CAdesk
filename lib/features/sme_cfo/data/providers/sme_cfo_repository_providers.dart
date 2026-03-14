@@ -11,8 +11,7 @@ import 'package:ca_app/features/sme_cfo/domain/repositories/sme_cfo_repository.d
 /// feature flag is enabled, in which case [SmeCfoRepositoryImpl] is used.
 final smeCfoRepositoryProvider = Provider<SmeCfoRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('sme_cfo_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('sme_cfo_real_repo') ?? false;
 
   if (!useReal) {
     return MockSmeCfoRepository();

@@ -55,26 +55,34 @@ void main() {
 
       test('stored job has correct clientId', () async {
         final job = createTestJob();
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
         final retrieved = await database.exportJobsDao.getById(job.id);
         expect(retrieved?.clientId, job.clientId);
       });
 
       test('stored job has correct exportType', () async {
         final job = createTestJob(exportType: ExportType.gstrJson);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
         final retrieved = await database.exportJobsDao.getById(job.id);
-        final domain =
-            retrieved != null ? ExportJobMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? ExportJobMapper.fromRow(retrieved)
+            : null;
         expect(domain?.exportType, ExportType.gstrJson);
       });
 
       test('stored job has correct status', () async {
         final job = createTestJob(status: ExportJobStatus.processing);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
         final retrieved = await database.exportJobsDao.getById(job.id);
-        final domain =
-            retrieved != null ? ExportJobMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? ExportJobMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ExportJobStatus.processing);
       });
 
@@ -83,7 +91,9 @@ void main() {
           status: ExportJobStatus.completed,
           filePath: '/exports/test.xml',
         );
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
         final retrieved = await database.exportJobsDao.getById(job.id);
         expect(retrieved?.filePath, '/exports/test.xml');
       });
@@ -93,7 +103,9 @@ void main() {
           status: ExportJobStatus.failed,
           errorMessage: 'Validation failed',
         );
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
         final retrieved = await database.exportJobsDao.getById(job.id);
         expect(retrieved?.errorMessage, 'Validation failed');
       });
@@ -152,7 +164,9 @@ void main() {
     group('updateStatus', () {
       test('updates status from queued to completed with filePath', () async {
         final job = createTestJob(status: ExportJobStatus.queued);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         final success = await database.exportJobsDao.updateStatus(
           job.id,
@@ -163,15 +177,18 @@ void main() {
         expect(success, isTrue);
 
         final retrieved = await database.exportJobsDao.getById(job.id);
-        final domain =
-            retrieved != null ? ExportJobMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? ExportJobMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ExportJobStatus.completed);
         expect(domain?.filePath, '/exports/result.xml');
       });
 
       test('updates status to failed with errorMessage', () async {
         final job = createTestJob(status: ExportJobStatus.processing);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         await database.exportJobsDao.updateStatus(
           job.id,
@@ -180,8 +197,9 @@ void main() {
         );
 
         final retrieved = await database.exportJobsDao.getById(job.id);
-        final domain =
-            retrieved != null ? ExportJobMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? ExportJobMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, ExportJobStatus.failed);
         expect(domain?.errorMessage, 'FVU validation error');
       });
@@ -199,7 +217,9 @@ void main() {
       test('deletes jobs older than cutoff date', () async {
         final oldDate = DateTime(2024, 1, 1);
         final job = createTestJob(createdAt: oldDate);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         final cutoff = DateTime(2025, 1, 1);
         final deleted = await database.exportJobsDao.deleteOldJobs(cutoff);
@@ -212,7 +232,9 @@ void main() {
       test('does not delete jobs newer than cutoff date', () async {
         final recentDate = DateTime(2025, 7, 1);
         final job = createTestJob(createdAt: recentDate);
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         final cutoff = DateTime(2025, 1, 1);
         await database.exportJobsDao.deleteOldJobs(cutoff);
@@ -225,7 +247,9 @@ void main() {
     group('getById', () {
       test('retrieves job by ID', () async {
         final job = createTestJob();
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         final retrieved = await database.exportJobsDao.getById(job.id);
         expect(retrieved != null, isTrue);
@@ -233,8 +257,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved =
-            await database.exportJobsDao.getById('non-existent-export-id');
+        final retrieved = await database.exportJobsDao.getById(
+          'non-existent-export-id',
+        );
         expect(retrieved == null, isTrue);
       });
     });
@@ -242,7 +267,9 @@ void main() {
     group('watchByClient', () {
       test('emits jobs for client on watch', () async {
         final job = createTestJob();
-        await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(job));
+        await database.exportJobsDao.insertJob(
+          ExportJobMapper.toCompanion(job),
+        );
 
         final stream = database.exportJobsDao.watchByClient(job.clientId);
         expect(

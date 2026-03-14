@@ -6,10 +6,7 @@ import 'package:ca_app/features/llp/domain/repositories/llp_repository.dart';
 
 /// Concrete [LlpRepository] — remote-first with local Drift cache fallback.
 class LlpRepositoryImpl implements LlpRepository {
-  const LlpRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const LlpRepositoryImpl({required this.remote, required this.local});
 
   final LlpRemoteSource remote;
   final LlpLocalSource local;

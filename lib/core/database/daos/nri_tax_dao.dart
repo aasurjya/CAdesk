@@ -19,9 +19,8 @@ class NriTaxDao extends DatabaseAccessor<AppDatabase> with _$NriTaxDaoMixin {
   )..where((t) => t.assessmentYear.equals(assessmentYear))).get();
 
   Future<bool> updateStatus(String id, String status) async {
-    final rowsUpdated = await (update(nriTaxTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final rowsUpdated =
+        await (update(nriTaxTable)..where((t) => t.id.equals(id))).write(
           NriTaxTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),
@@ -31,9 +30,8 @@ class NriTaxDao extends DatabaseAccessor<AppDatabase> with _$NriTaxDaoMixin {
     return rowsUpdated > 0;
   }
 
-  Future<List<NriTaxRow>> getScheduleFARequired() => (select(
-    nriTaxTable,
-  )..where((t) => t.scheduleFA.equals(true))).get();
+  Future<List<NriTaxRow>> getScheduleFARequired() =>
+      (select(nriTaxTable)..where((t) => t.scheduleFA.equals(true))).get();
 
   Future<NriTaxRow?> getById(String id) =>
       (select(nriTaxTable)..where((t) => t.id.equals(id))).getSingleOrNull();

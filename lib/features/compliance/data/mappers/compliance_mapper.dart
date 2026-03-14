@@ -15,8 +15,12 @@ class ComplianceMapper {
       dueDate: DateTime.parse(
         json['due_date'] as String? ?? DateTime.now().toIso8601String(),
       ),
-      filedDate: json['filed_date'] != null ? DateTime.parse(json['filed_date'] as String) : null,
-      status: _safeComplianceEventStatus(json['status'] as String? ?? 'pending'),
+      filedDate: json['filed_date'] != null
+          ? DateTime.parse(json['filed_date'] as String)
+          : null,
+      status: _safeComplianceEventStatus(
+        json['status'] as String? ?? 'pending',
+      ),
       penalty: (json['penalty'] as num?)?.toDouble(),
     );
   }

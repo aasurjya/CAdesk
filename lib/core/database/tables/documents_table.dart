@@ -17,8 +17,10 @@ class DocumentsTable extends Table {
   IntColumn get fileSize => integer()(); // in bytes
   TextColumn get uploadedBy => text()();
   DateTimeColumn get uploadedAt => dateTime()();
-  TextColumn get tags => text().withDefault(const Constant('[]'))(); // JSON array
-  BoolColumn get isSharedWithClient => boolean().withDefault(const Constant(false))();
+  TextColumn get tags =>
+      text().withDefault(const Constant('[]'))(); // JSON array
+  BoolColumn get isSharedWithClient =>
+      boolean().withDefault(const Constant(false))();
   IntColumn get downloadCount => integer().withDefault(const Constant(0))();
   IntColumn get version => integer().withDefault(const Constant(1))();
   TextColumn get remarks => text().nullable()();

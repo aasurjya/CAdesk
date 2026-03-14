@@ -17,9 +17,7 @@ class SebiRemoteSource {
     return List<Map<String, dynamic>>.from(response);
   }
 
-  Future<List<Map<String, dynamic>>> fetchByType(
-    String complianceType,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchByType(String complianceType) async {
     final response = await _client
         .from(_table)
         .select()
@@ -42,15 +40,11 @@ class SebiRemoteSource {
   }
 
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 
-  Future<Map<String, dynamic>> updateStatus(
-    String id,
-    String status,
-  ) async {
+  Future<Map<String, dynamic>> updateStatus(String id, String status) async {
     final response = await _client
         .from(_table)
         .update({'status': status})

@@ -24,9 +24,8 @@ class TaxNoticesDao extends DatabaseAccessor<AppDatabase>
       (select(taxNoticesTable)..where((t) => t.status.equals(status))).get();
 
   Future<bool> updateStatus(String id, String status) async {
-    final rowsUpdated = await (update(taxNoticesTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final rowsUpdated =
+        await (update(taxNoticesTable)..where((t) => t.id.equals(id))).write(
           TaxNoticesTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),
@@ -39,17 +38,17 @@ class TaxNoticesDao extends DatabaseAccessor<AppDatabase>
   /// Returns all notices where [dueDate] < [asOf] and status is NOT disposed.
   Future<List<TaxNoticeRow>> getOverdue(DateTime asOf) async {
     final asOfStr = asOf.toIso8601String();
-    final allNonDisposed = await (select(taxNoticesTable)
-          ..where((t) => t.status.isNotValue('disposed')))
-        .get();
+    final allNonDisposed = await (select(
+      taxNoticesTable,
+    )..where((t) => t.status.isNotValue('disposed'))).get();
     return allNonDisposed
         .where((r) => r.dueDate.compareTo(asOfStr) < 0)
         .toList();
   }
 
-  Future<TaxNoticeRow?> getById(String id) =>
-      (select(taxNoticesTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<TaxNoticeRow?> getById(String id) => (select(
+    taxNoticesTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   Future<void> deleteNotice(String id) =>
       (delete(taxNoticesTable)..where((t) => t.id.equals(id))).go();

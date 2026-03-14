@@ -86,8 +86,7 @@ class MockDashboardRepository implements DashboardRepository {
     int limit = 10,
     String firmId = '',
   }) async {
-    final capped =
-        _seedRecentFilings.take(limit).toList(growable: false);
+    final capped = _seedRecentFilings.take(limit).toList(growable: false);
     return List.unmodifiable(capped);
   }
 

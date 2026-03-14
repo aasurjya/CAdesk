@@ -80,20 +80,17 @@ class MockMcaRepository implements McaRepository {
 
   @override
   Future<List<McaFilingData>> getMCAFilingsByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((f) => f.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((f) => f.clientId == clientId).toList());
 
   @override
   Future<List<McaFilingData>> getMCAFilingsByYear(
     String clientId,
     String year,
-  ) async =>
-      List.unmodifiable(
-        _state
-            .where((f) => f.clientId == clientId && f.financialYear == year)
-            .toList(),
-      );
+  ) async => List.unmodifiable(
+    _state
+        .where((f) => f.clientId == clientId && f.financialYear == year)
+        .toList(),
+  );
 
   @override
   Future<List<McaFilingData>> getMCAFilingsByStatus(String status) async =>

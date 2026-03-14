@@ -15,15 +15,16 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
   /// Insert a filing companion and return the row ID.
   Future<String> insertLlpFiling(LlpFilingsTableCompanion companion) async {
     await into(llpFilingsTable).insert(companion);
-    final rows = await (select(llpFilingsTable)
-          ..orderBy([
-            (t) => OrderingTerm(
-              expression: t.createdAt,
-              mode: OrderingMode.desc,
-            ),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(llpFilingsTable)
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     return rows.isNotEmpty ? rows.first.id : '';
   }
 
@@ -32,9 +33,7 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
   // ---------------------------------------------------------------------------
 
   /// Retrieve all filings for a given client.
-  Future<List<LlpFilingsTableData>> getLlpFilingsByClient(
-    String clientId,
-  ) =>
+  Future<List<LlpFilingsTableData>> getLlpFilingsByClient(String clientId) =>
       (select(llpFilingsTable)
             ..where((t) => t.clientId.equals(clientId))
             ..orderBy([(t) => OrderingTerm(expression: t.dueDate)]))
@@ -47,8 +46,7 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
   ) =>
       (select(llpFilingsTable)
             ..where(
-              (t) =>
-                  t.clientId.equals(clientId) & t.financialYear.equals(year),
+              (t) => t.clientId.equals(clientId) & t.financialYear.equals(year),
             )
             ..orderBy([(t) => OrderingTerm(expression: t.dueDate)]))
           .get();
@@ -85,9 +83,9 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
   }
 
   /// Retrieve a single filing by ID.
-  Future<LlpFilingsTableData?> getLlpFilingById(String id) =>
-      (select(llpFilingsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<LlpFilingsTableData?> getLlpFilingById(String id) => (select(
+    llpFilingsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   // ---------------------------------------------------------------------------
   // Updates
@@ -95,8 +93,7 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
 
   /// Update the status field for a filing, returning true on success.
   Future<bool> updateLlpFilingStatus(String id, String status) async {
-    final count = await (update(llpFilingsTable)
-          ..where((t) => t.id.equals(id)))
+    final count = await (update(llpFilingsTable)..where((t) => t.id.equals(id)))
         .write(
           LlpFilingsTableCompanion(
             status: Value(status),
@@ -111,9 +108,7 @@ class LlpDao extends DatabaseAccessor<AppDatabase> with _$LlpDaoMixin {
   // ---------------------------------------------------------------------------
 
   /// Watch filings for a client (emits on every change).
-  Stream<List<LlpFilingsTableData>> watchLlpFilingsByClient(
-    String clientId,
-  ) =>
+  Stream<List<LlpFilingsTableData>> watchLlpFilingsByClient(String clientId) =>
       (select(llpFilingsTable)
             ..where((t) => t.clientId.equals(clientId))
             ..orderBy([(t) => OrderingTerm(expression: t.dueDate)]))

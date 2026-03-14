@@ -44,16 +44,17 @@ class AssessmentDao extends DatabaseAccessor<AppDatabase>
           .get();
 
   /// Get a single case by ID.
-  Future<AssessmentCaseRow?> getCaseById(String id) =>
-      (select(assessmentCasesTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<AssessmentCaseRow?> getCaseById(String id) => (select(
+    assessmentCasesTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   /// Update the status of an assessment case.
   /// Returns true if a row was affected.
   Future<bool> updateStatus(String id, String status) async {
-    final rowsAffected = await (update(assessmentCasesTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final rowsAffected =
+        await (update(
+          assessmentCasesTable,
+        )..where((t) => t.id.equals(id))).write(
           AssessmentCasesTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),
@@ -67,8 +68,7 @@ class AssessmentDao extends DatabaseAccessor<AppDatabase>
       (select(assessmentCasesTable)
             ..where(
               (t) =>
-                  t.status.equals('open') &
-                  t.dueDate.isSmallerThanValue(now),
+                  t.status.equals('open') & t.dueDate.isSmallerThanValue(now),
             )
             ..orderBy([(t) => OrderingTerm.asc(t.dueDate)]))
           .get();

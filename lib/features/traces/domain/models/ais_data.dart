@@ -44,8 +44,7 @@ class AisIncome {
           taxDeducted == other.taxDeducted;
 
   @override
-  int get hashCode =>
-      Object.hash(sourceType, sourceName, amount, taxDeducted);
+  int get hashCode => Object.hash(sourceType, sourceName, amount, taxDeducted);
 }
 
 /// Immutable Annual Information Statement for a PAN and assessment year.
@@ -65,8 +64,7 @@ class AisData {
   final List<AisIncome> incomeDetails;
 
   /// Derived: total gross income across all sources in paise.
-  int get totalIncome =>
-      incomeDetails.fold(0, (sum, e) => sum + e.amount);
+  int get totalIncome => incomeDetails.fold(0, (sum, e) => sum + e.amount);
 
   AisData copyWith({
     String? pan,

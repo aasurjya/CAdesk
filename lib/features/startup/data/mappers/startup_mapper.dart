@@ -22,8 +22,7 @@ class StartupMapper {
       ),
       sectorCategory: json['sector_category'] as String? ?? '',
       recognitionStatus: json['recognition_status'] as String? ?? 'pending',
-      section80IacEligible:
-          json['section_80iac_eligible'] as bool? ?? false,
+      section80IacEligible: json['section_80iac_eligible'] as bool? ?? false,
       section56ExemptEligible:
           json['section_56_exempt_eligible'] as bool? ?? false,
       notes: json['notes'] as String?,

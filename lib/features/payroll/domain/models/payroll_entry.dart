@@ -111,20 +111,20 @@ class PayrollEntry {
 
   @override
   int get hashCode => Object.hash(
-        id,
-        clientId,
-        employeeId,
-        month,
-        year,
-        basicSalary,
-        allowances,
-        deductions,
-        tdsDeducted,
-        pfDeducted,
-        esiDeducted,
-        netSalary,
-        status,
-      );
+    id,
+    clientId,
+    employeeId,
+    month,
+    year,
+    basicSalary,
+    allowances,
+    deductions,
+    tdsDeducted,
+    pfDeducted,
+    esiDeducted,
+    netSalary,
+    status,
+  );
 
   @override
   String toString() =>

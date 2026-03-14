@@ -5,10 +5,7 @@ import 'package:ca_app/features/practice/domain/models/workflow.dart';
 import 'package:ca_app/features/practice/domain/repositories/practice_repository.dart';
 
 class PracticeRepositoryImpl implements PracticeRepository {
-  const PracticeRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const PracticeRepositoryImpl({required this.remote, required this.local});
 
   final PracticeRemoteSource remote;
   final PracticeLocalSource local;

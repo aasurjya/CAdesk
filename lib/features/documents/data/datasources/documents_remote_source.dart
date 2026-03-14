@@ -16,7 +16,9 @@ class DocumentsRemoteSource {
   }
 
   /// Get all documents for a client
-  Future<List<Map<String, dynamic>>> fetchDocumentsByClient(String clientId) async {
+  Future<List<Map<String, dynamic>>> fetchDocumentsByClient(
+    String clientId,
+  ) async {
     final response = await _client
         .from('documents')
         .select('*')
@@ -26,7 +28,9 @@ class DocumentsRemoteSource {
   }
 
   /// Get all documents of a specific category
-  Future<List<Map<String, dynamic>>> fetchDocumentsByCategory(String category) async {
+  Future<List<Map<String, dynamic>>> fetchDocumentsByCategory(
+    String category,
+  ) async {
     final response = await _client
         .from('documents')
         .select('*')

@@ -66,14 +66,14 @@ class Form16Certificate {
 
   @override
   int get hashCode => Object.hash(
-        employerTan,
-        employeePan,
-        financialYear,
-        grossSalary,
-        tdsDeducted,
-        certificateNumber,
-        quarter,
-      );
+    employerTan,
+    employeePan,
+    financialYear,
+    grossSalary,
+    tdsDeducted,
+    certificateNumber,
+    quarter,
+  );
 }
 
 /// Immutable TDS certificate record (Form 16A) from TRACES.
@@ -144,12 +144,12 @@ class TdsCertificate {
 
   @override
   int get hashCode => Object.hash(
-        tan,
-        deducteePan,
-        section,
-        period,
-        amountPaid,
-        taxDeducted,
-        certificateNumber,
-      );
+    tan,
+    deducteePan,
+    section,
+    period,
+    amountPaid,
+    taxDeducted,
+    certificateNumber,
+  );
 }

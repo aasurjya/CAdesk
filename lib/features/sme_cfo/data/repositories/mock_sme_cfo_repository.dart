@@ -47,11 +47,7 @@ class MockSmeCfoRepository implements SmeCfoRepository {
       monthlyFee: 18000.0,
       startDate: DateTime(2025, 4, 1),
       nextReviewDate: DateTime(2026, 6, 30),
-      deliverables: const [
-        'MIS Report',
-        'Cash Flow Forecast',
-        'Tax Review',
-      ],
+      deliverables: const ['MIS Report', 'Cash Flow Forecast', 'Tax Review'],
       status: CfoRetainerStatus.active,
       assignedPartner: 'CA Rajesh Sharma',
       healthScore: 88,
@@ -109,18 +105,16 @@ class MockSmeCfoRepository implements SmeCfoRepository {
   @override
   Future<List<CfoDeliverable>> getDeliverablesByRetainer(
     String retainerId,
-  ) async =>
-      List.unmodifiable(
-        _deliverableState.where((d) => d.retainerId == retainerId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _deliverableState.where((d) => d.retainerId == retainerId).toList(),
+  );
 
   @override
   Future<List<CfoDeliverable>> getDeliverablesByStatus(
     DeliverableStatus status,
-  ) async =>
-      List.unmodifiable(
-        _deliverableState.where((d) => d.status == status).toList(),
-      );
+  ) async => List.unmodifiable(
+    _deliverableState.where((d) => d.status == status).toList(),
+  );
 
   @override
   Future<String> insertDeliverable(CfoDeliverable deliverable) async {
@@ -132,8 +126,8 @@ class MockSmeCfoRepository implements SmeCfoRepository {
   Future<bool> updateDeliverable(CfoDeliverable deliverable) async {
     final idx = _deliverableState.indexWhere((d) => d.id == deliverable.id);
     if (idx == -1) return false;
-    final updated =
-        List<CfoDeliverable>.of(_deliverableState)..[idx] = deliverable;
+    final updated = List<CfoDeliverable>.of(_deliverableState)
+      ..[idx] = deliverable;
     _deliverableState
       ..clear()
       ..addAll(updated);
@@ -164,10 +158,9 @@ class MockSmeCfoRepository implements SmeCfoRepository {
   @override
   Future<List<CfoRetainer>> getRetainersByStatus(
     CfoRetainerStatus status,
-  ) async =>
-      List.unmodifiable(
-        _retainerState.where((r) => r.status == status).toList(),
-      );
+  ) async => List.unmodifiable(
+    _retainerState.where((r) => r.status == status).toList(),
+  );
 
   @override
   Future<String> insertRetainer(CfoRetainer retainer) async {

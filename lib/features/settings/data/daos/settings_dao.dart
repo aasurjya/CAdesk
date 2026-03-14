@@ -12,9 +12,9 @@ class SettingsDao extends DatabaseAccessor<AppDatabase>
   static const _defaultId = 'default';
 
   /// Returns the current settings row, or null if none exists yet.
-  Future<AppSettingsRow?> getSettings() =>
-      (select(appSettingsTable)..where((t) => t.id.equals(_defaultId)))
-          .getSingleOrNull();
+  Future<AppSettingsRow?> getSettings() => (select(
+    appSettingsTable,
+  )..where((t) => t.id.equals(_defaultId))).getSingleOrNull();
 
   /// Upserts the settings row.
   Future<void> upsertSettings(AppSettingsTableCompanion companion) =>

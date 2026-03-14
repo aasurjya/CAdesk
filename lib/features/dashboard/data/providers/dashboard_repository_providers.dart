@@ -20,8 +20,7 @@ final dashboardLocalSourceProvider = Provider<DashboardLocalSource>((ref) {
 
 final dashboardRepositoryProvider = Provider<DashboardRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('dashboard_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('dashboard_real_repo') ?? false;
 
   if (!useReal) {
     return MockDashboardRepository();

@@ -5,8 +5,8 @@ import 'package:ca_app/features/audit/domain/repositories/audit_repository.dart'
 /// Mock implementation of AuditRepository for testing and offline mode.
 class MockAuditRepository implements AuditRepository {
   MockAuditRepository()
-      : _assignments = <String, AuditAssignment>{},
-        _reports = <String, AuditReport>{};
+    : _assignments = <String, AuditAssignment>{},
+      _reports = <String, AuditReport>{};
 
   final Map<String, AuditAssignment> _assignments;
   final Map<String, AuditReport> _reports;
@@ -19,16 +19,12 @@ class MockAuditRepository implements AuditRepository {
 
   @override
   Future<List<AuditAssignment>> getAuditsByClient(String clientId) async {
-    return _assignments.values
-        .where((a) => a.clientId == clientId)
-        .toList();
+    return _assignments.values.where((a) => a.clientId == clientId).toList();
   }
 
   @override
   Future<List<AuditAssignment>> getAuditsByAuditor(String auditorId) async {
-    return _assignments.values
-        .where((a) => a.auditorId == auditorId)
-        .toList();
+    return _assignments.values.where((a) => a.auditorId == auditorId).toList();
   }
 
   @override
@@ -49,10 +45,7 @@ class MockAuditRepository implements AuditRepository {
   }
 
   @override
-  Future<AuditReport?> getAuditReportByClient(
-    String clientId,
-    int year,
-  ) async {
+  Future<AuditReport?> getAuditReportByClient(String clientId, int year) async {
     try {
       return _reports.values.firstWhere(
         (r) => r.clientId == clientId && r.year == year,

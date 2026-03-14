@@ -5,10 +5,7 @@ import 'package:ca_app/features/nri_tax/domain/models/nri_tax_record.dart';
 import 'package:ca_app/features/nri_tax/domain/repositories/nri_tax_repository.dart';
 
 class NriTaxRepositoryImpl implements NriTaxRepository {
-  const NriTaxRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const NriTaxRepositoryImpl({required this.remote, required this.local});
 
   final NriTaxRemoteSource remote;
   final NriTaxLocalSource local;
@@ -16,9 +13,7 @@ class NriTaxRepositoryImpl implements NriTaxRepository {
   @override
   Future<void> insert(NriTaxRecord record) async {
     try {
-      final json = await remote.insert({
-        ...NriTaxMapper.toJson(record),
-      });
+      final json = await remote.insert({...NriTaxMapper.toJson(record)});
       final created = NriTaxMapper.fromJson(json);
       await local.insert(created);
     } catch (_) {

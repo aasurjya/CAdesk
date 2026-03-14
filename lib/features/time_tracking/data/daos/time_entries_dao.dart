@@ -23,10 +23,7 @@ class TimeEntriesDao extends DatabaseAccessor<AppDatabase>
           .get();
 
   /// Get entries where start time falls within [from, to].
-  Future<List<TimeEntryRow>> getByDateRange(
-    DateTime from,
-    DateTime to,
-  ) =>
+  Future<List<TimeEntryRow>> getByDateRange(DateTime from, DateTime to) =>
       (select(timeEntriesTable)
             ..where(
               (t) =>
@@ -40,31 +37,31 @@ class TimeEntriesDao extends DatabaseAccessor<AppDatabase>
   Future<List<TimeEntryRow>> getUnbilled(String clientId) =>
       (select(timeEntriesTable)
             ..where(
-              (t) =>
-                  t.clientId.equals(clientId) & t.isBilled.equals(false),
+              (t) => t.clientId.equals(clientId) & t.isBilled.equals(false),
             )
             ..orderBy([(t) => OrderingTerm.desc(t.startTime)]))
           .get();
 
   /// Get a single entry by ID.
-  Future<TimeEntryRow?> getEntryById(String id) =>
-      (select(timeEntriesTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<TimeEntryRow?> getEntryById(String id) => (select(
+    timeEntriesTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   /// Update a time entry.
   /// Returns true if a row was affected.
   Future<bool> updateEntry(TimeEntriesTableCompanion companion) async {
-    final rowsAffected = await (update(timeEntriesTable)
-          ..where((t) => t.id.equals(companion.id.value)))
-        .write(companion);
+    final rowsAffected = await (update(
+      timeEntriesTable,
+    )..where((t) => t.id.equals(companion.id.value))).write(companion);
     return rowsAffected > 0;
   }
 
   /// Delete an entry by ID.
   /// Returns true if a row was affected.
   Future<bool> deleteEntry(String id) async {
-    final rowsAffected =
-        await (delete(timeEntriesTable)..where((t) => t.id.equals(id))).go();
+    final rowsAffected = await (delete(
+      timeEntriesTable,
+    )..where((t) => t.id.equals(id))).go();
     return rowsAffected > 0;
   }
 
@@ -76,13 +73,12 @@ class TimeEntriesDao extends DatabaseAccessor<AppDatabase>
   ) {
     final start = DateTime(year, month);
     final end = DateTime(year, month + 1).subtract(const Duration(seconds: 1));
-    return (select(timeEntriesTable)
-          ..where(
-            (t) =>
-                t.clientId.equals(clientId) &
-                t.startTime.isBiggerOrEqualValue(start) &
-                t.startTime.isSmallerOrEqualValue(end),
-          ))
+    return (select(timeEntriesTable)..where(
+          (t) =>
+              t.clientId.equals(clientId) &
+              t.startTime.isBiggerOrEqualValue(start) &
+              t.startTime.isSmallerOrEqualValue(end),
+        ))
         .get();
   }
 }

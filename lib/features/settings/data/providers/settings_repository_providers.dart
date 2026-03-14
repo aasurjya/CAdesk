@@ -20,8 +20,7 @@ final settingsLocalSourceProvider = Provider<SettingsLocalSource>((ref) {
 
 final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('settings_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('settings_real_repo') ?? false;
 
   if (!useReal) {
     return MockSettingsRepository();

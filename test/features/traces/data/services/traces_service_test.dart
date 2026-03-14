@@ -38,14 +38,14 @@ class _FakeCredentialRepository implements PortalCredentialRepository {
 }
 
 PortalCredential _makeCredential({bool expired = false}) => PortalCredential(
-      id: 'cred-traces-1',
-      portalType: PortalType.traces,
-      username: 'ABCDE1234F',
-      grantToken: 'TRACES_SESSION_TOKEN',
-      expiresAt: expired
-          ? DateTime.now().subtract(const Duration(hours: 1))
-          : DateTime.now().add(const Duration(hours: 6)),
-    );
+  id: 'cred-traces-1',
+  portalType: PortalType.traces,
+  username: 'ABCDE1234F',
+  grantToken: 'TRACES_SESSION_TOKEN',
+  expiresAt: expired
+      ? DateTime.now().subtract(const Duration(hours: 1))
+      : DateTime.now().add(const Duration(hours: 6)),
+);
 
 class _MockHttpAdapter implements HttpClientAdapter {
   _MockHttpAdapter({required this.body, this.statusCode = 200});
@@ -68,8 +68,7 @@ class _MockHttpAdapter implements HttpClientAdapter {
 
 Dio _mockDio(Map<String, dynamic> body, {int statusCode = 200}) {
   final dio = Dio();
-  dio.httpClientAdapter =
-      _MockHttpAdapter(body: body, statusCode: statusCode);
+  dio.httpClientAdapter = _MockHttpAdapter(body: body, statusCode: statusCode);
   return dio;
 }
 
@@ -418,9 +417,7 @@ void main() {
     });
 
     test('returns true when session check succeeds', () async {
-      final repo = _FakeCredentialRepository(
-        credential: _makeCredential(),
-      );
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({'status': 'OK'}, statusCode: 200);
       final result = await TracesService.checkLoginStatus(
         dio: dio,
@@ -435,8 +432,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('TracesService.downloadForm26as — HTTP', () {
     test('parses Form 26AS with two TDS entries', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'Part_A': [
           {
@@ -478,8 +474,7 @@ void main() {
     });
 
     test('parses empty Part_A list', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'Part_A': [],
         'Part_C_advanceTax': 0,
@@ -503,8 +498,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('TracesService.downloadAis — HTTP', () {
     test('parses AIS with one income entry', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'incomeDetails': [
           {
@@ -535,8 +529,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('TracesService.getForm16 — HTTP', () {
     test('parses Form 16 certificates list', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'certificates': [
           {
@@ -565,8 +558,7 @@ void main() {
     });
 
     test('returns empty list when no certificates', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({'certificates': []});
 
       final certs = await TracesService.getForm16(

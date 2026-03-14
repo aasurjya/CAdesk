@@ -66,9 +66,7 @@ class ReconciliationMapper {
     return ReconciliationResult(
       id: row.id,
       clientId: row.clientId,
-      reconciliationType: _safeReconType(
-        row.reconciliationType ?? 'tds26as',
-      ),
+      reconciliationType: _safeReconType(row.reconciliationType ?? 'tds26as'),
       period: row.period ?? '',
       totalMatched: row.totalMatched ?? 0,
       totalUnmatched: row.totalUnmatched ?? 0,

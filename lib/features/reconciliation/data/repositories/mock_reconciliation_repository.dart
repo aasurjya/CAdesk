@@ -112,9 +112,7 @@ class MockReconciliationRepository implements ReconciliationRepository {
   final List<ReconciliationResult> _state = List.of(_seedResults);
 
   @override
-  Future<String> insertReconciliationResult(
-    ReconciliationResult result,
-  ) async {
+  Future<String> insertReconciliationResult(ReconciliationResult result) async {
     _state.add(result);
     return result.id;
   }
@@ -122,21 +120,15 @@ class MockReconciliationRepository implements ReconciliationRepository {
   @override
   Future<List<ReconciliationResult>> getReconciliationsByClient(
     String clientId,
-  ) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId),
-      );
+  ) async => List.unmodifiable(_state.where((r) => r.clientId == clientId));
 
   @override
   Future<List<ReconciliationResult>> getReconciliationByType(
     ReconciliationType type,
     String clientId,
-  ) async =>
-      List.unmodifiable(
-        _state.where(
-          (r) => r.clientId == clientId && r.reconciliationType == type,
-        ),
-      );
+  ) async => List.unmodifiable(
+    _state.where((r) => r.clientId == clientId && r.reconciliationType == type),
+  );
 
   @override
   Future<List<Discrepancy>> getUnreconciledItems(String clientId) async =>
@@ -167,13 +159,16 @@ class MockReconciliationRepository implements ReconciliationRepository {
   Future<bool> markDiscrepancyResolved(String discrepancyId) async {
     for (var i = 0; i < _state.length; i++) {
       final result = _state[i];
-      final dIdx = result.discrepancies.indexWhere((d) => d.id == discrepancyId);
+      final dIdx = result.discrepancies.indexWhere(
+        (d) => d.id == discrepancyId,
+      );
       if (dIdx == -1) continue;
 
       // Immutable replacement of the discrepancy list.
       final updatedDiscrepancies = List<Discrepancy>.of(result.discrepancies);
-      updatedDiscrepancies[dIdx] =
-          updatedDiscrepancies[dIdx].copyWith(resolved: true);
+      updatedDiscrepancies[dIdx] = updatedDiscrepancies[dIdx].copyWith(
+        resolved: true,
+      );
 
       final updatedResult = result.copyWith(
         discrepancies: List.unmodifiable(updatedDiscrepancies),

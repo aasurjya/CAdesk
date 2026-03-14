@@ -67,8 +67,7 @@ class _MockHttpAdapter implements HttpClientAdapter {
 
 Dio _mockDio(Map<String, dynamic> body, {int statusCode = 200}) {
   final dio = Dio();
-  dio.httpClientAdapter =
-      _MockHttpAdapter(body: body, statusCode: statusCode);
+  dio.httpClientAdapter = _MockHttpAdapter(body: body, statusCode: statusCode);
   return dio;
 }
 
@@ -122,16 +121,16 @@ void main() {
   // -------------------------------------------------------------------------
   group('GstinDetails model', () {
     GstinDetails makeDetails() => GstinDetails(
-          gstin: '29AABCU9603R1ZX',
-          legalName: 'ABC Ltd',
-          tradeName: 'ABC',
-          address: '123 Street, Bangalore',
-          registrationDate: DateTime(2017, 7, 1),
-          status: GstnRegistrationStatus.active,
-          stateCode: '29',
-          constitutionType: 'Private Limited Company',
-          returnFilingFrequency: ReturnFilingFrequency.monthly,
-        );
+      gstin: '29AABCU9603R1ZX',
+      legalName: 'ABC Ltd',
+      tradeName: 'ABC',
+      address: '123 Street, Bangalore',
+      registrationDate: DateTime(2017, 7, 1),
+      status: GstnRegistrationStatus.active,
+      stateCode: '29',
+      constitutionType: 'Private Limited Company',
+      returnFilingFrequency: ReturnFilingFrequency.monthly,
+    );
 
     test('copyWith legalName creates new instance, original unchanged', () {
       final original = makeDetails();
@@ -339,10 +338,7 @@ void main() {
     });
 
     test('PortalRateLimitException without retryAfter omits retry part', () {
-      const ex = PortalRateLimitException(
-        portal: 'GSTN',
-        message: 'too many',
-      );
+      const ex = PortalRateLimitException(portal: 'GSTN', message: 'too many');
       expect(ex.toString(), isNot(contains('retry after')));
     });
 

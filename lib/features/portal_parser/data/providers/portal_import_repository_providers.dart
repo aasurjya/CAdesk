@@ -8,13 +8,15 @@ import 'package:ca_app/features/portal_parser/data/repositories/portal_import_re
 import 'package:ca_app/features/portal_parser/data/repositories/mock_portal_import_repository.dart';
 import 'package:ca_app/features/portal_parser/domain/repositories/portal_import_repository.dart';
 
-final portalImportRemoteSourceProvider =
-    Provider<PortalImportRemoteSource>((ref) {
+final portalImportRemoteSourceProvider = Provider<PortalImportRemoteSource>((
+  ref,
+) {
   return PortalImportRemoteSource(Supabase.instance.client);
 });
 
-final portalImportLocalSourceProvider =
-    Provider<PortalImportLocalSource>((ref) {
+final portalImportLocalSourceProvider = Provider<PortalImportLocalSource>((
+  ref,
+) {
   final db = ref.watch(appDatabaseProvider);
   return PortalImportLocalSource(db);
 });

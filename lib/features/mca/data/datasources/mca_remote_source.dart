@@ -63,8 +63,11 @@ class McaRemoteSource {
   }
 
   Future<Map<String, dynamic>?> fetchById(String id) async {
-    final response =
-        await _client.from(_table).select().eq('id', id).maybeSingle();
+    final response = await _client
+        .from(_table)
+        .select()
+        .eq('id', id)
+        .maybeSingle();
     return response;
   }
 
@@ -73,8 +76,7 @@ class McaRemoteSource {
   // ---------------------------------------------------------------------------
 
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 

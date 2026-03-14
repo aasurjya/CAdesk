@@ -48,8 +48,7 @@ class ReconciliationLocalSource {
   Future<bool> updateReconciliationStatus(
     String resultId,
     ReconciliationStatus status,
-  ) =>
-      _dao.updateReconciliationStatus(resultId, status.name);
+  ) => _dao.updateReconciliationStatus(resultId, status.name);
 
   /// Mark a discrepancy as resolved by updating the stored JSON.
   Future<bool> markDiscrepancyResolved(String discrepancyId) async {

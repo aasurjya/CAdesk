@@ -30,8 +30,7 @@ class PortalConnectorRemoteSource {
 
   /// Insert a new credential row. Returns the inserted row.
   Future<Map<String, dynamic>> insert(Map<String, dynamic> data) async {
-    final response =
-        await _client.from(_table).insert(data).select().single();
+    final response = await _client.from(_table).insert(data).select().single();
     return response;
   }
 

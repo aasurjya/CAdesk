@@ -17,15 +17,16 @@ class SebiDao extends DatabaseAccessor<AppDatabase> with _$SebiDaoMixin {
     SebiComplianceTableCompanion companion,
   ) async {
     await into(sebiComplianceTable).insert(companion);
-    final rows = await (select(sebiComplianceTable)
-          ..orderBy([
-            (t) => OrderingTerm(
-              expression: t.createdAt,
-              mode: OrderingMode.desc,
-            ),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(sebiComplianceTable)
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     return rows.isNotEmpty ? rows.first.id : '';
   }
 
@@ -67,9 +68,9 @@ class SebiDao extends DatabaseAccessor<AppDatabase> with _$SebiDaoMixin {
   }
 
   /// Retrieve a single record by ID.
-  Future<SebiComplianceTableData?> getSebiComplianceById(String id) =>
-      (select(sebiComplianceTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<SebiComplianceTableData?> getSebiComplianceById(String id) => (select(
+    sebiComplianceTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   // ---------------------------------------------------------------------------
   // Updates
@@ -77,9 +78,10 @@ class SebiDao extends DatabaseAccessor<AppDatabase> with _$SebiDaoMixin {
 
   /// Update the status field, returning true on success.
   Future<bool> updateSebiComplianceStatus(String id, String status) async {
-    final count = await (update(sebiComplianceTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final count =
+        await (update(
+          sebiComplianceTable,
+        )..where((t) => t.id.equals(id))).write(
           SebiComplianceTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),

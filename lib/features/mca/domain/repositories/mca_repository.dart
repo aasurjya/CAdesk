@@ -9,10 +9,7 @@ abstract class McaRepository {
   Future<List<McaFilingData>> getMCAFilingsByClient(String clientId);
 
   /// Get MCA filings for a client filtered by financial year (e.g. "2024-25").
-  Future<List<McaFilingData>> getMCAFilingsByYear(
-    String clientId,
-    String year,
-  );
+  Future<List<McaFilingData>> getMCAFilingsByYear(String clientId, String year);
 
   /// Update an existing MCA filing and return true on success.
   Future<bool> updateMCAFiling(McaFilingData filing);

@@ -101,10 +101,9 @@ class MockRenewalExpiryRepository implements RenewalExpiryRepository {
   @override
   Future<List<RenewalItem>> getRenewalItemsByStatus(
     RenewalStatus status,
-  ) async =>
-      List.unmodifiable(
-        _renewalState.where((i) => i.status == status).toList(),
-      );
+  ) async => List.unmodifiable(
+    _renewalState.where((i) => i.status == status).toList(),
+  );
 
   @override
   Future<String> insertRenewalItem(RenewalItem item) async {
@@ -147,10 +146,9 @@ class MockRenewalExpiryRepository implements RenewalExpiryRepository {
   @override
   Future<List<RetainerContract>> getRetainerContractsByClient(
     String clientId,
-  ) async =>
-      List.unmodifiable(
-        _contractState.where((c) => c.clientId == clientId).toList(),
-      );
+  ) async => List.unmodifiable(
+    _contractState.where((c) => c.clientId == clientId).toList(),
+  );
 
   @override
   Future<String> insertRetainerContract(RetainerContract contract) async {

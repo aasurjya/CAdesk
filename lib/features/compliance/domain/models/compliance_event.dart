@@ -57,10 +57,12 @@ class ComplianceEvent {
   }
 
   /// Whether the event is overdue.
-  bool get isOverdue => daysUntilDue < 0 && status != ComplianceEventStatus.completed;
+  bool get isOverdue =>
+      daysUntilDue < 0 && status != ComplianceEventStatus.completed;
 
   /// Whether the event is due today.
-  bool get isDueToday => daysUntilDue == 0 && status != ComplianceEventStatus.completed;
+  bool get isDueToday =>
+      daysUntilDue == 0 && status != ComplianceEventStatus.completed;
 
   ComplianceEvent copyWith({
     String? id,

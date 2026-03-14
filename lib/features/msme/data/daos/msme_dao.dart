@@ -15,15 +15,16 @@ class MsmeDao extends DatabaseAccessor<AppDatabase> with _$MsmeDaoMixin {
   /// Insert a record companion and return the row ID.
   Future<String> insertMsmeRecord(MsmeRecordsTableCompanion companion) async {
     await into(msmeRecordsTable).insert(companion);
-    final rows = await (select(msmeRecordsTable)
-          ..orderBy([
-            (t) => OrderingTerm(
-              expression: t.createdAt,
-              mode: OrderingMode.desc,
-            ),
-          ])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(msmeRecordsTable)
+              ..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.createdAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
     return rows.isNotEmpty ? rows.first.id : '';
   }
 
@@ -32,14 +33,10 @@ class MsmeDao extends DatabaseAccessor<AppDatabase> with _$MsmeDaoMixin {
   // ---------------------------------------------------------------------------
 
   /// Retrieve all records for a given client.
-  Future<List<MsmeRecordsTableData>> getMsmeRecordsByClient(
-    String clientId,
-  ) =>
+  Future<List<MsmeRecordsTableData>> getMsmeRecordsByClient(String clientId) =>
       (select(msmeRecordsTable)
             ..where((t) => t.clientId.equals(clientId))
-            ..orderBy([
-              (t) => OrderingTerm(expression: t.registrationDate),
-            ]))
+            ..orderBy([(t) => OrderingTerm(expression: t.registrationDate)]))
           .get();
 
   /// Retrieve records by enterprise category.
@@ -48,24 +45,20 @@ class MsmeDao extends DatabaseAccessor<AppDatabase> with _$MsmeDaoMixin {
   ) =>
       (select(msmeRecordsTable)
             ..where((t) => t.category.equals(category))
-            ..orderBy([
-              (t) => OrderingTerm(expression: t.registrationDate),
-            ]))
+            ..orderBy([(t) => OrderingTerm(expression: t.registrationDate)]))
           .get();
 
   /// Retrieve records by status.
   Future<List<MsmeRecordsTableData>> getMsmeRecordsByStatus(String status) =>
       (select(msmeRecordsTable)
             ..where((t) => t.status.equals(status))
-            ..orderBy([
-              (t) => OrderingTerm(expression: t.registrationDate),
-            ]))
+            ..orderBy([(t) => OrderingTerm(expression: t.registrationDate)]))
           .get();
 
   /// Retrieve a single record by ID.
-  Future<MsmeRecordsTableData?> getMsmeRecordById(String id) =>
-      (select(msmeRecordsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<MsmeRecordsTableData?> getMsmeRecordById(String id) => (select(
+    msmeRecordsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   // ---------------------------------------------------------------------------
   // Updates
@@ -85,8 +78,6 @@ class MsmeDao extends DatabaseAccessor<AppDatabase> with _$MsmeDaoMixin {
   ) =>
       (select(msmeRecordsTable)
             ..where((t) => t.clientId.equals(clientId))
-            ..orderBy([
-              (t) => OrderingTerm(expression: t.registrationDate),
-            ]))
+            ..orderBy([(t) => OrderingTerm(expression: t.registrationDate)]))
           .watch();
 }

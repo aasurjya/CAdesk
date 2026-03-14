@@ -5,10 +5,7 @@ import 'package:ca_app/features/notice_resolution/domain/models/tax_notice.dart'
 import 'package:ca_app/features/notice_resolution/domain/repositories/tax_notice_repository.dart';
 
 class TaxNoticeRepositoryImpl implements TaxNoticeRepository {
-  const TaxNoticeRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const TaxNoticeRepositoryImpl({required this.remote, required this.local});
 
   final TaxNoticeRemoteSource remote;
   final TaxNoticeLocalSource local;
@@ -77,6 +74,5 @@ class TaxNoticeRepositoryImpl implements TaxNoticeRepository {
   }
 
   @override
-  Future<List<TaxNotice>> getOverdue(DateTime asOf) =>
-      local.getOverdue(asOf);
+  Future<List<TaxNotice>> getOverdue(DateTime asOf) => local.getOverdue(asOf);
 }

@@ -33,14 +33,13 @@ class ExportJobLocalSource {
     String? filePath,
     String? errorMessage,
     DateTime? completedAt,
-  }) =>
-      _db.exportJobsDao.updateStatus(
-        id,
-        status.name,
-        filePath: filePath,
-        errorMessage: errorMessage,
-        completedAt: completedAt,
-      );
+  }) => _db.exportJobsDao.updateStatus(
+    id,
+    status.name,
+    filePath: filePath,
+    errorMessage: errorMessage,
+    completedAt: completedAt,
+  );
 
   Future<int> deleteOldJobs(DateTime beforeDate) =>
       _db.exportJobsDao.deleteOldJobs(beforeDate);

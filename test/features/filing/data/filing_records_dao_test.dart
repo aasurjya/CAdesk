@@ -71,8 +71,9 @@ void main() {
           FilingRecordMapper.toCompanion(record),
         );
         final retrieved = await database.filingRecordsDao.getById(record.id);
-        final domain =
-            retrieved != null ? FilingRecordMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? FilingRecordMapper.fromRow(retrieved)
+            : null;
         expect(domain?.filingType, FilingType.gstr3b);
       });
 
@@ -91,8 +92,9 @@ void main() {
           FilingRecordMapper.toCompanion(record),
         );
         final retrieved = await database.filingRecordsDao.getById(record.id);
-        final domain =
-            retrieved != null ? FilingRecordMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? FilingRecordMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, FilingStatus.filed);
       });
 
@@ -120,8 +122,7 @@ void main() {
           FilingRecordMapper.toCompanion(r2),
         );
 
-        final results =
-            await database.filingRecordsDao.getByClient(clientId);
+        final results = await database.filingRecordsDao.getByClient(clientId);
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
@@ -164,8 +165,9 @@ void main() {
           FilingRecordMapper.toCompanion(r3),
         );
 
-        final results =
-            await database.filingRecordsDao.getByType(FilingType.itr2.name);
+        final results = await database.filingRecordsDao.getByType(
+          FilingType.itr2.name,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
         expect(
           results.every((r) => r.filingType == FilingType.itr2.name),
@@ -217,8 +219,9 @@ void main() {
         expect(success, isTrue);
 
         final retrieved = await database.filingRecordsDao.getById(record.id);
-        final domain =
-            retrieved != null ? FilingRecordMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? FilingRecordMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, FilingStatus.filed);
       });
 
@@ -234,8 +237,9 @@ void main() {
         );
 
         final retrieved = await database.filingRecordsDao.getById(record.id);
-        final domain =
-            retrieved != null ? FilingRecordMapper.fromRow(retrieved) : null;
+        final domain = retrieved != null
+            ? FilingRecordMapper.fromRow(retrieved)
+            : null;
         expect(domain?.status, FilingStatus.rejected);
       });
 
@@ -260,10 +264,7 @@ void main() {
         );
 
         final overdue = await database.filingRecordsDao.getOverdue();
-        expect(
-          overdue.where((r) => r.id == record.id).isNotEmpty,
-          isTrue,
-        );
+        expect(overdue.where((r) => r.id == record.id).isNotEmpty, isTrue);
       });
 
       test('excludes records with filedDate set', () async {
@@ -308,8 +309,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved =
-            await database.filingRecordsDao.getById('non-existent-id-abc');
+        final retrieved = await database.filingRecordsDao.getById(
+          'non-existent-id-abc',
+        );
         expect(retrieved == null, isTrue);
       });
     });
@@ -321,8 +323,7 @@ void main() {
           FilingRecordMapper.toCompanion(record),
         );
 
-        final stream =
-            database.filingRecordsDao.watchByClient(record.clientId);
+        final stream = database.filingRecordsDao.watchByClient(record.clientId);
         expect(
           stream,
           emits(

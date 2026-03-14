@@ -11,34 +11,30 @@ class AnalyticsDao extends DatabaseAccessor<AppDatabase>
 
   // --- AnalyticsSnapshot ops ---
 
-  Future<void> insertSnapshot(
-    AnalyticsSnapshotsTableCompanion companion,
-  ) => into(analyticsSnapshotsTable).insertOnConflictUpdate(companion);
+  Future<void> insertSnapshot(AnalyticsSnapshotsTableCompanion companion) =>
+      into(analyticsSnapshotsTable).insertOnConflictUpdate(companion);
 
   Future<List<AnalyticsSnapshotRow>> getByPeriod(
     String firmId,
     String period,
-  ) =>
-      (select(analyticsSnapshotsTable)
-            ..where(
-              (t) => t.firmId.equals(firmId) & t.period.equals(period),
-            ))
-          .get();
+  ) => (select(
+    analyticsSnapshotsTable,
+  )..where((t) => t.firmId.equals(firmId) & t.period.equals(period))).get();
 
   Future<AnalyticsSnapshotRow?> getLatest(String firmId) async {
-    final rows = await (select(analyticsSnapshotsTable)
-          ..where((t) => t.firmId.equals(firmId))
-          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
-          ..limit(1))
-        .get();
+    final rows =
+        await (select(analyticsSnapshotsTable)
+              ..where((t) => t.firmId.equals(firmId))
+              ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
+              ..limit(1))
+            .get();
     return rows.isEmpty ? null : rows.first;
   }
 
   // --- ClientMetric ops ---
 
-  Future<void> insertClientMetric(
-    ClientMetricsTableCompanion companion,
-  ) => into(clientMetricsTable).insertOnConflictUpdate(companion);
+  Future<void> insertClientMetric(ClientMetricsTableCompanion companion) =>
+      into(clientMetricsTable).insertOnConflictUpdate(companion);
 
   Future<List<ClientMetricRow>> getClientMetrics(String clientId) =>
       (select(clientMetricsTable)

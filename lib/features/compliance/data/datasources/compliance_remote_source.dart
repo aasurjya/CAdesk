@@ -8,15 +8,13 @@ class ComplianceRemoteSource {
 
   /// Insert a new compliance event
   Future<Map<String, dynamic>> insertEvent(Map<String, dynamic> data) async {
-    return _client
-        .from('compliance_events')
-        .insert(data)
-        .select()
-        .single();
+    return _client.from('compliance_events').insert(data).select().single();
   }
 
   /// Get all compliance events for a specific client
-  Future<List<Map<String, dynamic>>> fetchEventsByClient(String clientId) async {
+  Future<List<Map<String, dynamic>>> fetchEventsByClient(
+    String clientId,
+  ) async {
     return _client
         .from('compliance_events')
         .select()
@@ -27,8 +25,16 @@ class ComplianceRemoteSource {
   /// Get upcoming compliance events within the specified number of days
   Future<List<Map<String, dynamic>>> fetchUpcomingEvents(int daysAhead) async {
     final today = DateTime.now();
-    final todayStr = DateTime(today.year, today.month, today.day).toIso8601String();
-    final futureStr = DateTime(today.year, today.month, today.day + daysAhead).toIso8601String();
+    final todayStr = DateTime(
+      today.year,
+      today.month,
+      today.day,
+    ).toIso8601String();
+    final futureStr = DateTime(
+      today.year,
+      today.month,
+      today.day + daysAhead,
+    ).toIso8601String();
 
     return _client
         .from('compliance_events')
@@ -42,7 +48,11 @@ class ComplianceRemoteSource {
   /// Get all overdue compliance events
   Future<List<Map<String, dynamic>>> fetchOverdueEvents() async {
     final today = DateTime.now();
-    final todayStr = DateTime(today.year, today.month, today.day).toIso8601String();
+    final todayStr = DateTime(
+      today.year,
+      today.month,
+      today.day,
+    ).toIso8601String();
 
     return _client
         .from('compliance_events')

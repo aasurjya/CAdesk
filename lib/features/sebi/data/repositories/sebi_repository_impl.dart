@@ -6,10 +6,7 @@ import 'package:ca_app/features/sebi/domain/repositories/sebi_repository.dart';
 
 /// Concrete [SebiRepository] — remote-first with local Drift cache fallback.
 class SebiRepositoryImpl implements SebiRepository {
-  const SebiRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const SebiRepositoryImpl({required this.remote, required this.local});
 
   final SebiRemoteSource remote;
   final SebiLocalSource local;

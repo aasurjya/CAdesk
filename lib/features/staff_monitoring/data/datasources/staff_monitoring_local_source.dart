@@ -8,10 +8,8 @@ class StaffMonitoringLocalSource {
 
   final AppDatabase _db;
 
-  Future<void> insertActivity(StaffActivity activity) =>
-      _db.staffMonitoringDao.insertActivity(
-        StaffMonitoringMapper.activityToCompanion(activity),
-      );
+  Future<void> insertActivity(StaffActivity activity) => _db.staffMonitoringDao
+      .insertActivity(StaffMonitoringMapper.activityToCompanion(activity));
 
   Future<List<StaffActivity>> getByStaff(String staffId) async {
     final rows = await _db.staffMonitoringDao.getByStaff(staffId);

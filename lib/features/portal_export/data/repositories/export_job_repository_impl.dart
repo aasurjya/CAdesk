@@ -5,10 +5,7 @@ import 'package:ca_app/features/portal_export/domain/models/export_job.dart';
 import 'package:ca_app/features/portal_export/domain/repositories/export_job_repository.dart';
 
 class ExportJobRepositoryImpl implements ExportJobRepository {
-  const ExportJobRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const ExportJobRepositoryImpl({required this.remote, required this.local});
 
   final ExportJobRemoteSource remote;
   final ExportJobLocalSource local;
@@ -42,9 +39,7 @@ class ExportJobRepositoryImpl implements ExportJobRepository {
   Future<List<ExportJob>> getByStatus(ExportJobStatus status) async {
     try {
       final jsonList = await remote.fetchByStatus(status.name);
-      return List.unmodifiable(
-        jsonList.map(ExportJobMapper.fromJson).toList(),
-      );
+      return List.unmodifiable(jsonList.map(ExportJobMapper.fromJson).toList());
     } catch (_) {
       return local.getByStatus(status);
     }

@@ -9,19 +9,22 @@ import 'package:ca_app/features/reconciliation/data/repositories/mock_reconcilia
 import 'package:ca_app/features/reconciliation/data/repositories/reconciliation_repository_impl.dart';
 import 'package:ca_app/features/reconciliation/domain/repositories/reconciliation_repository.dart';
 
-final reconciliationRemoteSourceProvider =
-    Provider<ReconciliationRemoteSource>((ref) {
-  return ReconciliationRemoteSource(Supabase.instance.client);
-});
+final reconciliationRemoteSourceProvider = Provider<ReconciliationRemoteSource>(
+  (ref) {
+    return ReconciliationRemoteSource(Supabase.instance.client);
+  },
+);
 
-final reconciliationLocalSourceProvider =
-    Provider<ReconciliationLocalSource>((ref) {
+final reconciliationLocalSourceProvider = Provider<ReconciliationLocalSource>((
+  ref,
+) {
   final db = ref.watch(appDatabaseProvider);
   return ReconciliationLocalSource(db);
 });
 
-final reconciliationRepositoryProvider =
-    Provider<ReconciliationRepository>((ref) {
+final reconciliationRepositoryProvider = Provider<ReconciliationRepository>((
+  ref,
+) {
   final flags = ref.watch(featureFlagProvider);
   final useReal =
       flags.asData?.value.isEnabled('reconciliation_real_repo') ?? false;

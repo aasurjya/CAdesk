@@ -51,9 +51,7 @@ class MockSebiRepository implements SebiRepository {
 
   @override
   Future<List<SebiComplianceData>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((r) => r.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((r) => r.clientId == clientId).toList());
 
   @override
   Future<List<SebiComplianceData>> getByType(SebiType complianceType) async =>
@@ -81,8 +79,8 @@ class MockSebiRepository implements SebiRepository {
   Future<bool> updateStatus(String id, String status) async {
     final idx = _state.indexWhere((r) => r.id == id);
     if (idx == -1) return false;
-    final updated = List<SebiComplianceData>.of(_state)..[idx] =
-        _state[idx].copyWith(status: status);
+    final updated = List<SebiComplianceData>.of(_state)
+      ..[idx] = _state[idx].copyWith(status: status);
     _state
       ..clear()
       ..addAll(updated);

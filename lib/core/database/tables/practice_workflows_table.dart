@@ -11,7 +11,8 @@ class PracticeWorkflowsTable extends Table {
   TextColumn get id => text().clientDefault(() => _uuid.v4())();
   TextColumn get name => text()();
   TextColumn get description => text()();
-  TextColumn get steps => text().withDefault(const Constant('[]'))(); // JSON array
+  TextColumn get steps =>
+      text().withDefault(const Constant('[]'))(); // JSON array
   IntColumn get estimatedDays => integer().withDefault(const Constant(1))();
   TextColumn get category => text()();
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();

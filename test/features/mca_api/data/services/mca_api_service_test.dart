@@ -43,10 +43,10 @@ class _FakeCredentialRepository implements PortalCredentialRepository {
 }
 
 PortalCredential _makeCredential() => const PortalCredential(
-      id: 'cred-mca-1',
-      portalType: PortalType.mca,
-      grantToken: 'test-mca-api-key',
-    );
+  id: 'cred-mca-1',
+  portalType: PortalType.mca,
+  grantToken: 'test-mca-api-key',
+);
 
 class _MockHttpAdapter implements HttpClientAdapter {
   _MockHttpAdapter({required this.body, this.statusCode = 200});
@@ -69,8 +69,7 @@ class _MockHttpAdapter implements HttpClientAdapter {
 
 Dio _mockDio(Map<String, dynamic> body, {int statusCode = 200}) {
   final dio = Dio();
-  dio.httpClientAdapter =
-      _MockHttpAdapter(body: body, statusCode: statusCode);
+  dio.httpClientAdapter = _MockHttpAdapter(body: body, statusCode: statusCode);
   return dio;
 }
 
@@ -90,7 +89,9 @@ void main() {
   group('McaApiService — input validation', () {
     late _FakeCredentialRepository repo;
 
-    setUp(() => repo = _FakeCredentialRepository(credential: _makeCredential()));
+    setUp(
+      () => repo = _FakeCredentialRepository(credential: _makeCredential()),
+    );
 
     test('searchCompany throws ArgumentError for empty query', () {
       expect(
@@ -469,8 +470,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.searchCompany — HTTP', () {
     test('parses list of company search results', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'companyData': [
           {
@@ -497,8 +497,7 @@ void main() {
     });
 
     test('returns empty list when no results', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({'companyData': []});
 
       final results = await McaApiService.searchCompany(
@@ -516,8 +515,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.getCompanyDetails — HTTP', () {
     test('parses full company details with directors', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'cin': _kValidCin,
         'company_name': 'Tata Motors Limited',
@@ -557,8 +555,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.getFilingHistory — HTTP', () {
     test('parses filing history records', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'filingHistory': [
           {
@@ -586,8 +583,7 @@ void main() {
     });
 
     test('returns empty list when no filing history', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({'filingHistory': []});
 
       final records = await McaApiService.getFilingHistory(
@@ -606,8 +602,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.checkDin — HTTP', () {
     test('parses DIN details correctly', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'din': _kValidDin,
         'director_name': 'Ram Kumar',
@@ -634,8 +629,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.getCharges — HTTP', () {
     test('parses charge records', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'charges': [
           {
@@ -668,8 +662,7 @@ void main() {
   // -------------------------------------------------------------------------
   group('McaApiService.searchDirector — HTTP', () {
     test('parses director details with associated companies', () async {
-      final repo =
-          _FakeCredentialRepository(credential: _makeCredential());
+      final repo = _FakeCredentialRepository(credential: _makeCredential());
       final dio = _mockDio({
         'din': _kValidDin,
         'director_name': 'John Doe',

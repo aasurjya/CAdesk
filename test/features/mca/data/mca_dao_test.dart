@@ -92,8 +92,10 @@ void main() {
       });
 
       test('stored filing has correct filingNumber', () async {
-        final filing =
-            createTestFiling(filingNumber: 'G99887766', status: 'approved');
+        final filing = createTestFiling(
+          filingNumber: 'G99887766',
+          status: 'approved',
+        );
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(filing));
         final retrieved = await database.mcaDao.getMCAFilingById(filing.id);
         expect(retrieved?.filingNumber, 'G99887766');
@@ -112,14 +114,16 @@ void main() {
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f1));
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f2));
 
-        final results =
-            await database.mcaDao.getMCAFilingsByClient(f1.clientId);
+        final results = await database.mcaDao.getMCAFilingsByClient(
+          f1.clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results =
-            await database.mcaDao.getMCAFilingsByClient('non-existent-client');
+        final results = await database.mcaDao.getMCAFilingsByClient(
+          'non-existent-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -144,27 +148,28 @@ void main() {
     group('getMCAFilingsByYear', () {
       test('returns filings for client and year', () async {
         const client = 'client-year-mca';
-        final f1 =
-            createTestFiling(clientId: client, financialYear: '2023-24');
-        final f2 =
-            createTestFiling(clientId: client, financialYear: '2024-25');
-        final f3 =
-            createTestFiling(clientId: client, financialYear: '2024-25');
+        final f1 = createTestFiling(clientId: client, financialYear: '2023-24');
+        final f2 = createTestFiling(clientId: client, financialYear: '2024-25');
+        final f3 = createTestFiling(clientId: client, financialYear: '2024-25');
 
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f1));
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f2));
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f3));
 
-        final results =
-            await database.mcaDao.getMCAFilingsByYear(client, '2024-25');
+        final results = await database.mcaDao.getMCAFilingsByYear(
+          client,
+          '2024-25',
+        );
         expect(results.length, greaterThanOrEqualTo(2));
         expect(results.every((r) => r.financialYear == '2024-25'), isTrue);
       });
 
       test('returns empty list when no filings match year', () async {
         const client = 'client-year-none-mca';
-        final results =
-            await database.mcaDao.getMCAFilingsByYear(client, '1999-00');
+        final results = await database.mcaDao.getMCAFilingsByYear(
+          client,
+          '1999-00',
+        );
         expect(results, isEmpty);
       });
     });
@@ -183,15 +188,15 @@ void main() {
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f2));
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(f3));
 
-        final results =
-            await database.mcaDao.getMCAFilingsByStatus('approved');
+        final results = await database.mcaDao.getMCAFilingsByStatus('approved');
         expect(results.length, greaterThanOrEqualTo(2));
         expect(results.every((r) => r.status == 'approved'), isTrue);
       });
 
       test('returns empty list for status with no filings', () async {
-        final results =
-            await database.mcaDao.getMCAFilingsByStatus('nonexistent_status');
+        final results = await database.mcaDao.getMCAFilingsByStatus(
+          'nonexistent_status',
+        );
         expect(results, isEmpty);
       });
     });
@@ -219,8 +224,7 @@ void main() {
 
       test('excludes filed filings from due results', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
-        final filing =
-            createTestFiling(dueDate: tomorrow, status: 'filed');
+        final filing = createTestFiling(dueDate: tomorrow, status: 'filed');
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(filing));
 
         final due = await database.mcaDao.getDueMCAFilings(7);
@@ -229,8 +233,7 @@ void main() {
 
       test('excludes approved filings from due results', () async {
         final tomorrow = DateTime.now().add(const Duration(days: 1));
-        final filing =
-            createTestFiling(dueDate: tomorrow, status: 'approved');
+        final filing = createTestFiling(dueDate: tomorrow, status: 'approved');
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(filing));
 
         final due = await database.mcaDao.getDueMCAFilings(7);
@@ -253,8 +256,9 @@ void main() {
       });
 
       test('returns null for non-existent ID', () async {
-        final retrieved =
-            await database.mcaDao.getMCAFilingById('non-existent-mca-id');
+        final retrieved = await database.mcaDao.getMCAFilingById(
+          'non-existent-mca-id',
+        );
         expect(retrieved, isNull);
       });
     });
@@ -273,8 +277,9 @@ void main() {
           filingNumber: 'G55556666',
           filedDate: DateTime(2025, 10, 28),
         );
-        final success = await database.mcaDao
-            .updateMCAFiling(McaMapper.toCompanion(updated));
+        final success = await database.mcaDao.updateMCAFiling(
+          McaMapper.toCompanion(updated),
+        );
         expect(success, isTrue);
 
         final retrieved = await database.mcaDao.getMCAFilingById(filing.id);
@@ -314,8 +319,7 @@ void main() {
         final filing = createTestFiling();
         await database.mcaDao.insertMCAFiling(McaMapper.toCompanion(filing));
 
-        final stream =
-            database.mcaDao.watchMCAFilingsByClient(filing.clientId);
+        final stream = database.mcaDao.watchMCAFilingsByClient(filing.clientId);
         expect(
           stream,
           emits(

@@ -5,10 +5,7 @@ import 'package:ca_app/features/portal_parser/domain/models/portal_import.dart';
 import 'package:ca_app/features/portal_parser/domain/repositories/portal_import_repository.dart';
 
 class PortalImportRepositoryImpl implements PortalImportRepository {
-  const PortalImportRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const PortalImportRepositoryImpl({required this.remote, required this.local});
 
   final PortalImportRemoteSource remote;
   final PortalImportLocalSource local;

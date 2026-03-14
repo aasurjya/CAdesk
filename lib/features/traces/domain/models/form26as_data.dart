@@ -58,13 +58,13 @@ class TdsEntry26as {
 
   @override
   int get hashCode => Object.hash(
-        deductorName,
-        deductorTan,
-        section,
-        amountPaid,
-        taxDeducted,
-        depositDate,
-      );
+    deductorName,
+    deductorTan,
+    section,
+    amountPaid,
+    taxDeducted,
+    depositDate,
+  );
 }
 
 /// Immutable Form 26AS statement for a PAN and assessment year.
@@ -92,8 +92,7 @@ class Form26asData {
   final int selfAssessment;
 
   /// Derived: total TDS from all entries in paise.
-  int get totalTds =>
-      tdsEntries.fold(0, (sum, e) => sum + e.taxDeducted);
+  int get totalTds => tdsEntries.fold(0, (sum, e) => sum + e.taxDeducted);
 
   Form26asData copyWith({
     String? pan,

@@ -21,5 +21,8 @@ abstract class PayrollRepository {
 
   /// Retrieve all payroll entries for [clientId] in the given [month] and [year].
   Future<List<PayrollEntry>> getPayrollByMonth(
-      String clientId, int month, int year);
+    String clientId,
+    int month,
+    int year,
+  );
 }

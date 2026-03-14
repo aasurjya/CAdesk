@@ -435,9 +435,9 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
       // Router's auth redirect will navigate to /login automatically.
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign out failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Sign out failed: $e')));
       }
     } finally {
       if (mounted) {

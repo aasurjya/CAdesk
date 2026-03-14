@@ -20,9 +20,10 @@ class TpDao extends DatabaseAccessor<AppDatabase> with _$TpDaoMixin {
   )..where((t) => t.assessmentYear.equals(assessmentYear))).get();
 
   Future<bool> updateStatus(String id, String status) async {
-    final rowsUpdated = await (update(tpTransactionsTable)
-          ..where((t) => t.id.equals(id)))
-        .write(
+    final rowsUpdated =
+        await (update(
+          tpTransactionsTable,
+        )..where((t) => t.id.equals(id))).write(
           TpTransactionsTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),
@@ -36,9 +37,9 @@ class TpDao extends DatabaseAccessor<AppDatabase> with _$TpDaoMixin {
     tpTransactionsTable,
   )..where((t) => t.tpMethod.equals(tpMethod))).get();
 
-  Future<TpTransactionRow?> getById(String id) =>
-      (select(tpTransactionsTable)..where((t) => t.id.equals(id)))
-          .getSingleOrNull();
+  Future<TpTransactionRow?> getById(String id) => (select(
+    tpTransactionsTable,
+  )..where((t) => t.id.equals(id))).getSingleOrNull();
 
   Future<void> deleteTransaction(String id) =>
       (delete(tpTransactionsTable)..where((t) => t.id.equals(id))).go();

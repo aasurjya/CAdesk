@@ -60,7 +60,9 @@ void main() {
       test('inserted job has queued status by default', () async {
         final job = makeJob(status: OcrStatus.queued);
         await database.ocrDao.insert(OcrMapper.toCompanion(job));
-        final results = await database.ocrDao.getByStatus(OcrStatus.queued.name);
+        final results = await database.ocrDao.getByStatus(
+          OcrStatus.queued.name,
+        );
         expect(results.any((r) => r.id == job.id), isTrue);
       });
 
@@ -92,8 +94,12 @@ void main() {
       test('filters by clientId correctly', () async {
         final clientA = 'client-filter-ocr-a';
         final clientB = 'client-filter-ocr-b';
-        await database.ocrDao.insert(OcrMapper.toCompanion(makeJob(clientId: clientA)));
-        await database.ocrDao.insert(OcrMapper.toCompanion(makeJob(clientId: clientB)));
+        await database.ocrDao.insert(
+          OcrMapper.toCompanion(makeJob(clientId: clientA)),
+        );
+        await database.ocrDao.insert(
+          OcrMapper.toCompanion(makeJob(clientId: clientB)),
+        );
         final results = await database.ocrDao.getByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
@@ -103,7 +109,9 @@ void main() {
       test('returns jobs matching the given status', () async {
         final job = makeJob(status: OcrStatus.processing);
         await database.ocrDao.insert(OcrMapper.toCompanion(job));
-        final results = await database.ocrDao.getByStatus(OcrStatus.processing.name);
+        final results = await database.ocrDao.getByStatus(
+          OcrStatus.processing.name,
+        );
         expect(results.any((r) => r.id == job.id), isTrue);
       });
 
@@ -188,7 +196,9 @@ void main() {
       test('returns jobs matching documentType', () async {
         final job = makeJob(documentType: OcrDocType.invoice);
         await database.ocrDao.insert(OcrMapper.toCompanion(job));
-        final results = await database.ocrDao.getByDocType(OcrDocType.invoice.name);
+        final results = await database.ocrDao.getByDocType(
+          OcrDocType.invoice.name,
+        );
         expect(results.any((r) => r.id == job.id), isTrue);
       });
 
@@ -197,8 +207,13 @@ void main() {
         final j2 = makeJob(documentType: OcrDocType.aadhar);
         await database.ocrDao.insert(OcrMapper.toCompanion(j1));
         await database.ocrDao.insert(OcrMapper.toCompanion(j2));
-        final results = await database.ocrDao.getByDocType(OcrDocType.panCard.name);
-        expect(results.every((r) => r.documentType == OcrDocType.panCard.name), isTrue);
+        final results = await database.ocrDao.getByDocType(
+          OcrDocType.panCard.name,
+        );
+        expect(
+          results.every((r) => r.documentType == OcrDocType.panCard.name),
+          isTrue,
+        );
       });
     });
 
@@ -247,10 +262,7 @@ void main() {
       });
 
       test('copyWith preserves unchanged fields', () {
-        final j1 = makeJob(
-          clientId: 'cl-x',
-          documentType: OcrDocType.form26as,
-        );
+        final j1 = makeJob(clientId: 'cl-x', documentType: OcrDocType.form26as);
         final j2 = j1.copyWith(confidence: 0.99);
         expect(j2.clientId, 'cl-x');
         expect(j2.documentType, OcrDocType.form26as);

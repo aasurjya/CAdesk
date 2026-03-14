@@ -7,10 +7,8 @@ class AssessmentLocalSource {
 
   final AppDatabase _db;
 
-  Future<String> insertCase(AssessmentCase assessmentCase) =>
-      _db.assessmentDao.insertCase(
-        AssessmentCaseMapper.toCompanion(assessmentCase),
-      );
+  Future<String> insertCase(AssessmentCase assessmentCase) => _db.assessmentDao
+      .insertCase(AssessmentCaseMapper.toCompanion(assessmentCase));
 
   Future<List<AssessmentCase>> getByClient(String clientId) async {
     final rows = await _db.assessmentDao.getByClient(clientId);
@@ -27,9 +25,7 @@ class AssessmentLocalSource {
     return rows.map(AssessmentCaseMapper.fromRow).toList();
   }
 
-  Future<List<AssessmentCase>> getByStatus(
-    AssessmentCaseStatus status,
-  ) async {
+  Future<List<AssessmentCase>> getByStatus(AssessmentCaseStatus status) async {
     final rows = await _db.assessmentDao.getByStatus(status.name);
     return rows.map(AssessmentCaseMapper.fromRow).toList();
   }

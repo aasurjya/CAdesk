@@ -13,7 +13,8 @@ class RpaTasksTable extends Table {
   TextColumn get clientId => text().nullable()();
   TextColumn get status =>
       text().withDefault(const Constant('scheduled'))(); // RpaStatus enum name
-  DateTimeColumn get scheduledAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get scheduledAt =>
+      dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get startedAt => dateTime().nullable()();
   DateTimeColumn get completedAt => dateTime().nullable()();
   TextColumn get result => text().nullable()(); // JSON

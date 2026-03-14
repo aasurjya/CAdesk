@@ -47,47 +47,55 @@ void main() {
     group('insertStartupRecord', () {
       test('inserts record and returns non-empty ID', () async {
         final record = createTestRecord();
-        final id = await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        final id = await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
         expect(id, isNotEmpty);
       });
 
       test('stored record has correct clientId', () async {
-        final record =
-            createTestRecord(clientId: 'startup-insert-client');
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
-        final rows = await database.startupDao
-            .getStartupRecordsByClient('startup-insert-client');
+        final record = createTestRecord(clientId: 'startup-insert-client');
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
+        final rows = await database.startupDao.getStartupRecordsByClient(
+          'startup-insert-client',
+        );
         expect(rows.any((r) => r.id == record.id), isTrue);
       });
 
       test('stored record has correct dpiitNumber', () async {
         final record = createTestRecord(dpiitNumber: 'DIPP99999');
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
-        final rows = await database.startupDao
-            .getStartupRecordsByClient(record.clientId);
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
+        final rows = await database.startupDao.getStartupRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.dpiitNumber, 'DIPP99999');
       });
 
       test('stored record preserves section80IacEligible flag', () async {
         final record = createTestRecord(section80IacEligible: true);
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
-        final rows = await database.startupDao
-            .getStartupRecordsByClient(record.clientId);
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
+        final rows = await database.startupDao.getStartupRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.section80IacEligible, isTrue);
       });
 
       test('stored record preserves section56ExemptEligible flag', () async {
         final record = createTestRecord(section56ExemptEligible: true);
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
-        final rows = await database.startupDao
-            .getStartupRecordsByClient(record.clientId);
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
+        final rows = await database.startupDao.getStartupRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.section56ExemptEligible, isTrue);
       });
@@ -98,19 +106,23 @@ void main() {
         final clientId = 'startup-by-client-x';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(r1));
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(r2));
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(r1),
+        );
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(r2),
+        );
 
-        final results =
-            await database.startupDao.getStartupRecordsByClient(clientId);
+        final results = await database.startupDao.getStartupRecordsByClient(
+          clientId,
+        );
         expect(results.length, greaterThanOrEqualTo(2));
       });
 
       test('returns empty list for non-existent client', () async {
-        final results = await database.startupDao
-            .getStartupRecordsByClient('no-such-client');
+        final results = await database.startupDao.getStartupRecordsByClient(
+          'no-such-client',
+        );
         expect(results, isEmpty);
       });
 
@@ -124,32 +136,35 @@ void main() {
           StartupMapper.toCompanion(createTestRecord(clientId: clientB)),
         );
 
-        final results =
-            await database.startupDao.getStartupRecordsByClient(clientA);
+        final results = await database.startupDao.getStartupRecordsByClient(
+          clientA,
+        );
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
     });
 
     group('getStartupRecordsByStatus', () {
       test('returns records with matching status', () async {
-        final record =
-            createTestRecord(recognitionStatus: 'recognised');
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        final record = createTestRecord(recognitionStatus: 'recognised');
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
-        final results = await database.startupDao
-            .getStartupRecordsByStatus('recognised');
+        final results = await database.startupDao.getStartupRecordsByStatus(
+          'recognised',
+        );
         expect(results.any((r) => r.id == record.id), isTrue);
       });
 
       test('excludes records with different status', () async {
-        final record =
-            createTestRecord(recognitionStatus: 'pending');
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        final record = createTestRecord(recognitionStatus: 'pending');
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
-        final results = await database.startupDao
-            .getStartupRecordsByStatus('recognised');
+        final results = await database.startupDao.getStartupRecordsByStatus(
+          'recognised',
+        );
         expect(results.where((r) => r.id == record.id), isEmpty);
       });
     });
@@ -160,11 +175,11 @@ void main() {
           section80IacEligible: true,
           section56ExemptEligible: false,
         );
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
-        final results =
-            await database.startupDao.getEligibleForExemptions();
+        final results = await database.startupDao.getEligibleForExemptions();
         expect(results.any((r) => r.id == record.id), isTrue);
       });
 
@@ -173,11 +188,11 @@ void main() {
           section80IacEligible: false,
           section56ExemptEligible: true,
         );
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
-        final results =
-            await database.startupDao.getEligibleForExemptions();
+        final results = await database.startupDao.getEligibleForExemptions();
         expect(results.any((r) => r.id == record.id), isTrue);
       });
 
@@ -186,33 +201,33 @@ void main() {
           section80IacEligible: false,
           section56ExemptEligible: false,
         );
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
-        final results =
-            await database.startupDao.getEligibleForExemptions();
+        final results = await database.startupDao.getEligibleForExemptions();
         // The record should not be in the results (unless it was inserted as
         // eligible previously — use unique IDs to verify)
-        expect(
-          results.where((r) => r.id == record.id),
-          isEmpty,
-        );
+        expect(results.where((r) => r.id == record.id), isEmpty);
       });
     });
 
     group('updateStartupRecord', () {
       test('updates recognitionStatus correctly', () async {
         final record = createTestRecord(recognitionStatus: 'pending');
-        await database.startupDao
-            .insertStartupRecord(StartupMapper.toCompanion(record));
+        await database.startupDao.insertStartupRecord(
+          StartupMapper.toCompanion(record),
+        );
 
         final updated = record.copyWith(recognitionStatus: 'recognised');
-        final success = await database.startupDao
-            .updateStartupRecord(StartupMapper.toCompanion(updated));
+        final success = await database.startupDao.updateStartupRecord(
+          StartupMapper.toCompanion(updated),
+        );
         expect(success, isTrue);
 
-        final rows = await database.startupDao
-            .getStartupRecordsByClient(record.clientId);
+        final rows = await database.startupDao.getStartupRecordsByClient(
+          record.clientId,
+        );
         final row = rows.firstWhere((r) => r.id == record.id);
         expect(row.recognitionStatus, 'recognised');
       });

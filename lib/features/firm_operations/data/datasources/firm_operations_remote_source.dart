@@ -24,9 +24,7 @@ class FirmOperationsRemoteSource {
   }
 
   /// Upserts the firm info row.  Returns the persisted record.
-  Future<Map<String, dynamic>> upsertFirmInfo(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Map<String, dynamic>> upsertFirmInfo(Map<String, dynamic> data) async {
     final response = await _client
         .from('firm_info')
         .upsert(data)
@@ -85,9 +83,7 @@ class FirmOperationsRemoteSource {
   // ---------------------------------------------------------------------------
 
   /// Inserts a client assignment.  Returns the created record.
-  Future<Map<String, dynamic>> assignClient(
-    Map<String, dynamic> data,
-  ) async {
+  Future<Map<String, dynamic>> assignClient(Map<String, dynamic> data) async {
     final response = await _client
         .from('client_assignments')
         .insert(data)

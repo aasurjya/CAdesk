@@ -20,16 +20,10 @@ class VdaLocalSource {
     return rows.map(VdaRecordMapper.fromRow).toList();
   }
 
-  Future<double> getTotalGainLoss(
-    String clientId,
-    String assessmentYear,
-  ) =>
+  Future<double> getTotalGainLoss(String clientId, String assessmentYear) =>
       _db.vdaDao.getTotalGainLoss(clientId, assessmentYear);
 
-  Future<double> getTdsDeducted(
-    String clientId,
-    String assessmentYear,
-  ) =>
+  Future<double> getTdsDeducted(String clientId, String assessmentYear) =>
       _db.vdaDao.getTdsDeducted(clientId, assessmentYear);
 
   Future<VdaRecord?> getById(String id) async {

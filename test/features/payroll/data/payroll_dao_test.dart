@@ -74,8 +74,7 @@ void main() {
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(entry),
         );
-        final row =
-            await database.payrollDao.getPayrollEntryById(entry.id);
+        final row = await database.payrollDao.getPayrollEntryById(entry.id);
         expect(row?.basicSalary, '25000.00');
       });
     });
@@ -85,30 +84,39 @@ void main() {
         final clientId = 'c-by-client';
         final e1 = buildEntry(clientId: clientId, year: 2025);
         final e2 = buildEntry(clientId: clientId, year: 2025, month: 4);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e1));
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e2));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e1),
+        );
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e2),
+        );
 
-        final rows =
-            await database.payrollDao.getPayrollByClient(clientId, 2025);
+        final rows = await database.payrollDao.getPayrollByClient(
+          clientId,
+          2025,
+        );
         expect(rows.length, greaterThanOrEqualTo(2));
       });
 
       test('excludes entries for different year', () async {
         final clientId = 'c-year-filter';
         final e = buildEntry(clientId: clientId, year: 2020);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e),
+        );
 
-        final rows =
-            await database.payrollDao.getPayrollByClient(clientId, 2099);
+        final rows = await database.payrollDao.getPayrollByClient(
+          clientId,
+          2099,
+        );
         expect(rows.any((r) => r.clientId == clientId), isFalse);
       });
 
       test('returns empty list for non-existent client', () async {
-        final rows = await database.payrollDao
-            .getPayrollByClient('no-such-client', 2026);
+        final rows = await database.payrollDao.getPayrollByClient(
+          'no-such-client',
+          2026,
+        );
         expect(rows, isEmpty);
       });
     });
@@ -117,28 +125,36 @@ void main() {
       test('returns entries for specific employee and year', () async {
         final empId = 'emp-by-emp';
         final e = buildEntry(employeeId: empId, year: 2026);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e),
+        );
 
-        final rows =
-            await database.payrollDao.getPayrollByEmployee(empId, 2026);
+        final rows = await database.payrollDao.getPayrollByEmployee(
+          empId,
+          2026,
+        );
         expect(rows.any((r) => r.employeeId == empId), isTrue);
       });
 
       test('excludes entries for different employee', () async {
         final empId = 'emp-only-me';
         final e = buildEntry(employeeId: empId, year: 2026);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e),
+        );
 
-        final rows =
-            await database.payrollDao.getPayrollByEmployee('other-emp', 2026);
+        final rows = await database.payrollDao.getPayrollByEmployee(
+          'other-emp',
+          2026,
+        );
         expect(rows.any((r) => r.employeeId == empId), isFalse);
       });
 
       test('returns empty list for non-existent employee', () async {
-        final rows = await database.payrollDao
-            .getPayrollByEmployee('no-such-emp', 2026);
+        final rows = await database.payrollDao.getPayrollByEmployee(
+          'no-such-emp',
+          2026,
+        );
         expect(rows, isEmpty);
       });
     });
@@ -146,8 +162,9 @@ void main() {
     group('updatePayrollEntry', () {
       test('updates status successfully', () async {
         final entry = buildEntry(status: 'draft');
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(entry));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(entry),
+        );
 
         final updated = entry.copyWith(status: 'approved');
         final success = await database.payrollDao.updatePayrollEntry(
@@ -155,23 +172,22 @@ void main() {
         );
 
         expect(success, isTrue);
-        final row =
-            await database.payrollDao.getPayrollEntryById(entry.id);
+        final row = await database.payrollDao.getPayrollEntryById(entry.id);
         expect(row?.status, 'approved');
       });
 
       test('updates netSalary field correctly', () async {
         final entry = buildEntry();
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(entry));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(entry),
+        );
 
         final updated = entry.copyWith(netSalary: '30000.00');
         await database.payrollDao.updatePayrollEntry(
           PayrollMapper.toCompanion(updated),
         );
 
-        final row =
-            await database.payrollDao.getPayrollEntryById(entry.id);
+        final row = await database.payrollDao.getPayrollEntryById(entry.id);
         expect(row?.netSalary, '30000.00');
       });
 
@@ -187,21 +203,21 @@ void main() {
     group('deletePayrollEntry', () {
       test('deletes entry and returns true', () async {
         final entry = buildEntry();
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(entry));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(entry),
+        );
 
-        final deleted =
-            await database.payrollDao.deletePayrollEntry(entry.id);
+        final deleted = await database.payrollDao.deletePayrollEntry(entry.id);
         expect(deleted, isTrue);
 
-        final row =
-            await database.payrollDao.getPayrollEntryById(entry.id);
+        final row = await database.payrollDao.getPayrollEntryById(entry.id);
         expect(row, isNull);
       });
 
       test('returns false for non-existent ID', () async {
-        final deleted = await database.payrollDao
-            .deletePayrollEntry('no-such-id-xyz');
+        final deleted = await database.payrollDao.deletePayrollEntry(
+          'no-such-id-xyz',
+        );
         expect(deleted, isFalse);
       });
     });
@@ -210,8 +226,9 @@ void main() {
       test('returns entries for specific client, month and year', () async {
         final clientId = 'c-by-month';
         final e = buildEntry(clientId: clientId, month: 6, year: 2025);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e),
+        );
 
         final rows = await database.payrollDao.getPayrollByMonth(
           clientId,
@@ -224,8 +241,9 @@ void main() {
       test('excludes entries from different month', () async {
         final clientId = 'c-month-filter';
         final e = buildEntry(clientId: clientId, month: 1, year: 2025);
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(e));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(e),
+        );
 
         final rows = await database.payrollDao.getPayrollByMonth(
           clientId,
@@ -248,18 +266,17 @@ void main() {
     group('getPayrollEntryById', () {
       test('retrieves entry by ID', () async {
         final entry = buildEntry();
-        await database.payrollDao
-            .insertPayrollEntry(PayrollMapper.toCompanion(entry));
+        await database.payrollDao.insertPayrollEntry(
+          PayrollMapper.toCompanion(entry),
+        );
 
-        final row =
-            await database.payrollDao.getPayrollEntryById(entry.id);
+        final row = await database.payrollDao.getPayrollEntryById(entry.id);
         expect(row, isNotNull);
         expect(row?.id, entry.id);
       });
 
       test('returns null for non-existent ID', () async {
-        final row =
-            await database.payrollDao.getPayrollEntryById('no-such-id');
+        final row = await database.payrollDao.getPayrollEntryById('no-such-id');
         expect(row, isNull);
       });
     });

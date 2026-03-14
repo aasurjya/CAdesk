@@ -273,47 +273,60 @@ void main() {
   // ---------------------------------------------------------------------------
 
   group('FirmOperationsMapper — round-trip', () {
-    test('FirmInfo: domain → companion → row → domain preserves fields', () async {
-      final id = 'rt-firm-${uid()}';
-      final info = makeFirmInfo(id: id);
-      await database.firmOperationsDao.upsertFirmInfo(
-        FirmOperationsMapper.firmInfoToCompanion(info),
-      );
-      final row = await database.firmOperationsDao.getFirmInfoById(id);
-      expect(row, isNotNull);
-      final restored = FirmOperationsMapper.firmInfoFromRow(row!);
-      expect(restored.name, info.name);
-      expect(restored.panNumber, info.panNumber);
-      expect(restored.tanNumber, info.tanNumber);
-      expect(restored.city, info.city);
-    });
+    test(
+      'FirmInfo: domain → companion → row → domain preserves fields',
+      () async {
+        final id = 'rt-firm-${uid()}';
+        final info = makeFirmInfo(id: id);
+        await database.firmOperationsDao.upsertFirmInfo(
+          FirmOperationsMapper.firmInfoToCompanion(info),
+        );
+        final row = await database.firmOperationsDao.getFirmInfoById(id);
+        expect(row, isNotNull);
+        final restored = FirmOperationsMapper.firmInfoFromRow(row!);
+        expect(restored.name, info.name);
+        expect(restored.panNumber, info.panNumber);
+        expect(restored.tanNumber, info.tanNumber);
+        expect(restored.city, info.city);
+      },
+    );
 
-    test('TeamMember: domain → companion → row → domain preserves fields', () async {
-      final member = makeTeamMember(firmId: 'rt-firm');
-      await database.firmOperationsDao.insertTeamMember(
-        FirmOperationsMapper.teamMemberToCompanion(member),
-      );
-      final row = await database.firmOperationsDao.getTeamMemberById(member.id);
-      expect(row, isNotNull);
-      final restored = FirmOperationsMapper.teamMemberFromRow(row!);
-      expect(restored.name, member.name);
-      expect(restored.pan, member.pan);
-      expect(restored.permissions, member.permissions);
-    });
+    test(
+      'TeamMember: domain → companion → row → domain preserves fields',
+      () async {
+        final member = makeTeamMember(firmId: 'rt-firm');
+        await database.firmOperationsDao.insertTeamMember(
+          FirmOperationsMapper.teamMemberToCompanion(member),
+        );
+        final row = await database.firmOperationsDao.getTeamMemberById(
+          member.id,
+        );
+        expect(row, isNotNull);
+        final restored = FirmOperationsMapper.teamMemberFromRow(row!);
+        expect(restored.name, member.name);
+        expect(restored.pan, member.pan);
+        expect(restored.permissions, member.permissions);
+      },
+    );
 
-    test('ClientAssignment: domain → companion → row → domain preserves fields', () async {
-      final assignment = makeAssignment();
-      await database.firmOperationsDao.assignClient(
-        FirmOperationsMapper.clientAssignmentToCompanion(assignment),
-      );
-      final rows = await database.firmOperationsDao.getAssignmentsForClient(
-        assignment.clientId,
-      );
-      expect(rows.isNotEmpty, isTrue);
-      final restored = FirmOperationsMapper.clientAssignmentFromRow(rows.first);
-      expect(restored.clientId, assignment.clientId);
-      expect(restored.role, assignment.role);
-    });
+    test(
+      'ClientAssignment: domain → companion → row → domain preserves fields',
+      () async {
+        final assignment = makeAssignment();
+        await database.firmOperationsDao.assignClient(
+          FirmOperationsMapper.clientAssignmentToCompanion(assignment),
+        );
+        final rows = await database.firmOperationsDao.getAssignmentsForClient(
+          assignment.clientId,
+        );
+        expect(rows.isNotEmpty, isTrue);
+        final restored = FirmOperationsMapper.clientAssignmentFromRow(
+          rows.first,
+        );
+        expect(restored.clientId, assignment.clientId);
+        expect(restored.role, assignment.role);
+      },
+    );
 
     test('FirmInfo: fromJson / toJson round-trip', () {
       final info = makeFirmInfo();
@@ -481,9 +494,12 @@ void main() {
       expect(results.every((a) => a.assignedToId == memberId), isTrue);
     });
 
-    test('getClientsAssignedTo returns empty list for unknown member', () async {
-      final results = await repo.getClientsAssignedTo('unknown-${uid()}');
-      expect(results, isEmpty);
-    });
+    test(
+      'getClientsAssignedTo returns empty list for unknown member',
+      () async {
+        final results = await repo.getClientsAssignedTo('unknown-${uid()}');
+        expect(results, isEmpty);
+      },
+    );
   });
 }

@@ -70,8 +70,7 @@ class MockTimeTrackingRepository implements TimeTrackingRepository {
       List.unmodifiable(
         _state
             .where(
-              (e) =>
-                  !e.startTime.isBefore(from) && !e.startTime.isAfter(to),
+              (e) => !e.startTime.isBefore(from) && !e.startTime.isAfter(to),
             )
             .toList(),
       );
@@ -100,8 +99,7 @@ class MockTimeTrackingRepository implements TimeTrackingRepository {
         _state
             .where(
               (e) =>
-                  e.clientId == clientId &&
-                  e.status != TimeEntryStatus.billed,
+                  e.clientId == clientId && e.status != TimeEntryStatus.billed,
             )
             .toList(),
       );
@@ -113,8 +111,10 @@ class MockTimeTrackingRepository implements TimeTrackingRepository {
           e.startTime.month == month &&
           e.startTime.year == year;
     });
-    final totalMinutes =
-        entries.fold<int>(0, (sum, e) => sum + e.durationMinutes);
+    final totalMinutes = entries.fold<int>(
+      0,
+      (sum, e) => sum + e.durationMinutes,
+    );
     return totalMinutes / 60.0;
   }
 }

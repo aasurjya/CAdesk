@@ -11,8 +11,7 @@ import 'package:ca_app/features/platform/domain/repositories/platform_repository
 /// feature flag is enabled, in which case [PlatformRepositoryImpl] is used.
 final platformRepositoryProvider = Provider<PlatformRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('platform_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('platform_real_repo') ?? false;
 
   if (!useReal) {
     return MockPlatformRepository();

@@ -43,15 +43,11 @@ class MockExportJobRepository implements ExportJobRepository {
 
   @override
   Future<List<ExportJob>> getByClient(String clientId) async =>
-      List.unmodifiable(
-        _state.where((j) => j.clientId == clientId).toList(),
-      );
+      List.unmodifiable(_state.where((j) => j.clientId == clientId).toList());
 
   @override
   Future<List<ExportJob>> getByStatus(ExportJobStatus status) async =>
-      List.unmodifiable(
-        _state.where((j) => j.status == status).toList(),
-      );
+      List.unmodifiable(_state.where((j) => j.status == status).toList());
 
   @override
   Future<bool> updateStatus(
@@ -96,10 +92,8 @@ class MockExportJobRepository implements ExportJobRepository {
   }
 
   @override
-  Stream<List<ExportJob>> watchByClient(String clientId) =>
-      _controller.stream.map(
-        (list) => list.where((j) => j.clientId == clientId).toList(),
-      );
+  Stream<List<ExportJob>> watchByClient(String clientId) => _controller.stream
+      .map((list) => list.where((j) => j.clientId == clientId).toList());
 
   void dispose() => _controller.close();
 }

@@ -14,9 +14,7 @@ class AssessmentRemoteSource {
     return List<Map<String, dynamic>>.from(response);
   }
 
-  Future<List<Map<String, dynamic>>> fetchByYear(
-    String assessmentYear,
-  ) async {
+  Future<List<Map<String, dynamic>>> fetchByYear(String assessmentYear) async {
     final response = await _client
         .from('assessment_cases')
         .select()

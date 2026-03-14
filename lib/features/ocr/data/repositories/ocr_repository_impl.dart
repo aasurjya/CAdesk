@@ -5,10 +5,7 @@ import 'package:ca_app/features/ocr/domain/models/ocr_job.dart';
 import 'package:ca_app/features/ocr/domain/repositories/ocr_repository.dart';
 
 class OcrRepositoryImpl implements OcrRepository {
-  const OcrRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const OcrRepositoryImpl({required this.remote, required this.local});
 
   final OcrRemoteSource remote;
   final OcrLocalSource local;

@@ -147,14 +147,35 @@ void main() {
       });
 
       test('counts only active clients for the given firmId', () async {
-        await database.into(database.clientsTable).insert(
-              _client(id: 'dc1', firmId: 'firm-count', name: 'Alice', status: 'active'),
+        await database
+            .into(database.clientsTable)
+            .insert(
+              _client(
+                id: 'dc1',
+                firmId: 'firm-count',
+                name: 'Alice',
+                status: 'active',
+              ),
             );
-        await database.into(database.clientsTable).insert(
-              _client(id: 'dc2', firmId: 'firm-count', name: 'Bob', status: 'inactive'),
+        await database
+            .into(database.clientsTable)
+            .insert(
+              _client(
+                id: 'dc2',
+                firmId: 'firm-count',
+                name: 'Bob',
+                status: 'inactive',
+              ),
             );
-        await database.into(database.clientsTable).insert(
-              _client(id: 'dc3', firmId: 'firm-count', name: 'Carol', status: 'active'),
+        await database
+            .into(database.clientsTable)
+            .insert(
+              _client(
+                id: 'dc3',
+                firmId: 'firm-count',
+                name: 'Carol',
+                status: 'active',
+              ),
             );
 
         final count = await database.dashboardDao.getTotalClients('firm-count');
@@ -162,8 +183,15 @@ void main() {
       });
 
       test('does not count clients from other firms', () async {
-        await database.into(database.clientsTable).insert(
-              _client(id: 'dc4', firmId: 'firm-other', name: 'Dave', status: 'active'),
+        await database
+            .into(database.clientsTable)
+            .insert(
+              _client(
+                id: 'dc4',
+                firmId: 'firm-other',
+                name: 'Dave',
+                status: 'active',
+              ),
             );
 
         final count = await database.dashboardDao.getTotalClients('firm-count');
@@ -182,7 +210,9 @@ void main() {
 
       test('counts filed ITR, GST, and TDS returns for period', () async {
         // ITR filed
-        await database.into(database.itrFilingsTable).insert(
+        await database
+            .into(database.itrFilingsTable)
+            .insert(
               _itrFiling(
                 id: 'itr-f1',
                 firmId: 'firm-filed',
@@ -192,7 +222,9 @@ void main() {
               ),
             );
         // GST filed
-        await database.into(database.gstReturnsTable).insert(
+        await database
+            .into(database.gstReturnsTable)
+            .insert(
               _gstReturn(
                 id: 'gst-f1',
                 firmId: 'firm-filed',
@@ -202,7 +234,9 @@ void main() {
               ),
             );
         // TDS filed
-        await database.into(database.tdsReturnsTable).insert(
+        await database
+            .into(database.tdsReturnsTable)
+            .insert(
               _tdsReturn(
                 id: 'tds-f1',
                 firmId: 'firm-filed',
@@ -212,7 +246,9 @@ void main() {
               ),
             );
         // Pending ITR — should NOT count
-        await database.into(database.itrFilingsTable).insert(
+        await database
+            .into(database.itrFilingsTable)
+            .insert(
               _itrFiling(
                 id: 'itr-p1',
                 firmId: 'firm-filed',
@@ -231,13 +267,16 @@ void main() {
 
     group('getPendingReturnsCount', () {
       test('returns zero when no pending filings', () async {
-        final count =
-            await database.dashboardDao.getPendingReturnsCount('firm-pending-empty');
+        final count = await database.dashboardDao.getPendingReturnsCount(
+          'firm-pending-empty',
+        );
         expect(count, 0);
       });
 
       test('counts pending ITR, GST, and TDS returns', () async {
-        await database.into(database.itrFilingsTable).insert(
+        await database
+            .into(database.itrFilingsTable)
+            .insert(
               _itrFiling(
                 id: 'itr-pnd1',
                 firmId: 'firm-pnd',
@@ -245,7 +284,9 @@ void main() {
                 filingStatus: 'pending',
               ),
             );
-        await database.into(database.gstReturnsTable).insert(
+        await database
+            .into(database.gstReturnsTable)
+            .insert(
               _gstReturn(
                 id: 'gst-pnd1',
                 firmId: 'firm-pnd',
@@ -254,7 +295,9 @@ void main() {
               ),
             );
         // Filed — should NOT count
-        await database.into(database.gstReturnsTable).insert(
+        await database
+            .into(database.gstReturnsTable)
+            .insert(
               _gstReturn(
                 id: 'gst-pnd2',
                 firmId: 'firm-pnd',
@@ -264,21 +307,25 @@ void main() {
               ),
             );
 
-        final count =
-            await database.dashboardDao.getPendingReturnsCount('firm-pnd');
+        final count = await database.dashboardDao.getPendingReturnsCount(
+          'firm-pnd',
+        );
         expect(count, 2);
       });
     });
 
     group('getOverdueTasksCount', () {
       test('returns zero when no overdue tasks', () async {
-        final count =
-            await database.dashboardDao.getOverdueTasksCount('firm-overdue-empty');
+        final count = await database.dashboardDao.getOverdueTasksCount(
+          'firm-overdue-empty',
+        );
         expect(count, 0);
       });
 
       test('counts tasks with overdue status', () async {
-        await database.into(database.tasksTable).insert(
+        await database
+            .into(database.tasksTable)
+            .insert(
               _task(
                 id: 'tk-od1',
                 firmId: 'firm-od',
@@ -287,7 +334,9 @@ void main() {
                 dueDate: '2026-02-28',
               ),
             );
-        await database.into(database.tasksTable).insert(
+        await database
+            .into(database.tasksTable)
+            .insert(
               _task(
                 id: 'tk-od2',
                 firmId: 'firm-od',
@@ -297,7 +346,9 @@ void main() {
               ),
             );
         // Completed — should NOT count
-        await database.into(database.tasksTable).insert(
+        await database
+            .into(database.tasksTable)
+            .insert(
               _task(
                 id: 'tk-done1',
                 firmId: 'firm-od',
@@ -307,8 +358,9 @@ void main() {
               ),
             );
 
-        final count =
-            await database.dashboardDao.getOverdueTasksCount('firm-od');
+        final count = await database.dashboardDao.getOverdueTasksCount(
+          'firm-od',
+        );
         expect(count, 2);
       });
     });
@@ -333,7 +385,9 @@ void main() {
       });
 
       test('returns recent filings ordered by filed date descending', () async {
-        await database.into(database.itrFilingsTable).insert(
+        await database
+            .into(database.itrFilingsTable)
+            .insert(
               _itrFiling(
                 id: 'itr-rf1',
                 firmId: 'firm-rf',
@@ -342,7 +396,9 @@ void main() {
                 filedDate: '2026-01-10',
               ),
             );
-        await database.into(database.itrFilingsTable).insert(
+        await database
+            .into(database.itrFilingsTable)
+            .insert(
               _itrFiling(
                 id: 'itr-rf2',
                 firmId: 'firm-rf',
@@ -369,7 +425,9 @@ void main() {
 
       test('respects limit parameter', () async {
         for (var i = 0; i < 5; i++) {
-          await database.into(database.itrFilingsTable).insert(
+          await database
+              .into(database.itrFilingsTable)
+              .insert(
                 _itrFiling(
                   id: 'itr-lim$i',
                   firmId: 'firm-lim',
@@ -397,7 +455,9 @@ void main() {
       });
 
       test('aggregates billing amount per client', () async {
-        await database.into(database.invoicesTable).insert(
+        await database
+            .into(database.invoicesTable)
+            .insert(
               _invoice(
                 id: 'inv-tc1',
                 firmId: 'firm-tc',
@@ -406,7 +466,9 @@ void main() {
                 grandTotal: 10000.0,
               ),
             );
-        await database.into(database.invoicesTable).insert(
+        await database
+            .into(database.invoicesTable)
+            .insert(
               _invoice(
                 id: 'inv-tc2',
                 firmId: 'firm-tc',
@@ -415,7 +477,9 @@ void main() {
                 grandTotal: 5000.0,
               ),
             );
-        await database.into(database.invoicesTable).insert(
+        await database
+            .into(database.invoicesTable)
+            .insert(
               _invoice(
                 id: 'inv-tc3',
                 firmId: 'firm-tc',
@@ -431,14 +495,17 @@ void main() {
         );
         expect(topClients.isNotEmpty, isTrue);
 
-        final alpha =
-            topClients.firstWhere((c) => c.clientName == 'Alpha Corp');
+        final alpha = topClients.firstWhere(
+          (c) => c.clientName == 'Alpha Corp',
+        );
         expect(alpha.billingAmount, closeTo(15000.0, 0.01));
       });
 
       test('respects limit parameter', () async {
         for (var i = 0; i < 6; i++) {
-          await database.into(database.invoicesTable).insert(
+          await database
+              .into(database.invoicesTable)
+              .insert(
                 _invoice(
                   id: 'inv-lim$i',
                   firmId: 'firm-tc-lim',
@@ -458,7 +525,9 @@ void main() {
 
     group('getDashboardSummary', () {
       test('returns DashboardSummary with correct total clients', () async {
-        await database.into(database.clientsTable).insert(
+        await database
+            .into(database.clientsTable)
+            .insert(
               _client(
                 id: 'ds-c1',
                 firmId: 'firm-ds',
@@ -466,7 +535,9 @@ void main() {
                 status: 'active',
               ),
             );
-        await database.into(database.clientsTable).insert(
+        await database
+            .into(database.clientsTable)
+            .insert(
               _client(
                 id: 'ds-c2',
                 firmId: 'firm-ds',
@@ -475,14 +546,16 @@ void main() {
               ),
             );
 
-        final summary =
-            await database.dashboardDao.getDashboardSummary(firmId: 'firm-ds');
+        final summary = await database.dashboardDao.getDashboardSummary(
+          firmId: 'firm-ds',
+        );
         expect(summary.totalClients, greaterThanOrEqualTo(2));
       });
 
       test('returns DashboardSummary with non-negative counts', () async {
-        final summary =
-            await database.dashboardDao.getDashboardSummary(firmId: 'firm-ds');
+        final summary = await database.dashboardDao.getDashboardSummary(
+          firmId: 'firm-ds',
+        );
         expect(summary.totalClients, greaterThanOrEqualTo(0));
         expect(summary.filedReturns, greaterThanOrEqualTo(0));
         expect(summary.pendingReturns, greaterThanOrEqualTo(0));
@@ -492,8 +565,9 @@ void main() {
       });
 
       test('summary is immutable — copyWith returns new instance', () async {
-        final summary =
-            await database.dashboardDao.getDashboardSummary(firmId: 'firm-ds');
+        final summary = await database.dashboardDao.getDashboardSummary(
+          firmId: 'firm-ds',
+        );
         final updated = summary.copyWith(totalClients: 999);
         expect(updated.totalClients, 999);
         expect(summary.totalClients, isNot(999));

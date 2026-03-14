@@ -18,9 +18,9 @@ class PortalConnectorDao extends DatabaseAccessor<AppDatabase>
   ) async {
     await transaction(() async {
       // Remove any pre-existing row for this portalType to maintain uniqueness.
-      await (delete(portalCredentialsTable)
-            ..where((t) => t.portalType.equals(companion.portalType.value)))
-          .go();
+      await (delete(
+        portalCredentialsTable,
+      )..where((t) => t.portalType.equals(companion.portalType.value))).go();
       await into(portalCredentialsTable).insert(companion);
     });
     return companion.id.value;
@@ -38,39 +38,40 @@ class PortalConnectorDao extends DatabaseAccessor<AppDatabase>
   Future<bool> updateCredential(
     PortalCredentialsTableCompanion companion,
   ) async {
-    final existing = await (select(portalCredentialsTable)
-          ..where((t) => t.id.equals(companion.id.value)))
-        .getSingleOrNull();
+    final existing = await (select(
+      portalCredentialsTable,
+    )..where((t) => t.id.equals(companion.id.value))).getSingleOrNull();
     if (existing == null) return false;
-    await (update(portalCredentialsTable)
-          ..where((t) => t.id.equals(companion.id.value)))
-        .write(companion);
+    await (update(
+      portalCredentialsTable,
+    )..where((t) => t.id.equals(companion.id.value))).write(companion);
     return true;
   }
 
   /// Delete the credential row for [portalType].
   /// Returns `true` if a row was deleted.
   Future<bool> deleteCredential(String portalType) async {
-    final count = await (delete(portalCredentialsTable)
-          ..where((t) => t.portalType.equals(portalType)))
-        .go();
+    final count = await (delete(
+      portalCredentialsTable,
+    )..where((t) => t.portalType.equals(portalType))).go();
     return count > 0;
   }
 
   /// Return the current status string for [portalType], or `null`.
   Future<String?> getSyncStatus(String portalType) async {
-    final row = await (select(portalCredentialsTable)
-          ..where((t) => t.portalType.equals(portalType)))
-        .getSingleOrNull();
+    final row = await (select(
+      portalCredentialsTable,
+    )..where((t) => t.portalType.equals(portalType))).getSingleOrNull();
     return row?.status;
   }
 
   /// Update only the status field for the credential matching [portalType].
   /// Returns `true` if a row was updated.
   Future<bool> updateSyncStatus(String portalType, String status) async {
-    final count = await (update(portalCredentialsTable)
-          ..where((t) => t.portalType.equals(portalType)))
-        .write(
+    final count =
+        await (update(
+          portalCredentialsTable,
+        )..where((t) => t.portalType.equals(portalType))).write(
           PortalCredentialsTableCompanion(
             status: Value(status),
             updatedAt: Value(DateTime.now()),

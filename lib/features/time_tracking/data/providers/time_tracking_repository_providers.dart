@@ -8,13 +8,15 @@ import 'package:ca_app/features/time_tracking/data/repositories/mock_time_tracki
 import 'package:ca_app/features/time_tracking/data/repositories/time_tracking_repository_impl.dart';
 import 'package:ca_app/features/time_tracking/domain/repositories/time_tracking_repository.dart';
 
-final timeTrackingRemoteSourceProvider =
-    Provider<TimeTrackingRemoteSource>((ref) {
+final timeTrackingRemoteSourceProvider = Provider<TimeTrackingRemoteSource>((
+  ref,
+) {
   return TimeTrackingRemoteSource(Supabase.instance.client);
 });
 
-final timeTrackingLocalSourceProvider =
-    Provider<TimeTrackingLocalSource>((ref) {
+final timeTrackingLocalSourceProvider = Provider<TimeTrackingLocalSource>((
+  ref,
+) {
   final db = ref.watch(appDatabaseProvider);
   return TimeTrackingLocalSource(db);
 });

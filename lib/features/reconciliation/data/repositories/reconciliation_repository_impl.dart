@@ -21,9 +21,7 @@ class ReconciliationRepositoryImpl implements ReconciliationRepository {
   final String firmId;
 
   @override
-  Future<String> insertReconciliationResult(
-    ReconciliationResult result,
-  ) async {
+  Future<String> insertReconciliationResult(ReconciliationResult result) async {
     try {
       final json = await remote.insert({
         ...ReconciliationMapper.toJson(result),

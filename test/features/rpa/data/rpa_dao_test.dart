@@ -51,14 +51,18 @@ void main() {
       test('inserted task has correct taskType', () async {
         final task = makeTask(taskType: RpaTaskType.tdsDownload);
         await database.rpaDao.insert(RpaMapper.toCompanion(task));
-        final results = await database.rpaDao.getByType(RpaTaskType.tdsDownload.name);
+        final results = await database.rpaDao.getByType(
+          RpaTaskType.tdsDownload.name,
+        );
         expect(results.any((r) => r.id == task.id), isTrue);
       });
 
       test('inserted task has correct status', () async {
         final task = makeTask(status: RpaStatus.running);
         await database.rpaDao.insert(RpaMapper.toCompanion(task));
-        final results = await database.rpaDao.getByStatus(RpaStatus.running.name);
+        final results = await database.rpaDao.getByStatus(
+          RpaStatus.running.name,
+        );
         expect(results.any((r) => r.id == task.id), isTrue);
       });
 
@@ -90,8 +94,12 @@ void main() {
       test('filters by clientId correctly', () async {
         final clientA = 'rpa-filter-a';
         final clientB = 'rpa-filter-b';
-        await database.rpaDao.insert(RpaMapper.toCompanion(makeTask(clientId: clientA)));
-        await database.rpaDao.insert(RpaMapper.toCompanion(makeTask(clientId: clientB)));
+        await database.rpaDao.insert(
+          RpaMapper.toCompanion(makeTask(clientId: clientA)),
+        );
+        await database.rpaDao.insert(
+          RpaMapper.toCompanion(makeTask(clientId: clientB)),
+        );
         final results = await database.rpaDao.getByClient(clientA);
         expect(results.every((r) => r.clientId == clientA), isTrue);
       });
@@ -101,7 +109,9 @@ void main() {
       test('returns tasks matching status', () async {
         final task = makeTask(status: RpaStatus.completed);
         await database.rpaDao.insert(RpaMapper.toCompanion(task));
-        final results = await database.rpaDao.getByStatus(RpaStatus.completed.name);
+        final results = await database.rpaDao.getByStatus(
+          RpaStatus.completed.name,
+        );
         expect(results.any((r) => r.id == task.id), isTrue);
       });
 
@@ -115,7 +125,9 @@ void main() {
       test('returns tasks of specific type', () async {
         final task = makeTask(taskType: RpaTaskType.mcaFiling);
         await database.rpaDao.insert(RpaMapper.toCompanion(task));
-        final results = await database.rpaDao.getByType(RpaTaskType.mcaFiling.name);
+        final results = await database.rpaDao.getByType(
+          RpaTaskType.mcaFiling.name,
+        );
         expect(results.any((r) => r.id == task.id), isTrue);
       });
 
@@ -124,8 +136,13 @@ void main() {
         final t2 = makeTask(taskType: RpaTaskType.traces26asFetch);
         await database.rpaDao.insert(RpaMapper.toCompanion(t1));
         await database.rpaDao.insert(RpaMapper.toCompanion(t2));
-        final results = await database.rpaDao.getByType(RpaTaskType.itrSubmit.name);
-        expect(results.every((r) => r.taskType == RpaTaskType.itrSubmit.name), isTrue);
+        final results = await database.rpaDao.getByType(
+          RpaTaskType.itrSubmit.name,
+        );
+        expect(
+          results.every((r) => r.taskType == RpaTaskType.itrSubmit.name),
+          isTrue,
+        );
       });
     });
 
@@ -141,7 +158,9 @@ void main() {
         );
         expect(success, isTrue);
 
-        final results = await database.rpaDao.getByStatus(RpaStatus.running.name);
+        final results = await database.rpaDao.getByStatus(
+          RpaStatus.running.name,
+        );
         final updated = results.firstWhere((r) => r.id == task.id);
         expect(updated.status, RpaStatus.running.name);
         expect(updated.startedAt, isNotNull);
@@ -158,7 +177,9 @@ void main() {
           retryCount: 1,
         );
 
-        final results = await database.rpaDao.getByStatus(RpaStatus.failed.name);
+        final results = await database.rpaDao.getByStatus(
+          RpaStatus.failed.name,
+        );
         final updated = results.firstWhere((r) => r.id == task.id);
         expect(updated.status, RpaStatus.failed.name);
         expect(updated.errorMessage, 'Login timeout');
@@ -227,7 +248,9 @@ void main() {
         final success = await database.rpaDao.cancel(task.id);
         expect(success, isTrue);
 
-        final results = await database.rpaDao.getByStatus(RpaStatus.cancelled.name);
+        final results = await database.rpaDao.getByStatus(
+          RpaStatus.cancelled.name,
+        );
         expect(results.any((r) => r.id == task.id), isTrue);
       });
 

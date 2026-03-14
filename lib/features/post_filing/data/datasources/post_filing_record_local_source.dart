@@ -34,13 +34,12 @@ class PostFilingRecordLocalSource {
     PostFilingStatus status, {
     DateTime? completedAt,
     String? notes,
-  }) =>
-      _db.postFilingRecordsDao.updateStatus(
-        id,
-        status.name,
-        completedAt: completedAt,
-        notes: notes,
-      );
+  }) => _db.postFilingRecordsDao.updateStatus(
+    id,
+    status.name,
+    completedAt: completedAt,
+    notes: notes,
+  );
 
   Future<List<PostFilingRecord>> getPending() async {
     final rows = await _db.postFilingRecordsDao.getPending();

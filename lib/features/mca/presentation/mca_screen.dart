@@ -320,7 +320,11 @@ class _CompaniesTab extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.business_outlined, size: 48, color: AppColors.neutral200),
+            Icon(
+              Icons.business_outlined,
+              size: 48,
+              color: AppColors.neutral200,
+            ),
             SizedBox(height: 12),
             Text(
               'No companies found',

@@ -25,10 +25,7 @@ class DashboardLocalSource {
   }
 
   /// Returns the [limit] top clients by billing amount from local tables.
-  Future<List<TopClient>> getTopClients({
-    int limit = 5,
-    String firmId = '',
-  }) {
+  Future<List<TopClient>> getTopClients({int limit = 5, String firmId = ''}) {
     return _db.dashboardDao.getTopClients(firmId, limit: limit);
   }
 }

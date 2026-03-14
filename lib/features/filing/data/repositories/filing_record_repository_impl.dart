@@ -5,10 +5,7 @@ import 'package:ca_app/features/filing/domain/models/filing_record.dart';
 import 'package:ca_app/features/filing/domain/repositories/filing_record_repository.dart';
 
 class FilingRecordRepositoryImpl implements FilingRecordRepository {
-  const FilingRecordRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  const FilingRecordRepositoryImpl({required this.remote, required this.local});
 
   final FilingRecordRemoteSource remote;
   final FilingRecordLocalSource local;

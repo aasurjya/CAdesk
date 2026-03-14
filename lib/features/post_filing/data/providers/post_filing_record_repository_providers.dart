@@ -10,27 +10,28 @@ import 'package:ca_app/features/post_filing/domain/repositories/post_filing_reco
 
 final postFilingRecordRemoteSourceProvider =
     Provider<PostFilingRecordRemoteSource>((ref) {
-  return PostFilingRecordRemoteSource(Supabase.instance.client);
-});
+      return PostFilingRecordRemoteSource(Supabase.instance.client);
+    });
 
 final postFilingRecordLocalSourceProvider =
     Provider<PostFilingRecordLocalSource>((ref) {
-  final db = ref.watch(appDatabaseProvider);
-  return PostFilingRecordLocalSource(db);
-});
+      final db = ref.watch(appDatabaseProvider);
+      return PostFilingRecordLocalSource(db);
+    });
 
-final postFilingRecordRepositoryProvider =
-    Provider<PostFilingRecordRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('post_filing_real_repo') ?? false;
+final postFilingRecordRepositoryProvider = Provider<PostFilingRecordRepository>(
+  (ref) {
+    final flags = ref.watch(featureFlagProvider);
+    final useReal =
+        flags.asData?.value.isEnabled('post_filing_real_repo') ?? false;
 
-  if (!useReal) {
-    return MockPostFilingRecordRepository();
-  }
+    if (!useReal) {
+      return MockPostFilingRecordRepository();
+    }
 
-  return PostFilingRecordRepositoryImpl(
-    remote: ref.watch(postFilingRecordRemoteSourceProvider),
-    local: ref.watch(postFilingRecordLocalSourceProvider),
-  );
-});
+    return PostFilingRecordRepositoryImpl(
+      remote: ref.watch(postFilingRecordRemoteSourceProvider),
+      local: ref.watch(postFilingRecordLocalSourceProvider),
+    );
+  },
+);

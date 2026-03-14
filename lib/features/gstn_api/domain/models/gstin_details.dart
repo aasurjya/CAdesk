@@ -82,14 +82,14 @@ class GstinDetails {
 
   @override
   int get hashCode => Object.hash(
-        gstin,
-        legalName,
-        tradeName,
-        address,
-        registrationDate,
-        status,
-        stateCode,
-        constitutionType,
-        returnFilingFrequency,
-      );
+    gstin,
+    legalName,
+    tradeName,
+    address,
+    registrationDate,
+    status,
+    stateCode,
+    constitutionType,
+    returnFilingFrequency,
+  );
 }

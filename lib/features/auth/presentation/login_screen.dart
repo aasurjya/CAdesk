@@ -37,10 +37,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _isSubmitting = true);
 
     try {
-      await ref.read(authProvider.notifier).signIn(
-            _emailController.text.trim(),
-            _passwordController.text,
-          );
+      await ref
+          .read(authProvider.notifier)
+          .signIn(_emailController.text.trim(), _passwordController.text);
       // GoRouter redirect handles navigation on success.
     } on AuthException catch (e) {
       if (mounted) {
@@ -209,13 +208,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                     ),
-                    tooltip:
-                        _obscurePassword ? 'Show password' : 'Hide password',
+                    tooltip: _obscurePassword
+                        ? 'Show password'
+                        : 'Hide password',
                     onPressed: isLoading
                         ? null
                         : () => setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            ),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                   ),
                 ),
                 validator: (value) {

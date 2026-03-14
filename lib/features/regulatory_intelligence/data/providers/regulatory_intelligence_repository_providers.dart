@@ -12,14 +12,14 @@ import 'package:ca_app/features/regulatory_intelligence/domain/repositories/regu
 /// [RegulatoryIntelligenceRepositoryImpl] is used.
 final regulatoryIntelligenceRepositoryProvider =
     Provider<RegulatoryIntelligenceRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('regulatory_intelligence_real_repo') ??
+      final flags = ref.watch(featureFlagProvider);
+      final useReal =
+          flags.asData?.value.isEnabled('regulatory_intelligence_real_repo') ??
           false;
 
-  if (!useReal) {
-    return MockRegulatoryIntelligenceRepository();
-  }
+      if (!useReal) {
+        return MockRegulatoryIntelligenceRepository();
+      }
 
-  return RegulatoryIntelligenceRepositoryImpl(Supabase.instance.client);
-});
+      return RegulatoryIntelligenceRepositoryImpl(Supabase.instance.client);
+    });

@@ -19,8 +19,7 @@ final practiceLocalSourceProvider = Provider<PracticeLocalSource>((ref) {
 
 final practiceRepositoryProvider = Provider<PracticeRepository>((ref) {
   final flags = ref.watch(featureFlagProvider);
-  final useReal =
-      flags.asData?.value.isEnabled('practice_real_repo') ?? false;
+  final useReal = flags.asData?.value.isEnabled('practice_real_repo') ?? false;
 
   if (!useReal) {
     return MockPracticeRepository();
