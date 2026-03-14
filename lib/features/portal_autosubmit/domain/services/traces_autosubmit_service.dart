@@ -1,6 +1,7 @@
 import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
 /// Auto-submit service for the TRACES portal (TDS Reconciliation Analysis
@@ -48,13 +49,58 @@ class TracesAutosubmitService {
   // ---------------------------------------------------------------------------
 
   /// Logs in to TRACES using TAN and password.
+  ///
+  /// When [webViewController] is provided, real WebView automation is used.
+  /// When `null`, the method falls back to the mock stream for testing/preview.
   Stream<SubmissionLog> login({
     required PortalCredential credential,
     required OtpInterceptService otpService,
+    PortalWebViewController? webViewController,
   }) async* {
     final jobId = 'traces_login_${credential.id}';
+
+    if (webViewController == null) {
+      yield* _mockLoginStream(jobId);
+      return;
+    }
+
+    // --- Real WebView automation ---
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Navigating to TRACES portal...',
+    );
+    await webViewController.waitForElement('#userId');
+
+    yield _log(jobId, SubmissionStep.loggingIn, 'Entering TAN and password...');
+    await webViewController.fillField('#userId', credential.username ?? '');
+    await webViewController.fillField(
+      '#password',
+      credential.encryptedPassword ?? '',
+    );
+
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Resolving CAPTCHA (manual)...',
+    );
+    // CAPTCHA requires manual intervention — automation pauses here;
+    // the embedded browser is visible so the user can solve it.
+    await webViewController.waitForElement('[type="submit"]');
+    await webViewController.clickElement('[type="submit"]');
+
+    await webViewController.waitForNavigation('/taxpayer/home');
+    yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
+  }
+
+  Stream<SubmissionLog> _mockLoginStream(String jobId) async* {
     yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to TRACES portal');
-    yield _log(jobId, SubmissionStep.loggingIn, 'Entering TAN and password');
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Entering TAN and password '
+      '(script: ${_loginScript.trim().split('\n').first})',
+    );
     yield _log(jobId, SubmissionStep.loggingIn, 'Resolving CAPTCHA (OCR)');
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
   }
@@ -72,7 +118,8 @@ class TracesAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.filling,
-      'Uploading FVU file: $fvuFilePath',
+      'Uploading FVU file: $fvuFilePath '
+      '(script: ${_fvuUploadScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.submitting, 'Submitting FVU to TRACES');
     yield _log(
@@ -100,7 +147,12 @@ class TracesAutosubmitService {
       SubmissionStep.filling,
       'Entering BSR: $bsrCode, date: $challanDate, serial: $serialNumber',
     );
-    yield _log(jobId, SubmissionStep.submitting, 'Verifying challan');
+    yield _log(
+      jobId,
+      SubmissionStep.submitting,
+      'Verifying challan '
+      '(script: ${_challanVerifyScript.trim().split('\n').first})',
+    );
     yield _log(
       jobId,
       SubmissionStep.done,
@@ -125,7 +177,12 @@ class TracesAutosubmitService {
       SubmissionStep.downloading,
       'Selecting FY $financialYear',
     );
-    yield _log(jobId, SubmissionStep.downloading, 'Triggering bulk download');
+    yield _log(
+      jobId,
+      SubmissionStep.downloading,
+      'Triggering bulk download '
+      '(script: ${_form16DownloadScript.trim().split('\n').first})',
+    );
     yield _log(jobId, SubmissionStep.downloading, 'Saving to: $savePath');
     yield _log(
       jobId,

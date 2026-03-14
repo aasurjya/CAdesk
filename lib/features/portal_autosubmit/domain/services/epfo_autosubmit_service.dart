@@ -1,6 +1,8 @@
+import 'package:ca_app/core/otp/otp_channel.dart';
 import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
 /// Auto-submit service for the EPFO (Employees' Provident Fund Organisation)
@@ -45,11 +47,55 @@ class EpfoAutosubmitService {
   // ---------------------------------------------------------------------------
 
   /// Logs in to the EPFO Unified Portal.
+  ///
+  /// When [webViewController] is provided, real WebView automation is used.
+  /// When `null`, the method falls back to the mock stream for testing/preview.
   Stream<SubmissionLog> login({
     required PortalCredential credential,
     required OtpInterceptService otpService,
+    PortalWebViewController? webViewController,
   }) async* {
     final jobId = 'epfo_login_${credential.id}';
+
+    if (webViewController == null) {
+      yield* _mockLoginStream(jobId);
+      return;
+    }
+
+    // --- Real WebView automation ---
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Navigating to EPFO Unified Portal...',
+    );
+    await webViewController.waitForElement('#username');
+
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Entering establishment ID and password...',
+    );
+    await webViewController.fillField('#username', credential.username ?? '');
+    await webViewController.fillField(
+      '#password',
+      credential.encryptedPassword ?? '',
+    );
+    await webViewController.clickElement('[type="submit"]');
+
+    yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for EPFO login...');
+    final otp = await webViewController.interceptOtp(
+      channel: OtpChannel.sms,
+      portalHint: 'EPFO portal',
+    );
+
+    await webViewController.fillField('[name="otp"]', otp);
+    await webViewController.clickElement('[type="submit"]');
+    await webViewController.waitForNavigation('/member/home');
+
+    yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
+  }
+
+  Stream<SubmissionLog> _mockLoginStream(String jobId) async* {
     yield _log(
       jobId,
       SubmissionStep.loggingIn,
@@ -58,7 +104,8 @@ class EpfoAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.loggingIn,
-      'Entering establishment ID and password',
+      'Entering establishment ID and password '
+      '(script: ${_loginScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
   }
@@ -84,7 +131,8 @@ class EpfoAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.filling,
-      'Uploading ECR file: $ecrFilePath',
+      'Uploading ECR file: $ecrFilePath '
+      '(script: ${_ecrUploadScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.filling, 'Validating ECR data');
     yield _log(
@@ -117,7 +165,8 @@ class EpfoAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.submitting,
-      'Generating challan for $wageMonth',
+      'Generating challan for $wageMonth '
+      '(script: ${_challanGenerateScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.downloading, 'Downloading challan PDF');
     yield _log(jobId, SubmissionStep.downloading, 'Saving to: $savePath');
@@ -134,7 +183,8 @@ class EpfoAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.filling,
-      'Checking KYC status for UAN: $uan',
+      'Checking KYC status for UAN: $uan '
+      '(script: ${_kycStatusScript.trim().split('\n').first})',
     );
     yield _log(
       jobId,

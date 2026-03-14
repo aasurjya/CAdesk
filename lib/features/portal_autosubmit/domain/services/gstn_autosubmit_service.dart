@@ -1,6 +1,8 @@
+import 'package:ca_app/core/otp/otp_channel.dart';
 import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
 /// Auto-submit service for the GST Network (GSTN) portal.
@@ -56,15 +58,62 @@ class GstnAutosubmitService {
   // ---------------------------------------------------------------------------
 
   /// Logs in to the GSTN portal using [credential].
+  ///
+  /// When [webViewController] is provided, real WebView automation is used.
+  /// When `null`, the method falls back to the mock stream for testing/preview.
   Stream<SubmissionLog> login({
     required PortalCredential credential,
     required OtpInterceptService otpService,
+    PortalWebViewController? webViewController,
   }) async* {
     final jobId = 'gstn_login_${credential.id}';
+
+    if (webViewController == null) {
+      yield* _mockLoginStream(jobId);
+      return;
+    }
+
+    // --- Real WebView automation ---
+    yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to GSTN portal...');
+    await webViewController.waitForElement('#user_name, #username');
+
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Entering GSTIN and password...',
+    );
+    await webViewController.fillField(
+      '#user_name, #username',
+      credential.username ?? '',
+    );
+    await webViewController.fillField(
+      '#user_pass, [name="password"]',
+      credential.encryptedPassword ?? '',
+    );
+    await webViewController.clickElement('[type="submit"]');
+
+    yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTN login...');
+    final otp = await webViewController.interceptOtp(
+      channel: OtpChannel.sms,
+      portalHint: 'GSTN portal',
+    );
+
+    await webViewController.fillField('#otp, [name="otp"]', otp);
+    await webViewController.clickElement('[data-testid="otp-submit"]');
+    await webViewController.waitForNavigation('/dashboard');
+
+    yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
+  }
+
+  Stream<SubmissionLog> _mockLoginStream(String jobId) async* {
     yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to GSTN portal');
-    yield _log(jobId, SubmissionStep.loggingIn, 'Entering GSTIN and password');
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Entering GSTIN and password '
+      '(script: ${_loginScript.trim().split('\n').first})',
+    );
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTN login');
-    // Stub: real impl calls otpService.waitForOtp(channel: OtpChannel.sms, ...)
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
   }
 
@@ -86,11 +135,16 @@ class GstnAutosubmitService {
       SubmissionStep.filling,
       'Uploading GSTR-1 JSON: $jsonFilePath',
     );
-    yield _log(jobId, SubmissionStep.filling, 'Processing upload response');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Processing upload: ${_gstr1UploadScript.trim().split('\n').first}',
+    );
     yield _log(
       jobId,
       SubmissionStep.otp,
-      'Awaiting OTP for GSTR-1 file confirmation',
+      'Awaiting OTP for GSTR-1 file confirmation '
+      '(verify: ${_otpVerifyScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.submitting, 'Filing GSTR-1');
     yield _log(jobId, SubmissionStep.done, 'GSTR-1 filed for GSTIN: $gstin');
@@ -110,7 +164,12 @@ class GstnAutosubmitService {
       'Filling Table 3.1 — Outward supplies',
     );
     yield _log(jobId, SubmissionStep.filling, 'Filling Table 4 — ITC claimed');
-    yield _log(jobId, SubmissionStep.filling, 'Computing net tax liability');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Computing net tax liability '
+      '(3B script: ${_gstr3bFillScript.trim().split('\n').first})',
+    );
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTR-3B filing');
     yield _log(jobId, SubmissionStep.submitting, 'Submitting GSTR-3B');
     yield _log(jobId, SubmissionStep.done, 'GSTR-3B filed for GSTIN: $gstin');
@@ -128,7 +187,11 @@ class GstnAutosubmitService {
       SubmissionStep.filling,
       'Creating PMT-06 challan for ₹${taxAmount.toStringAsFixed(2)}',
     );
-    yield _log(jobId, SubmissionStep.submitting, 'Generating challan');
+    yield _log(
+      jobId,
+      SubmissionStep.submitting,
+      'Generating challan: ${_pmt06Script.trim().split('\n').first}',
+    );
     yield _log(
       jobId,
       SubmissionStep.done,

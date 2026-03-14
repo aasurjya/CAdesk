@@ -1,6 +1,8 @@
+import 'package:ca_app/core/otp/otp_channel.dart';
 import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
 /// Auto-submit service for the Ministry of Corporate Affairs (MCA) portal.
@@ -45,13 +47,54 @@ class McaAutosubmitService {
   // ---------------------------------------------------------------------------
 
   /// Logs in to the MCA portal.
+  ///
+  /// When [webViewController] is provided, real WebView automation is used.
+  /// When `null`, the method falls back to the mock stream for testing/preview.
   Stream<SubmissionLog> login({
     required PortalCredential credential,
     required OtpInterceptService otpService,
+    PortalWebViewController? webViewController,
   }) async* {
     final jobId = 'mca_login_${credential.id}';
+
+    if (webViewController == null) {
+      yield* _mockLoginStream(jobId);
+      return;
+    }
+
+    // --- Real WebView automation ---
+    yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to MCA portal...');
+    await webViewController.waitForElement('#username');
+
+    yield _log(jobId, SubmissionStep.loggingIn, 'Entering MCA credentials...');
+    await webViewController.fillField('#username', credential.username ?? '');
+    await webViewController.fillField(
+      '#password',
+      credential.encryptedPassword ?? '',
+    );
+    await webViewController.clickElement('[type="submit"]');
+
+    yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for MCA login...');
+    final otp = await webViewController.interceptOtp(
+      channel: OtpChannel.email,
+      portalHint: 'MCA portal',
+    );
+
+    await webViewController.fillField('[name="otp"]', otp);
+    await webViewController.clickElement('[type="submit"]');
+    await webViewController.waitForNavigation('/home');
+
+    yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
+  }
+
+  Stream<SubmissionLog> _mockLoginStream(String jobId) async* {
     yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to MCA portal');
-    yield _log(jobId, SubmissionStep.loggingIn, 'Entering MCA credentials');
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Entering MCA credentials '
+      '(script: ${_loginScript.trim().split('\n').first})',
+    );
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
   }
 
@@ -72,7 +115,8 @@ class McaAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.filling,
-      'Uploading form file: $formFilePath',
+      'Uploading form file: $formFilePath '
+      '(script: ${_eformUploadScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.filling, 'Validating form data');
     yield _log(jobId, SubmissionStep.otp, 'Awaiting DSC signing');
@@ -95,7 +139,8 @@ class McaAutosubmitService {
     yield _log(
       jobId,
       SubmissionStep.submitting,
-      'Signing document hash: ${documentHash.substring(0, 8)}...',
+      'Signing document hash: ${documentHash.substring(0, 8)}... '
+      '(script: ${_dscSignScript.trim().split('\n').first})',
     );
     yield _log(jobId, SubmissionStep.done, 'DSC signing completed');
   }
@@ -103,7 +148,12 @@ class McaAutosubmitService {
   /// Looks up company master data by CIN.
   Stream<SubmissionLog> lookupCompany({required String cin}) async* {
     final jobId = 'mca_lookup_$cin';
-    yield _log(jobId, SubmissionStep.filling, 'Searching company by CIN: $cin');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Searching company by CIN: $cin '
+      '(script: ${_companyLookupScript.trim().split('\n').first})',
+    );
     yield _log(
       jobId,
       SubmissionStep.downloading,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +10,7 @@ import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.d
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
 import 'package:ca_app/features/portal_autosubmit/presentation/widgets/portal_login_sheet.dart';
 import 'package:ca_app/features/portal_autosubmit/presentation/widgets/submission_progress_card.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_screen.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
 // ---------------------------------------------------------------------------
@@ -125,7 +128,9 @@ class _JobList extends ConsumerWidget {
         final job = jobs[index];
         return SubmissionProgressCard(
           job: job,
-          onTap: () => _openDetail(context, job),
+          onTap: () => job.currentStep == SubmissionStep.pending
+              ? _startWebViewAutomation(context, ref, job)
+              : _openDetail(context, job),
           onRetry: job.canRetry ? () => _retryJob(context, ref, job) : null,
         );
       },
@@ -136,6 +141,40 @@ class _JobList extends ConsumerWidget {
     Navigator.of(
       context,
     ).push(MaterialPageRoute<void>(builder: (_) => _JobDetailScreen(job: job)));
+  }
+
+  /// Navigates to the embedded [PortalWebViewScreen] to run real automation.
+  ///
+  /// A placeholder [PortalCredential] is used here; in production this should
+  /// be resolved from the DSC vault / credential provider before navigation.
+  void _startWebViewAutomation(
+    BuildContext context,
+    WidgetRef ref,
+    SubmissionJob job,
+  ) {
+    // TODO(phase-4): fetch real credential from DSC vault provider.
+    final credential = PortalCredential(
+      id: 'cred_${job.clientId}',
+      portalType: job.portalType,
+      username: '',
+    );
+
+    // Build a broadcast stream so the banner has something to show until the
+    // domain service takes over via the injected PortalWebViewController.
+    final controller = StreamController<SubmissionLog>.broadcast();
+    final automationStream = controller.stream;
+
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute<void>(
+            builder: (_) => PortalWebViewScreen(
+              job: job,
+              credential: credential,
+              automationStream: automationStream,
+            ),
+          ),
+        )
+        .then((_) => controller.close());
   }
 
   void _retryJob(BuildContext context, WidgetRef ref, SubmissionJob job) {
