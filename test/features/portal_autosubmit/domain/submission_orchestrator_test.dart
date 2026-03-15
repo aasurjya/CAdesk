@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';

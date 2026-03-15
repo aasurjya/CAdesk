@@ -1,3 +1,4 @@
+import 'package:ca_app/features/filing/domain/models/analytics/filing_statistics.dart';
 import 'package:ca_app/features/filing/domain/models/filing_job.dart';
 import 'package:ca_app/features/filing/domain/services/filing_analytics_service.dart';
 import 'package:ca_app/features/income_tax/domain/models/itr_type.dart';
@@ -136,6 +137,197 @@ void main() {
       expect(deadlines.last.date, DateTime(2028, 3, 31));
       expect(deadlines.last.label, 'Updated Return (ITR-U)');
       expect(deadlines.last.itrTypes, contains('ITR-U'));
+    });
+
+    test('audit deadline is Oct 31 of AY start year', () {
+      final deadlines = FilingAnalyticsService.getDeadlineCalendar('2026-27');
+      final auditDeadline = deadlines.firstWhere(
+        (d) => d.label == 'Original — Audit',
+      );
+
+      expect(auditDeadline.date, DateTime(2026, 10, 31));
+      expect(auditDeadline.itrTypes, containsAll(['ITR-3', 'ITR-5', 'ITR-6']));
+    });
+
+    test('transfer pricing deadline is Nov 30 of AY start year', () {
+      final deadlines = FilingAnalyticsService.getDeadlineCalendar('2026-27');
+      final tpDeadline = deadlines.firstWhere(
+        (d) => d.label == 'Original — Transfer Pricing',
+      );
+
+      expect(tpDeadline.date, DateTime(2026, 11, 30));
+    });
+
+    test('belated/revised deadline is Dec 31 of AY start year', () {
+      final deadlines = FilingAnalyticsService.getDeadlineCalendar('2026-27');
+      final belatedDeadline = deadlines.firstWhere(
+        (d) => d.label == 'Belated / Revised Return',
+      );
+
+      expect(belatedDeadline.date, DateTime(2026, 12, 31));
+      expect(belatedDeadline.itrTypes, hasLength(6));
+    });
+
+    test('works for a different assessment year', () {
+      final deadlines = FilingAnalyticsService.getDeadlineCalendar('2027-28');
+      expect(deadlines.first.date, DateTime(2027, 7, 31));
+      expect(deadlines.last.date, DateTime(2029, 3, 31));
+    });
+  });
+
+  group('DeadlineEntry', () {
+    test('equality — same fields are equal', () {
+      final a = DeadlineEntry(
+        label: 'Test Deadline',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'Test description',
+      );
+      final b = DeadlineEntry(
+        label: 'Test Deadline',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'Test description',
+      );
+
+      expect(a, equals(b));
+    });
+
+    test('inequality — different itrTypes length', () {
+      final a = DeadlineEntry(
+        label: 'Test',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'desc',
+      );
+      final b = DeadlineEntry(
+        label: 'Test',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1', 'ITR-2'],
+        description: 'desc',
+      );
+
+      expect(a, isNot(equals(b)));
+    });
+
+    test('copyWith preserves unchanged fields', () {
+      final original = DeadlineEntry(
+        label: 'Test',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'desc',
+      );
+      final updated = original.copyWith(label: 'Updated');
+
+      expect(updated.label, 'Updated');
+      expect(updated.date, original.date);
+      expect(updated.itrTypes, original.itrTypes);
+    });
+
+    test('hashCode is consistent for equal objects', () {
+      final a = DeadlineEntry(
+        label: 'Test',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'desc',
+      );
+      final b = DeadlineEntry(
+        label: 'Test',
+        date: DateTime(2026, 7, 31),
+        itrTypes: const ['ITR-1'],
+        description: 'desc',
+      );
+
+      expect(a.hashCode, b.hashCode);
+    });
+  });
+
+  group('FilingStatistics', () {
+    test('totalRevenue is collected + outstanding', () {
+      const stats = FilingStatistics(
+        totalFilings: 10,
+        filedCount: 6,
+        pendingCount: 4,
+        overdueCount: 1,
+        averageTurnaroundDays: 7.0,
+        revenueCollected: 60000,
+        revenueOutstanding: 40000,
+      );
+
+      expect(stats.totalRevenue, 100000.0);
+    });
+
+    test('empty() factory produces all-zero stats', () {
+      final stats = FilingStatistics.empty();
+      expect(stats.totalFilings, 0);
+      expect(stats.totalRevenue, 0.0);
+      expect(stats.completionRate, 0.0);
+    });
+
+    test('copyWith creates new instance with updated fields', () {
+      const original = FilingStatistics(
+        totalFilings: 10,
+        filedCount: 6,
+        pendingCount: 4,
+        overdueCount: 1,
+        averageTurnaroundDays: 7.0,
+        revenueCollected: 60000,
+        revenueOutstanding: 40000,
+      );
+      final updated = original.copyWith(filedCount: 8);
+
+      expect(updated.filedCount, 8);
+      expect(updated.totalFilings, original.totalFilings);
+    });
+  });
+
+  group('FilingAnalyticsService.computeStatistics — edge cases', () {
+    test('filed jobs without filingDate are excluded from turnaround', () {
+      final jobs = [
+        makeJob(
+          id: '1',
+          status: FilingJobStatus.filed,
+          filingDate: null, // no filing date
+        ),
+        makeJob(
+          id: '2',
+          status: FilingJobStatus.filed,
+          createdAt: now.subtract(const Duration(days: 10)),
+          filingDate: now,
+        ),
+      ];
+
+      final stats = FilingAnalyticsService.computeStatistics(jobs);
+      // Only job 2 contributes to turnaround
+      expect(stats.averageTurnaroundDays, 10.0);
+    });
+
+    test('pending jobs without dueDate are not counted as overdue', () {
+      final jobs = [
+        makeJob(id: '1', status: FilingJobStatus.draft, dueDate: null),
+        makeJob(id: '2', status: FilingJobStatus.notStarted, dueDate: null),
+      ];
+
+      final stats = FilingAnalyticsService.computeStatistics(jobs);
+      expect(stats.overdueCount, 0);
+    });
+
+    test('filed jobs without feeReceived contribute 0 to revenue', () {
+      final jobs = [
+        makeJob(id: '1', status: FilingJobStatus.filed, feeReceived: null),
+      ];
+
+      final stats = FilingAnalyticsService.computeStatistics(jobs);
+      expect(stats.revenueCollected, 0.0);
+    });
+
+    test('pending jobs without feeQuoted contribute 0 to outstanding', () {
+      final jobs = [
+        makeJob(id: '1', status: FilingJobStatus.draft, feeQuoted: null),
+      ];
+
+      final stats = FilingAnalyticsService.computeStatistics(jobs);
+      expect(stats.revenueOutstanding, 0.0);
     });
   });
 }

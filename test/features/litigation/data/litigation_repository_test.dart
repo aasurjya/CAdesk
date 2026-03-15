@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
 import 'package:ca_app/features/litigation/domain/models/appeal_case.dart';
-import 'package:ca_app/features/litigation/domain/models/response_template.dart';
 import 'package:ca_app/features/litigation/data/repositories/mock_litigation_repository.dart';
 
 void main() {

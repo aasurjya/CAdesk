@@ -171,5 +171,137 @@ void main() {
 
       expect(results, isEmpty);
     });
+
+    test('maps saleOfSecurities category to otherSourceIncome.total', () {
+      final entries = [
+        AisEntry(
+          category: AisCategory.saleOfSecurities,
+          informationSource: 'Broker X',
+          reportedAmount: 23000, // same as total other source income
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, baseForm);
+
+      expect(results.first.status, MatchStatus.matched);
+    });
+
+    test('maps purchase category to otherSourceIncome.total', () {
+      final entries = [
+        AisEntry(
+          category: AisCategory.purchase,
+          informationSource: 'Broker Y',
+          reportedAmount: 23000,
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, baseForm);
+
+      expect(results.first.status, MatchStatus.matched);
+    });
+
+    test('maps otherIncome category to otherSourceIncome.total', () {
+      final entries = [
+        AisEntry(
+          category: AisCategory.otherIncome,
+          informationSource: 'Platform Z',
+          reportedAmount: 23000,
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, baseForm);
+
+      expect(results.first.status, MatchStatus.matched);
+    });
+
+    test('detects over-reported when declared > reported', () {
+      final entries = [
+        AisEntry(
+          category: AisCategory.salary,
+          informationSource: 'Employer',
+          reportedAmount: 400000, // declared = 500000
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, baseForm);
+
+      expect(results.first.status, MatchStatus.overReported);
+      expect(results.first.discrepancy, 100000.0);
+    });
+
+    test('detects missing when declared is 0 but reported > 0', () {
+      final form = baseForm.copyWith(
+        salaryIncome: SalaryIncome.empty().copyWith(grossSalary: 0),
+      );
+      final entries = [
+        AisEntry(
+          category: AisCategory.salary,
+          informationSource: 'Employer',
+          reportedAmount: 500000,
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, form);
+
+      expect(results.first.status, MatchStatus.missing);
+    });
+
+    test('amounts within 1 rupee tolerance are matched', () {
+      final entries = [
+        AisEntry(
+          category: AisCategory.salary,
+          informationSource: 'Employer',
+          reportedAmount: 500001.0, // within Rs 1 of declared 500000
+        ),
+      ];
+
+      final results = ReconciliationEngine.reconcileAIS(entries, baseForm);
+
+      expect(results.first.status, MatchStatus.matched);
+    });
+  });
+
+  group('ReconciliationResult', () {
+    test('copyWith creates new instance', () {
+      const original = ReconciliationResult(
+        source: 'Test',
+        reportedAmount: 100000,
+        declaredAmount: 100000,
+        discrepancy: 0,
+        status: MatchStatus.matched,
+      );
+      final updated = original.copyWith(discrepancy: -5000);
+
+      expect(updated.discrepancy, -5000);
+      expect(updated.source, original.source);
+    });
+
+    test('equality — same fields are equal', () {
+      const a = ReconciliationResult(
+        source: 'Test',
+        reportedAmount: 100000,
+        declaredAmount: 100000,
+        discrepancy: 0,
+        status: MatchStatus.matched,
+      );
+      const b = ReconciliationResult(
+        source: 'Test',
+        reportedAmount: 100000,
+        declaredAmount: 100000,
+        discrepancy: 0,
+        status: MatchStatus.matched,
+      );
+
+      expect(a, equals(b));
+    });
+  });
+
+  group('MatchStatus', () {
+    test('labels are correct', () {
+      expect(MatchStatus.matched.label, 'Matched');
+      expect(MatchStatus.underReported.label, 'Under-Reported');
+      expect(MatchStatus.overReported.label, 'Over-Reported');
+      expect(MatchStatus.missing.label, 'Missing');
+    });
   });
 }

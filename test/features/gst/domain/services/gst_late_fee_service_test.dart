@@ -211,5 +211,122 @@ void main() {
       // Total = late fee + interest
       expect(penalty.totalPenalty, closeTo(500.0 + expectedInterest, 0.01));
     });
+
+    test('uses RCM interest rate when isRcm=true', () {
+      final penalty = GstLateFeeService.calculateTotalPenalty(
+        returnType: GstReturnType.gstr3b,
+        daysLate: 365,
+        isNilReturn: false,
+        taxDue: 100000.0,
+        isRcm: true,
+      );
+
+      // RCM 24% p.a. for 365 days = 24000
+      expect(penalty.interest, closeTo(24000.0, 0.01));
+    });
+  });
+
+  group('GstLateFeeService.calculateLateFee — GSTR-2A/2B', () {
+    test('GSTR-2A → no late fee (auto-drafted)', () {
+      final result = GstLateFeeService.calculateLateFee(
+        returnType: GstReturnType.gstr2a,
+        daysLate: 100,
+        isNilReturn: false,
+      );
+
+      expect(result.totalLateFee, 0.0);
+      expect(result.maxCapApplied, false);
+      expect(result.daysLate, 100);
+    });
+
+    test('GSTR-2B → no late fee (auto-drafted)', () {
+      final result = GstLateFeeService.calculateLateFee(
+        returnType: GstReturnType.gstr2b,
+        daysLate: 200,
+        isNilReturn: false,
+      );
+
+      expect(result.totalLateFee, 0.0);
+      expect(result.cgstLateFee, 0.0);
+      expect(result.sgstLateFee, 0.0);
+    });
+  });
+
+  group('GstLateFeeResult.copyWith', () {
+    test('creates new instance with updated field', () {
+      const original = GstLateFeeResult(
+        cgstLateFee: 250.0,
+        sgstLateFee: 250.0,
+        totalLateFee: 500.0,
+        maxCapApplied: false,
+        daysLate: 10,
+      );
+      final updated = original.copyWith(daysLate: 20, totalLateFee: 1000.0);
+
+      expect(updated.daysLate, 20);
+      expect(updated.totalLateFee, 1000.0);
+      expect(updated.cgstLateFee, 250.0); // unchanged
+    });
+
+    test('equality — same fields are equal', () {
+      const a = GstLateFeeResult(
+        cgstLateFee: 250.0,
+        sgstLateFee: 250.0,
+        totalLateFee: 500.0,
+        maxCapApplied: false,
+        daysLate: 10,
+      );
+      const b = GstLateFeeResult(
+        cgstLateFee: 250.0,
+        sgstLateFee: 250.0,
+        totalLateFee: 500.0,
+        maxCapApplied: false,
+        daysLate: 10,
+      );
+
+      expect(a, equals(b));
+    });
+  });
+
+  group('GstPenaltyResult.copyWith', () {
+    test('creates new instance with updated interest', () {
+      final original = GstPenaltyResult(
+        lateFee: const GstLateFeeResult(
+          cgstLateFee: 250.0,
+          sgstLateFee: 250.0,
+          totalLateFee: 500.0,
+          maxCapApplied: false,
+          daysLate: 10,
+        ),
+        interest: 1000.0,
+        totalPenalty: 1500.0,
+      );
+      final updated = original.copyWith(interest: 2000.0);
+
+      expect(updated.interest, 2000.0);
+      expect(updated.totalPenalty, original.totalPenalty); // unchanged
+    });
+
+    test('equality — same fields are equal', () {
+      const lateFee = GstLateFeeResult(
+        cgstLateFee: 250.0,
+        sgstLateFee: 250.0,
+        totalLateFee: 500.0,
+        maxCapApplied: false,
+        daysLate: 10,
+      );
+      final a = GstPenaltyResult(
+        lateFee: lateFee,
+        interest: 1000.0,
+        totalPenalty: 1500.0,
+      );
+      final b = GstPenaltyResult(
+        lateFee: lateFee,
+        interest: 1000.0,
+        totalPenalty: 1500.0,
+      );
+
+      expect(a, equals(b));
+    });
   });
 }
