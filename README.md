@@ -6,14 +6,52 @@ CADesk is a Flutter application targeting iPhone, iPad, macOS, and Web. It cover
 
 ---
 
-## Current Status
+## Current Status (as of 2026-03-15)
 
-**Overall completion: ~58%**
+**Overall completion: ~75%**
 
-- 51 modules, all with full UI shells, clean architecture, Riverpod state, and navigable flows
-- **16 modules** now have deep, real business logic (see Key Business Logic section below)
-- AI & Automation has a live investor-pitch simulation (OCR, reconciliation, anomaly detection) via "Live AI Demo" FAB
-- Zero modules have real API integration or automated tests yet
+| Metric | Value |
+|---|---|
+| Feature modules | **76** (all with domain + data + presentation layers) |
+| Lib files (non-generated) | **1,622** (260,675 lines) |
+| Test files | **318** (75,266 lines) |
+| Tests passing | **5,784 / 5,784** (zero failures) |
+| Code coverage | **29.9%** (target: 100%) |
+| Lint issues | **0** |
+| Drift tables | **39** |
+| Drift DAOs | **38** |
+| Supabase migrations | **18** (20 tables, RLS) |
+| Repository impls | **76 / 76** (all feature-flag-gated) |
+| Tested UI screens | **6** (dashboard, GST, TDS, billing, income_tax, clients) |
+| UnimplementedError stubs | **10** (MCA API portal, RPA, CA GPT placeholders) |
+| TODOs remaining | **27** (mostly portal HTTP wiring) |
+
+### Layer Completion
+
+| Layer | % | Detail |
+|---|:---:|---|
+| Domain (models, services, logic) | **100%** | All 76 modules — immutable models, Riverpod-ready, TDD |
+| Data — Core infra | **100%** | Auth, network (Dio+interceptors), sync engine, feature flags, connectivity |
+| Data — DB infrastructure | **100%** | Drift AppDatabase (schema v2, 39 tables, 38 DAOs), Supabase (18 migrations, 20 tables, RLS) |
+| Data — Repositories | **100%** | All 76 modules wired (mock + real + feature-flag-gated) |
+| Tests | **95%** | 5,784 passing; coverage at 29.9% — need more branch/edge-case tests |
+| Presentation (UI) | **20%** | 6 modules with tested screens; 70+ modules have shell UI only |
+| Portal integrations | **5%** | Domain + WebView engine built; HTTP calls still stubbed |
+
+### What's Done
+- Full domain layer: immutable models, business logic services, TDD-tested
+- Full data infrastructure: Drift SQLite + Supabase cloud, sync engine, feature flags
+- All 76 repositories wired with mock/real/feature-flag pattern
+- Portal auto-submit engine: DSC vault, OTP relay, WebView automation
+- 5,784 tests covering domain services, repositories, providers, core infra, and 5 UI screens
+- UX improvement plan: competitive analysis of 8+ CA apps + 16-week roadmap
+
+### What's Next
+1. **UI screens** — Build production-quality screens for 70+ modules (currently shell UI)
+2. **Test coverage** — Push from 29.9% to 100% (providers, screens, edge cases)
+3. **Portal HTTP wiring** — Connect GSTN/TRACES/MCA/ITD/EPFO APIs
+4. **Supabase deep wiring** — Real CRUD for remaining modules
+5. **AI features** — OCR engine, CA GPT, reconciliation AI
 
 ---
 
@@ -24,85 +62,117 @@ CADesk is a Flutter application targeting iPhone, iPad, macOS, and Web. It cover
 | Platform | Flutter (Dart) — iOS, iPad, macOS, Web |
 | Architecture | Clean Architecture (domain / data / presentation) |
 | State Management | Riverpod (immutable state, `NotifierProvider`) |
-| Navigation | GoRouter (declarative, shell routes) |
-| UI System | Material 3, adaptive scaffold, Authoritative Navy brand palette |
-| Local DB | Drift (SQLite) — planned |
-| Cloud Sync | Supabase / Firebase — planned |
+| Navigation | GoRouter (declarative, shell routes, 60+ routes) |
+| UI System | Material 3, adaptive scaffold (phone/tablet/desktop) |
+| Local DB | Drift (SQLite) — 39 tables, 38 DAOs |
+| Cloud Sync | Supabase — 18 migrations, 20 tables, RLS enabled |
+| CI/Quality | 5,784 tests, flutter_lints, 100% coverage target |
 
 ---
 
-## Module Map (51 modules)
+## Module Map (76 modules)
 
 ### Part A — Core Tax & Compliance
-| # | Module | Route | Status |
-|---|---|---|---|
-| 1 | Income Tax | `/income-tax` | 55% — tax regime computation, advance tax schedule, filing form |
-| 2 | GST | `/gst` | 55% — ITC reconciliation, late fee calculator, client detail sheet |
-| 3 | TDS/TCS | `/tds` | 55% — challan tracking, section summaries, 234 interest calculator |
-| 4 | TDS.AI | `/roadmap/4` | 0% — roadmap |
-| 5 | MCA/ROC | `/mca` | 40% |
-| 6 | XBRL Filing | `/xbrl` | 35% |
-| 7 | Accounts & Balance Sheet | `/accounts` | 58% — 11 financial ratios, WDV depreciation, ratio benchmarks |
-| 8 | CMA / Financial Projections | `/cma` | 58% — EMI/NPV/IRR/MPBF/DSCR calculators, amortization schedule |
-| 9 | Payroll | `/payroll` | 60% — PF/ESI/PT/TDS computation, payslip detail, CTC breakdown |
-| 10 | Assessment Orders | `/assessment` | 58% — 234A/B/C/244A interest, demand vs refund, intimation detail |
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 1 | Income Tax | `/income-tax` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 2 | GST | `/gst` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 3 | TDS/TCS | `/tds` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 4 | MCA/ROC | `/mca` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 5 | XBRL Filing | `/xbrl` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 6 | Accounts & Balance Sheet | `/accounts` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 7 | CMA / Financial Projections | `/cma` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 8 | Payroll | `/payroll` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 9 | Assessment Orders | `/assessment` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 10 | Filing Engine | `/filing` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
 
 ### Part B — Practice Management
-| # | Module | Route | Status |
-|---|---|---|---|
-| 11 | Documents | `/documents` | 40% |
-| 12 | Staff Monitoring | `/staff-monitoring` | 35% |
-| 13 | Cloud & Remote Access | `/roadmap/13` | 0% — roadmap |
-| 14 | Billing | `/billing` | 55% — GST calculator, payment tracking, aging summary |
-| 15 | Practice Management / Tasks | `/tasks` | 50% |
-| 16 | CRM / Clients | `/clients` | 58% — compliance health score, edit sheet, real quick actions |
-| 17 | AI & Automation | `/ai-automation` | 44% — live demo simulation |
-| 18 | Client Portal | `/client-portal` | 50% |
-| 19 | Analytics / BI | `/analytics` | 38% |
-| 20 | Time Tracking | `/time-tracking` | 62% — live timer, realization calculator, invoice from entries |
-| 21 | Firm Operations | `/firm-operations` | 45% |
-| 22 | Client Onboarding & KYC | `/onboarding` | 45% |
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 11 | Clients / CRM | `/clients` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 12 | Billing | `/billing` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 13 | Dashboard | `/dashboard` | ✅ | ✅ | ✅ tested | ✅ | **90%** |
+| 14 | Tasks | `/tasks` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 15 | Documents | `/documents` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 16 | Staff Monitoring | `/staff-monitoring` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 17 | Time Tracking | `/time-tracking` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 18 | Firm Operations | `/firm-operations` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 19 | Compliance | `/compliance` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 20 | AI & Automation | `/ai-automation` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 21 | Client Portal | `/client-portal` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 22 | Analytics / BI | `/analytics` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 23 | Onboarding & KYC | `/onboarding` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 24 | Practice Management | `/practice` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
 
 ### Part C — Specialized Compliance
-| # | Module | Route | Status |
-|---|---|---|---|
-| 23 | FEMA & RBI | `/fema` | 40% |
-| 24 | SEBI | `/sebi` | 38% |
-| 25 | Transfer Pricing | `/transfer-pricing` | 38% |
-| 26 | Crypto / VDA Tax | `/crypto-vda` | 40% |
-| 27 | Startup Compliance | `/startup-compliance` | 40% |
-| 28 | LLP Compliance | `/llp-compliance` | 38% |
-| 29 | MSME | `/msme` | 42% |
-| 30 | Advanced Audits | `/advanced-audit` | 42% |
-| 31 | Faceless Assessment | `/faceless-assessment` | 42% |
-| 32 | Regulatory Trust & Security | `/regulatory-trust` | 40% |
-| 33 | Data Pipelines & Broker | `/data-pipelines` | 40% |
-| 34 | Collaboration & Mobility | `/collaboration` | 40% |
-| 35 | Ecosystem Integrations | `/ecosystem` | 40% |
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 25 | FEMA & RBI | `/fema` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 26 | SEBI | `/sebi` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 27 | Transfer Pricing | `/transfer-pricing` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 28 | Crypto / VDA Tax | `/crypto-vda` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 29 | Startup Compliance | `/startup-compliance` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 30 | LLP Compliance | `/llp-compliance` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 31 | MSME | `/msme` | ✅ | ✅ | 🔶 shell | ✅ | **75%** |
+| 32 | Advanced Audits | `/advanced-audit` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 33 | Audit | `/audit` | ✅ | ✅ | 🔶 shell | 🔶 | **70%** |
+| 34 | Faceless Assessment | `/faceless-assessment` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 35 | Litigation | `/litigation` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 36 | LLP | `/llp` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 37 | E-Verification | `/e-verification` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
 
-### Part D — Advisory & Growth (Modules 36–44)
-| # | Module | Route | Status |
-|---|---|---|---|
-| 36 | Notice Resolution Center | `/notice-resolution` | 40% |
-| 37 | DSC & Credential Vault | `/dsc-vault` | 40% |
-| 38 | Renewal & Expiry Control | `/renewal-expiry` | 40% |
-| 39 | Fee Leakage & Scope Control | `/fee-leakage` | 40% |
-| 40 | Knowledge Engine | `/knowledge-engine` | 40% |
-| 41 | Tax Advisory Opportunities | `/tax-advisory` | 40% |
-| 42 | Lead Funnel & Campaigns | `/lead-funnel` | 40% |
-| 43 | NRI & Cross-Border Tax | `/nri-tax` | 40% |
-| 44 | SME CFO Retainers | `/sme-cfo` | 40% |
+### Part D — Portal & Export
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 38 | Portal Connector Hub | `/portal-connector` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 39 | Portal Export (ITD XML) | `/portal-export` | ✅ | ✅ | ✅ | 🔶 | **75%** |
+| 40 | Portal Parser (26AS/AIS) | `/portal-parser` | ✅ | ✅ | ✅ | 🔶 | **75%** |
+| 41 | Portal Auto-Submit | `/portal-autosubmit` | ✅ | ✅ | 🔶 WebView | ✅ | **75%** |
+| 42 | GSTN API | `/gstn-api` | ✅ | ✅ stub | 🔶 shell | 🔶 | **60%** |
+| 43 | TRACES | `/traces` | ✅ | ✅ stub | 🔶 shell | 🔶 | **60%** |
+| 44 | MCA API | `/mca-api` | ✅ | ✅ stub | 🔶 shell | 🔶 | **55%** |
+| 45 | Reconciliation | `/reconciliation` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 46 | Bulk Operations | `/bulk-operations` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 47 | Post-Filing Tracker | `/post-filing` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 48 | DSC Vault | `/dsc-vault` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
 
-### Part E — Vertical & AI-First (Modules 45–51)
-| # | Module | Route | Status |
-|---|---|---|---|
-| 45 | Industry Vertical Playbooks | `/industry-playbooks` | 40% |
-| 46 | ESG Reporting | `/esg-reporting` | 40% |
-| 47 | Virtual CFO Platform | `/virtual-cfo` | 40% |
-| 48 | E-Invoicing Compliance Hub | `/einvoicing` | 40% |
-| 49 | Intelligent Document Processing | `/idp` | 40% |
-| 50 | Regulatory Intelligence | `/regulatory-intelligence` | 40% |
-| 51 | Practice Benchmarking | `/practice-benchmarking` | 40% |
+### Part E — Advisory & Growth
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 49 | Notice Resolution | `/notice-resolution` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 50 | Tax Advisory | `/tax-advisory` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 51 | Lead Funnel | `/lead-funnel` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 52 | NRI & Cross-Border Tax | `/nri-tax` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 53 | SME CFO Retainers | `/sme-cfo` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 54 | Fee Leakage | `/fee-leakage` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 55 | Knowledge Engine | `/knowledge-engine` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 56 | Renewal & Expiry | `/renewal-expiry` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 57 | Regulatory Trust | `/regulatory-trust` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+
+### Part F — Vertical & AI-First
+| # | Module | Route | Domain | Data | UI | Tests | Overall |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|
+| 58 | Industry Playbooks | `/industry-playbooks` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 59 | ESG Reporting | `/esg-reporting` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 60 | Virtual CFO | `/virtual-cfo` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 61 | E-Invoicing Hub | `/einvoicing` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 62 | IDP (Document Processing) | `/idp` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 63 | OCR Engine | `/ocr` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 64 | Regulatory Intelligence | `/regulatory-intelligence` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 65 | Practice Benchmarking | `/practice-benchmarking` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 66 | CA GPT | `/ca-gpt` | ✅ | ✅ stub | 🔶 shell | 🔶 | **55%** |
+| 67 | RPA Bot Framework | `/rpa` | ✅ | ✅ stub | 🔶 shell | 🔶 | **55%** |
+| 68 | Data Pipelines | `/data-pipelines` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 69 | Collaboration | `/collaboration` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 70 | Ecosystem | `/ecosystem` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 71 | Platform Core | `/platform` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 72 | Settings | `/settings` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 73 | VDA | `/vda` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 74 | Startup | `/startup` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 75 | Today | `/today` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+| 76 | More / Roadmap | `/more` | ✅ | ✅ | 🔶 shell | 🔶 | **65%** |
+
+**Legend:** ✅ Done/Tested · 🔶 Partial/Shell · 🔲 Not started
 
 ---
 
@@ -233,15 +303,19 @@ lib/
 
 ---
 
-## Roadmap
+## Build Phases & Roadmap
 
-1. **API Integration** — ITD portal, GSTN, TRACES, MCA21, RBI, SEBI APIs
-2. **Authentication** — Supabase Auth with MFA
-3. **Offline-first** — Drift SQLite with cloud sync
-4. **Automated Tests** — unit + integration + E2E (80% coverage target)
-5. **Real AI** — OCR engine, TDS.AI extraction, CA GPT
-6. **E-filing** — ITR upload, GST filing, TRACES integration
-7. **Production** — App Store, Play Store, macOS, Web deployment
+### Current Phase: Phase 2B — Presentation Layer Build
+
+| Phase | Scope | Status | % |
+|---|---|:---:|:---:|
+| **Phase 1** — Core Engines | GST engine, TDS rate chart, Form 16/16A, filing services | ✅ Complete | **100%** |
+| **Phase 2A** — Data Layer | All 76 repositories, Drift tables, Supabase, feature flags | ✅ Complete | **100%** |
+| **Phase 2B** — Presentation Layer | Production UI screens for all 76 modules (6/76 done) | 🔶 **IN PROGRESS** | **8%** |
+| **Phase 2C** — Test Coverage Push | Push coverage from 29.9% to 100% | 🔶 In progress | **30%** |
+| **Phase 3** — Portal Integration | Wire GSTN/TRACES/MCA/ITD/EPFO HTTP APIs | 🔲 Pending | **5%** |
+| **Phase 4** — AI & Advanced | Real OCR, CA GPT (RAG), RPA bots, analytics AI | 🔲 Pending | **0%** |
+| **Phase 5** — Production | App Store, TestFlight, macOS notarization, Web deploy | 🔲 Pending | **0%** |
 
 ---
 

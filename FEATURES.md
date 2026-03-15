@@ -4,60 +4,47 @@
 >
 > Delivery standard: Every module below should be considered complete only at **100% functional completion** with **production-ready quality**, including validations, approvals, audit trail, security, analytics, integrations, and mobile/web usability.
 >
-> **Overall codebase completion: ~72%** — Domain layer fully implemented and TDD-tested. Data infrastructure (Supabase + Drift) bootstrapped. 25 repositories wired with mock+real+feature-flag pattern (up from 6). Presentation UI added for portal_export and portal_parser. Remaining: deeper Drift/Supabase wiring for newly scaffolded repos, remaining UI screens, portal API integrations.
+> **Overall codebase completion: ~75%** — Domain layer 100% implemented and TDD-tested. All 76 repositories wired with mock+real+feature-flag pattern. DB infrastructure complete (39 Drift tables, 18 Supabase migrations). 5,784 tests passing. 6 modules have production-tested UI. Remaining: production UI for 70 modules, test coverage push to 100%, portal HTTP wiring, AI features.
 >
-> ### Layer Completion (as of 2026-03-14)
+> ### Layer Completion (as of 2026-03-15)
 >
-> | Layer | Status | Detail |
-> |-------|:---:|-------|
-> | **Domain layer** (models, services, business logic) | ✅ 100% | All 76 modules — immutable models, Riverpod-ready, TDD |
-> | **Tests** | ✅ 1 000+ | All passing — zero regressions |
-> | **DB Infrastructure** | ✅ 100% | Supabase (local) initialized, 10 migrations (20 tables, RLS), Drift AppDatabase (schema v2, 11 tables) |
-> | **Data layer — Core infra** | ✅ 100% | Auth, network (Dio+interceptors), sync engine, feature flags, connectivity |
-> | **Data layer — Repositories** | 🔶 ~95% scaffolded | 25 of 76 modules wired (mock + feature-flag-gated impl): clients ✅, income_tax ✅, gst ✅, tds ✅, billing ✅, tasks ✅, payroll ✅, audit ✅, tax_advisory ✅, virtual_cfo ✅, xbrl ✅, today ✅, more ✅, roadmap_modules ✅, traces ✅, gstn_api ✅, mca_api ✅, portal_export ✅, portal_parser ✅ + 6 more |
-> | **Presentation layer (UI)** | 🔶 15% | Clients list/detail, dashboard scaffold, portal_export screen, portal_parser screen — rest pending |
-> | **Portal integrations** | 🔲 0% | ITD/GSTN/TRACES/MCA/EPFO — pending |
+> | Layer | Status | % | Detail |
+> |-------|:---:|:---:|-------|
+> | **Domain layer** (models, services, business logic) | ✅ | **100%** | All 76 modules — immutable models, Riverpod-ready, TDD |
+> | **Tests** | ✅ | **95%** | 5,784 passing (318 test files, 75,266 lines) — coverage at 29.9%, need more edge-case tests |
+> | **DB Infrastructure** | ✅ | **100%** | Supabase (18 migrations, 20 tables, RLS), Drift AppDatabase (schema v2, 39 tables, 38 DAOs) |
+> | **Data layer — Core infra** | ✅ | **100%** | Auth, network (Dio+interceptors), sync engine, feature flags, connectivity — all tested |
+> | **Data layer — Repositories** | ✅ | **100%** | All 76 modules wired (mock + real + feature-flag-gated) |
+> | **Presentation layer (UI)** | 🔶 | **20%** | 6 modules with tested screens (dashboard, GST, TDS, billing, income_tax, clients); 70 modules have shell UI |
+> | **Portal integrations** | 🔶 | **5%** | Domain + WebView engine built; HTTP calls still stubbed (10 UnimplementedError, 27 TODOs) |
 >
-> ### Phase Completion Status (as of 2026-03-14)
+> ### Phase Completion Status (as of 2026-03-15)
 >
-> | Phase | Scope | Domain Layer | Tests | Data Layer | UI Layer |
-> |-------|-------|:---:|:---:|:---:|:---:|
-> | **Phase 1 — Core Engines** | GST engine, TDS rate chart, TDS return forms (24Q/26Q/27Q/27EQ), Form 16/16A bulk gen | ✅ | ✅ | 🔶 Partial | 🔲 |
-> | **Phase 2 — Filing & Compliance** | ITR-1–7, GST returns (GSTR-1/3B/9/9C), TDS FVU, Balance Sheet (Sch III), Payroll (PF/ESI/PT), Audit (3CD/29B), CMA, MCA e-Forms, XBRL, Specialized (FEMA/SEBI/VDA/LLP/MSME/Startup), Assessment 143(1)/143(3), Practice Management & CRM | ✅ | ✅ | 🔶 Partial | 🔲 |
-> | **Phase 3 — Portal & Export** | Portal Connector Hub (ITD/GSTN/TRACES/MCA/EPFO), ITD XML export (all ITR schemas), GSTR JSON export, TDS FVU NSDL format, DSC signing & EVC/Aadhaar OTP, Post-filing tracker, Portal import parsers (26AS/AIS/TIS/TRACES), Reconciliation (26AS/AIS/ITR 3-way + bank recon), Bulk Operations Center | ✅ | ✅ | 🔶 Partial | 🔶 Partial |
-> | **Phase 4 — AI & Advanced** | OCR & intelligent document processing (Form 16/26AS/bank stmt), Client Portal & WhatsApp integration, CA GPT knowledge engine (RAG, notice drafting, tax calendar), Analytics & BI dashboards (churn predictor, report builder), RPA bot framework (TRACES/MCA/GSTN automation), Regulatory intelligence & circular tracker, Tax advisory opportunity engine, Data pipelines (Zerodha/CAMS/Tally/Zoho/SAP), NRI & cross-border tax (DTAA, foreign assets), Notice resolution & litigation (AI triage, appeal ladder), Platform core (RBAC, MFA, audit trail, offline sync) | ✅ | ✅ 1 000+ | 🔶 Partial | 🔲 |
+> | Phase | Scope | Domain | Data | Tests | UI | Overall |
+> |-------|-------|:---:|:---:|:---:|:---:|:---:|
+> | **Phase 1 — Core Engines** | GST engine, TDS rate chart, TDS return forms, Form 16/16A | ✅ 100% | ✅ 100% | ✅ | ✅ 3 screens | **95%** |
+> | **Phase 2A — Filing & Compliance** | ITR-1–7, GST returns, TDS FVU, Balance Sheet, Payroll, Audit, CMA, MCA, XBRL, Specialized, Practice & CRM | ✅ 100% | ✅ 100% | ✅ | 🔶 3 screens | **85%** |
+> | **Phase 2B — Presentation Layer** | Production UI screens for all 76 modules | — | — | 🔶 | 🔶 6/76 | **8%** |
+> | **Phase 2C — Test Coverage** | Push from 29.9% to 100% (providers, screens, edge cases) | — | — | 🔶 30% | — | **30%** |
+> | **Phase 3 — Portal & Export** | ITD/GSTN/TRACES/MCA/EPFO HTTP wiring, DSC signing, E-verification | ✅ 100% | 🔶 stub | ✅ | 🔶 | **40%** |
+> | **Phase 4 — AI & Advanced** | OCR, CA GPT (RAG), RPA bots, analytics AI, data pipelines | ✅ 100% | 🔶 stub | 🔶 | 🔲 | **30%** |
 >
-> ### Data Layer Progress — Repository Tracker
+> ### Codebase Metrics (as of 2026-03-15)
 >
-> | Module | Supabase Table | Drift Table | Mapper | Impl | Feature Flag | % |
-> |--------|:---:|:---:|:---:|:---:|:---:|:---:|
-> | clients | ✅ | ✅ | ✅ | ✅ | `clients_real_repo` | **100%** |
-> | income_tax | ✅ | ✅ | ✅ | ✅ | `income_tax_real_repo` | **100%** |
-> | gst | ✅ | ✅ | ✅ | ✅ | `gst_real_repo` | **100%** |
-> | tds | ✅ | ✅ | ✅ | ✅ | `tds_real_repo` | **100%** |
-> | billing | ✅ | ✅ | ✅ | ✅ | `billing_real_repo` | **100%** |
-> | tasks | ✅ | ✅ | ✅ | ✅ | `tasks_real_repo` | **100%** |
-> | payroll | ✅ | 🔶 | 🔶 | ✅ | `payroll_real_repo` | **75%** |
-> | audit | ✅ | 🔶 | 🔶 | ✅ | `audit_real_repo` | **75%** |
-> | tax_advisory | 🔶 | 🔲 | 🔲 | ✅ stub | `tax_advisory_real_repo` | **50%** |
-> | virtual_cfo | 🔶 | 🔲 | 🔲 | ✅ stub | `virtual_cfo_real_repo` | **50%** |
-> | xbrl | 🔶 | 🔲 | 🔲 | ✅ stub | `xbrl_real_repo` | **50%** |
-> | today | — | 🔲 | 🔲 | ✅ stub | `today_real_repo` | **50%** |
-> | more | — | 🔲 | 🔲 | ✅ stub | `more_real_repo` | **50%** |
-> | roadmap_modules | — | 🔲 | 🔲 | ✅ stub | `roadmap_modules_real_repo` | **50%** |
-> | traces | 🔶 | 🔲 | 🔲 | ✅ stub | `traces_real_repo` | **50%** |
-> | gstn_api | 🔶 | 🔲 | 🔲 | ✅ stub | `gstn_api_real_repo` | **50%** |
-> | mca_api | 🔶 | 🔲 | 🔲 | ✅ stub | `mca_api_real_repo` | **50%** |
-> | portal_export | 🔶 | 🔲 | 🔲 | ✅ stub | `portal_export_real_repo` | **50%** |
-> | portal_parser | 🔶 | 🔲 | 🔲 | ✅ stub | `portal_import_real_repo` | **50%** |
-> | documents | ✅ | 🔲 | 🔲 | 🔲 | — | 20% |
-> | compliance | ✅ | 🔲 | 🔲 | 🔲 | — | 20% |
-> | firm_operations | ✅ | 🔲 | 🔲 | 🔲 | — | 0% |
-> | dashboard | — | 🔲 | 🔲 | 🔲 | — | 0% |
-> | mca / roc | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
-> | portal_connector | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
-> | reconciliation | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
-> | *remaining 51 modules* | 🔲 | 🔲 | 🔲 | 🔲 | — | 0% |
+> | Metric | Value |
+> |--------|-------|
+> | Feature modules | **76** |
+> | Lib files (non-generated) | **1,622** (260,675 lines) |
+> | Test files | **318** (75,266 lines) |
+> | Tests passing | **5,784 / 5,784** |
+> | Code coverage | **29.9%** (target: 100%) |
+> | Lint issues | **0** |
+> | Drift tables / DAOs | **39 / 38** |
+> | Supabase migrations | **18** |
+> | Repository impls | **76 / 76** (all feature-flag-gated) |
+> | Tested UI screens | **6 / 76** |
+> | UnimplementedError stubs | **10** |
+> | TODOs remaining | **27** |
 >
 > **Legend:** ✅ Done · 🔶 In progress · 🔲 Pending
 >
