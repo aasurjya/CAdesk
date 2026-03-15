@@ -113,7 +113,6 @@ void main() {
       });
 
       test('serializes null top_module as null', () {
-        final noTop = sampleSnapshot.copyWith(topModule: null);
         // copyWith doesn't handle null for non-nullable, use fresh object:
         final noTopSnapshot = AnalyticsSnapshot(
           id: sampleSnapshot.id,

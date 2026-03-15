@@ -96,12 +96,12 @@ void main() {
         final filing = McaFilingData(
           id: 'mca-json-001',
           clientId: 'client-json-001',
-          formType: MCAFormType.mgt7,
+          formType: MCAFormType.aoc4,
           financialYear: '2025-26',
-          dueDate: DateTime.utc(2026, 11, 29),
-          filedDate: DateTime.utc(2026, 11, 15),
+          dueDate: DateTime.utc(2026, 10, 29),
+          filedDate: DateTime.utc(2026, 10, 15),
           status: 'approved',
-          filingNumber: 'SRN/MGT7/654321',
+          filingNumber: 'SRN/AOC4/654321',
           remarks: 'Statutory filing completed',
         );
 
@@ -109,10 +109,10 @@ void main() {
 
         expect(json['id'], 'mca-json-001');
         expect(json['client_id'], 'client-json-001');
-        expect(json['form_type'], 'mgt7');
+        expect(json['form_type'], 'aoc4');
         expect(json['financial_year'], '2025-26');
         expect(json['status'], 'approved');
-        expect(json['filing_number'], 'SRN/MGT7/654321');
+        expect(json['filing_number'], 'SRN/AOC4/654321');
         expect(json['remarks'], 'Statutory filing completed');
         expect(json['filed_date'], isNotNull);
 

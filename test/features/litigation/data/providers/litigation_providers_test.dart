@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/litigation/data/providers/litigation_providers.dart';
 import 'package:ca_app/features/litigation/domain/models/tax_notice.dart';
 import 'package:ca_app/features/litigation/domain/models/appeal_case.dart';
-import 'package:ca_app/features/litigation/domain/models/appeal_stage.dart';
 import 'package:ca_app/features/litigation/domain/services/notice_triage_service.dart';
 import 'package:ca_app/features/litigation/domain/services/response_template_service.dart';
 
@@ -113,7 +112,6 @@ void main() {
 
     test('add increases list length', () {
       final before = container.read(appealListProvider).length;
-      final existing = container.read(appealListProvider).first;
       final newAppeal = AppealCase(
         caseId: 'APC-TEST-999',
         pan: 'AAAAA0000A',

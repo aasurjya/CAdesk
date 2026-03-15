@@ -221,7 +221,6 @@ void main() {
       });
 
       test('serializes null filed_date as null', () {
-        final clientNoDate = sampleClient.copyWith(filedDate: null);
         // Need a hack since copyWith can't clear non-nullable with null -
         // create a new object directly
         const noDateClient = ItrClient(

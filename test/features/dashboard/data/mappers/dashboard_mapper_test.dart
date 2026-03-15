@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ca_app/features/dashboard/data/mappers/dashboard_mapper.dart';
-import 'package:ca_app/features/dashboard/domain/models/dashboard_summary.dart';
 
 void main() {
   group('DashboardMapper', () {

@@ -186,11 +186,6 @@ void main() {
       });
 
       test('serializes null end_time as null', () {
-        final runningEntry = sampleEntry.copyWith(
-          id: 'te-running',
-          endTime: null,
-          status: TimeEntryStatus.running,
-        );
         // Create directly as copyWith can't clear endTime
         final entry = TimeEntry(
           id: 'te-running',

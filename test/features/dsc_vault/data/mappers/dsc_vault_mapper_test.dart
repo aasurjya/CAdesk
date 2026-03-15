@@ -174,7 +174,6 @@ void main() {
         });
 
         test('serializes null last_used_at as null', () {
-          final certNoLastUsed = sampleCert.copyWith(lastUsedAt: null);
           // Create directly without lastUsedAt
           final cert = DscCertificate(
             id: 'dsc-nolast',

@@ -240,7 +240,6 @@ void main() {
       });
 
       test('serializes null report_date as null', () {
-        final noDate = sampleReport.copyWith(reportDate: null, saReportNumber: null);
         // copyWith doesn't accept null override for reportDate, create fresh:
         final noDateReport = AuditReport(
           id: sampleReport.id,

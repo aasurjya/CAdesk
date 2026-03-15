@@ -209,7 +209,6 @@ void main() {
       });
 
       test('serializes null remarks as null', () {
-        final docNoRemarks = sampleDoc.copyWith(remarks: null);
         // Manually create without remarks
         final doc = Document(
           id: 'doc-noremarks',
