@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/data/repositories/mock_submission_repository.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/repositories/submission_repository.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/epfo_autosubmit_service.dart';
@@ -8,7 +9,9 @@ import 'package:ca_app/features/portal_autosubmit/domain/services/itd_autosubmit
 import 'package:ca_app/features/portal_autosubmit/domain/services/mca_autosubmit_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/submission_orchestrator.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/traces_autosubmit_service.dart';
-import 'package:ca_app/core/otp/otp_intercept_service.dart';
+import 'package:ca_app/features/portal_connector/data/providers/portal_connector_repository_providers.dart';
+import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
+import 'package:ca_app/features/portal_connector/domain/repositories/portal_credential_repository.dart';
 
 // ---------------------------------------------------------------------------
 // Repository
@@ -64,3 +67,31 @@ final mcaAutosubmitServiceProvider = Provider<McaAutosubmitService>(
 final epfoAutosubmitServiceProvider = Provider<EpfoAutosubmitService>(
   (_) => const EpfoAutosubmitService(),
 );
+
+// ---------------------------------------------------------------------------
+// Credential lookup
+// ---------------------------------------------------------------------------
+
+/// Re-exports [portalCredentialRepositoryProvider] so autosubmit consumers
+/// only need to import this single providers file.
+///
+/// Returns the [PortalCredentialRepository] (mock or real depending on flags).
+final autosubmitCredentialRepositoryProvider =
+    Provider<PortalCredentialRepository>((ref) {
+  return ref.watch(portalCredentialRepositoryProvider);
+});
+
+/// Async provider that resolves the [PortalCredential] for a given
+/// [PortalType] from the credential repository.
+///
+/// Returns `null` when no credential has been stored for [portalType].
+///
+/// Usage:
+/// ```dart
+/// final credAsync = ref.watch(credentialForPortalProvider(PortalType.itd));
+/// ```
+final credentialForPortalProvider =
+    FutureProvider.family<PortalCredential?, PortalType>((ref, portalType) {
+  final repo = ref.watch(autosubmitCredentialRepositoryProvider);
+  return repo.getCredential(portalType);
+});

@@ -8,6 +8,10 @@ import 'package:ca_app/features/portal_connector/domain/repositories/portal_cred
 import 'package:ca_app/features/traces/domain/models/ais_data.dart';
 import 'package:ca_app/features/traces/domain/models/form16_certificate.dart';
 import 'package:ca_app/features/traces/domain/models/form26as_data.dart';
+import 'package:ca_app/features/traces/domain/models/traces_challan_status.dart';
+import 'package:ca_app/features/traces/domain/models/traces_form16_request.dart';
+import 'package:ca_app/features/traces/domain/models/traces_justification_report.dart';
+import 'package:ca_app/features/traces/domain/models/traces_pan_verification.dart';
 
 // ---------------------------------------------------------------------------
 // Base-URL constant — overridable via --dart-define.
@@ -197,6 +201,184 @@ class TracesService {
     }
   }
 
+  /// Verify a PAN with the TRACES / ITD API.
+  ///
+  /// Throws [PortalAuthException] on 401/403.
+  /// Throws [PortalRateLimitException] on 429.
+  /// Throws [PortalUnavailableException] on 5xx or network failure.
+  static Future<TracesPanVerification> verifyPan(
+    String pan, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/pan/verify',
+      sessionCookie: creds,
+      body: {'pan': pan.toUpperCase()},
+    );
+    return _parsePanVerification(_decodeBody(response.data), pan: pan);
+  }
+
+  /// Fetch the booking / matching status of a specific TDS challan.
+  ///
+  /// [bsrCode] — 7-digit BSR code of the bank branch.
+  /// [date]    — Date the challan was deposited.
+  /// [serial]  — 5-digit challan serial number.
+  /// [tan]     — TAN of the deductor.
+  static Future<TracesChallanStatus> getChallanStatus(
+    String bsrCode,
+    DateTime date,
+    String serial,
+    String tan, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/challan/status',
+      sessionCookie: creds,
+      body: {
+        'bsrCode': bsrCode,
+        'date': _formatDate(date),
+        'serial': serial,
+        'tan': tan.toUpperCase(),
+      },
+    );
+    return _parseChallanStatus(
+      _decodeBody(response.data),
+      bsrCode: bsrCode,
+      date: date,
+      serial: serial,
+      tan: tan,
+    );
+  }
+
+  /// Submit a Form 16 / 16A download request for a single deductee.
+  ///
+  /// [tan]           — TAN of the deductor.
+  /// [pan]           — PAN of the deductee.
+  /// [financialYear] — Financial year (e.g. 2024 for FY 2024-25).
+  static Future<TracesForm16Request> requestForm16(
+    String tan,
+    String pan,
+    int financialYear, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/form16/request',
+      sessionCookie: creds,
+      body: {
+        'tan': tan.toUpperCase(),
+        'pan': pan.toUpperCase(),
+        'financialYear': financialYear,
+      },
+    );
+    return _parseForm16Request(
+      _decodeBody(response.data),
+      tan: tan,
+      pan: pan,
+      financialYear: financialYear,
+    );
+  }
+
+  /// Submit a bulk Form 16 download request covering multiple deductees.
+  ///
+  /// TRACES allows up to 50 PANs per request.
+  static Future<List<TracesForm16Request>> requestBulkForm16(
+    String tan,
+    int financialYear,
+    List<String> pans, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/form16/bulkRequest',
+      sessionCookie: creds,
+      body: {
+        'tan': tan.toUpperCase(),
+        'financialYear': financialYear,
+        'pans': pans.map((p) => p.toUpperCase()).toList(),
+      },
+    );
+    final body = _decodeBody(response.data);
+    final list = body['requests'] as List<dynamic>? ?? const [];
+    return list
+        .whereType<Map<String, dynamic>>()
+        .map(
+          (e) => _parseForm16Request(
+            e,
+            tan: tan,
+            pan: e['pan'] as String? ?? '',
+            financialYear: financialYear,
+          ),
+        )
+        .toList(growable: false);
+  }
+
+  /// Fetch the justification report for a TAN / quarter.
+  ///
+  /// [tan]           — TAN of the deductor.
+  /// [financialYear] — Financial year.
+  /// [quarter]       — Quarter number: 1 = Q1 (Apr-Jun), …, 4 = Q4 (Jan-Mar).
+  static Future<TracesJustificationReport> getJustificationReport(
+    String tan,
+    int financialYear,
+    int quarter, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/justificationReport/download',
+      sessionCookie: creds,
+      body: {
+        'tan': tan.toUpperCase(),
+        'financialYear': financialYear,
+        'quarter': quarter,
+      },
+    );
+    return _parseJustificationReport(
+      _decodeBody(response.data),
+      tan: tan,
+      financialYear: financialYear,
+      quarter: quarter,
+    );
+  }
+
+  /// Fetch all challans deposited by [tan] in the given [financialYear].
+  static Future<List<TracesChallanStatus>> getAllChallans(
+    String tan,
+    int financialYear, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final creds = await _resolveCredentials(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/app/challan/list',
+      sessionCookie: creds,
+      body: {
+        'tan': tan.toUpperCase(),
+        'financialYear': financialYear,
+      },
+    );
+    final body = _decodeBody(response.data);
+    final list = body['challans'] as List<dynamic>? ?? const [];
+    return list
+        .whereType<Map<String, dynamic>>()
+        .map((e) => _parseChallanFromList(e, tan: tan))
+        .toList(growable: false);
+  }
+
   // -------------------------------------------------------------------------
   // Private helpers — HTTP
   // -------------------------------------------------------------------------
@@ -383,6 +565,199 @@ class TracesService {
       taxDeducted: _parsePaise(e['taxDeducted']),
       certificateNumber: e['certificateNumber'] as String?,
     );
+  }
+
+  static TracesPanVerification _parsePanVerification(
+    Map<String, dynamic> data, {
+    required String pan,
+  }) {
+    final statusCode = (data['panStatus'] as String? ?? 'I').toUpperCase();
+    final PanStatus status;
+    switch (statusCode) {
+      case 'E':
+        status = PanStatus.valid;
+        break;
+      case 'A':
+        status = PanStatus.inactive;
+        break;
+      case 'X':
+        status = PanStatus.deleted;
+        break;
+      default:
+        status = PanStatus.invalid;
+    }
+    return TracesPanVerification(
+      pan: pan.toUpperCase(),
+      name: data['name'] as String? ?? '',
+      status: status,
+      aadhaarLinked: (data['aadhaarLinked'] as bool?) ?? false,
+      dateOfBirth: data['dateOfBirth'] as String?,
+      verifiedAt: DateTime.now(),
+    );
+  }
+
+  static TracesChallanStatus _parseChallanStatus(
+    Map<String, dynamic> data, {
+    required String bsrCode,
+    required DateTime date,
+    required String serial,
+    required String tan,
+  }) {
+    final statusCode = (data['bookingStatus'] as String? ?? 'U').toUpperCase();
+    final ChallanBookingStatus status;
+    switch (statusCode) {
+      case 'F':
+        status = ChallanBookingStatus.matched;
+        break;
+      case 'B':
+        status = ChallanBookingStatus.bookingConfirmed;
+        break;
+      case 'O':
+        status = ChallanBookingStatus.overBooked;
+        break;
+      default:
+        status = ChallanBookingStatus.unmatched;
+    }
+    final deposited = _parsePaise(data['depositedAmount']);
+    final consumed = _parsePaise(data['consumedAmount']);
+    return TracesChallanStatus(
+      bsrCode: bsrCode,
+      challanDate: date,
+      challanSerial: serial,
+      tan: tan.toUpperCase(),
+      section: data['section'] as String? ?? '',
+      depositedAmount: deposited,
+      status: status,
+      consumedAmount: consumed,
+      balanceAmount: deposited - consumed,
+    );
+  }
+
+  static TracesChallanStatus _parseChallanFromList(
+    Map<String, dynamic> data, {
+    required String tan,
+  }) {
+    final statusCode = (data['bookingStatus'] as String? ?? 'U').toUpperCase();
+    final ChallanBookingStatus status;
+    switch (statusCode) {
+      case 'F':
+        status = ChallanBookingStatus.matched;
+        break;
+      case 'B':
+        status = ChallanBookingStatus.bookingConfirmed;
+        break;
+      case 'O':
+        status = ChallanBookingStatus.overBooked;
+        break;
+      default:
+        status = ChallanBookingStatus.unmatched;
+    }
+    final deposited = _parsePaise(data['depositedAmount']);
+    final consumed = _parsePaise(data['consumedAmount']);
+    return TracesChallanStatus(
+      bsrCode: data['bsrCode'] as String? ?? '',
+      challanDate: _parseDate(data['challanDate'] as String?),
+      challanSerial: data['challanSerial'] as String? ?? '',
+      tan: data['tan'] as String? ?? tan.toUpperCase(),
+      section: data['section'] as String? ?? '',
+      depositedAmount: deposited,
+      status: status,
+      consumedAmount: consumed,
+      balanceAmount: deposited - consumed,
+    );
+  }
+
+  static TracesForm16Request _parseForm16Request(
+    Map<String, dynamic> data, {
+    required String tan,
+    required String pan,
+    required int financialYear,
+  }) {
+    final statusCode = (data['requestStatus'] as String? ?? 'P').toUpperCase();
+    final Form16RequestStatus status;
+    switch (statusCode) {
+      case 'A':
+        status = Form16RequestStatus.available;
+        break;
+      case 'P':
+        status = Form16RequestStatus.processing;
+        break;
+      case 'D':
+        status = Form16RequestStatus.downloaded;
+        break;
+      case 'F':
+        status = Form16RequestStatus.failed;
+        break;
+      default:
+        status = Form16RequestStatus.submitted;
+    }
+    return TracesForm16Request(
+      requestId: data['requestId'] as String? ?? '$tan-$pan-$financialYear',
+      tan: data['tan'] as String? ?? tan.toUpperCase(),
+      pan: data['pan'] as String? ?? pan.toUpperCase(),
+      financialYear: financialYear,
+      requestType: Form16RequestType.form16,
+      status: status,
+      downloadUrl: data['downloadUrl'] as String?,
+      requestedAt: DateTime.now(),
+    );
+  }
+
+  static TracesJustificationReport _parseJustificationReport(
+    Map<String, dynamic> data, {
+    required String tan,
+    required int financialYear,
+    required int quarter,
+  }) {
+    final tdsQuarter = TdsQuarter.values[(quarter - 1).clamp(0, 3)];
+    final shortList =
+        (data['shortDeductions'] as List<dynamic>? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(_parseShortDeduction)
+            .toList(growable: false);
+    final lateList =
+        (data['lateDeductions'] as List<dynamic>? ?? const [])
+            .whereType<Map<String, dynamic>>()
+            .map(_parseLateDeduction)
+            .toList(growable: false);
+    return TracesJustificationReport(
+      tan: tan.toUpperCase(),
+      financialYear: financialYear,
+      quarter: tdsQuarter,
+      shortDeductions: shortList,
+      lateDeductions: lateList,
+      totalShortfall: _parsePaise(data['totalShortfall']),
+      totalInterestDemand: _parsePaise(data['totalInterestDemand']),
+    );
+  }
+
+  static ShortDeductionEntry _parseShortDeduction(Map<String, dynamic> data) {
+    return ShortDeductionEntry(
+      pan: data['pan'] as String? ?? '',
+      section: data['section'] as String? ?? '',
+      amountPaid: _parsePaise(data['amountPaid']),
+      tdsDeducted: _parsePaise(data['tdsDeducted']),
+      tdsRequired: _parsePaise(data['tdsRequired']),
+      shortfall: _parsePaise(data['shortfall']),
+    );
+  }
+
+  static LateDeductionEntry _parseLateDeduction(Map<String, dynamic> data) {
+    return LateDeductionEntry(
+      pan: data['pan'] as String? ?? '',
+      section: data['section'] as String? ?? '',
+      dueDate: data['dueDate'] as String? ?? '',
+      depositedDate: data['depositedDate'] as String? ?? '',
+      daysLate: (data['daysLate'] as num?)?.toInt() ?? 0,
+      interest: _parsePaise(data['interest']),
+    );
+  }
+
+  static String _formatDate(DateTime date) {
+    final d = date.day.toString().padLeft(2, '0');
+    final m = date.month.toString().padLeft(2, '0');
+    final y = date.year.toString();
+    return '$d/$m/$y';
   }
 
   // -------------------------------------------------------------------------

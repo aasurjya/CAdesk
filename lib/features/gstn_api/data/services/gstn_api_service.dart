@@ -4,8 +4,10 @@ import 'package:dio/dio.dart';
 
 import 'package:ca_app/features/gstn_api/domain/models/gstin_details.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_filing_status.dart';
+import 'package:ca_app/features/gstn_api/domain/models/gstn_token.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_verification_result.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gst_notice.dart';
+import 'package:ca_app/features/gstn_api/domain/models/gstr2b_fetch_result.dart';
 import 'package:ca_app/features/portal_connector/domain/exceptions/portal_exceptions.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 import 'package:ca_app/features/portal_connector/domain/repositories/portal_credential_repository.dart';
@@ -148,6 +150,142 @@ class GstnApiService {
         .toList(growable: false);
   }
 
+  /// Save a draft return payload for a GSTIN.
+  ///
+  /// [returnType] is the return name (e.g. "GSTR1", "GSTR3B").
+  /// [period] is in MMYYYY format (e.g. "032024").
+  /// [jsonPayload] is the serialised return data.
+  ///
+  /// Returns the current [GstnFilingStatus] after saving.
+  static Future<GstnFilingStatus> saveReturn(
+    String gstin,
+    String returnType,
+    String period,
+    String jsonPayload, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final apiKey = await _resolveApiKey(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/returns/v2.0/returns/save',
+      apiKey: apiKey,
+      body: {
+        'gstin': gstin,
+        'ret_period': period,
+        'rtntype': returnType.toUpperCase(),
+        'data': jsonPayload,
+      },
+    );
+    return _parseFilingStatus(
+      _decodeBody(response.data),
+      gstin: gstin,
+      returnType: returnType,
+      period: period,
+    );
+  }
+
+  /// Submit a previously saved return, locking it for filing.
+  static Future<GstnFilingStatus> submitReturn(
+    String gstin,
+    String returnType,
+    String period, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final apiKey = await _resolveApiKey(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/returns/v2.0/returns/submit',
+      apiKey: apiKey,
+      body: {
+        'gstin': gstin,
+        'ret_period': period,
+        'rtntype': returnType.toUpperCase(),
+      },
+    );
+    return _parseFilingStatus(
+      _decodeBody(response.data),
+      gstin: gstin,
+      returnType: returnType,
+      period: period,
+    );
+  }
+
+  /// File a submitted return using an EVC/DSC OTP.
+  ///
+  /// On success the return receives an ARN and status becomes filed.
+  static Future<GstnFilingStatus> fileReturn(
+    String gstin,
+    String returnType,
+    String period,
+    String otp, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final apiKey = await _resolveApiKey(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/returns/v2.0/returns/file',
+      apiKey: apiKey,
+      body: {
+        'gstin': gstin,
+        'ret_period': period,
+        'rtntype': returnType.toUpperCase(),
+        'otp': otp,
+      },
+    );
+    return _parseFilingStatus(
+      _decodeBody(response.data),
+      gstin: gstin,
+      returnType: returnType,
+      period: period,
+    );
+  }
+
+  /// Fetch the auto-drafted GSTR-2B ITC statement for a GSTIN and period.
+  ///
+  /// [period] is in MMYYYY format.
+  static Future<Gstr2bFetchResult> fetchGstr2b(
+    String gstin,
+    String period, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final apiKey = await _resolveApiKey(credentialRepository);
+    final response = await _get(
+      dio: dio,
+      path: '/gstr2b/v1.0/gstr2b',
+      apiKey: apiKey,
+      queryParameters: {'gstin': gstin, 'rtnprd': period},
+    );
+    return _parseGstr2b(_decodeBody(response.data), gstin: gstin, period: period);
+  }
+
+  /// Obtain an EVC-based access token for GSTN API operations.
+  ///
+  /// [otp] is the electronic verification code received via SMS/email.
+  static Future<GstnToken> getToken(
+    String gstin,
+    String username,
+    String otp, {
+    required Dio dio,
+    required PortalCredentialRepository credentialRepository,
+  }) async {
+    final apiKey = await _resolveApiKey(credentialRepository);
+    final response = await _post(
+      dio: dio,
+      path: '/commonapi/v1.1/authenticate',
+      apiKey: apiKey,
+      body: {
+        'gstin': gstin,
+        'username': username,
+        'otp': otp,
+      },
+    );
+    return _parseToken(_decodeBody(response.data));
+  }
+
   // -------------------------------------------------------------------------
   // Private helpers — HTTP
   // -------------------------------------------------------------------------
@@ -162,6 +300,23 @@ class GstnApiService {
       return await dio.get<dynamic>(
         '$_kGstnBaseUrl$path',
         queryParameters: queryParameters,
+        options: Options(headers: {'gstin-apikey': apiKey}),
+      );
+    } on DioException catch (e) {
+      _throwPortalException(e);
+    }
+  }
+
+  static Future<Response<dynamic>> _post({
+    required Dio dio,
+    required String path,
+    required String apiKey,
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      return await dio.post<dynamic>(
+        '$_kGstnBaseUrl$path',
+        data: body,
         options: Options(headers: {'gstin-apikey': apiKey}),
       );
     } on DioException catch (e) {
@@ -343,6 +498,54 @@ class GstnApiService {
       default:
         return GstNoticeStatus.open;
     }
+  }
+
+  static Gstr2bFetchResult _parseGstr2b(
+    Map<String, dynamic> data, {
+    required String gstin,
+    required String period,
+  }) {
+    final doc = (data['data'] as Map<String, dynamic>?) ?? data;
+    final statusStr = (doc['docSts'] as String? ?? 'NG').toUpperCase();
+    final Gstr2bStatus status;
+    switch (statusStr) {
+      case 'GN':
+        status = Gstr2bStatus.generated;
+        break;
+      case 'PR':
+        status = Gstr2bStatus.processing;
+        break;
+      default:
+        status = Gstr2bStatus.notGenerated;
+    }
+    final summary = (doc['docSummary'] as Map<String, dynamic>?) ?? const {};
+    return Gstr2bFetchResult(
+      gstin: gstin,
+      period: period,
+      status: status,
+      totalIgstCredit: _parsePaise(summary['igst']),
+      totalCgstCredit: _parsePaise(summary['cgst']),
+      totalSgstCredit: _parsePaise(summary['sgst']),
+      entryCount: (summary['entryCnt'] as num?)?.toInt() ?? 0,
+      generatedAt: _parseDateOpt(doc['genDt'] as String?),
+    );
+  }
+
+  static GstnToken _parseToken(Map<String, dynamic> data) {
+    final tokenData = (data['authToken'] as Map<String, dynamic>?) ?? data;
+    return GstnToken(
+      accessToken: tokenData['authtoken'] as String? ?? '',
+      tokenType: tokenData['tokenType'] as String? ?? 'Bearer',
+      expiresIn: (tokenData['expiry'] as num?)?.toInt() ?? 21600,
+      issuedAt: DateTime.now(),
+    );
+  }
+
+  static int _parsePaise(dynamic value) {
+    if (value is int) return value;
+    if (value is double) return value.round();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   // -------------------------------------------------------------------------

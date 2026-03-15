@@ -1,15 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/portal_autosubmit/data/providers/submission_repository_providers.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/epfo_autosubmit_service.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/gstn_autosubmit_service.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/itd_autosubmit_service.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/mca_autosubmit_service.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/traces_autosubmit_service.dart';
 import 'package:ca_app/features/portal_autosubmit/presentation/widgets/portal_login_sheet.dart';
 import 'package:ca_app/features/portal_autosubmit/presentation/widgets/submission_progress_card.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_screen.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
@@ -128,9 +133,13 @@ class _JobList extends ConsumerWidget {
         final job = jobs[index];
         return SubmissionProgressCard(
           job: job,
-          onTap: () => job.currentStep == SubmissionStep.pending
-              ? _startWebViewAutomation(context, ref, job)
-              : _openDetail(context, job),
+          onTap: () {
+            if (job.currentStep == SubmissionStep.pending) {
+              _startWebViewAutomation(context, ref, job);
+            } else {
+              _openDetail(context, job);
+            }
+          },
           onRetry: job.canRetry ? () => _retryJob(context, ref, job) : null,
         );
       },
@@ -145,36 +154,94 @@ class _JobList extends ConsumerWidget {
 
   /// Navigates to the embedded [PortalWebViewScreen] to run real automation.
   ///
-  /// A placeholder [PortalCredential] is used here; in production this should
-  /// be resolved from the DSC vault / credential provider before navigation.
-  void _startWebViewAutomation(
+  /// Fetches the stored credential for the job's portal type from the
+  /// credential repository, then opens the WebView with an [AutomationRunner]
+  /// that calls the correct portal service.
+  ///
+  /// Falls back to a mock credential when none is stored (offline/dev mode).
+  Future<void> _startWebViewAutomation(
     BuildContext context,
     WidgetRef ref,
     SubmissionJob job,
-  ) {
-    // TODO(phase-4): fetch real credential from DSC vault provider.
-    final credential = PortalCredential(
-      id: 'cred_${job.clientId}',
-      portalType: job.portalType,
-      username: '',
+  ) async {
+    // Fetch the real credential; fall back to an empty mock for dev/offline.
+    final credRepo = ref.read(autosubmitCredentialRepositoryProvider);
+    final storedCredential = await credRepo.getCredential(job.portalType);
+    final credential =
+        storedCredential ??
+        PortalCredential(
+          id: 'cred_${job.clientId}',
+          portalType: job.portalType,
+          username: '',
+        );
+
+    final orchestrator = ref.read(submissionOrchestratorProvider);
+    final otpService = ref.read(otpInterceptServiceProvider);
+
+    // Build the automation runner: receives the WebView controller when ready
+    // and returns the correct portal service's login stream.
+    AutomationRunner runner = _buildAutomationRunner(
+      job: job,
+      credential: credential,
+      otpService: otpService,
     );
 
-    // Build a broadcast stream so the banner has something to show until the
-    // domain service takes over via the injected PortalWebViewController.
-    final controller = StreamController<SubmissionLog>.broadcast();
-    final automationStream = controller.stream;
+    if (!context.mounted) return;
 
-    Navigator.of(context)
-        .push(
-          MaterialPageRoute<void>(
-            builder: (_) => PortalWebViewScreen(
-              job: job,
-              credential: credential,
-              automationStream: automationStream,
-            ),
-          ),
-        )
-        .then((_) => controller.close());
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => PortalWebViewScreen(
+          job: job,
+          credential: credential,
+          automationRunner: runner,
+          onLog: (log) {
+            // Forward each log entry to the orchestrator for persistence.
+            orchestrator.appendLog(log);
+          },
+        ),
+      ),
+    );
+  }
+
+  /// Returns the correct [AutomationRunner] for [job.portalType].
+  ///
+  /// Each runner calls the portal service's [login] method with the live
+  /// [PortalWebViewController], yielding [SubmissionLog] entries that drive
+  /// the progress banner and are persisted by the orchestrator.
+  AutomationRunner _buildAutomationRunner({
+    required SubmissionJob job,
+    required PortalCredential credential,
+    required OtpInterceptService otpService,
+  }) {
+    return (PortalWebViewController controller) {
+      return switch (job.portalType) {
+        PortalType.itd => const ItdAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+          webViewController: controller,
+        ),
+        PortalType.gstn => const GstnAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+          webViewController: controller,
+        ),
+        PortalType.traces => const TracesAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+          webViewController: controller,
+        ),
+        PortalType.mca => const McaAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+          webViewController: controller,
+        ),
+        PortalType.epfo => const EpfoAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+          webViewController: controller,
+        ),
+      };
+    };
   }
 
   void _retryJob(BuildContext context, WidgetRef ref, SubmissionJob job) {

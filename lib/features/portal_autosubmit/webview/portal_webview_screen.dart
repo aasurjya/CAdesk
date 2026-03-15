@@ -10,7 +10,23 @@ import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
+
+// ---------------------------------------------------------------------------
+// Automation runner type
+// ---------------------------------------------------------------------------
+
+/// Callback invoked once the WebView is ready.
+///
+/// Receives a [PortalWebViewController] wrapping the live
+/// [InAppWebViewController]. Implementations return a
+/// [Stream<SubmissionLog>] that the screen subscribes to so it can update
+/// the live banner and forward log entries to the caller for persistence.
+///
+/// Set to `null` to open the WebView in manual/preview mode with no banner.
+typedef AutomationRunner =
+    Stream<SubmissionLog> Function(PortalWebViewController controller);
 
 /// Full-screen WebView that hosts portal automation for a [SubmissionJob].
 ///
@@ -18,10 +34,14 @@ import 'package:ca_app/features/portal_connector/domain/models/portal_credential
 /// refresh navigation controls, a live-progress banner, and an OTP overlay
 /// when [OtpInterceptService] has a pending request.
 ///
+/// Pass an [automationRunner] to wire real domain-service automation.
+/// The runner is called once the WebView is ready and receives a
+/// [PortalWebViewController] wrapping the native controller.
+///
 /// The embedded page gains access to a `FlutterOtp` JavaScript channel so
 /// client-side scripts can trigger the OTP dialog:
 /// ```js
-/// FlutterOtp.postMessage(JSON.stringify({
+/// window.flutter_inappwebview.callHandler('FlutterOtp', JSON.stringify({
 ///   type: 'otp_required',
 ///   channel: 'sms',
 ///   hint: '+91-98xxx',
@@ -32,15 +52,26 @@ class PortalWebViewScreen extends StatefulWidget {
     super.key,
     required this.job,
     required this.credential,
-    required this.automationStream,
+    this.automationRunner,
+    this.onLog,
   });
 
   final SubmissionJob job;
   final PortalCredential credential;
 
-  /// Stream emitted by a domain service (e.g. [ItdAutosubmitService.login]).
-  /// Each [SubmissionLog] entry updates the progress banner.
-  final Stream<SubmissionLog> automationStream;
+  /// Optional automation callback invoked when the WebView is ready.
+  ///
+  /// When provided, the returned stream drives the live banner.  Each emitted
+  /// [SubmissionLog] is also forwarded to [onLog] so callers can persist it
+  /// via the orchestrator.
+  ///
+  /// When `null`, the WebView opens in manual/preview mode with no banner.
+  final AutomationRunner? automationRunner;
+
+  /// Optional callback receiving each [SubmissionLog] emitted by the runner.
+  ///
+  /// Callers can use this to forward logs to the orchestrator for persistence.
+  final void Function(SubmissionLog log)? onLog;
 
   @override
   State<PortalWebViewScreen> createState() => _PortalWebViewScreenState();
@@ -60,7 +91,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   String? _bannerMessage;
 
   /// Whether automation is actively running.
-  bool _isRunning = true;
+  bool _isRunning = false;
 
   /// Whether the page is loading (shows linear progress indicator).
   bool _isPageLoading = false;
@@ -71,16 +102,6 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
-
-  @override
-  void initState() {
-    super.initState();
-    _automationSub = widget.automationStream.listen(
-      _onAutomationLog,
-      onDone: _onAutomationDone,
-      onError: _onAutomationError,
-    );
-  }
 
   @override
   void dispose() {
@@ -96,6 +117,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   void _onAutomationLog(SubmissionLog log) {
     if (!mounted) return;
     setState(() => _bannerMessage = log.message);
+    widget.onLog?.call(log);
   }
 
   void _onAutomationDone() {
@@ -259,6 +281,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
 
   void _onWebViewCreated(InAppWebViewController controller) {
     _webViewController = controller;
+
     // Register the FlutterOtp JS channel so pages can trigger the OTP dialog:
     //   window.flutter_inappwebview.callHandler('FlutterOtp', JSON.stringify({...}));
     controller.addJavaScriptHandler(
@@ -267,6 +290,24 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         _handleFlutterOtpArgs(args);
         return null;
       },
+    );
+
+    // Wire the automation runner if provided.
+    final runner = widget.automationRunner;
+    if (runner == null) return;
+
+    final portalController = PortalWebViewController(
+      controller: controller,
+      otpService: _otpService,
+    );
+
+    setState(() => _isRunning = true);
+
+    final stream = runner(portalController);
+    _automationSub = stream.listen(
+      _onAutomationLog,
+      onDone: _onAutomationDone,
+      onError: _onAutomationError,
     );
   }
 

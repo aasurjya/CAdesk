@@ -1,32 +1,74 @@
+import 'package:dio/dio.dart';
+
+import 'package:ca_app/features/gstn_api/data/mock_gstn_repository.dart';
+import 'package:ca_app/features/gstn_api/data/services/gstn_api_service.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_filing_status.dart';
+import 'package:ca_app/features/gstn_api/domain/models/gstn_token.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstn_verification_result.dart';
 import 'package:ca_app/features/gstn_api/domain/models/gstr2b_fetch_result.dart';
-import 'package:ca_app/features/gstn_api/domain/models/gstn_token.dart';
 import 'package:ca_app/features/gstn_api/domain/repositories/gstn_repository.dart';
+import 'package:ca_app/features/portal_connector/domain/exceptions/portal_exceptions.dart';
+import 'package:ca_app/features/portal_connector/domain/repositories/portal_credential_repository.dart';
 
-/// Real implementation of [GstnRepository].
+/// Live HTTP implementation of [GstnRepository].
 ///
-/// Makes authenticated HTTP calls to the GSTN portal API.
-/// Full wiring to [GstnApiService] is deferred until the portal integration phase.
+/// Each method calls the corresponding [GstnApiService] static method and
+/// maps its result to the domain type.
+///
+/// When [useRealService] is `false` (the default for development) every call
+/// falls through to [_mock] so the app works without live GSTN credentials.
+/// Set `useRealService: true` only when the `gstn_api_real_repo` feature flag
+/// is enabled (handled by [GstnApiRepositoryProvider]).
+///
+/// Portal exceptions ([PortalAuthException], [PortalRateLimitException],
+/// [PortalUnavailableException]) are always re-thrown — callers decide whether
+/// to show an error or retry.
 class GstnApiRepositoryImpl implements GstnRepository {
-  const GstnApiRepositoryImpl();
+  const GstnApiRepositoryImpl({
+    required this.dio,
+    required this.credentialRepository,
+    this.useRealService = false,
+  });
 
-  static const int _gstnLength = 15;
+  final Dio dio;
+  final PortalCredentialRepository credentialRepository;
+
+  /// When `true`, every method delegates to [GstnApiService].
+  /// When `false`, the mock is used as a fallback.
+  final bool useRealService;
+
+  static final MockGstnRepository _mock = MockGstnRepository();
+
+  // -------------------------------------------------------------------------
+  // GstnRepository interface
+  // -------------------------------------------------------------------------
 
   @override
   Future<GstnVerificationResult> verifyGstin(String gstin) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnVerificationResult(
-      gstin: gstin,
-      legalName: '',
-      registrationDate: DateTime(2000),
-      status: gstin.length == _gstnLength
-          ? GstnRegistrationStatus.active
-          : GstnRegistrationStatus.cancelled,
-      stateCode: gstin.length >= 2 ? gstin.substring(0, 2) : '00',
-      constitutionType: 'Unknown',
-      returnFilingFrequency: ReturnFilingFrequency.monthly,
-    );
+    if (!useRealService) return _mock.verifyGstin(gstin);
+    try {
+      final details = await GstnApiService.searchGstin(
+        gstin,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+      return GstnVerificationResult(
+        gstin: details.gstin,
+        legalName: details.legalName,
+        tradeName: details.tradeName.isNotEmpty ? details.tradeName : null,
+        registrationDate: details.registrationDate,
+        status: details.status,
+        stateCode: details.stateCode,
+        constitutionType: details.constitutionType,
+        returnFilingFrequency: details.returnFilingFrequency,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
@@ -36,13 +78,25 @@ class GstnApiRepositoryImpl implements GstnRepository {
     String period,
     String jsonPayload,
   ) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnFilingStatus(
-      gstin: gstin,
-      returnType: _parseReturnType(returnType),
-      period: period,
-      status: GstnReturnStatus.saved,
-    );
+    if (!useRealService) {
+      return _mock.saveReturn(gstin, returnType, period, jsonPayload);
+    }
+    try {
+      return await GstnApiService.saveReturn(
+        gstin,
+        returnType,
+        period,
+        jsonPayload,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
@@ -51,13 +105,24 @@ class GstnApiRepositoryImpl implements GstnRepository {
     String returnType,
     String period,
   ) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnFilingStatus(
-      gstin: gstin,
-      returnType: _parseReturnType(returnType),
-      period: period,
-      status: GstnReturnStatus.submitted,
-    );
+    if (!useRealService) {
+      return _mock.submitReturn(gstin, returnType, period);
+    }
+    try {
+      return await GstnApiService.submitReturn(
+        gstin,
+        returnType,
+        period,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
@@ -67,14 +132,25 @@ class GstnApiRepositoryImpl implements GstnRepository {
     String period,
     String otp,
   ) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnFilingStatus(
-      gstin: gstin,
-      returnType: _parseReturnType(returnType),
-      period: period,
-      status: GstnReturnStatus.filed,
-      filedAt: DateTime.now(),
-    );
+    if (!useRealService) {
+      return _mock.fileReturn(gstin, returnType, period, otp);
+    }
+    try {
+      return await GstnApiService.fileReturn(
+        gstin,
+        returnType,
+        period,
+        otp,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
@@ -83,53 +159,66 @@ class GstnApiRepositoryImpl implements GstnRepository {
     String returnType,
     String period,
   ) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnFilingStatus(
-      gstin: gstin,
-      returnType: _parseReturnType(returnType),
-      period: period,
-      status: GstnReturnStatus.notFiled,
-    );
+    if (!useRealService) {
+      return _mock.getFilingStatus(gstin, returnType, period);
+    }
+    try {
+      return await GstnApiService.getFilingStatus(
+        gstin,
+        returnType,
+        period,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
   Future<Gstr2bFetchResult> fetchGstr2b(String gstin, String period) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return Gstr2bFetchResult(
-      gstin: gstin,
-      period: period,
-      status: Gstr2bStatus.notGenerated,
-      totalIgstCredit: 0,
-      totalCgstCredit: 0,
-      totalSgstCredit: 0,
-      entryCount: 0,
-      generatedAt: DateTime.now(),
-    );
+    if (!useRealService) return _mock.fetchGstr2b(gstin, period);
+    try {
+      return await GstnApiService.fetchGstr2b(
+        gstin,
+        period,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
+    }
   }
 
   @override
-  Future<GstnToken> getToken(String gstin, String username, String otp) async {
-    // TODO(portal): delegate to GstnApiService HTTP call
-    return GstnToken(
-      accessToken: '',
-      tokenType: 'Bearer',
-      expiresIn: 0,
-      issuedAt: DateTime.now(),
-    );
-  }
-
-  GstnReturnType _parseReturnType(String returnType) {
-    switch (returnType.toUpperCase()) {
-      case 'GSTR1':
-        return GstnReturnType.gstr1;
-      case 'GSTR3B':
-        return GstnReturnType.gstr3b;
-      case 'GSTR9':
-        return GstnReturnType.gstr9;
-      case 'GSTR9C':
-        return GstnReturnType.gstr9c;
-      default:
-        return GstnReturnType.gstr1;
+  Future<GstnToken> getToken(
+    String gstin,
+    String username,
+    String otp,
+  ) async {
+    if (!useRealService) return _mock.getToken(gstin, username, otp);
+    try {
+      return await GstnApiService.getToken(
+        gstin,
+        username,
+        otp,
+        dio: dio,
+        credentialRepository: credentialRepository,
+      );
+    } on PortalAuthException {
+      rethrow;
+    } on PortalRateLimitException {
+      rethrow;
+    } on PortalUnavailableException {
+      rethrow;
     }
   }
 }

@@ -108,6 +108,17 @@ class SubmissionOrchestrator {
   Future<List<SubmissionLog>> getLogs(String id) => _repo.getLogs(id);
 
   // ---------------------------------------------------------------------------
+  // Log persistence (called by WebView automation layer)
+  // ---------------------------------------------------------------------------
+
+  /// Appends a pre-built [log] entry to the repository.
+  ///
+  /// Called by the presentation layer to forward log entries emitted by
+  /// portal services during WebView automation.  The [log.jobId] determines
+  /// which job's log bucket receives the entry.
+  Future<void> appendLog(SubmissionLog log) => _repo.insertLog(log);
+
+  // ---------------------------------------------------------------------------
   // Streams
   // ---------------------------------------------------------------------------
 
