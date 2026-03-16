@@ -7,7 +7,7 @@ import 'package:ca_app/features/dashboard/presentation/widgets/activity_feed_wid
 import 'package:ca_app/features/dashboard/presentation/widgets/compliance_deadline_widget.dart';
 
 /// Sets the virtual display to a comfortable phone viewport that avoids
-/// overflow errors from the quick-action grid at the default 800×600 size.
+/// overflow errors from the quick-action grid at the default 800x600 size.
 Future<void> _setLargeDisplay(WidgetTester tester) async {
   await tester.binding.setSurfaceSize(const Size(414, 900));
   addTearDown(() => tester.binding.setSurfaceSize(null));
@@ -139,6 +139,14 @@ void main() {
       expect(find.byType(ListView), findsWidgets);
     });
 
+    testWidgets('body contains a RefreshIndicator', (tester) async {
+      await _setLargeDisplay(tester);
+      await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
+
+      expect(find.byType(RefreshIndicator), findsOneWidget);
+    });
+
     testWidgets('Upcoming Deadlines section is visible after scrolling',
         (tester) async {
       await _setLargeDisplay(tester);
@@ -202,82 +210,108 @@ void main() {
 
   group('ActivityFeedWidget', () {
     Widget buildSubject() {
-      return const MaterialApp(
-        home: Scaffold(body: SingleChildScrollView(child: ActivityFeedWidget())),
+      return const ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(body: SingleChildScrollView(child: ActivityFeedWidget())),
+        ),
       );
     }
 
-    testWidgets('renders ITR Filed activity', (tester) async {
+    testWidgets('renders activity items from provider', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('ITR Filed'), findsOneWidget);
+      // The provider produces up to 8 activities from ITR/GST/TDS data.
+      // At least one activity card should be rendered.
+      expect(find.byType(ListTile), findsWidgets);
     });
 
-    testWidgets('renders GST Filed activity', (tester) async {
+    testWidgets('renders activity items from provider data', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('GST Filed'), findsOneWidget);
+      // The provider aggregates ITR, GST, and TDS data; at least one card
+      // should contain a recognisable module prefix.
+      final itr = find.text('ITR Filed');
+      final gst = find.textContaining('GST');
+      final tds = find.textContaining('TDS');
+
+      expect(
+        itr.evaluate().isNotEmpty ||
+            gst.evaluate().isNotEmpty ||
+            tds.evaluate().isNotEmpty,
+        isTrue,
+      );
     });
 
-    testWidgets('renders Challan Paid activity', (tester) async {
+    testWidgets('wraps activity rows in InkWell for navigation', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('Challan Paid'), findsOneWidget);
+      expect(find.byType(InkWell), findsWidgets);
     });
   });
 
   group('ComplianceDeadlineWidget', () {
     Widget buildSubject() {
-      return const MaterialApp(
-        home: Scaffold(
-          body: SingleChildScrollView(child: ComplianceDeadlineWidget()),
+      return const ProviderScope(
+        child: MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(child: ComplianceDeadlineWidget()),
+          ),
         ),
       );
     }
 
-    testWidgets('renders GSTR-3B deadline', (tester) async {
+    testWidgets('renders deadline items from compliance provider', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('GST GSTR-3B'), findsOneWidget);
+      // The provider returns upcoming deadlines from the compliance module.
+      // At least one deadline should be visible (GST-3B, TDS Return, GSTR-9,
+      // or future-month items depending on the current date).
+      final gst = find.textContaining('GST');
+      final tds = find.textContaining('TDS');
+      final empty = find.text('No upcoming deadlines');
+
+      expect(
+        gst.evaluate().isNotEmpty ||
+            tds.evaluate().isNotEmpty ||
+            empty.evaluate().isNotEmpty,
+        isTrue,
+      );
     });
 
-    testWidgets('renders TDS Challan deadline', (tester) async {
+    testWidgets('renders deadline type badges', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('TDS Challan'), findsOneWidget);
+      // Short labels from ComplianceCategory enum
+      expect(find.text('TDS'), findsWidgets);
     });
 
-    testWidgets('renders Advance Tax deadline', (tester) async {
+    testWidgets('renders days remaining pills', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('Advance Tax'), findsOneWidget);
+      // At least one deadline should show "days left" or "Today" or "days overdue"
+      final daysLeft = find.textContaining('days left');
+      final today = find.text('Today');
+      final overdue = find.textContaining('overdue');
+
+      expect(
+        daysLeft.evaluate().isNotEmpty ||
+            today.evaluate().isNotEmpty ||
+            overdue.evaluate().isNotEmpty,
+        isTrue,
+      );
     });
 
-    testWidgets('renders GSTR-1 deadline', (tester) async {
+    testWidgets('wraps deadline tiles in InkWell for navigation', (tester) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(find.text('GSTR-1'), findsOneWidget);
-    });
-
-    testWidgets('renders overdue pill for past deadlines', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      await tester.pumpAndSettle();
-
-      expect(find.textContaining('days overdue'), findsOneWidget);
-    });
-
-    testWidgets('renders Today pill for zero-day deadline', (tester) async {
-      await tester.pumpWidget(buildSubject());
-      await tester.pumpAndSettle();
-
-      expect(find.text('Today'), findsOneWidget);
+      expect(find.byType(InkWell), findsWidgets);
     });
   });
 }

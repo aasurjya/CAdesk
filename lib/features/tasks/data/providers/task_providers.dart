@@ -46,6 +46,35 @@ class AllTasksNotifier extends AsyncNotifier<List<Task>> {
     state = AsyncData(List.unmodifiable(next));
   }
 
+  /// Creates a new task via the repository and prepends it to the list.
+  Future<void> addTask(Task task) async {
+    final repo = ref.read(taskRepositoryProvider);
+    final created = await repo.create(task);
+    final current = state.asData?.value ?? [];
+    final next = [created, ...current];
+    state = AsyncData(List.unmodifiable(next));
+  }
+
+  /// Persists a status change via the repository and updates the local list.
+  Future<void> changeStatus(Task task, TaskStatus newStatus) async {
+    final repo = ref.read(taskRepositoryProvider);
+    final updated = task.copyWith(
+      status: newStatus,
+      completedDate: newStatus == TaskStatus.completed ? DateTime.now() : null,
+    );
+    await repo.update(updated);
+    updateTask(updated);
+  }
+
+  /// Deletes a task via the repository and removes it from the list.
+  Future<void> deleteTask(String id) async {
+    final repo = ref.read(taskRepositoryProvider);
+    await repo.delete(id);
+    final current = state.asData?.value ?? [];
+    final next = current.where((t) => t.id != id).toList();
+    state = AsyncData(List.unmodifiable(next));
+  }
+
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(

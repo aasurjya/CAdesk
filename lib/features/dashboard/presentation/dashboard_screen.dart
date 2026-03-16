@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
@@ -103,24 +104,31 @@ class DashboardScreen extends StatelessWidget {
           final crossAxisCount = _crossAxisCount(constraints.maxWidth);
           final horizontalPadding = constraints.maxWidth >= 900 ? 24.0 : 16.0;
 
-          return ListView(
-            padding: EdgeInsets.fromLTRB(
-              horizontalPadding,
-              8,
-              horizontalPadding,
-              24,
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Allow downstream providers to react to pull-to-refresh.
+              // A short delay gives visual feedback that the refresh occurred.
+              await Future<void>.delayed(const Duration(milliseconds: 300));
+            },
+            child: ListView(
+              padding: EdgeInsets.fromLTRB(
+                horizontalPadding,
+                8,
+                horizontalPadding,
+                24,
+              ),
+              children: [
+                const _GreetingSection(),
+                const SizedBox(height: 20),
+                const _OverviewHeroCard(),
+                const SizedBox(height: 24),
+                _QuickActionsGrid(crossAxisCount: crossAxisCount),
+                const SizedBox(height: 24),
+                _DeadlinesSection(compact: constraints.maxWidth < 720),
+                const SizedBox(height: 24),
+                const _ActivitySection(),
+              ],
             ),
-            children: [
-              const _GreetingSection(),
-              const SizedBox(height: 20),
-              const _OverviewHeroCard(),
-              const SizedBox(height: 24),
-              _QuickActionsGrid(crossAxisCount: crossAxisCount),
-              const SizedBox(height: 24),
-              _DeadlinesSection(compact: constraints.maxWidth < 720),
-              const SizedBox(height: 24),
-              const _ActivitySection(),
-            ],
           );
         },
       ),
@@ -357,24 +365,28 @@ class _QuickActionsGrid extends StatelessWidget {
       label: 'File ITR',
       subtitle: 'Prepare and submit returns',
       color: AppColors.primary,
+      route: '/',
     ),
     _QuickAction(
       icon: Icons.receipt_rounded,
       label: 'File GST',
       subtitle: 'Stay ahead of GST deadlines',
       color: AppColors.secondary,
+      route: '/gst',
     ),
     _QuickAction(
       icon: Icons.description_outlined,
       label: 'File TDS',
       subtitle: 'Review challans and returns',
       color: AppColors.accent,
+      route: '/tds',
     ),
     _QuickAction(
       icon: Icons.person_add_alt_1_rounded,
       label: 'New Client',
       subtitle: 'Start onboarding workflow',
       color: AppColors.success,
+      route: '/clients',
     ),
   ];
 
@@ -406,7 +418,7 @@ class _QuickActionsGrid extends StatelessWidget {
             return Card(
               clipBehavior: Clip.antiAlias,
               child: InkWell(
-                onTap: () {},
+                onTap: () => context.go(action.route),
                 borderRadius: BorderRadius.circular(20),
                 child: Padding(
                   padding: const EdgeInsets.all(18),
@@ -458,12 +470,14 @@ class _QuickAction {
     required this.label,
     required this.subtitle,
     required this.color,
+    required this.route,
   });
 
   final IconData icon;
   final String label;
   final String subtitle;
   final Color color;
+  final String route;
 }
 
 /// Wrapper section that renders [ComplianceDeadlineWidget] with a section
@@ -476,7 +490,7 @@ class _DeadlinesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SectionTitle(
@@ -484,9 +498,10 @@ class _DeadlinesSection extends StatelessWidget {
           subtitle:
               'Track high-priority statutory due dates before they become urgent.',
           actionLabel: 'View All',
+          onAction: () => context.go('/compliance'),
         ),
-        SizedBox(height: 12),
-        ComplianceDeadlineWidget(),
+        const SizedBox(height: 12),
+        const ComplianceDeadlineWidget(),
       ],
     );
   }
@@ -499,7 +514,7 @@ class _ActivitySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SectionTitle(
@@ -507,9 +522,10 @@ class _ActivitySection extends StatelessWidget {
           subtitle:
               'A quick timeline of filings, payments, and client actions.',
           actionLabel: 'View All',
+          onAction: () => context.go('/tasks'),
         ),
-        SizedBox(height: 12),
-        ActivityFeedWidget(),
+        const SizedBox(height: 12),
+        const ActivityFeedWidget(),
       ],
     );
   }
@@ -520,11 +536,13 @@ class _SectionTitle extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.actionLabel,
+    this.onAction,
   });
 
   final String title;
   final String subtitle;
   final String? actionLabel;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
@@ -557,7 +575,7 @@ class _SectionTitle extends StatelessWidget {
         ),
         if (actionLabel != null) ...[
           const SizedBox(width: 12),
-          TextButton(onPressed: () {}, child: Text(actionLabel!)),
+          TextButton(onPressed: onAction, child: Text(actionLabel!)),
         ],
       ],
     );

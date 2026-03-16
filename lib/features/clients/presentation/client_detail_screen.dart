@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,6 +13,59 @@ class ClientDetailScreen extends ConsumerWidget {
   const ClientDetailScreen({super.key, required this.clientId});
 
   final String clientId;
+
+  Future<void> _confirmAndDelete(
+    BuildContext context,
+    WidgetRef ref,
+    Client client,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Client'),
+        content: Text(
+          'Are you sure you want to delete "${client.name}"? '
+          'This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(ctx).colorScheme.error,
+            ),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    try {
+      final deleteClient = ref.read(deleteClientProvider(client.id));
+      await deleteClient();
+
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('"${client.name}" has been deleted.'),
+        ),
+      );
+      context.pop();
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete client: $e'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +81,10 @@ class ClientDetailScreen extends ConsumerWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _HeroAppBar(client: client),
+          _HeroAppBar(
+            client: client,
+            onDelete: () => _confirmAndDelete(context, ref, client),
+          ),
           SliverPadding(
             padding: const EdgeInsets.all(16),
             sliver: SliverList(
@@ -51,7 +108,7 @@ class ClientDetailScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         heroTag: 'client_detail_fab',
-        onPressed: () {},
+        onPressed: () => context.push('/clients/${client.id}/edit'),
         child: const Icon(Icons.edit),
       ),
     );
@@ -59,9 +116,10 @@ class ClientDetailScreen extends ConsumerWidget {
 }
 
 class _HeroAppBar extends StatelessWidget {
-  const _HeroAppBar({required this.client});
+  const _HeroAppBar({required this.client, required this.onDelete});
 
   final Client client;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +129,29 @@ class _HeroAppBar extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 200,
       pinned: true,
+      actions: [
+        PopupMenuButton<String>(
+          onSelected: (value) {
+            if (value == 'delete') {
+              onDelete();
+            }
+          },
+          itemBuilder: (context) => const [
+            PopupMenuItem(
+              value: 'delete',
+              child: ListTile(
+                leading: Icon(Icons.delete_outline, color: Colors.red),
+                title: Text(
+                  'Delete Client',
+                  style: TextStyle(color: Colors.red),
+                ),
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ],
+        ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: BoxDecoration(

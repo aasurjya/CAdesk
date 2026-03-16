@@ -635,6 +635,13 @@ class AllClientsNotifier extends AsyncNotifier<List<Client>> {
     state = AsyncData(List.unmodifiable(next));
   }
 
+  /// Removes the client with [id] from the state list.
+  void removeClient(String id) {
+    final current = state.asData?.value ?? [];
+    final next = current.where((c) => c.id != id).toList();
+    state = AsyncData(List.unmodifiable(next));
+  }
+
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
@@ -642,6 +649,20 @@ class AllClientsNotifier extends AsyncNotifier<List<Client>> {
     );
   }
 }
+
+/// Deletes a client by [id] via the repository and updates the client list.
+///
+/// Returns a [Future] that resolves when the deletion is complete.
+final deleteClientProvider = Provider.family<Future<void> Function(), String>((
+  ref,
+  clientId,
+) {
+  return () async {
+    final repo = ref.read(clientRepositoryProvider);
+    await repo.delete(clientId);
+    ref.read(allClientsProvider.notifier).removeClient(clientId);
+  };
+});
 
 final searchQueryProvider = NotifierProvider<SearchQueryNotifier, String>(
   SearchQueryNotifier.new,

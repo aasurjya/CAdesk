@@ -7,6 +7,7 @@ import 'package:ca_app/features/tasks/domain/models/task.dart';
 import 'package:ca_app/features/tasks/domain/models/task_priority.dart';
 import 'package:ca_app/features/tasks/domain/models/task_status.dart';
 import 'package:ca_app/features/tasks/data/providers/task_providers.dart';
+import 'package:ca_app/features/tasks/presentation/widgets/create_task_sheet.dart';
 import 'package:ca_app/features/tasks/presentation/widgets/task_card.dart';
 
 /// Full-featured task list screen with filtering, sorting, and swipe-to-complete.
@@ -132,11 +133,21 @@ class TasksListScreen extends ConsumerWidget {
                           const SizedBox(height: 10),
                       itemBuilder: (context, index) {
                         final task = tasks[index];
-                        return TaskCard(
-                          task: task,
-                          onTap: () => _showTaskDetail(context, task),
-                          onSwipeComplete: () =>
-                              _completeTask(context, ref, task),
+                        return GestureDetector(
+                          onLongPressStart: (details) =>
+                              _showTaskContextMenu(
+                                context,
+                                ref,
+                                task,
+                                details.globalPosition,
+                              ),
+                          child: TaskCard(
+                            task: task,
+                            onTap: () =>
+                                _showTaskDetail(context, task),
+                            onSwipeComplete: () =>
+                                _completeTask(context, ref, task),
+                          ),
                         );
                       },
                     ),
@@ -359,9 +370,200 @@ class TasksListScreen extends ConsumerWidget {
   }
 
   void _showCreateTaskSheet(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Create task form coming soon')),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => const CreateTaskSheet(),
     );
+  }
+
+  void _showTaskContextMenu(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+    Offset position,
+  ) {
+    showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx + 1,
+        position.dy + 1,
+      ),
+      items: const [
+        PopupMenuItem(value: 'status', child: Text('Change Status')),
+        PopupMenuItem(value: 'delete', child: Text('Delete')),
+      ],
+    ).then((value) {
+      if (value == null || !context.mounted) return;
+      switch (value) {
+        case 'status':
+          _showChangeStatusDialog(context, ref, task);
+        case 'delete':
+          _showDeleteConfirmation(context, ref, task);
+      }
+    });
+  }
+
+  void _showChangeStatusDialog(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) {
+    // Only allow transition to statuses that make sense (exclude overdue,
+    // since that is derived from dates, not user-selected).
+    const transitionStatuses = [
+      TaskStatus.todo,
+      TaskStatus.inProgress,
+      TaskStatus.review,
+      TaskStatus.completed,
+    ];
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Change Status'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: transitionStatuses.map((status) {
+              final isCurrentStatus = task.status == status;
+              return ListTile(
+                leading: Icon(
+                  status.icon,
+                  color: isCurrentStatus
+                      ? status.color
+                      : AppColors.neutral400,
+                ),
+                title: Text(
+                  status.label,
+                  style: TextStyle(
+                    fontWeight: isCurrentStatus
+                        ? FontWeight.w700
+                        : FontWeight.w400,
+                    color: isCurrentStatus ? status.color : null,
+                  ),
+                ),
+                trailing: isCurrentStatus
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: AppColors.primary,
+                      )
+                    : null,
+                onTap: isCurrentStatus
+                    ? null
+                    : () {
+                        Navigator.pop(dialogContext);
+                        _changeTaskStatus(context, ref, task, status);
+                      },
+              );
+            }).toList(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _changeTaskStatus(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+    TaskStatus newStatus,
+  ) async {
+    try {
+      await ref
+          .read(allTasksProvider.notifier)
+          .changeStatus(task, newStatus);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '"${task.title}" moved to ${newStatus.label}',
+            ),
+          ),
+        );
+      }
+    } catch (error) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to update status: $error'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
+  }
+
+  void _showDeleteConfirmation(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Delete Task'),
+          content: Text(
+            'Are you sure you want to delete "${task.title}"? '
+            'This action cannot be undone.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.error,
+              ),
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                _deleteTask(context, ref, task);
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _deleteTask(
+    BuildContext context,
+    WidgetRef ref,
+    Task task,
+  ) async {
+    try {
+      await ref.read(allTasksProvider.notifier).deleteTask(task.id);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('"${task.title}" deleted'),
+          ),
+        );
+      }
+    } catch (error) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to delete task: $error'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+      }
+    }
   }
 }
 
