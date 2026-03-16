@@ -15,8 +15,7 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
       _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState
-    extends ConsumerState<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   bool _isSubmitting = false;
@@ -108,7 +107,11 @@ class _ForgotPasswordScreenState
               ),
             ],
           ),
-          child: const Icon(Icons.account_balance, color: Colors.white, size: 38),
+          child: const Icon(
+            Icons.account_balance,
+            color: Colors.white,
+            size: 38,
+          ),
         ),
         const SizedBox(height: 16),
         Text(
@@ -305,9 +308,7 @@ class _ForgotPasswordScreenState
       onPressed: () => context.go('/login'),
       icon: const Icon(Icons.arrow_back, size: 16),
       label: const Text('Back to Sign In'),
-      style: TextButton.styleFrom(
-        foregroundColor: AppColors.neutral600,
-      ),
+      style: TextButton.styleFrom(foregroundColor: AppColors.neutral600),
     );
   }
 }

@@ -38,7 +38,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     setState(() => _isSubmitting = true);
     try {
-      await ref.read(authProvider.notifier).signUp(
+      await ref
+          .read(authProvider.notifier)
+          .signUp(
             email: _emailController.text.trim(),
             password: _passwordController.text,
             displayName: _nameController.text.trim(),
@@ -49,7 +51,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     } on AuthException catch (e) {
       if (mounted) _showError(e.message);
     } catch (_) {
-      if (mounted) _showError('An unexpected error occurred. Please try again.');
+      if (mounted)
+        _showError('An unexpected error occurred. Please try again.');
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
@@ -211,12 +214,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                     ),
-                    tooltip:
-                        _obscurePassword ? 'Show password' : 'Hide password',
+                    tooltip: _obscurePassword
+                        ? 'Show password'
+                        : 'Hide password',
                     onPressed: isLoading
                         ? null
                         : () => setState(
-                            () => _obscurePassword = !_obscurePassword),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                   ),
                 ),
                 validator: (v) {
@@ -245,11 +250,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                     ),
-                    tooltip: _obscureConfirm ? 'Show password' : 'Hide password',
+                    tooltip: _obscureConfirm
+                        ? 'Show password'
+                        : 'Hide password',
                     onPressed: isLoading
                         ? null
                         : () => setState(
-                            () => _obscureConfirm = !_obscureConfirm),
+                            () => _obscureConfirm = !_obscureConfirm,
+                          ),
                   ),
                 ),
                 validator: (v) {
@@ -342,7 +350,11 @@ class _Branding extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.account_balance, color: Colors.white, size: 38),
+          child: const Icon(
+            Icons.account_balance,
+            color: Colors.white,
+            size: 38,
+          ),
         ),
         const SizedBox(height: 16),
         Text(

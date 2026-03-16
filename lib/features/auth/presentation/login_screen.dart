@@ -284,10 +284,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   Text(
                     "Don't have an account? ",
-                    style: TextStyle(
-                      color: AppColors.neutral600,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: AppColors.neutral600, fontSize: 14),
                   ),
                   TextButton(
                     onPressed: isLoading ? null : () => context.go('/signup'),
