@@ -720,6 +720,49 @@ class AllInvoicesNotifier extends Notifier<List<Invoice>> {
   List<Invoice> build() => List.unmodifiable(_mockInvoices);
 
   void update(List<Invoice> value) => state = List.unmodifiable(value);
+
+  /// Add a new invoice to the list.
+  void addInvoice(Invoice invoice) {
+    state = List.unmodifiable([invoice, ...state]);
+  }
+
+  /// Update an existing invoice by ID (returns new list).
+  void updateInvoice(Invoice updated) {
+    state = List.unmodifiable(
+      state.map((inv) => inv.id == updated.id ? updated : inv).toList(),
+    );
+  }
+
+  /// Delete an invoice by ID.
+  void deleteInvoice(String invoiceId) {
+    state = List.unmodifiable(
+      state.where((inv) => inv.id != invoiceId).toList(),
+    );
+  }
+
+  /// Record a payment against an invoice. Validates amount ≤ balance due.
+  /// Returns the updated invoice, or null if payment exceeds balance.
+  Invoice? recordPayment(String invoiceId, double amount) {
+    final invoice = state.firstWhere(
+      (inv) => inv.id == invoiceId,
+      orElse: () => throw StateError('Invoice $invoiceId not found'),
+    );
+
+    final balanceDue = invoice.grandTotal - invoice.paidAmount;
+    if (amount <= 0 || amount > balanceDue + 0.01) return null;
+
+    final newAmountPaid = invoice.paidAmount + amount;
+    final isPaidInFull = (newAmountPaid >= invoice.grandTotal - 0.01);
+    final updatedInvoice = invoice.copyWith(
+      paidAmount: newAmountPaid,
+      status: isPaidInFull
+          ? InvoiceStatus.paid
+          : InvoiceStatus.partial,
+    );
+
+    updateInvoice(updatedInvoice);
+    return updatedInvoice;
+  }
 }
 
 final allReceiptsProvider =

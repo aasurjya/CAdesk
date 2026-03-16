@@ -6,6 +6,7 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/billing/data/providers/billing_providers.dart';
 import 'package:ca_app/features/billing/domain/models/invoice.dart';
 import 'package:ca_app/features/billing/domain/models/payment_record.dart';
+import 'package:ca_app/features/billing/presentation/widgets/new_invoice_sheet.dart';
 
 /// Shows full invoice detail in a bottom sheet when an invoice tile is tapped.
 class InvoiceDetailSheet extends ConsumerStatefulWidget {
@@ -411,6 +412,12 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
           onTap: () => _showRecordPaymentDialog(context, invoice),
         ),
         _ActionButton(
+          icon: Icons.edit_outlined,
+          label: 'Edit Invoice',
+          color: AppColors.secondary,
+          onTap: () => _editInvoice(context, invoice),
+        ),
+        _ActionButton(
           icon: Icons.notifications_outlined,
           label: 'Send Reminder',
           color: AppColors.secondary,
@@ -447,6 +454,12 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
             color: AppColors.success,
             onTap: () => _markAsPaid(context, invoice),
           ),
+        _ActionButton(
+          icon: Icons.delete_outline_rounded,
+          label: 'Delete',
+          color: AppColors.error,
+          onTap: () => _confirmDelete(context, invoice),
+        ),
       ],
     );
   }
@@ -600,6 +613,50 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
         behavior: SnackBarBehavior.floating,
       ),
     );
+  }
+
+  void _editInvoice(BuildContext context, Invoice invoice) {
+    Navigator.pop(context);
+    NewInvoiceSheet.show(context, existingInvoice: invoice);
+  }
+
+  void _confirmDelete(BuildContext context, Invoice invoice) {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Invoice?'),
+        content: Text(
+          'Are you sure you want to delete invoice ${invoice.invoiceNumber}? '
+          'This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+            ),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    ).then((confirmed) {
+      if (confirmed == true && mounted) {
+        ref.read(allInvoicesProvider.notifier).deleteInvoice(invoice.id);
+        Navigator.pop(context);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('${invoice.invoiceNumber} deleted.'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      }
+    });
   }
 }
 

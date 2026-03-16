@@ -7,17 +7,26 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/billing/data/providers/billing_providers.dart';
 import 'package:ca_app/features/billing/domain/models/invoice.dart';
 
-/// Bottom sheet form to create a new GST invoice with live computation.
+/// Bottom sheet form to create or edit a GST invoice with live computation.
 class NewInvoiceSheet extends ConsumerStatefulWidget {
-  const NewInvoiceSheet({super.key});
+  const NewInvoiceSheet({super.key, this.existingInvoice});
 
-  /// Opens the new invoice sheet.
-  static Future<void> show(BuildContext context) {
+  /// If provided, the sheet opens in edit mode with fields pre-populated.
+  final Invoice? existingInvoice;
+
+  /// Whether this sheet is in edit mode.
+  bool get isEditMode => existingInvoice != null;
+
+  /// Opens the invoice sheet. Pass [existingInvoice] to edit.
+  static Future<void> show(
+    BuildContext context, {
+    Invoice? existingInvoice,
+  }) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => const NewInvoiceSheet(),
+      builder: (_) => NewInvoiceSheet(existingInvoice: existingInvoice),
     );
   }
 
@@ -43,6 +52,22 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
     symbol: '\u20B9',
     decimalDigits: 2,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    final existing = widget.existingInvoice;
+    if (existing != null) {
+      _clientController.text = existing.clientName;
+      if (existing.lineItems.isNotEmpty) {
+        _descriptionController.text = existing.lineItems.first.description;
+        _amountController.text =
+            existing.lineItems.first.taxableAmount.toStringAsFixed(2);
+        _gstRate = existing.lineItems.first.gstRate;
+        _isInterState = existing.lineItems.first.igst > 0;
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -81,7 +106,7 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
                 child: Row(
                   children: [
                     Text(
-                      'New Invoice',
+                      widget.isEditMode ? 'Edit Invoice' : 'New Invoice',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w800,
                         color: AppColors.neutral900,
@@ -374,8 +399,12 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
       width: double.infinity,
       child: FilledButton.icon(
         onPressed: () => _submitForm(context),
-        icon: const Icon(Icons.receipt_long_rounded),
-        label: const Text('Create Invoice'),
+        icon: Icon(
+          widget.isEditMode
+              ? Icons.save_rounded
+              : Icons.receipt_long_rounded,
+        ),
+        label: Text(widget.isEditMode ? 'Update Invoice' : 'Create Invoice'),
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(vertical: 14),
@@ -393,10 +422,6 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
     final taxable = _taxableValue;
     final now = DateTime.now();
     final dueDate = now.add(Duration(days: _dueDaysOffset));
-    final invoices = ref.read(allInvoicesProvider);
-    final nextNumber = invoices.length + 1;
-    final invoiceNumber =
-        'CAD/2025-26/${nextNumber.toString().padLeft(3, '0')}';
 
     final lineItem = LineItem(
       description: _descriptionController.text.trim(),
@@ -411,32 +436,63 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
       total: tax.total,
     );
 
-    final newInvoice = Invoice(
-      id: 'inv_${now.millisecondsSinceEpoch}',
-      invoiceNumber: invoiceNumber,
-      clientId: 'new_${now.millisecondsSinceEpoch}',
-      clientName: _clientController.text.trim(),
-      invoiceDate: now,
-      dueDate: dueDate,
-      lineItems: [lineItem],
-      subtotal: taxable,
-      totalGst: tax.total - taxable,
-      grandTotal: tax.total,
-      paidAmount: 0,
-      balanceDue: tax.total,
-      status: InvoiceStatus.draft,
-    );
+    final notifier = ref.read(allInvoicesProvider.notifier);
+    final existing = widget.existingInvoice;
 
-    final updated = [...invoices, newInvoice];
-    ref.read(allInvoicesProvider.notifier).update(updated);
+    if (existing != null) {
+      // Edit mode — update existing invoice
+      final updatedInvoice = existing.copyWith(
+        clientName: _clientController.text.trim(),
+        dueDate: dueDate,
+        lineItems: [lineItem],
+        subtotal: taxable,
+        totalGst: tax.total - taxable,
+        grandTotal: tax.total,
+        balanceDue: tax.total - existing.paidAmount,
+      );
 
-    Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Invoice $invoiceNumber created.'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
+      notifier.updateInvoice(updatedInvoice);
+
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Invoice ${existing.invoiceNumber} updated.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    } else {
+      // Create mode — new invoice
+      final invoices = ref.read(allInvoicesProvider);
+      final nextNumber = invoices.length + 1;
+      final invoiceNumber =
+          'CAD/2025-26/${nextNumber.toString().padLeft(3, '0')}';
+
+      final newInvoice = Invoice(
+        id: 'inv_${now.millisecondsSinceEpoch}',
+        invoiceNumber: invoiceNumber,
+        clientId: 'new_${now.millisecondsSinceEpoch}',
+        clientName: _clientController.text.trim(),
+        invoiceDate: now,
+        dueDate: dueDate,
+        lineItems: [lineItem],
+        subtotal: taxable,
+        totalGst: tax.total - taxable,
+        grandTotal: tax.total,
+        paidAmount: 0,
+        balanceDue: tax.total,
+        status: InvoiceStatus.draft,
+      );
+
+      notifier.addInvoice(newInvoice);
+
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Invoice $invoiceNumber created.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }
 
