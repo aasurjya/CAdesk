@@ -48,10 +48,7 @@ GoRouter _buildTestRouter() {
           StatefulShellBranch(
             navigatorKey: _filingKey,
             routes: [
-              GoRoute(
-                path: '/',
-                builder: (_, _) => const FilingScreen(),
-              ),
+              GoRoute(path: '/', builder: (_, _) => const FilingScreen()),
             ],
           ),
           StatefulShellBranch(
@@ -66,10 +63,7 @@ GoRouter _buildTestRouter() {
           StatefulShellBranch(
             navigatorKey: _todayKey,
             routes: [
-              GoRoute(
-                path: '/today',
-                builder: (_, _) => const TodayScreen(),
-              ),
+              GoRoute(path: '/today', builder: (_, _) => const TodayScreen()),
             ],
           ),
           StatefulShellBranch(
@@ -84,10 +78,7 @@ GoRouter _buildTestRouter() {
           StatefulShellBranch(
             navigatorKey: _moreKey,
             routes: [
-              GoRoute(
-                path: '/more',
-                builder: (_, _) => const MoreScreen(),
-              ),
+              GoRoute(path: '/more', builder: (_, _) => const MoreScreen()),
             ],
           ),
         ],
