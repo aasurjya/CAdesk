@@ -620,8 +620,8 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
     NewInvoiceSheet.show(context, existingInvoice: invoice);
   }
 
-  void _confirmDelete(BuildContext context, Invoice invoice) {
-    showDialog<bool>(
+  Future<void> _confirmDelete(BuildContext context, Invoice invoice) async {
+    final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Delete Invoice?'),
@@ -643,20 +643,18 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
           ),
         ],
       ),
-    ).then((confirmed) {
-      if (confirmed == true && mounted) {
-        ref.read(allInvoicesProvider.notifier).deleteInvoice(invoice.id);
-        Navigator.pop(context);
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${invoice.invoiceNumber} deleted.'),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-      }
-    });
+    );
+    if (confirmed != true || !context.mounted) return;
+    ref.read(allInvoicesProvider.notifier).deleteInvoice(invoice.id);
+    if (!context.mounted) return;
+    Navigator.pop(context);
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${invoice.invoiceNumber} deleted.'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 }
 

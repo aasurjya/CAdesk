@@ -266,17 +266,17 @@ class _CalendarView extends ConsumerWidget {
         ],
       ),
     ).then((confirmed) {
-      if (confirmed == true) {
-        ref
-            .read(allComplianceDeadlinesProvider.notifier)
-            .markCompleted(deadline);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('"${deadline.title}" marked as completed.'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      if (confirmed != true || !context.mounted) return;
+      ref
+          .read(allComplianceDeadlinesProvider.notifier)
+          .markCompleted(deadline);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('"${deadline.title}" marked as completed.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     });
   }
 }
@@ -378,17 +378,17 @@ class _ListView extends ConsumerWidget {
         ],
       ),
     ).then((confirmed) {
-      if (confirmed == true) {
-        ref
-            .read(allComplianceDeadlinesProvider.notifier)
-            .markCompleted(deadline);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('"${deadline.title}" marked as completed.'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
+      if (confirmed != true || !context.mounted) return;
+      ref
+          .read(allComplianceDeadlinesProvider.notifier)
+          .markCompleted(deadline);
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('"${deadline.title}" marked as completed.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     });
   }
 }
