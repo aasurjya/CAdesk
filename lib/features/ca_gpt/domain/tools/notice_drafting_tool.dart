@@ -15,27 +15,27 @@ class NoticeDraftingTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'notice_type': {
-            'type': 'string',
-            'description':
-                'Type of notice: 143_1, 143_3, appeal, rectification, '
-                    'condonation, penalty, revision',
-          },
-          'taxpayer_name': {'type': 'string', 'description': 'Name of taxpayer'},
-          'pan': {'type': 'string', 'description': 'PAN of taxpayer'},
-          'assessment_year': {
-            'type': 'string',
-            'description': 'Assessment year (e.g., 2025-26)',
-          },
-          'grounds': {
-            'type': 'string',
-            'description': 'Grounds of appeal or reply (comma-separated)',
-          },
-        },
-        'required': ['notice_type'],
-      };
+    'type': 'object',
+    'properties': {
+      'notice_type': {
+        'type': 'string',
+        'description':
+            'Type of notice: 143_1, 143_3, appeal, rectification, '
+            'condonation, penalty, revision',
+      },
+      'taxpayer_name': {'type': 'string', 'description': 'Name of taxpayer'},
+      'pan': {'type': 'string', 'description': 'PAN of taxpayer'},
+      'assessment_year': {
+        'type': 'string',
+        'description': 'Assessment year (e.g., 2025-26)',
+      },
+      'grounds': {
+        'type': 'string',
+        'description': 'Grounds of appeal or reply (comma-separated)',
+      },
+    },
+    'required': ['notice_type'],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {

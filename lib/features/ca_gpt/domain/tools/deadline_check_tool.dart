@@ -15,15 +15,15 @@ class DeadlineCheckTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'days_ahead': {
-            'type': 'integer',
-            'description': 'Number of days to look ahead (default: 30)',
-          },
-        },
-        'required': [],
-      };
+    'type': 'object',
+    'properties': {
+      'days_ahead': {
+        'type': 'integer',
+        'description': 'Number of days to look ahead (default: 30)',
+      },
+    },
+    'required': [],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {

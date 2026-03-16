@@ -10,8 +10,8 @@ class AiRequest {
     this.maxTokens = 4096,
     List<AiToolDefinition> tools = const [],
     this.stream = false,
-  })  : messages = List.unmodifiable(messages),
-        tools = List.unmodifiable(tools);
+  }) : messages = List.unmodifiable(messages),
+       tools = List.unmodifiable(tools);
 
   final List<AiMessage> messages;
   final String? systemPrompt;
@@ -49,6 +49,5 @@ class AiRequest {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(systemPrompt, temperature, maxTokens, stream);
+  int get hashCode => Object.hash(systemPrompt, temperature, maxTokens, stream);
 }

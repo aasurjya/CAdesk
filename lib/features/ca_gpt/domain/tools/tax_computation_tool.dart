@@ -14,23 +14,20 @@ class TaxComputationTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'total_income': {
-            'type': 'number',
-            'description': 'Total income in INR',
-          },
-          'deductions_80c': {
-            'type': 'number',
-            'description': 'Deductions under Section 80C in INR (max 1.5 lakh)',
-          },
-          'hra_exemption': {
-            'type': 'number',
-            'description': 'HRA exemption in INR',
-          },
-        },
-        'required': ['total_income'],
-      };
+    'type': 'object',
+    'properties': {
+      'total_income': {'type': 'number', 'description': 'Total income in INR'},
+      'deductions_80c': {
+        'type': 'number',
+        'description': 'Deductions under Section 80C in INR (max 1.5 lakh)',
+      },
+      'hra_exemption': {
+        'type': 'number',
+        'description': 'HRA exemption in INR',
+      },
+    },
+    'required': ['total_income'],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {
@@ -56,9 +53,11 @@ class TaxComputationTool implements AgentTool {
     buffer.writeln('  Taxable Income: ₹${taxableNew.toStringAsFixed(0)}');
     buffer.writeln('  Tax: ₹${newTax.toStringAsFixed(0)}');
     buffer.writeln();
-    buffer.writeln(oldTax <= newTax
-        ? 'Recommendation: Old regime saves ₹${(newTax - oldTax).toStringAsFixed(0)}'
-        : 'Recommendation: New regime saves ₹${(oldTax - newTax).toStringAsFixed(0)}');
+    buffer.writeln(
+      oldTax <= newTax
+          ? 'Recommendation: Old regime saves ₹${(newTax - oldTax).toStringAsFixed(0)}'
+          : 'Recommendation: New regime saves ₹${(oldTax - newTax).toStringAsFixed(0)}',
+    );
 
     return buffer.toString();
   }

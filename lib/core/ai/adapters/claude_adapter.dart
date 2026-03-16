@@ -42,11 +42,13 @@ class ClaudeAdapter implements AiGateway {
       final response = await dio.post<Map<String, dynamic>>(
         config.endpoint,
         data: body,
-        options: Options(headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': _apiVersion,
-          'Content-Type': 'application/json',
-        }),
+        options: Options(
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': _apiVersion,
+            'Content-Type': 'application/json',
+          },
+        ),
       );
       return _parseResponse(response.data!);
     } on DioException catch (e) {
@@ -140,7 +142,8 @@ class ClaudeAdapter implements AiGateway {
     };
 
     // Add system prompt
-    final systemPrompt = request.systemPrompt ??
+    final systemPrompt =
+        request.systemPrompt ??
         request.messages
             .where((m) => m.role == AiRole.system)
             .map((m) => m.content)
@@ -188,13 +191,14 @@ class ClaudeAdapter implements AiGateway {
     return contentBlocks
         .where((b) => (b as Map<String, dynamic>)['type'] == 'tool_use')
         .map((b) {
-      final block = b as Map<String, dynamic>;
-      return AiToolCall(
-        id: block['id'] as String,
-        toolName: block['name'] as String,
-        arguments: Map<String, dynamic>.from(block['input'] as Map),
-      );
-    }).toList();
+          final block = b as Map<String, dynamic>;
+          return AiToolCall(
+            id: block['id'] as String,
+            toolName: block['name'] as String,
+            arguments: Map<String, dynamic>.from(block['input'] as Map),
+          );
+        })
+        .toList();
   }
 
   AiUsage _extractUsage(Map<String, dynamic> data) {
@@ -224,7 +228,9 @@ class ClaudeAdapter implements AiGateway {
       429 => RateLimitError(message),
       401 || 403 => AuthError(message),
       400 => ContentFilterError(message),
-      500 || 502 || 503 => ServiceUnavailableError(message, statusCode: statusCode),
+      500 ||
+      502 ||
+      503 => ServiceUnavailableError(message, statusCode: statusCode),
       _ => UnknownAiError(message, statusCode: statusCode),
     };
   }

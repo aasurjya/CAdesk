@@ -20,19 +20,23 @@ class LocalKeywordRetriever implements VectorRetriever {
       // Simple relevance scoring based on position
       final score = 1.0 - (i * 0.1);
 
-      scored.add(ScoredChunk(
-        chunk: Chunk(
-          chunkId: '${article.articleId}_full',
-          documentId: article.articleId,
-          text: article.content,
-          startOffset: 0,
-          endOffset: article.content.length,
-          section: article.sections.isNotEmpty ? article.sections.first : null,
-          category: article.category.name,
+      scored.add(
+        ScoredChunk(
+          chunk: Chunk(
+            chunkId: '${article.articleId}_full',
+            documentId: article.articleId,
+            text: article.content,
+            startOffset: 0,
+            endOffset: article.content.length,
+            section: article.sections.isNotEmpty
+                ? article.sections.first
+                : null,
+            category: article.category.name,
+          ),
+          score: score.clamp(0.0, 1.0),
+          source: article.title,
         ),
-        score: score.clamp(0.0, 1.0),
-        source: article.title,
-      ));
+      );
     }
 
     return scored;

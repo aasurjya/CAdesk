@@ -7,8 +7,8 @@ class EmbeddingRecord {
     required List<double> vector,
     required this.content,
     Map<String, dynamic> metadata = const {},
-  })  : vector = List.unmodifiable(vector),
-        metadata = Map.unmodifiable(metadata);
+  }) : vector = List.unmodifiable(vector),
+       metadata = Map.unmodifiable(metadata);
 
   final String id;
   final String documentId;

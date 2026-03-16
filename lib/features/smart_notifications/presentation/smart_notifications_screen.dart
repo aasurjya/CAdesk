@@ -35,7 +35,8 @@ class SmartNotificationsScreen extends ConsumerWidget {
         ],
       ),
       body: notificationsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator.adaptive()),
+        loading: () =>
+            const Center(child: CircularProgressIndicator.adaptive()),
         error: (err, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),

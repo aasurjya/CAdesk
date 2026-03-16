@@ -15,9 +15,9 @@ class AgentState {
     List<TaxCitation> citations = const [],
     this.finalAnswer,
     this.error,
-  })  : messages = List.unmodifiable(messages),
-        toolCalls = List.unmodifiable(toolCalls),
-        citations = List.unmodifiable(citations);
+  }) : messages = List.unmodifiable(messages),
+       toolCalls = List.unmodifiable(toolCalls),
+       citations = List.unmodifiable(citations);
 
   final AgentPhase phase;
   final int currentIteration;

@@ -6,10 +6,7 @@ class AiUsage {
     this.estimatedCostUsd = 0.0,
   });
 
-  static const AiUsage zero = AiUsage(
-    promptTokens: 0,
-    completionTokens: 0,
-  );
+  static const AiUsage zero = AiUsage(promptTokens: 0, completionTokens: 0);
 
   final int promptTokens;
   final int completionTokens;

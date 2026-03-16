@@ -11,12 +11,12 @@ import 'package:ca_app/features/smart_notifications/domain/services/notification
 /// Provides the [SmartNotificationRepository].
 final smartNotificationRepositoryProvider =
     Provider<SmartNotificationRepository>((ref) {
-  final flags = ref.watch(featureFlagProvider).asData?.value;
-  final enabled = flags?.isEnabled('ai_notifications_enabled') ?? false;
+      final flags = ref.watch(featureFlagProvider).asData?.value;
+      final enabled = flags?.isEnabled('ai_notifications_enabled') ?? false;
 
-  if (!enabled) return MockSmartNotificationRepository();
-  return SmartNotificationRepositoryImpl();
-});
+      if (!enabled) return MockSmartNotificationRepository();
+      return SmartNotificationRepositoryImpl();
+    });
 
 /// Provides the [DeadlineScanner].
 final deadlineScannerProvider = Provider<DeadlineScanner>(
@@ -29,8 +29,9 @@ final notificationPrioritizerProvider = Provider<NotificationPrioritizer>(
 );
 
 /// Provides the prioritized list of smart notifications.
-final smartNotificationsProvider =
-    FutureProvider<List<SmartNotification>>((ref) async {
+final smartNotificationsProvider = FutureProvider<List<SmartNotification>>((
+  ref,
+) async {
   final repository = ref.watch(smartNotificationRepositoryProvider);
   final prioritizer = ref.watch(notificationPrioritizerProvider);
 

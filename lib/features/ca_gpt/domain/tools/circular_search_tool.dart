@@ -17,15 +17,15 @@ class CircularSearchTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'query': {
-            'type': 'string',
-            'description': 'Topic or circular number to search for',
-          },
-        },
-        'required': ['query'],
-      };
+    'type': 'object',
+    'properties': {
+      'query': {
+        'type': 'string',
+        'description': 'Topic or circular number to search for',
+      },
+    },
+    'required': ['query'],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {

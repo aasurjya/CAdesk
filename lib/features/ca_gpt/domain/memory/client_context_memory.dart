@@ -34,7 +34,9 @@ class ClientContextMemory {
       buffer.writeln('- Open notices: $openNoticesCount');
     }
     if (lastFilingDate != null) {
-      buffer.writeln('- Last filing: ${lastFilingDate!.toIso8601String().split("T").first}');
+      buffer.writeln(
+        '- Last filing: ${lastFilingDate!.toIso8601String().split("T").first}',
+      );
     }
     return buffer.toString();
   }

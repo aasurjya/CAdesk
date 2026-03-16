@@ -4,9 +4,7 @@ import 'package:ca_app/features/ca_gpt/domain/tools/agent_tool.dart';
 /// Maps tool names to their implementations.
 class ToolRegistry {
   ToolRegistry(List<AgentTool> tools)
-      : _tools = Map.unmodifiable({
-          for (final tool in tools) tool.name: tool,
-        });
+    : _tools = Map.unmodifiable({for (final tool in tools) tool.name: tool});
 
   final Map<String, AgentTool> _tools;
 

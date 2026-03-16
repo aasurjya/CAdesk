@@ -9,8 +9,7 @@ class NotificationPrioritizer {
     final sorted = List<SmartNotification>.from(notifications);
     sorted.sort((a, b) {
       // First by priority (critical=0, low=3)
-      final priorityComparison =
-          a.priority.index.compareTo(b.priority.index);
+      final priorityComparison = a.priority.index.compareTo(b.priority.index);
       if (priorityComparison != 0) return priorityComparison;
 
       // Then by due date (soonest first)

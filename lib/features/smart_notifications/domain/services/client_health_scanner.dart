@@ -15,7 +15,8 @@ class ClientHealthScanner {
         id: 'health_overdue_gstr3b',
         type: NotificationType.complianceGap,
         title: 'GSTR-3B overdue for 3 clients',
-        body: 'February GSTR-3B was due on March 20. '
+        body:
+            'February GSTR-3B was due on March 20. '
             'Clients: ABC Traders, XYZ Corp, PQR Services.',
         priority: NotificationPriority.high,
         createdAt: now,
@@ -37,7 +38,8 @@ class ClientHealthScanner {
         id: 'health_open_notice',
         type: NotificationType.overdueNotice,
         title: 'Open notice pending reply',
-        body: 'Section 143(1) intimation for client Sharma & Associates '
+        body:
+            'Section 143(1) intimation for client Sharma & Associates '
             'requires response by March 25.',
         priority: NotificationPriority.high,
         createdAt: now,

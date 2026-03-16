@@ -13,7 +13,7 @@ sealed class AiError implements Exception {
 /// The provider rate-limited the request.
 class RateLimitError extends AiError {
   const RateLimitError(super.message, {super.retryAfterMs})
-      : super(statusCode: 429);
+    : super(statusCode: 429);
 }
 
 /// Authentication or authorization failed.
@@ -29,7 +29,7 @@ class ContentFilterError extends AiError {
 /// The model endpoint is unreachable or returned a server error.
 class ServiceUnavailableError extends AiError {
   const ServiceUnavailableError(super.message, {int? statusCode})
-      : super(statusCode: statusCode ?? 503);
+    : super(statusCode: statusCode ?? 503);
 }
 
 /// A catch-all for unexpected errors from the AI provider.

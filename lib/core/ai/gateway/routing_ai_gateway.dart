@@ -7,7 +7,7 @@ import 'package:ca_app/core/ai/models/ai_response.dart';
 /// Tries adapters in priority order, falling back to the next if unavailable.
 class RoutingAiGateway implements AiGateway {
   RoutingAiGateway(List<AiGateway> adapters)
-      : _adapters = List.unmodifiable(adapters);
+    : _adapters = List.unmodifiable(adapters);
 
   final List<AiGateway> _adapters;
 

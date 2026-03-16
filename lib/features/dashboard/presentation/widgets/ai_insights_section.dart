@@ -68,10 +68,12 @@ class AiInsightsSection extends ConsumerWidget {
             if (insights.isEmpty) return const SizedBox.shrink();
             return Column(
               children: insights
-                  .map((d) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: GenUiCard(directive: d),
-                      ))
+                  .map(
+                    (d) => Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: GenUiCard(directive: d),
+                    ),
+                  )
                   .toList(),
             );
           },

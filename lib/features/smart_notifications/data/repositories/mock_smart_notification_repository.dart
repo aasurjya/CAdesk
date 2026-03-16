@@ -59,7 +59,8 @@ final _sampleNotifications = <SmartNotification>[
     id: 'sn_tds_march',
     type: NotificationType.deadlineApproaching,
     title: 'TDS Deposit — 2 days left',
-    body: 'March TDS must be deposited by April 7. '
+    body:
+        'March TDS must be deposited by April 7. '
         '12 clients have pending challans totalling ₹4.8 lakh.',
     priority: NotificationPriority.critical,
     createdAt: _now,
@@ -81,7 +82,8 @@ final _sampleNotifications = <SmartNotification>[
     id: 'sn_gstr1_overdue',
     type: NotificationType.complianceGap,
     title: 'GSTR-1 overdue for 5 clients',
-    body: 'February GSTR-1 was due on March 11. '
+    body:
+        'February GSTR-1 was due on March 11. '
         'Late fee accrual of ₹200/day applies.',
     priority: NotificationPriority.high,
     createdAt: _now,
@@ -97,7 +99,8 @@ final _sampleNotifications = <SmartNotification>[
     id: 'sn_notice_sharma',
     type: NotificationType.overdueNotice,
     title: 'Notice reply due — Sharma & Associates',
-    body: 'Section 143(1) intimation requires response by March 25. '
+    body:
+        'Section 143(1) intimation requires response by March 25. '
         'Discrepancy in TDS credit of ₹1.2 lakh.',
     priority: NotificationPriority.high,
     createdAt: _now,
@@ -116,7 +119,8 @@ final _sampleNotifications = <SmartNotification>[
     id: 'sn_advance_tax',
     type: NotificationType.actionRequired,
     title: 'Advance Tax — Final Installment',
-    body: 'March 15 is the last date for 100% advance tax payment. '
+    body:
+        'March 15 is the last date for 100% advance tax payment. '
         'Review client portfolios for shortfall estimation.',
     priority: NotificationPriority.medium,
     createdAt: _now,

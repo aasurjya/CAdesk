@@ -12,8 +12,8 @@ class AiResponse {
     this.usage = AiUsage.zero,
     List<AiToolCall> toolCalls = const [],
     List<String> citations = const [],
-  })  : toolCalls = List.unmodifiable(toolCalls),
-        citations = List.unmodifiable(citations);
+  }) : toolCalls = List.unmodifiable(toolCalls),
+       citations = List.unmodifiable(citations);
 
   final String content;
   final FinishReason finishReason;

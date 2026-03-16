@@ -17,7 +17,9 @@ class ContextFormatter {
     final buffer = StringBuffer();
     final citations = <String>[];
 
-    buffer.writeln('Use the following reference materials to answer the question.');
+    buffer.writeln(
+      'Use the following reference materials to answer the question.',
+    );
     buffer.writeln('Cite sources using [1], [2], etc. notation.');
     buffer.writeln();
 
@@ -34,8 +36,10 @@ class ContextFormatter {
       citations.add(citationLabel);
 
       buffer.writeln('---');
-      buffer.writeln('Source $citationLabel (relevance: '
-          '${(chunk.score * 100).toStringAsFixed(1)}%):');
+      buffer.writeln(
+        'Source $citationLabel (relevance: '
+        '${(chunk.score * 100).toStringAsFixed(1)}%):',
+      );
       buffer.writeln(chunk.chunk.text);
       buffer.writeln();
     }

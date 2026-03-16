@@ -27,7 +27,8 @@ class TaxAgent {
 
   AgentConfig get _config => config ?? AgentConfig.defaultConfig;
 
-  static const _systemPrompt = '''You are CA GPT, an expert Indian tax assistant for Chartered Accountants.
+  static const _systemPrompt =
+      '''You are CA GPT, an expert Indian tax assistant for Chartered Accountants.
 You help with Income Tax, GST, TDS, and compliance queries.
 
 INSTRUCTIONS:
@@ -66,10 +67,7 @@ INSTRUCTIONS:
       AiMessage(role: AiRole.user, content: userQuery),
     ];
 
-    state = state.copyWith(
-      messages: messages,
-      phase: AgentPhase.thinking,
-    );
+    state = state.copyWith(messages: messages, phase: AgentPhase.thinking);
     yield state;
 
     // ReAct loop
@@ -109,10 +107,9 @@ INSTRUCTIONS:
       state = state.copyWith(phase: AgentPhase.acting);
       yield state;
 
-      messages.add(AiMessage(
-        role: AiRole.assistant,
-        content: response.content,
-      ));
+      messages.add(
+        AiMessage(role: AiRole.assistant, content: response.content),
+      );
 
       final completedToolCalls = <dynamic>[];
       for (final toolCall in response.toolCalls) {
@@ -125,12 +122,14 @@ INSTRUCTIONS:
         completedToolCalls.add(completedCall);
 
         // Add tool result as a message
-        messages.add(AiMessage(
-          role: AiRole.tool,
-          content: result,
-          toolCallId: toolCall.id,
-          name: toolCall.toolName,
-        ));
+        messages.add(
+          AiMessage(
+            role: AiRole.tool,
+            content: result,
+            toolCallId: toolCall.id,
+            name: toolCall.toolName,
+          ),
+        );
       }
 
       state = state.copyWith(
@@ -144,7 +143,8 @@ INSTRUCTIONS:
     // Max iterations reached — ask the LLM for a final summary
     final finalRequest = AiRequest(
       messages: messages,
-      systemPrompt: '$systemPrompt\n\nYou have reached the maximum number of '
+      systemPrompt:
+          '$systemPrompt\n\nYou have reached the maximum number of '
           'tool calls. Please provide your best answer with the information gathered.',
     );
 

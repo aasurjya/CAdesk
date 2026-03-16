@@ -47,9 +47,7 @@ class AgentResponseCard extends StatelessWidget {
           Wrap(
             spacing: 6,
             runSpacing: 6,
-            children: citations
-                .map((c) => CitationChip(citation: c))
-                .toList(),
+            children: citations.map((c) => CitationChip(citation: c)).toList(),
           ),
         ],
       ],

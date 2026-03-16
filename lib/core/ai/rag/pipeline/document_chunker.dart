@@ -45,15 +45,17 @@ class DocumentChunker {
 
       final chunkText = text.substring(start, end).trim();
       if (chunkText.isNotEmpty) {
-        chunks.add(Chunk(
-          chunkId: '${documentId}_chunk_$index',
-          documentId: documentId,
-          text: chunkText,
-          startOffset: start,
-          endOffset: end,
-          section: section,
-          category: category,
-        ));
+        chunks.add(
+          Chunk(
+            chunkId: '${documentId}_chunk_$index',
+            documentId: documentId,
+            text: chunkText,
+            startOffset: start,
+            endOffset: end,
+            section: section,
+            category: category,
+          ),
+        );
         index++;
       }
 

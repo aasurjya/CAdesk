@@ -61,11 +61,7 @@ class CostTracker {
       );
     }
 
-    final entry = CostEntry(
-      costUsd: cost,
-      usage: usage,
-      timestamp: now,
-    );
+    final entry = CostEntry(costUsd: cost, usage: usage, timestamp: now);
 
     return CostTracker(
       dailyBudgetUsd: dailyBudgetUsd,

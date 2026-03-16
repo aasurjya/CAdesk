@@ -11,8 +11,9 @@ class GenUiWidgetRegistry {
   final Map<DirectiveType, Widget Function(UiDirective)> _builders;
 
   static final Map<DirectiveType, Widget Function(UiDirective)>
-      _defaultBuilders = {
-    for (final type in DirectiveType.values) type: (d) => GenUiCard(directive: d),
+  _defaultBuilders = {
+    for (final type in DirectiveType.values)
+      type: (d) => GenUiCard(directive: d),
   };
 
   /// Returns a widget for the given [directive], using the registered builder.

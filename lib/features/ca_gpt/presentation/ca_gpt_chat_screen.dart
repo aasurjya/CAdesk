@@ -88,7 +88,8 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
       // Fallback: show error as assistant message
       final errorMsg = ChatMessage(
         id: 'bot_${DateTime.now().microsecondsSinceEpoch}',
-        text: 'Sorry, I encountered an error: $e. '
+        text:
+            'Sorry, I encountered an error: $e. '
             'Please try again or use a more specific query.',
         isUser: false,
         at: DateTime.now(),
@@ -243,12 +244,12 @@ class _TypingIndicator extends StatelessWidget {
   final AgentPhase agentPhase;
 
   String get _statusLabel => switch (agentPhase) {
-        AgentPhase.thinking => 'Thinking…',
-        AgentPhase.acting => 'Using tools…',
-        AgentPhase.observing => 'Analyzing results…',
-        AgentPhase.responding => 'Composing answer…',
-        _ => 'Typing…',
-      };
+    AgentPhase.thinking => 'Thinking…',
+    AgentPhase.acting => 'Using tools…',
+    AgentPhase.observing => 'Analyzing results…',
+    AgentPhase.responding => 'Composing answer…',
+    _ => 'Typing…',
+  };
 
   @override
   Widget build(BuildContext context) {

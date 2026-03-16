@@ -29,20 +29,22 @@ final aiGatewayProvider = Provider<AiGateway>((ref) {
 
   final claudeEnabled = flags?.isEnabled('ai_model_claude') ?? false;
   if (claudeEnabled) {
-    adapters.add(ClaudeAdapter(
-      dio: Dio(), // Separate Dio instance for Claude API
-      config: AiModelConfig(
-        modelId: 'claude-sonnet-4-6-20250514',
-        endpoint: 'https://api.anthropic.com/v1/messages',
-        apiKeyEnvVar: 'CLAUDE_API_KEY',
-        maxTokens: 4096,
-        capabilities: [
-          AiCapability.chat,
-          AiCapability.streaming,
-          AiCapability.toolUse,
-        ],
+    adapters.add(
+      ClaudeAdapter(
+        dio: Dio(), // Separate Dio instance for Claude API
+        config: AiModelConfig(
+          modelId: 'claude-sonnet-4-6-20250514',
+          endpoint: 'https://api.anthropic.com/v1/messages',
+          apiKeyEnvVar: 'CLAUDE_API_KEY',
+          maxTokens: 4096,
+          capabilities: [
+            AiCapability.chat,
+            AiCapability.streaming,
+            AiCapability.toolUse,
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   // Always include mock as ultimate fallback

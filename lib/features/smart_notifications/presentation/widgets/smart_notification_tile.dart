@@ -21,7 +21,9 @@ class SmartNotificationTile extends StatelessWidget {
         color: notification.isRead ? AppColors.surface : AppColors.neutral50,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: notification.isRead ? AppColors.neutral100 : color.withAlpha(50),
+          color: notification.isRead
+              ? AppColors.neutral100
+              : color.withAlpha(50),
         ),
       ),
       child: Padding(

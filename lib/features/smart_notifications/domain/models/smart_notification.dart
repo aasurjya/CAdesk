@@ -28,8 +28,8 @@ class SmartNotification {
     this.isRead = false,
     List<FollowUpAction> suggestedActions = const [],
     Map<String, dynamic> context = const {},
-  })  : suggestedActions = List.unmodifiable(suggestedActions),
-        context = Map.unmodifiable(context);
+  }) : suggestedActions = List.unmodifiable(suggestedActions),
+       context = Map.unmodifiable(context);
 
   final String id;
   final NotificationType type;

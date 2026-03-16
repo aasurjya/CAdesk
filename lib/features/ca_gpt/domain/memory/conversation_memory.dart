@@ -24,11 +24,15 @@ class ConversationMemory {
 
     if (updated.length > maxMessages) {
       // Keep system messages, drop oldest non-system
-      final systemMessages = updated.where((m) => m.role == AiRole.system).toList();
+      final systemMessages = updated
+          .where((m) => m.role == AiRole.system)
+          .toList();
       final nonSystem = updated.where((m) => m.role != AiRole.system).toList();
 
       final trimmed = nonSystem.length > maxMessages - systemMessages.length
-          ? nonSystem.sublist(nonSystem.length - (maxMessages - systemMessages.length))
+          ? nonSystem.sublist(
+              nonSystem.length - (maxMessages - systemMessages.length),
+            )
           : nonSystem;
 
       return ConversationMemory(

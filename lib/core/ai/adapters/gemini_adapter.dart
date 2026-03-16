@@ -54,7 +54,8 @@ class GeminiAdapter implements AiGateway {
     // Gemini uses streamGenerateContent endpoint
     final apiKey = await _getApiKey();
     final body = _buildRequestBody(request);
-    final url = '${config.endpoint.replaceFirst(':generateContent', ':streamGenerateContent')}?key=$apiKey';
+    final url =
+        '${config.endpoint.replaceFirst(':generateContent', ':streamGenerateContent')}?key=$apiKey';
 
     try {
       final response = await dio.post<ResponseBody>(
@@ -88,14 +89,13 @@ class GeminiAdapter implements AiGateway {
           'model': 'models/text-embedding-004',
           'content': {
             'parts': [
-              {'text': text}
-            ]
+              {'text': text},
+            ],
           },
         },
       );
 
-      final embedding =
-          response.data!['embedding']['values'] as List<dynamic>;
+      final embedding = response.data!['embedding']['values'] as List<dynamic>;
       return embedding.map((e) => (e as num).toDouble()).toList();
     } on DioException catch (e) {
       throw _mapDioError(e);
@@ -120,7 +120,7 @@ class GeminiAdapter implements AiGateway {
       contents.add({
         'role': msg.role == AiRole.user ? 'user' : 'model',
         'parts': [
-          {'text': msg.content}
+          {'text': msg.content},
         ],
       });
     }
@@ -137,7 +137,7 @@ class GeminiAdapter implements AiGateway {
     if (systemPrompt != null && systemPrompt.isNotEmpty) {
       body['systemInstruction'] = {
         'parts': [
-          {'text': systemPrompt}
+          {'text': systemPrompt},
         ],
       };
     }
@@ -177,8 +177,9 @@ class GeminiAdapter implements AiGateway {
       429 => RateLimitError(message),
       401 || 403 => AuthError(message),
       400 => ContentFilterError(message),
-      500 || 502 || 503 =>
-        ServiceUnavailableError(message, statusCode: statusCode),
+      500 ||
+      502 ||
+      503 => ServiceUnavailableError(message, statusCode: statusCode),
       _ => UnknownAiError(message, statusCode: statusCode),
     };
   }

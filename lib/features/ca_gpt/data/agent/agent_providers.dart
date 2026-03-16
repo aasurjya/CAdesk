@@ -45,8 +45,9 @@ final taxAgentProvider = Provider<TaxAgent>((ref) {
 });
 
 /// Provides the current [AgentState] during a query execution.
-final agentStateProvider =
-    NotifierProvider<AgentStateNotifier, AgentState>(AgentStateNotifier.new);
+final agentStateProvider = NotifierProvider<AgentStateNotifier, AgentState>(
+  AgentStateNotifier.new,
+);
 
 /// Notifier managing the agent execution state.
 class AgentStateNotifier extends Notifier<AgentState> {
@@ -65,8 +66,8 @@ class AgentStateNotifier extends Notifier<AgentState> {
 /// Provides [ConversationMemory] for the current chat session.
 final conversationMemoryProvider =
     NotifierProvider<ConversationMemoryNotifier, ConversationMemory>(
-  ConversationMemoryNotifier.new,
-);
+      ConversationMemoryNotifier.new,
+    );
 
 class ConversationMemoryNotifier extends Notifier<ConversationMemory> {
   @override
@@ -84,8 +85,8 @@ class ConversationMemoryNotifier extends Notifier<ConversationMemory> {
 /// Provides [ClientContextMemory] for the current session.
 final clientContextProvider =
     NotifierProvider<ClientContextNotifier, ClientContextMemory>(
-  ClientContextNotifier.new,
-);
+      ClientContextNotifier.new,
+    );
 
 class ClientContextNotifier extends Notifier<ClientContextMemory> {
   @override

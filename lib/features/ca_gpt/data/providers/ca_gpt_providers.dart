@@ -52,8 +52,8 @@ class ChatMessage {
     required this.at,
     List<TaxCitation> citations = const [],
     List<AiToolCall> toolCalls = const [],
-  })  : citations = List.unmodifiable(citations),
-        toolCalls = List.unmodifiable(toolCalls);
+  }) : citations = List.unmodifiable(citations),
+       toolCalls = List.unmodifiable(toolCalls);
 
   final String id;
   final String text;

@@ -11,10 +11,12 @@ class MockAiAdapter implements AiGateway {
 
   @override
   Future<AiResponse> complete(AiRequest request) async {
-    final lastUserMessage = request.messages
-        .where((m) => m.role.name == 'user')
-        .lastOrNull
-        ?.content ?? '';
+    final lastUserMessage =
+        request.messages
+            .where((m) => m.role.name == 'user')
+            .lastOrNull
+            ?.content ??
+        '';
 
     final reply = _generateReply(lastUserMessage);
 

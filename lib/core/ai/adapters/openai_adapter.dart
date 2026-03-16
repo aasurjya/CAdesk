@@ -40,10 +40,12 @@ class OpenAiAdapter implements AiGateway {
       final response = await dio.post<Map<String, dynamic>>(
         config.endpoint,
         data: body,
-        options: Options(headers: {
-          'Authorization': 'Bearer $apiKey',
-          'Content-Type': 'application/json',
-        }),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $apiKey',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
       return _parseResponse(response.data!);
     } on DioException catch (e) {
@@ -87,14 +89,13 @@ class OpenAiAdapter implements AiGateway {
     try {
       final response = await dio.post<Map<String, dynamic>>(
         'https://api.openai.com/v1/embeddings',
-        data: {
-          'model': 'text-embedding-3-small',
-          'input': text,
-        },
-        options: Options(headers: {
-          'Authorization': 'Bearer $apiKey',
-          'Content-Type': 'application/json',
-        }),
+        data: {'model': 'text-embedding-3-small', 'input': text},
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $apiKey',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       final data = response.data!['data'] as List<dynamic>;
@@ -187,8 +188,9 @@ class OpenAiAdapter implements AiGateway {
       429 => RateLimitError(message),
       401 || 403 => AuthError(message),
       400 => ContentFilterError(message),
-      500 || 502 || 503 =>
-        ServiceUnavailableError(message, statusCode: statusCode),
+      500 ||
+      502 ||
+      503 => ServiceUnavailableError(message, statusCode: statusCode),
       _ => UnknownAiError(message, statusCode: statusCode),
     };
   }

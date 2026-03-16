@@ -7,9 +7,7 @@ import 'package:ca_app/core/ai/rag/retriever/vector_retriever.dart';
 
 /// pgvector similarity search via Supabase RPC.
 class SupabaseVectorRetriever implements VectorRetriever {
-  const SupabaseVectorRetriever({
-    required this.gateway,
-  });
+  const SupabaseVectorRetriever({required this.gateway});
 
   final AiGateway gateway;
 
@@ -18,11 +16,14 @@ class SupabaseVectorRetriever implements VectorRetriever {
     final queryEmbedding = await gateway.embed(query);
     final client = Supabase.instance.client;
 
-    final response = await client.rpc('match_documents', params: {
-      'query_embedding': queryEmbedding,
-      'match_count': topK,
-      'match_threshold': 0.3,
-    });
+    final response = await client.rpc(
+      'match_documents',
+      params: {
+        'query_embedding': queryEmbedding,
+        'match_count': topK,
+        'match_threshold': 0.3,
+      },
+    );
 
     final results = response as List<dynamic>;
 

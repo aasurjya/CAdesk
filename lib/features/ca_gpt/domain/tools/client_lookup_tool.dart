@@ -14,15 +14,15 @@ class ClientLookupTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'query': {
-            'type': 'string',
-            'description': 'Client name or PAN to search for',
-          },
-        },
-        'required': ['query'],
-      };
+    'type': 'object',
+    'properties': {
+      'query': {
+        'type': 'string',
+        'description': 'Client name or PAN to search for',
+      },
+    },
+    'required': ['query'],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {

@@ -14,9 +14,7 @@ class SmartNotificationRepositoryImpl implements SmartNotificationRepository {
 
   @override
   Future<List<SmartNotification>> getUnread() async {
-    return List.unmodifiable(
-      _notifications.where((n) => !n.isRead),
-    );
+    return List.unmodifiable(_notifications.where((n) => !n.isRead));
   }
 
   @override

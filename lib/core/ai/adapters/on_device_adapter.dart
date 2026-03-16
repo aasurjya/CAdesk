@@ -20,16 +20,12 @@ class OnDeviceAdapter implements AiGateway {
 
   @override
   Stream<AiResponse> streamComplete(AiRequest request) async* {
-    throw const ServiceUnavailableError(
-      'On-device model not available.',
-    );
+    throw const ServiceUnavailableError('On-device model not available.');
   }
 
   @override
   Future<List<double>> embed(String text) async {
-    throw const ServiceUnavailableError(
-      'On-device embedding not available.',
-    );
+    throw const ServiceUnavailableError('On-device embedding not available.');
   }
 
   @override

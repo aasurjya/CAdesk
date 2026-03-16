@@ -66,10 +66,9 @@ class SupabaseEdgeAdapter implements AiGateway {
 
   Map<String, dynamic> _buildRequestBody(AiRequest request) {
     return {
-      'messages': request.messages.map((m) => {
-        'role': m.role.name,
-        'content': m.content,
-      }).toList(),
+      'messages': request.messages
+          .map((m) => {'role': m.role.name, 'content': m.content})
+          .toList(),
       'system_prompt': request.systemPrompt,
       'max_tokens': request.maxTokens,
       'temperature': request.temperature,

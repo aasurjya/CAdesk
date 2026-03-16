@@ -15,15 +15,16 @@ class SectionLookupTool implements AgentTool {
 
   @override
   Map<String, dynamic> get parameters => const {
-        'type': 'object',
-        'properties': {
-          'query': {
-            'type': 'string',
-            'description': 'Section number (e.g., "194C") or keyword (e.g., "presumptive taxation")',
-          },
-        },
-        'required': ['query'],
-      };
+    'type': 'object',
+    'properties': {
+      'query': {
+        'type': 'string',
+        'description':
+            'Section number (e.g., "194C") or keyword (e.g., "presumptive taxation")',
+      },
+    },
+    'required': ['query'],
+  };
 
   @override
   Future<String> execute(Map<String, dynamic> arguments) async {

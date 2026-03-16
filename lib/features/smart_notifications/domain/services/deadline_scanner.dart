@@ -10,15 +10,19 @@ class DeadlineScanner {
   List<SmartNotification> scan({int daysAhead = 7}) {
     final now = DateTime.now();
     final fy = now.month >= 4 ? now.year : now.year - 1;
-    final deadlines = TaxCalendarService.getUpcomingDeadlines(fy, now, days: daysAhead);
+    final deadlines = TaxCalendarService.getUpcomingDeadlines(
+      fy,
+      now,
+      days: daysAhead,
+    );
 
     return deadlines.map((deadline) {
       final daysLeft = deadline.date.difference(now).inDays;
       final priority = daysLeft <= 2
           ? NotificationPriority.critical
           : daysLeft <= 5
-              ? NotificationPriority.high
-              : NotificationPriority.medium;
+          ? NotificationPriority.high
+          : NotificationPriority.medium;
 
       return SmartNotification(
         id: 'deadline_${deadline.date.toIso8601String()}_${deadline.category}',
