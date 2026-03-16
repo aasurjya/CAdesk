@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' show AuthException;
 
 import 'package:ca_app/core/auth/auth_state.dart';
@@ -228,7 +229,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: isLoading
+                      ? null
+                      : () => context.push('/forgot-password'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    padding: EdgeInsets.zero,
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
               FilledButton(
                 onPressed: isLoading ? null : _submit,
                 style: FilledButton.styleFrom(
@@ -255,6 +275,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
+              ),
+              const SizedBox(height: 20),
+              const Divider(color: AppColors.neutral200),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(
+                      color: AppColors.neutral600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: isLoading ? null : () => context.go('/signup'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.primary,
+                      padding: EdgeInsets.zero,
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

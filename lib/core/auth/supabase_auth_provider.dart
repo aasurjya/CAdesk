@@ -59,6 +59,46 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
     }
   }
 
+  /// Signs up with email, password and display name.
+  /// Throws [AuthException] on failure.
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
+    state = const AsyncLoading();
+    try {
+      final auth = ref.read(_supabaseAuthProvider);
+      final response = await auth.signUp(
+        email: email,
+        password: password,
+        data: {'display_name': displayName},
+      );
+      state = AsyncData(_deriveStateFromSession(response.session));
+    } on AuthException {
+      rethrow;
+    } catch (error, stack) {
+      state = AsyncError(error, stack);
+      rethrow;
+    }
+  }
+
+  /// Sends a password-reset email. Throws [AuthException] on failure.
+  Future<void> resetPassword(String email) async {
+    try {
+      final auth = ref.read(_supabaseAuthProvider);
+      await auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'io.cadeskhq.app://auth/reset-password',
+      );
+    } on AuthException {
+      rethrow;
+    } catch (error, stack) {
+      state = AsyncError(error, stack);
+      rethrow;
+    }
+  }
+
   /// Signs out the current user. Throws on failure.
   Future<void> signOut() async {
     state = const AsyncLoading();

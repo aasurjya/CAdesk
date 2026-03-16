@@ -6,6 +6,8 @@ import 'package:ca_app/core/auth/auth_state.dart';
 import 'package:ca_app/core/auth/supabase_auth_provider.dart';
 import 'package:ca_app/core/widgets/adaptive_scaffold.dart';
 import 'package:ca_app/features/auth/presentation/login_screen.dart';
+import 'package:ca_app/features/auth/presentation/sign_up_screen.dart';
+import 'package:ca_app/features/auth/presentation/forgot_password_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_screen.dart';
 import 'package:ca_app/features/today/presentation/today_screen.dart';
 import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
@@ -113,15 +115,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       if (authAsync.isLoading) return null;
 
       final authState = authAsync.asData?.value;
-      final isOnLogin = state.matchedLocation == '/login';
+      final location = state.matchedLocation;
+      const authRoutes = {'/login', '/signup', '/forgot-password'};
+      final isOnAuthRoute = authRoutes.contains(location);
 
-      // Not authenticated → go to login.
+      // Not authenticated → go to login (allow auth routes through).
       if (authState is AuthUnauthenticated || authState == null) {
-        return isOnLogin ? null : '/login';
+        return isOnAuthRoute ? null : '/login';
       }
 
-      // Authenticated but on login → go home.
-      if (authState is AuthAuthenticated && isOnLogin) return '/';
+      // Authenticated but on an auth route → go home.
+      if (authState is AuthAuthenticated && isOnAuthRoute) return '/';
 
       return null;
     },
@@ -130,6 +134,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/login',
         name: 'login',
         builder: (context, state) => const LoginScreen(),
+      ),
+      GoRoute(
+        path: '/signup',
+        name: 'signup',
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        name: 'forgotPassword',
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
