@@ -1,10 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'
     hide AuthState; // avoid clash with our sealed AuthState
 
 import 'package:ca_app/core/auth/auth_state.dart';
+
+/// Returns the appropriate auth redirect URL for the current platform.
+/// On web, uses the browser's base URI (includes /CAdesk/ path).
+/// On native, uses the deep-link scheme.
+String _authRedirectUrl() {
+  if (kIsWeb) {
+    return Uri.base.toString();
+  }
+  return 'io.cadeskhq.app://auth';
+}
 
 /// Provides the Supabase auth client for easy access in other providers.
 final _supabaseAuthProvider = Provider<GoTrueClient>(
@@ -72,6 +83,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
       final response = await auth.signUp(
         email: email,
         password: password,
+        emailRedirectTo: _authRedirectUrl(),
         data: {'display_name': displayName},
       );
       state = AsyncData(_deriveStateFromSession(response.session));
@@ -89,7 +101,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
       final auth = ref.read(_supabaseAuthProvider);
       await auth.resetPasswordForEmail(
         email,
-        redirectTo: 'io.cadeskhq.app://auth/reset-password',
+        redirectTo: _authRedirectUrl(),
       );
     } on AuthException {
       rethrow;
