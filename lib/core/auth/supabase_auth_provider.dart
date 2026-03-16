@@ -99,10 +99,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   Future<void> resetPassword(String email) async {
     try {
       final auth = ref.read(_supabaseAuthProvider);
-      await auth.resetPasswordForEmail(
-        email,
-        redirectTo: _authRedirectUrl(),
-      );
+      await auth.resetPasswordForEmail(email, redirectTo: _authRedirectUrl());
     } on AuthException {
       rethrow;
     } catch (error, stack) {
