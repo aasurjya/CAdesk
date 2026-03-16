@@ -80,9 +80,8 @@ class TaxYearService {
   }
 
   /// Returns the Act name for a given financial year.
-  static String actNameForFy(String fy) {
-    return ActMode.forFinancialYear(fy).label;
-  }
+  static String actNameForFy(String fy) =>
+      ActMode.forFinancialYear(fy).label;
 
   /// Returns a list of recent tax years (current + 5 prior).
   static List<TaxYear> recentTaxYears({int count = 6}) {
@@ -113,5 +112,5 @@ class AdvanceTaxInstallment {
 
   @override
   String toString() =>
-      'AdvanceTaxInstallment($label: ${cumulativePercent}% by $dueDate)';
+      'AdvanceTaxInstallment($label: $cumulativePercent% by $dueDate)';
 }

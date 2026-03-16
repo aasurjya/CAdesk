@@ -82,7 +82,7 @@ class ComplianceCalendarScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<ComplianceCategory>(
-                value: selectedCategory,
+                initialValue: selectedCategory,
                 decoration: const InputDecoration(
                   labelText: 'Category',
                   prefixIcon: Icon(Icons.category_rounded),
@@ -99,7 +99,7 @@ class ComplianceCalendarScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<ComplianceFrequency>(
-                value: selectedFrequency,
+                initialValue: selectedFrequency,
                 decoration: const InputDecoration(
                   labelText: 'Frequency',
                   prefixIcon: Icon(Icons.repeat_rounded),

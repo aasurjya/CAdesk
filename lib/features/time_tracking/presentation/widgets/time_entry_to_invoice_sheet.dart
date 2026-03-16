@@ -438,8 +438,6 @@ class _CreateInvoiceButton extends ConsumerWidget {
 
     final subtotal = entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
     final tax = subtotal * gstRate / 100;
-    final cgst = tax / 2;
-    final sgst = tax / 2;
     final invoiceTotal = subtotal + tax;
     final now = DateTime.now();
 
