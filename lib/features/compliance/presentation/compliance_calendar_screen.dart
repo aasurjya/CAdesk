@@ -39,6 +39,138 @@ class ComplianceCalendarScreen extends ConsumerWidget {
         ],
       ),
       body: isCalendarView ? const _CalendarView() : const _ListView(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddDeadlineSheet(context, ref),
+        backgroundColor: AppColors.primary,
+        child: const Icon(Icons.add_rounded, color: Colors.white),
+      ),
+    );
+  }
+
+  void _showAddDeadlineSheet(BuildContext context, WidgetRef ref) {
+    final titleController = TextEditingController();
+    ComplianceCategory selectedCategory = ComplianceCategory.incomeTax;
+    ComplianceFrequency selectedFrequency = ComplianceFrequency.annual;
+    DateTime selectedDate = DateTime.now().add(const Duration(days: 7));
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => Padding(
+          padding: EdgeInsets.fromLTRB(
+            24, 24, 24, MediaQuery.of(ctx).viewInsets.bottom + 24,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Add Compliance Deadline',
+                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title *',
+                  hintText: 'e.g., GSTR-3B March 2026',
+                  prefixIcon: Icon(Icons.title_rounded),
+                ),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<ComplianceCategory>(
+                value: selectedCategory,
+                decoration: const InputDecoration(
+                  labelText: 'Category',
+                  prefixIcon: Icon(Icons.category_rounded),
+                ),
+                items: ComplianceCategory.values
+                    .map((c) => DropdownMenuItem(
+                          value: c,
+                          child: Text(c.label),
+                        ))
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) setSheetState(() => selectedCategory = v);
+                },
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<ComplianceFrequency>(
+                value: selectedFrequency,
+                decoration: const InputDecoration(
+                  labelText: 'Frequency',
+                  prefixIcon: Icon(Icons.repeat_rounded),
+                ),
+                items: ComplianceFrequency.values
+                    .map((f) => DropdownMenuItem(
+                          value: f,
+                          child: Text(f.name[0].toUpperCase() +
+                              f.name.substring(1)),
+                        ))
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) setSheetState(() => selectedFrequency = v);
+                },
+              ),
+              const SizedBox(height: 12),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.calendar_today_rounded),
+                title: Text(
+                  'Due: ${DateFormat('dd MMM yyyy').format(selectedDate)}',
+                ),
+                trailing: const Icon(Icons.edit_rounded, size: 18),
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: ctx,
+                    initialDate: selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
+                  );
+                  if (picked != null) {
+                    setSheetState(() => selectedDate = picked);
+                  }
+                },
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () {
+                    if (titleController.text.trim().isEmpty) return;
+                    final deadline = ComplianceDeadline(
+                      id: 'dl_${DateTime.now().millisecondsSinceEpoch}',
+                      title: titleController.text.trim(),
+                      description: titleController.text.trim(),
+                      category: selectedCategory,
+                      dueDate: selectedDate,
+                      applicableTo: const [],
+                      isRecurring: selectedFrequency != ComplianceFrequency.annual,
+                      frequency: selectedFrequency,
+                      status: ComplianceStatus.upcoming,
+                    );
+                    ref
+                        .read(allComplianceDeadlinesProvider.notifier)
+                        .addDeadline(deadline);
+                    Navigator.pop(ctx);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Deadline "${deadline.title}" added.'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.check_rounded),
+                  label: const Text('Add Deadline'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -98,12 +230,54 @@ class _CalendarView extends ConsumerWidget {
                   itemCount: deadlines.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 8),
                   itemBuilder: (_, index) {
-                    return DeadlineTile(deadline: deadlines[index]);
+                    final dl = deadlines[index];
+                    return DeadlineTile(
+                      deadline: dl,
+                      onTap: () => _markComplete(context, ref, dl),
+                    );
                   },
                 ),
         ),
       ],
     );
+  }
+
+  void _markComplete(
+    BuildContext context,
+    WidgetRef ref,
+    ComplianceDeadline deadline,
+  ) {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Mark as Completed?'),
+        content: Text(
+          'Mark "${deadline.title}" as completed?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Complete'),
+          ),
+        ],
+      ),
+    ).then((confirmed) {
+      if (confirmed == true) {
+        ref
+            .read(allComplianceDeadlinesProvider.notifier)
+            .markCompleted(deadline);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('"${deadline.title}" marked as completed.'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    });
   }
 }
 
@@ -173,9 +347,49 @@ class _ListView extends ConsumerWidget {
       itemCount: deadlines.length,
       separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (_, index) {
-        return DeadlineTile(deadline: deadlines[index]);
+        final dl = deadlines[index];
+        return DeadlineTile(
+          deadline: dl,
+          onTap: () => _markComplete(context, ref, dl),
+        );
       },
     );
+  }
+
+  void _markComplete(
+    BuildContext context,
+    WidgetRef ref,
+    ComplianceDeadline deadline,
+  ) {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Mark as Completed?'),
+        content: Text('Mark "${deadline.title}" as completed?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Complete'),
+          ),
+        ],
+      ),
+    ).then((confirmed) {
+      if (confirmed == true) {
+        ref
+            .read(allComplianceDeadlinesProvider.notifier)
+            .markCompleted(deadline);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('"${deadline.title}" marked as completed.'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    });
   }
 }
 

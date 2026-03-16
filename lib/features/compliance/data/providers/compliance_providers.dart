@@ -60,6 +60,32 @@ class AllComplianceDeadlinesNotifier
   void setDeadlines(List<ComplianceDeadline> value) {
     state = AsyncData(List.unmodifiable(value));
   }
+
+  /// Add a new compliance deadline.
+  void addDeadline(ComplianceDeadline deadline) {
+    final current = state.value ?? [];
+    final updated = [...current, deadline]
+      ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+    state = AsyncData(List.unmodifiable(updated));
+  }
+
+  /// Mark a deadline as completed (removes from active list).
+  void markCompleted(ComplianceDeadline deadline) {
+    final current = state.value ?? [];
+    final completed = deadline.copyWith(status: ComplianceStatus.completed);
+    final updated = current
+        .map((d) => d.id == completed.id ? completed : d)
+        .where((d) => d.status != ComplianceStatus.completed)
+        .toList();
+    state = AsyncData(List.unmodifiable(updated));
+  }
+
+  /// Delete a compliance deadline by ID.
+  void deleteDeadline(String deadlineId) {
+    final current = state.value ?? [];
+    final updated = current.where((d) => d.id != deadlineId).toList();
+    state = AsyncData(List.unmodifiable(updated));
+  }
 }
 
 /// Selected month offset from the current month (0 = current, 1 = next, etc.).
