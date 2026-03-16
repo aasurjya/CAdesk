@@ -2,17 +2,42 @@ import 'dart:math' show min;
 
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
 import 'package:ca_app/features/filing/domain/models/tax_regime_result.dart';
+import 'package:ca_app/features/it_act_transition/domain/models/act_mode.dart';
+import 'package:ca_app/features/it_act_transition/domain/services/section_mapper_service.dart';
 
-/// Stateless service that computes income tax under old and new regimes
-/// for FY 2025-26 / AY 2026-27.
+/// Stateless service that computes income tax under old and new regimes.
 ///
-/// This replaces the simplified [TaxComputationService] from the income_tax
-/// module with real form-data-aware computation including surcharge tiers.
+/// Supports dual-mode operation:
+/// - **IT Act 1961** (FY ≤ 2025-26): Section 115BAC / 87A labels
+/// - **IT Act 2025** (TY ≥ 2026-27): Section 202 / 156 labels
+///
+/// Tax computation logic is identical under both Acts — only section
+/// numbering differs.
 class TaxComputationEngine {
   TaxComputationEngine._();
 
   // ---------------------------------------------------------------------------
-  // New Regime — Section 115BAC (FY 2025-26)
+  // Section labels (Act-mode aware)
+  // ---------------------------------------------------------------------------
+
+  /// Returns the display label for the new tax regime section.
+  /// IT Act 1961: "Section 115BAC" / IT Act 2025: "Section 202"
+  static String newRegimeSectionLabel({ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: '115BAC',
+        mode: mode ?? ActMode.current,
+      );
+
+  /// Returns the display label for the rebate section.
+  /// IT Act 1961: "Section 87A" / IT Act 2025: "Section 156"
+  static String rebateSectionLabel({ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: '87A',
+        mode: mode ?? ActMode.current,
+      );
+
+  // ---------------------------------------------------------------------------
+  // New Regime — Section 115BAC (1961) / Section 202 (2025)
   // Slabs: 0–4L Nil, 4–8L 5%, 8–12L 10%, 12–16L 15%,
   //        16–20L 20%, 20–24L 25%, >24L 30%
   // Standard deduction: ₹75,000

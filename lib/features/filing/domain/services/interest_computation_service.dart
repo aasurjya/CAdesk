@@ -1,10 +1,35 @@
 import 'package:ca_app/features/filing/domain/models/interest_result.dart';
+import 'package:ca_app/features/it_act_transition/domain/models/act_mode.dart';
+import 'package:ca_app/features/it_act_transition/domain/services/section_mapper_service.dart';
 
 /// Stateless service for computing interest under Sections 234A, 234B, 234C.
+///
+/// Dual-mode labels:
+/// - IT Act 1961: Sections 234A / 234B / 234C
+/// - IT Act 2025: Sections 461 / 462 / 463
 ///
 /// All interest rates are 1% per month (part of a month counted as full month).
 class InterestComputationService {
   InterestComputationService._();
+
+  /// Act-mode aware section labels for interest provisions.
+  static String section234ALabel({ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: '234A',
+        mode: mode ?? ActMode.current,
+      );
+
+  static String section234BLabel({ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: '234B',
+        mode: mode ?? ActMode.current,
+      );
+
+  static String section234CLabel({ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: '234C',
+        mode: mode ?? ActMode.current,
+      );
 
   /// Compute all interest components for a filing.
   ///

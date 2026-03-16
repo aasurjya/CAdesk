@@ -1,11 +1,30 @@
 import 'package:ca_app/features/tds/domain/models/tds_section_rate.dart';
 import 'package:ca_app/features/tds/domain/services/tds_rate_data.dart';
+import 'package:ca_app/features/it_act_transition/domain/models/act_mode.dart';
+import 'package:ca_app/features/it_act_transition/domain/services/section_mapper_service.dart';
 
 /// Static service for TDS rate lookups and computation.
 ///
-/// All methods are static. No instance creation is allowed.
+/// Dual-mode labels:
+/// - IT Act 1961: Individual sections (192, 194A, 194C, etc.)
+/// - IT Act 2025: Consolidated into Sections 392–394 (Table-based)
+///
+/// Tax rates and thresholds are unchanged between Acts.
 class TdsRateEngine {
   TdsRateEngine._();
+
+  /// Returns the Act-mode aware display label for a TDS section.
+  /// e.g., "Section 194C" (1961) or "Section 393(1-6)" (2025).
+  static String sectionLabel(String section1961, {ActMode? mode}) =>
+      SectionMapperService.displaySection(
+        section1961: section1961,
+        mode: mode ?? ActMode.current,
+      );
+
+  /// Returns the dual display for a TDS section.
+  /// e.g., "Section 393(1-6) [erstwhile Section 194C]"
+  static String sectionDualLabel(String section1961) =>
+      SectionMapperService.dualDisplay(section1961);
 
   /// Returns all TDS sections for the given financial year.
   static List<TdsSectionRate> getAllSections({

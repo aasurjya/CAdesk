@@ -1,4 +1,7 @@
-/// Statutory caps for Chapter VI-A deductions (AY 2024-25).
+import 'package:ca_app/features/it_act_transition/domain/models/act_mode.dart';
+import 'package:ca_app/features/it_act_transition/domain/services/section_mapper_service.dart';
+
+/// Statutory caps for Chapter VI-A deductions.
 const double _kCap80C = 150000;
 const double _kCap80Ccd1B = 50000;
 const double _kCap80DSelf = 25000;
@@ -7,6 +10,10 @@ const double _kCap80Tta = 10000;
 const double _kCap80Ttb = 50000;
 
 /// Immutable model for Chapter VI-A deductions in ITR-1 (Sahaj).
+///
+/// Dual-mode section labels:
+/// - IT Act 1961: 80C / 80CCD(1B) / 80D / 80E / 80G / 80TTA / 80TTB
+/// - IT Act 2025: 123 / 125(1B) / 126 / 129 / 133 / 136 / 137
 ///
 /// All fields represent the amount *claimed* by the taxpayer.
 /// The [totalDeductions] getter applies statutory caps automatically.
@@ -62,6 +69,25 @@ class ChapterViaDeductions {
   /// Section 80TTB — interest on deposits for senior citizens (60+).
   /// Statutory cap: ₹50,000. Replaces 80TTA for senior citizens.
   final double section80TTB;
+
+  // ---------------------------------------------------------------------------
+  // Act-mode aware section labels
+  // ---------------------------------------------------------------------------
+
+  /// Returns a map of field name → display label for all deduction sections.
+  /// Under IT Act 2025, section numbers change (e.g., 80C → 123).
+  static Map<String, String> sectionLabels({ActMode? mode}) {
+    final m = mode ?? ActMode.current;
+    return {
+      'section80C': SectionMapperService.displaySection(section1961: '80C', mode: m),
+      'section80CCD1B': SectionMapperService.displaySection(section1961: '80CCD(1B)', mode: m),
+      'section80D': SectionMapperService.displaySection(section1961: '80D', mode: m),
+      'section80E': SectionMapperService.displaySection(section1961: '80E', mode: m),
+      'section80G': SectionMapperService.displaySection(section1961: '80G', mode: m),
+      'section80TTA': SectionMapperService.displaySection(section1961: '80TTA', mode: m),
+      'section80TTB': SectionMapperService.displaySection(section1961: '80TTB', mode: m),
+    };
+  }
 
   /// Total deductions after applying all statutory caps.
   double get totalDeductions {
