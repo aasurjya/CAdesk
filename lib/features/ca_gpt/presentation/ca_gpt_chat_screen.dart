@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/features/ca_gpt/data/agent/agent_providers.dart';
 import 'package:ca_app/features/ca_gpt/data/providers/ca_gpt_providers.dart';
+import 'package:ca_app/features/ca_gpt/domain/agent/agent_state.dart';
 import 'package:ca_app/features/ca_gpt/presentation/widgets/chat_bubble.dart';
 
 /// The conversational CA GPT chat interface.
+///
+/// When `ai_agent_enabled` is on, uses the ReAct [TaxAgent] for responses.
+/// Otherwise falls back to keyword-based mock replies.
 class CaGptChatScreen extends ConsumerStatefulWidget {
   const CaGptChatScreen({super.key});
 
@@ -42,10 +47,63 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
     setState(() => _isTyping = true);
     _scrollToBottom();
 
-    // Simulate assistant thinking delay
+    // Check if AI agent is enabled via feature flags
+    final isAgentEnabled = ref.read(isAgentEnabledProvider);
+
+    if (isAgentEnabled) {
+      await _runAgent(text);
+    } else {
+      await _runMockReply(text);
+    }
+  }
+
+  /// Runs the ReAct agent and streams state updates into the chat.
+  Future<void> _runAgent(String query) async {
+    final agent = ref.read(taxAgentProvider);
+    final stateNotifier = ref.read(agentStateProvider.notifier);
+
+    try {
+      await for (final agentState in agent.run(query)) {
+        if (!mounted) return;
+
+        stateNotifier.update(agentState);
+
+        if (agentState.isComplete) {
+          final assistantMsg = ChatMessage(
+            id: 'bot_${DateTime.now().microsecondsSinceEpoch}',
+            text: agentState.finalAnswer ?? 'I could not generate a response.',
+            isUser: false,
+            at: DateTime.now(),
+            citations: agentState.citations,
+            toolCalls: agentState.toolCalls,
+          );
+
+          ref.read(chatMessagesProvider.notifier).addMessage(assistantMsg);
+          setState(() => _isTyping = false);
+          _scrollToBottom();
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
+      // Fallback: show error as assistant message
+      final errorMsg = ChatMessage(
+        id: 'bot_${DateTime.now().microsecondsSinceEpoch}',
+        text: 'Sorry, I encountered an error: $e. '
+            'Please try again or use a more specific query.',
+        isUser: false,
+        at: DateTime.now(),
+      );
+      ref.read(chatMessagesProvider.notifier).addMessage(errorMsg);
+      setState(() => _isTyping = false);
+      _scrollToBottom();
+    }
+  }
+
+  /// Fallback mock reply when the AI agent is not enabled.
+  Future<void> _runMockReply(String query) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
 
-    final reply = _buildMockReply(text);
+    final reply = _buildMockReply(query);
     final assistantMsg = ChatMessage(
       id: 'bot_${DateTime.now().microsecondsSinceEpoch}',
       text: reply,
@@ -116,6 +174,7 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
   Widget build(BuildContext context) {
     final messages = ref.watch(chatMessagesProvider);
     final theme = Theme.of(context);
+    final agentState = ref.watch(agentStateProvider);
 
     return Column(
       children: [
@@ -128,7 +187,7 @@ class _CaGptChatScreenState extends ConsumerState<CaGptChatScreen> {
                   itemCount: messages.length + (_isTyping ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (_isTyping && index == messages.length) {
-                      return _TypingIndicator();
+                      return _TypingIndicator(agentPhase: agentState.phase);
                     }
                     return ChatBubble(message: messages[index]);
                   },
@@ -179,8 +238,22 @@ class _EmptyState extends StatelessWidget {
 }
 
 class _TypingIndicator extends StatelessWidget {
+  const _TypingIndicator({this.agentPhase = AgentPhase.idle});
+
+  final AgentPhase agentPhase;
+
+  String get _statusLabel => switch (agentPhase) {
+        AgentPhase.thinking => 'Thinking…',
+        AgentPhase.acting => 'Using tools…',
+        AgentPhase.observing => 'Analyzing results…',
+        AgentPhase.responding => 'Composing answer…',
+        _ => 'Typing…',
+      };
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: Row(
@@ -205,14 +278,21 @@ class _TypingIndicator extends StatelessWidget {
               color: AppColors.neutral100,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _Dot(delay: 0),
-                SizedBox(width: 4),
-                _Dot(delay: 150),
-                SizedBox(width: 4),
-                _Dot(delay: 300),
+                const _Dot(delay: 0),
+                const SizedBox(width: 4),
+                const _Dot(delay: 150),
+                const SizedBox(width: 4),
+                const _Dot(delay: 300),
+                const SizedBox(width: 8),
+                Text(
+                  _statusLabel,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: AppColors.neutral600,
+                  ),
+                ),
               ],
             ),
           ),

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/ca_gpt/data/providers/ca_gpt_providers.dart';
+import 'package:ca_app/features/ca_gpt/presentation/widgets/agent_response_card.dart';
 
 /// A single chat bubble — right-aligned blue for user, left-aligned surface for assistant.
+///
+/// When the message contains citations or tool calls, renders an [AgentResponseCard]
+/// instead of plain text.
 class ChatBubble extends StatelessWidget {
   const ChatBubble({super.key, required this.message});
 
@@ -13,6 +17,8 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isUser = message.isUser;
+    final isRichResponse =
+        !isUser && (message.hasCitations || message.hasToolCalls);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
@@ -35,13 +41,19 @@ class ChatBubble extends StatelessWidget {
                   bottomRight: isUser ? Radius.zero : const Radius.circular(16),
                 ),
               ),
-              child: Text(
-                message.text,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: isUser ? Colors.white : AppColors.neutral900,
-                  height: 1.4,
-                ),
-              ),
+              child: isRichResponse
+                  ? AgentResponseCard(
+                      text: message.text,
+                      citations: message.citations,
+                      toolCalls: message.toolCalls,
+                    )
+                  : Text(
+                      message.text,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: isUser ? Colors.white : AppColors.neutral900,
+                        height: 1.4,
+                      ),
+                    ),
             ),
           ),
           if (isUser) const SizedBox(width: 8),

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/dashboard/data/providers/cross_module_providers.dart';
 import 'package:ca_app/features/dashboard/presentation/widgets/activity_feed_widget.dart';
+import 'package:ca_app/features/dashboard/presentation/widgets/ai_insights_section.dart';
 import 'package:ca_app/features/dashboard/presentation/widgets/compliance_deadline_widget.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -121,6 +122,8 @@ class DashboardScreen extends StatelessWidget {
                 const _GreetingSection(),
                 const SizedBox(height: 20),
                 const _OverviewHeroCard(),
+                const SizedBox(height: 24),
+                const AiInsightsSection(),
                 const SizedBox(height: 24),
                 _QuickActionsGrid(crossAxisCount: crossAxisCount),
                 const SizedBox(height: 24),

@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/core/ai/models/ai_tool_call.dart';
 import 'package:ca_app/features/ca_gpt/domain/models/knowledge_article.dart';
 import 'package:ca_app/features/ca_gpt/domain/models/notice_draft.dart';
+import 'package:ca_app/features/ca_gpt/domain/models/tax_citation.dart';
 import 'package:ca_app/features/ca_gpt/domain/services/notice_drafting_service.dart';
 import 'package:ca_app/features/ca_gpt/domain/services/section_lookup_service.dart';
 import 'package:ca_app/features/ca_gpt/domain/services/tax_calendar_service.dart';
@@ -43,24 +45,45 @@ final taxCalendarServiceProvider = Provider<TaxCalendarService>((_) {
 
 /// An immutable chat message within the CA GPT chat session.
 class ChatMessage {
-  const ChatMessage({
+  ChatMessage({
     required this.id,
     required this.text,
     required this.isUser,
     required this.at,
-  });
+    List<TaxCitation> citations = const [],
+    List<AiToolCall> toolCalls = const [],
+  })  : citations = List.unmodifiable(citations),
+        toolCalls = List.unmodifiable(toolCalls);
 
   final String id;
   final String text;
   final bool isUser;
   final DateTime at;
 
-  ChatMessage copyWith({String? id, String? text, bool? isUser, DateTime? at}) {
+  /// Citations supporting this response (empty for user messages).
+  final List<TaxCitation> citations;
+
+  /// Tool calls made during this response (empty for user messages).
+  final List<AiToolCall> toolCalls;
+
+  bool get hasCitations => citations.isNotEmpty;
+  bool get hasToolCalls => toolCalls.isNotEmpty;
+
+  ChatMessage copyWith({
+    String? id,
+    String? text,
+    bool? isUser,
+    DateTime? at,
+    List<TaxCitation>? citations,
+    List<AiToolCall>? toolCalls,
+  }) {
     return ChatMessage(
       id: id ?? this.id,
       text: text ?? this.text,
       isUser: isUser ?? this.isUser,
       at: at ?? this.at,
+      citations: citations ?? this.citations,
+      toolCalls: toolCalls ?? this.toolCalls,
     );
   }
 }
