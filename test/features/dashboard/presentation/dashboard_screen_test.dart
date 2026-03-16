@@ -73,6 +73,12 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
+      await tester.scrollUntilVisible(
+        find.text('Quick Actions'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+
       expect(find.text('Quick Actions'), findsOneWidget);
     });
 
@@ -80,6 +86,12 @@ void main() {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.text('File ITR'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       expect(find.text('File ITR'), findsOneWidget);
     });
@@ -89,6 +101,12 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
+      await tester.scrollUntilVisible(
+        find.text('File GST'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+
       expect(find.text('File GST'), findsOneWidget);
     });
 
@@ -96,6 +114,12 @@ void main() {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.text('New Client'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
 
       expect(find.text('New Client'), findsOneWidget);
     });
