@@ -11,9 +11,7 @@ Future<void> _setPhoneDisplay(WidgetTester tester) async {
 
 void main() {
   Widget buildSubject() {
-    return const ProviderScope(
-      child: MaterialApp(home: DocumentsScreen()),
-    );
+    return const ProviderScope(child: MaterialApp(home: DocumentsScreen()));
   }
 
   group('DocumentsScreen', () {
@@ -122,8 +120,10 @@ void main() {
       await tester.pumpAndSettle();
       // Either list or empty state; both are valid
       final hasList = find.byType(ListView).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.byIcon(Icons.folder_open_rounded).evaluate().isNotEmpty;
+      final hasEmpty = find
+          .byIcon(Icons.folder_open_rounded)
+          .evaluate()
+          .isNotEmpty;
       expect(hasList || hasEmpty, isTrue);
     });
 
@@ -136,13 +136,16 @@ void main() {
       await tester.pumpAndSettle();
       // After tapping, folders content should render
       final hasFoldersList = find.byType(ListView).evaluate().isNotEmpty;
-      final hasFoldersEmpty =
-          find.byIcon(Icons.folder_open_rounded).evaluate().isNotEmpty;
+      final hasFoldersEmpty = find
+          .byIcon(Icons.folder_open_rounded)
+          .evaluate()
+          .isNotEmpty;
       expect(hasFoldersList || hasFoldersEmpty, isTrue);
     });
 
-    testWidgets('category chips are rendered for All Documents tab',
-        (tester) async {
+    testWidgets('category chips are rendered for All Documents tab', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -157,7 +160,9 @@ void main() {
       expect(find.byIcon(Icons.search_rounded), findsOneWidget);
     });
 
-    testWidgets('renders folder_copy_outlined icon in hero card', (tester) async {
+    testWidgets('renders folder_copy_outlined icon in hero card', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();

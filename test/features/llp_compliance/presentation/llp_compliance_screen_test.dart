@@ -13,9 +13,7 @@ import 'package:ca_app/features/llp_compliance/domain/models/llp_filing.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: LLPComplianceScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: LLPComplianceScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -121,8 +119,9 @@ void main() {
       expect(find.byType(LLPEntityCard), findsWidgets);
     });
 
-    testWidgets('switching to Filings tab shows LLPFilingTile list',
-        (tester) async {
+    testWidgets('switching to Filings tab shows LLPFilingTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -167,8 +166,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('switching to Penalties tab shows Total Penalty Exposure',
-        (tester) async {
+    testWidgets('switching to Penalties tab shows Total Penalty Exposure', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -183,8 +183,9 @@ void main() {
       expect(find.text('Total Penalty Exposure'), findsOneWidget);
     });
 
-    testWidgets('LLPs tab shows Sharma & Gupta Associates from mock data',
-        (tester) async {
+    testWidgets('LLPs tab shows Sharma & Gupta Associates from mock data', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 

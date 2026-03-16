@@ -170,7 +170,9 @@ void main() {
       expect(find.byIcon(Icons.schedule_rounded), findsWidgets);
     });
 
-    testWidgets('renders check_circle icon for Up to Date card', (tester) async {
+    testWidgets('renders check_circle icon for Up to Date card', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

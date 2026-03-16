@@ -21,10 +21,7 @@ void main() {
 
     test('module ids match their map keys', () {
       final modules = container.read(roadmapModulesProvider);
-      expect(
-        modules.entries.every((e) => e.value.id == e.key),
-        isTrue,
-      );
+      expect(modules.entries.every((e) => e.value.id == e.key), isTrue);
     });
 
     test('contains 18 module definitions', () {

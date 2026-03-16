@@ -33,23 +33,26 @@ void main() {
         expect(task.retryCount, 0);
       });
 
-      test('handles null clientId, result, error_message, startedAt, completedAt', () {
-        final json = {
-          'id': 'rpa-002',
-          'task_type': 'portalStatusCheck',
-          'status': 'scheduled',
-          'scheduled_at': '2025-09-02T08:00:00.000Z',
-          'retry_count': 0,
-        };
+      test(
+        'handles null clientId, result, error_message, startedAt, completedAt',
+        () {
+          final json = {
+            'id': 'rpa-002',
+            'task_type': 'portalStatusCheck',
+            'status': 'scheduled',
+            'scheduled_at': '2025-09-02T08:00:00.000Z',
+            'retry_count': 0,
+          };
 
-        final task = RpaMapper.fromJson(json);
-        expect(task.clientId, isNull);
-        expect(task.result, isNull);
-        expect(task.errorMessage, isNull);
-        expect(task.startedAt, isNull);
-        expect(task.completedAt, isNull);
-        expect(task.status, RpaStatus.scheduled);
-      });
+          final task = RpaMapper.fromJson(json);
+          expect(task.clientId, isNull);
+          expect(task.result, isNull);
+          expect(task.errorMessage, isNull);
+          expect(task.startedAt, isNull);
+          expect(task.completedAt, isNull);
+          expect(task.status, RpaStatus.scheduled);
+        },
+      );
 
       test('handles failed task with error message and retries', () {
         final json = {

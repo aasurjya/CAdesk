@@ -83,10 +83,10 @@ void main() {
 
     test('add increases list length', () {
       final before = container.read(itrClientsProvider).length;
-      final newClient = container.read(itrClientsProvider).first.copyWith(
-        id: 'new-999',
-        name: 'New Client',
-      );
+      final newClient = container
+          .read(itrClientsProvider)
+          .first
+          .copyWith(id: 'new-999', name: 'New Client');
       container.read(itrClientsProvider.notifier).add(newClient);
       expect(container.read(itrClientsProvider).length, before + 1);
     });
@@ -136,8 +136,10 @@ void main() {
     test('search by name narrows results', () {
       container.read(itrSearchQueryProvider.notifier).update('Rajesh');
       final clients = container.read(filteredClientsProvider);
-      expect(clients.every((c) => c.name.toLowerCase().contains('rajesh')),
-          isTrue);
+      expect(
+        clients.every((c) => c.name.toLowerCase().contains('rajesh')),
+        isTrue,
+      );
     });
   });
 

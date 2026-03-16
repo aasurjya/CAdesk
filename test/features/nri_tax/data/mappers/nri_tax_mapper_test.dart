@@ -27,7 +27,10 @@ void main() {
         expect(record.clientId, 'client-001');
         expect(record.assessmentYear, '2025-26');
         expect(record.residencyStatus, ResidencyStatus.nonResident);
-        expect(record.foreignIncomeSources, 'Employment in USA, dividends from UK');
+        expect(
+          record.foreignIncomeSources,
+          'Employment in USA, dividends from UK',
+        );
         expect(record.dtaaCountry, 'USA');
         expect(record.dtaaRelief, 45000.0);
         expect(record.scheduleFA, true);

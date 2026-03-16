@@ -16,11 +16,7 @@ Future<void> _setLargeDisplay(WidgetTester tester) async {
 void main() {
   group('DashboardScreen', () {
     Widget buildSubject() {
-      return const ProviderScope(
-        child: MaterialApp(
-          home: DashboardScreen(),
-        ),
-      );
+      return const ProviderScope(child: MaterialApp(home: DashboardScreen()));
     }
 
     testWidgets('renders app bar with CADesk title', (tester) async {
@@ -69,10 +65,7 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('firm performance snapshot'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('firm performance snapshot'), findsOneWidget);
     });
 
     testWidgets('renders Quick Actions section title', (tester) async {
@@ -147,8 +140,9 @@ void main() {
       expect(find.byType(RefreshIndicator), findsOneWidget);
     });
 
-    testWidgets('Upcoming Deadlines section is visible after scrolling',
-        (tester) async {
+    testWidgets('Upcoming Deadlines section is visible after scrolling', (
+      tester,
+    ) async {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -163,8 +157,9 @@ void main() {
       expect(find.text('Upcoming Deadlines'), findsOneWidget);
     });
 
-    testWidgets('ComplianceDeadlineWidget is visible after scrolling',
-        (tester) async {
+    testWidgets('ComplianceDeadlineWidget is visible after scrolling', (
+      tester,
+    ) async {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -178,8 +173,9 @@ void main() {
       expect(find.byType(ComplianceDeadlineWidget), findsOneWidget);
     });
 
-    testWidgets('Recent Activity section is visible after scrolling',
-        (tester) async {
+    testWidgets('Recent Activity section is visible after scrolling', (
+      tester,
+    ) async {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -193,7 +189,9 @@ void main() {
       expect(find.text('Recent Activity'), findsOneWidget);
     });
 
-    testWidgets('ActivityFeedWidget is visible after scrolling', (tester) async {
+    testWidgets('ActivityFeedWidget is visible after scrolling', (
+      tester,
+    ) async {
       await _setLargeDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
@@ -212,7 +210,9 @@ void main() {
     Widget buildSubject() {
       return const ProviderScope(
         child: MaterialApp(
-          home: Scaffold(body: SingleChildScrollView(child: ActivityFeedWidget())),
+          home: Scaffold(
+            body: SingleChildScrollView(child: ActivityFeedWidget()),
+          ),
         ),
       );
     }
@@ -244,7 +244,9 @@ void main() {
       );
     });
 
-    testWidgets('wraps activity rows in InkWell for navigation', (tester) async {
+    testWidgets('wraps activity rows in InkWell for navigation', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
@@ -263,7 +265,9 @@ void main() {
       );
     }
 
-    testWidgets('renders deadline items from compliance provider', (tester) async {
+    testWidgets('renders deadline items from compliance provider', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 
@@ -307,7 +311,9 @@ void main() {
       );
     });
 
-    testWidgets('wraps deadline tiles in InkWell for navigation', (tester) async {
+    testWidgets('wraps deadline tiles in InkWell for navigation', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
 

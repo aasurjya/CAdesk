@@ -25,8 +25,8 @@ class ActModeOverrideNotifier extends Notifier<ActMode?> {
 
 final actModeOverrideProvider =
     NotifierProvider<ActModeOverrideNotifier, ActMode?>(
-  ActModeOverrideNotifier.new,
-);
+      ActModeOverrideNotifier.new,
+    );
 
 /// Effective ActMode — uses override if set, otherwise auto-detected.
 final effectiveActModeProvider = Provider<ActMode>((ref) {
@@ -58,8 +58,8 @@ class SelectedTaxYearNotifier extends Notifier<TaxYear> {
 
 final selectedTaxYearProvider =
     NotifierProvider<SelectedTaxYearNotifier, TaxYear>(
-  SelectedTaxYearNotifier.new,
-);
+      SelectedTaxYearNotifier.new,
+    );
 
 // =============================================================================
 // SECTION MAPPER
@@ -73,12 +73,14 @@ final allSectionMappingsProvider = Provider<List<SectionMapping>>((ref) {
 /// Section mappings filtered by category.
 final sectionsByCategoryProvider =
     Provider.family<List<SectionMapping>, SectionCategory>((ref, category) {
-  return SectionMapperService.byCategory(category);
-});
+      return SectionMapperService.byCategory(category);
+    });
 
 /// Look up a 1961 section's display string, respecting current ActMode.
-final sectionDisplayProvider =
-    Provider.family<String, String>((ref, section1961) {
+final sectionDisplayProvider = Provider.family<String, String>((
+  ref,
+  section1961,
+) {
   final mode = ref.watch(effectiveActModeProvider);
   return SectionMapperService.displaySection(
     section1961: section1961,
@@ -87,14 +89,18 @@ final sectionDisplayProvider =
 });
 
 /// Dual display for a section (shows both old and new).
-final sectionDualDisplayProvider =
-    Provider.family<String, String>((ref, section1961) {
+final sectionDualDisplayProvider = Provider.family<String, String>((
+  ref,
+  section1961,
+) {
   return SectionMapperService.dualDisplay(section1961);
 });
 
 /// Search mappings by description keyword.
-final sectionSearchProvider =
-    Provider.family<List<SectionMapping>, String>((ref, query) {
+final sectionSearchProvider = Provider.family<List<SectionMapping>, String>((
+  ref,
+  query,
+) {
   if (query.isEmpty) return [];
   return SectionMapperService.searchByDescription(query);
 });
@@ -104,21 +110,20 @@ final sectionSearchProvider =
 // =============================================================================
 
 /// Filing due date for the selected tax year.
-final filingDueDateProvider = Provider.family<DateTime, ({
-  bool isAudit,
-  bool isTP,
-})>((ref, params) {
-  final ty = ref.watch(selectedTaxYearProvider);
-  return TaxYearService.filingDueDate(
-    taxYear: ty,
-    isAuditCase: params.isAudit,
-    isTransferPricingCase: params.isTP,
-  );
-});
+final filingDueDateProvider =
+    Provider.family<DateTime, ({bool isAudit, bool isTP})>((ref, params) {
+      final ty = ref.watch(selectedTaxYearProvider);
+      return TaxYearService.filingDueDate(
+        taxYear: ty,
+        isAuditCase: params.isAudit,
+        isTransferPricingCase: params.isTP,
+      );
+    });
 
 /// Advance tax installments for the selected tax year.
-final advanceTaxInstallmentsProvider =
-    Provider<List<AdvanceTaxInstallment>>((ref) {
+final advanceTaxInstallmentsProvider = Provider<List<AdvanceTaxInstallment>>((
+  ref,
+) {
   final ty = ref.watch(selectedTaxYearProvider);
   return TaxYearService.advanceTaxInstallments(ty);
 });

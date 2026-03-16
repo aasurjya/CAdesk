@@ -3,7 +3,9 @@ import 'package:ca_app/features/dsc_vault/domain/services/credential_encryption_
 
 void main() {
   group('CredentialEncryptionService', () {
-    const service = CredentialEncryptionService(deviceId: 'test-device-id-12345678');
+    const service = CredentialEncryptionService(
+      deviceId: 'test-device-id-12345678',
+    );
 
     group('encrypt', () {
       test('returns non-empty string for plaintext', () {

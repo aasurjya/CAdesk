@@ -101,8 +101,9 @@ void main() {
       expect(find.byIcon(Icons.lightbulb_outline_rounded), findsWidgets);
     });
 
-    testWidgets('renders type filter chips in Opportunities tab',
-        (tester) async {
+    testWidgets('renders type filter chips in Opportunities tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -134,8 +135,9 @@ void main() {
       expect(find.byType(TabBarView), findsOneWidget);
     });
 
-    testWidgets('switching to Proposals tab shows ProposalTile items',
-        (tester) async {
+    testWidgets('switching to Proposals tab shows ProposalTile items', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -151,8 +153,10 @@ void main() {
       // Either proposals exist or the empty state is shown
       final proposals = find.byType(ProposalTile);
       final empty = find.byType(ListView);
-      expect(proposals.evaluate().isNotEmpty || empty.evaluate().isNotEmpty,
-          isTrue);
+      expect(
+        proposals.evaluate().isNotEmpty || empty.evaluate().isNotEmpty,
+        isTrue,
+      );
     });
 
     testWidgets('renders Scaffold widget', (tester) async {
@@ -163,8 +167,9 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('renders priority_high icon for High Priority card',
-        (tester) async {
+    testWidgets('renders priority_high icon for High Priority card', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -172,7 +177,9 @@ void main() {
       expect(find.byIcon(Icons.priority_high_rounded), findsOneWidget);
     });
 
-    testWidgets('renders currency_rupee icon for Pipeline card', (tester) async {
+    testWidgets('renders currency_rupee icon for Pipeline card', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

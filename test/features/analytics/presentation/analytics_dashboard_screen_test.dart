@@ -45,25 +45,20 @@ void main() {
       expect(find.text('Analytics & BI'), findsOneWidget);
     });
 
-    testWidgets('renders Performance and growth intelligence subtitle',
-        (tester) async {
+    testWidgets('renders Performance and growth intelligence subtitle', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
-      expect(
-        find.text('Performance and growth intelligence'),
-        findsOneWidget,
-      );
+      expect(find.text('Performance and growth intelligence'), findsOneWidget);
     });
 
     testWidgets('renders banner headline text', (tester) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
-      expect(
-        find.text('A clearer view of firm performance'),
-        findsOneWidget,
-      );
+      expect(find.text('A clearer view of firm performance'), findsOneWidget);
     });
 
     testWidgets('renders Practice KPIs section header', (tester) async {
@@ -80,7 +75,9 @@ void main() {
       expect(find.text('Revenue Trend'), findsOneWidget);
     });
 
-    testWidgets('renders Client Health Overview section header', (tester) async {
+    testWidgets('renders Client Health Overview section header', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -129,8 +126,9 @@ void main() {
       expect(find.byType(ClientHealthChartWidget), findsOneWidget);
     });
 
-    testWidgets('renders KpiCard widgets in the Key Metrics grid',
-        (tester) async {
+    testWidgets('renders KpiCard widgets in the Key Metrics grid', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

@@ -22,16 +22,14 @@ void main() {
       expect(find.text('Practice Management'), findsOneWidget);
     });
 
-    testWidgets('renders Workflows assignments capacity subtitle',
-        (tester) async {
+    testWidgets('renders Workflows assignments capacity subtitle', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Workflows, assignments'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Workflows, assignments'), findsOneWidget);
     });
 
     testWidgets('renders Active Clients KPI card', (tester) async {

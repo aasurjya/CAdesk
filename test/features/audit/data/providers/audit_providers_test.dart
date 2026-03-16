@@ -13,9 +13,7 @@ void main() {
       container = ProviderContainer(
         overrides: [
           // Bypass Supabase entirely — audit always uses MockAuditRepository
-          featureFlagProvider.overrideWith(
-            () => _OfflineFeatureFlagNotifier(),
-          ),
+          featureFlagProvider.overrideWith(() => _OfflineFeatureFlagNotifier()),
           auditRepositoryProvider.overrideWithValue(MockAuditRepository()),
         ],
       );
@@ -37,33 +35,37 @@ void main() {
         }
       });
 
-      test('updateStatus mutates state immutably for matching report', () async {
-        final original = await container.read(auditReportListProvider.future);
-        final targetId = original.first.id;
+      test(
+        'updateStatus mutates state immutably for matching report',
+        () async {
+          final original = await container.read(auditReportListProvider.future);
+          final targetId = original.first.id;
 
-        // Set AsyncData first so asData is populated
-        container.read(auditReportListProvider.notifier).updateStatus(
-          reportId: targetId,
-          status: AuditReportStatus.filed,
-          completionPercent: 1.0,
-        );
+          // Set AsyncData first so asData is populated
+          container
+              .read(auditReportListProvider.notifier)
+              .updateStatus(
+                reportId: targetId,
+                status: AuditReportStatus.filed,
+                completionPercent: 1.0,
+              );
 
-        final updated = container.read(auditReportListProvider).asData?.value;
-        expect(updated, isNotNull);
-        final updatedReport = updated!.firstWhere((r) => r.id == targetId);
-        expect(updatedReport.status, AuditReportStatus.filed);
-        expect(updatedReport.completionPercent, 1.0);
-      });
+          final updated = container.read(auditReportListProvider).asData?.value;
+          expect(updated, isNotNull);
+          final updatedReport = updated!.firstWhere((r) => r.id == targetId);
+          expect(updatedReport.status, AuditReportStatus.filed);
+          expect(updatedReport.completionPercent, 1.0);
+        },
+      );
 
       test('updateStatus leaves other reports unchanged', () async {
         final original = await container.read(auditReportListProvider.future);
         final targetId = original.first.id;
         final otherReports = original.where((r) => r.id != targetId).toList();
 
-        container.read(auditReportListProvider.notifier).updateStatus(
-          reportId: targetId,
-          status: AuditReportStatus.filed,
-        );
+        container
+            .read(auditReportListProvider.notifier)
+            .updateStatus(reportId: targetId, status: AuditReportStatus.filed);
 
         final updated = container.read(auditReportListProvider).asData?.value;
         final updatedOthers = updated!.where((r) => r.id != targetId).toList();
@@ -104,10 +106,7 @@ void main() {
         container
             .read(auditFormFilterProvider.notifier)
             .setFilter(AuditFormType.form3cd);
-        expect(
-          container.read(auditFormFilterProvider),
-          AuditFormType.form3cd,
-        );
+        expect(container.read(auditFormFilterProvider), AuditFormType.form3cd);
       });
 
       test('can be cleared back to null', () {
@@ -121,8 +120,7 @@ void main() {
 
     group('filteredAuditReportsProvider', () {
       test('returns all reports when no filter is set', () async {
-        final allReports =
-            await container.read(auditReportListProvider.future);
+        final allReports = await container.read(auditReportListProvider.future);
         // Re-read after future has resolved so asData is populated
         final filtered = container.read(filteredAuditReportsProvider);
         expect(filtered.length, allReports.length);
@@ -162,10 +160,9 @@ void main() {
       });
 
       test('updateClause changes the specified clause response', () {
-        container.read(activeForm3cdProvider.notifier).updateClause(
-          1,
-          response: 'Test Response',
-        );
+        container
+            .read(activeForm3cdProvider.notifier)
+            .updateClause(1, response: 'Test Response');
         final form = container.read(activeForm3cdProvider);
         final clause1 = form.clauses.firstWhere((c) => c.clauseNumber == 1);
         expect(clause1.response, 'Test Response');
@@ -177,10 +174,9 @@ void main() {
             .firstWhere((c) => c.clauseNumber == 2)
             .response;
 
-        container.read(activeForm3cdProvider.notifier).updateClause(
-          1,
-          response: 'Updated',
-        );
+        container
+            .read(activeForm3cdProvider.notifier)
+            .updateClause(1, response: 'Updated');
 
         final after = container.read(activeForm3cdProvider);
         final afterClause2 = after.clauses

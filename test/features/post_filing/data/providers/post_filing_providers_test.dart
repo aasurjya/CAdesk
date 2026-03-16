@@ -18,7 +18,9 @@ void main() {
     });
 
     test('can select itr', () {
-      container.read(postFilingFilterProvider.notifier).select(PostFilingFilter.itr);
+      container
+          .read(postFilingFilterProvider.notifier)
+          .select(PostFilingFilter.itr);
       expect(container.read(postFilingFilterProvider), PostFilingFilter.itr);
     });
 
@@ -26,7 +28,10 @@ void main() {
       container
           .read(postFilingFilterProvider.notifier)
           .select(PostFilingFilter.demands);
-      expect(container.read(postFilingFilterProvider), PostFilingFilter.demands);
+      expect(
+        container.read(postFilingFilterProvider),
+        PostFilingFilter.demands,
+      );
     });
   });
 
@@ -87,16 +92,17 @@ void main() {
     });
 
     test('itr filter returns only ITR filings', () {
-      container.read(postFilingFilterProvider.notifier).select(PostFilingFilter.itr);
+      container
+          .read(postFilingFilterProvider.notifier)
+          .select(PostFilingFilter.itr);
       final filtered = container.read(filteredFilingsProvider);
-      expect(
-        filtered.every((f) => f.filingType == FilingType.itr),
-        isTrue,
-      );
+      expect(filtered.every((f) => f.filingType == FilingType.itr), isTrue);
     });
 
     test('filtered list is subset of all', () {
-      container.read(postFilingFilterProvider.notifier).select(PostFilingFilter.gst);
+      container
+          .read(postFilingFilterProvider.notifier)
+          .select(PostFilingFilter.gst);
       final all = container.read(filingStatusListProvider);
       final filtered = container.read(filteredFilingsProvider);
       expect(filtered.length, lessThanOrEqualTo(all.length));

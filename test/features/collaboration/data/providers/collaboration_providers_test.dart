@@ -133,13 +133,19 @@ void main() {
     group('collaborationSummaryProvider', () {
       test('totalSessions matches userSessionsProvider length', () {
         final summary = container.read(collaborationSummaryProvider);
-        expect(summary.totalSessions, container.read(userSessionsProvider).length);
+        expect(
+          summary.totalSessions,
+          container.read(userSessionsProvider).length,
+        );
       });
 
       test('onlineSessions is non-negative and <= totalSessions', () {
         final summary = container.read(collaborationSummaryProvider);
         expect(summary.onlineSessions, greaterThanOrEqualTo(0));
-        expect(summary.onlineSessions, lessThanOrEqualTo(summary.totalSessions));
+        expect(
+          summary.onlineSessions,
+          lessThanOrEqualTo(summary.totalSessions),
+        );
       });
 
       test('activeGuestLinks matches active link count', () {

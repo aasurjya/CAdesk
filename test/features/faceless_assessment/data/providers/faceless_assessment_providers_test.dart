@@ -133,11 +133,8 @@ void main() {
 
       test('updateProceeding() replaces by id', () {
         final original = container.read(eProceedingsProvider).first;
-        final updated =
-            original.copyWith(status: ProceedingStatus.orderPassed);
-        container
-            .read(eProceedingsProvider.notifier)
-            .updateProceeding(updated);
+        final updated = original.copyWith(status: ProceedingStatus.orderPassed);
+        container.read(eProceedingsProvider.notifier).updateProceeding(updated);
         final result = container.read(eProceedingsProvider);
         final found = result.firstWhere((p) => p.id == original.id);
         expect(found.status, ProceedingStatus.orderPassed);
@@ -263,7 +260,8 @@ void main() {
         expect(filtered, isNotEmpty);
         expect(
           filtered.every(
-              (p) => p.proceedingType == ProceedingType.scrutiny143_3),
+            (p) => p.proceedingType == ProceedingType.scrutiny143_3,
+          ),
           isTrue,
         );
       });
@@ -275,8 +273,7 @@ void main() {
         final filtered = container.read(filteredProceedingsProvider);
         expect(filtered, isNotEmpty);
         expect(
-          filtered.every(
-              (p) => p.status == ProceedingStatus.noticeReceived),
+          filtered.every((p) => p.status == ProceedingStatus.noticeReceived),
           isTrue,
         );
       });

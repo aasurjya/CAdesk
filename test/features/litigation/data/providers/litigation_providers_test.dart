@@ -19,12 +19,12 @@ void main() {
     });
 
     test('updateStatus changes status of a matching notice', () {
-      container.read(noticeListProvider.notifier).updateStatus(
-            'NTC-001',
-            NoticeStatus.responseDrafted,
-          );
-      final updated =
-          container.read(noticeListProvider).firstWhere((n) => n.noticeId == 'NTC-001');
+      container
+          .read(noticeListProvider.notifier)
+          .updateStatus('NTC-001', NoticeStatus.responseDrafted);
+      final updated = container
+          .read(noticeListProvider)
+          .firstWhere((n) => n.noticeId == 'NTC-001');
       expect(updated.status, NoticeStatus.responseDrafted);
     });
 

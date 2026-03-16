@@ -100,7 +100,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('renders CfoRetainerTile items in Retainers tab', (tester) async {
+    testWidgets('renders CfoRetainerTile items in Retainers tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

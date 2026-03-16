@@ -59,10 +59,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Tap + New Submission'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Tap + New Submission'), findsOneWidget);
     });
 
     testWidgets('renders send icon in empty state', (tester) async {
@@ -116,7 +113,9 @@ void main() {
       expect(find.textContaining('Filter coming soon'), findsOneWidget);
     });
 
-    testWidgets('renders empty state Column with icon and text', (tester) async {
+    testWidgets('renders empty state Column with icon and text', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

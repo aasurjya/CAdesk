@@ -91,10 +91,7 @@ void main() {
 
       test('is unmodifiable', () {
         final threadIds = container.read(threadIdsProvider);
-        expect(
-          () => threadIds.add('new-thread'),
-          throwsA(anything),
-        );
+        expect(() => threadIds.add('new-thread'), throwsA(anything));
       });
     });
 
@@ -105,35 +102,36 @@ void main() {
       test('returns messages for a specific thread', () {
         final allMessages = container.read(allMessagesProvider);
         final threadId = allMessages.first.threadId;
-        final threadMessages =
-            container.read(messagesByThreadProvider(threadId));
-        expect(threadMessages, isNotEmpty);
-        expect(
-          threadMessages.every((m) => m.threadId == threadId),
-          isTrue,
+        final threadMessages = container.read(
+          messagesByThreadProvider(threadId),
         );
+        expect(threadMessages, isNotEmpty);
+        expect(threadMessages.every((m) => m.threadId == threadId), isTrue);
       });
 
       test('messages are sorted by createdAt ascending', () {
         final allMessages = container.read(allMessagesProvider);
         final threadId = allMessages.first.threadId;
-        final threadMessages =
-            container.read(messagesByThreadProvider(threadId));
+        final threadMessages = container.read(
+          messagesByThreadProvider(threadId),
+        );
         for (int i = 0; i < threadMessages.length - 1; i++) {
           expect(
-            threadMessages[i]
-                .createdAt
-                .isBefore(threadMessages[i + 1].createdAt) ||
-                threadMessages[i]
-                    .createdAt
-                    .isAtSameMomentAs(threadMessages[i + 1].createdAt),
+            threadMessages[i].createdAt.isBefore(
+                  threadMessages[i + 1].createdAt,
+                ) ||
+                threadMessages[i].createdAt.isAtSameMomentAs(
+                  threadMessages[i + 1].createdAt,
+                ),
             isTrue,
           );
         }
       });
 
       test('returns empty list for unknown thread', () {
-        final messages = container.read(messagesByThreadProvider('nonexistent'));
+        final messages = container.read(
+          messagesByThreadProvider('nonexistent'),
+        );
         expect(messages, isEmpty);
       });
     });
@@ -179,10 +177,7 @@ void main() {
         container
             .read(documentFilterProvider.notifier)
             .update(DocumentStatus.eSigned);
-        expect(
-          container.read(documentFilterProvider),
-          DocumentStatus.eSigned,
-        );
+        expect(container.read(documentFilterProvider), DocumentStatus.eSigned);
       });
 
       test('can be cleared to null', () {
@@ -272,20 +267,14 @@ void main() {
         container
             .read(queryStatusFilterProvider.notifier)
             .update(QueryStatus.open);
-        expect(
-          container.read(queryStatusFilterProvider),
-          QueryStatus.open,
-        );
+        expect(container.read(queryStatusFilterProvider), QueryStatus.open);
       });
 
       test('can be set to resolved status', () {
         container
             .read(queryStatusFilterProvider.notifier)
             .update(QueryStatus.resolved);
-        expect(
-          container.read(queryStatusFilterProvider),
-          QueryStatus.resolved,
-        );
+        expect(container.read(queryStatusFilterProvider), QueryStatus.resolved);
       });
 
       test('can be cleared to null', () {
@@ -313,10 +302,7 @@ void main() {
             .update(QueryStatus.open);
         final filtered = container.read(filteredQueriesProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((q) => q.status == QueryStatus.open),
-          isTrue,
-        );
+        expect(filtered.every((q) => q.status == QueryStatus.open), isTrue);
       });
 
       test('filters queries by resolved status', () {
@@ -325,10 +311,7 @@ void main() {
             .update(QueryStatus.resolved);
         final filtered = container.read(filteredQueriesProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((q) => q.status == QueryStatus.resolved),
-          isTrue,
-        );
+        expect(filtered.every((q) => q.status == QueryStatus.resolved), isTrue);
       });
     });
 
@@ -382,13 +365,17 @@ void main() {
         expect(summary.containsKey('pendingSignatures'), isTrue);
       });
 
-      test('pendingSignatures matches documents requiring e-sign but unsigned',
-          () {
-        final docs = container.read(allDocumentsProvider);
-        final expected = docs.where((d) => d.requiresESign && !d.eSigned).length;
-        final summary = container.read(portalAutomationSummaryProvider);
-        expect(summary['pendingSignatures'], expected);
-      });
+      test(
+        'pendingSignatures matches documents requiring e-sign but unsigned',
+        () {
+          final docs = container.read(allDocumentsProvider);
+          final expected = docs
+              .where((d) => d.requiresESign && !d.eSigned)
+              .length;
+          final summary = container.read(portalAutomationSummaryProvider);
+          expect(summary['pendingSignatures'], expected);
+        },
+      );
 
       test('all summary values are non-negative', () {
         final summary = container.read(portalAutomationSummaryProvider);

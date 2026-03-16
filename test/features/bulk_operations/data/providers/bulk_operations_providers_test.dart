@@ -81,9 +81,7 @@ void main() {
       test('removeBatch() removes batch with matching id', () {
         final before = container.read(batchListProvider);
         final idToRemove = before.first.batchId;
-        container
-            .read(batchListProvider.notifier)
-            .removeBatch(idToRemove);
+        container.read(batchListProvider.notifier).removeBatch(idToRemove);
         final after = container.read(batchListProvider);
         expect(after.length, before.length - 1);
         expect(after.any((b) => b.batchId == idToRemove), isFalse);
@@ -91,38 +89,44 @@ void main() {
 
       test('cancelBatch() sets batch status to cancelled', () {
         final batches = container.read(batchListProvider);
-        final runningBatch =
-            batches.firstWhere((b) => b.status == BatchStatus.running);
+        final runningBatch = batches.firstWhere(
+          (b) => b.status == BatchStatus.running,
+        );
         container
             .read(batchListProvider.notifier)
             .cancelBatch(runningBatch.batchId);
         final after = container.read(batchListProvider);
-        final found =
-            after.firstWhere((b) => b.batchId == runningBatch.batchId);
+        final found = after.firstWhere(
+          (b) => b.batchId == runningBatch.batchId,
+        );
         expect(found.status, BatchStatus.cancelled);
       });
 
       test('retryFailedJobs() resets failed jobs to queued', () {
         // Find a batch with failed jobs
         final batches = container.read(batchListProvider);
-        final failedBatch =
-            batches.firstWhere((b) => b.status == BatchStatus.failed);
-        final failedJobCount =
-            failedBatch.jobs.where((j) => j.status == JobStatus.failed).length;
+        final failedBatch = batches.firstWhere(
+          (b) => b.status == BatchStatus.failed,
+        );
+        final failedJobCount = failedBatch.jobs
+            .where((j) => j.status == JobStatus.failed)
+            .length;
         expect(failedJobCount, greaterThan(0));
 
         container
             .read(batchListProvider.notifier)
             .retryFailedJobs(failedBatch.batchId);
         final after = container.read(batchListProvider);
-        final retried =
-            after.firstWhere((b) => b.batchId == failedBatch.batchId);
+        final retried = after.firstWhere(
+          (b) => b.batchId == failedBatch.batchId,
+        );
 
         // Status should change to running
         expect(retried.status, BatchStatus.running);
         // Previously failed jobs should now be queued
-        final stillFailed =
-            retried.jobs.where((j) => j.status == JobStatus.failed);
+        final stillFailed = retried.jobs.where(
+          (j) => j.status == JobStatus.failed,
+        );
         expect(stillFailed, isEmpty);
       });
     });
@@ -168,8 +172,10 @@ void main() {
 
       test('totalJobs equals sum of jobs across all batches', () {
         final batches = container.read(batchListProvider);
-        final expectedTotal =
-            batches.fold<int>(0, (sum, b) => sum + b.jobs.length);
+        final expectedTotal = batches.fold<int>(
+          0,
+          (sum, b) => sum + b.jobs.length,
+        );
         final stats = container.read(batchStatsProvider);
         expect(stats.totalJobs, expectedTotal);
       });
@@ -211,8 +217,7 @@ void main() {
             .where((j) => j.status == JobStatus.failed)
             .length;
         final finished = completed + failed;
-        final expectedRate =
-            finished > 0 ? completed / finished * 100 : 0.0;
+        final expectedRate = finished > 0 ? completed / finished * 100 : 0.0;
         final stats = container.read(batchStatsProvider);
         expect(stats.successRate, closeTo(expectedRate, 0.001));
       });

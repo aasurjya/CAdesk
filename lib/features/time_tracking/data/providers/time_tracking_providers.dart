@@ -137,9 +137,9 @@ class ActiveTimerNotifier extends Notifier<ActiveTimerState> {
         clientId: 'client_${finished.clientName.hashCode}',
         clientName: finished.clientName,
         taskDescription: finished.taskDescription,
-        startTime: finished.startedAt ?? now.subtract(
-          Duration(seconds: finished.elapsedSeconds),
-        ),
+        startTime:
+            finished.startedAt ??
+            now.subtract(Duration(seconds: finished.elapsedSeconds)),
         endTime: now,
         durationMinutes: (finished.elapsedSeconds / 60).ceil(),
         hourlyRate: finished.billingRate,

@@ -79,8 +79,9 @@ void main() {
       expect(find.byType(BatchCard), findsWidgets);
     });
 
-    testWidgets('renders 5 batch cards matching mock data count',
-        (tester) async {
+    testWidgets('renders 5 batch cards matching mock data count', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

@@ -61,7 +61,9 @@ final _testFiling = StartupFiling(
 
 void main() {
   group('StartupComplianceScreen', () {
-    testWidgets('renders app bar with Startup Compliance title', (tester) async {
+    testWidgets('renders app bar with Startup Compliance title', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -95,8 +97,9 @@ void main() {
       );
     });
 
-    testWidgets('Startups tab shows summary bar with Startups metric',
-        (tester) async {
+    testWidgets('Startups tab shows summary bar with Startups metric', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -110,16 +113,18 @@ void main() {
       expect(find.text('Recognized'), findsWidgets);
     });
 
-    testWidgets('Startups tab shows IAC summary banner with 80-IAC text',
-        (tester) async {
+    testWidgets('Startups tab shows IAC summary banner with 80-IAC text', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
       expect(find.textContaining('80-IAC'), findsWidgets);
     });
 
-    testWidgets('Startups tab shows DPIIT recognition filter chips',
-        (tester) async {
+    testWidgets('Startups tab shows DPIIT recognition filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -133,8 +138,9 @@ void main() {
       expect(find.byType(StartupCard), findsWidgets);
     });
 
-    testWidgets('switching to Filings tab shows StartupFilingTile list',
-        (tester) async {
+    testWidgets('switching to Filings tab shows StartupFilingTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -164,8 +170,9 @@ void main() {
       expect(find.text('All Startups'), findsWidgets);
     });
 
-    testWidgets('switching to Calendar tab shows upcoming deadlines heading',
-        (tester) async {
+    testWidgets('switching to Calendar tab shows upcoming deadlines heading', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -180,8 +187,9 @@ void main() {
       expect(find.text('Upcoming Deadlines'), findsOneWidget);
     });
 
-    testWidgets('Startups tab shows NovaPay Fintech from mock data',
-        (tester) async {
+    testWidgets('Startups tab shows NovaPay Fintech from mock data', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -241,10 +249,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('TestStart Technologies Pvt Ltd'),
-        findsOneWidget,
-      );
+      expect(find.text('TestStart Technologies Pvt Ltd'), findsOneWidget);
     });
 
     testWidgets('renders Annual Return filing type', (tester) async {

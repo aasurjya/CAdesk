@@ -31,8 +31,9 @@ void main() {
       expect(find.text('Portal Connections'), findsOneWidget);
     });
 
-    testWidgets('renders Government portal integrations subtitle',
-        (tester) async {
+    testWidgets('renders Government portal integrations subtitle', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -76,8 +77,9 @@ void main() {
       expect(find.byType(PortalStatusCard), findsWidgets);
     });
 
-    testWidgets('renders 5 portal cards (ITD, GSTN, TRACES, MCA, EPFO)',
-        (tester) async {
+    testWidgets('renders 5 portal cards (ITD, GSTN, TRACES, MCA, EPFO)', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -99,8 +101,10 @@ void main() {
       await tester.pumpAndSettle();
 
       final hasItd = find.textContaining('ITD').evaluate().isNotEmpty;
-      final hasIncomeTax =
-          find.textContaining('Income Tax').evaluate().isNotEmpty;
+      final hasIncomeTax = find
+          .textContaining('Income Tax')
+          .evaluate()
+          .isNotEmpty;
       expect(hasItd || hasIncomeTax, isTrue);
     });
 
@@ -114,8 +118,9 @@ void main() {
       expect(hasGstn || hasGst, isTrue);
     });
 
-    testWidgets('renders circular progress indicator for sync ratio',
-        (tester) async {
+    testWidgets('renders circular progress indicator for sync ratio', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

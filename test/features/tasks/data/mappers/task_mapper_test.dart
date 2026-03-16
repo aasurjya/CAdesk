@@ -123,8 +123,7 @@ void main() {
           'created_at': '2026-03-01T00:00:00.000',
         };
         final task = TaskMapper.fromJson(json);
-        expect(task.completedDate,
-            DateTime.parse('2026-03-15T10:00:00.000'));
+        expect(task.completedDate, DateTime.parse('2026-03-15T10:00:00.000'));
       });
 
       test('returns empty tags when tags field is null', () {

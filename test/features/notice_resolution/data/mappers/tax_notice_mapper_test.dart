@@ -194,10 +194,15 @@ void main() {
         expect(json['notice_type'], 'section143_2');
         expect(json['demand_amount'], 250000.0);
         expect(json['status'], 'responseFiled');
-        expect(json['response_notes'],
-            'Detailed response submitted with supporting docs');
-        expect(json['attachments'],
-            ['notice.pdf', 'form35.pdf', 'computation.xlsx']);
+        expect(
+          json['response_notes'],
+          'Detailed response submitted with supporting docs',
+        );
+        expect(json['attachments'], [
+          'notice.pdf',
+          'form35.pdf',
+          'computation.xlsx',
+        ]);
       });
 
       test('serializes all dates as ISO strings', () {

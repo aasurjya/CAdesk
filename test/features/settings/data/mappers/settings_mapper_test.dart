@@ -136,7 +136,9 @@ void main() {
       });
 
       test('serializes theme_mode as enum name string', () {
-        final darkSettings = sampleSettings.copyWith(themeMode: AppThemeMode.dark);
+        final darkSettings = sampleSettings.copyWith(
+          themeMode: AppThemeMode.dark,
+        );
         final json = SettingsMapper.toJson(darkSettings, 'firm-xyz');
         expect(json['theme_mode'], 'dark');
       });
@@ -147,14 +149,20 @@ void main() {
 
         expect(restored.themeMode, sampleSettings.themeMode);
         expect(restored.language, sampleSettings.language);
-        expect(restored.notificationsEnabled, sampleSettings.notificationsEnabled);
+        expect(
+          restored.notificationsEnabled,
+          sampleSettings.notificationsEnabled,
+        );
         expect(restored.smsNotifications, sampleSettings.smsNotifications);
         expect(restored.biometricEnabled, sampleSettings.biometricEnabled);
         expect(restored.autoLockMinutes, sampleSettings.autoLockMinutes);
         expect(restored.defaultCurrency, sampleSettings.defaultCurrency);
         expect(restored.firmName, sampleSettings.firmName);
         expect(restored.firmGstin, sampleSettings.firmGstin);
-        expect(restored.caRegistrationNumber, sampleSettings.caRegistrationNumber);
+        expect(
+          restored.caRegistrationNumber,
+          sampleSettings.caRegistrationNumber,
+        );
         expect(restored.udinEnabled, sampleSettings.udinEnabled);
       });
 

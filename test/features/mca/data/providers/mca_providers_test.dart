@@ -7,9 +7,7 @@ import 'package:ca_app/features/mca/domain/models/mca_filing.dart';
 
 ProviderContainer _makeContainer() {
   return ProviderContainer(
-    overrides: [
-      mcaRepositoryProvider.overrideWithValue(MockMcaRepository()),
-    ],
+    overrides: [mcaRepositoryProvider.overrideWithValue(MockMcaRepository())],
   );
 }
 
@@ -85,7 +83,9 @@ void main() {
     });
 
     test('can be set to mgt7', () {
-      container.read(mcaFormTypeFilterProvider.notifier).update(McaFormType.mgt7);
+      container
+          .read(mcaFormTypeFilterProvider.notifier)
+          .update(McaFormType.mgt7);
       expect(container.read(mcaFormTypeFilterProvider), McaFormType.mgt7);
     });
   });
@@ -132,7 +132,9 @@ void main() {
 
     test('form type filter narrows results', () async {
       await container.read(mcaFilingsProvider.future);
-      container.read(mcaFormTypeFilterProvider.notifier).update(McaFormType.aoc4);
+      container
+          .read(mcaFormTypeFilterProvider.notifier)
+          .update(McaFormType.aoc4);
       final filtered = container.read(mcaFilteredFilingsProvider);
       expect(filtered.every((f) => f.formType == McaFormType.aoc4), isTrue);
     });

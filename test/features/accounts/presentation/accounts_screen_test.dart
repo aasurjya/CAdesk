@@ -48,7 +48,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(of: find.byType(TabBar), matching: find.text('Clients')),
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Clients'),
+        ),
         findsOneWidget,
       );
     });
@@ -87,10 +90,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('Ratios'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('Ratios')),
         findsOneWidget,
       );
     });
@@ -124,8 +124,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('switching to Statements tab navigates to Statements view',
-        (tester) async {
+    testWidgets('switching to Statements tab navigates to Statements view', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -143,25 +144,28 @@ void main() {
       expect(find.text('Statements'), findsWidgets);
     });
 
-    testWidgets('switching to Depreciation tab navigates to Depreciation view',
-        (tester) async {
-      await _setPhoneDisplay(tester);
-      await tester.pumpWidget(_buildScreen());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'switching to Depreciation tab navigates to Depreciation view',
+      (tester) async {
+        await _setPhoneDisplay(tester);
+        await tester.pumpWidget(_buildScreen());
+        await tester.pumpAndSettle();
 
-      await tester.tap(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('Depreciation'),
-        ),
-      );
-      await tester.pump(); // Single pump to avoid overflow errors
+        await tester.tap(
+          find.descendant(
+            of: find.byType(TabBar),
+            matching: find.text('Depreciation'),
+          ),
+        );
+        await tester.pump(); // Single pump to avoid overflow errors
 
-      expect(find.text('Depreciation'), findsWidgets);
-    });
+        expect(find.text('Depreciation'), findsWidgets);
+      },
+    );
 
-    testWidgets('switching to Ratios tab shows ratio snapshot tiles',
-        (tester) async {
+    testWidgets('switching to Ratios tab shows ratio snapshot tiles', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -196,9 +200,7 @@ void main() {
     testWidgets('renders client name', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AccountClientTile(client: testClient),
-          ),
+          home: Scaffold(body: AccountClientTile(client: testClient)),
         ),
       );
       await tester.pumpAndSettle();
@@ -209,9 +211,7 @@ void main() {
     testWidgets('renders financial year', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AccountClientTile(client: testClient),
-          ),
+          home: Scaffold(body: AccountClientTile(client: testClient)),
         ),
       );
       await tester.pumpAndSettle();
@@ -222,9 +222,7 @@ void main() {
     testWidgets('renders audit badge when hasAudit is true', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: AccountClientTile(client: testClient),
-          ),
+          home: Scaffold(body: AccountClientTile(client: testClient)),
         ),
       );
       await tester.pumpAndSettle();
@@ -334,9 +332,7 @@ void main() {
     testWidgets('renders asset name', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: DepreciationTile(entry: testEntry),
-          ),
+          home: Scaffold(body: DepreciationTile(entry: testEntry)),
         ),
       );
       await tester.pumpAndSettle();
@@ -347,9 +343,7 @@ void main() {
     testWidgets('renders depreciation rate', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: DepreciationTile(entry: testEntry),
-          ),
+          home: Scaffold(body: DepreciationTile(entry: testEntry)),
         ),
       );
       await tester.pumpAndSettle();

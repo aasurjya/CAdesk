@@ -134,17 +134,15 @@ class TasksListScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         final task = tasks[index];
                         return GestureDetector(
-                          onLongPressStart: (details) =>
-                              _showTaskContextMenu(
-                                context,
-                                ref,
-                                task,
-                                details.globalPosition,
-                              ),
+                          onLongPressStart: (details) => _showTaskContextMenu(
+                            context,
+                            ref,
+                            task,
+                            details.globalPosition,
+                          ),
                           child: TaskCard(
                             task: task,
-                            onTap: () =>
-                                _showTaskDetail(context, task),
+                            onTap: () => _showTaskDetail(context, task),
                             onSwipeComplete: () =>
                                 _completeTask(context, ref, task),
                           ),
@@ -409,11 +407,7 @@ class TasksListScreen extends ConsumerWidget {
     });
   }
 
-  void _showChangeStatusDialog(
-    BuildContext context,
-    WidgetRef ref,
-    Task task,
-  ) {
+  void _showChangeStatusDialog(BuildContext context, WidgetRef ref, Task task) {
     // Only allow transition to statuses that make sense (exclude overdue,
     // since that is derived from dates, not user-selected).
     const transitionStatuses = [
@@ -435,9 +429,7 @@ class TasksListScreen extends ConsumerWidget {
               return ListTile(
                 leading: Icon(
                   status.icon,
-                  color: isCurrentStatus
-                      ? status.color
-                      : AppColors.neutral400,
+                  color: isCurrentStatus ? status.color : AppColors.neutral400,
                 ),
                 title: Text(
                   status.label,
@@ -481,15 +473,11 @@ class TasksListScreen extends ConsumerWidget {
     TaskStatus newStatus,
   ) async {
     try {
-      await ref
-          .read(allTasksProvider.notifier)
-          .changeStatus(task, newStatus);
+      await ref.read(allTasksProvider.notifier).changeStatus(task, newStatus);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              '"${task.title}" moved to ${newStatus.label}',
-            ),
+            content: Text('"${task.title}" moved to ${newStatus.label}'),
           ),
         );
       }
@@ -505,11 +493,7 @@ class TasksListScreen extends ConsumerWidget {
     }
   }
 
-  void _showDeleteConfirmation(
-    BuildContext context,
-    WidgetRef ref,
-    Task task,
-  ) {
+  void _showDeleteConfirmation(BuildContext context, WidgetRef ref, Task task) {
     showDialog(
       context: context,
       builder: (dialogContext) {
@@ -525,9 +509,7 @@ class TasksListScreen extends ConsumerWidget {
               child: const Text('Cancel'),
             ),
             FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.error,
-              ),
+              style: FilledButton.styleFrom(backgroundColor: AppColors.error),
               onPressed: () {
                 Navigator.pop(dialogContext);
                 _deleteTask(context, ref, task);
@@ -548,11 +530,9 @@ class TasksListScreen extends ConsumerWidget {
     try {
       await ref.read(allTasksProvider.notifier).deleteTask(task.id);
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('"${task.title}" deleted'),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('"${task.title}" deleted')));
       }
     } catch (error) {
       if (context.mounted) {

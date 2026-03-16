@@ -127,8 +127,9 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('renders multiple section headers via section widgets',
-        (tester) async {
+    testWidgets('renders multiple section headers via section widgets', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

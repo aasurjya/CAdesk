@@ -22,16 +22,14 @@ void main() {
       expect(find.text('TRACES Portal'), findsOneWidget);
     });
 
-    testWidgets('renders TDS certificates challans defaults subtitle',
-        (tester) async {
+    testWidgets('renders TDS certificates challans defaults subtitle', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('TDS certificates'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('TDS certificates'), findsOneWidget);
     });
 
     testWidgets('renders Bulk Download action button', (tester) async {
@@ -42,7 +40,9 @@ void main() {
       expect(find.text('Bulk Download'), findsOneWidget);
     });
 
-    testWidgets('renders download icon in Bulk Download button', (tester) async {
+    testWidgets('renders download icon in Bulk Download button', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -50,7 +50,9 @@ void main() {
       expect(find.byIcon(Icons.download_rounded), findsOneWidget);
     });
 
-    testWidgets('renders Requests stat label in summary banner', (tester) async {
+    testWidgets('renders Requests stat label in summary banner', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -58,8 +60,9 @@ void main() {
       expect(find.text('Requests'), findsOneWidget);
     });
 
-    testWidgets('renders Unverified stat label in summary banner',
-        (tester) async {
+    testWidgets('renders Unverified stat label in summary banner', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -99,7 +102,9 @@ void main() {
       expect(find.text('Challan Verification'), findsOneWidget);
     });
 
-    testWidgets('renders verified icon for Challan Verification', (tester) async {
+    testWidgets('renders verified icon for Challan Verification', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

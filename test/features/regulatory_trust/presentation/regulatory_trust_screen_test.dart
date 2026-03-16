@@ -146,8 +146,9 @@ void main() {
       expect(find.byType(TabBarView), findsOneWidget);
     });
 
-    testWidgets('renders shield_outlined icon for Total Controls',
-        (tester) async {
+    testWidgets('renders shield_outlined icon for Total Controls', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -155,8 +156,9 @@ void main() {
       expect(find.byIcon(Icons.shield_outlined), findsWidgets);
     });
 
-    testWidgets('renders check_circle_outline icon for Compliant',
-        (tester) async {
+    testWidgets('renders check_circle_outline icon for Compliant', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -164,7 +166,9 @@ void main() {
       expect(find.byIcon(Icons.check_circle_outline_rounded), findsWidgets);
     });
 
-    testWidgets('renders cancel_outlined icon for Non-Compliant', (tester) async {
+    testWidgets('renders cancel_outlined icon for Non-Compliant', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

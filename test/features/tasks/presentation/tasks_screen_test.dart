@@ -12,9 +12,7 @@ Future<void> _setPhoneDisplay(WidgetTester tester) async {
 
 void main() {
   Widget buildSubject() {
-    return const ProviderScope(
-      child: MaterialApp(home: TasksScreen()),
-    );
+    return const ProviderScope(child: MaterialApp(home: TasksScreen()));
   }
 
   group('TasksScreen', () {
@@ -96,15 +94,18 @@ void main() {
       expect(find.byType(FloatingActionButton), findsOneWidget);
     });
 
-    testWidgets('shows loading indicator while tasks are loading',
-        (tester) async {
+    testWidgets('shows loading indicator while tasks are loading', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildListSubject());
       // Only pump once — not pumpAndSettle — to catch transient loading state
       await tester.pump();
       // Either loading or tasks are shown; both are valid
-      final loadingFound =
-          find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final loadingFound = find
+          .byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
       final tasksFound = find.byType(ListView).evaluate().isNotEmpty;
       expect(loadingFound || tasksFound, isTrue);
     });
@@ -121,7 +122,9 @@ void main() {
       expect(hasList || hasEmpty, isTrue);
     });
 
-    testWidgets('tapping Pending chip updates filter selection', (tester) async {
+    testWidgets('tapping Pending chip updates filter selection', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildListSubject());
       await tester.pumpAndSettle();
@@ -131,7 +134,9 @@ void main() {
       expect(find.text('Pending'), findsOneWidget);
     });
 
-    testWidgets('tapping Overdue chip updates filter selection', (tester) async {
+    testWidgets('tapping Overdue chip updates filter selection', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildListSubject());
       await tester.pumpAndSettle();
@@ -236,7 +241,8 @@ void main() {
       await tester.pumpWidget(buildListSubject());
       await tester.pumpAndSettle();
       // If tasks are loaded, list should be non-empty OR empty state is shown
-      final found = find.byType(Card).evaluate().isNotEmpty ||
+      final found =
+          find.byType(Card).evaluate().isNotEmpty ||
           find.byIcon(Icons.task_alt_outlined).evaluate().isNotEmpty;
       expect(found, isTrue);
     });

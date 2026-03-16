@@ -64,17 +64,23 @@ void main() {
       });
 
       test('can be set to Generated status', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Generated');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Generated');
         expect(container.read(selectedInvoiceStatusProvider), 'Generated');
       });
 
       test('can be set to Overdue status', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Overdue');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Overdue');
         expect(container.read(selectedInvoiceStatusProvider), 'Overdue');
       });
 
       test('can be cleared back to null', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Pending');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Pending');
         container.read(selectedInvoiceStatusProvider.notifier).select(null);
         expect(container.read(selectedInvoiceStatusProvider), isNull);
       });
@@ -88,27 +94,27 @@ void main() {
       });
 
       test('filters to Generated records only', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Generated');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Generated');
         final filtered = container.read(filteredEinvoiceRecordsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((r) => r.status == 'Generated'),
-          isTrue,
-        );
+        expect(filtered.every((r) => r.status == 'Generated'), isTrue);
       });
 
       test('filters to Overdue records only', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Overdue');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Overdue');
         final filtered = container.read(filteredEinvoiceRecordsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((r) => r.status == 'Overdue'),
-          isTrue,
-        );
+        expect(filtered.every((r) => r.status == 'Overdue'), isTrue);
       });
 
       test('filters to Cancelled returns correct subset', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Cancelled');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Cancelled');
         final filtered = container.read(filteredEinvoiceRecordsProvider);
         expect(filtered, isNotEmpty);
         expect(filtered.every((r) => r.status == 'Cancelled'), isTrue);
@@ -123,7 +129,9 @@ void main() {
       });
 
       test('overdue records have negative daysRemaining', () {
-        container.read(selectedInvoiceStatusProvider.notifier).select('Overdue');
+        container
+            .read(selectedInvoiceStatusProvider.notifier)
+            .select('Overdue');
         final filtered = container.read(filteredEinvoiceRecordsProvider);
         expect(filtered, isNotEmpty);
         for (final r in filtered) {

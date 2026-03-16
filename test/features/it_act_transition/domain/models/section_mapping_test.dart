@@ -12,7 +12,10 @@ void main() {
       );
       expect(mapping.section1961, '80C');
       expect(mapping.section2025, '123');
-      expect(mapping.description, 'Deduction for life insurance, provident fund, etc.');
+      expect(
+        mapping.description,
+        'Deduction for life insurance, provident fund, etc.',
+      );
       expect(mapping.category, SectionCategory.deductions);
     });
 
@@ -97,23 +100,26 @@ void main() {
 
   group('SectionCategory', () {
     test('has all expected values', () {
-      expect(SectionCategory.values, containsAll([
-        SectionCategory.taxComputation,
-        SectionCategory.deductions,
-        SectionCategory.tds,
-        SectionCategory.tcs,
-        SectionCategory.assessment,
-        SectionCategory.interest,
-        SectionCategory.penalty,
-        SectionCategory.capitalGains,
-        SectionCategory.exemptIncome,
-        SectionCategory.trust,
-        SectionCategory.residentialStatus,
-        SectionCategory.dtaa,
-        SectionCategory.transferPricing,
-        SectionCategory.vda,
-        SectionCategory.general,
-      ]));
+      expect(
+        SectionCategory.values,
+        containsAll([
+          SectionCategory.taxComputation,
+          SectionCategory.deductions,
+          SectionCategory.tds,
+          SectionCategory.tcs,
+          SectionCategory.assessment,
+          SectionCategory.interest,
+          SectionCategory.penalty,
+          SectionCategory.capitalGains,
+          SectionCategory.exemptIncome,
+          SectionCategory.trust,
+          SectionCategory.residentialStatus,
+          SectionCategory.dtaa,
+          SectionCategory.transferPricing,
+          SectionCategory.vda,
+          SectionCategory.general,
+        ]),
+      );
     });
 
     test('each category has a label', () {
@@ -142,10 +148,7 @@ void main() {
         description: 'Assessment',
         category: SectionCategory.assessment,
       );
-      expect(
-        mapping.dualDisplay,
-        'Section 270(1) [erstwhile Section 143(1)]',
-      );
+      expect(mapping.dualDisplay, 'Section 270(1) [erstwhile Section 143(1)]');
     });
   });
 }

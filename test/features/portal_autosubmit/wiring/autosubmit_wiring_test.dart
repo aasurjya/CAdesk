@@ -92,9 +92,9 @@ void main() {
       await orchestrator.enqueue(job);
 
       final received = <SubmissionLog>[];
-      final sub = orchestrator.watchLogs('job-002').listen(
-        (batch) => received.addAll(batch),
-      );
+      final sub = orchestrator
+          .watchLogs('job-002')
+          .listen((batch) => received.addAll(batch));
 
       final log = makeLog('job-002', SubmissionStep.filling, 'Filling form');
       await orchestrator.appendLog(log);
@@ -145,9 +145,7 @@ void main() {
   // -------------------------------------------------------------------------
 
   group('credentialForPortalProvider', () {
-    ProviderContainer buildContainer({
-      PortalCredentialRepository? credRepo,
-    }) {
+    ProviderContainer buildContainer({PortalCredentialRepository? credRepo}) {
       return ProviderContainer(
         overrides: [
           if (credRepo != null)
@@ -246,9 +244,7 @@ void main() {
     });
 
     test('GSTN mock login yields multiple log entries', () async {
-      final gstCredential = credential.copyWith(
-        portalType: PortalType.gstn,
-      );
+      final gstCredential = credential.copyWith(portalType: PortalType.gstn);
       final logs = await const GstnAutosubmitService()
           .login(credential: gstCredential, otpService: otpService)
           .toList();
@@ -268,9 +264,7 @@ void main() {
     });
 
     test('MCA mock login yields multiple log entries', () async {
-      final mcaCredential = credential.copyWith(
-        portalType: PortalType.mca,
-      );
+      final mcaCredential = credential.copyWith(portalType: PortalType.mca);
       final logs = await const McaAutosubmitService()
           .login(credential: mcaCredential, otpService: otpService)
           .toList();
@@ -279,9 +273,7 @@ void main() {
     });
 
     test('EPFO mock login yields multiple log entries', () async {
-      final epfoCredential = credential.copyWith(
-        portalType: PortalType.epfo,
-      );
+      final epfoCredential = credential.copyWith(portalType: PortalType.epfo);
       final logs = await const EpfoAutosubmitService()
           .login(credential: epfoCredential, otpService: otpService)
           .toList();
@@ -309,40 +301,46 @@ void main() {
 
       // null controller triggers mock path in every service
       final Stream<SubmissionLog> stream = switch (portalType) {
-        PortalType.itd => const ItdAutosubmitService()
-            .login(credential: credential, otpService: otpService),
-        PortalType.gstn => const GstnAutosubmitService()
-            .login(credential: credential, otpService: otpService),
-        PortalType.traces => const TracesAutosubmitService()
-            .login(credential: credential, otpService: otpService),
-        PortalType.mca => const McaAutosubmitService()
-            .login(credential: credential, otpService: otpService),
-        PortalType.epfo => const EpfoAutosubmitService()
-            .login(credential: credential, otpService: otpService),
+        PortalType.itd => const ItdAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+        ),
+        PortalType.gstn => const GstnAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+        ),
+        PortalType.traces => const TracesAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+        ),
+        PortalType.mca => const McaAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+        ),
+        PortalType.epfo => const EpfoAutosubmitService().login(
+          credential: credential,
+          otpService: otpService,
+        ),
       };
 
       return stream.toList();
     }
 
     for (final portalType in PortalType.values) {
-      test(
-        'dispatches ${portalType.name} correctly and yields logs',
-        () async {
-          final logs = await runMockLogin(portalType);
-          expect(
-            logs,
-            isNotEmpty,
-            reason:
-                '${portalType.name} mock login should yield at least one log',
-          );
-          expect(
-            logs.every((l) => l.jobId.startsWith(portalType.name)),
-            isTrue,
-            reason:
-                'All logs for ${portalType.name} should have matching jobId prefix',
-          );
-        },
-      );
+      test('dispatches ${portalType.name} correctly and yields logs', () async {
+        final logs = await runMockLogin(portalType);
+        expect(
+          logs,
+          isNotEmpty,
+          reason: '${portalType.name} mock login should yield at least one log',
+        );
+        expect(
+          logs.every((l) => l.jobId.startsWith(portalType.name)),
+          isTrue,
+          reason:
+              'All logs for ${portalType.name} should have matching jobId prefix',
+        );
+      });
     }
   });
 
@@ -361,47 +359,49 @@ void main() {
 
     tearDown(() => repo.dispose());
 
-    test('enqueue → updateStep → appendLog → markDone persists correctly',
-        () async {
-      final job = makeJob('job-lifecycle');
-      await orchestrator.enqueue(job);
+    test(
+      'enqueue → updateStep → appendLog → markDone persists correctly',
+      () async {
+        final job = makeJob('job-lifecycle');
+        await orchestrator.enqueue(job);
 
-      // Simulate login step
-      await orchestrator.updateStep(
-        'job-lifecycle',
-        SubmissionStep.loggingIn,
-        message: 'Login started',
-      );
+        // Simulate login step
+        await orchestrator.updateStep(
+          'job-lifecycle',
+          SubmissionStep.loggingIn,
+          message: 'Login started',
+        );
 
-      // Simulate service emitting logs via appendLog
-      final log1 = makeLog(
-        'job-lifecycle',
-        SubmissionStep.loggingIn,
-        'Navigating to portal',
-      );
-      final log2 = makeLog(
-        'job-lifecycle',
-        SubmissionStep.loggingIn,
-        'Entering credentials',
-      );
-      await orchestrator.appendLog(log1);
-      await orchestrator.appendLog(log2);
+        // Simulate service emitting logs via appendLog
+        final log1 = makeLog(
+          'job-lifecycle',
+          SubmissionStep.loggingIn,
+          'Navigating to portal',
+        );
+        final log2 = makeLog(
+          'job-lifecycle',
+          SubmissionStep.loggingIn,
+          'Entering credentials',
+        );
+        await orchestrator.appendLog(log1);
+        await orchestrator.appendLog(log2);
 
-      // Simulate submission complete
-      await orchestrator.markDone(
-        'job-lifecycle',
-        ackNumber: 'ACK-2026-001',
-        filedAt: DateTime(2026, 3, 14, 12, 0),
-      );
+        // Simulate submission complete
+        await orchestrator.markDone(
+          'job-lifecycle',
+          ackNumber: 'ACK-2026-001',
+          filedAt: DateTime(2026, 3, 14, 12, 0),
+        );
 
-      final finalJob = await orchestrator.getJob('job-lifecycle');
-      expect(finalJob!.currentStep, equals(SubmissionStep.done));
-      expect(finalJob.ackNumber, equals('ACK-2026-001'));
+        final finalJob = await orchestrator.getJob('job-lifecycle');
+        expect(finalJob!.currentStep, equals(SubmissionStep.done));
+        expect(finalJob.ackNumber, equals('ACK-2026-001'));
 
-      // 3 logs: 'Login started' (from updateStep) + 2 appendLog + done entry
-      final logs = await orchestrator.getLogs('job-lifecycle');
-      expect(logs.length, greaterThanOrEqualTo(4));
-    });
+        // 3 logs: 'Login started' (from updateStep) + 2 appendLog + done entry
+        final logs = await orchestrator.getLogs('job-lifecycle');
+        expect(logs.length, greaterThanOrEqualTo(4));
+      },
+    );
 
     test('markFailed increments retryCount and appends error log', () async {
       final job = makeJob('job-fail');

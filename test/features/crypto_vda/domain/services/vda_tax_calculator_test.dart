@@ -29,37 +29,49 @@ void main() {
     });
 
     group('tds194S', () {
-      test('returns 0 when transaction value below threshold for normal person', () {
-        final tds = VdaTaxCalculator.tds194S(
-          transactionValue: 49999,
-          isSpecifiedPerson: false,
-        );
-        expect(tds, 0.0);
-      });
+      test(
+        'returns 0 when transaction value below threshold for normal person',
+        () {
+          final tds = VdaTaxCalculator.tds194S(
+            transactionValue: 49999,
+            isSpecifiedPerson: false,
+          );
+          expect(tds, 0.0);
+        },
+      );
 
-      test('deducts 1% TDS when transaction value at or above 50000 for normal', () {
-        final tds = VdaTaxCalculator.tds194S(
-          transactionValue: 50000,
-          isSpecifiedPerson: false,
-        );
-        expect(tds, closeTo(500.0, 0.01));
-      });
+      test(
+        'deducts 1% TDS when transaction value at or above 50000 for normal',
+        () {
+          final tds = VdaTaxCalculator.tds194S(
+            transactionValue: 50000,
+            isSpecifiedPerson: false,
+          );
+          expect(tds, closeTo(500.0, 0.01));
+        },
+      );
 
-      test('returns 0 when transaction value below 10000 for specified person', () {
-        final tds = VdaTaxCalculator.tds194S(
-          transactionValue: 9999,
-          isSpecifiedPerson: true,
-        );
-        expect(tds, 0.0);
-      });
+      test(
+        'returns 0 when transaction value below 10000 for specified person',
+        () {
+          final tds = VdaTaxCalculator.tds194S(
+            transactionValue: 9999,
+            isSpecifiedPerson: true,
+          );
+          expect(tds, 0.0);
+        },
+      );
 
-      test('deducts 1% TDS when transaction at or above 10000 for specified', () {
-        final tds = VdaTaxCalculator.tds194S(
-          transactionValue: 10000,
-          isSpecifiedPerson: true,
-        );
-        expect(tds, closeTo(100.0, 0.01));
-      });
+      test(
+        'deducts 1% TDS when transaction at or above 10000 for specified',
+        () {
+          final tds = VdaTaxCalculator.tds194S(
+            transactionValue: 10000,
+            isSpecifiedPerson: true,
+          );
+          expect(tds, closeTo(100.0, 0.01));
+        },
+      );
 
       test('1% on full transaction value when above threshold', () {
         final tds = VdaTaxCalculator.tds194S(
@@ -124,7 +136,11 @@ void main() {
 
       test('computes schedule with single profitable transaction', () {
         final txns = [
-          makeTransaction(buyPrice: 100000, sellPrice: 200000, tdsUnder194S: 2000),
+          makeTransaction(
+            buyPrice: 100000,
+            sellPrice: 200000,
+            tdsUnder194S: 2000,
+          ),
         ];
         final summary = VdaTaxCalculator.computeScheduleVda(txns);
 
@@ -132,16 +148,17 @@ void main() {
         expect(summary.totalCost, 100000.0);
         expect(summary.totalNetGains, closeTo(100000.0, 0.01));
         expect(summary.totalLosses, 0.0);
-        expect(summary.totalTaxPayable, closeTo(31200.0, 0.01)); // 100000*0.30*1.04
+        expect(
+          summary.totalTaxPayable,
+          closeTo(31200.0, 0.01),
+        ); // 100000*0.30*1.04
         expect(summary.totalTdsDeducted, 2000.0);
         expect(summary.netTaxAfterTds, closeTo(29200.0, 0.01));
         expect(summary.lossDisallowedNote, isNull);
       });
 
       test('computes schedule with single loss transaction', () {
-        final txns = [
-          makeTransaction(buyPrice: 200000, sellPrice: 100000),
-        ];
+        final txns = [makeTransaction(buyPrice: 200000, sellPrice: 100000)];
         final summary = VdaTaxCalculator.computeScheduleVda(txns);
 
         expect(summary.totalSaleValue, 100000.0);

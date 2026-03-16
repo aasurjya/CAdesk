@@ -416,7 +416,8 @@ class _CreateInvoiceButton extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
-        onPressed: () => _createInvoice(context, ref, formattedTotal, primaryClient),
+        onPressed: () =>
+            _createInvoice(context, ref, formattedTotal, primaryClient),
         icon: const Icon(Icons.receipt_long_rounded),
         label: const Text('Create Invoice'),
         style: FilledButton.styleFrom(
@@ -446,7 +447,8 @@ class _CreateInvoiceButton extends ConsumerWidget {
       final hours = e.durationMinutes / 60.0;
       final entryGst = e.billedAmount * gstRate / 100;
       return LineItem(
-        description: '${e.taskDescription} (${hours.toStringAsFixed(1)}h × ₹${e.hourlyRate.toStringAsFixed(0)}/hr)',
+        description:
+            '${e.taskDescription} (${hours.toStringAsFixed(1)}h × ₹${e.hourlyRate.toStringAsFixed(0)}/hr)',
         hsn: '998221',
         quantity: hours,
         rate: e.hourlyRate,

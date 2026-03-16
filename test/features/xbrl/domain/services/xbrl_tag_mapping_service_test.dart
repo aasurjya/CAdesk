@@ -73,10 +73,7 @@ void main() {
 
   group('XbrlTagMappingService.instance', () {
     test('singleton returns same instance', () {
-      expect(
-        identical(XbrlTagMappingService.instance, service),
-        isTrue,
-      );
+      expect(identical(XbrlTagMappingService.instance, service), isTrue);
     });
   });
 
@@ -116,9 +113,7 @@ void main() {
       final bs = makeBalanceSheet(totalAssets: 10200000);
       final facts = service.mapBalanceSheetToXbrl(bs, contextId: 'ctx1');
 
-      final fact = facts.firstWhere(
-        (f) => f.elementName == 'in-gaap:Assets',
-      );
+      final fact = facts.firstWhere((f) => f.elementName == 'in-gaap:Assets');
       expect(fact.value, '102000.00');
     });
 
@@ -144,7 +139,10 @@ void main() {
 
     test('all facts use provided contextId', () {
       final bs = makeBalanceSheet();
-      final facts = service.mapBalanceSheetToXbrl(bs, contextId: 'instant-2025-03-31');
+      final facts = service.mapBalanceSheetToXbrl(
+        bs,
+        contextId: 'instant-2025-03-31',
+      );
 
       for (final fact in facts) {
         expect(fact.contextRef, 'instant-2025-03-31');
@@ -182,9 +180,7 @@ void main() {
       final pnl = makePnl();
       final facts = service.mapPnlToXbrl(pnl, contextId: 'dur1');
 
-      final fact = facts.firstWhere(
-        (f) => f.elementName == 'in-gaap:Revenue',
-      );
+      final fact = facts.firstWhere((f) => f.elementName == 'in-gaap:Revenue');
       expect(fact.value, '100000.00'); // 10000000 paise = Rs 100000
       expect(fact.unitRef, 'INR');
     });
@@ -266,15 +262,15 @@ void main() {
       final facts = service.mapCashFlowToXbrl(cf, contextId: 'dur1');
 
       final opening = facts.firstWhere(
-        (f) => f.elementName ==
+        (f) =>
+            f.elementName ==
             'in-gaap:CashAndCashEquivalentsAtBeginningOfPeriod',
       );
       final closing = facts.firstWhere(
-        (f) =>
-            f.elementName == 'in-gaap:CashAndCashEquivalentsAtEndOfPeriod',
+        (f) => f.elementName == 'in-gaap:CashAndCashEquivalentsAtEndOfPeriod',
       );
 
-      expect(opening.value, '5000.00');  // 500000 paise = Rs 5000
+      expect(opening.value, '5000.00'); // 500000 paise = Rs 5000
       expect(closing.value, '15000.00'); // 1500000 paise = Rs 15000
     });
 

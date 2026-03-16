@@ -19,7 +19,6 @@ Future<void> _setPhoneDisplay(WidgetTester tester) async {
   addTearDown(() => tester.binding.setSurfaceSize(null));
 }
 
-
 Widget _buildScreen() {
   return const ProviderScope(child: MaterialApp(home: PayrollScreen()));
 }

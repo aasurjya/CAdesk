@@ -99,9 +99,7 @@ void main() {
     });
 
     test('filtered result is subset of all', () {
-      container
-          .read(selectedCategoryProvider.notifier)
-          .select('Income Tax');
+      container.read(selectedCategoryProvider.notifier).select('Income Tax');
       final all = container.read(allCircularsProvider);
       final filtered = container.read(filteredCircularsProvider);
       expect(filtered.length, lessThanOrEqualTo(all.length));

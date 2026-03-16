@@ -13,9 +13,7 @@ void main() {
     setUp(() {
       container = ProviderContainer(
         overrides: [
-          featureFlagProvider.overrideWith(
-            () => _OfflineFeatureFlagNotifier(),
-          ),
+          featureFlagProvider.overrideWith(() => _OfflineFeatureFlagNotifier()),
           documentRepositoryProvider.overrideWithValue(
             MockDocumentRepository(),
           ),
@@ -150,7 +148,9 @@ void main() {
         for (final d in filtered) {
           final matchesTitle = d.title.toLowerCase().contains('itr');
           final matchesClient = d.clientName.toLowerCase().contains('itr');
-          final matchesTags = d.tags.any((t) => t.toLowerCase().contains('itr'));
+          final matchesTags = d.tags.any(
+            (t) => t.toLowerCase().contains('itr'),
+          );
           expect(matchesTitle || matchesClient || matchesTags, isTrue);
         }
       });

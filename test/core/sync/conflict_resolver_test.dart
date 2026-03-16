@@ -11,8 +11,16 @@ void main() {
 
     group('resolve — server-wins strategy', () {
       test('returns server payload when local and server differ', () {
-        final local = {'id': '1', 'name': 'Local Name', 'updatedAt': '2026-01-01'};
-        final server = {'id': '1', 'name': 'Server Name', 'updatedAt': '2026-01-02'};
+        final local = {
+          'id': '1',
+          'name': 'Local Name',
+          'updatedAt': '2026-01-01',
+        };
+        final server = {
+          'id': '1',
+          'name': 'Server Name',
+          'updatedAt': '2026-01-02',
+        };
 
         final result = resolver.resolve(
           localPayload: local,
@@ -56,10 +64,7 @@ void main() {
       });
 
       test('handles empty payloads without throwing', () {
-        final result = resolver.resolve(
-          localPayload: {},
-          serverPayload: {},
-        );
+        final result = resolver.resolve(localPayload: {}, serverPayload: {});
 
         expect(result.resolvedPayload, isEmpty);
         expect(result.strategy, ResolutionStrategy.serverWins);
@@ -123,7 +128,10 @@ void main() {
     });
 
     test('all expected strategies are present', () {
-      expect(ResolutionStrategy.values, contains(ResolutionStrategy.serverWins));
+      expect(
+        ResolutionStrategy.values,
+        contains(ResolutionStrategy.serverWins),
+      );
       expect(ResolutionStrategy.values, contains(ResolutionStrategy.localWins));
       expect(ResolutionStrategy.values, contains(ResolutionStrategy.manual));
     });

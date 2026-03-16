@@ -50,10 +50,7 @@ void main() {
       interceptor.onRequest(request, handler);
 
       expect(handler.captured, isNotNull);
-      expect(
-        handler.captured!.headers.containsKey('Idempotency-Key'),
-        isTrue,
-      );
+      expect(handler.captured!.headers.containsKey('Idempotency-Key'), isTrue);
     });
 
     test('PUT request gets Idempotency-Key header', () {
@@ -74,20 +71,14 @@ void main() {
       final request = _makeRequest(method: 'GET');
       interceptor.onRequest(request, handler);
 
-      expect(
-        handler.captured!.headers.containsKey('Idempotency-Key'),
-        isFalse,
-      );
+      expect(handler.captured!.headers.containsKey('Idempotency-Key'), isFalse);
     });
 
     test('DELETE request does NOT get Idempotency-Key header', () {
       final request = _makeRequest(method: 'DELETE');
       interceptor.onRequest(request, handler);
 
-      expect(
-        handler.captured!.headers.containsKey('Idempotency-Key'),
-        isFalse,
-      );
+      expect(handler.captured!.headers.containsKey('Idempotency-Key'), isFalse);
     });
 
     test('Idempotency-Key is a valid UUID v4 format', () {

@@ -79,13 +79,34 @@ class ChapterViaDeductions {
   static Map<String, String> sectionLabels({ActMode? mode}) {
     final m = mode ?? ActMode.current;
     return {
-      'section80C': SectionMapperService.displaySection(section1961: '80C', mode: m),
-      'section80CCD1B': SectionMapperService.displaySection(section1961: '80CCD(1B)', mode: m),
-      'section80D': SectionMapperService.displaySection(section1961: '80D', mode: m),
-      'section80E': SectionMapperService.displaySection(section1961: '80E', mode: m),
-      'section80G': SectionMapperService.displaySection(section1961: '80G', mode: m),
-      'section80TTA': SectionMapperService.displaySection(section1961: '80TTA', mode: m),
-      'section80TTB': SectionMapperService.displaySection(section1961: '80TTB', mode: m),
+      'section80C': SectionMapperService.displaySection(
+        section1961: '80C',
+        mode: m,
+      ),
+      'section80CCD1B': SectionMapperService.displaySection(
+        section1961: '80CCD(1B)',
+        mode: m,
+      ),
+      'section80D': SectionMapperService.displaySection(
+        section1961: '80D',
+        mode: m,
+      ),
+      'section80E': SectionMapperService.displaySection(
+        section1961: '80E',
+        mode: m,
+      ),
+      'section80G': SectionMapperService.displaySection(
+        section1961: '80G',
+        mode: m,
+      ),
+      'section80TTA': SectionMapperService.displaySection(
+        section1961: '80TTA',
+        mode: m,
+      ),
+      'section80TTB': SectionMapperService.displaySection(
+        section1961: '80TTB',
+        mode: m,
+      ),
     };
   }
 

@@ -30,9 +30,7 @@ const _testClient = ItrClient(
 );
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: IncomeTaxScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: IncomeTaxScreen()));
 }
 
 // ---------------------------------------------------------------------------
@@ -72,8 +70,9 @@ void main() {
       expect(find.byType(ItrSummaryCard), findsNWidgets(4));
     });
 
-    testWidgets('summary cards show Total, Filed, Pending, Overdue labels',
-        (tester) async {
+    testWidgets('summary cards show Total, Filed, Pending, Overdue labels', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -90,8 +89,9 @@ void main() {
       expect(find.textContaining('AY 2026-27'), findsOneWidget);
     });
 
-    testWidgets('renders ITR type filter chips: All, ITR-1, ITR-2, ITR-3',
-        (tester) async {
+    testWidgets('renders ITR type filter chips: All, ITR-1, ITR-2, ITR-3', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -216,9 +216,7 @@ void main() {
     testWidgets('renders client name', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: _testClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: _testClient)),
         ),
       );
 
@@ -228,9 +226,7 @@ void main() {
     testWidgets('renders masked PAN', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: _testClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: _testClient)),
         ),
       );
 
@@ -241,9 +237,7 @@ void main() {
     testWidgets('renders ITR type chip', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: _testClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: _testClient)),
         ),
       );
 
@@ -253,9 +247,7 @@ void main() {
     testWidgets('renders filing status badge', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: _testClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: _testClient)),
         ),
       );
 
@@ -265,9 +257,7 @@ void main() {
     testWidgets('renders initials avatar correctly', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: _testClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: _testClient)),
         ),
       );
 
@@ -294,9 +284,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: ItrClientTile(client: filedClient),
-          ),
+          home: Scaffold(body: ItrClientTile(client: filedClient)),
         ),
       );
 

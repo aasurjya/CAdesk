@@ -17,9 +17,8 @@ Future<void> _setViewport(WidgetTester tester) async {
   addTearDown(() => tester.binding.setSurfaceSize(null));
 }
 
-Widget _buildScreen() => const ProviderScope(
-      child: MaterialApp(home: FacelessAssessmentScreen()),
-    );
+Widget _buildScreen() =>
+    const ProviderScope(child: MaterialApp(home: FacelessAssessmentScreen()));
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -55,10 +54,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('ITR-U'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('ITR-U')),
         findsOneWidget,
       );
     });
@@ -86,14 +82,16 @@ void main() {
       expect(find.text('All'), findsWidgets);
     });
 
-    testWidgets('E-Proceedings tab renders EProceedingTile widgets',
-        (tester) async {
+    testWidgets('E-Proceedings tab renders EProceedingTile widgets', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
       // May show tiles or empty state
-      final found = find.byType(EProceedingTile).evaluate().isNotEmpty ||
+      final found =
+          find.byType(EProceedingTile).evaluate().isNotEmpty ||
           find.textContaining('No e-proceedings').evaluate().isNotEmpty;
       expect(found, isTrue);
     });
@@ -128,15 +126,13 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('ITR-U'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('ITR-U')),
       );
       await tester.pumpAndSettle();
 
       // Should show ITR-U tiles or empty state
-      final found = find.byType(ItrUTile).evaluate().isNotEmpty ||
+      final found =
+          find.byType(ItrUTile).evaluate().isNotEmpty ||
           find.textContaining('No ITR-U').evaluate().isNotEmpty;
       expect(found, isTrue);
     });
@@ -155,14 +151,16 @@ void main() {
       await tester.pumpAndSettle();
 
       // Should show hearing tiles or filter chips or empty state
-      final found = find.byType(HearingTile).evaluate().isNotEmpty ||
+      final found =
+          find.byType(HearingTile).evaluate().isNotEmpty ||
           find.byType(FilterChip).evaluate().isNotEmpty ||
           find.textContaining('No hearings').evaluate().isNotEmpty;
       expect(found, isTrue);
     });
 
-    testWidgets('status filter chips present in E-Proceedings tab',
-        (tester) async {
+    testWidgets('status filter chips present in E-Proceedings tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -171,8 +169,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('E-Proceedings tab has two scrollable chip rows',
-        (tester) async {
+    testWidgets('E-Proceedings tab has two scrollable chip rows', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

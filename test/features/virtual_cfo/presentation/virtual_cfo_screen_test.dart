@@ -96,19 +96,23 @@ void main() {
       expect(find.text('Draft'), findsWidgets);
     });
 
-    testWidgets('MIS Reports tab shows MisReportCard widgets or empty state',
-        (tester) async {
+    testWidgets('MIS Reports tab shows MisReportCard widgets or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       final hasCards = find.byType(MisReportCard).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No reports match this filter').evaluate().isNotEmpty;
+      final hasEmpty = find
+          .text('No reports match this filter')
+          .evaluate()
+          .isNotEmpty;
       expect(hasCards || hasEmpty, isTrue);
     });
 
-    testWidgets('switching to Scenarios tab renders without error',
-        (tester) async {
+    testWidgets('switching to Scenarios tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -127,21 +131,25 @@ void main() {
       expect(find.text('Cost'), findsWidgets);
     });
 
-    testWidgets('Scenarios tab shows ScenarioTile widgets or empty state',
-        (tester) async {
+    testWidgets('Scenarios tab shows ScenarioTile widgets or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       await tester.tap(find.text('Scenarios').first);
       await tester.pumpAndSettle();
       final hasTiles = find.byType(ScenarioTile).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No scenarios match this filter').evaluate().isNotEmpty;
+      final hasEmpty = find
+          .text('No scenarios match this filter')
+          .evaluate()
+          .isNotEmpty;
       expect(hasTiles || hasEmpty, isTrue);
     });
 
-    testWidgets('renders people_outline_rounded icon in Clients KPI',
-        (tester) async {
+    testWidgets('renders people_outline_rounded icon in Clients KPI', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

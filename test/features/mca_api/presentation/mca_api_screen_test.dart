@@ -22,8 +22,9 @@ void main() {
       expect(find.text('MCA API'), findsOneWidget);
     });
 
-    testWidgets('renders Ministry of Corporate Affairs subtitle',
-        (tester) async {
+    testWidgets('renders Ministry of Corporate Affairs subtitle', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -106,8 +107,9 @@ void main() {
       expect(find.text('Load Filing History'), findsOneWidget);
     });
 
-    testWidgets('renders Annual Return Compliance section header',
-        (tester) async {
+    testWidgets('renders Annual Return Compliance section header', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

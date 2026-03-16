@@ -38,10 +38,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('Leads'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('Leads')),
         findsOneWidget,
       );
     });
@@ -124,8 +121,9 @@ void main() {
       expect(find.byType(TabBarView), findsOneWidget);
     });
 
-    testWidgets('switching to Campaigns tab renders CampaignTile items',
-        (tester) async {
+    testWidgets('switching to Campaigns tab renders CampaignTile items', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -170,7 +168,9 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('renders fiber_new icon for New This Week card', (tester) async {
+    testWidgets('renders fiber_new icon for New This Week card', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

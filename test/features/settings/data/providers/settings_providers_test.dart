@@ -21,10 +21,7 @@ void main() {
       });
 
       test('default themeMode is system', () {
-        expect(
-          container.read(settingsProvider).themeMode,
-          AppThemeMode.system,
-        );
+        expect(container.read(settingsProvider).themeMode, AppThemeMode.system);
       });
 
       test('default language is English', () {
@@ -58,32 +55,33 @@ void main() {
 
     group('setThemeMode', () {
       test('sets theme to light', () {
-        container.read(settingsProvider.notifier).setThemeMode(AppThemeMode.light);
+        container
+            .read(settingsProvider.notifier)
+            .setThemeMode(AppThemeMode.light);
         expect(container.read(settingsProvider).themeMode, AppThemeMode.light);
       });
 
       test('sets theme to dark', () {
-        container.read(settingsProvider.notifier).setThemeMode(AppThemeMode.dark);
+        container
+            .read(settingsProvider.notifier)
+            .setThemeMode(AppThemeMode.dark);
         expect(container.read(settingsProvider).themeMode, AppThemeMode.dark);
       });
 
       test('sets theme back to system', () {
-        container.read(settingsProvider.notifier).setThemeMode(AppThemeMode.dark);
+        container
+            .read(settingsProvider.notifier)
+            .setThemeMode(AppThemeMode.dark);
         container
             .read(settingsProvider.notifier)
             .setThemeMode(AppThemeMode.system);
-        expect(
-          container.read(settingsProvider).themeMode,
-          AppThemeMode.system,
-        );
+        expect(container.read(settingsProvider).themeMode, AppThemeMode.system);
       });
     });
 
     group('setLanguage', () {
       test('updates language', () {
-        container
-            .read(settingsProvider.notifier)
-            .setLanguage('Hindi');
+        container.read(settingsProvider.notifier).setLanguage('Hindi');
         expect(container.read(settingsProvider).language, 'Hindi');
       });
 
@@ -166,36 +164,42 @@ void main() {
       });
     });
 
-    group('setFirmName / setFirmAddress / setFirmGstin / setCaRegistrationNumber', () {
-      test('setFirmName updates firmName', () {
-        container.read(settingsProvider.notifier).setFirmName('New Firm LLP');
-        expect(container.read(settingsProvider).firmName, 'New Firm LLP');
-      });
+    group(
+      'setFirmName / setFirmAddress / setFirmGstin / setCaRegistrationNumber',
+      () {
+        test('setFirmName updates firmName', () {
+          container.read(settingsProvider.notifier).setFirmName('New Firm LLP');
+          expect(container.read(settingsProvider).firmName, 'New Firm LLP');
+        });
 
-      test('setFirmAddress updates firmAddress', () {
-        container
-            .read(settingsProvider.notifier)
-            .setFirmAddress('123 New Street');
-        expect(container.read(settingsProvider).firmAddress, '123 New Street');
-      });
+        test('setFirmAddress updates firmAddress', () {
+          container
+              .read(settingsProvider.notifier)
+              .setFirmAddress('123 New Street');
+          expect(
+            container.read(settingsProvider).firmAddress,
+            '123 New Street',
+          );
+        });
 
-      test('setFirmGstin updates firmGstin', () {
-        container
-            .read(settingsProvider.notifier)
-            .setFirmGstin('27AABCU9603R1ZM');
-        expect(container.read(settingsProvider).firmGstin, '27AABCU9603R1ZM');
-      });
+        test('setFirmGstin updates firmGstin', () {
+          container
+              .read(settingsProvider.notifier)
+              .setFirmGstin('27AABCU9603R1ZM');
+          expect(container.read(settingsProvider).firmGstin, '27AABCU9603R1ZM');
+        });
 
-      test('setCaRegistrationNumber updates caRegistrationNumber', () {
-        container
-            .read(settingsProvider.notifier)
-            .setCaRegistrationNumber('MRN 999999');
-        expect(
-          container.read(settingsProvider).caRegistrationNumber,
-          'MRN 999999',
-        );
-      });
-    });
+        test('setCaRegistrationNumber updates caRegistrationNumber', () {
+          container
+              .read(settingsProvider.notifier)
+              .setCaRegistrationNumber('MRN 999999');
+          expect(
+            container.read(settingsProvider).caRegistrationNumber,
+            'MRN 999999',
+          );
+        });
+      },
+    );
 
     group('toggleUdin', () {
       test('toggles UDIN (default true → false)', () {

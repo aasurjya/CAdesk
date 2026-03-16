@@ -130,16 +130,19 @@ void main() {
         expect(json['is_read'], true);
       });
 
-      test('round-trip messageFromJson(messageToJson) preserves all fields', () {
-        final json = ClientPortalMapper.messageToJson(sampleMessage);
-        final restored = ClientPortalMapper.messageFromJson(json);
+      test(
+        'round-trip messageFromJson(messageToJson) preserves all fields',
+        () {
+          final json = ClientPortalMapper.messageToJson(sampleMessage);
+          final restored = ClientPortalMapper.messageFromJson(json);
 
-        expect(restored.id, sampleMessage.id);
-        expect(restored.senderType, sampleMessage.senderType);
-        expect(restored.content, sampleMessage.content);
-        expect(restored.attachments, sampleMessage.attachments);
-        expect(restored.isRead, sampleMessage.isRead);
-      });
+          expect(restored.id, sampleMessage.id);
+          expect(restored.senderType, sampleMessage.senderType);
+          expect(restored.content, sampleMessage.content);
+          expect(restored.attachments, sampleMessage.attachments);
+          expect(restored.isRead, sampleMessage.isRead);
+        },
+      );
     });
 
     // -------------------------------------------------------------------------

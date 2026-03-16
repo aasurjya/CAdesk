@@ -280,16 +280,17 @@ void main() {
       expect(result.status, McaEFormStatusValue.approved);
     });
 
-    test('prefillAndSubmitForm returns pending mock result (flag off)', () async {
-      final repo = _makeRepo(responseBody: {}, flagEnabled: false);
-      final result = await repo.prefillAndSubmitForm(
-        _kValidCin,
-        'MGT-7',
-        {'field': 'value'},
-      );
-      expect(result.status, McaEFormStatusValue.pending);
-      expect(result.srn, isNotEmpty);
-    });
+    test(
+      'prefillAndSubmitForm returns pending mock result (flag off)',
+      () async {
+        final repo = _makeRepo(responseBody: {}, flagEnabled: false);
+        final result = await repo.prefillAndSubmitForm(_kValidCin, 'MGT-7', {
+          'field': 'value',
+        });
+        expect(result.status, McaEFormStatusValue.pending);
+        expect(result.srn, isNotEmpty);
+      },
+    );
   });
 
   // -------------------------------------------------------------------------
@@ -324,38 +325,44 @@ void main() {
       expect(result.state, 'MH');
     });
 
-    test('searchByName maps first CompanySearchResult to McaCompanyLookup', () async {
-      final repo = _makeRepo(
-        responseBody: {
-          'companyData': [
-            {
-              'cin': _kValidCin,
-              'company_name': 'Tata Motors Limited',
-              'company_status': 'Active',
-              'date_of_incorporation': '10/11/1973',
-              'roc_code': 'RoC-Mumbai',
-            },
-          ],
-        },
-        flagEnabled: true,
-      );
+    test(
+      'searchByName maps first CompanySearchResult to McaCompanyLookup',
+      () async {
+        final repo = _makeRepo(
+          responseBody: {
+            'companyData': [
+              {
+                'cin': _kValidCin,
+                'company_name': 'Tata Motors Limited',
+                'company_status': 'Active',
+                'date_of_incorporation': '10/11/1973',
+                'roc_code': 'RoC-Mumbai',
+              },
+            ],
+          },
+          flagEnabled: true,
+        );
 
-      final result = await repo.searchByName('Tata');
-      expect(result.cin, _kValidCin);
-      expect(result.companyName, 'Tata Motors Limited');
-      expect(result.state, 'MH');
-      expect(result.status, McaCompanyStatus.active);
-    });
+        final result = await repo.searchByName('Tata');
+        expect(result.cin, _kValidCin);
+        expect(result.companyName, 'Tata Motors Limited');
+        expect(result.state, 'MH');
+        expect(result.status, McaCompanyStatus.active);
+      },
+    );
 
-    test('searchByName falls back to mock when results list is empty', () async {
-      final repo = _makeRepo(
-        responseBody: {'companyData': <dynamic>[]},
-        flagEnabled: true,
-      );
-      // No results → mock fallback is always acceptable data.
-      final result = await repo.searchByName('Nonexistent XYZ Corp');
-      expect(result.companyName, isNotEmpty);
-    });
+    test(
+      'searchByName falls back to mock when results list is empty',
+      () async {
+        final repo = _makeRepo(
+          responseBody: {'companyData': <dynamic>[]},
+          flagEnabled: true,
+        );
+        // No results → mock fallback is always acceptable data.
+        final result = await repo.searchByName('Nonexistent XYZ Corp');
+        expect(result.companyName, isNotEmpty);
+      },
+    );
 
     test('lookupDirector maps DirectorDetails to McaDirectorLookup', () async {
       final repo = _makeRepo(
@@ -406,14 +413,17 @@ void main() {
       expect(result.filings.first.feesPaid, 60000);
     });
 
-    test('getFilingHistory returns empty filing list when API returns none', () async {
-      final repo = _makeRepo(
-        responseBody: {'filingHistory': <dynamic>[]},
-        flagEnabled: true,
-      );
-      final result = await repo.getFilingHistory(_kValidCin);
-      expect(result.filings, isEmpty);
-    });
+    test(
+      'getFilingHistory returns empty filing list when API returns none',
+      () async {
+        final repo = _makeRepo(
+          responseBody: {'filingHistory': <dynamic>[]},
+          flagEnabled: true,
+        );
+        final result = await repo.getFilingHistory(_kValidCin);
+        expect(result.filings, isEmpty);
+      },
+    );
   });
 
   // -------------------------------------------------------------------------
@@ -432,17 +442,20 @@ void main() {
       );
     });
 
-    test('lookupByCin propagates PortalRateLimitException (429) when flag on', () {
-      final repo = _makeRepo(
-        responseBody: {'message': 'Too many requests'},
-        statusCode: 429,
-        flagEnabled: true,
-      );
-      expect(
-        () => repo.lookupByCin(_kValidCin),
-        throwsA(isA<PortalRateLimitException>()),
-      );
-    });
+    test(
+      'lookupByCin propagates PortalRateLimitException (429) when flag on',
+      () {
+        final repo = _makeRepo(
+          responseBody: {'message': 'Too many requests'},
+          statusCode: 429,
+          flagEnabled: true,
+        );
+        expect(
+          () => repo.lookupByCin(_kValidCin),
+          throwsA(isA<PortalRateLimitException>()),
+        );
+      },
+    );
 
     test(
       'lookupByCin propagates PortalUnavailableException (500) when flag on',
@@ -459,20 +472,17 @@ void main() {
       },
     );
 
-    test(
-      'searchByName propagates PortalAuthException (403) when flag on',
-      () {
-        final repo = _makeRepo(
-          responseBody: {'message': 'Forbidden'},
-          statusCode: 403,
-          flagEnabled: true,
-        );
-        expect(
-          () => repo.searchByName('Tata'),
-          throwsA(isA<PortalAuthException>()),
-        );
-      },
-    );
+    test('searchByName propagates PortalAuthException (403) when flag on', () {
+      final repo = _makeRepo(
+        responseBody: {'message': 'Forbidden'},
+        statusCode: 403,
+        flagEnabled: true,
+      );
+      expect(
+        () => repo.searchByName('Tata'),
+        throwsA(isA<PortalAuthException>()),
+      );
+    });
 
     test(
       'lookupDirector propagates PortalUnavailableException (503) when flag on',
@@ -504,19 +514,16 @@ void main() {
       },
     );
 
-    test(
-      'lookupByCin falls back to mock on 401 when flag off',
-      () async {
-        final repo = _makeRepo(
-          responseBody: {'message': 'Unauthorized'},
-          statusCode: 401,
-          flagEnabled: false,
-        );
-        // Should not throw — falls back to mock.
-        final result = await repo.lookupByCin(_kValidCin);
-        expect(result.cin, _kValidCin);
-      },
-    );
+    test('lookupByCin falls back to mock on 401 when flag off', () async {
+      final repo = _makeRepo(
+        responseBody: {'message': 'Unauthorized'},
+        statusCode: 401,
+        flagEnabled: false,
+      );
+      // Should not throw — falls back to mock.
+      final result = await repo.lookupByCin(_kValidCin);
+      expect(result.cin, _kValidCin);
+    });
   });
 
   // -------------------------------------------------------------------------
@@ -556,22 +563,25 @@ void main() {
       );
     });
 
-    test('lookupDirector returns unmodifiable associatedCompanies list', () async {
-      final repo = _makeRepo(
-        responseBody: {
-          'din': _kValidDin,
-          'director_name': 'Test Director',
-          'nationality': 'Indian',
-          'din_status': 'Approved',
-          'associated_companies': [_kValidCin],
-        },
-        flagEnabled: true,
-      );
-      final result = await repo.lookupDirector(_kValidDin);
-      expect(
-        () => (result.associatedCompanies as List).add('extra'),
-        throwsUnsupportedError,
-      );
-    });
+    test(
+      'lookupDirector returns unmodifiable associatedCompanies list',
+      () async {
+        final repo = _makeRepo(
+          responseBody: {
+            'din': _kValidDin,
+            'director_name': 'Test Director',
+            'nationality': 'Indian',
+            'din_status': 'Approved',
+            'associated_companies': [_kValidCin],
+          },
+          flagEnabled: true,
+        );
+        final result = await repo.lookupDirector(_kValidDin);
+        expect(
+          () => (result.associatedCompanies as List).add('extra'),
+          throwsUnsupportedError,
+        );
+      },
+    );
   });
 }

@@ -36,19 +36,13 @@ void main() {
 
       test('initial list contains pending and verified statuses', () {
         final list = container.read(pendingVerificationsProvider);
-        expect(
-          list.any((r) => r.status == VerificationStatus.pending),
-          isTrue,
-        );
+        expect(list.any((r) => r.status == VerificationStatus.pending), isTrue);
         expect(list.any((r) => r.status.isVerified), isTrue);
       });
 
       test('initial list contains an expired verification', () {
         final list = container.read(pendingVerificationsProvider);
-        expect(
-          list.any((r) => r.status == VerificationStatus.expired),
-          isTrue,
-        );
+        expect(list.any((r) => r.status == VerificationStatus.expired), isTrue);
       });
 
       test('all requests have non-empty id, clientName and pan', () {
@@ -62,11 +56,13 @@ void main() {
 
       test('markVerified() updates status and acknowledgement', () {
         final first = container.read(pendingVerificationsProvider).first;
-        container.read(pendingVerificationsProvider.notifier).markVerified(
-          requestId: first.id,
-          status: VerificationStatus.verifiedEvc,
-          acknowledgementNumber: 'ACK-TEST-001',
-        );
+        container
+            .read(pendingVerificationsProvider.notifier)
+            .markVerified(
+              requestId: first.id,
+              status: VerificationStatus.verifiedEvc,
+              acknowledgementNumber: 'ACK-TEST-001',
+            );
         final updated = container
             .read(pendingVerificationsProvider)
             .firstWhere((r) => r.id == first.id);
@@ -77,22 +73,26 @@ void main() {
       test('markVerified() preserves list length', () {
         final before = container.read(pendingVerificationsProvider).length;
         final first = container.read(pendingVerificationsProvider).first;
-        container.read(pendingVerificationsProvider.notifier).markVerified(
-          requestId: first.id,
-          status: VerificationStatus.verifiedDsc,
-          acknowledgementNumber: 'ACK-DSC-002',
-        );
+        container
+            .read(pendingVerificationsProvider.notifier)
+            .markVerified(
+              requestId: first.id,
+              status: VerificationStatus.verifiedDsc,
+              acknowledgementNumber: 'ACK-DSC-002',
+            );
         final after = container.read(pendingVerificationsProvider).length;
         expect(after, before);
       });
 
       test('markVerified() with unknown id leaves list unchanged', () {
         final before = container.read(pendingVerificationsProvider);
-        container.read(pendingVerificationsProvider.notifier).markVerified(
-          requestId: 'nonexistent-id',
-          status: VerificationStatus.verifiedEvc,
-          acknowledgementNumber: 'ACK-XXX',
-        );
+        container
+            .read(pendingVerificationsProvider.notifier)
+            .markVerified(
+              requestId: 'nonexistent-id',
+              status: VerificationStatus.verifiedEvc,
+              acknowledgementNumber: 'ACK-XXX',
+            );
         final after = container.read(pendingVerificationsProvider);
         expect(after.length, before.length);
         expect(after.any((r) => r.id == 'nonexistent-id'), isFalse);
@@ -105,8 +105,9 @@ void main() {
     group('pendingCountProvider', () {
       test('count matches pending status items', () {
         final list = container.read(pendingVerificationsProvider);
-        final expected =
-            list.where((r) => r.status == VerificationStatus.pending).length;
+        final expected = list
+            .where((r) => r.status == VerificationStatus.pending)
+            .length;
         expect(container.read(pendingCountProvider), expected);
       });
 
@@ -115,11 +116,13 @@ void main() {
             .read(pendingVerificationsProvider)
             .firstWhere((r) => r.status == VerificationStatus.pending);
         final before = container.read(pendingCountProvider);
-        container.read(pendingVerificationsProvider.notifier).markVerified(
-          requestId: pending.id,
-          status: VerificationStatus.verifiedAadhaar,
-          acknowledgementNumber: 'ACK-AAD-003',
-        );
+        container
+            .read(pendingVerificationsProvider.notifier)
+            .markVerified(
+              requestId: pending.id,
+              status: VerificationStatus.verifiedAadhaar,
+              acknowledgementNumber: 'ACK-AAD-003',
+            );
         expect(container.read(pendingCountProvider), before - 1);
       });
     });
@@ -139,11 +142,13 @@ void main() {
             .read(pendingVerificationsProvider)
             .firstWhere((r) => r.status == VerificationStatus.pending);
         final before = container.read(verifiedCountProvider);
-        container.read(pendingVerificationsProvider.notifier).markVerified(
-          requestId: pending.id,
-          status: VerificationStatus.verifiedEvc,
-          acknowledgementNumber: 'ACK-EVC-004',
-        );
+        container
+            .read(pendingVerificationsProvider.notifier)
+            .markVerified(
+              requestId: pending.id,
+              status: VerificationStatus.verifiedEvc,
+              acknowledgementNumber: 'ACK-EVC-004',
+            );
         expect(container.read(verifiedCountProvider), before + 1);
       });
     });
@@ -154,8 +159,9 @@ void main() {
     group('expiredCountProvider', () {
       test('count matches expired status items', () {
         final list = container.read(pendingVerificationsProvider);
-        final expected =
-            list.where((r) => r.status == VerificationStatus.expired).length;
+        final expected = list
+            .where((r) => r.status == VerificationStatus.expired)
+            .length;
         expect(container.read(expiredCountProvider), expected);
       });
 

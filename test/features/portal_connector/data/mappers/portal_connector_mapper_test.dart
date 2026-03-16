@@ -32,10 +32,7 @@ void main() {
       });
 
       test('handles all null optional fields', () {
-        final json = {
-          'id': 'cred-002',
-          'portal_type': 'gstn',
-        };
+        final json = {'id': 'cred-002', 'portal_type': 'gstn'};
 
         final credential = PortalConnectorMapper.fromJson(json);
         expect(credential.username, isNull);
@@ -49,10 +46,7 @@ void main() {
       });
 
       test('defaults portal_type to itd for unknown value', () {
-        final json = {
-          'id': 'cred-003',
-          'portal_type': 'unknownPortal',
-        };
+        final json = {'id': 'cred-003', 'portal_type': 'unknownPortal'};
 
         final credential = PortalConnectorMapper.fromJson(json);
         expect(credential.portalType, PortalType.itd);

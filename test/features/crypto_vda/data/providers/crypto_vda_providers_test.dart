@@ -22,10 +22,7 @@ void main() {
 
       test('list is unmodifiable', () {
         final txns = container.read(allVdaTransactionsProvider);
-        expect(
-          () => (txns as dynamic).add(txns.first),
-          throwsA(isA<Error>()),
-        );
+        expect(() => (txns as dynamic).add(txns.first), throwsA(isA<Error>()));
       });
 
       test('all entries are VdaTransaction instances', () {
@@ -130,10 +127,7 @@ void main() {
             .update(firstClientId);
         final filtered = container.read(filteredVdaTransactionsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((t) => t.clientId == firstClientId),
-          isTrue,
-        );
+        expect(filtered.every((t) => t.clientId == firstClientId), isTrue);
       });
 
       test('filters by asset type', () {

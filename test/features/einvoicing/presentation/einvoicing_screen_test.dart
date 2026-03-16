@@ -86,8 +86,9 @@ void main() {
       expect(find.text('Overdue'), findsWidgets);
     });
 
-    testWidgets('E-Invoices tab shows filter chips for All status',
-        (tester) async {
+    testWidgets('E-Invoices tab shows filter chips for All status', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -101,7 +102,9 @@ void main() {
       expect(find.text('Cancelled'), findsWidgets);
     });
 
-    testWidgets('switching to Batches tab renders without error', (tester) async {
+    testWidgets('switching to Batches tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

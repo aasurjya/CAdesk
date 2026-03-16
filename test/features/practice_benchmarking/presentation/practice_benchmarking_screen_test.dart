@@ -9,9 +9,8 @@ Future<void> _setViewport(WidgetTester tester) async {
   addTearDown(() => tester.binding.setSurfaceSize(null));
 }
 
-Widget _buildScreen() => const ProviderScope(
-      child: MaterialApp(home: PracticeBenchmarkingScreen()),
-    );
+Widget _buildScreen() =>
+    const ProviderScope(child: MaterialApp(home: PracticeBenchmarkingScreen()));
 
 void main() {
   group('PracticeBenchmarkingScreen', () {
@@ -134,10 +133,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining(RegExp(r'(above|below)')),
-        findsOneWidget,
-      );
+      expect(find.textContaining(RegExp(r'(above|below)')), findsOneWidget);
     });
 
     testWidgets('score circle custom painter is rendered', (tester) async {

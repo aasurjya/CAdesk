@@ -21,8 +21,9 @@ class ComplianceDeadlineWidget extends ConsumerWidget {
     final deadlines = ref.watch(upcomingDeadlinesProvider);
 
     // Show at most 6 deadlines to keep the dashboard compact.
-    final displayedDeadlines =
-        deadlines.length > 6 ? deadlines.sublist(0, 6) : deadlines;
+    final displayedDeadlines = deadlines.length > 6
+        ? deadlines.sublist(0, 6)
+        : deadlines;
 
     if (displayedDeadlines.isEmpty) {
       return Card(
@@ -31,9 +32,9 @@ class ComplianceDeadlineWidget extends ConsumerWidget {
           child: Center(
             child: Text(
               'No upcoming deadlines',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.neutral400,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: AppColors.neutral400),
             ),
           ),
         ),
@@ -76,8 +77,7 @@ class _DeadlineTile extends StatelessWidget {
       onTap: () => context.go('/compliance'),
       borderRadius: BorderRadius.circular(14),
       child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         leading: Container(
           width: 46,
           height: 46,

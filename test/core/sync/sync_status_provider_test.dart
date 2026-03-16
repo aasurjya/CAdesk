@@ -133,14 +133,17 @@ void main() {
       expect(before.status, SyncStatus.synced);
     });
 
-    test('setSynced keeps previous errorMessage (copyWith null-guard behaviour)', () {
-      // The copyWith implementation uses `errorMessage ?? this.errorMessage`,
-      // so passing null does not clear an existing error message.
-      container.read(syncStatusProvider.notifier).setError('Network fail');
-      container.read(syncStatusProvider.notifier).setSynced();
-      // Status transitions to synced even though message persists.
-      expect(container.read(syncStatusProvider).status, SyncStatus.synced);
-    });
+    test(
+      'setSynced keeps previous errorMessage (copyWith null-guard behaviour)',
+      () {
+        // The copyWith implementation uses `errorMessage ?? this.errorMessage`,
+        // so passing null does not clear an existing error message.
+        container.read(syncStatusProvider.notifier).setError('Network fail');
+        container.read(syncStatusProvider.notifier).setSynced();
+        // Status transitions to synced even though message persists.
+        expect(container.read(syncStatusProvider).status, SyncStatus.synced);
+      },
+    );
 
     test('multiple transitions maintain correct final state', () {
       final notifier = container.read(syncStatusProvider.notifier);

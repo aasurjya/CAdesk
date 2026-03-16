@@ -85,9 +85,7 @@ void main() {
       });
 
       test('update replaces the results list', () {
-        container
-            .read(sectionSearchResultsProvider.notifier)
-            .update(const []);
+        container.read(sectionSearchResultsProvider.notifier).update(const []);
         expect(container.read(sectionSearchResultsProvider), isEmpty);
       });
     });
@@ -148,18 +146,18 @@ void main() {
       });
 
       test('noticeDraftingProvider throws when read (not yet implemented)', () {
-        expect(
-          () => container.read(noticeDraftingProvider),
-          throwsA(anything),
-        );
+        expect(() => container.read(noticeDraftingProvider), throwsA(anything));
       });
 
-      test('taxCalendarServiceProvider throws when read (not yet implemented)', () {
-        expect(
-          () => container.read(taxCalendarServiceProvider),
-          throwsA(anything),
-        );
-      });
+      test(
+        'taxCalendarServiceProvider throws when read (not yet implemented)',
+        () {
+          expect(
+            () => container.read(taxCalendarServiceProvider),
+            throwsA(anything),
+          );
+        },
+      );
     });
   });
 }

@@ -18,10 +18,7 @@ class NewInvoiceSheet extends ConsumerStatefulWidget {
   bool get isEditMode => existingInvoice != null;
 
   /// Opens the invoice sheet. Pass [existingInvoice] to edit.
-  static Future<void> show(
-    BuildContext context, {
-    Invoice? existingInvoice,
-  }) {
+  static Future<void> show(BuildContext context, {Invoice? existingInvoice}) {
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -61,8 +58,8 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
       _clientController.text = existing.clientName;
       if (existing.lineItems.isNotEmpty) {
         _descriptionController.text = existing.lineItems.first.description;
-        _amountController.text =
-            existing.lineItems.first.taxableAmount.toStringAsFixed(2);
+        _amountController.text = existing.lineItems.first.taxableAmount
+            .toStringAsFixed(2);
         _gstRate = existing.lineItems.first.gstRate;
         _isInterState = existing.lineItems.first.igst > 0;
       }
@@ -400,9 +397,7 @@ class _NewInvoiceSheetState extends ConsumerState<NewInvoiceSheet> {
       child: FilledButton.icon(
         onPressed: () => _submitForm(context),
         icon: Icon(
-          widget.isEditMode
-              ? Icons.save_rounded
-              : Icons.receipt_long_rounded,
+          widget.isEditMode ? Icons.save_rounded : Icons.receipt_long_rounded,
         ),
         label: Text(widget.isEditMode ? 'Update Invoice' : 'Create Invoice'),
         style: FilledButton.styleFrom(

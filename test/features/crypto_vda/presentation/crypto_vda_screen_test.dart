@@ -13,9 +13,7 @@ import 'package:ca_app/features/crypto_vda/domain/models/vda_transaction.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: CryptoVdaScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: CryptoVdaScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -47,8 +45,9 @@ final _testTransaction = VdaTransaction(
 
 void main() {
   group('CryptoVdaScreen', () {
-    testWidgets('renders app bar with Crypto / VDA Taxation title',
-        (tester) async {
+    testWidgets('renders app bar with Crypto / VDA Taxation title', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -86,7 +85,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(of: find.byType(TabBar), matching: find.text('Clients')),
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Clients'),
+        ),
         findsOneWidget,
       );
     });
@@ -125,8 +127,9 @@ void main() {
       expect(find.textContaining('115BBH'), findsWidgets);
     });
 
-    testWidgets('switching to Transactions tab shows VdaTransactionTile list',
-        (tester) async {
+    testWidgets('switching to Transactions tab shows VdaTransactionTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -141,7 +144,9 @@ void main() {
       expect(find.byType(VdaTransactionTile), findsWidgets);
     });
 
-    testWidgets('Transactions tab shows client dropdown filter', (tester) async {
+    testWidgets('Transactions tab shows client dropdown filter', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -156,7 +161,9 @@ void main() {
       expect(find.text('All Clients'), findsWidgets);
     });
 
-    testWidgets('Transactions tab shows asset type filter chips', (tester) async {
+    testWidgets('Transactions tab shows asset type filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -171,8 +178,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('switching to Clients tab shows VdaSummaryCard list',
-        (tester) async {
+    testWidgets('switching to Clients tab shows VdaSummaryCard list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 

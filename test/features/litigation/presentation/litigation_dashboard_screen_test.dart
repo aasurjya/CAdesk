@@ -14,9 +14,8 @@ Future<void> _setViewport(WidgetTester tester) async {
   addTearDown(() => tester.binding.setSurfaceSize(null));
 }
 
-Widget _buildScreen() => const ProviderScope(
-      child: MaterialApp(home: LitigationDashboardScreen()),
-    );
+Widget _buildScreen() =>
+    const ProviderScope(child: MaterialApp(home: LitigationDashboardScreen()));
 
 // ---------------------------------------------------------------------------
 // Tests

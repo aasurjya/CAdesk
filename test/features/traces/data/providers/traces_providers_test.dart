@@ -100,7 +100,10 @@ void main() {
 
     test('equals sum of unresolved default demands', () {
       final unresolved = container.read(unresolvedDefaultsProvider);
-      final expected = unresolved.fold<int>(0, (s, d) => s + d.totalDemandPaise);
+      final expected = unresolved.fold<int>(
+        0,
+        (s, d) => s + d.totalDemandPaise,
+      );
       final actual = container.read(totalUnresolvedDemandProvider);
       expect(actual, expected);
     });

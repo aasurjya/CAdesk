@@ -15,20 +15,14 @@ void main() {
 
     group('selectedAssessmentYearProvider', () {
       test('initial state is AY 2026-27', () {
-        expect(
-          container.read(selectedAssessmentYearProvider),
-          'AY 2026-27',
-        );
+        expect(container.read(selectedAssessmentYearProvider), 'AY 2026-27');
       });
 
       test('can be updated to a different year', () {
         container
             .read(selectedAssessmentYearProvider.notifier)
             .update('AY 2025-26');
-        expect(
-          container.read(selectedAssessmentYearProvider),
-          'AY 2025-26',
-        );
+        expect(container.read(selectedAssessmentYearProvider), 'AY 2025-26');
       });
     });
 
@@ -127,12 +121,18 @@ void main() {
 
     group('urgentFilingsProvider + inProgressFilingsProvider coverage', () {
       test('urgent + inProgress + recent do not overlap', () {
-        final urgentIds =
-            container.read(urgentFilingsProvider).map((i) => i.id).toSet();
-        final inProgressIds =
-            container.read(inProgressFilingsProvider).map((i) => i.id).toSet();
-        final recentIds =
-            container.read(recentFilingsProvider).map((i) => i.id).toSet();
+        final urgentIds = container
+            .read(urgentFilingsProvider)
+            .map((i) => i.id)
+            .toSet();
+        final inProgressIds = container
+            .read(inProgressFilingsProvider)
+            .map((i) => i.id)
+            .toSet();
+        final recentIds = container
+            .read(recentFilingsProvider)
+            .map((i) => i.id)
+            .toSet();
 
         expect(urgentIds.intersection(inProgressIds), isEmpty);
         expect(urgentIds.intersection(recentIds), isEmpty);

@@ -13,9 +13,7 @@ import 'package:ca_app/features/fema/domain/models/fdi_transaction.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: FemaScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: FemaScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -71,7 +69,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(of: find.byType(TabBar), matching: find.text('Filings')),
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('Filings'),
+        ),
         findsOneWidget,
       );
       expect(
@@ -125,8 +126,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('tapping FDI Tracker tab shows FdiTransactionTile list',
-        (tester) async {
+    testWidgets('tapping FDI Tracker tab shows FdiTransactionTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -146,8 +148,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('summary cards show non-zero counts from mock data',
-        (tester) async {
+    testWidgets('summary cards show non-zero counts from mock data', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -169,42 +172,54 @@ void main() {
 
   group('FemaFilingTile', () {
     testWidgets('renders client name', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Test Corp Ltd'), findsOneWidget);
     });
 
     testWidgets('renders FC-GPR form type badge', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('FC-GPR'), findsOneWidget);
     });
 
     testWidgets('renders Submitted status badge', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.text('Submitted'), findsOneWidget);
     });
 
     testWidgets('renders due date', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.textContaining('31 Mar 2026'), findsOneWidget);
     });
 
     testWidgets('renders reference number when present', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.textContaining('FCG/2026/TEST/001'), findsOneWidget);
     });
 
     testWidgets('renders AD bank name', (tester) async {
-      await tester.pumpWidget(_buildWidget(FemaFilingTile(filing: _testFiling)));
+      await tester.pumpWidget(
+        _buildWidget(FemaFilingTile(filing: _testFiling)),
+      );
       await tester.pumpAndSettle();
 
       expect(find.textContaining('State Bank of India'), findsOneWidget);

@@ -199,11 +199,7 @@ class GstnApiRepositoryImpl implements GstnRepository {
   }
 
   @override
-  Future<GstnToken> getToken(
-    String gstin,
-    String username,
-    String otp,
-  ) async {
+  Future<GstnToken> getToken(String gstin, String username, String otp) async {
     if (!useRealService) return _mock.getToken(gstin, username, otp);
     try {
       return await GstnApiService.getToken(

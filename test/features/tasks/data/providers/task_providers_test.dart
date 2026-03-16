@@ -9,9 +9,7 @@ import 'package:ca_app/features/tasks/domain/models/task_status.dart';
 
 ProviderContainer _makeContainer() {
   return ProviderContainer(
-    overrides: [
-      taskRepositoryProvider.overrideWithValue(MockTaskRepository()),
-    ],
+    overrides: [taskRepositoryProvider.overrideWithValue(MockTaskRepository())],
   );
 }
 
@@ -204,10 +202,7 @@ void main() {
       await container.read(allTasksProvider.future);
       container.read(taskStatusFilterProvider.notifier).update(2);
       final filtered = container.read(filteredTasksProvider);
-      expect(
-        filtered.every((t) => t.status == TaskStatus.inProgress),
-        isTrue,
-      );
+      expect(filtered.every((t) => t.status == TaskStatus.inProgress), isTrue);
     });
 
     test('status filter 3 returns only overdue tasks', () async {
@@ -268,9 +263,9 @@ void main() {
       final filtered = container.read(filteredTasksProvider);
       for (int i = 0; i < filtered.length - 1; i++) {
         expect(
-          filtered[i].clientName
-              .toLowerCase()
-              .compareTo(filtered[i + 1].clientName.toLowerCase()),
+          filtered[i].clientName.toLowerCase().compareTo(
+            filtered[i + 1].clientName.toLowerCase(),
+          ),
           lessThanOrEqualTo(0),
         );
       }

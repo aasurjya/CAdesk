@@ -41,7 +41,9 @@ void main() {
     test('toggleActive flips isActive for matching id', () {
       final original = container.read(allRestrictionsProvider).first;
       final originalActive = original.isActive;
-      container.read(allRestrictionsProvider.notifier).toggleActive(original.id);
+      container
+          .read(allRestrictionsProvider.notifier)
+          .toggleActive(original.id);
       final updated = container
           .read(allRestrictionsProvider)
           .firstWhere((r) => r.id == original.id);
@@ -69,7 +71,9 @@ void main() {
       final unresolved = container
           .read(allAlertsProvider)
           .firstWhere((a) => !a.isResolved);
-      container.read(allAlertsProvider.notifier).resolve(unresolved.id, 'admin');
+      container
+          .read(allAlertsProvider.notifier)
+          .resolve(unresolved.id, 'admin');
       final updated = container
           .read(allAlertsProvider)
           .firstWhere((a) => a.id == unresolved.id);

@@ -60,10 +60,7 @@ void main() {
           kpisByCategoryProvider(KpiCategory.firm),
         );
         expect(firmKpis, isNotEmpty);
-        expect(
-          firmKpis.every((k) => k.category == KpiCategory.firm),
-          isTrue,
-        );
+        expect(firmKpis.every((k) => k.category == KpiCategory.firm), isTrue);
       });
 
       test('returns KPIs filtered to compliance category', () {
@@ -122,10 +119,7 @@ void main() {
       test('sum of service revenue equals total revenue', () {
         final byService = container.read(revenueByServiceProvider);
         final summed = byService.values.fold<double>(0, (s, v) => s + v);
-        expect(
-          summed,
-          closeTo(container.read(totalRevenueProvider), 0.001),
-        );
+        expect(summed, closeTo(container.read(totalRevenueProvider), 0.001));
       });
     });
 
@@ -146,7 +140,10 @@ void main() {
       test('matches sum of all receivable amounts', () {
         final records = container.read(agingReceivablesProvider);
         final expected = records.fold<double>(0, (s, r) => s + r.amount);
-        expect(container.read(totalReceivablesProvider), closeTo(expected, 0.001));
+        expect(
+          container.read(totalReceivablesProvider),
+          closeTo(expected, 0.001),
+        );
       });
     });
 
@@ -189,7 +186,10 @@ void main() {
       test('opportunities are sorted by estimated fee descending', () {
         final top = container.read(topGrowthOpportunitiesProvider);
         for (int i = 0; i < top.length - 1; i++) {
-          expect(top[i].estimatedFee, greaterThanOrEqualTo(top[i + 1].estimatedFee));
+          expect(
+            top[i].estimatedFee,
+            greaterThanOrEqualTo(top[i + 1].estimatedFee),
+          );
         }
       });
     });

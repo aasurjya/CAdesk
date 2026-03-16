@@ -366,10 +366,7 @@ class TracesService {
       dio: dio,
       path: '/app/challan/list',
       sessionCookie: creds,
-      body: {
-        'tan': tan.toUpperCase(),
-        'financialYear': financialYear,
-      },
+      body: {'tan': tan.toUpperCase(), 'financialYear': financialYear},
     );
     final body = _decodeBody(response.data);
     final list = body['challans'] as List<dynamic>? ?? const [];
@@ -710,16 +707,14 @@ class TracesService {
     required int quarter,
   }) {
     final tdsQuarter = TdsQuarter.values[(quarter - 1).clamp(0, 3)];
-    final shortList =
-        (data['shortDeductions'] as List<dynamic>? ?? const [])
-            .whereType<Map<String, dynamic>>()
-            .map(_parseShortDeduction)
-            .toList(growable: false);
-    final lateList =
-        (data['lateDeductions'] as List<dynamic>? ?? const [])
-            .whereType<Map<String, dynamic>>()
-            .map(_parseLateDeduction)
-            .toList(growable: false);
+    final shortList = (data['shortDeductions'] as List<dynamic>? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map(_parseShortDeduction)
+        .toList(growable: false);
+    final lateList = (data['lateDeductions'] as List<dynamic>? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map(_parseLateDeduction)
+        .toList(growable: false);
     return TracesJustificationReport(
       tan: tan.toUpperCase(),
       financialYear: financialYear,

@@ -57,8 +57,9 @@ void main() {
       expect(find.text('CA GPT Chat'), findsOneWidget);
     });
 
-    testWidgets('renders Ask any tax question subtitle initially',
-        (tester) async {
+    testWidgets('renders Ask any tax question subtitle initially', (
+      tester,
+    ) async {
       await _setNarrowDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -72,7 +73,9 @@ void main() {
       expect(find.text('Chat'), findsWidgets);
     });
 
-    testWidgets('renders Section Lookup bottom nav destination', (tester) async {
+    testWidgets('renders Section Lookup bottom nav destination', (
+      tester,
+    ) async {
       await _setNarrowDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -176,8 +179,9 @@ void main() {
       expect(find.text('Chat'), findsWidgets);
     });
 
-    testWidgets('wide layout shows Notice Draft destination in rail',
-        (tester) async {
+    testWidgets('wide layout shows Notice Draft destination in rail', (
+      tester,
+    ) async {
       await _setWideDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

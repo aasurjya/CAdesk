@@ -140,7 +140,9 @@ void main() {
       });
     });
 
-    testWidgets('renders client selector showing Rajesh Sharma', (tester) async {
+    testWidgets('renders client selector showing Rajesh Sharma', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await _ignoreOverflow(() async {
@@ -158,7 +160,9 @@ void main() {
       });
     });
 
-    testWidgets('renders ReconEntryTile widgets or empty content', (tester) async {
+    testWidgets('renders ReconEntryTile widgets or empty content', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await _ignoreOverflow(() async {
@@ -168,8 +172,9 @@ void main() {
       });
     });
 
-    testWidgets('renders tab selector with source comparison options',
-        (tester) async {
+    testWidgets('renders tab selector with source comparison options', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await _ignoreOverflow(() async {

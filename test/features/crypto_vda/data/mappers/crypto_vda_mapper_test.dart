@@ -176,16 +176,19 @@ void main() {
         expect(json['remarks'], 'Staking rewards');
       });
 
-      test('round-trip transactionFromJson(transactionToJson) preserves all fields', () {
-        final json = CryptoVdaMapper.transactionToJson(sampleTx);
-        final restored = CryptoVdaMapper.transactionFromJson(json);
+      test(
+        'round-trip transactionFromJson(transactionToJson) preserves all fields',
+        () {
+          final json = CryptoVdaMapper.transactionToJson(sampleTx);
+          final restored = CryptoVdaMapper.transactionFromJson(json);
 
-        expect(restored.id, sampleTx.id);
-        expect(restored.assetType, sampleTx.assetType);
-        expect(restored.transactionType, sampleTx.transactionType);
-        expect(restored.quantity, sampleTx.quantity);
-        expect(restored.remarks, sampleTx.remarks);
-      });
+          expect(restored.id, sampleTx.id);
+          expect(restored.assetType, sampleTx.assetType);
+          expect(restored.transactionType, sampleTx.transactionType);
+          expect(restored.quantity, sampleTx.quantity);
+          expect(restored.remarks, sampleTx.remarks);
+        },
+      );
     });
 
     // -------------------------------------------------------------------------
@@ -268,7 +271,10 @@ void main() {
         final restored = CryptoVdaMapper.summaryFromJson(json);
         expect(restored.clientId, summary.clientId);
         expect(restored.netTaxableGain, summary.netTaxableGain);
-        expect(restored.hasLossRestrictionViolation, summary.hasLossRestrictionViolation);
+        expect(
+          restored.hasLossRestrictionViolation,
+          summary.hasLossRestrictionViolation,
+        );
       });
     });
   });

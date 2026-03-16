@@ -6,28 +6,40 @@ import 'package:ca_app/features/it_act_transition/domain/services/section_mapper
 void main() {
   group('SectionMapperService — Lookup', () {
     test('has at least 200 mappings', () {
-      expect(SectionMapperService.allMappings.length, greaterThanOrEqualTo(200));
+      expect(
+        SectionMapperService.allMappings.length,
+        greaterThanOrEqualTo(200),
+      );
     });
 
     test('all mappings have non-empty section1961', () {
       for (final m in SectionMapperService.allMappings) {
-        expect(m.section1961.isNotEmpty, isTrue,
-            reason: 'Empty section1961 found: $m');
+        expect(
+          m.section1961.isNotEmpty,
+          isTrue,
+          reason: 'Empty section1961 found: $m',
+        );
       }
     });
 
     test('all mappings have non-empty section2025', () {
       for (final m in SectionMapperService.allMappings) {
-        expect(m.section2025.isNotEmpty, isTrue,
-            reason: 'Empty section2025 found: $m');
+        expect(
+          m.section2025.isNotEmpty,
+          isTrue,
+          reason: 'Empty section2025 found: $m',
+        );
       }
     });
 
     test('no duplicate section1961 values', () {
       final seen = <String>{};
       for (final m in SectionMapperService.allMappings) {
-        expect(seen.add(m.section1961), isTrue,
-            reason: 'Duplicate section1961: ${m.section1961}');
+        expect(
+          seen.add(m.section1961),
+          isTrue,
+          reason: 'Duplicate section1961: ${m.section1961}',
+        );
       }
     });
   });
@@ -232,7 +244,9 @@ void main() {
 
   group('SectionMapperService — searchByDescription', () {
     test('finds deduction sections by keyword', () {
-      final results = SectionMapperService.searchByDescription('life insurance');
+      final results = SectionMapperService.searchByDescription(
+        'life insurance',
+      );
       expect(results, isNotEmpty);
       expect(
         results.any((m) => m.section1961 == '80C'),
@@ -247,15 +261,18 @@ void main() {
     });
 
     test('returns empty for no match', () {
-      final results = SectionMapperService.searchByDescription('xyznonexistent');
+      final results = SectionMapperService.searchByDescription(
+        'xyznonexistent',
+      );
       expect(results, isEmpty);
     });
   });
 
   group('SectionMapperService — byCategory', () {
     test('returns deduction sections', () {
-      final results =
-          SectionMapperService.byCategory(SectionCategory.deductions);
+      final results = SectionMapperService.byCategory(
+        SectionCategory.deductions,
+      );
       expect(results, isNotEmpty);
       expect(
         results.every((m) => m.category == SectionCategory.deductions),
@@ -270,20 +287,21 @@ void main() {
     });
 
     test('returns capital gains sections', () {
-      final results =
-          SectionMapperService.byCategory(SectionCategory.capitalGains);
+      final results = SectionMapperService.byCategory(
+        SectionCategory.capitalGains,
+      );
       expect(results, isNotEmpty);
     });
 
     test('returns assessment sections', () {
-      final results =
-          SectionMapperService.byCategory(SectionCategory.assessment);
+      final results = SectionMapperService.byCategory(
+        SectionCategory.assessment,
+      );
       expect(results, isNotEmpty);
     });
 
     test('returns interest sections', () {
-      final results =
-          SectionMapperService.byCategory(SectionCategory.interest);
+      final results = SectionMapperService.byCategory(SectionCategory.interest);
       expect(results, isNotEmpty);
     });
   });
@@ -292,30 +310,104 @@ void main() {
     // These are the 40+ unique sections found in the codebase scan.
     // Every one must have a mapping.
     final criticalSections = [
-      '80C', '80CCC', '80CCD(1)', '80CCD(1B)', '80CCD(2)',
-      '80D', '80DD', '80DDB', '80E', '80EE', '80EEA',
-      '80G', '80GG', '80GGA', '80GGC', '80TTA', '80TTB', '80U',
-      '115BAC', '115BBH', '115BAA', '115JB', '87A',
-      '192', '193', '194', '194A', '194B', '194BB',
-      '194C', '194D', '194DA', '194E', '194EE', '194G', '194H',
-      '194I(a)', '194I(b)', '194IA', '194IB',
-      '194J(a)', '194J(b)', '194K', '194LA', '194LBC',
-      '194M', '194N', '194O', '194Q', '194R', '194S', '194T', '195',
-      '206C', '206AA',
-      '143(1)', '143(3)', '142', '144', '147', '148', '153A', '154',
-      '234A', '234B', '234C', '234D', '234E', '234F',
-      '45', '48', '54', '111A', '112', '112A',
-      '6', '90', '91', '92C',
-      '139', '140A', '140B',
-      '10', '11', '12', '12AB',
-      '80IAC', '56(2)(viib)',
+      '80C',
+      '80CCC',
+      '80CCD(1)',
+      '80CCD(1B)',
+      '80CCD(2)',
+      '80D',
+      '80DD',
+      '80DDB',
+      '80E',
+      '80EE',
+      '80EEA',
+      '80G',
+      '80GG',
+      '80GGA',
+      '80GGC',
+      '80TTA',
+      '80TTB',
+      '80U',
+      '115BAC',
+      '115BBH',
+      '115BAA',
+      '115JB',
+      '87A',
+      '192',
+      '193',
+      '194',
+      '194A',
+      '194B',
+      '194BB',
+      '194C',
+      '194D',
+      '194DA',
+      '194E',
+      '194EE',
+      '194G',
+      '194H',
+      '194I(a)',
+      '194I(b)',
+      '194IA',
+      '194IB',
+      '194J(a)',
+      '194J(b)',
+      '194K',
+      '194LA',
+      '194LBC',
+      '194M',
+      '194N',
+      '194O',
+      '194Q',
+      '194R',
+      '194S',
+      '194T',
+      '195',
+      '206C',
+      '206AA',
+      '143(1)',
+      '143(3)',
+      '142',
+      '144',
+      '147',
+      '148',
+      '153A',
+      '154',
+      '234A',
+      '234B',
+      '234C',
+      '234D',
+      '234E',
+      '234F',
+      '45',
+      '48',
+      '54',
+      '111A',
+      '112',
+      '112A',
+      '6',
+      '90',
+      '91',
+      '92C',
+      '139',
+      '140A',
+      '140B',
+      '10',
+      '11',
+      '12',
+      '12AB',
+      '80IAC',
+      '56(2)(viib)',
     ];
 
     for (final section in criticalSections) {
       test('mapping exists for section $section', () {
         final result = SectionMapperService.from1961(section);
-        expect(result, isNotNull,
-            reason: 'Missing mapping for critical section: $section');
+        expect(
+          result,
+          isNotNull,
+          reason: 'Missing mapping for critical section: $section',
+        );
       });
     }
   });

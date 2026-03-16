@@ -75,7 +75,9 @@ void main() {
       expect(find.text('Tools'), findsOneWidget);
     });
 
-    testWidgets('renders UrgencyCard widgets for urgent filings', (tester) async {
+    testWidgets('renders UrgencyCard widgets for urgent filings', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -83,8 +85,9 @@ void main() {
       expect(find.byType(UrgencyCard), findsWidgets);
     });
 
-    testWidgets('renders DraftFilingTile widgets for in-progress filings',
-        (tester) async {
+    testWidgets('renders DraftFilingTile widgets for in-progress filings', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -92,8 +95,9 @@ void main() {
       expect(find.byType(DraftFilingTile), findsWidgets);
     });
 
-    testWidgets('renders RecentFilingTile widgets for filed returns',
-        (tester) async {
+    testWidgets('renders RecentFilingTile widgets for filed returns', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

@@ -148,7 +148,7 @@ void main() {
               'last_attempt_at': '2025-07-15T12:00:00.000Z',
               'error': 'Portal timeout',
               'completed_at': null,
-            }
+            },
           ],
           'status': 'running',
           'completed_items': 0,

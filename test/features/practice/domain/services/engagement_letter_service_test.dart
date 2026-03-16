@@ -56,10 +56,7 @@ void main() {
 
   group('EngagementLetterService.instance', () {
     test('singleton returns same instance', () {
-      expect(
-        identical(EngagementLetterService.instance, service),
-        isTrue,
-      );
+      expect(identical(EngagementLetterService.instance, service), isTrue);
     });
   });
 

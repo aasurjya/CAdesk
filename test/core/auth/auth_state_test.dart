@@ -47,10 +47,7 @@ void main() {
 
     group('Pattern matching coverage', () {
       test('exhaustive switch over sealed subtypes compiles and works', () {
-        const states = <AuthState>[
-          AuthUnauthenticated(),
-          AuthLoading(),
-        ];
+        const states = <AuthState>[AuthUnauthenticated(), AuthLoading()];
 
         for (final state in states) {
           final label = switch (state) {

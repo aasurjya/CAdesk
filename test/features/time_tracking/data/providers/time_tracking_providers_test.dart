@@ -17,7 +17,9 @@ void main() {
     });
 
     test('start sets isRunning to true', () {
-      container.read(activeTimerProvider.notifier).start(
+      container
+          .read(activeTimerProvider.notifier)
+          .start(
             clientName: 'Test Client',
             taskDescription: 'Test Task',
             billingRate: 2000,
@@ -28,7 +30,9 @@ void main() {
     });
 
     test('pause sets isRunning to false', () {
-      container.read(activeTimerProvider.notifier).start(
+      container
+          .read(activeTimerProvider.notifier)
+          .start(
             clientName: 'Test Client',
             taskDescription: 'Test',
             billingRate: 1500,
@@ -38,7 +42,9 @@ void main() {
     });
 
     test('stop resets to idle', () {
-      container.read(activeTimerProvider.notifier).start(
+      container
+          .read(activeTimerProvider.notifier)
+          .start(
             clientName: 'Test Client',
             taskDescription: 'Test',
             billingRate: 1500,
@@ -83,7 +89,9 @@ void main() {
     });
 
     test('can be set to all', () {
-      container.read(timeEntryFilterProvider.notifier).update(TimeEntryFilter.all);
+      container
+          .read(timeEntryFilterProvider.notifier)
+          .update(TimeEntryFilter.all);
       expect(container.read(timeEntryFilterProvider), TimeEntryFilter.all);
     });
 

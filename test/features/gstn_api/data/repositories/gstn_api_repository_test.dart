@@ -72,10 +72,7 @@ Dio _mockDio(Map<String, dynamic> body, {int statusCode = 200}) {
 }
 
 /// Builds a [GstnApiRepositoryImpl] whose service calls hit [adapter].
-GstnApiRepositoryImpl _liveRepo(
-  _FakeCredentialRepository credRepo,
-  Dio dio,
-) {
+GstnApiRepositoryImpl _liveRepo(_FakeCredentialRepository credRepo, Dio dio) {
   return GstnApiRepositoryImpl(
     dio: dio,
     credentialRepository: credRepo,
@@ -199,20 +196,24 @@ void main() {
       credRepo = _FakeCredentialRepository(credential: _makeCredential());
     });
 
-    test('verifyGstin delegates to mock, returns active for 15-char GSTIN',
-        () async {
-      final repo = _devRepo(credRepo);
-      final result = await repo.verifyGstin('29ABCDE1234F1Z5');
-      expect(result.status, GstnRegistrationStatus.active);
-      expect(result.gstin, '29ABCDE1234F1Z5');
-    });
+    test(
+      'verifyGstin delegates to mock, returns active for 15-char GSTIN',
+      () async {
+        final repo = _devRepo(credRepo);
+        final result = await repo.verifyGstin('29ABCDE1234F1Z5');
+        expect(result.status, GstnRegistrationStatus.active);
+        expect(result.gstin, '29ABCDE1234F1Z5');
+      },
+    );
 
-    test('verifyGstin delegates to mock, returns cancelled for invalid GSTIN',
-        () async {
-      final repo = _devRepo(credRepo);
-      final result = await repo.verifyGstin('INVALID');
-      expect(result.status, GstnRegistrationStatus.cancelled);
-    });
+    test(
+      'verifyGstin delegates to mock, returns cancelled for invalid GSTIN',
+      () async {
+        final repo = _devRepo(credRepo);
+        final result = await repo.verifyGstin('INVALID');
+        expect(result.status, GstnRegistrationStatus.cancelled);
+      },
+    );
 
     test('saveReturn delegates to mock', () async {
       final repo = _devRepo(credRepo);
@@ -460,12 +461,7 @@ void main() {
         );
 
         expect(
-          () => repo.fileReturn(
-            '29AABCU9603R1ZX',
-            'GSTR1',
-            '032024',
-            '123456',
-          ),
+          () => repo.fileReturn('29AABCU9603R1ZX', 'GSTR1', '032024', '123456'),
           throwsA(isA<PortalAuthException>()),
         );
       });
@@ -507,7 +503,9 @@ void main() {
         final credRepo = _FakeCredentialRepository(
           credential: _makeCredential(),
         );
-        final dio = _mockDio({'data': {'docSts': 'NG', 'docSummary': {}}});
+        final dio = _mockDio({
+          'data': {'docSts': 'NG', 'docSummary': {}},
+        });
         final repo = _liveRepo(credRepo, dio);
 
         final result = await repo.fetchGstr2b('29AABCU9603R1ZX', '032024');

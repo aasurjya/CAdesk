@@ -14,9 +14,7 @@ import 'package:ca_app/features/msme/domain/models/msme_payment.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: MsmeScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: MsmeScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -66,8 +64,9 @@ void main() {
       expect(find.text('MSME Compliance'), findsOneWidget);
     });
 
-    testWidgets('renders Vendors, Payments, and 43B(h) Alerts tabs',
-        (tester) async {
+    testWidgets('renders Vendors, Payments, and 43B(h) Alerts tabs', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -129,7 +128,9 @@ void main() {
       expect(find.byType(MsmeSummaryCard), findsOneWidget);
     });
 
-    testWidgets('Vendors tab shows classification filter chips', (tester) async {
+    testWidgets('Vendors tab shows classification filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -143,8 +144,9 @@ void main() {
       expect(find.byType(MsmeVendorTile), findsWidgets);
     });
 
-    testWidgets('switching to Payments tab shows MsmePaymentTile list',
-        (tester) async {
+    testWidgets('switching to Payments tab shows MsmePaymentTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -159,7 +161,9 @@ void main() {
       expect(find.byType(MsmePaymentTile), findsWidgets);
     });
 
-    testWidgets('Payments tab shows payment status filter chips', (tester) async {
+    testWidgets('Payments tab shows payment status filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -174,8 +178,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('Vendors tab shows Bharat Precision Tools from mock data',
-        (tester) async {
+    testWidgets('Vendors tab shows Bharat Precision Tools from mock data', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -203,10 +208,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('UDYAM-MH-12-0012345'),
-        findsWidgets,
-      );
+      expect(find.textContaining('UDYAM-MH-12-0012345'), findsWidgets);
     });
 
     testWidgets('renders Small classification badge', (tester) async {

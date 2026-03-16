@@ -33,7 +33,10 @@ void main() {
         expect(record.buyerName, 'XYZ Corp');
         expect(record.invoiceValue, 118000.0);
         expect(record.gstAmount, 18000.0);
-        expect(record.irn, 'IRN12345678901234567890123456789012345678901234567890');
+        expect(
+          record.irn,
+          'IRN12345678901234567890123456789012345678901234567890',
+        );
         expect(record.status, 'Active');
         expect(record.windowType, '30-day');
         expect(record.daysRemaining, 25);
@@ -41,24 +44,27 @@ void main() {
         expect(record.qrGenerated, true);
       });
 
-      test('defaults status to Pending and windowType to 30-day when missing', () {
-        final json = {
-          'id': 'inv-002',
-          'client_name': 'Test Corp',
-          'invoice_number': 'INV/2025/002',
-          'buyer_name': 'Buyer Ltd',
-          'invoice_value': 50000.0,
-          'gst_amount': 9000.0,
-          'irn': 'IRN000',
-          'days_remaining': 10,
-          'invoice_date': '15/09/2025',
-        };
+      test(
+        'defaults status to Pending and windowType to 30-day when missing',
+        () {
+          final json = {
+            'id': 'inv-002',
+            'client_name': 'Test Corp',
+            'invoice_number': 'INV/2025/002',
+            'buyer_name': 'Buyer Ltd',
+            'invoice_value': 50000.0,
+            'gst_amount': 9000.0,
+            'irn': 'IRN000',
+            'days_remaining': 10,
+            'invoice_date': '15/09/2025',
+          };
 
-        final record = EinvoicingMapper.recordFromJson(json);
-        expect(record.status, 'Pending');
-        expect(record.windowType, '30-day');
-        expect(record.qrGenerated, false);
-      });
+          final record = EinvoicingMapper.recordFromJson(json);
+          expect(record.status, 'Pending');
+          expect(record.windowType, '30-day');
+          expect(record.qrGenerated, false);
+        },
+      );
 
       test('handles integer invoice_value as double', () {
         final json = {

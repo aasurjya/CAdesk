@@ -24,9 +24,7 @@ Future<void> _ignoreOverflow(Future<void> Function() body) async {
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: CollaborationScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: CollaborationScreen()));
 }
 
 Future<void> _setDisplay(WidgetTester tester) async {
@@ -103,15 +101,17 @@ void main() {
       expect(find.text('Expired Links'), findsOneWidget);
     });
 
-    testWidgets('Active Sessions tab shows sessions or empty state',
-        (tester) async {
+    testWidgets('Active Sessions tab shows sessions or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       final hasSessions = find.byType(UserSessionTile).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No sessions match the selected filter').evaluate()
-              .isNotEmpty;
+      final hasEmpty = find
+          .text('No sessions match the selected filter')
+          .evaluate()
+          .isNotEmpty;
       expect(hasSessions || hasEmpty, isTrue);
     });
 
@@ -122,23 +122,27 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('renders devices_rounded icon in Total Sessions card',
-        (tester) async {
+    testWidgets('renders devices_rounded icon in Total Sessions card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.devices_rounded), findsOneWidget);
     });
 
-    testWidgets('renders link_rounded icon in Active Links card', (tester) async {
+    testWidgets('renders link_rounded icon in Active Links card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.link_rounded), findsOneWidget);
     });
 
-    testWidgets('switching to Guest Links tab renders without error',
-        (tester) async {
+    testWidgets('switching to Guest Links tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -156,8 +160,10 @@ void main() {
       await _ignoreOverflow(() async {
         await tester.tap(find.text('Guest Links').first);
         await tester.pumpAndSettle();
-        final hasEmpty =
-            find.text('No guest links have been created').evaluate().isNotEmpty;
+        final hasEmpty = find
+            .text('No guest links have been created')
+            .evaluate()
+            .isNotEmpty;
         final hasCards = find.byType(Card).evaluate().isNotEmpty;
         expect(hasEmpty || hasCards, isTrue);
       });

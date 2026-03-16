@@ -94,15 +94,17 @@ void main() {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
-      final hasBanner =
-          find.text('Bring clients live smoothly').evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No active onboarding').evaluate().isNotEmpty;
+      final hasBanner = find
+          .text('Bring clients live smoothly')
+          .evaluate()
+          .isNotEmpty;
+      final hasEmpty = find.text('No active onboarding').evaluate().isNotEmpty;
       expect(hasBanner || hasEmpty, isTrue);
     });
 
-    testWidgets('switching to KYC Status tab shows summary card',
-        (tester) async {
+    testWidgets('switching to KYC Status tab shows summary card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -135,8 +137,9 @@ void main() {
       });
     });
 
-    testWidgets('KYC Status tab shows KYC records or empty state',
-        (tester) async {
+    testWidgets('KYC Status tab shows KYC records or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -149,7 +152,9 @@ void main() {
       });
     });
 
-    testWidgets('switching to Doc Expiry tab shows filter chips', (tester) async {
+    testWidgets('switching to Doc Expiry tab shows filter chips', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

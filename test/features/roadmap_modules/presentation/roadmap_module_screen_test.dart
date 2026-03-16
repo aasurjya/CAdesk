@@ -11,10 +11,8 @@ Future<void> _setViewport(WidgetTester tester) async {
 
 // Use moduleId '4' which maps to TDS.AI in _moduleDefinitions in roadmap_modules_providers.dart
 Widget _buildScreen({String moduleId = '4'}) => ProviderScope(
-      child: MaterialApp(
-        home: RoadmapModuleScreen(moduleId: moduleId),
-      ),
-    );
+  child: MaterialApp(home: RoadmapModuleScreen(moduleId: moduleId)),
+);
 
 void main() {
   group('RoadmapModuleScreen — valid module', () {
@@ -116,8 +114,9 @@ void main() {
       expect(find.text('Enabled automations'), findsOneWidget);
     });
 
-    testWidgets('renders Quick wins section in Automations tab',
-        (tester) async {
+    testWidgets('renders Quick wins section in Automations tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -144,8 +143,9 @@ void main() {
   });
 
   group('RoadmapModuleScreen — invalid module', () {
-    testWidgets('renders not found message for unknown moduleId',
-        (tester) async {
+    testWidgets('renders not found message for unknown moduleId', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen(moduleId: 'nonexistent-99999'));
       await tester.pumpAndSettle();

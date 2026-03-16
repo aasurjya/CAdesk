@@ -67,8 +67,9 @@ void main() {
       expect(find.text('View Full Calendar'), findsOneWidget);
     });
 
-    testWidgets('renders calendar month icon in View Full Calendar button',
-        (tester) async {
+    testWidgets('renders calendar month icon in View Full Calendar button', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -88,7 +89,9 @@ void main() {
       expect(find.byIcon(Icons.today_rounded), findsWidgets);
     });
 
-    testWidgets('renders date_range icon for This Week section', (tester) async {
+    testWidgets('renders date_range icon for This Week section', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -123,7 +126,9 @@ void main() {
       expect(find.byType(Container), findsWidgets);
     });
 
-    testWidgets('renders deadline tiles when data is available', (tester) async {
+    testWidgets('renders deadline tiles when data is available', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -132,17 +137,15 @@ void main() {
       expect(find.byType(Scaffold), findsOneWidget);
     });
 
-    testWidgets('renders empty state message when no deadlines due today',
-        (tester) async {
+    testWidgets('renders empty state message when no deadlines due today', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
       // Either deadline tiles or "Nothing due today." are shown
-      expect(
-        find.byType(TodayScreen),
-        findsOneWidget,
-      );
+      expect(find.byType(TodayScreen), findsOneWidget);
     });
 
     testWidgets('does not crash at 600x1000 viewport', (tester) async {

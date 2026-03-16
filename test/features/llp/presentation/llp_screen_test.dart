@@ -128,8 +128,9 @@ void main() {
       expect(find.byType(Column), findsWidgets);
     });
 
-    testWidgets('does not crash when no LLPs have strike-off risk',
-        (tester) async {
+    testWidgets('does not crash when no LLPs have strike-off risk', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

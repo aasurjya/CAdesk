@@ -48,10 +48,7 @@ void main() {
 
     test('all scores are between 0 and 100', () {
       final scores = container.read(allGrowthScoresProvider);
-      expect(
-        scores.every((s) => s.score >= 0 && s.score <= 100),
-        isTrue,
-      );
+      expect(scores.every((s) => s.score >= 0 && s.score <= 100), isTrue);
     });
   });
 
@@ -73,9 +70,7 @@ void main() {
     });
 
     test('can be reset to null', () {
-      container
-          .read(selectedBenchmarkCategoryProvider.notifier)
-          .select('Team');
+      container.read(selectedBenchmarkCategoryProvider.notifier).select('Team');
       container.read(selectedBenchmarkCategoryProvider.notifier).select(null);
       expect(container.read(selectedBenchmarkCategoryProvider), isNull);
     });

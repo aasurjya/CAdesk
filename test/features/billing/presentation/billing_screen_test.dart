@@ -27,9 +27,7 @@ final _testInvoice = Invoice(
 );
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: BillingScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: BillingScreen()));
 }
 
 // ---------------------------------------------------------------------------
@@ -130,8 +128,9 @@ void main() {
       expect(find.byType(BottomSheet), findsOneWidget);
     });
 
-    testWidgets('switching to Payments tab shows receipts content',
-        (tester) async {
+    testWidgets('switching to Payments tab shows receipts content', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -150,10 +149,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('Stay on top of collections'),
-        findsOneWidget,
-      );
+      expect(find.text('Stay on top of collections'), findsOneWidget);
     });
   });
 
@@ -161,9 +157,7 @@ void main() {
     testWidgets('renders invoice number', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: InvoiceTile(invoice: _testInvoice),
-          ),
+          home: Scaffold(body: InvoiceTile(invoice: _testInvoice)),
         ),
       );
 
@@ -173,9 +167,7 @@ void main() {
     testWidgets('renders client name', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: InvoiceTile(invoice: _testInvoice),
-          ),
+          home: Scaffold(body: InvoiceTile(invoice: _testInvoice)),
         ),
       );
 
@@ -185,9 +177,7 @@ void main() {
     testWidgets('renders status badge label', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: InvoiceTile(invoice: _testInvoice),
-          ),
+          home: Scaffold(body: InvoiceTile(invoice: _testInvoice)),
         ),
       );
 
@@ -197,9 +187,7 @@ void main() {
     testWidgets('renders Grand Total and Balance Due labels', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: InvoiceTile(invoice: _testInvoice),
-          ),
+          home: Scaffold(body: InvoiceTile(invoice: _testInvoice)),
         ),
       );
 
@@ -210,9 +198,7 @@ void main() {
     testWidgets('renders due date', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: InvoiceTile(invoice: _testInvoice),
-          ),
+          home: Scaffold(body: InvoiceTile(invoice: _testInvoice)),
         ),
       );
 
@@ -237,8 +223,9 @@ void main() {
       expect(tapped, isTrue);
     });
 
-    testWidgets('paid invoice does not show balance due section',
-        (tester) async {
+    testWidgets('paid invoice does not show balance due section', (
+      tester,
+    ) async {
       final paidInvoice = Invoice(
         id: 'inv-paid',
         invoiceNumber: 'CAD-2026-PAID',

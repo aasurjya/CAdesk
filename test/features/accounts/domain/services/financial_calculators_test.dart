@@ -23,7 +23,11 @@ void main() {
     group('quickRatio', () {
       test('excludes inventory from current assets', () {
         // (300000 - 60000) / 100000 = 2.4
-        final result = FinancialRatioCalculator.quickRatio(300000, 60000, 100000);
+        final result = FinancialRatioCalculator.quickRatio(
+          300000,
+          60000,
+          100000,
+        );
         expect(result, closeTo(2.4, 0.001));
       });
 
@@ -41,7 +45,10 @@ void main() {
     group('grossMarginPercent', () {
       test('computes (revenue - cogs) / revenue * 100', () {
         // (1000000 - 600000) / 1000000 * 100 = 40%
-        final result = FinancialRatioCalculator.grossMarginPercent(1000000, 600000);
+        final result = FinancialRatioCalculator.grossMarginPercent(
+          1000000,
+          600000,
+        );
         expect(result, closeTo(40.0, 0.001));
       });
 
@@ -56,7 +63,10 @@ void main() {
       });
 
       test('returns negative margin when COGS exceeds revenue', () {
-        final result = FinancialRatioCalculator.grossMarginPercent(500000, 700000);
+        final result = FinancialRatioCalculator.grossMarginPercent(
+          500000,
+          700000,
+        );
         expect(result, closeTo(-40.0, 0.001));
       });
     });
@@ -64,7 +74,10 @@ void main() {
     group('netMarginPercent', () {
       test('computes net profit / revenue * 100', () {
         // 150000 / 1000000 * 100 = 15%
-        final result = FinancialRatioCalculator.netMarginPercent(1000000, 150000);
+        final result = FinancialRatioCalculator.netMarginPercent(
+          1000000,
+          150000,
+        );
         expect(result, closeTo(15.0, 0.001));
       });
 
@@ -74,14 +87,20 @@ void main() {
       });
 
       test('returns negative margin on loss', () {
-        final result = FinancialRatioCalculator.netMarginPercent(1000000, -50000);
+        final result = FinancialRatioCalculator.netMarginPercent(
+          1000000,
+          -50000,
+        );
         expect(result, closeTo(-5.0, 0.001));
       });
     });
 
     group('ebitdaMarginPercent', () {
       test('computes ebitda / revenue * 100', () {
-        final result = FinancialRatioCalculator.ebitdaMarginPercent(1000000, 250000);
+        final result = FinancialRatioCalculator.ebitdaMarginPercent(
+          1000000,
+          250000,
+        );
         expect(result, closeTo(25.0, 0.001));
       });
 
@@ -142,17 +161,26 @@ void main() {
     group('interestCoverageRatio', () {
       test('computes EBIT / interest expense', () {
         // 500000 / 100000 = 5
-        final result = FinancialRatioCalculator.interestCoverageRatio(500000, 100000);
+        final result = FinancialRatioCalculator.interestCoverageRatio(
+          500000,
+          100000,
+        );
         expect(result, closeTo(5.0, 0.001));
       });
 
       test('returns infinity when interest expense is zero', () {
-        final result = FinancialRatioCalculator.interestCoverageRatio(500000, 0);
+        final result = FinancialRatioCalculator.interestCoverageRatio(
+          500000,
+          0,
+        );
         expect(result, double.infinity);
       });
 
       test('returns negative when EBIT is negative (cannot service debt)', () {
-        final result = FinancialRatioCalculator.interestCoverageRatio(-100000, 50000);
+        final result = FinancialRatioCalculator.interestCoverageRatio(
+          -100000,
+          50000,
+        );
         expect(result, closeTo(-2.0, 0.001));
       });
     });
@@ -198,12 +226,30 @@ void main() {
   group('DepreciationCalculator', () {
     group('rates map', () {
       test('contains standard IT Act asset blocks', () {
-        expect(DepreciationCalculator.rates, containsPair('Computers & Software', 40.0));
-        expect(DepreciationCalculator.rates, containsPair('Buildings (Residential)', 5.0));
-        expect(DepreciationCalculator.rates, containsPair('Plant & Machinery (General)', 15.0));
-        expect(DepreciationCalculator.rates, containsPair('Furniture & Fittings', 10.0));
-        expect(DepreciationCalculator.rates, containsPair('Motor Vehicles (Heavy)', 30.0));
-        expect(DepreciationCalculator.rates, containsPair('Intangibles (Patents/Know-how)', 25.0));
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Computers & Software', 40.0),
+        );
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Buildings (Residential)', 5.0),
+        );
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Plant & Machinery (General)', 15.0),
+        );
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Furniture & Fittings', 10.0),
+        );
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Motor Vehicles (Heavy)', 30.0),
+        );
+        expect(
+          DepreciationCalculator.rates,
+          containsPair('Intangibles (Patents/Know-how)', 25.0),
+        );
       });
 
       test('has 9 asset blocks', () {

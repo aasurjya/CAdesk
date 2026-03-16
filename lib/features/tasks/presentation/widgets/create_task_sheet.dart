@@ -71,9 +71,9 @@ class _CreateTaskSheetState extends ConsumerState<CreateTaskSheet> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedDueDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a due date')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please select a due date')));
       return;
     }
 
@@ -291,8 +291,7 @@ class _CreateTaskSheetState extends ConsumerState<CreateTaskSheet> {
                   child: InputDecorator(
                     decoration: InputDecoration(
                       labelText: 'Due Date *',
-                      prefixIcon:
-                          const Icon(Icons.calendar_today_rounded),
+                      prefixIcon: const Icon(Icons.calendar_today_rounded),
                       border: const OutlineInputBorder(),
                       suffixIcon: _selectedDueDate != null
                           ? IconButton(
@@ -346,9 +345,7 @@ class _CreateTaskSheetState extends ConsumerState<CreateTaskSheet> {
                             ),
                           )
                         : const Icon(Icons.add_task_rounded),
-                    label: Text(
-                      _isSubmitting ? 'Creating...' : 'Create Task',
-                    ),
+                    label: Text(_isSubmitting ? 'Creating...' : 'Create Task'),
                   ),
                 ),
                 const SizedBox(height: 16),

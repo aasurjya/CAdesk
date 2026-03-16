@@ -42,25 +42,28 @@ void main() {
         expect(disclosure.pendingItems[0], 'Scope 3 data upload');
       });
 
-      test('defaults status to Draft and sebiCategory to Voluntary when missing', () {
-        final json = {
-          'id': 'esg-002',
-          'client_name': '',
-          'client_pan': '',
-          'disclosure_type': 'Sustainability Report',
-          'reporting_year': 'FY 2024-25',
-          'environment_score': 0.0,
-          'social_score': 0.0,
-          'governance_score': 0.0,
-          'overall_score': 0.0,
-          'pending_items': <String>[],
-        };
+      test(
+        'defaults status to Draft and sebiCategory to Voluntary when missing',
+        () {
+          final json = {
+            'id': 'esg-002',
+            'client_name': '',
+            'client_pan': '',
+            'disclosure_type': 'Sustainability Report',
+            'reporting_year': 'FY 2024-25',
+            'environment_score': 0.0,
+            'social_score': 0.0,
+            'governance_score': 0.0,
+            'overall_score': 0.0,
+            'pending_items': <String>[],
+          };
 
-        final disclosure = EsgReportingMapper.disclosureFromJson(json);
-        expect(disclosure.status, 'Draft');
-        expect(disclosure.sebiCategory, 'Voluntary');
-        expect(disclosure.pendingItems, isEmpty);
-      });
+          final disclosure = EsgReportingMapper.disclosureFromJson(json);
+          expect(disclosure.status, 'Draft');
+          expect(disclosure.sebiCategory, 'Voluntary');
+          expect(disclosure.pendingItems, isEmpty);
+        },
+      );
 
       test('handles empty pending_items list', () {
         final json = {

@@ -102,7 +102,11 @@ void main() {
     test('returns health score for known client IDs (1–15)', () {
       for (int i = 1; i <= 15; i++) {
         final score = container.read(clientHealthScoreProvider('$i'));
-        expect(score, isNotNull, reason: 'Client $i should have a health score');
+        expect(
+          score,
+          isNotNull,
+          reason: 'Client $i should have a health score',
+        );
         expect(score!.clientId, '$i');
       }
     });
@@ -147,12 +151,16 @@ void main() {
     });
 
     test('can be updated to active', () {
-      container.read(selectedStatusFilterProvider.notifier).update(ClientStatus.active);
+      container
+          .read(selectedStatusFilterProvider.notifier)
+          .update(ClientStatus.active);
       expect(container.read(selectedStatusFilterProvider), ClientStatus.active);
     });
 
     test('can be cleared back to null', () {
-      container.read(selectedStatusFilterProvider.notifier).update(ClientStatus.inactive);
+      container
+          .read(selectedStatusFilterProvider.notifier)
+          .update(ClientStatus.inactive);
       container.read(selectedStatusFilterProvider.notifier).update(null);
       expect(container.read(selectedStatusFilterProvider), isNull);
     });
@@ -169,7 +177,9 @@ void main() {
     });
 
     test('can be updated to a specific type', () {
-      container.read(selectedTypeFilterProvider.notifier).update(ClientType.company);
+      container
+          .read(selectedTypeFilterProvider.notifier)
+          .update(ClientType.company);
       expect(container.read(selectedTypeFilterProvider), ClientType.company);
     });
   });
@@ -185,7 +195,9 @@ void main() {
     });
 
     test('can switch to recent', () {
-      container.read(sortOptionProvider.notifier).update(ClientSortOption.recent);
+      container
+          .read(sortOptionProvider.notifier)
+          .update(ClientSortOption.recent);
       expect(container.read(sortOptionProvider), ClientSortOption.recent);
     });
 
@@ -268,8 +280,8 @@ void main() {
       for (int i = 0; i < filtered.length - 1; i++) {
         expect(
           filtered[i].name.toLowerCase().compareTo(
-                filtered[i + 1].name.toLowerCase(),
-              ),
+            filtered[i + 1].name.toLowerCase(),
+          ),
           lessThanOrEqualTo(0),
         );
       }

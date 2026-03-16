@@ -13,9 +13,7 @@ import 'package:ca_app/features/transfer_pricing/domain/models/tp_filing.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: TransferPricingScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: TransferPricingScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -131,8 +129,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('switching to Form 3CEB tab shows TpFilingTile list',
-        (tester) async {
+    testWidgets('switching to Form 3CEB tab shows TpFilingTile list', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -142,7 +141,9 @@ void main() {
       expect(find.byType(TpFilingTile), findsWidgets);
     });
 
-    testWidgets('Form 3CEB tab shows filing status filter chips', (tester) async {
+    testWidgets('Form 3CEB tab shows filing status filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 

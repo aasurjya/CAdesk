@@ -90,10 +90,7 @@ void main() {
           .read(noticeSeverityFilterProvider.notifier)
           .update(NoticeSeverity.high);
       final filtered = container.read(filteredNoticeCasesProvider);
-      expect(
-        filtered.every((c) => c.severity == NoticeSeverity.high),
-        isTrue,
-      );
+      expect(filtered.every((c) => c.severity == NoticeSeverity.high), isTrue);
     });
 
     test('filtered results are a subset of all cases', () {

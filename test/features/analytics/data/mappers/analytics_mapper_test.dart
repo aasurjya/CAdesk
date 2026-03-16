@@ -129,19 +129,22 @@ void main() {
         expect(json['top_module'], isNull);
       });
 
-      test('round-trip snapshotFromJson(snapshotToJson) preserves all fields', () {
-        final json = AnalyticsMapper.snapshotToJson(sampleSnapshot);
-        final restored = AnalyticsMapper.snapshotFromJson(json);
+      test(
+        'round-trip snapshotFromJson(snapshotToJson) preserves all fields',
+        () {
+          final json = AnalyticsMapper.snapshotToJson(sampleSnapshot);
+          final restored = AnalyticsMapper.snapshotFromJson(json);
 
-        expect(restored.id, sampleSnapshot.id);
-        expect(restored.firmId, sampleSnapshot.firmId);
-        expect(restored.period, sampleSnapshot.period);
-        expect(restored.totalRevenue, sampleSnapshot.totalRevenue);
-        expect(restored.totalClients, sampleSnapshot.totalClients);
-        expect(restored.filingCompleted, sampleSnapshot.filingCompleted);
-        expect(restored.avgResponseTime, sampleSnapshot.avgResponseTime);
-        expect(restored.topModule, sampleSnapshot.topModule);
-      });
+          expect(restored.id, sampleSnapshot.id);
+          expect(restored.firmId, sampleSnapshot.firmId);
+          expect(restored.period, sampleSnapshot.period);
+          expect(restored.totalRevenue, sampleSnapshot.totalRevenue);
+          expect(restored.totalClients, sampleSnapshot.totalClients);
+          expect(restored.filingCompleted, sampleSnapshot.filingCompleted);
+          expect(restored.avgResponseTime, sampleSnapshot.avgResponseTime);
+          expect(restored.topModule, sampleSnapshot.topModule);
+        },
+      );
     });
 
     // -------------------------------------------------------------------------

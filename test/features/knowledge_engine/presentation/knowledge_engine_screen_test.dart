@@ -88,7 +88,9 @@ void main() {
       expect(find.text('Templates'), findsWidgets);
     });
 
-    testWidgets('renders category filter chips in Articles tab', (tester) async {
+    testWidgets('renders category filter chips in Articles tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -96,8 +98,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('renders KnowledgeArticleTile items in Articles tab',
-        (tester) async {
+    testWidgets('renders KnowledgeArticleTile items in Articles tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -127,17 +130,16 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.tap(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('SOPs'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('SOPs')),
       );
       await tester.pumpAndSettle();
 
       expect(find.byType(TabBarView), findsOneWidget);
     });
 
-    testWidgets('renders library_books icon for Total Articles', (tester) async {
+    testWidgets('renders library_books icon for Total Articles', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

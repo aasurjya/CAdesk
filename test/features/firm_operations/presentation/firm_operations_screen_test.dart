@@ -105,8 +105,7 @@ void main() {
       await tester.pumpWidget(buildSubject());
       await tester.pumpAndSettle();
       final hasList = find.byType(ListView).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.byIcon(Icons.people_outline).evaluate().isNotEmpty;
+      final hasEmpty = find.byIcon(Icons.people_outline).evaluate().isNotEmpty;
       expect(hasList || hasEmpty, isTrue);
     });
 
@@ -114,8 +113,10 @@ void main() {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(buildSubject());
       await tester.pump();
-      final hasLoading =
-          find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final hasLoading = find
+          .byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
       final hasContent = find.byType(Column).evaluate().isNotEmpty;
       expect(hasLoading || hasContent, isTrue);
     });
@@ -128,8 +129,10 @@ void main() {
         await tester.tap(find.text('KPIs'));
         await tester.pumpAndSettle();
         final hasKpis = find.byType(ListView).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.byIcon(Icons.bar_chart_outlined).evaluate().isNotEmpty;
+        final hasEmpty = find
+            .byIcon(Icons.bar_chart_outlined)
+            .evaluate()
+            .isNotEmpty;
         expect(hasKpis || hasEmpty, isTrue);
       });
     });
@@ -141,8 +144,10 @@ void main() {
       await tester.tap(find.text('Knowledge Base'));
       await tester.pumpAndSettle();
       final hasArticles = find.byType(ListView).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.byIcon(Icons.article_outlined).evaluate().isNotEmpty;
+      final hasEmpty = find
+          .byIcon(Icons.article_outlined)
+          .evaluate()
+          .isNotEmpty;
       expect(hasArticles || hasEmpty, isTrue);
     });
 
@@ -153,10 +158,7 @@ void main() {
       await tester.tap(find.text('Knowledge Base'));
       await tester.pumpAndSettle();
       expect(
-        find.widgetWithText(
-          TextField,
-          'Search articles, tags, or authors...',
-        ),
+        find.widgetWithText(TextField, 'Search articles, tags, or authors...'),
         findsOneWidget,
       );
     });

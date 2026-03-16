@@ -95,7 +95,8 @@ void main() {
 
       test('counts sum is consistent with total', () {
         final counts = container.read(scanCountsProvider);
-        final sum = (counts['completed'] ?? 0) +
+        final sum =
+            (counts['completed'] ?? 0) +
             (counts['processing'] ?? 0) +
             (counts['review'] ?? 0) +
             (counts['failed'] ?? 0);
@@ -117,10 +118,7 @@ void main() {
         container.read(scanStatusFilterProvider.notifier).update(1);
         final filtered = container.read(filteredScanResultsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((s) => s.status == ScanStatus.completed),
-          isTrue,
-        );
+        expect(filtered.every((s) => s.status == ScanStatus.completed), isTrue);
       });
 
       test('filter 2 returns only processing scans', () {
@@ -380,7 +378,8 @@ void main() {
 
       test('attention + blocked + onTrack = all (no other statuses)', () {
         final counts = container.read(automationInsightCountsProvider);
-        final sum = (counts['attention'] ?? 0) +
+        final sum =
+            (counts['attention'] ?? 0) +
             (counts['blocked'] ?? 0) +
             (counts['onTrack'] ?? 0);
         expect(sum, counts['all']);

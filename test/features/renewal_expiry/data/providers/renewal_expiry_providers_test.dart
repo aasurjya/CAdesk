@@ -99,10 +99,7 @@ void main() {
           .read(renewalStatusFilterProvider.notifier)
           .update(RenewalStatus.overdue);
       final filtered = container.read(filteredRenewalItemsProvider);
-      expect(
-        filtered.every((i) => i.status == RenewalStatus.overdue),
-        isTrue,
-      );
+      expect(filtered.every((i) => i.status == RenewalStatus.overdue), isTrue);
     });
 
     test('upToDate filter returns only up-to-date items', () {
@@ -110,10 +107,7 @@ void main() {
           .read(renewalStatusFilterProvider.notifier)
           .update(RenewalStatus.upToDate);
       final filtered = container.read(filteredRenewalItemsProvider);
-      expect(
-        filtered.every((i) => i.status == RenewalStatus.upToDate),
-        isTrue,
-      );
+      expect(filtered.every((i) => i.status == RenewalStatus.upToDate), isTrue);
     });
   });
 

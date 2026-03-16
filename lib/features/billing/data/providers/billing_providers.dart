@@ -755,9 +755,7 @@ class AllInvoicesNotifier extends Notifier<List<Invoice>> {
     final isPaidInFull = (newAmountPaid >= invoice.grandTotal - 0.01);
     final updatedInvoice = invoice.copyWith(
       paidAmount: newAmountPaid,
-      status: isPaidInFull
-          ? InvoiceStatus.paid
-          : InvoiceStatus.partial,
+      status: isPaidInFull ? InvoiceStatus.paid : InvoiceStatus.partial,
     );
 
     updateInvoice(updatedInvoice);

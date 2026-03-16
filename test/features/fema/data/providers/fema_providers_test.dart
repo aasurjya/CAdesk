@@ -162,7 +162,10 @@ void main() {
     group('femaSummaryProvider', () {
       test('totalFilings matches femaFilingsProvider length', () {
         final summary = container.read(femaSummaryProvider);
-        expect(summary.totalFilings, container.read(femaFilingsProvider).length);
+        expect(
+          summary.totalFilings,
+          container.read(femaFilingsProvider).length,
+        );
       });
 
       test('pendingFilings is non-negative', () {
@@ -184,9 +187,7 @@ void main() {
         final summary = container.read(femaSummaryProvider);
         expect(
           summary.activeFdiTransactions,
-          lessThanOrEqualTo(
-            container.read(fdiTransactionsProvider).length,
-          ),
+          lessThanOrEqualTo(container.read(fdiTransactionsProvider).length),
         );
       });
     });

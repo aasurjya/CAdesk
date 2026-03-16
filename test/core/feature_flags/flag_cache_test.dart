@@ -52,10 +52,7 @@ void main() {
       test('flags map is unmodifiable', () {
         final cache = FlagCache();
         cache.update({'x': true});
-        expect(
-          () => cache.flags['y'] = false,
-          throwsA(isA<Error>()),
-        );
+        expect(() => cache.flags['y'] = false, throwsA(isA<Error>()));
       });
 
       test('empty update clears previous flags', () {

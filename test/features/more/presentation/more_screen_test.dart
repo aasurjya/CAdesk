@@ -86,7 +86,9 @@ void main() {
       expect(find.textContaining('CADesk v'), findsOneWidget);
     });
 
-    testWidgets('tapping list view toggle switches to list view', (tester) async {
+    testWidgets('tapping list view toggle switches to list view', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -105,8 +107,9 @@ void main() {
       expect(find.text('Income Tax'), findsOneWidget);
     });
 
-    testWidgets('renders logout icon in Sign Out button when scrolled',
-        (tester) async {
+    testWidgets('renders logout icon in Sign Out button when scrolled', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

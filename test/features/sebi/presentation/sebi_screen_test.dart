@@ -13,9 +13,7 @@ import 'package:ca_app/features/sebi/domain/models/material_event.dart';
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: SebiScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: SebiScreen()));
 }
 
 Widget _buildWidget(Widget child) {
@@ -134,8 +132,9 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('switching to Material Events tab shows MaterialEventTile',
-        (tester) async {
+    testWidgets('switching to Material Events tab shows MaterialEventTile', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -145,8 +144,9 @@ void main() {
       expect(find.byType(MaterialEventTile), findsWidgets);
     });
 
-    testWidgets('Material Events tab shows event type filter chips',
-        (tester) async {
+    testWidgets('Material Events tab shows event type filter chips', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -261,10 +261,7 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Acquisition of Beta Pharma'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Acquisition of Beta Pharma'), findsOneWidget);
     });
   });
 }

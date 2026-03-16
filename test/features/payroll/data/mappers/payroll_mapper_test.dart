@@ -69,29 +69,31 @@ void main() {
         expect(entry.netSalary, '0.00');
       });
 
-      test('converts numeric monetary values to string with 2 decimal places',
-          () {
-        final json = {
-          'id': 'pay-003',
-          'client_id': 'client-003',
-          'employee_id': 'emp-003',
-          'month': 6,
-          'year': 2025,
-          'basic_salary': 30000,
-          'allowances': 7500,
-          'deductions': 500,
-          'tds_deducted': 3000,
-          'pf_deducted': 2160,
-          'esi_deducted': 450,
-          'net_salary': 31390,
-          'status': 'approved',
-        };
+      test(
+        'converts numeric monetary values to string with 2 decimal places',
+        () {
+          final json = {
+            'id': 'pay-003',
+            'client_id': 'client-003',
+            'employee_id': 'emp-003',
+            'month': 6,
+            'year': 2025,
+            'basic_salary': 30000,
+            'allowances': 7500,
+            'deductions': 500,
+            'tds_deducted': 3000,
+            'pf_deducted': 2160,
+            'esi_deducted': 450,
+            'net_salary': 31390,
+            'status': 'approved',
+          };
 
-        final entry = PayrollMapper.fromJson(json);
-        expect(entry.basicSalary, '30000.00');
-        expect(entry.allowances, '7500.00');
-        expect(entry.netSalary, '31390.00');
-      });
+          final entry = PayrollMapper.fromJson(json);
+          expect(entry.basicSalary, '30000.00');
+          expect(entry.allowances, '7500.00');
+          expect(entry.netSalary, '31390.00');
+        },
+      );
 
       test('handles null employee_id as empty string', () {
         final json = {

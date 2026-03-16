@@ -72,19 +72,13 @@ void main() {
 
   group('WorkloadDistributionService.instance', () {
     test('singleton returns same instance', () {
-      expect(
-        identical(WorkloadDistributionService.instance, service),
-        isTrue,
-      );
+      expect(identical(WorkloadDistributionService.instance, service), isTrue);
     });
   });
 
   group('WorkloadDistributionService.computeStaffWorkload', () {
     test('all staff initialised to 0 when no engagements', () {
-      final staff = [
-        makeStaff(id: 'S1'),
-        makeStaff(id: 'S2'),
-      ];
+      final staff = [makeStaff(id: 'S1'), makeStaff(id: 'S2')];
       final workload = service.computeStaffWorkload([], staff);
 
       expect(workload['S1'], 0);
@@ -163,10 +157,7 @@ void main() {
   group('WorkloadDistributionService.suggestAssignment', () {
     test('throws ArgumentError when staff list is empty', () {
       final task = makeTask(id: 'T1', requiredRole: StaffRole.senior);
-      expect(
-        () => service.suggestAssignment(task, []),
-        throwsArgumentError,
-      );
+      expect(() => service.suggestAssignment(task, []), throwsArgumentError);
     });
 
     test('returns single available staff when only one exists', () {
@@ -189,17 +180,28 @@ void main() {
       expect(result.staffId, 'S2'); // exact role match
     });
 
-    test('among role-matched candidates, picks one with fewest engagements', () {
-      final task = makeTask(id: 'T1', requiredRole: StaffRole.senior);
-      final staff = [
-        makeStaff(id: 'S1', role: StaffRole.senior, currentEngagements: ['E1', 'E2']),
-        makeStaff(id: 'S2', role: StaffRole.senior, currentEngagements: ['E3']),
-        makeStaff(id: 'S3', role: StaffRole.senior, currentEngagements: []),
-      ];
+    test(
+      'among role-matched candidates, picks one with fewest engagements',
+      () {
+        final task = makeTask(id: 'T1', requiredRole: StaffRole.senior);
+        final staff = [
+          makeStaff(
+            id: 'S1',
+            role: StaffRole.senior,
+            currentEngagements: ['E1', 'E2'],
+          ),
+          makeStaff(
+            id: 'S2',
+            role: StaffRole.senior,
+            currentEngagements: ['E3'],
+          ),
+          makeStaff(id: 'S3', role: StaffRole.senior, currentEngagements: []),
+        ];
 
-      final result = service.suggestAssignment(task, staff);
-      expect(result.staffId, 'S3'); // fewest engagements (0)
-    });
+        final result = service.suggestAssignment(task, staff);
+        expect(result.staffId, 'S3'); // fewest engagements (0)
+      },
+    );
 
     test('fallback to all staff when no role match', () {
       final task = makeTask(id: 'T1', requiredRole: StaffRole.partner);

@@ -92,7 +92,9 @@ void main() {
       expect(find.text('Filing Due'), findsWidgets);
     });
 
-    testWidgets('renders status filter chips in NRI Clients tab', (tester) async {
+    testWidgets('renders status filter chips in NRI Clients tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -145,8 +147,9 @@ void main() {
       );
     });
 
-    testWidgets('renders handshake icon for DTAA Applicable card',
-        (tester) async {
+    testWidgets('renders handshake icon for DTAA Applicable card', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -154,7 +157,9 @@ void main() {
       expect(find.byIcon(Icons.handshake_rounded), findsWidgets);
     });
 
-    testWidgets('renders pending_actions icon for Pending Docs', (tester) async {
+    testWidgets('renders pending_actions icon for Pending Docs', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

@@ -118,24 +118,23 @@ void main() {
         'offsetParent',
         true,
       ); // element exists script returns true
-      await expectLater(
-        controller.waitForElement('#pan-input'),
-        completes,
-      );
+      await expectLater(controller.waitForElement('#pan-input'), completes);
     });
 
-    test('throws WebViewElementNotFoundException when element never appears',
-        () async {
-      // Always return false (element not found)
-      fakeWebController.setResponse('offsetParent', false);
-      await expectLater(
-        controller.waitForElement(
-          '#missing-element',
-          timeout: const Duration(milliseconds: 100),
-        ),
-        throwsA(isA<WebViewElementNotFoundException>()),
-      );
-    });
+    test(
+      'throws WebViewElementNotFoundException when element never appears',
+      () async {
+        // Always return false (element not found)
+        fakeWebController.setResponse('offsetParent', false);
+        await expectLater(
+          controller.waitForElement(
+            '#missing-element',
+            timeout: const Duration(milliseconds: 100),
+          ),
+          throwsA(isA<WebViewElementNotFoundException>()),
+        );
+      },
+    );
 
     test('exception contains selector and timeout', () async {
       fakeWebController.setResponse('offsetParent', false);
@@ -165,14 +164,16 @@ void main() {
       expect(fakeWebController.evaluatedScripts.last, contains('ABCDE1234F'));
     });
 
-    test('throws WebViewJsException when element not found (returns false)',
-        () async {
-      fakeWebController.setResponse('nativeInputValueSetter', false);
-      await expectLater(
-        controller.fillField('#missing', 'value'),
-        throwsA(isA<WebViewJsException>()),
-      );
-    });
+    test(
+      'throws WebViewJsException when element not found (returns false)',
+      () async {
+        fakeWebController.setResponse('nativeInputValueSetter', false);
+        await expectLater(
+          controller.fillField('#missing', 'value'),
+          throwsA(isA<WebViewJsException>()),
+        );
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -183,20 +184,19 @@ void main() {
     test('evaluates click script', () async {
       fakeWebController.setResponse('.click()', true);
       await controller.clickElement('#submit-btn');
-      expect(
-        fakeWebController.evaluatedScripts.last,
-        contains('#submit-btn'),
-      );
+      expect(fakeWebController.evaluatedScripts.last, contains('#submit-btn'));
     });
 
-    test('throws WebViewJsException when element not found (returns false)',
-        () async {
-      fakeWebController.setResponse('.click()', false);
-      await expectLater(
-        controller.clickElement('#missing-btn'),
-        throwsA(isA<WebViewJsException>()),
-      );
-    });
+    test(
+      'throws WebViewJsException when element not found (returns false)',
+      () async {
+        fakeWebController.setResponse('.click()', false);
+        await expectLater(
+          controller.clickElement('#missing-btn'),
+          throwsA(isA<WebViewJsException>()),
+        );
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -208,23 +208,24 @@ void main() {
       fakeWebController.setCurrentUrl(
         'https://eportal.incometax.gov.in/dashboard',
       );
-      await expectLater(
-        controller.waitForNavigation('/dashboard'),
-        completes,
-      );
+      await expectLater(controller.waitForNavigation('/dashboard'), completes);
     });
 
-    test('throws WebViewNavigationTimeoutException when pattern never matches',
-        () async {
-      fakeWebController.setCurrentUrl('https://eportal.incometax.gov.in/login');
-      await expectLater(
-        controller.waitForNavigation(
-          '/dashboard',
-          timeout: const Duration(milliseconds: 100),
-        ),
-        throwsA(isA<WebViewNavigationTimeoutException>()),
-      );
-    });
+    test(
+      'throws WebViewNavigationTimeoutException when pattern never matches',
+      () async {
+        fakeWebController.setCurrentUrl(
+          'https://eportal.incometax.gov.in/login',
+        );
+        await expectLater(
+          controller.waitForNavigation(
+            '/dashboard',
+            timeout: const Duration(milliseconds: 100),
+          ),
+          throwsA(isA<WebViewNavigationTimeoutException>()),
+        );
+      },
+    );
 
     test('exception contains URL pattern', () async {
       fakeWebController.setCurrentUrl('https://example.com/login');
@@ -301,10 +302,7 @@ void main() {
     });
 
     test('WebViewElementNotFoundException includes selector and timeout', () {
-      const e = WebViewElementNotFoundException(
-        '#btn',
-        Duration(seconds: 30),
-      );
+      const e = WebViewElementNotFoundException('#btn', Duration(seconds: 30));
       expect(e.toString(), contains('#btn'));
       expect(e.toString(), contains('30s'));
     });

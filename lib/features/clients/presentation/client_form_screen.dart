@@ -168,9 +168,9 @@ class _ClientFormScreenState extends ConsumerState<ClientFormScreen> {
         final successMessage = _isEditMode
             ? 'Client updated successfully.'
             : 'Client created successfully.';
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(successMessage)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(successMessage)));
         if (context.canPop()) {
           context.pop();
         } else {
@@ -556,9 +556,7 @@ class _GstinField extends StatelessWidget {
 
   final TextEditingController controller;
 
-  static final _gstinRegex = RegExp(
-    r'^\d{2}[A-Z]{5}\d{4}[A-Z]\d[Z][A-Z\d]$',
-  );
+  static final _gstinRegex = RegExp(r'^\d{2}[A-Z]{5}\d{4}[A-Z]\d[Z][A-Z\d]$');
 
   @override
   Widget build(BuildContext context) {

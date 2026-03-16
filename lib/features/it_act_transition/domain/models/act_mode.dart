@@ -6,19 +6,10 @@
 /// - [act2025]: The Income-tax Act, 2025 — applies from Tax Year 2026-27
 ///   (FY starting April 1, 2026) onwards.
 enum ActMode {
-  act1961(
-    label: 'Income-tax Act, 1961',
-    shortLabel: 'IT Act 1961',
-  ),
-  act2025(
-    label: 'Income-tax Act, 2025',
-    shortLabel: 'IT Act 2025',
-  );
+  act1961(label: 'Income-tax Act, 1961', shortLabel: 'IT Act 1961'),
+  act2025(label: 'Income-tax Act, 2025', shortLabel: 'IT Act 2025');
 
-  const ActMode({
-    required this.label,
-    required this.shortLabel,
-  });
+  const ActMode({required this.label, required this.shortLabel});
 
   final String label;
   final String shortLabel;

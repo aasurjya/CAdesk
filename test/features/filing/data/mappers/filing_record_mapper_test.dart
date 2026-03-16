@@ -196,8 +196,10 @@ void main() {
         expect(restored.filingType, sampleRecord.filingType);
         expect(restored.financialYear, sampleRecord.financialYear);
         expect(restored.status, sampleRecord.status);
-        expect(restored.acknowledgementNumber,
-            sampleRecord.acknowledgementNumber);
+        expect(
+          restored.acknowledgementNumber,
+          sampleRecord.acknowledgementNumber,
+        );
         expect(restored.remarks, sampleRecord.remarks);
       });
 

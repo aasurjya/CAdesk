@@ -47,8 +47,10 @@ void main() {
         expect(client.pincode, '400001');
         expect(client.gstin, '27ABCPS1234A1Z5');
         expect(client.tan, 'MUMR12345A');
-        expect(client.servicesAvailed,
-            containsAll([ServiceType.itrFiling, ServiceType.gstFiling]));
+        expect(
+          client.servicesAvailed,
+          containsAll([ServiceType.itrFiling, ServiceType.gstFiling]),
+        );
         expect(client.status, ClientStatus.active);
         expect(client.notes, 'Priority client');
       });
@@ -114,8 +116,10 @@ void main() {
         };
         final client = ClientMapper.fromJson(json);
         expect(client.servicesAvailed.length, 2);
-        expect(client.servicesAvailed,
-            containsAll([ServiceType.itrFiling, ServiceType.audit]));
+        expect(
+          client.servicesAvailed,
+          containsAll([ServiceType.itrFiling, ServiceType.audit]),
+        );
       });
 
       test('handles null services_availed as empty list', () {
@@ -264,10 +268,8 @@ void main() {
       });
 
       test('aadhaar hash strips spaces before hashing', () {
-        final client1 =
-            sampleClient.copyWith(aadhaar: '9999 8888 7777');
-        final client2 =
-            sampleClient.copyWith(aadhaar: '999988887777');
+        final client1 = sampleClient.copyWith(aadhaar: '9999 8888 7777');
+        final client2 = sampleClient.copyWith(aadhaar: '999988887777');
         final json1 = ClientMapper.toJson(client1);
         final json2 = ClientMapper.toJson(client2);
         // Both should produce the same hash

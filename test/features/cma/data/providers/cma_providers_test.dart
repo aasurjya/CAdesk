@@ -15,12 +15,23 @@ void main() {
 
     group('CmaCalculator', () {
       test('emi: zero tenure returns zero', () {
-        expect(CmaCalculator.emi(principal: 100000, annualRatePercent: 10, tenureMonths: 0), 0);
+        expect(
+          CmaCalculator.emi(
+            principal: 100000,
+            annualRatePercent: 10,
+            tenureMonths: 0,
+          ),
+          0,
+        );
       });
 
       test('emi: zero rate returns principal / tenure', () {
         expect(
-          CmaCalculator.emi(principal: 120000, annualRatePercent: 0, tenureMonths: 12),
+          CmaCalculator.emi(
+            principal: 120000,
+            annualRatePercent: 0,
+            tenureMonths: 12,
+          ),
           closeTo(10000, 0.001),
         );
       });
@@ -185,10 +196,7 @@ void main() {
     group('cmaSummaryProvider', () {
       test('totalReports matches number of reports', () {
         final summary = container.read(cmaSummaryProvider);
-        expect(
-          summary.totalReports,
-          container.read(cmaReportsProvider).length,
-        );
+        expect(summary.totalReports, container.read(cmaReportsProvider).length);
       });
 
       test('pendingReports matches submitted count', () {

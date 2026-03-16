@@ -100,16 +100,18 @@ void main() {
       expect(find.text('Core AI Operations'), findsOneWidget);
     });
 
-    testWidgets('Core AI tab shows Live Automation Queue section header',
-        (tester) async {
+    testWidgets('Core AI tab shows Live Automation Queue section header', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.text('Live Automation Queue'), findsOneWidget);
     });
 
-    testWidgets('switching to Scans tab shows Document extraction banner',
-        (tester) async {
+    testWidgets('switching to Scans tab shows Document extraction banner', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -118,8 +120,9 @@ void main() {
       expect(find.text('Document extraction flow'), findsOneWidget);
     });
 
-    testWidgets('switching to Scans tab shows Document Scans summary card',
-        (tester) async {
+    testWidgets('switching to Scans tab shows Document Scans summary card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -128,8 +131,9 @@ void main() {
       expect(find.text('Document Scans'), findsOneWidget);
     });
 
-    testWidgets('switching to Anomalies tab shows Anomaly monitoring banner',
-        (tester) async {
+    testWidgets('switching to Anomalies tab shows Anomaly monitoring banner', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -146,8 +150,9 @@ void main() {
       expect(fab, findsOneWidget);
     });
 
-    testWidgets('Core AI tab shows stat labels Total and Attention',
-        (tester) async {
+    testWidgets('Core AI tab shows stat labels Total and Attention', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

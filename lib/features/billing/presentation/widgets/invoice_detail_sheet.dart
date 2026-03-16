@@ -635,9 +635,7 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.error,
-            ),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
             onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Delete'),
           ),

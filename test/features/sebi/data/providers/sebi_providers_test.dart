@@ -111,10 +111,7 @@ void main() {
           .read(disclosureStatusFilterProvider.notifier)
           .update(DisclosureStatus.filed);
       final filtered = container.read(filteredDisclosuresProvider);
-      expect(
-        filtered.every((d) => d.status == DisclosureStatus.filed),
-        isTrue,
-      );
+      expect(filtered.every((d) => d.status == DisclosureStatus.filed), isTrue);
     });
   });
 

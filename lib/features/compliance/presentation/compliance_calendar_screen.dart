@@ -59,7 +59,10 @@ class ComplianceCalendarScreen extends ConsumerWidget {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setSheetState) => Padding(
           padding: EdgeInsets.fromLTRB(
-            24, 24, 24, MediaQuery.of(ctx).viewInsets.bottom + 24,
+            24,
+            24,
+            24,
+            MediaQuery.of(ctx).viewInsets.bottom + 24,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -67,9 +70,9 @@ class ComplianceCalendarScreen extends ConsumerWidget {
             children: [
               Text(
                 'Add Compliance Deadline',
-                style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -88,10 +91,9 @@ class ComplianceCalendarScreen extends ConsumerWidget {
                   prefixIcon: Icon(Icons.category_rounded),
                 ),
                 items: ComplianceCategory.values
-                    .map((c) => DropdownMenuItem(
-                          value: c,
-                          child: Text(c.label),
-                        ))
+                    .map(
+                      (c) => DropdownMenuItem(value: c, child: Text(c.label)),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setSheetState(() => selectedCategory = v);
@@ -105,11 +107,14 @@ class ComplianceCalendarScreen extends ConsumerWidget {
                   prefixIcon: Icon(Icons.repeat_rounded),
                 ),
                 items: ComplianceFrequency.values
-                    .map((f) => DropdownMenuItem(
-                          value: f,
-                          child: Text(f.name[0].toUpperCase() +
-                              f.name.substring(1)),
-                        ))
+                    .map(
+                      (f) => DropdownMenuItem(
+                        value: f,
+                        child: Text(
+                          f.name[0].toUpperCase() + f.name.substring(1),
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setSheetState(() => selectedFrequency = v);
@@ -148,7 +153,8 @@ class ComplianceCalendarScreen extends ConsumerWidget {
                       category: selectedCategory,
                       dueDate: selectedDate,
                       applicableTo: const [],
-                      isRecurring: selectedFrequency != ComplianceFrequency.annual,
+                      isRecurring:
+                          selectedFrequency != ComplianceFrequency.annual,
                       frequency: selectedFrequency,
                       status: ComplianceStatus.upcoming,
                     );
@@ -251,9 +257,7 @@ class _CalendarView extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Mark as Completed?'),
-        content: Text(
-          'Mark "${deadline.title}" as completed?',
-        ),
+        content: Text('Mark "${deadline.title}" as completed?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -267,9 +271,7 @@ class _CalendarView extends ConsumerWidget {
       ),
     ).then((confirmed) {
       if (confirmed != true || !context.mounted) return;
-      ref
-          .read(allComplianceDeadlinesProvider.notifier)
-          .markCompleted(deadline);
+      ref.read(allComplianceDeadlinesProvider.notifier).markCompleted(deadline);
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -379,9 +381,7 @@ class _ListView extends ConsumerWidget {
       ),
     ).then((confirmed) {
       if (confirmed != true || !context.mounted) return;
-      ref
-          .read(allComplianceDeadlinesProvider.notifier)
-          .markCompleted(deadline);
+      ref.read(allComplianceDeadlinesProvider.notifier).markCompleted(deadline);
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

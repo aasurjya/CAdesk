@@ -259,7 +259,11 @@ class GstnApiService {
       apiKey: apiKey,
       queryParameters: {'gstin': gstin, 'rtnprd': period},
     );
-    return _parseGstr2b(_decodeBody(response.data), gstin: gstin, period: period);
+    return _parseGstr2b(
+      _decodeBody(response.data),
+      gstin: gstin,
+      period: period,
+    );
   }
 
   /// Obtain an EVC-based access token for GSTN API operations.
@@ -277,11 +281,7 @@ class GstnApiService {
       dio: dio,
       path: '/commonapi/v1.1/authenticate',
       apiKey: apiKey,
-      body: {
-        'gstin': gstin,
-        'username': username,
-        'otp': otp,
-      },
+      body: {'gstin': gstin, 'username': username, 'otp': otp},
     );
     return _parseToken(_decodeBody(response.data));
   }

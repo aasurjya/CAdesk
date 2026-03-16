@@ -100,8 +100,9 @@ void main() {
       expect(find.text('Closed'), findsWidgets);
     });
 
-    testWidgets('renders severity filter chips in Active Notices tab',
-        (tester) async {
+    testWidgets('renders severity filter chips in Active Notices tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

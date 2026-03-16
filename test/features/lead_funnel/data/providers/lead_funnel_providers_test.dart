@@ -58,10 +58,7 @@ void main() {
         container
             .read(leadStageFilterProvider.notifier)
             .update(LeadStage.qualified);
-        expect(
-          container.read(leadStageFilterProvider),
-          LeadStage.qualified,
-        );
+        expect(container.read(leadStageFilterProvider), LeadStage.qualified);
       });
 
       test('can be cleared to null', () {
@@ -96,22 +93,14 @@ void main() {
             .update(LeadStage.newLead);
         final filtered = container.read(filteredLeadsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((l) => l.stage == LeadStage.newLead),
-          isTrue,
-        );
+        expect(filtered.every((l) => l.stage == LeadStage.newLead), isTrue);
       });
 
       test('filters leads by lost stage', () {
-        container
-            .read(leadStageFilterProvider.notifier)
-            .update(LeadStage.lost);
+        container.read(leadStageFilterProvider.notifier).update(LeadStage.lost);
         final filtered = container.read(filteredLeadsProvider);
         // All filtered results should match the filter
-        expect(
-          filtered.every((l) => l.stage == LeadStage.lost),
-          isTrue,
-        );
+        expect(filtered.every((l) => l.stage == LeadStage.lost), isTrue);
       });
 
       test('clearing filter returns all leads', () {

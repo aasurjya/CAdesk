@@ -121,7 +121,8 @@ void main() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('Alerts'));
         await tester.pumpAndSettle();
-        final hasContent = find.byType(ListView).evaluate().isNotEmpty ||
+        final hasContent =
+            find.byType(ListView).evaluate().isNotEmpty ||
             find.byIcon(Icons.shield_outlined).evaluate().isNotEmpty;
         expect(hasContent, isTrue);
       });

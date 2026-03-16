@@ -40,13 +40,16 @@ void main() {
         expect(statuses.length, greaterThanOrEqualTo(3));
       });
 
-      test('initial list contains valid, expiringSoon, expired and revoked', () {
-        final certs = container.read(allDscCertificatesProvider);
-        expect(certs.any((c) => c.status == DscStatus.valid), isTrue);
-        expect(certs.any((c) => c.status == DscStatus.expiringSoon), isTrue);
-        expect(certs.any((c) => c.status == DscStatus.expired), isTrue);
-        expect(certs.any((c) => c.status == DscStatus.revoked), isTrue);
-      });
+      test(
+        'initial list contains valid, expiringSoon, expired and revoked',
+        () {
+          final certs = container.read(allDscCertificatesProvider);
+          expect(certs.any((c) => c.status == DscStatus.valid), isTrue);
+          expect(certs.any((c) => c.status == DscStatus.expiringSoon), isTrue);
+          expect(certs.any((c) => c.status == DscStatus.expired), isTrue);
+          expect(certs.any((c) => c.status == DscStatus.revoked), isTrue);
+        },
+      );
 
       test('all certificates have non-empty id and clientId', () {
         final certs = container.read(allDscCertificatesProvider);
@@ -59,7 +62,9 @@ void main() {
       test('updateCertificate() replaces matching cert immutably', () {
         final original = container.read(allDscCertificatesProvider).first;
         final updated = original.copyWith(status: DscStatus.revoked);
-        container.read(allDscCertificatesProvider.notifier).updateCertificate(updated);
+        container
+            .read(allDscCertificatesProvider.notifier)
+            .updateCertificate(updated);
         final result = container.read(allDscCertificatesProvider);
         final found = result.firstWhere((c) => c.id == original.id);
         expect(found.status, DscStatus.revoked);
@@ -69,7 +74,9 @@ void main() {
         final certs = container.read(allDscCertificatesProvider);
         final countBefore = certs.length;
         final updated = certs.first.copyWith(usageCount: 999);
-        container.read(allDscCertificatesProvider.notifier).updateCertificate(updated);
+        container
+            .read(allDscCertificatesProvider.notifier)
+            .updateCertificate(updated);
         final after = container.read(allDscCertificatesProvider);
         expect(after.length, countBefore);
       });
@@ -89,7 +96,9 @@ void main() {
           usageCount: 0,
         );
 
-        container.read(allDscCertificatesProvider.notifier).updateCertificate(ghost);
+        container
+            .read(allDscCertificatesProvider.notifier)
+            .updateCertificate(ghost);
         final after = container.read(allDscCertificatesProvider);
         expect(after.length, before.length);
         expect(after.any((c) => c.id == 'nonexistent'), isFalse);
@@ -160,7 +169,9 @@ void main() {
       });
 
       test('can be set to valid', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.valid);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.valid);
         expect(container.read(dscStatusFilterProvider), DscStatus.valid);
       });
 
@@ -168,14 +179,13 @@ void main() {
         container
             .read(dscStatusFilterProvider.notifier)
             .update(DscStatus.expiringSoon);
-        expect(
-          container.read(dscStatusFilterProvider),
-          DscStatus.expiringSoon,
-        );
+        expect(container.read(dscStatusFilterProvider), DscStatus.expiringSoon);
       });
 
       test('can be cleared to null', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.expired);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.expired);
         container.read(dscStatusFilterProvider.notifier).update(null);
         expect(container.read(dscStatusFilterProvider), isNull);
       });
@@ -199,13 +209,12 @@ void main() {
       });
 
       test('filters to valid only', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.valid);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.valid);
         final filtered = container.read(filteredDscProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((c) => c.status == DscStatus.valid),
-          isTrue,
-        );
+        expect(filtered.every((c) => c.status == DscStatus.valid), isTrue);
       });
 
       test('filters to expiringSoon only', () {
@@ -221,27 +230,27 @@ void main() {
       });
 
       test('filters to expired only', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.expired);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.expired);
         final filtered = container.read(filteredDscProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((c) => c.status == DscStatus.expired),
-          isTrue,
-        );
+        expect(filtered.every((c) => c.status == DscStatus.expired), isTrue);
       });
 
       test('filters to revoked only', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.revoked);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.revoked);
         final filtered = container.read(filteredDscProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((c) => c.status == DscStatus.revoked),
-          isTrue,
-        );
+        expect(filtered.every((c) => c.status == DscStatus.revoked), isTrue);
       });
 
       test('clearing filter returns all certs', () {
-        container.read(dscStatusFilterProvider.notifier).update(DscStatus.valid);
+        container
+            .read(dscStatusFilterProvider.notifier)
+            .update(DscStatus.valid);
         container.read(dscStatusFilterProvider.notifier).update(null);
         final all = container.read(allDscCertificatesProvider);
         final filtered = container.read(filteredDscProvider);
@@ -275,24 +284,27 @@ void main() {
 
       test('expiringSoon matches expiringSoon certs count', () {
         final certs = container.read(allDscCertificatesProvider);
-        final expected =
-            certs.where((c) => c.status == DscStatus.expiringSoon).length;
+        final expected = certs
+            .where((c) => c.status == DscStatus.expiringSoon)
+            .length;
         final summary = container.read(dscVaultSummaryProvider);
         expect(summary.expiringSoon, expected);
       });
 
       test('expired matches expired certs count', () {
         final certs = container.read(allDscCertificatesProvider);
-        final expected =
-            certs.where((c) => c.status == DscStatus.expired).length;
+        final expected = certs
+            .where((c) => c.status == DscStatus.expired)
+            .length;
         final summary = container.read(dscVaultSummaryProvider);
         expect(summary.expired, expected);
       });
 
       test('activePortals matches active credentials count', () {
         final creds = container.read(allPortalCredentialsProvider);
-        final expected =
-            creds.where((c) => c.status == PortalCredStatus.active).length;
+        final expected = creds
+            .where((c) => c.status == PortalCredStatus.active)
+            .length;
         final summary = container.read(dscVaultSummaryProvider);
         expect(summary.activePortals, expected);
       });
@@ -304,14 +316,13 @@ void main() {
 
       test('summary updates after cert status change', () {
         final certs = container.read(allDscCertificatesProvider);
-        final validCert =
-            certs.firstWhere((c) => c.status == DscStatus.valid);
+        final validCert = certs.firstWhere((c) => c.status == DscStatus.valid);
         final summaryBefore = container.read(dscVaultSummaryProvider);
 
         // Change a valid cert to expired — expired count should increase
-        container.read(allDscCertificatesProvider.notifier).updateCertificate(
-          validCert.copyWith(status: DscStatus.expired),
-        );
+        container
+            .read(allDscCertificatesProvider.notifier)
+            .updateCertificate(validCert.copyWith(status: DscStatus.expired));
         final summaryAfter = container.read(dscVaultSummaryProvider);
         expect(summaryAfter.expired, summaryBefore.expired + 1);
       });

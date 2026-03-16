@@ -97,13 +97,8 @@ class SectionMapping {
           notes == other.notes;
 
   @override
-  int get hashCode => Object.hash(
-        section1961,
-        section2025,
-        description,
-        category,
-        notes,
-      );
+  int get hashCode =>
+      Object.hash(section1961, section2025, description, category, notes);
 
   @override
   String toString() =>

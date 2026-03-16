@@ -129,7 +129,8 @@ void main() {
     test('matched + mismatched + missing equals total', () async {
       await container.read(reconResultsProvider.future);
       final summary = container.read(reconSummaryProvider);
-      final computed = summary.matched +
+      final computed =
+          summary.matched +
           summary.mismatched +
           summary.missingIn26as +
           summary.missingInAis +

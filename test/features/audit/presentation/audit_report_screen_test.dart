@@ -126,8 +126,9 @@ void main() {
       expect(find.byType(AuditReportTile), findsWidgets);
     });
 
-    testWidgets('tapping Form 29B filter chip shows only 29B reports',
-        (tester) async {
+    testWidgets('tapping Form 29B filter chip shows only 29B reports', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -146,8 +147,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // At least one status label from mock data should appear
-      final hasFinalized =
-          find.textContaining('Finalized').evaluate().isNotEmpty;
+      final hasFinalized = find
+          .textContaining('Finalized')
+          .evaluate()
+          .isNotEmpty;
       final hasReview = find.textContaining('Review').evaluate().isNotEmpty;
       final hasDraft = find.textContaining('Draft').evaluate().isNotEmpty;
       final hasFiled = find.textContaining('Filed').evaluate().isNotEmpty;

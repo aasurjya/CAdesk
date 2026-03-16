@@ -83,9 +83,10 @@ void main() {
     });
 
     test('can switch to Feb 2026', () {
-      container
-          .read(payrollSelectedPeriodProvider.notifier)
-          .update((month: 2, year: 2026));
+      container.read(payrollSelectedPeriodProvider.notifier).update((
+        month: 2,
+        year: 2026,
+      ));
       final period = container.read(payrollSelectedPeriodProvider);
       expect(period.month, 2);
       expect(period.year, 2026);
@@ -109,9 +110,10 @@ void main() {
     });
 
     test('switching to Feb 2026 returns 12 disbursed records', () {
-      container
-          .read(payrollSelectedPeriodProvider.notifier)
-          .update((month: 2, year: 2026));
+      container.read(payrollSelectedPeriodProvider.notifier).update((
+        month: 2,
+        year: 2026,
+      ));
       final filtered = container.read(filteredPayrollMonthsProvider);
       expect(filtered.length, 12);
       expect(

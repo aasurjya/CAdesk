@@ -95,8 +95,9 @@ void main() {
       expect(find.byType(SingleChildScrollView), findsWidgets);
     });
 
-    testWidgets('shows ImportRecordTile or loading or empty state',
-        (tester) async {
+    testWidgets('shows ImportRecordTile or loading or empty state', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

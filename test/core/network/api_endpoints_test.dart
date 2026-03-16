@@ -57,7 +57,11 @@ void main() {
         ApiEndpoints.complianceDeadlines,
       ];
       for (final ep in allEndpoints) {
-        expect(ep, startsWith('/rest/v1/'), reason: '$ep should start with /rest/v1/');
+        expect(
+          ep,
+          startsWith('/rest/v1/'),
+          reason: '$ep should start with /rest/v1/',
+        );
       }
     });
   });
@@ -86,7 +90,10 @@ void main() {
     });
 
     test('form26asDownload endpoint is correct', () {
-      expect(TracesEndpoints.form26asDownload, '/app/eStatement/26AS-Form-Download');
+      expect(
+        TracesEndpoints.form26asDownload,
+        '/app/eStatement/26AS-Form-Download',
+      );
     });
 
     test('aisDownload endpoint is correct', () {

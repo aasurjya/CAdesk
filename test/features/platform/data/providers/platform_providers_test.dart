@@ -55,10 +55,7 @@ void main() {
       container
           .read(currentUserRoleProvider.notifier)
           .update(UserRole.articleClerk);
-      expect(
-        container.read(currentUserRoleProvider),
-        UserRole.articleClerk,
-      );
+      expect(container.read(currentUserRoleProvider), UserRole.articleClerk);
     });
   });
 

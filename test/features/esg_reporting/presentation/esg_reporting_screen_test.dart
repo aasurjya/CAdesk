@@ -60,8 +60,9 @@ void main() {
       expect(find.byType(TabBar), findsOneWidget);
     });
 
-    testWidgets('Disclosures tab shows ESG Portfolio Overview card',
-        (tester) async {
+    testWidgets('Disclosures tab shows ESG Portfolio Overview card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -89,14 +90,17 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('Disclosures tab shows EsgScoreCard widgets or empty state',
-        (tester) async {
+    testWidgets('Disclosures tab shows EsgScoreCard widgets or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       final hasCards = find.byType(EsgScoreCard).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No disclosures match this filter.').evaluate().isNotEmpty;
+      final hasEmpty = find
+          .text('No disclosures match this filter.')
+          .evaluate()
+          .isNotEmpty;
       expect(hasCards || hasEmpty, isTrue);
     });
 
@@ -107,8 +111,9 @@ void main() {
       expect(find.text('Draft'), findsWidgets);
     });
 
-    testWidgets('switching to Carbon Metrics tab renders without error',
-        (tester) async {
+    testWidgets('switching to Carbon Metrics tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -117,8 +122,9 @@ void main() {
       expect(find.byType(EsgReportingScreen), findsOneWidget);
     });
 
-    testWidgets('Carbon Metrics tab shows Aggregate Carbon Footprint card',
-        (tester) async {
+    testWidgets('Carbon Metrics tab shows Aggregate Carbon Footprint card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -136,8 +142,9 @@ void main() {
       expect(find.text('Total CO₂e'), findsOneWidget);
     });
 
-    testWidgets('Carbon Metrics tab shows CarbonMetricTile widgets',
-        (tester) async {
+    testWidgets('Carbon Metrics tab shows CarbonMetricTile widgets', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

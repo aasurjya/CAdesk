@@ -75,10 +75,7 @@ Dio _mockDio(Map<String, dynamic> body, {int statusCode = 200}) {
 }
 
 /// Builds a [TracesRepositoryImpl] whose service calls hit [dio].
-TracesRepositoryImpl _liveRepo(
-  _FakeCredentialRepository credRepo,
-  Dio dio,
-) {
+TracesRepositoryImpl _liveRepo(_FakeCredentialRepository credRepo, Dio dio) {
   return TracesRepositoryImpl(
     dio: dio,
     credentialRepository: credRepo,
@@ -197,11 +194,13 @@ void main() {
       expect(result.pan, 'ABCDE1234F');
     });
 
-    test('verifyPan throws ArgumentError for short PAN regardless of flag',
-        () async {
-      final repo = _devRepo(credRepo);
-      expect(() => repo.verifyPan('SHORT'), throwsArgumentError);
-    });
+    test(
+      'verifyPan throws ArgumentError for short PAN regardless of flag',
+      () async {
+        final repo = _devRepo(credRepo);
+        expect(() => repo.verifyPan('SHORT'), throwsArgumentError);
+      },
+    );
 
     test('getChallanStatus delegates to mock', () async {
       final repo = _devRepo(credRepo);
@@ -416,7 +415,11 @@ void main() {
         });
         final repo = _liveRepo(credRepo, dio);
 
-        final result = await repo.requestForm16('MUMR12345A', 'ABCDE1234F', 2025);
+        final result = await repo.requestForm16(
+          'MUMR12345A',
+          'ABCDE1234F',
+          2025,
+        );
 
         expect(result.requestId, 'REQ-001');
         expect(result.status, Form16RequestStatus.available);
@@ -424,21 +427,25 @@ void main() {
         expect(result.financialYear, 2025);
       });
 
-      test('returns processing status when TRACES is generating file', () async {
-        final credRepo = _FakeCredentialRepository(
-          credential: _makeCredential(),
-        );
-        final dio = _mockDio({
-          'requestId': 'REQ-002',
-          'requestStatus': 'P',
-        });
-        final repo = _liveRepo(credRepo, dio);
+      test(
+        'returns processing status when TRACES is generating file',
+        () async {
+          final credRepo = _FakeCredentialRepository(
+            credential: _makeCredential(),
+          );
+          final dio = _mockDio({'requestId': 'REQ-002', 'requestStatus': 'P'});
+          final repo = _liveRepo(credRepo, dio);
 
-        final result = await repo.requestForm16('MUMR12345A', 'ABCDE1234F', 2025);
+          final result = await repo.requestForm16(
+            'MUMR12345A',
+            'ABCDE1234F',
+            2025,
+          );
 
-        expect(result.status, Form16RequestStatus.processing);
-        expect(result.downloadUrl, isNull);
-      });
+          expect(result.status, Form16RequestStatus.processing);
+          expect(result.downloadUrl, isNull);
+        },
+      );
 
       test('re-throws PortalAuthException when no credential', () {
         final credRepo = _FakeCredentialRepository();
@@ -463,17 +470,24 @@ void main() {
         );
         final dio = _mockDio({
           'requests': [
-            {'requestId': 'BULK-001', 'pan': 'ABCDE1234F', 'requestStatus': 'P'},
-            {'requestId': 'BULK-002', 'pan': 'FGHIJ5678K', 'requestStatus': 'P'},
+            {
+              'requestId': 'BULK-001',
+              'pan': 'ABCDE1234F',
+              'requestStatus': 'P',
+            },
+            {
+              'requestId': 'BULK-002',
+              'pan': 'FGHIJ5678K',
+              'requestStatus': 'P',
+            },
           ],
         });
         final repo = _liveRepo(credRepo, dio);
 
-        final results = await repo.requestBulkForm16(
-          'MUMR12345A',
-          2025,
-          ['ABCDE1234F', 'FGHIJ5678K'],
-        );
+        final results = await repo.requestBulkForm16('MUMR12345A', 2025, [
+          'ABCDE1234F',
+          'FGHIJ5678K',
+        ]);
 
         expect(results, hasLength(2));
         expect(results[0].requestId, 'BULK-001');
@@ -532,11 +546,7 @@ void main() {
         });
         final repo = _liveRepo(credRepo, dio);
 
-        final result = await repo.getJustificationReport(
-          'MUMR12345A',
-          2025,
-          2,
-        );
+        final result = await repo.getJustificationReport('MUMR12345A', 2025, 2);
 
         expect(result.tan, 'MUMR12345A');
         expect(result.quarter, TdsQuarter.q2);
@@ -559,11 +569,7 @@ void main() {
         });
         final repo = _liveRepo(credRepo, dio);
 
-        final result = await repo.getJustificationReport(
-          'MUMR12345A',
-          2025,
-          1,
-        );
+        final result = await repo.getJustificationReport('MUMR12345A', 2025, 1);
 
         expect(result.shortDeductions, isEmpty);
         expect(result.lateDeductions, isEmpty);

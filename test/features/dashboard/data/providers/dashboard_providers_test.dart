@@ -14,10 +14,7 @@ void main() {
 
     group('dashboardKpiProvider', () {
       test('returns a DashboardKpi without throwing', () {
-        expect(
-          () => container.read(dashboardKpiProvider),
-          returnsNormally,
-        );
+        expect(() => container.read(dashboardKpiProvider), returnsNormally);
       });
 
       test('totalActiveClients is non-negative', () {

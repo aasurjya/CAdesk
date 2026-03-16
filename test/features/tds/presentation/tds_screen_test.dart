@@ -24,9 +24,7 @@ const _testDeductor = TdsDeductor(
 );
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: TdsScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: TdsScreen()));
 }
 
 // ---------------------------------------------------------------------------
@@ -78,7 +76,9 @@ void main() {
       expect(find.text('Deductors'), findsOneWidget);
     });
 
-    testWidgets('summary card shows Due, Filed, Overdue labels', (tester) async {
+    testWidgets('summary card shows Due, Filed, Overdue labels', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -132,8 +132,9 @@ void main() {
       expect(fab, findsWidgets);
     });
 
-    testWidgets('switching to 26Q tab still shows deductor tiles',
-        (tester) async {
+    testWidgets('switching to 26Q tab still shows deductor tiles', (
+      tester,
+    ) async {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
@@ -148,9 +149,7 @@ void main() {
     testWidgets('renders all four metrics from provider', (tester) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(body: TdsSummaryCard()),
-          ),
+          child: MaterialApp(home: Scaffold(body: TdsSummaryCard())),
         ),
       );
       await tester.pumpAndSettle();
@@ -164,9 +163,7 @@ void main() {
     testWidgets('renders numeric values for each metric', (tester) async {
       await tester.pumpWidget(
         const ProviderScope(
-          child: MaterialApp(
-            home: Scaffold(body: TdsSummaryCard()),
-          ),
+          child: MaterialApp(home: Scaffold(body: TdsSummaryCard())),
         ),
       );
       await tester.pumpAndSettle();
@@ -181,27 +178,20 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TdsDeductorTile(deductor: _testDeductor),
-            ),
+            home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),
         ),
       );
       await tester.pumpAndSettle();
 
-      expect(
-        find.text('Tata Consultancy Services Ltd'),
-        findsOneWidget,
-      );
+      expect(find.text('Tata Consultancy Services Ltd'), findsOneWidget);
     });
 
     testWidgets('renders TAN', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TdsDeductorTile(deductor: _testDeductor),
-            ),
+            home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),
         ),
       );
@@ -214,9 +204,7 @@ void main() {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
-            home: Scaffold(
-              body: TdsDeductorTile(deductor: _testDeductor),
-            ),
+            home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),
         ),
       );

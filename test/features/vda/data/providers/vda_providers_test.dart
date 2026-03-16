@@ -188,8 +188,10 @@ void main() {
     group('vdaTotalPortfolioProvider', () {
       test('total portfolio matches sum of all sale considerations', () {
         final txns = container.read(vdaTransactionsProvider);
-        final expected =
-            txns.fold<int>(0, (sum, t) => sum + t.saleConsiderationPaise);
+        final expected = txns.fold<int>(
+          0,
+          (sum, t) => sum + t.saleConsiderationPaise,
+        );
         expect(container.read(vdaTotalPortfolioProvider), expected);
       });
 

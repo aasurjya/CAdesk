@@ -29,7 +29,10 @@ void main() {
 
     test('all connections have portal values', () {
       final connections = container.read(portalConnectionsProvider);
-      expect(connections.every((c) => Portal.values.contains(c.portal)), isTrue);
+      expect(
+        connections.every((c) => Portal.values.contains(c.portal)),
+        isTrue,
+      );
     });
 
     test('ITD portal is initially connected', () {

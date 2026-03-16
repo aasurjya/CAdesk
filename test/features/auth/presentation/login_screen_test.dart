@@ -27,10 +27,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Practice management'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Practice management'), findsOneWidget);
     });
 
     testWidgets('renders account balance icon in branding', (tester) async {
@@ -105,8 +102,9 @@ void main() {
       expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
     });
 
-    testWidgets('tapping visibility icon toggles to visibility off',
-        (tester) async {
+    testWidgets('tapping visibility icon toggles to visibility off', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -117,8 +115,9 @@ void main() {
       expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
     });
 
-    testWidgets('submitting with empty fields shows email validation error',
-        (tester) async {
+    testWidgets('submitting with empty fields shows email validation error', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -129,37 +128,37 @@ void main() {
       expect(find.text('Email is required'), findsOneWidget);
     });
 
-    testWidgets('submitting with invalid email shows validation error',
-        (tester) async {
+    testWidgets('submitting with invalid email shows validation error', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      await tester.enterText(
-        find.byType(TextFormField).first,
-        'notanemail',
-      );
+      await tester.enterText(find.byType(TextFormField).first, 'notanemail');
       await tester.tap(find.text('Sign In'));
       await tester.pumpAndSettle();
 
       expect(find.text('Enter a valid email address'), findsOneWidget);
     });
 
-    testWidgets('submitting with empty password shows password validation error',
-        (tester) async {
-      await _setViewport(tester);
-      await tester.pumpWidget(_buildScreen());
-      await tester.pumpAndSettle();
+    testWidgets(
+      'submitting with empty password shows password validation error',
+      (tester) async {
+        await _setViewport(tester);
+        await tester.pumpWidget(_buildScreen());
+        await tester.pumpAndSettle();
 
-      await tester.enterText(
-        find.byType(TextFormField).first,
-        'user@firm.com',
-      );
-      await tester.tap(find.text('Sign In'));
-      await tester.pumpAndSettle();
+        await tester.enterText(
+          find.byType(TextFormField).first,
+          'user@firm.com',
+        );
+        await tester.tap(find.text('Sign In'));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Password is required'), findsOneWidget);
-    });
+        expect(find.text('Password is required'), findsOneWidget);
+      },
+    );
 
     testWidgets('renders Form widget', (tester) async {
       await _setViewport(tester);

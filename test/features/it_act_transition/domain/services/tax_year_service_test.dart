@@ -99,17 +99,11 @@ void main() {
 
   group('TaxYearService.actNameForFy', () {
     test('FY 2025-26 → IT Act 1961', () {
-      expect(
-        TaxYearService.actNameForFy('2025-26'),
-        'Income-tax Act, 1961',
-      );
+      expect(TaxYearService.actNameForFy('2025-26'), 'Income-tax Act, 1961');
     });
 
     test('FY 2026-27 → IT Act 2025', () {
-      expect(
-        TaxYearService.actNameForFy('2026-27'),
-        'Income-tax Act, 2025',
-      );
+      expect(TaxYearService.actNameForFy('2026-27'), 'Income-tax Act, 2025');
     });
   });
 

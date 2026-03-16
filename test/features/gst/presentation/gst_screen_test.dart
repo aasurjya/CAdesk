@@ -31,10 +31,7 @@ class _GstClientTileHarness extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: GstClientTile(
-          client: _testGstClient,
-          returns: const [],
-        ),
+        body: GstClientTile(client: _testGstClient, returns: const []),
       ),
     );
   }
@@ -70,8 +67,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // The tab bar contains GSTR-1 as a Tab widget
-      expect(find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-1')),
-          findsOneWidget);
+      expect(
+        find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-1')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders GSTR-3B tab label', (tester) async {
@@ -79,8 +78,13 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-3B')),
-          findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('GSTR-3B'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders GSTR-9 tab label', (tester) async {
@@ -88,8 +92,10 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-9')),
-          findsOneWidget);
+      expect(
+        find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-9')),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders All Returns tab label', (tester) async {
@@ -97,8 +103,13 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(find.descendant(of: find.byType(TabBar), matching: find.text('All Returns')),
-          findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('All Returns'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('renders four GstSummaryCards', (tester) async {
@@ -175,14 +186,18 @@ void main() {
       expect(fab, findsWidgets);
     });
 
-    testWidgets('switching to GSTR-3B tab still shows client tiles',
-        (tester) async {
+    testWidgets('switching to GSTR-3B tab still shows client tiles', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
       await tester.tap(
-        find.descendant(of: find.byType(TabBar), matching: find.text('GSTR-3B')),
+        find.descendant(
+          of: find.byType(TabBar),
+          matching: find.text('GSTR-3B'),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -196,9 +211,7 @@ void main() {
         const MaterialApp(
           home: Scaffold(
             body: Row(
-              children: [
-                GstSummaryCard(label: 'Test Label', count: 42),
-              ],
+              children: [GstSummaryCard(label: 'Test Label', count: 42)],
             ),
           ),
         ),
@@ -214,11 +227,7 @@ void main() {
           home: Scaffold(
             body: Row(
               children: [
-                GstSummaryCard(
-                  label: 'Trending Up',
-                  count: 10,
-                  trendUp: true,
-                ),
+                GstSummaryCard(label: 'Trending Up', count: 10, trendUp: true),
               ],
             ),
           ),
@@ -228,8 +237,9 @@ void main() {
       expect(find.byIcon(Icons.trending_up), findsOneWidget);
     });
 
-    testWidgets('renders trend-down icon when trendUp is false',
-        (tester) async {
+    testWidgets('renders trend-down icon when trendUp is false', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -253,11 +263,7 @@ void main() {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
-            body: Row(
-              children: [
-                GstSummaryCard(label: 'No Trend', count: 3),
-              ],
-            ),
+            body: Row(children: [GstSummaryCard(label: 'No Trend', count: 3)]),
           ),
         ),
       );
@@ -277,7 +283,9 @@ void main() {
       expect(find.textContaining('Reliance Digital'), findsOneWidget);
     });
 
-    testWidgets('renders GSTIN formatted as XX-XXXXXXXXXX-X-XX', (tester) async {
+    testWidgets('renders GSTIN formatted as XX-XXXXXXXXXX-X-XX', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(child: _GstClientTileHarness()),
       );
@@ -297,8 +305,9 @@ void main() {
       expect(find.byType(LinearProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('renders no-returns message when returns list is empty',
-        (tester) async {
+    testWidgets('renders no-returns message when returns list is empty', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(child: _GstClientTileHarness()),
       );

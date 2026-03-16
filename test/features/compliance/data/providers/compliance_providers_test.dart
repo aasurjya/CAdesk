@@ -103,12 +103,16 @@ void main() {
     tearDown(() => container.dispose());
 
     test('loads deadlines successfully', () async {
-      final deadlines = await container.read(allComplianceDeadlinesProvider.future);
+      final deadlines = await container.read(
+        allComplianceDeadlinesProvider.future,
+      );
       expect(deadlines, isNotEmpty);
     });
 
     test('returns list of ComplianceDeadline objects', () async {
-      final deadlines = await container.read(allComplianceDeadlinesProvider.future);
+      final deadlines = await container.read(
+        allComplianceDeadlinesProvider.future,
+      );
       expect(deadlines, isNotEmpty);
     });
 
@@ -118,7 +122,10 @@ void main() {
       container
           .read(allComplianceDeadlinesProvider.notifier)
           .setDeadlines(custom);
-      expect(container.read(allComplianceDeadlinesProvider).asData?.value, isEmpty);
+      expect(
+        container.read(allComplianceDeadlinesProvider).asData?.value,
+        isEmpty,
+      );
     });
   });
 

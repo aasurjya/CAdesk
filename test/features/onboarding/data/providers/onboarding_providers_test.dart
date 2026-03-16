@@ -108,10 +108,7 @@ void main() {
         container
             .read(kycStatusFilterProvider.notifier)
             .update(KycStatus.verified);
-        expect(
-          container.read(kycStatusFilterProvider),
-          KycStatus.verified,
-        );
+        expect(container.read(kycStatusFilterProvider), KycStatus.verified);
       });
 
       test('can be set to pending', () {
@@ -177,10 +174,7 @@ void main() {
             .update(KycStatus.expired);
         final filtered = container.read(filteredKycRecordsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((r) => r.kycStatus == KycStatus.expired),
-          isTrue,
-        );
+        expect(filtered.every((r) => r.kycStatus == KycStatus.expired), isTrue);
       });
 
       test('result is unmodifiable', () {
@@ -254,10 +248,7 @@ void main() {
             .update(ExpiryStatus.expired);
         final filtered = container.read(filteredDocumentExpiriesProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((e) => e.status == ExpiryStatus.expired),
-          isTrue,
-        );
+        expect(filtered.every((e) => e.status == ExpiryStatus.expired), isTrue);
       });
 
       test('filters by valid status', () {
@@ -266,10 +257,7 @@ void main() {
             .update(ExpiryStatus.valid);
         final filtered = container.read(filteredDocumentExpiriesProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((e) => e.status == ExpiryStatus.valid),
-          isTrue,
-        );
+        expect(filtered.every((e) => e.status == ExpiryStatus.valid), isTrue);
       });
     });
 
@@ -307,47 +295,55 @@ void main() {
 
       test('verified count matches verified records', () {
         final records = container.read(kycRecordsProvider);
-        final expected =
-            records.where((r) => r.kycStatus == KycStatus.verified).length;
+        final expected = records
+            .where((r) => r.kycStatus == KycStatus.verified)
+            .length;
         final summary = container.read(kycSummaryProvider);
         expect(summary.verified, expected);
       });
 
       test('rejected count matches rejected records', () {
         final records = container.read(kycRecordsProvider);
-        final expected =
-            records.where((r) => r.kycStatus == KycStatus.rejected).length;
+        final expected = records
+            .where((r) => r.kycStatus == KycStatus.rejected)
+            .length;
         final summary = container.read(kycSummaryProvider);
         expect(summary.rejected, expected);
       });
 
       test('expired count matches expired records', () {
         final records = container.read(kycRecordsProvider);
-        final expected =
-            records.where((r) => r.kycStatus == KycStatus.expired).length;
+        final expected = records
+            .where((r) => r.kycStatus == KycStatus.expired)
+            .length;
         final summary = container.read(kycSummaryProvider);
         expect(summary.expired, expected);
       });
 
-      test('pending includes pending + documentsSubmitted + underVerification',
-          () {
-        final records = container.read(kycRecordsProvider);
-        final expected = records
-            .where(
-              (r) =>
-                  r.kycStatus == KycStatus.pending ||
-                  r.kycStatus == KycStatus.documentsSubmitted ||
-                  r.kycStatus == KycStatus.underVerification,
-            )
-            .length;
-        final summary = container.read(kycSummaryProvider);
-        expect(summary.pending, expected);
-      });
+      test(
+        'pending includes pending + documentsSubmitted + underVerification',
+        () {
+          final records = container.read(kycRecordsProvider);
+          final expected = records
+              .where(
+                (r) =>
+                    r.kycStatus == KycStatus.pending ||
+                    r.kycStatus == KycStatus.documentsSubmitted ||
+                    r.kycStatus == KycStatus.underVerification,
+              )
+              .length;
+          final summary = container.read(kycSummaryProvider);
+          expect(summary.pending, expected);
+        },
+      );
 
       test('all counts sum correctly', () {
         final summary = container.read(kycSummaryProvider);
         expect(
-          summary.verified + summary.pending + summary.rejected + summary.expired,
+          summary.verified +
+              summary.pending +
+              summary.rejected +
+              summary.expired,
           lessThanOrEqualTo(summary.total),
         );
       });

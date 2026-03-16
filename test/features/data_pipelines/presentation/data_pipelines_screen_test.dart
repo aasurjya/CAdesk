@@ -109,28 +109,32 @@ void main() {
       expect(find.byType(FilterChip), findsWidgets);
     });
 
-    testWidgets('Pipelines tab shows PipelineTile widgets or empty state',
-        (tester) async {
+    testWidgets('Pipelines tab shows PipelineTile widgets or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       final hasTiles = find.byType(PipelineTile).evaluate().isNotEmpty;
-      final hasEmpty =
-          find.text('No pipelines match the selected filter')
-              .evaluate()
-              .isNotEmpty;
+      final hasEmpty = find
+          .text('No pipelines match the selected filter')
+          .evaluate()
+          .isNotEmpty;
       expect(hasTiles || hasEmpty, isTrue);
     });
 
-    testWidgets('renders cloud_sync_rounded icon in Total card', (tester) async {
+    testWidgets('renders cloud_sync_rounded icon in Total card', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.cloud_sync_rounded), findsOneWidget);
     });
 
-    testWidgets('switching to Broker Feeds tab renders without error',
-        (tester) async {
+    testWidgets('switching to Broker Feeds tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -149,8 +153,10 @@ void main() {
         await tester.tap(find.text('Broker Feeds').first);
         await tester.pumpAndSettle();
         final hasFeeds = find.byType(BrokerFeedTile).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.text('No broker feeds available').evaluate().isNotEmpty;
+        final hasEmpty = find
+            .text('No broker feeds available')
+            .evaluate()
+            .isNotEmpty;
         expect(hasFeeds || hasEmpty, isTrue);
       });
     });

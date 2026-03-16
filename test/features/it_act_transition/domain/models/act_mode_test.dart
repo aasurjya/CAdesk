@@ -26,17 +26,11 @@ void main() {
     });
 
     test('act1961 cutoff is March 31, 2026', () {
-      expect(
-        ActMode.act1961.effectiveUntil,
-        DateTime(2026, 3, 31),
-      );
+      expect(ActMode.act1961.effectiveUntil, DateTime(2026, 3, 31));
     });
 
     test('act2025 effective from April 1, 2026', () {
-      expect(
-        ActMode.act2025.effectiveFrom,
-        DateTime(2026, 4, 1),
-      );
+      expect(ActMode.act2025.effectiveFrom, DateTime(2026, 4, 1));
     });
   });
 

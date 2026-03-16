@@ -51,8 +51,7 @@ void main() {
 
       test('list is unmodifiable', () {
         final deliverables = container.read(allDeliverablesProvider);
-        expect(
-            () => deliverables.add(deliverables.first), throwsA(anything));
+        expect(() => deliverables.add(deliverables.first), throwsA(anything));
       });
     });
 
@@ -81,9 +80,7 @@ void main() {
 
       test('supports all CfoRetainerStatus values', () {
         for (final status in CfoRetainerStatus.values) {
-          container
-              .read(retainerStatusFilterProvider.notifier)
-              .update(status);
+          container.read(retainerStatusFilterProvider.notifier).update(status);
           expect(container.read(retainerStatusFilterProvider), status);
         }
       });

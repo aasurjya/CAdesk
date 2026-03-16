@@ -111,10 +111,7 @@ void main() {
           .read(tpStudyStatusFilterProvider.notifier)
           .update(TpStudyStatus.analysis);
       final filtered = container.read(filteredTpStudiesProvider);
-      expect(
-        filtered.every((s) => s.status == TpStudyStatus.analysis),
-        isTrue,
-      );
+      expect(filtered.every((s) => s.status == TpStudyStatus.analysis), isTrue);
     });
   });
 

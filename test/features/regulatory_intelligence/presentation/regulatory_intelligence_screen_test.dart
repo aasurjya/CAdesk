@@ -10,8 +10,8 @@ Future<void> _setViewport(WidgetTester tester) async {
 }
 
 Widget _buildScreen() => const ProviderScope(
-      child: MaterialApp(home: RegulatoryIntelligenceScreen()),
-    );
+  child: MaterialApp(home: RegulatoryIntelligenceScreen()),
+);
 
 void main() {
   group('RegulatoryIntelligenceScreen', () {
@@ -133,8 +133,9 @@ void main() {
       expect(find.byType(TabBarView), findsOneWidget);
     });
 
-    testWidgets('switching to Client Alerts tab shows alerts summary',
-        (tester) async {
+    testWidgets('switching to Client Alerts tab shows alerts summary', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -150,8 +151,9 @@ void main() {
       expect(find.textContaining('urgent alerts'), findsOneWidget);
     });
 
-    testWidgets('renders Urgent filter chip in Client Alerts tab',
-        (tester) async {
+    testWidgets('renders Urgent filter chip in Client Alerts tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

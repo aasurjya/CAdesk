@@ -167,8 +167,10 @@ void main() {
         personalInfo: PersonalInfo.empty().copyWith(firstName: '   '),
       );
       final errors = Itr2FormValidator.validate(form);
-      expect(errors.where((e) => e.field == 'firstName' && e.code == 'REQUIRED'),
-          isNotEmpty);
+      expect(
+        errors.where((e) => e.field == 'firstName' && e.code == 'REQUIRED'),
+        isNotEmpty,
+      );
     });
 
     test('→ invalid mobile (starts with 5) returns INVALID_MOBILE error', () {
@@ -267,14 +269,16 @@ void main() {
       expect(errors.where((e) => e.code == 'INVALID_AADHAAR'), isNotEmpty);
     });
 
-    test('→ Aadhaar with non-digit characters returns INVALID_AADHAAR error',
-        () {
-      final form = Itr2FormData.empty().copyWith(
-        personalInfo: validPi().copyWith(aadhaarNumber: '12345678901A'),
-      );
-      final errors = Itr2FormValidator.validate(form);
-      expect(errors.where((e) => e.code == 'INVALID_AADHAAR'), isNotEmpty);
-    });
+    test(
+      '→ Aadhaar with non-digit characters returns INVALID_AADHAAR error',
+      () {
+        final form = Itr2FormData.empty().copyWith(
+          personalInfo: validPi().copyWith(aadhaarNumber: '12345678901A'),
+        );
+        final errors = Itr2FormValidator.validate(form);
+        expect(errors.where((e) => e.code == 'INVALID_AADHAAR'), isNotEmpty);
+      },
+    );
 
     test('→ empty Aadhaar is accepted (optional)', () {
       final form = Itr2FormData.empty().copyWith(
@@ -302,109 +306,112 @@ void main() {
         ),
       );
       final errors = Itr2FormValidator.validate(form);
-      final bfErrors =
-          errors.where((e) => e.field == 'broughtForwardLtcl');
+      final bfErrors = errors.where((e) => e.field == 'broughtForwardLtcl');
       expect(bfErrors, isNotEmpty);
       expect(bfErrors.first.code, 'NEGATIVE_SETOFF');
     });
 
     test(
-        '→ equityStcgEntry with negative salePrice returns NEGATIVE_SALE_PRICE',
-        () {
-      final entry = EquityStcgEntry(
-        description: 'Bad entry',
-        salePrice: -100000,
-        costOfAcquisition: 50000,
-        transferExpenses: 0,
-      );
-      final form = Itr2FormData.empty().copyWith(
-        personalInfo: validPi(),
-        scheduleCg: ScheduleCg(
-          equityStcgEntries: [entry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
-          broughtForwardStcl: 0,
-          broughtForwardLtcl: 0,
-        ),
-      );
-      final errors = Itr2FormValidator.validate(form);
-      final saleErrors = errors.where(
-        (e) =>
-            e.field == 'equityStcgEntries' && e.code == 'NEGATIVE_SALE_PRICE',
-      );
-      expect(saleErrors, isNotEmpty);
-    });
+      '→ equityStcgEntry with negative salePrice returns NEGATIVE_SALE_PRICE',
+      () {
+        final entry = EquityStcgEntry(
+          description: 'Bad entry',
+          salePrice: -100000,
+          costOfAcquisition: 50000,
+          transferExpenses: 0,
+        );
+        final form = Itr2FormData.empty().copyWith(
+          personalInfo: validPi(),
+          scheduleCg: ScheduleCg(
+            equityStcgEntries: [entry],
+            equityLtcgEntries: const [],
+            debtStcgEntries: const [],
+            debtLtcgEntries: const [],
+            propertyLtcgEntries: const [],
+            otherStcgEntries: const [],
+            otherLtcgEntries: const [],
+            broughtForwardStcl: 0,
+            broughtForwardLtcl: 0,
+          ),
+        );
+        final errors = Itr2FormValidator.validate(form);
+        final saleErrors = errors.where(
+          (e) =>
+              e.field == 'equityStcgEntries' && e.code == 'NEGATIVE_SALE_PRICE',
+        );
+        expect(saleErrors, isNotEmpty);
+      },
+    );
 
     test(
-        '→ propertyLtcgEntry with negative salePrice returns NEGATIVE_SALE_PRICE',
-        () {
-      final entry = PropertyLtcgEntry(
-        description: 'Bad property',
-        salePrice: -500000,
-        indexedCostOfAcquisition: 300000,
-        improvementCost: 0,
-        transferExpenses: 0,
-        acquisitionDate: DateTime(2015, 1, 1),
-      );
-      final form = Itr2FormData.empty().copyWith(
-        personalInfo: validPi(),
-        scheduleCg: ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: [entry],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
-          broughtForwardStcl: 0,
-          broughtForwardLtcl: 0,
-        ),
-      );
-      final errors = Itr2FormValidator.validate(form);
-      final saleErrors = errors.where(
-        (e) =>
-            e.field == 'propertyLtcgEntries' && e.code == 'NEGATIVE_SALE_PRICE',
-      );
-      expect(saleErrors, isNotEmpty);
-    });
+      '→ propertyLtcgEntry with negative salePrice returns NEGATIVE_SALE_PRICE',
+      () {
+        final entry = PropertyLtcgEntry(
+          description: 'Bad property',
+          salePrice: -500000,
+          indexedCostOfAcquisition: 300000,
+          improvementCost: 0,
+          transferExpenses: 0,
+          acquisitionDate: DateTime(2015, 1, 1),
+        );
+        final form = Itr2FormData.empty().copyWith(
+          personalInfo: validPi(),
+          scheduleCg: ScheduleCg(
+            equityStcgEntries: const [],
+            equityLtcgEntries: const [],
+            debtStcgEntries: const [],
+            debtLtcgEntries: const [],
+            propertyLtcgEntries: [entry],
+            otherStcgEntries: const [],
+            otherLtcgEntries: const [],
+            broughtForwardStcl: 0,
+            broughtForwardLtcl: 0,
+          ),
+        );
+        final errors = Itr2FormValidator.validate(form);
+        final saleErrors = errors.where(
+          (e) =>
+              e.field == 'propertyLtcgEntries' &&
+              e.code == 'NEGATIVE_SALE_PRICE',
+        );
+        expect(saleErrors, isNotEmpty);
+      },
+    );
 
     test(
-        '→ propertyLtcgEntry with negative indexedCost returns NEGATIVE_INDEXED_COST',
-        () {
-      final entry = PropertyLtcgEntry(
-        description: 'Bad indexed cost',
-        salePrice: 500000,
-        indexedCostOfAcquisition: -100000,
-        improvementCost: 0,
-        transferExpenses: 0,
-        acquisitionDate: DateTime(2015, 1, 1),
-      );
-      final form = Itr2FormData.empty().copyWith(
-        personalInfo: validPi(),
-        scheduleCg: ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: [entry],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
-          broughtForwardStcl: 0,
-          broughtForwardLtcl: 0,
-        ),
-      );
-      final errors = Itr2FormValidator.validate(form);
-      final indexedErrors = errors.where(
-        (e) =>
-            e.field == 'propertyLtcgEntries' &&
-            e.code == 'NEGATIVE_INDEXED_COST',
-      );
-      expect(indexedErrors, isNotEmpty);
-    });
+      '→ propertyLtcgEntry with negative indexedCost returns NEGATIVE_INDEXED_COST',
+      () {
+        final entry = PropertyLtcgEntry(
+          description: 'Bad indexed cost',
+          salePrice: 500000,
+          indexedCostOfAcquisition: -100000,
+          improvementCost: 0,
+          transferExpenses: 0,
+          acquisitionDate: DateTime(2015, 1, 1),
+        );
+        final form = Itr2FormData.empty().copyWith(
+          personalInfo: validPi(),
+          scheduleCg: ScheduleCg(
+            equityStcgEntries: const [],
+            equityLtcgEntries: const [],
+            debtStcgEntries: const [],
+            debtLtcgEntries: const [],
+            propertyLtcgEntries: [entry],
+            otherStcgEntries: const [],
+            otherLtcgEntries: const [],
+            broughtForwardStcl: 0,
+            broughtForwardLtcl: 0,
+          ),
+        );
+        final errors = Itr2FormValidator.validate(form);
+        final indexedErrors = errors.where(
+          (e) =>
+              e.field == 'propertyLtcgEntries' &&
+              e.code == 'NEGATIVE_INDEXED_COST',
+        );
+        expect(indexedErrors, isNotEmpty);
+      },
+    );
 
     test('→ result list is unmodifiable', () {
       final form = Itr2FormData.empty().copyWith(personalInfo: validPi());
@@ -412,27 +419,30 @@ void main() {
       expect(() => (errors as dynamic).add(null), throwsA(anything));
     });
 
-    test('→ accumulates multiple errors from different validation sections', () {
-      // Missing firstName AND invalid PAN AND negative LTCL
-      final form = Itr2FormData.empty().copyWith(
-        personalInfo: PersonalInfo.empty().copyWith(
-          firstName: '',
-          pan: 'BADPAN',
-        ),
-        scheduleCg: const ScheduleCg(
-          equityStcgEntries: [],
-          equityLtcgEntries: [],
-          debtStcgEntries: [],
-          debtLtcgEntries: [],
-          propertyLtcgEntries: [],
-          otherStcgEntries: [],
-          otherLtcgEntries: [],
-          broughtForwardStcl: 0,
-          broughtForwardLtcl: -1000,
-        ),
-      );
-      final errors = Itr2FormValidator.validate(form);
-      expect(errors.length, greaterThanOrEqualTo(3));
-    });
+    test(
+      '→ accumulates multiple errors from different validation sections',
+      () {
+        // Missing firstName AND invalid PAN AND negative LTCL
+        final form = Itr2FormData.empty().copyWith(
+          personalInfo: PersonalInfo.empty().copyWith(
+            firstName: '',
+            pan: 'BADPAN',
+          ),
+          scheduleCg: const ScheduleCg(
+            equityStcgEntries: [],
+            equityLtcgEntries: [],
+            debtStcgEntries: [],
+            debtLtcgEntries: [],
+            propertyLtcgEntries: [],
+            otherStcgEntries: [],
+            otherLtcgEntries: [],
+            broughtForwardStcl: 0,
+            broughtForwardLtcl: -1000,
+          ),
+        );
+        final errors = Itr2FormValidator.validate(form);
+        expect(errors.length, greaterThanOrEqualTo(3));
+      },
+    );
   });
 }

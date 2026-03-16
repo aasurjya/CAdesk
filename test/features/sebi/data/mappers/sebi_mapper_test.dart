@@ -26,7 +26,10 @@ void main() {
         expect(compliance.dueDate.month, 9);
         expect(compliance.filedDate, isNotNull);
         expect(compliance.status, 'filed');
-        expect(compliance.description, 'LODR quarterly compliance - Board composition');
+        expect(
+          compliance.description,
+          'LODR quarterly compliance - Board composition',
+        );
         expect(compliance.penalty, isNull);
       });
 
@@ -121,7 +124,10 @@ void main() {
         expect(json['client_id'], 'client-json-001');
         expect(json['compliance_type'], 'takeovers');
         expect(json['status'], 'filed');
-        expect(json['description'], 'Open offer compliance under SAST regulations');
+        expect(
+          json['description'],
+          'Open offer compliance under SAST regulations',
+        );
         expect(json['penalty'], isNull);
         expect(json['filed_date'], isNotNull);
 

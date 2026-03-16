@@ -10,7 +10,8 @@ void main() {
     late MockSubmissionRepository repo;
     final now = DateTime(2026, 3, 14, 10, 0);
 
-    SubmissionJob makeJob(String id, {
+    SubmissionJob makeJob(
+      String id, {
       PortalType portalType = PortalType.itd,
       SubmissionStep step = SubmissionStep.pending,
     }) {
@@ -176,21 +177,25 @@ void main() {
         await repo.insert(makeJob('job-001'));
         await repo.insert(makeJob('job-002'));
         for (var i = 1; i <= 3; i++) {
-          await repo.insertLog(SubmissionLog(
-            id: 'log-00$i',
-            jobId: 'job-001',
-            timestamp: now.add(Duration(seconds: i)),
-            step: SubmissionStep.loggingIn,
-            message: 'Log $i',
-          ));
+          await repo.insertLog(
+            SubmissionLog(
+              id: 'log-00$i',
+              jobId: 'job-001',
+              timestamp: now.add(Duration(seconds: i)),
+              step: SubmissionStep.loggingIn,
+              message: 'Log $i',
+            ),
+          );
         }
-        await repo.insertLog(SubmissionLog(
-          id: 'log-other',
-          jobId: 'job-002',
-          timestamp: now,
-          step: SubmissionStep.loggingIn,
-          message: 'Other job log',
-        ));
+        await repo.insertLog(
+          SubmissionLog(
+            id: 'log-other',
+            jobId: 'job-002',
+            timestamp: now,
+            step: SubmissionStep.loggingIn,
+            message: 'Other job log',
+          ),
+        );
         final logs = await repo.getLogs('job-001');
         expect(logs, hasLength(3));
         expect(logs.every((l) => l.jobId == 'job-001'), isTrue);
@@ -225,7 +230,10 @@ void main() {
         final sub = repo.watchJob('job-001').listen(events.add);
         await repo.update(makeJob('job-001', step: SubmissionStep.loggingIn));
         await Future<void>.delayed(Duration.zero);
-        expect(events.any((j) => j.currentStep == SubmissionStep.loggingIn), isTrue);
+        expect(
+          events.any((j) => j.currentStep == SubmissionStep.loggingIn),
+          isTrue,
+        );
         await sub.cancel();
       });
     });
@@ -235,13 +243,15 @@ void main() {
         await repo.insert(makeJob('job-001'));
         final allLogs = <SubmissionLog>[];
         final sub = repo.watchLogs('job-001').listen(allLogs.addAll);
-        await repo.insertLog(SubmissionLog(
-          id: 'log-x',
-          jobId: 'job-001',
-          timestamp: now,
-          step: SubmissionStep.filling,
-          message: 'Filling',
-        ));
+        await repo.insertLog(
+          SubmissionLog(
+            id: 'log-x',
+            jobId: 'job-001',
+            timestamp: now,
+            step: SubmissionStep.filling,
+            message: 'Filling',
+          ),
+        );
         await Future<void>.delayed(Duration.zero);
         expect(allLogs, isNotEmpty);
         await sub.cancel();

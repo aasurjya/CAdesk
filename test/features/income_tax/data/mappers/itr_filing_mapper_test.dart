@@ -252,8 +252,10 @@ void main() {
         expect(restored.itrType, sampleClient.itrType);
         expect(restored.filingStatus, sampleClient.filingStatus);
         expect(restored.totalIncome, sampleClient.totalIncome);
-        expect(restored.acknowledgementNumber,
-            sampleClient.acknowledgementNumber);
+        expect(
+          restored.acknowledgementNumber,
+          sampleClient.acknowledgementNumber,
+        );
       });
     });
 

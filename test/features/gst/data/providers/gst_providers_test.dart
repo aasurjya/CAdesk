@@ -139,9 +139,10 @@ void main() {
       });
 
       test('can be updated to a different period', () {
-        container
-            .read(gstSelectedPeriodProvider.notifier)
-            .update((month: 1, year: 2026));
+        container.read(gstSelectedPeriodProvider.notifier).update((
+          month: 1,
+          year: 2026,
+        ));
         final period = container.read(gstSelectedPeriodProvider);
         expect(period.month, 1);
         expect(period.year, 2026);
@@ -159,9 +160,10 @@ void main() {
       });
 
       test('changes when period is updated', () {
-        container
-            .read(gstSelectedPeriodProvider.notifier)
-            .update((month: 3, year: 2025));
+        container.read(gstSelectedPeriodProvider.notifier).update((
+          month: 3,
+          year: 2025,
+        ));
         final filtered = container.read(gstFilteredReturnsProvider);
         for (final r in filtered) {
           expect(r.periodMonth, 3);
@@ -182,10 +184,7 @@ void main() {
           gstReturnsByTypeProvider(GstReturnType.gstr1),
         );
         expect(gstr1, isNotEmpty);
-        expect(
-          gstr1.every((r) => r.returnType == GstReturnType.gstr1),
-          isTrue,
-        );
+        expect(gstr1.every((r) => r.returnType == GstReturnType.gstr1), isTrue);
       });
 
       test('filters to GSTR-3B only', () {
@@ -244,7 +243,10 @@ void main() {
     group('itcReconSummaryProvider', () {
       test('total matches allItcReconciliationsProvider length', () {
         final summary = container.read(itcReconSummaryProvider);
-        expect(summary.total, container.read(allItcReconciliationsProvider).length);
+        expect(
+          summary.total,
+          container.read(allItcReconciliationsProvider).length,
+        );
       });
 
       test('totalMismatch is non-negative', () {

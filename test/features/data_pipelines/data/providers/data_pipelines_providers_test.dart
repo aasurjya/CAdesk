@@ -110,19 +110,22 @@ void main() {
             .update(PipelineStatus.error);
         final filtered = container.read(filteredPipelinesProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((p) => p.status == PipelineStatus.error),
-          isTrue,
-        );
+        expect(filtered.every((p) => p.status == PipelineStatus.error), isTrue);
       });
 
-      test('returns empty when filtering by paused (no paused pipelines match error)', () {
-        container
-            .read(pipelineStatusFilterProvider.notifier)
-            .update(PipelineStatus.paused);
-        final filtered = container.read(filteredPipelinesProvider);
-        expect(filtered.every((p) => p.status == PipelineStatus.paused), isTrue);
-      });
+      test(
+        'returns empty when filtering by paused (no paused pipelines match error)',
+        () {
+          container
+              .read(pipelineStatusFilterProvider.notifier)
+              .update(PipelineStatus.paused);
+          final filtered = container.read(filteredPipelinesProvider);
+          expect(
+            filtered.every((p) => p.status == PipelineStatus.paused),
+            isTrue,
+          );
+        },
+      );
     });
 
     group('dataPipelinesSummaryProvider', () {

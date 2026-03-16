@@ -11,8 +11,8 @@ void main() {
     bool fipbRouteApproval = false,
     DateTime? dateOfReceipt,
     int sharesAllotted = 1000,
-    int faceValuePaise = 1000,    // Rs 10 face value
-    int issuePricePaise = 10000,  // Rs 100 issue price
+    int faceValuePaise = 1000, // Rs 10 face value
+    int issuePricePaise = 10000, // Rs 100 issue price
     int premiumAmountPaise = 9000, // Rs 90 premium
     int totalInflowPaise = 10000000,
     String foreignInvestorCountry = 'USA',
@@ -33,10 +33,7 @@ void main() {
 
   group('FemaComplianceEngine.instance', () {
     test('singleton returns same instance', () {
-      expect(
-        identical(FemaComplianceEngine.instance, engine),
-        isTrue,
-      );
+      expect(identical(FemaComplianceEngine.instance, engine), isTrue);
     });
   });
 
@@ -116,12 +113,15 @@ void main() {
       expect(result, isFalse);
     });
 
-    test('returns false for zero FMV but non-zero issue price is okay (always compliant)', () {
-      final form = makeValidFcGpr(issuePricePaise: 1000);
-      // FMV = 0 → fmvPaise = 0 → issuePrice (1000) >= 0 → true
-      final result = engine.checkPricingGuidelines(form, 0.0);
-      expect(result, isTrue);
-    });
+    test(
+      'returns false for zero FMV but non-zero issue price is okay (always compliant)',
+      () {
+        final form = makeValidFcGpr(issuePricePaise: 1000);
+        // FMV = 0 → fmvPaise = 0 → issuePrice (1000) >= 0 → true
+        final result = engine.checkPricingGuidelines(form, 0.0);
+        expect(result, isTrue);
+      },
+    );
   });
 
   group('FemaComplianceEngine.validateFcGpr', () {
@@ -204,23 +204,28 @@ void main() {
     });
 
     test('accumulates multiple errors for multiple invalid fields', () {
-      final form = makeValidFcGpr(
-        entityName: '',
-        cin: '',
-        sharesAllotted: 0,
-      );
+      final form = makeValidFcGpr(entityName: '', cin: '', sharesAllotted: 0);
       final errors = engine.validateFcGpr(form);
       expect(errors.length, greaterThanOrEqualTo(3));
     });
 
     test('ValidationError equality — same fields are equal', () {
-      const a = ValidationError(field: 'cin', message: 'CIN must not be empty.');
-      const b = ValidationError(field: 'cin', message: 'CIN must not be empty.');
+      const a = ValidationError(
+        field: 'cin',
+        message: 'CIN must not be empty.',
+      );
+      const b = ValidationError(
+        field: 'cin',
+        message: 'CIN must not be empty.',
+      );
       expect(a, equals(b));
     });
 
     test('ValidationError inequality — different message', () {
-      const a = ValidationError(field: 'cin', message: 'CIN must not be empty.');
+      const a = ValidationError(
+        field: 'cin',
+        message: 'CIN must not be empty.',
+      );
       const b = ValidationError(field: 'cin', message: 'Different message');
       expect(a, isNot(equals(b)));
     });

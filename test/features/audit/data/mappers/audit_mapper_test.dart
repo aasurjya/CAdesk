@@ -60,10 +60,7 @@ void main() {
       });
 
       test('defaults status to scheduled when status key is absent', () {
-        final json = {
-          'id': 'aa-004',
-          'client_id': 'c1',
-        };
+        final json = {'id': 'aa-004', 'client_id': 'c1'};
 
         final assignment = AuditMapper.assignmentFromJson(json);
         expect(assignment.status, AuditAssignmentStatus.scheduled);
@@ -153,7 +150,10 @@ void main() {
           'sa_report_number': '3CD/2024/001',
           'report_date': '2025-09-30T00:00:00.000Z',
           'reported_by': 'CA Mehta',
-          'audit_findings': {'section_40A': 'Compliant', 'section_32': 'Depreciation claimed'},
+          'audit_findings': {
+            'section_40A': 'Compliant',
+            'section_32': 'Depreciation claimed',
+          },
         };
 
         final report = AuditMapper.reportFromJson(json);
@@ -169,11 +169,7 @@ void main() {
       });
 
       test('handles null optional fields', () {
-        final json = {
-          'id': 'ar-002',
-          'client_id': 'client-002',
-          'year': 2023,
-        };
+        final json = {'id': 'ar-002', 'client_id': 'client-002', 'year': 2023};
 
         final report = AuditMapper.reportFromJson(json);
         expect(report.saReportNumber, isNull);

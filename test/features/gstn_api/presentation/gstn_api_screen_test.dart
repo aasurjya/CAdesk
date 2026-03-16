@@ -75,10 +75,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Enter 15-character GSTIN'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Enter 15-character GSTIN'), findsOneWidget);
     });
 
     testWidgets('renders Filing Status section header', (tester) async {
@@ -126,10 +123,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Auto-drafted ITC statement'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Auto-drafted ITC statement'), findsOneWidget);
     });
 
     testWidgets('renders filing status no-data text', (tester) async {

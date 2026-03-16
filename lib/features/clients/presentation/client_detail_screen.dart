@@ -51,9 +51,7 @@ class ClientDetailScreen extends ConsumerWidget {
 
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('"${client.name}" has been deleted.'),
-        ),
+        SnackBar(content: Text('"${client.name}" has been deleted.')),
       );
       context.pop();
     } catch (e) {

@@ -79,10 +79,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(
-        find.descendant(
-          of: find.byType(TabBar),
-          matching: find.text('Orders'),
-        ),
+        find.descendant(of: find.byType(TabBar), matching: find.text('Orders')),
         findsOneWidget,
       );
     });

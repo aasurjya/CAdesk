@@ -197,10 +197,7 @@ void main() {
       });
 
       test('handles null optional fields', () {
-        final json = {
-          'id': 'ca-002',
-          'client_id': 'client-002',
-        };
+        final json = {'id': 'ca-002', 'client_id': 'client-002'};
 
         final assignment = FirmOperationsMapper.clientAssignmentFromJson(json);
         expect(assignment.assignedToId, isNull);

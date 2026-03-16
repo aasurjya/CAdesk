@@ -14,9 +14,8 @@ Future<void> _setViewport(WidgetTester tester) async {
   addTearDown(() => tester.binding.setSurfaceSize(null));
 }
 
-Widget _buildScreen() => const ProviderScope(
-      child: MaterialApp(home: PostFilingDashboardScreen()),
-    );
+Widget _buildScreen() =>
+    const ProviderScope(child: MaterialApp(home: PostFilingDashboardScreen()));
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -83,8 +82,9 @@ void main() {
       expect(find.byType(Card), findsWidgets);
     });
 
-    testWidgets('renders filter chips for PostFilingFilter values',
-        (tester) async {
+    testWidgets('renders filter chips for PostFilingFilter values', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -108,7 +108,9 @@ void main() {
       expect(find.byType(RefreshIndicator), findsOneWidget);
     });
 
-    testWidgets('renders Refund Tracker icon button in app bar', (tester) async {
+    testWidgets('renders Refund Tracker icon button in app bar', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

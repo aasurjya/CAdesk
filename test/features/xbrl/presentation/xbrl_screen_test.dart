@@ -287,9 +287,7 @@ void main() {
       await _setDisplay(tester);
       await tester.pumpWidget(
         const MaterialApp(
-          home: Scaffold(
-            body: XbrlFilingTile(filing: _testFilingWithErrors),
-          ),
+          home: Scaffold(body: XbrlFilingTile(filing: _testFilingWithErrors)),
         ),
       );
       await tester.pumpAndSettle();

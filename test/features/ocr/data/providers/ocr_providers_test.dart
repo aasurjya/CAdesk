@@ -42,8 +42,9 @@ void main() {
 
       test('jobs include completed and failed items', () {
         final jobs = container.read(ocrJobListProvider);
-        final hasCompleted =
-            jobs.any((j) => j.status == OcrJobStatus.completed);
+        final hasCompleted = jobs.any(
+          (j) => j.status == OcrJobStatus.completed,
+        );
         final hasFailed = jobs.any((j) => j.status == OcrJobStatus.failed);
         expect(hasCompleted, isTrue);
         expect(hasFailed, isTrue);
@@ -51,8 +52,9 @@ void main() {
 
       test('completed jobs have non-null result', () {
         final jobs = container.read(ocrJobListProvider);
-        final completedJobs =
-            jobs.where((j) => j.status == OcrJobStatus.completed);
+        final completedJobs = jobs.where(
+          (j) => j.status == OcrJobStatus.completed,
+        );
         for (final job in completedJobs) {
           expect(job.result, isNotNull);
         }
@@ -178,15 +180,20 @@ void main() {
     group('OcrJob model', () {
       test('confidence returns result confidence when result exists', () {
         final jobs = container.read(ocrJobListProvider);
-        final completedJob =
-            jobs.firstWhere((j) => j.status == OcrJobStatus.completed);
-        expect(completedJob.confidence, completedJob.result!.document.confidence);
+        final completedJob = jobs.firstWhere(
+          (j) => j.status == OcrJobStatus.completed,
+        );
+        expect(
+          completedJob.confidence,
+          completedJob.result!.document.confidence,
+        );
       });
 
       test('confidence returns document confidence when no result', () {
         final jobs = container.read(ocrJobListProvider);
-        final processingJob =
-            jobs.firstWhere((j) => j.status == OcrJobStatus.processing);
+        final processingJob = jobs.firstWhere(
+          (j) => j.status == OcrJobStatus.processing,
+        );
         expect(processingJob.confidence, processingJob.document.confidence);
       });
 

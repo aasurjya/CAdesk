@@ -76,10 +76,7 @@ void main() {
           .read(xbrlStatusFilterProvider.notifier)
           .update(XbrlFilingStatus.filed);
       final filtered = container.read(xbrlFilteredFilingsProvider);
-      expect(
-        filtered.every((f) => f.status == XbrlFilingStatus.filed),
-        isTrue,
-      );
+      expect(filtered.every((f) => f.status == XbrlFilingStatus.filed), isTrue);
     });
   });
 
@@ -94,16 +91,12 @@ void main() {
     });
 
     test('can select a filing id', () {
-      container
-          .read(xbrlSelectedFilingIdProvider.notifier)
-          .update('xbrl-001');
+      container.read(xbrlSelectedFilingIdProvider.notifier).update('xbrl-001');
       expect(container.read(xbrlSelectedFilingIdProvider), 'xbrl-001');
     });
 
     test('can be cleared', () {
-      container
-          .read(xbrlSelectedFilingIdProvider.notifier)
-          .update('xbrl-002');
+      container.read(xbrlSelectedFilingIdProvider.notifier).update('xbrl-002');
       container.read(xbrlSelectedFilingIdProvider.notifier).update(null);
       expect(container.read(xbrlSelectedFilingIdProvider), isNull);
     });
@@ -116,12 +109,16 @@ void main() {
     tearDown(() => container.dispose());
 
     test('returns elements for a known filing', () {
-      final elements = container.read(xbrlElementsForFilingProvider('xbrl-003'));
+      final elements = container.read(
+        xbrlElementsForFilingProvider('xbrl-003'),
+      );
       expect(elements, isNotEmpty);
     });
 
     test('returns empty for unknown filing', () {
-      final elements = container.read(xbrlElementsForFilingProvider('xbrl-999'));
+      final elements = container.read(
+        xbrlElementsForFilingProvider('xbrl-999'),
+      );
       expect(elements, isEmpty);
     });
   });

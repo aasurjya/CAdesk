@@ -59,16 +59,18 @@ void main() {
       expect(find.byType(TabBar), findsOneWidget);
     });
 
-    testWidgets('renders Extraction Accuracy banner in Document Jobs tab',
-        (tester) async {
+    testWidgets('renders Extraction Accuracy banner in Document Jobs tab', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.text('Extraction Accuracy'), findsOneWidget);
     });
 
-    testWidgets('renders status filter chips (All, Queued, etc.)',
-        (tester) async {
+    testWidgets('renders status filter chips (All, Queued, etc.)', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -90,8 +92,9 @@ void main() {
       expect(find.text('Completed'), findsWidgets);
     });
 
-    testWidgets('renders document count label in Document Jobs tab',
-        (tester) async {
+    testWidgets('renders document count label in Document Jobs tab', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -100,8 +103,9 @@ void main() {
       expect(hasDocLabel, isTrue);
     });
 
-    testWidgets('summary card shows Completed and Queued pill labels',
-        (tester) async {
+    testWidgets('summary card shows Completed and Queued pill labels', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -109,8 +113,9 @@ void main() {
       expect(find.textContaining('Queued'), findsWidgets);
     });
 
-    testWidgets('switching to Extracted Fields tab renders without error',
-        (tester) async {
+    testWidgets('switching to Extracted Fields tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -119,17 +124,19 @@ void main() {
       expect(find.byType(IdpScreen), findsOneWidget);
     });
 
-    testWidgets('Extracted Fields tab shows fields or empty state',
-        (tester) async {
+    testWidgets('Extracted Fields tab shows fields or empty state', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       await tester.tap(find.text('Extracted Fields').first);
       await tester.pumpAndSettle();
-      final hasEmpty =
-          find.text('No extracted fields yet').evaluate().isNotEmpty;
-      final hasTile =
-          find.byType(ExtractedFieldTile).evaluate().isNotEmpty;
+      final hasEmpty = find
+          .text('No extracted fields yet')
+          .evaluate()
+          .isNotEmpty;
+      final hasTile = find.byType(ExtractedFieldTile).evaluate().isNotEmpty;
       // Screen itself is always present
       final hasScreen = find.byType(IdpScreen).evaluate().isNotEmpty;
       expect(hasEmpty || hasTile || hasScreen, isTrue);
@@ -142,13 +149,17 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('renders Failed filter chip label in status list', (tester) async {
+    testWidgets('renders Failed filter chip label in status list', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       // 'Failed' may scroll off-screen in horizontal ListView; check it or any chip is present
-      final hasFailed =
-          find.text('Failed', skipOffstage: false).evaluate().isNotEmpty;
+      final hasFailed = find
+          .text('Failed', skipOffstage: false)
+          .evaluate()
+          .isNotEmpty;
       final hasAnyChip = find.byType(FilterChip).evaluate().isNotEmpty;
       expect(hasFailed || hasAnyChip, isTrue);
     });

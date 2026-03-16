@@ -124,9 +124,7 @@ void main() {
         container
             .read(assessmentSectionFilterProvider.notifier)
             .update(AssessmentSection.section147);
-        container
-            .read(assessmentSectionFilterProvider.notifier)
-            .update(null);
+        container.read(assessmentSectionFilterProvider.notifier).update(null);
         expect(container.read(assessmentSectionFilterProvider), isNull);
       });
     });
@@ -198,10 +196,7 @@ void main() {
             .update('AY 2022-23');
         final filtered = container.read(filteredOrdersProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((o) => o.assessmentYear == 'AY 2022-23'),
-          isTrue,
-        );
+        expect(filtered.every((o) => o.assessmentYear == 'AY 2022-23'), isTrue);
       });
     });
 

@@ -34,7 +34,9 @@ void main() {
     });
 
     test('returns empty list for unknown client', () {
-      final payments = container.read(msmePaymentsByClientProvider('c-unknown'));
+      final payments = container.read(
+        msmePaymentsByClientProvider('c-unknown'),
+      );
       expect(payments, isEmpty);
     });
   });

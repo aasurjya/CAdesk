@@ -9,7 +9,8 @@ void main() {
         final json = {
           'query_id': 'qry-001',
           'question': 'What is the TDS rate for contractors u/s 194C?',
-          'context': 'Client is a sole proprietor with annual payments of ₹15 lakh',
+          'context':
+              'Client is a sole proprietor with annual payments of ₹15 lakh',
           'query_type': 'sectionLookup',
           'financial_year': 2025,
           'pan': 'ABCDE1234F',
@@ -19,8 +20,14 @@ void main() {
         final query = CaGptMapper.fromJson(json);
 
         expect(query.queryId, 'qry-001');
-        expect(query.question, 'What is the TDS rate for contractors u/s 194C?');
-        expect(query.context, 'Client is a sole proprietor with annual payments of ₹15 lakh');
+        expect(
+          query.question,
+          'What is the TDS rate for contractors u/s 194C?',
+        );
+        expect(
+          query.context,
+          'Client is a sole proprietor with annual payments of ₹15 lakh',
+        );
         expect(query.queryType, QueryType.sectionLookup);
         expect(query.financialYear, 2025);
         expect(query.pan, 'ABCDE1234F');

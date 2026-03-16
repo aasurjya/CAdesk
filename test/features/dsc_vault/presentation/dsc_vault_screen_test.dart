@@ -92,8 +92,9 @@ void main() {
       expect(find.text('Active Portals'), findsOneWidget);
     });
 
-    testWidgets('renders status filter chips in DSC Certificates tab',
-        (tester) async {
+    testWidgets('renders status filter chips in DSC Certificates tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

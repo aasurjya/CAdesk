@@ -78,8 +78,8 @@ final epfoAutosubmitServiceProvider = Provider<EpfoAutosubmitService>(
 /// Returns the [PortalCredentialRepository] (mock or real depending on flags).
 final autosubmitCredentialRepositoryProvider =
     Provider<PortalCredentialRepository>((ref) {
-  return ref.watch(portalCredentialRepositoryProvider);
-});
+      return ref.watch(portalCredentialRepositoryProvider);
+    });
 
 /// Async provider that resolves the [PortalCredential] for a given
 /// [PortalType] from the credential repository.
@@ -92,6 +92,6 @@ final autosubmitCredentialRepositoryProvider =
 /// ```
 final credentialForPortalProvider =
     FutureProvider.family<PortalCredential?, PortalType>((ref, portalType) {
-  final repo = ref.watch(autosubmitCredentialRepositoryProvider);
-  return repo.getCredential(portalType);
-});
+      final repo = ref.watch(autosubmitCredentialRepositoryProvider);
+      return repo.getCredential(portalType);
+    });

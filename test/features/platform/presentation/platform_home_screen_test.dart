@@ -43,10 +43,7 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(
-        find.textContaining('Manage firm users'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Manage firm users'), findsOneWidget);
     });
 
     testWidgets('renders Security & MFA card', (tester) async {

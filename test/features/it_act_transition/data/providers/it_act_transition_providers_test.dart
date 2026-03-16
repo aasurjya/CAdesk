@@ -76,8 +76,9 @@ void main() {
     });
 
     test('sectionsByCategoryProvider filters correctly', () {
-      final tds =
-          container.read(sectionsByCategoryProvider(SectionCategory.tds));
+      final tds = container.read(
+        sectionsByCategoryProvider(SectionCategory.tds),
+      );
       expect(tds, isNotEmpty);
       for (final m in tds) {
         expect(m.category, SectionCategory.tds);
@@ -101,8 +102,7 @@ void main() {
     });
 
     test('sectionSearchProvider returns empty for no match', () {
-      final results =
-          container.read(sectionSearchProvider('zzzznonexistent'));
+      final results = container.read(sectionSearchProvider('zzzznonexistent'));
       expect(results, isEmpty);
     });
 

@@ -75,8 +75,9 @@ void main() {
       );
     });
 
-    testWidgets('renders All filter chip in audit type filter row',
-        (tester) async {
+    testWidgets('renders All filter chip in audit type filter row', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -84,8 +85,9 @@ void main() {
       expect(find.text('All'), findsWidgets);
     });
 
-    testWidgets('renders AuditEngagementCard widgets on Engagements tab',
-        (tester) async {
+    testWidgets('renders AuditEngagementCard widgets on Engagements tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -101,7 +103,9 @@ void main() {
       expect(find.textContaining('Reliance Retail'), findsWidgets);
     });
 
-    testWidgets('renders mock client Tata Consultancy Services', (tester) async {
+    testWidgets('renders mock client Tata Consultancy Services', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -109,8 +113,9 @@ void main() {
       expect(find.textContaining('Tata Consultancy'), findsWidgets);
     });
 
-    testWidgets('switches to Findings tab and shows AuditFindingTile widgets',
-        (tester) async {
+    testWidgets('switches to Findings tab and shows AuditFindingTile widgets', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -126,8 +131,9 @@ void main() {
       expect(find.byType(AuditFindingTile), findsWidgets);
     });
 
-    testWidgets('switches to Checklists tab and shows AuditChecklistTile',
-        (tester) async {
+    testWidgets('switches to Checklists tab and shows AuditChecklistTile', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

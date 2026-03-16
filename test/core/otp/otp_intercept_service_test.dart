@@ -7,12 +7,15 @@ import 'package:ca_app/core/otp/otp_intercept_service.dart';
 void main() {
   group('OtpChannel', () {
     test('has expected values', () {
-      expect(OtpChannel.values, containsAll([
-        OtpChannel.sms,
-        OtpChannel.aadhaarOtp,
-        OtpChannel.totp,
-        OtpChannel.email,
-      ]));
+      expect(
+        OtpChannel.values,
+        containsAll([
+          OtpChannel.sms,
+          OtpChannel.aadhaarOtp,
+          OtpChannel.totp,
+          OtpChannel.email,
+        ]),
+      );
     });
 
     test('sms has correct label', () {
@@ -79,11 +82,13 @@ void main() {
 
       test('exposes pending request info', () async {
         unawaited(
-          service.waitForOtp(
-            channel: OtpChannel.aadhaarOtp,
-            portalName: 'ITD Portal',
-            maskedContact: 'XXXX9999',
-          ).catchError((dynamic _) => ''),
+          service
+              .waitForOtp(
+                channel: OtpChannel.aadhaarOtp,
+                portalName: 'ITD Portal',
+                maskedContact: 'XXXX9999',
+              )
+              .catchError((dynamic _) => ''),
         );
         // Give microtask a tick to register
         await Future<void>.delayed(Duration.zero);
@@ -111,11 +116,13 @@ void main() {
 
       test('throws if called while already waiting', () async {
         unawaited(
-          service.waitForOtp(
-            channel: OtpChannel.sms,
-            portalName: 'MCA',
-            maskedContact: '+91-88xxx',
-          ).catchError((dynamic _) => ''),
+          service
+              .waitForOtp(
+                channel: OtpChannel.sms,
+                portalName: 'MCA',
+                maskedContact: '+91-88xxx',
+              )
+              .catchError((dynamic _) => ''),
         );
         await Future<void>.delayed(Duration.zero);
         expect(

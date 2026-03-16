@@ -22,14 +22,17 @@ final dashboardActivitiesProvider = Provider<List<DashboardActivity>>((ref) {
     if (client.filingStatus == FilingStatus.filed ||
         client.filingStatus == FilingStatus.verified ||
         client.filingStatus == FilingStatus.processed) {
-      activities.add(DashboardActivity(
-        title: 'ITR Filed',
-        subtitle: '${client.name} — ${client.assessmentYear} ${client.itrType.label}',
-        timeAgo: _formatDate(client.filedDate),
-        icon: Icons.check_circle_outline,
-        route: '/',
-        sortDate: client.filedDate ?? DateTime(2025),
-      ));
+      activities.add(
+        DashboardActivity(
+          title: 'ITR Filed',
+          subtitle:
+              '${client.name} — ${client.assessmentYear} ${client.itrType.label}',
+          timeAgo: _formatDate(client.filedDate),
+          icon: Icons.check_circle_outline,
+          route: '/',
+          sortDate: client.filedDate ?? DateTime(2025),
+        ),
+      );
     }
   }
 
@@ -38,14 +41,17 @@ final dashboardActivitiesProvider = Provider<List<DashboardActivity>>((ref) {
   for (final ret in gstReturns) {
     if (ret.status == GstReturnStatus.filed ||
         ret.status == GstReturnStatus.lateFiled) {
-      activities.add(DashboardActivity(
-        title: 'GST ${ret.returnType.label}',
-        subtitle: '${ret.gstin} — ${ret.returnType.label} ${_monthLabel(ret.periodMonth)} ${ret.periodYear}',
-        timeAgo: _formatDate(ret.filedDate),
-        icon: Icons.receipt_outlined,
-        route: '/gst',
-        sortDate: ret.filedDate ?? DateTime(2025),
-      ));
+      activities.add(
+        DashboardActivity(
+          title: 'GST ${ret.returnType.label}',
+          subtitle:
+              '${ret.gstin} — ${ret.returnType.label} ${_monthLabel(ret.periodMonth)} ${ret.periodYear}',
+          timeAgo: _formatDate(ret.filedDate),
+          icon: Icons.receipt_outlined,
+          route: '/gst',
+          sortDate: ret.filedDate ?? DateTime(2025),
+        ),
+      );
     }
   }
 
@@ -54,14 +60,16 @@ final dashboardActivitiesProvider = Provider<List<DashboardActivity>>((ref) {
   for (final ret in tdsReturns) {
     if (ret.status == TdsReturnStatus.filed ||
         ret.status == TdsReturnStatus.revised) {
-      activities.add(DashboardActivity(
-        title: 'TDS ${ret.formType.label}',
-        subtitle: '${ret.tan} — ${ret.quarter.label} ${ret.financialYear}',
-        timeAgo: _formatDate(ret.filedDate),
-        icon: Icons.payments_outlined,
-        route: '/tds',
-        sortDate: ret.filedDate ?? DateTime(2025),
-      ));
+      activities.add(
+        DashboardActivity(
+          title: 'TDS ${ret.formType.label}',
+          subtitle: '${ret.tan} — ${ret.quarter.label} ${ret.financialYear}',
+          timeAgo: _formatDate(ret.filedDate),
+          icon: Icons.payments_outlined,
+          route: '/tds',
+          sortDate: ret.filedDate ?? DateTime(2025),
+        ),
+      );
     }
   }
 
@@ -88,8 +96,19 @@ String _formatDate(DateTime? date) {
 
 String _monthLabel(int month) {
   const labels = [
-    '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    '',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
   return (month >= 1 && month <= 12) ? labels[month] : '';
 }
@@ -135,8 +154,7 @@ class _ActivityTile extends StatelessWidget {
       onTap: () => context.go(activity.route),
       borderRadius: BorderRadius.circular(14),
       child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         leading: Container(
           width: 42,
           height: 42,

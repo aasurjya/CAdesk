@@ -107,10 +107,7 @@ void main() {
           proposals.any((p) => p.status == ProposalStatus.accepted),
           isTrue,
         );
-        expect(
-          proposals.any((p) => p.status == ProposalStatus.sent),
-          isTrue,
-        );
+        expect(proposals.any((p) => p.status == ProposalStatus.sent), isTrue);
       });
     });
 
@@ -240,16 +237,18 @@ void main() {
 
       test('highPriority matches count of high priority opps', () {
         final opps = container.read(allOpportunitiesProvider);
-        final expected =
-            opps.where((o) => o.priority == OpportunityPriority.high).length;
+        final expected = opps
+            .where((o) => o.priority == OpportunityPriority.high)
+            .length;
         final summary = container.read(advisorySummaryProvider);
         expect(summary['highPriority'], expected);
       });
 
       test('converted matches count of converted opps', () {
         final opps = container.read(allOpportunitiesProvider);
-        final expected =
-            opps.where((o) => o.status == OpportunityStatus.converted).length;
+        final expected = opps
+            .where((o) => o.status == OpportunityStatus.converted)
+            .length;
         final summary = container.read(advisorySummaryProvider);
         expect(summary['converted'], expected);
       });

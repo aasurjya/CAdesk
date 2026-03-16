@@ -16,7 +16,10 @@ Widget _buildScreen() {
         path: '/',
         builder: (context, state) => const OcrDashboardScreen(),
         routes: [
-          GoRoute(path: 'ocr/upload', builder: (context, state) => const Scaffold()),
+          GoRoute(
+            path: 'ocr/upload',
+            builder: (context, state) => const Scaffold(),
+          ),
         ],
       ),
     ],
@@ -55,8 +58,9 @@ void main() {
       expect(find.text('Document OCR'), findsOneWidget);
     });
 
-    testWidgets('renders Intelligent document processing subtitle',
-        (tester) async {
+    testWidgets('renders Intelligent document processing subtitle', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);
@@ -103,12 +107,16 @@ void main() {
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);
       final hasCards = find.byType(Card).evaluate().isNotEmpty;
-      final hasEmptyTitle =
-          find.text('No documents queued').evaluate().isNotEmpty;
+      final hasEmptyTitle = find
+          .text('No documents queued')
+          .evaluate()
+          .isNotEmpty;
       expect(hasCards || hasEmptyTitle, isTrue);
     });
 
-    testWidgets('switching to History tab renders without error', (tester) async {
+    testWidgets('switching to History tab renders without error', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);
@@ -123,8 +131,10 @@ void main() {
       await _pump(tester);
       await tester.tap(find.text('History').first);
       await _pump(tester);
-      final hasEmpty =
-          find.text('No processed documents').evaluate().isNotEmpty;
+      final hasEmpty = find
+          .text('No processed documents')
+          .evaluate()
+          .isNotEmpty;
       final hasCards = find.byType(Card).evaluate().isNotEmpty;
       expect(hasEmpty || hasCards, isTrue);
     });

@@ -80,12 +80,11 @@ void main() {
       test('emits updated job when state changes', () async {
         await orchestrator.enqueue(baseJob);
         final updates = <SubmissionJob>[];
-        final subscription = orchestrator.watchJob(baseJob.id).listen(updates.add);
+        final subscription = orchestrator
+            .watchJob(baseJob.id)
+            .listen(updates.add);
 
-        await orchestrator.updateStep(
-          baseJob.id,
-          SubmissionStep.loggingIn,
-        );
+        await orchestrator.updateStep(baseJob.id, SubmissionStep.loggingIn);
         await Future<void>.delayed(Duration.zero);
         expect(updates, isNotEmpty);
         expect(updates.last.currentStep, equals(SubmissionStep.loggingIn));
@@ -123,10 +122,7 @@ void main() {
     group('markFailed', () {
       test('sets step to failed with error message', () async {
         await orchestrator.enqueue(baseJob);
-        await orchestrator.markFailed(
-          baseJob.id,
-          'Network timeout',
-        );
+        await orchestrator.markFailed(baseJob.id, 'Network timeout');
         final job = await orchestrator.getJob(baseJob.id);
         expect(job!.currentStep, equals(SubmissionStep.failed));
         expect(job.errorMessage, equals('Network timeout'));
@@ -166,9 +162,15 @@ void main() {
       test('returns logs in chronological order', () async {
         await orchestrator.enqueue(baseJob);
         await orchestrator.updateStep(
-          baseJob.id, SubmissionStep.loggingIn, message: 'Step 1');
+          baseJob.id,
+          SubmissionStep.loggingIn,
+          message: 'Step 1',
+        );
         await orchestrator.updateStep(
-          baseJob.id, SubmissionStep.filling, message: 'Step 2');
+          baseJob.id,
+          SubmissionStep.filling,
+          message: 'Step 2',
+        );
         final logs = await orchestrator.getLogs(baseJob.id);
         expect(logs, hasLength(2));
         expect(logs[0].message, equals('Step 1'));
@@ -185,11 +187,14 @@ void main() {
       test('streams log entries as they are added', () async {
         await orchestrator.enqueue(baseJob);
         final logs = <SubmissionLog>[];
-        final subscription = orchestrator.watchLogs(baseJob.id).listen(
-          (list) => logs.addAll(list),
-        );
+        final subscription = orchestrator
+            .watchLogs(baseJob.id)
+            .listen((list) => logs.addAll(list));
         await orchestrator.updateStep(
-          baseJob.id, SubmissionStep.loggingIn, message: 'Log 1');
+          baseJob.id,
+          SubmissionStep.loggingIn,
+          message: 'Log 1',
+        );
         await Future<void>.delayed(Duration.zero);
         expect(logs, isNotEmpty);
         await subscription.cancel();

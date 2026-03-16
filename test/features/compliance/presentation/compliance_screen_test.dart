@@ -27,9 +27,7 @@ Future<void> _ignoreOverflow(Future<void> Function() body) async {
 
 void main() {
   Widget buildSubject() {
-    return const ProviderScope(
-      child: MaterialApp(home: ComplianceScreen()),
-    );
+    return const ProviderScope(child: MaterialApp(home: ComplianceScreen()));
   }
 
   Widget buildCalendarSubject() {
@@ -73,10 +71,14 @@ void main() {
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());
         await tester.pumpAndSettle();
-        final hasCalendarIcon =
-            find.byIcon(Icons.calendar_month_rounded).evaluate().isNotEmpty;
-        final hasListIcon =
-            find.byIcon(Icons.view_list_rounded).evaluate().isNotEmpty;
+        final hasCalendarIcon = find
+            .byIcon(Icons.calendar_month_rounded)
+            .evaluate()
+            .isNotEmpty;
+        final hasListIcon = find
+            .byIcon(Icons.view_list_rounded)
+            .evaluate()
+            .isNotEmpty;
         expect(hasCalendarIcon || hasListIcon, isTrue);
       });
     });
@@ -122,15 +124,18 @@ void main() {
       });
     });
 
-    testWidgets('deadline list or empty state renders below calendar',
-        (tester) async {
+    testWidgets('deadline list or empty state renders below calendar', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());
         await tester.pumpAndSettle();
         final hasList = find.byType(ListView).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.byIcon(Icons.event_available_rounded).evaluate().isNotEmpty;
+        final hasEmpty = find
+            .byIcon(Icons.event_available_rounded)
+            .evaluate()
+            .isNotEmpty;
         expect(hasList || hasEmpty, isTrue);
       });
     });
@@ -166,8 +171,10 @@ void main() {
         await tester.tap(toggleIcon);
         await tester.pumpAndSettle();
         final hasList = find.byType(ListView).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.byIcon(Icons.event_available_rounded).evaluate().isNotEmpty;
+        final hasEmpty = find
+            .byIcon(Icons.event_available_rounded)
+            .evaluate()
+            .isNotEmpty;
         expect(hasList || hasEmpty, isTrue);
       });
     });
@@ -186,14 +193,18 @@ void main() {
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());
         await tester.pump();
-        final hasLoading =
-            find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+        final hasLoading = find
+            .byType(CircularProgressIndicator)
+            .evaluate()
+            .isNotEmpty;
         final hasData = find.byType(Column).evaluate().isNotEmpty;
         expect(hasLoading || hasData, isTrue);
       });
     });
 
-    testWidgets('list view shows deadline items or empty state', (tester) async {
+    testWidgets('list view shows deadline items or empty state', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());
@@ -202,8 +213,10 @@ void main() {
         await tester.tap(appBarActions.last);
         await tester.pumpAndSettle();
         final hasList = find.byType(ListView).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.byIcon(Icons.event_available_rounded).evaluate().isNotEmpty;
+        final hasEmpty = find
+            .byIcon(Icons.event_available_rounded)
+            .evaluate()
+            .isNotEmpty;
         expect(hasList || hasEmpty, isTrue);
       });
     });
@@ -232,8 +245,9 @@ void main() {
       });
     });
 
-    testWidgets('back and forward navigation preserves structure',
-        (tester) async {
+    testWidgets('back and forward navigation preserves structure', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());
@@ -246,7 +260,9 @@ void main() {
       });
     });
 
-    testWidgets('Divider separates calendar from deadline list', (tester) async {
+    testWidgets('Divider separates calendar from deadline list', (
+      tester,
+    ) async {
       await _setPhoneDisplay(tester);
       await _ignoreOverflow(() async {
         await tester.pumpWidget(buildCalendarSubject());

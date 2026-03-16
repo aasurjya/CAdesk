@@ -53,9 +53,14 @@ void main() {
         status: AssignmentStatus.pending,
         staffRole: StaffRole.junior,
       );
-      container.read(assignmentListProvider.notifier).addAssignment(newAssignment);
+      container
+          .read(assignmentListProvider.notifier)
+          .addAssignment(newAssignment);
       expect(container.read(assignmentListProvider).length, before + 1);
-      expect(container.read(assignmentListProvider).first.assignmentId, 'test-001');
+      expect(
+        container.read(assignmentListProvider).first.assignmentId,
+        'test-001',
+      );
     });
 
     test('list is unmodifiable', () {

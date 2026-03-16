@@ -81,8 +81,7 @@ void main() {
 
     group('verifyMsmeStatus', () {
       test('returns verified result for valid Udyam number', () async {
-        final result =
-            await service.verifyMsmeStatus('UDYAM-MH-01-0012345');
+        final result = await service.verifyMsmeStatus('UDYAM-MH-01-0012345');
 
         expect(result.isVerified, isTrue);
         expect(result.udyamNumber, 'UDYAM-MH-01-0012345');
@@ -91,8 +90,7 @@ void main() {
       });
 
       test('returns category MICRO for mock response', () async {
-        final result =
-            await service.verifyMsmeStatus('UDYAM-KA-10-9876543');
+        final result = await service.verifyMsmeStatus('UDYAM-KA-10-9876543');
 
         expect(result.category, 'MICRO');
         expect(result.enterpriseName, 'Mock Enterprise');
@@ -114,10 +112,7 @@ void main() {
       });
 
       test('returns a Future that completes successfully', () {
-        expect(
-          service.verifyMsmeStatus('UDYAM-DL-01-0001111'),
-          completes,
-        );
+        expect(service.verifyMsmeStatus('UDYAM-DL-01-0001111'), completes);
       });
     });
   });

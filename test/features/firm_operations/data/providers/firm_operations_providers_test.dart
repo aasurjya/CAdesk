@@ -14,9 +14,7 @@ void main() {
     setUp(() {
       container = ProviderContainer(
         overrides: [
-          featureFlagProvider.overrideWith(
-            () => _OfflineFeatureFlagNotifier(),
-          ),
+          featureFlagProvider.overrideWith(() => _OfflineFeatureFlagNotifier()),
           firmOperationsRepositoryProvider.overrideWithValue(
             MockFirmOperationsRepository(),
           ),

@@ -32,9 +32,7 @@ Future<void> _ignoreOverflow(Future<void> Function() body) async {
 
 void main() {
   Widget buildSubject() {
-    return const ProviderScope(
-      child: MaterialApp(home: TimeTrackingScreen()),
-    );
+    return const ProviderScope(child: MaterialApp(home: TimeTrackingScreen()));
   }
 
   group('TimeTrackingScreen', () {
@@ -188,8 +186,10 @@ void main() {
         await tester.pumpWidget(buildSubject());
         await _pump(tester);
         final hasEntries = find.byType(Card).evaluate().isNotEmpty;
-        final hasEmpty =
-            find.byIcon(Icons.hourglass_empty_rounded).evaluate().isNotEmpty;
+        final hasEmpty = find
+            .byIcon(Icons.hourglass_empty_rounded)
+            .evaluate()
+            .isNotEmpty;
         expect(hasEntries || hasEmpty, isTrue);
       });
     });

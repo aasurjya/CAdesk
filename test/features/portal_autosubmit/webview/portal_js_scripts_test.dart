@@ -117,7 +117,8 @@ void main() {
       // The script uses either 'input'/'change' (single-quote) or "input"/"change"
       final script = PortalJsScripts.fillFieldScript;
       final hasInput = script.contains("'input'") || script.contains('"input"');
-      final hasChange = script.contains("'change'") || script.contains('"change"');
+      final hasChange =
+          script.contains("'change'") || script.contains('"change"');
       expect(hasInput, isTrue);
       expect(hasChange, isTrue);
     });
@@ -151,10 +152,7 @@ void main() {
     });
 
     test('escapes single quotes in value', () {
-      final script = PortalJsScripts.buildFillFieldScript(
-        '#field',
-        "O'Brien",
-      );
+      final script = PortalJsScripts.buildFillFieldScript('#field', "O'Brien");
       expect(script, contains(r"O\'Brien"));
     });
 

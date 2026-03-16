@@ -17,9 +17,18 @@ Widget _buildScreen() {
         path: '/',
         builder: (context, state) => const RpaDashboardScreen(),
         routes: [
-          GoRoute(path: 'rpa/new', builder: (context, state) => const Scaffold()),
-          GoRoute(path: 'rpa/scripts', builder: (context, state) => const Scaffold()),
-          GoRoute(path: 'rpa/task', builder: (context, state) => const Scaffold()),
+          GoRoute(
+            path: 'rpa/new',
+            builder: (context, state) => const Scaffold(),
+          ),
+          GoRoute(
+            path: 'rpa/scripts',
+            builder: (context, state) => const Scaffold(),
+          ),
+          GoRoute(
+            path: 'rpa/task',
+            builder: (context, state) => const Scaffold(),
+          ),
         ],
       ),
     ],
@@ -148,10 +157,10 @@ void main() {
       await _pump(tester);
       // Either task cards or the "No tasks yet" message should be present
       final hasTasks = find.byType(Card).evaluate().length > 2;
-      final hasEmpty =
-          find.text('No tasks yet. Tap + New Task to get started.')
-              .evaluate()
-              .isNotEmpty;
+      final hasEmpty = find
+          .text('No tasks yet. Tap + New Task to get started.')
+          .evaluate()
+          .isNotEmpty;
       expect(hasTasks || hasEmpty, isTrue);
     });
   });

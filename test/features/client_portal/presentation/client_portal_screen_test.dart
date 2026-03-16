@@ -13,9 +13,7 @@ import 'package:ca_app/features/client_portal/presentation/tabs/notifications_ta
 // ---------------------------------------------------------------------------
 
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: ClientPortalScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: ClientPortalScreen()));
 }
 
 Future<void> _setDisplay(WidgetTester tester) async {
@@ -109,24 +107,27 @@ void main() {
       expect(find.byIcon(Icons.chat_bubble_outline), findsWidgets);
     });
 
-    testWidgets('renders folder_shared_outlined icon in tab bar',
-        (tester) async {
+    testWidgets('renders folder_shared_outlined icon in tab bar', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.folder_shared_outlined), findsWidgets);
     });
 
-    testWidgets('renders support_agent_outlined icon in tab bar',
-        (tester) async {
+    testWidgets('renders support_agent_outlined icon in tab bar', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
       expect(find.byIcon(Icons.support_agent_outlined), findsWidgets);
     });
 
-    testWidgets('switching to Documents tab renders DocumentsTab',
-        (tester) async {
+    testWidgets('switching to Documents tab renders DocumentsTab', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -144,8 +145,9 @@ void main() {
       expect(find.byType(QueriesTab), findsOneWidget);
     });
 
-    testWidgets('switching to Alerts tab renders NotificationsTab',
-        (tester) async {
+    testWidgets('switching to Alerts tab renders NotificationsTab', (
+      tester,
+    ) async {
       await _setDisplay(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

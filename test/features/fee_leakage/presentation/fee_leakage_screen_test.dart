@@ -91,7 +91,9 @@ void main() {
       expect(find.text('Under-Billed'), findsWidgets);
     });
 
-    testWidgets('renders status filter chips in Engagements tab', (tester) async {
+    testWidgets('renders status filter chips in Engagements tab', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -155,7 +157,9 @@ void main() {
       expect(find.byIcon(Icons.warning_rounded), findsWidgets);
     });
 
-    testWidgets('renders monetization_on icon for Under-Billed', (tester) async {
+    testWidgets('renders monetization_on icon for Under-Billed', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

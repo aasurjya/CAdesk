@@ -213,7 +213,10 @@ void main() {
             .update(InvoiceStatus.paid);
         final filtered = container.read(filteredInvoicesProvider);
         expect(filtered, isNotEmpty);
-        expect(filtered.every((inv) => inv.status == InvoiceStatus.paid), isTrue);
+        expect(
+          filtered.every((inv) => inv.status == InvoiceStatus.paid),
+          isTrue,
+        );
       });
 
       test('filters by client ID', () {

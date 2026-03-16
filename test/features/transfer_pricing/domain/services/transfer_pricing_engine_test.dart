@@ -24,10 +24,7 @@ void main() {
 
   group('TransferPricingEngine.instance', () {
     test('singleton returns same instance', () {
-      expect(
-        identical(TransferPricingEngine.instance, engine),
-        isTrue,
-      );
+      expect(identical(TransferPricingEngine.instance, engine), isTrue);
     });
   });
 
@@ -59,19 +56,24 @@ void main() {
   });
 
   group('TransferPricingEngine.computeArmLengthPrice', () {
-    test('returns transaction amount as benchmark when comparables is empty', () {
-      final t = makeTransaction(amountPaise: 10000000);
-      final benchmark = engine.computeArmLengthPrice(t, []);
+    test(
+      'returns transaction amount as benchmark when comparables is empty',
+      () {
+        final t = makeTransaction(amountPaise: 10000000);
+        final benchmark = engine.computeArmLengthPrice(t, []);
 
-      expect(benchmark.comparableCount, 0);
-      expect(benchmark.selectedAlpPaise, 10000000);
-      expect(benchmark.interquartileMedianPaise, 10000000);
-      expect(benchmark.searchCriteria, 'No comparables');
-    });
+        expect(benchmark.comparableCount, 0);
+        expect(benchmark.selectedAlpPaise, 10000000);
+        expect(benchmark.interquartileMedianPaise, 10000000);
+        expect(benchmark.searchCriteria, 'No comparables');
+      },
+    );
 
     test('computes IQR from comparables with single item', () {
       final t = makeTransaction();
-      final comparables = [const ComparableData(name: 'Corp A', valuePaise: 12000000)];
+      final comparables = [
+        const ComparableData(name: 'Corp A', valuePaise: 12000000),
+      ];
       final benchmark = engine.computeArmLengthPrice(t, comparables);
 
       expect(benchmark.comparableCount, 1);

@@ -112,9 +112,7 @@ void main() {
     });
 
     test('startup filter narrows results by startup id', () {
-      container
-          .read(selectedStartupFilterProvider.notifier)
-          .update('su-001');
+      container.read(selectedStartupFilterProvider.notifier).update('su-001');
       final filtered = container.read(filteredStartupFilingsProvider);
       expect(filtered.every((f) => f.startupId == 'su-001'), isTrue);
     });

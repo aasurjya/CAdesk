@@ -7,16 +7,19 @@ import 'package:ca_app/features/portal_connector/domain/models/portal_credential
 void main() {
   group('SubmissionStep', () {
     test('has all expected values', () {
-      expect(SubmissionStep.values, containsAll([
-        SubmissionStep.pending,
-        SubmissionStep.loggingIn,
-        SubmissionStep.filling,
-        SubmissionStep.otp,
-        SubmissionStep.submitting,
-        SubmissionStep.downloading,
-        SubmissionStep.done,
-        SubmissionStep.failed,
-      ]));
+      expect(
+        SubmissionStep.values,
+        containsAll([
+          SubmissionStep.pending,
+          SubmissionStep.loggingIn,
+          SubmissionStep.filling,
+          SubmissionStep.otp,
+          SubmissionStep.submitting,
+          SubmissionStep.downloading,
+          SubmissionStep.done,
+          SubmissionStep.failed,
+        ]),
+      );
     });
 
     test('each step has a non-empty label', () {
@@ -117,7 +120,10 @@ void main() {
     group('computed properties', () {
       test('isCompleted returns true when done', () {
         expect(makeJob(currentStep: SubmissionStep.done).isCompleted, isTrue);
-        expect(makeJob(currentStep: SubmissionStep.pending).isCompleted, isFalse);
+        expect(
+          makeJob(currentStep: SubmissionStep.pending).isCompleted,
+          isFalse,
+        );
       });
 
       test('isFailed returns true when failed', () {
@@ -135,9 +141,15 @@ void main() {
         ]) {
           expect(makeJob(currentStep: step).isInProgress, isTrue);
         }
-        expect(makeJob(currentStep: SubmissionStep.pending).isInProgress, isFalse);
+        expect(
+          makeJob(currentStep: SubmissionStep.pending).isInProgress,
+          isFalse,
+        );
         expect(makeJob(currentStep: SubmissionStep.done).isInProgress, isFalse);
-        expect(makeJob(currentStep: SubmissionStep.failed).isInProgress, isFalse);
+        expect(
+          makeJob(currentStep: SubmissionStep.failed).isInProgress,
+          isFalse,
+        );
       });
 
       test('canRetry returns true when failed and retryCount < 3', () {

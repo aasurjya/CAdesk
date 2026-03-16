@@ -62,8 +62,9 @@ void main() {
       expect(find.byIcon(Icons.rocket_launch_rounded), findsOneWidget);
     });
 
-    testWidgets('renders 80-IAC Eligibility Summary section header',
-        (tester) async {
+    testWidgets('renders 80-IAC Eligibility Summary section header', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -71,7 +72,9 @@ void main() {
       expect(find.text('80-IAC Eligibility Summary'), findsOneWidget);
     });
 
-    testWidgets('renders verified icon for eligibility section', (tester) async {
+    testWidgets('renders verified icon for eligibility section', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();

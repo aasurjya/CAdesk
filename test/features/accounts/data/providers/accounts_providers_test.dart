@@ -24,7 +24,10 @@ void main() {
 
       test('list is unmodifiable', () {
         final clients = container.read(accountClientsProvider);
-        expect(() => (clients as dynamic).add(clients.first), throwsA(isA<Error>()));
+        expect(
+          () => (clients as dynamic).add(clients.first),
+          throwsA(isA<Error>()),
+        );
       });
 
       test('all entries are AccountClient instances', () {
@@ -190,10 +193,7 @@ void main() {
             .update('FY 2024-25');
         final filtered = container.read(filteredStatementsProvider);
         expect(filtered, isNotEmpty);
-        expect(
-          filtered.every((s) => s.financialYear == 'FY 2024-25'),
-          isTrue,
-        );
+        expect(filtered.every((s) => s.financialYear == 'FY 2024-25'), isTrue);
       });
 
       test('returns empty for non-existent year', () {

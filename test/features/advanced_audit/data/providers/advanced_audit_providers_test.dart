@@ -27,10 +27,7 @@ void main() {
         container
             .read(auditTypeFilterProvider.notifier)
             .update(AuditType.statutory);
-        expect(
-          container.read(auditTypeFilterProvider),
-          AuditType.statutory,
-        );
+        expect(container.read(auditTypeFilterProvider), AuditType.statutory);
       });
 
       test('can be cleared back to null', () {
@@ -239,15 +236,10 @@ void main() {
 
       test('returns empty list when no engagements match filter', () {
         // First add no concurrent audits, then filter
-        container
-            .read(auditTypeFilterProvider.notifier)
-            .update(AuditType.cost);
+        container.read(auditTypeFilterProvider.notifier).update(AuditType.cost);
         final filtered = container.read(filteredEngagementsProvider);
         // May or may not be empty depending on mock data — but all should match
-        expect(
-          filtered.every((e) => e.auditType == AuditType.cost),
-          isTrue,
-        );
+        expect(filtered.every((e) => e.auditType == AuditType.cost), isTrue);
       });
 
       test('clears filter returns all engagements', () {

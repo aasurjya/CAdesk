@@ -94,8 +94,9 @@ void main() {
       expect(find.byIcon(Icons.add_rounded), findsWidgets);
     });
 
-    testWidgets('body shows Column with summary card and filter row',
-        (tester) async {
+    testWidgets('body shows Column with summary card and filter row', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);
@@ -111,8 +112,9 @@ void main() {
       expect(find.byType(SingleChildScrollView), findsWidgets);
     });
 
-    testWidgets('shows loading indicator or job tiles or empty state',
-        (tester) async {
+    testWidgets('shows loading indicator or job tiles or empty state', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);
@@ -132,8 +134,9 @@ void main() {
       expect(find.byType(Container), findsWidgets);
     });
 
-    testWidgets('status filter row contains GestureDetector chips',
-        (tester) async {
+    testWidgets('status filter row contains GestureDetector chips', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await _pump(tester);

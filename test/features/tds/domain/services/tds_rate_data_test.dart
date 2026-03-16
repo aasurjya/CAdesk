@@ -62,11 +62,14 @@ void main() {
       expect(s194c.thresholdAggregate, 100000);
     });
 
-    test('contains section 194I(a) (Rent P&M) at 2% with aggregate threshold', () {
-      final s194ia = rates.firstWhere((r) => r.section == '194I(a)');
-      expect(s194ia.rateIndividualHuf, 2);
-      expect(s194ia.thresholdAggregate, 600000);
-    });
+    test(
+      'contains section 194I(a) (Rent P&M) at 2% with aggregate threshold',
+      () {
+        final s194ia = rates.firstWhere((r) => r.section == '194I(a)');
+        expect(s194ia.rateIndividualHuf, 2);
+        expect(s194ia.thresholdAggregate, 600000);
+      },
+    );
 
     test('contains section 194I(b) (Rent Land/Building) at 10%', () {
       final s194ib = rates.firstWhere((r) => r.section == '194I(b)');
