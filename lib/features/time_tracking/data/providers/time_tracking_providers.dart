@@ -122,8 +122,34 @@ class ActiveTimerNotifier extends Notifier<ActiveTimerState> {
     });
   }
 
+  /// Stops the timer and saves the completed entry to [timeEntriesProvider].
   void stop() {
     _ticker?.cancel();
+    final finished = state;
+
+    // Save to time entries if there was actual work done
+    if (finished.elapsedSeconds > 0 && finished.clientName.isNotEmpty) {
+      final now = DateTime.now();
+      final entry = TimeEntry(
+        id: 'te_${now.millisecondsSinceEpoch}',
+        staffId: 'staff_current',
+        staffName: 'Current User',
+        clientId: 'client_${finished.clientName.hashCode}',
+        clientName: finished.clientName,
+        taskDescription: finished.taskDescription,
+        startTime: finished.startedAt ?? now.subtract(
+          Duration(seconds: finished.elapsedSeconds),
+        ),
+        endTime: now,
+        durationMinutes: (finished.elapsedSeconds / 60).ceil(),
+        hourlyRate: finished.billingRate,
+        billedAmount: finished.billableAmount,
+        isBillable: true,
+        status: TimeEntryStatus.completed,
+      );
+      ref.read(timeEntriesProvider.notifier).addEntry(entry);
+    }
+
     state = ActiveTimerState.idle;
   }
 }

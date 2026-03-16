@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/features/billing/data/providers/billing_providers.dart';
+import 'package:ca_app/features/billing/domain/models/invoice.dart';
 import 'package:ca_app/features/time_tracking/data/providers/time_tracking_providers.dart';
 import 'package:ca_app/features/time_tracking/domain/models/time_entry.dart';
 
@@ -414,7 +416,7 @@ class _CreateInvoiceButton extends ConsumerWidget {
     return SizedBox(
       width: double.infinity,
       child: FilledButton.icon(
-        onPressed: () => _createInvoice(context, formattedTotal, primaryClient),
+        onPressed: () => _createInvoice(context, ref, formattedTotal, primaryClient),
         icon: const Icon(Icons.receipt_long_rounded),
         label: const Text('Create Invoice'),
         style: FilledButton.styleFrom(
@@ -428,14 +430,68 @@ class _CreateInvoiceButton extends ConsumerWidget {
 
   void _createInvoice(
     BuildContext context,
+    WidgetRef ref,
     String formattedTotal,
     String clientName,
   ) {
+    if (!context.mounted) return;
+
+    final subtotal = entries.fold<double>(0, (sum, e) => sum + e.billedAmount);
+    final tax = subtotal * gstRate / 100;
+    final cgst = tax / 2;
+    final sgst = tax / 2;
+    final invoiceTotal = subtotal + tax;
+    final now = DateTime.now();
+
+    // Build line items from time entries grouped by client
+    final lineItems = entries.map((e) {
+      final hours = e.durationMinutes / 60.0;
+      final entryGst = e.billedAmount * gstRate / 100;
+      return LineItem(
+        description: '${e.taskDescription} (${hours.toStringAsFixed(1)}h × ₹${e.hourlyRate.toStringAsFixed(0)}/hr)',
+        hsn: '998221',
+        quantity: hours,
+        rate: e.hourlyRate,
+        taxableAmount: e.billedAmount,
+        gstRate: gstRate,
+        cgst: entryGst / 2,
+        sgst: entryGst / 2,
+        igst: 0,
+        total: e.billedAmount + entryGst,
+      );
+    }).toList();
+
+    // Generate invoice number
+    final existingInvoices = ref.read(allInvoicesProvider);
+    final nextNumber = existingInvoices.length + 1;
+    final invoiceNumber =
+        'CAD/2025-26/${nextNumber.toString().padLeft(3, '0')}';
+
+    final newInvoice = Invoice(
+      id: 'inv_tt_${now.millisecondsSinceEpoch}',
+      invoiceNumber: invoiceNumber,
+      clientId: 'tt_${clientName.hashCode}',
+      clientName: clientName,
+      invoiceDate: now,
+      dueDate: now.add(const Duration(days: 30)),
+      lineItems: lineItems,
+      subtotal: subtotal,
+      totalGst: tax,
+      grandTotal: invoiceTotal,
+      paidAmount: 0,
+      balanceDue: invoiceTotal,
+      status: InvoiceStatus.draft,
+    );
+
+    ref.read(allInvoicesProvider.notifier).addInvoice(newInvoice);
+
+    Navigator.of(context).pop();
     if (context.mounted) {
-      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Invoice $formattedTotal created for $clientName'),
+          content: Text(
+            'Invoice $invoiceNumber ($formattedTotal) created for $clientName',
+          ),
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.success,
         ),
