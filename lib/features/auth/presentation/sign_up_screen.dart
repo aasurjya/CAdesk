@@ -51,8 +51,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     } on AuthException catch (e) {
       if (mounted) _showError(e.message);
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         _showError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
