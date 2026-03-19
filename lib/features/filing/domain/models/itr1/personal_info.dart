@@ -158,4 +158,48 @@ class PersonalInfo {
     bankIfsc,
     bankName,
   );
+
+  Map<String, dynamic> toJson() => {
+    'firstName': firstName,
+    'middleName': middleName,
+    'lastName': lastName,
+    'pan': pan,
+    'aadhaarNumber': aadhaarNumber,
+    'dateOfBirth': dateOfBirth.toIso8601String(),
+    'email': email,
+    'mobile': mobile,
+    'flatDoorBlock': flatDoorBlock,
+    'street': street,
+    'city': city,
+    'state': state,
+    'pincode': pincode,
+    'employerName': employerName,
+    'employerTan': employerTan,
+    'bankAccountNumber': bankAccountNumber,
+    'bankIfsc': bankIfsc,
+    'bankName': bankName,
+  };
+
+  factory PersonalInfo.fromJson(Map<String, dynamic> json) => PersonalInfo(
+    firstName: json['firstName'] as String? ?? '',
+    middleName: json['middleName'] as String? ?? '',
+    lastName: json['lastName'] as String? ?? '',
+    pan: json['pan'] as String? ?? '',
+    aadhaarNumber: json['aadhaarNumber'] as String? ?? '',
+    dateOfBirth:
+        DateTime.tryParse(json['dateOfBirth'] as String? ?? '') ??
+        DateTime(1990),
+    email: json['email'] as String? ?? '',
+    mobile: json['mobile'] as String? ?? '',
+    flatDoorBlock: json['flatDoorBlock'] as String? ?? '',
+    street: json['street'] as String? ?? '',
+    city: json['city'] as String? ?? '',
+    state: json['state'] as String? ?? '',
+    pincode: json['pincode'] as String? ?? '',
+    employerName: json['employerName'] as String? ?? '',
+    employerTan: json['employerTan'] as String? ?? '',
+    bankAccountNumber: json['bankAccountNumber'] as String? ?? '',
+    bankIfsc: json['bankIfsc'] as String? ?? '',
+    bankName: json['bankName'] as String? ?? '',
+  );
 }
