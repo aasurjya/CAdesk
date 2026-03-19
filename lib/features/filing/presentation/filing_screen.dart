@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/filing/data/providers/filing_hub_providers.dart';
+import 'package:ca_app/features/filing/domain/models/filing_hub_item.dart';
 import 'package:ca_app/features/filing/presentation/widgets/draft_filing_tile.dart';
 import 'package:ca_app/features/filing/presentation/widgets/new_filing_bottom_sheet.dart';
 import 'package:ca_app/features/filing/presentation/widgets/recent_filing_tile.dart';
@@ -76,8 +77,7 @@ class FilingScreen extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   return UrgencyCard(
                     item: urgentItems[index],
-                    onTap: () =>
-                        context.push('/filing/status/${urgentItems[index].id}'),
+                    onTap: () => _openFiling(context, urgentItems[index]),
                   );
                 },
               ),
@@ -100,7 +100,7 @@ class FilingScreen extends ConsumerWidget {
                 for (int i = 0; i < inProgressItems.length; i++) ...[
                   DraftFilingTile(
                     item: inProgressItems[i],
-                    onTap: () => _showComingSoon(context),
+                    onTap: () => _openFiling(context, inProgressItems[i]),
                   ),
                   if (i < inProgressItems.length - 1)
                     const Divider(height: 1, indent: 72),
@@ -191,6 +191,19 @@ class FilingScreen extends ConsumerWidget {
     if (jobId != null && context.mounted) {
       // Navigate to the ITR-1 wizard for the newly created job
       context.push('/filing/itr1/$jobId');
+    }
+  }
+
+  void _openFiling(BuildContext context, FilingHubItem item) {
+    switch ((item.filingType, item.subType)) {
+      case (FilingCategory.itr, 'ITR-1'):
+        context.push('/filing/itr1/${item.id}');
+      case (FilingCategory.itr, 'ITR-2'):
+        context.push('/filing/itr2/${item.id}');
+      case (FilingCategory.itr, 'ITR-4'):
+        context.push('/filing/itr4/${item.id}');
+      default:
+        context.push('/filing/status/${item.id}');
     }
   }
 
