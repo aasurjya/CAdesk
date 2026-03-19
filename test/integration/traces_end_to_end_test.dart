@@ -30,7 +30,7 @@ void main() {
 
     group('Phase 1 — Login', () {
       test('mock login stream emits expected steps', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-traces-001',
           portalType: PortalType.traces,
           username: testTan,
@@ -55,7 +55,7 @@ void main() {
       });
 
       test('all login logs reference correct job ID', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-traces-002',
           portalType: PortalType.traces,
           username: testTan,
@@ -246,20 +246,22 @@ void main() {
         );
 
         // pending -> loggingIn -> filling -> submitting -> downloading -> done
-        final loggingIn =
-            pending.copyWith(currentStep: SubmissionStep.loggingIn);
+        final loggingIn = pending.copyWith(
+          currentStep: SubmissionStep.loggingIn,
+        );
         expect(loggingIn.isInProgress, isTrue);
 
-        final filling =
-            loggingIn.copyWith(currentStep: SubmissionStep.filling);
+        final filling = loggingIn.copyWith(currentStep: SubmissionStep.filling);
         expect(filling.isInProgress, isTrue);
 
-        final submitting =
-            filling.copyWith(currentStep: SubmissionStep.submitting);
+        final submitting = filling.copyWith(
+          currentStep: SubmissionStep.submitting,
+        );
         expect(submitting.isInProgress, isTrue);
 
-        final downloading =
-            submitting.copyWith(currentStep: SubmissionStep.downloading);
+        final downloading = submitting.copyWith(
+          currentStep: SubmissionStep.downloading,
+        );
         expect(downloading.isInProgress, isTrue);
 
         final done = downloading.copyWith(
@@ -295,10 +297,9 @@ void main() {
     // Phase 7: Full Pipeline
     // -----------------------------------------------------------------------
 
-    group('Phase 7 — Full pipeline: login -> upload -> verify -> download',
-        () {
+    group('Phase 7 — Full pipeline: login -> upload -> verify -> download', () {
       test('complete TRACES automation sequence runs all phases', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-e2e',
           portalType: PortalType.traces,
           username: testTan,
@@ -361,7 +362,8 @@ void main() {
         expect(
           allLogs.length,
           greaterThanOrEqualTo(20),
-          reason: 'Full TRACES pipeline should emit 20+ log entries '
+          reason:
+              'Full TRACES pipeline should emit 20+ log entries '
               '(4+5+4+5+4 = 22)',
         );
 
@@ -391,7 +393,7 @@ void main() {
       });
 
       test('pipeline with job state tracking', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-e2e-job',
           portalType: PortalType.traces,
           username: testTan,
@@ -464,52 +466,57 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 8 — Mock fallback when WebView is null', () {
-      test('uploadFvu falls back to mock when webViewController is null',
-          () async {
-        final logs = <SubmissionLog>[];
-        await for (final log in tracesService.uploadFvu(
-          tan: testTan,
-          fvuFilePath: '/tmp/test.fvu',
-          formType: '24Q',
-          otpService: OtpInterceptService(),
-        )) {
-          logs.add(log);
-        }
-        expect(logs, isNotEmpty);
-        expect(logs.last.step, SubmissionStep.done);
-      });
-
-      test('verifyChallan falls back to mock when webViewController is null',
-          () async {
-        final logs = <SubmissionLog>[];
-        await for (final log in tracesService.verifyChallan(
-          tan: testTan,
-          bsrCode: '0510461',
-          challanDate: '15-01-2026',
-          serialNumber: '00123',
-        )) {
-          logs.add(log);
-        }
-        expect(logs, isNotEmpty);
-        expect(logs.last.step, SubmissionStep.done);
-      });
-
-      test('downloadForm16 falls back to mock when webViewController is null',
-          () async {
-        final logs = <SubmissionLog>[];
-        await for (final log in tracesService.downloadForm16(
-          tan: testTan,
-          financialYear: testFy,
-          savePath: '/tmp/form16.zip',
-        )) {
-          logs.add(log);
-        }
-        expect(logs, isNotEmpty);
-        expect(logs.last.step, SubmissionStep.done);
-      });
+      test(
+        'uploadFvu falls back to mock when webViewController is null',
+        () async {
+          final logs = <SubmissionLog>[];
+          await for (final log in tracesService.uploadFvu(
+            tan: testTan,
+            fvuFilePath: '/tmp/test.fvu',
+            formType: '24Q',
+            otpService: OtpInterceptService(),
+          )) {
+            logs.add(log);
+          }
+          expect(logs, isNotEmpty);
+          expect(logs.last.step, SubmissionStep.done);
+        },
+      );
 
       test(
-          'downloadJustificationReport falls back to mock when '
+        'verifyChallan falls back to mock when webViewController is null',
+        () async {
+          final logs = <SubmissionLog>[];
+          await for (final log in tracesService.verifyChallan(
+            tan: testTan,
+            bsrCode: '0510461',
+            challanDate: '15-01-2026',
+            serialNumber: '00123',
+          )) {
+            logs.add(log);
+          }
+          expect(logs, isNotEmpty);
+          expect(logs.last.step, SubmissionStep.done);
+        },
+      );
+
+      test(
+        'downloadForm16 falls back to mock when webViewController is null',
+        () async {
+          final logs = <SubmissionLog>[];
+          await for (final log in tracesService.downloadForm16(
+            tan: testTan,
+            financialYear: testFy,
+            savePath: '/tmp/form16.zip',
+          )) {
+            logs.add(log);
+          }
+          expect(logs, isNotEmpty);
+          expect(logs.last.step, SubmissionStep.done);
+        },
+      );
+
+      test('downloadJustificationReport falls back to mock when '
           'webViewController is null', () async {
         final logs = <SubmissionLog>[];
         await for (final log in tracesService.downloadJustificationReport(

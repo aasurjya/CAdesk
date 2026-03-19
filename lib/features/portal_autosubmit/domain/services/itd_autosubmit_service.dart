@@ -97,7 +97,11 @@ class ItdAutosubmitService {
     await webViewController.clickElement(PortalJsScripts.itdLoginBtnSelector);
 
     // Wait: either OTP required or dashboard appears
-    yield _log(jobId, SubmissionStep.loggingIn, 'Waiting for OTP or dashboard...');
+    yield _log(
+      jobId,
+      SubmissionStep.loggingIn,
+      'Waiting for OTP or dashboard...',
+    );
 
     final otpVisible = await _waitForEitherElement(
       webViewController,
@@ -106,13 +110,19 @@ class ItdAutosubmitService {
     );
 
     if (otpVisible) {
-      yield _log(jobId, SubmissionStep.otp, 'OTP required — waiting for user input...');
+      yield _log(
+        jobId,
+        SubmissionStep.otp,
+        'OTP required — waiting for user input...',
+      );
       final otp = await webViewController.interceptOtp(
         channel: OtpChannel.sms,
         portalHint: 'ITD portal login',
       );
       await webViewController.fillField(PortalJsScripts.itdOtpSelector, otp);
-      await webViewController.clickElement(PortalJsScripts.itdOtpVerifyBtnSelector);
+      await webViewController.clickElement(
+        PortalJsScripts.itdOtpVerifyBtnSelector,
+      );
     }
 
     // Confirm login by waiting for dashboard
@@ -155,7 +165,11 @@ class ItdAutosubmitService {
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Select Assessment Year
-    yield _log(jobId, SubmissionStep.filling, 'Selecting AY $assessmentYear...');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Selecting AY $assessmentYear...',
+    );
     await webViewController.waitForElement(PortalJsScripts.itdAySelector);
     await webViewController.fillField(
       PortalJsScripts.itdAySelector,
@@ -164,18 +178,27 @@ class ItdAutosubmitService {
 
     // Select ITR form type
     yield _log(jobId, SubmissionStep.filling, 'Selecting ITR-1 (Sahaj)...');
-    await webViewController.fillField(PortalJsScripts.itdItrFormSelector, 'ITR1');
+    await webViewController.fillField(
+      PortalJsScripts.itdItrFormSelector,
+      'ITR1',
+    );
 
     // Upload JSON file — handled via onShowFileChooser callback
     yield _log(jobId, SubmissionStep.filling, 'Uploading JSON: $itrJsonPath');
-    await webViewController.waitForElement(PortalJsScripts.itdFileUploadSelector);
+    await webViewController.waitForElement(
+      PortalJsScripts.itdFileUploadSelector,
+    );
 
     // The file upload is handled by the WebView's file chooser callback.
     // The FileUploadHandler (WU 3.2) provides the file path.
     await webViewController.clickElement(PortalJsScripts.itdUploadBtnSelector);
 
     // Wait for portal validation
-    yield _log(jobId, SubmissionStep.filling, 'Waiting for portal validation...');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Waiting for portal validation...',
+    );
     await webViewController.waitForElement(
       PortalJsScripts.itdValidationSuccessSelector,
       timeout: const Duration(seconds: 60),
@@ -201,8 +224,13 @@ class ItdAutosubmitService {
     }
 
     // Extract acknowledgement number
-    yield _log(jobId, SubmissionStep.submitting, 'Extracting acknowledgement number...');
-    final ackScript = '''
+    yield _log(
+      jobId,
+      SubmissionStep.submitting,
+      'Extracting acknowledgement number...',
+    );
+    const ackScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.itdAckNumberSelector}');
   return el ? el.textContent.trim() : '';
@@ -235,17 +263,25 @@ class ItdAutosubmitService {
 
     // Navigate to e-verification
     yield _log(jobId, SubmissionStep.otp, 'Navigating to e-Verification...');
-    await webViewController.clickElement(PortalJsScripts.itdEverifyLinkSelector);
+    await webViewController.clickElement(
+      PortalJsScripts.itdEverifyLinkSelector,
+    );
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Select Aadhaar OTP method
     yield _log(jobId, SubmissionStep.otp, 'Selecting Aadhaar OTP method...');
-    await webViewController.waitForElement(PortalJsScripts.itdAadhaarOtpOptionSelector);
-    await webViewController.clickElement(PortalJsScripts.itdAadhaarOtpOptionSelector);
+    await webViewController.waitForElement(
+      PortalJsScripts.itdAadhaarOtpOptionSelector,
+    );
+    await webViewController.clickElement(
+      PortalJsScripts.itdAadhaarOtpOptionSelector,
+    );
 
     // Generate OTP
     yield _log(jobId, SubmissionStep.otp, 'Generating OTP...');
-    await webViewController.clickElement(PortalJsScripts.itdGenerateOtpBtnSelector);
+    await webViewController.clickElement(
+      PortalJsScripts.itdGenerateOtpBtnSelector,
+    );
 
     // Wait for user to enter OTP
     yield _log(jobId, SubmissionStep.otp, 'Waiting for OTP...');
@@ -256,7 +292,9 @@ class ItdAutosubmitService {
 
     // Enter OTP and submit
     await webViewController.fillField(PortalJsScripts.itdOtpSelector, otp);
-    await webViewController.clickElement(PortalJsScripts.itdOtpVerifyBtnSelector);
+    await webViewController.clickElement(
+      PortalJsScripts.itdOtpVerifyBtnSelector,
+    );
 
     // Confirm verification success
     yield _log(jobId, SubmissionStep.otp, 'Verifying...');
@@ -264,7 +302,11 @@ class ItdAutosubmitService {
       PortalJsScripts.itdEverifySuccessSelector,
       timeout: const Duration(seconds: 30),
     );
-    yield _log(jobId, SubmissionStep.done, 'e-Verification completed successfully');
+    yield _log(
+      jobId,
+      SubmissionStep.done,
+      'e-Verification completed successfully',
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -286,18 +328,30 @@ class ItdAutosubmitService {
     }
 
     // Navigate to View Filed Returns
-    yield _log(jobId, SubmissionStep.downloading, 'Navigating to View Filed Returns...');
+    yield _log(
+      jobId,
+      SubmissionStep.downloading,
+      'Navigating to View Filed Returns...',
+    );
     await webViewController.clickElement(
       PortalJsScripts.itdViewFiledReturnsSelector,
     );
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Find the correct AY entry and click download
-    yield _log(jobId, SubmissionStep.downloading, 'Searching for ACK: $ackNumber...');
-    await webViewController.waitForElement(PortalJsScripts.itdItrvDownloadSelector);
+    yield _log(
+      jobId,
+      SubmissionStep.downloading,
+      'Searching for ACK: $ackNumber...',
+    );
+    await webViewController.waitForElement(
+      PortalJsScripts.itdItrvDownloadSelector,
+    );
 
     yield _log(jobId, SubmissionStep.downloading, 'Downloading ITR-V...');
-    await webViewController.clickElement(PortalJsScripts.itdItrvDownloadSelector);
+    await webViewController.clickElement(
+      PortalJsScripts.itdItrvDownloadSelector,
+    );
 
     // The file download is handled by WebView's onDownloadStartRequest callback.
     yield _log(jobId, SubmissionStep.downloading, 'Saving ITR-V to: $savePath');
@@ -317,20 +371,33 @@ class ItdAutosubmitService {
     final jobId = 'itd_status_$clientPan';
 
     if (webViewController == null) {
-      yield _log(jobId, SubmissionStep.filling, 'Navigating to View Filed Returns');
-      yield _log(jobId, SubmissionStep.filling, 'Checking status for AY $assessmentYear');
+      yield _log(
+        jobId,
+        SubmissionStep.filling,
+        'Navigating to View Filed Returns',
+      );
+      yield _log(
+        jobId,
+        SubmissionStep.filling,
+        'Checking status for AY $assessmentYear',
+      );
       yield _log(jobId, SubmissionStep.done, 'Status: e-Verified (mock)');
       return;
     }
 
-    yield _log(jobId, SubmissionStep.filling, 'Navigating to View Filed Returns...');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Navigating to View Filed Returns...',
+    );
     await webViewController.clickElement(
       PortalJsScripts.itdViewFiledReturnsSelector,
     );
     await Future<void>.delayed(const Duration(seconds: 2));
 
     yield _log(jobId, SubmissionStep.filling, 'Extracting filing status...');
-    final statusScript = '''
+    final statusScript =
+        '''
 (function() {
   var rows = document.querySelectorAll('tr, .return-row, [class*="filed-return"]');
   for (var i = 0; i < rows.length; i++) {
@@ -367,11 +434,7 @@ class ItdAutosubmitService {
       SubmissionStep.downloading,
       'Selecting FY $financialYear for PAN $clientPan',
     );
-    yield _log(
-      jobId,
-      SubmissionStep.downloading,
-      'Triggering download...',
-    );
+    yield _log(jobId, SubmissionStep.downloading, 'Triggering download...');
     yield _log(
       jobId,
       SubmissionStep.done,
@@ -396,7 +459,11 @@ class ItdAutosubmitService {
     String path,
   ) async* {
     yield _log(jobId, SubmissionStep.filling, 'Navigating to ITR upload page');
-    yield _log(jobId, SubmissionStep.filling, 'Selecting return type from: $path');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Selecting return type from: $path',
+    );
     yield _log(jobId, SubmissionStep.filling, 'Uploading ITR JSON file');
     yield _log(jobId, SubmissionStep.submitting, 'Submitting ITR');
     yield _log(jobId, SubmissionStep.done, 'ITR submitted for PAN: $pan');
@@ -407,7 +474,11 @@ class ItdAutosubmitService {
     yield _log(jobId, SubmissionStep.otp, 'Selecting Aadhaar OTP method');
     yield _log(jobId, SubmissionStep.otp, 'Generating OTP...');
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP from user');
-    yield _log(jobId, SubmissionStep.done, 'e-Verification completed for PAN: $pan');
+    yield _log(
+      jobId,
+      SubmissionStep.done,
+      'e-Verification completed for PAN: $pan',
+    );
   }
 
   Stream<SubmissionLog> _mockDownloadItrvStream(
@@ -416,7 +487,11 @@ class ItdAutosubmitService {
     String ack,
     String savePath,
   ) async* {
-    yield _log(jobId, SubmissionStep.downloading, 'Navigating to View Filed Returns');
+    yield _log(
+      jobId,
+      SubmissionStep.downloading,
+      'Navigating to View Filed Returns',
+    );
     yield _log(jobId, SubmissionStep.downloading, 'Searching for ACK: $ack');
     yield _log(jobId, SubmissionStep.downloading, 'Downloading ITR-V');
     yield _log(jobId, SubmissionStep.downloading, 'Saving ITR-V to: $savePath');

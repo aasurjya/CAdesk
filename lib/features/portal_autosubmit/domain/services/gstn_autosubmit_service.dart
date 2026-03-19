@@ -47,7 +47,9 @@ class GstnAutosubmitService {
 
     // --- Real WebView automation ---
     yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to GSTN portal...');
-    await webViewController.waitForElement(PortalJsScripts.gstnUsernameSelector);
+    await webViewController.waitForElement(
+      PortalJsScripts.gstnUsernameSelector,
+    );
 
     yield _log(
       jobId,
@@ -115,7 +117,9 @@ class GstnAutosubmitService {
       PortalJsScripts.gstnReturnsMenuSelector,
     );
     await Future<void>.delayed(const Duration(seconds: 2));
-    await webViewController.waitForElement(PortalJsScripts.gstnGstr1TileSelector);
+    await webViewController.waitForElement(
+      PortalJsScripts.gstnGstr1TileSelector,
+    );
     await webViewController.clickElement(PortalJsScripts.gstnGstr1TileSelector);
 
     // Select tax period
@@ -192,7 +196,8 @@ class GstnAutosubmitService {
       PortalJsScripts.gstnGstr1ArnSelector,
       timeout: const Duration(seconds: 30),
     );
-    final arnScript = '''
+    const arnScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.gstnGstr1ArnSelector}');
   return el ? el.textContent.trim() : '';
@@ -330,11 +335,7 @@ class GstnAutosubmitService {
     }
 
     // Submit with OTP
-    yield _log(
-      jobId,
-      SubmissionStep.otp,
-      'Awaiting OTP for GSTR-3B filing...',
-    );
+    yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTR-3B filing...');
     await webViewController.clickElement(
       PortalJsScripts.gstnGstr3bSubmitBtnSelector,
     );
@@ -353,7 +354,8 @@ class GstnAutosubmitService {
       PortalJsScripts.gstnGstr3bArnSelector,
       timeout: const Duration(seconds: 30),
     );
-    final arnScript = '''
+    const arnScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.gstnGstr3bArnSelector}');
   return el ? el.textContent.trim() : '';
@@ -391,7 +393,11 @@ class GstnAutosubmitService {
     }
 
     // --- Real WebView automation ---
-    yield _log(jobId, SubmissionStep.filling, 'Navigating to payment section...');
+    yield _log(
+      jobId,
+      SubmissionStep.filling,
+      'Navigating to payment section...',
+    );
     await webViewController.clickElement(
       PortalJsScripts.gstnPaymentsMenuSelector,
     );
@@ -449,7 +455,8 @@ class GstnAutosubmitService {
       PortalJsScripts.gstnChallanCpinSelector,
       timeout: const Duration(seconds: 30),
     );
-    final cpinScript = '''
+    const cpinScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.gstnChallanCpinSelector}');
   return el ? el.textContent.trim() : '';
@@ -541,11 +548,7 @@ class GstnAutosubmitService {
 
   Stream<SubmissionLog> _mockLoginStream(String jobId) async* {
     yield _log(jobId, SubmissionStep.loggingIn, 'Navigating to GSTN portal');
-    yield _log(
-      jobId,
-      SubmissionStep.loggingIn,
-      'Entering GSTIN and password',
-    );
+    yield _log(jobId, SubmissionStep.loggingIn, 'Entering GSTIN and password');
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTN login');
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
   }
@@ -566,11 +569,7 @@ class GstnAutosubmitService {
       SubmissionStep.filling,
       'Uploading GSTR-1 JSON: $jsonFilePath',
     );
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Waiting for portal validation',
-    );
+    yield _log(jobId, SubmissionStep.filling, 'Waiting for portal validation');
     yield _log(
       jobId,
       SubmissionStep.otp,
@@ -591,11 +590,7 @@ class GstnAutosubmitService {
       'Filling Table 3.1 — Outward supplies',
     );
     yield _log(jobId, SubmissionStep.filling, 'Filling Table 4 — ITC claimed');
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Saving GSTR-3B draft',
-    );
+    yield _log(jobId, SubmissionStep.filling, 'Saving GSTR-3B draft');
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for GSTR-3B filing');
     yield _log(jobId, SubmissionStep.submitting, 'Submitting GSTR-3B');
     yield _log(jobId, SubmissionStep.done, 'GSTR-3B filed for GSTIN: $gstin');
@@ -612,11 +607,7 @@ class GstnAutosubmitService {
       SubmissionStep.filling,
       'Creating PMT-06 challan for total amount',
     );
-    yield _log(
-      jobId,
-      SubmissionStep.submitting,
-      'Generating challan',
-    );
+    yield _log(jobId, SubmissionStep.submitting, 'Generating challan');
     yield _log(
       jobId,
       SubmissionStep.done,
@@ -659,12 +650,7 @@ class GstnAutosubmitService {
   /// Creates a default even CGST/SGST split when no breakdown is provided.
   static Map<String, double> _defaultBreakdown(double totalAmount) {
     final halfAmount = totalAmount / 2;
-    return {
-      'igst': 0,
-      'cgst': halfAmount,
-      'sgst': halfAmount,
-      'cess': 0,
-    };
+    return {'igst': 0, 'cgst': halfAmount, 'sgst': halfAmount, 'cess': 0};
   }
 
   SubmissionLog _log(String jobId, SubmissionStep step, String message) {

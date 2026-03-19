@@ -39,7 +39,7 @@ void main() {
 
     group('Phase 1 — EPFO login (mock)', () {
       test('login mock stream emits expected steps', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-epfo-001',
           portalType: PortalType.epfo,
           username: establishmentId,
@@ -62,7 +62,7 @@ void main() {
       });
 
       test('login logs have valid structure', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-epfo-002',
           portalType: PortalType.epfo,
           username: establishmentId,
@@ -184,9 +184,7 @@ void main() {
     group('Phase 4 — KYC status check (mock)', () {
       test('KYC check emits fill + download + done steps', () async {
         final logs = <SubmissionLog>[];
-        await for (final log in epfoService.checkMemberKyc(
-          uan: testUan,
-        )) {
+        await for (final log in epfoService.checkMemberKyc(uan: testUan)) {
           logs.add(log);
         }
 
@@ -201,9 +199,7 @@ void main() {
 
       test('KYC check includes UAN in all relevant logs', () async {
         final logs = <SubmissionLog>[];
-        await for (final log in epfoService.checkMemberKyc(
-          uan: testUan,
-        )) {
+        await for (final log in epfoService.checkMemberKyc(uan: testUan)) {
           logs.add(log);
         }
 
@@ -277,23 +273,25 @@ void main() {
         );
 
         // pending -> loggingIn
-        final loggingIn =
-            pending.copyWith(currentStep: SubmissionStep.loggingIn);
+        final loggingIn = pending.copyWith(
+          currentStep: SubmissionStep.loggingIn,
+        );
         expect(loggingIn.isInProgress, isTrue);
 
         // loggingIn -> filling
-        final filling =
-            loggingIn.copyWith(currentStep: SubmissionStep.filling);
+        final filling = loggingIn.copyWith(currentStep: SubmissionStep.filling);
         expect(filling.isInProgress, isTrue);
 
         // filling -> submitting
-        final submitting =
-            filling.copyWith(currentStep: SubmissionStep.submitting);
+        final submitting = filling.copyWith(
+          currentStep: SubmissionStep.submitting,
+        );
         expect(submitting.isInProgress, isTrue);
 
         // submitting -> downloading
-        final downloading =
-            submitting.copyWith(currentStep: SubmissionStep.downloading);
+        final downloading = submitting.copyWith(
+          currentStep: SubmissionStep.downloading,
+        );
         expect(downloading.isInProgress, isTrue);
 
         // downloading -> done
@@ -331,123 +329,124 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 7 — Full EPFO pipeline end-to-end', () {
-      test('complete pipeline: login -> ECR -> challan -> KYC -> receipt',
-          () async {
-        final credential = PortalCredential(
-          id: 'cred-epfo-e2e',
-          portalType: PortalType.epfo,
-          username: establishmentId,
-          encryptedPassword: 'mock-encrypted',
-        );
+      test(
+        'complete pipeline: login -> ECR -> challan -> KYC -> receipt',
+        () async {
+          const credential = PortalCredential(
+            id: 'cred-epfo-e2e',
+            portalType: PortalType.epfo,
+            username: establishmentId,
+            encryptedPassword: 'mock-encrypted',
+          );
 
-        final allLogs = <SubmissionLog>[];
+          final allLogs = <SubmissionLog>[];
 
-        // Step 1: Create submission job
-        var job = SubmissionJob(
-          id: 'e2e-epfo-001',
-          clientId: establishmentId,
-          clientName: 'Test Establishment Pvt Ltd',
-          portalType: PortalType.epfo,
-          returnType: 'ECR',
-          currentStep: SubmissionStep.pending,
-          retryCount: 0,
-          createdAt: DateTime.now(),
-        );
+          // Step 1: Create submission job
+          var job = SubmissionJob(
+            id: 'e2e-epfo-001',
+            clientId: establishmentId,
+            clientName: 'Test Establishment Pvt Ltd',
+            portalType: PortalType.epfo,
+            returnType: 'ECR',
+            currentStep: SubmissionStep.pending,
+            retryCount: 0,
+            createdAt: DateTime.now(),
+          );
 
-        // Step 2: Login
-        job = job.copyWith(currentStep: SubmissionStep.loggingIn);
-        await for (final log in epfoService.login(
-          credential: credential,
-          otpService: OtpInterceptService(),
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('Login completed'));
+          // Step 2: Login
+          job = job.copyWith(currentStep: SubmissionStep.loggingIn);
+          await for (final log in epfoService.login(
+            credential: credential,
+            otpService: OtpInterceptService(),
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('Login completed'));
 
-        // Step 3: Upload ECR
-        job = job.copyWith(currentStep: SubmissionStep.filling);
-        await for (final log in epfoService.uploadEcr(
-          establishmentId: establishmentId,
-          ecrFilePath: ecrFilePath,
-          wageMonth: wageMonth,
-          otpService: OtpInterceptService(),
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('ECR uploaded'));
+          // Step 3: Upload ECR
+          job = job.copyWith(currentStep: SubmissionStep.filling);
+          await for (final log in epfoService.uploadEcr(
+            establishmentId: establishmentId,
+            ecrFilePath: ecrFilePath,
+            wageMonth: wageMonth,
+            otpService: OtpInterceptService(),
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('ECR uploaded'));
 
-        // Step 4: Generate challan
-        await for (final log in epfoService.generateChallan(
-          establishmentId: establishmentId,
-          wageMonth: wageMonth,
-          epfAmount: 50000.00,
-          epsAmount: 25000.00,
-          savePath: challanSavePath,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('Challan generated'));
+          // Step 4: Generate challan
+          await for (final log in epfoService.generateChallan(
+            establishmentId: establishmentId,
+            wageMonth: wageMonth,
+            epfAmount: 50000.00,
+            epsAmount: 25000.00,
+            savePath: challanSavePath,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('Challan generated'));
 
-        // Step 5: Check KYC
-        await for (final log in epfoService.checkMemberKyc(
-          uan: testUan,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('KYC status'));
+          // Step 5: Check KYC
+          await for (final log in epfoService.checkMemberKyc(uan: testUan)) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('KYC status'));
 
-        // Step 6: Download receipt
-        job = job.copyWith(currentStep: SubmissionStep.downloading);
-        await for (final log in epfoService.downloadPaymentReceipt(
-          establishmentId: establishmentId,
-          challanId: challanId,
-          savePath: receiptSavePath,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('Receipt downloaded'));
+          // Step 6: Download receipt
+          job = job.copyWith(currentStep: SubmissionStep.downloading);
+          await for (final log in epfoService.downloadPaymentReceipt(
+            establishmentId: establishmentId,
+            challanId: challanId,
+            savePath: receiptSavePath,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('Receipt downloaded'));
 
-        // Mark done
-        job = job.copyWith(
-          currentStep: SubmissionStep.done,
-          filedAt: DateTime.now(),
-        );
+          // Mark done
+          job = job.copyWith(
+            currentStep: SubmissionStep.done,
+            filedAt: DateTime.now(),
+          );
 
-        // ---- ASSERTIONS: Full pipeline completed ----
-        expect(job.isCompleted, isTrue);
-        expect(allLogs.where((l) => l.isError), isEmpty);
-        expect(
-          allLogs.length,
-          greaterThanOrEqualTo(20),
-          reason: 'Full EPFO pipeline should emit 20+ log entries '
-              '(3 login + 6 ECR + 6 challan + 4 KYC + 4 receipt)',
-        );
+          // ---- ASSERTIONS: Full pipeline completed ----
+          expect(job.isCompleted, isTrue);
+          expect(allLogs.where((l) => l.isError), isEmpty);
+          expect(
+            allLogs.length,
+            greaterThanOrEqualTo(20),
+            reason:
+                'Full EPFO pipeline should emit 20+ log entries '
+                '(3 login + 6 ECR + 6 challan + 4 KYC + 4 receipt)',
+          );
 
-        // Verify progression through all major step types
-        final steps = allLogs.map((l) => l.step).toSet();
-        expect(
-          steps,
-          containsAll([
-            SubmissionStep.loggingIn,
-            SubmissionStep.filling,
-            SubmissionStep.submitting,
-            SubmissionStep.downloading,
-            SubmissionStep.done,
-          ]),
-        );
+          // Verify progression through all major step types
+          final steps = allLogs.map((l) => l.step).toSet();
+          expect(
+            steps,
+            containsAll([
+              SubmissionStep.loggingIn,
+              SubmissionStep.filling,
+              SubmissionStep.submitting,
+              SubmissionStep.downloading,
+              SubmissionStep.done,
+            ]),
+          );
 
-        // Verify all logs have valid timestamps and non-empty messages
-        for (final log in allLogs) {
-          expect(log.timestamp, isNotNull);
-          expect(log.jobId, isNotEmpty);
-          expect(log.message, isNotEmpty);
-        }
-      });
+          // Verify all logs have valid timestamps and non-empty messages
+          for (final log in allLogs) {
+            expect(log.timestamp, isNotNull);
+            expect(log.jobId, isNotEmpty);
+            expect(log.message, isNotEmpty);
+          }
+        },
+      );
 
       test('mock streams used when webViewController is null', () async {
         // Verify that all methods work without a WebView controller
         // (the mock path is used for testing/preview)
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-null-test',
           portalType: PortalType.epfo,
           username: establishmentId,

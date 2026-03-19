@@ -170,8 +170,9 @@ void main() {
       });
 
       test('new regime disallows Chapter VI-A deductions', () {
-        final newRegimeData =
-            formData.copyWith(selectedRegime: TaxRegime.newRegime);
+        final newRegimeData = formData.copyWith(
+          selectedRegime: TaxRegime.newRegime,
+        );
         expect(newRegimeData.allowableDeductions, 0);
         expect(newRegimeData.taxableIncome, 1129600);
       });
@@ -205,8 +206,8 @@ void main() {
       });
 
       test('JSON payload has correct ITD schema structure', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
 
         // Top-level: ITR → ITR1
         expect(json.containsKey('ITR'), isTrue);
@@ -224,10 +225,9 @@ void main() {
       });
 
       test('PersonalInfo section maps correctly', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
-        final pi = json['ITR']['ITR1']['PersonalInfo']
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
+        final pi = json['ITR']['ITR1']['PersonalInfo'] as Map<String, dynamic>;
 
         expect(pi['PAN'], 'ABCPS1234K');
         expect(pi['AssessmentYear'], assessmentYear);
@@ -240,20 +240,20 @@ void main() {
       });
 
       test('FilingStatus reflects old regime election', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
-        final fs = json['ITR']['ITR1']['FilingStatus']
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
+        final fs = json['ITR']['ITR1']['FilingStatus'] as Map<String, dynamic>;
 
         expect(fs['ReturnFileSec'], 11); // Section 139(1)
         expect(fs['OptOutNewTaxRegime'], 'Y'); // Old regime selected
       });
 
       test('income/deductions section has integer rupee amounts', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
-        final inc = json['ITR']['ITR1']['ITR1_IncomeDeductions']
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
+        final inc =
+            json['ITR']['ITR1']['ITR1_IncomeDeductions']
+                as Map<String, dynamic>;
 
         expect(inc['GrossSalary'], isA<int>());
         expect(inc['GrossSalary'], 1200000);
@@ -266,10 +266,9 @@ void main() {
       });
 
       test('ScheduleTDS section maps TDS amounts', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
-        final tds = json['ITR']['ITR1']['ScheduleTDS']
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
+        final tds = json['ITR']['ITR1']['ScheduleTDS'] as Map<String, dynamic>;
 
         expect(tds['TDSonSalary'], 120000);
         expect(tds['TDSonOtherThanSalary'], 4500);
@@ -277,10 +276,10 @@ void main() {
       });
 
       test('ScheduleTaxPayment includes advance and self-assessment', () {
-        final json = jsonDecode(exportResult.jsonPayload)
-            as Map<String, dynamic>;
-        final pay = json['ITR']['ITR1']['ScheduleTaxPayment']
-            as Map<String, dynamic>;
+        final json =
+            jsonDecode(exportResult.jsonPayload) as Map<String, dynamic>;
+        final pay =
+            json['ITR']['ITR1']['ScheduleTaxPayment'] as Map<String, dynamic>;
 
         expect(pay['TotalAdvanceTax'], 0);
         expect(pay['SelfAssessmentTax'], 0);
@@ -335,13 +334,13 @@ void main() {
         );
 
         // pending → loggingIn
-        final loggingIn =
-            pending.copyWith(currentStep: SubmissionStep.loggingIn);
+        final loggingIn = pending.copyWith(
+          currentStep: SubmissionStep.loggingIn,
+        );
         expect(loggingIn.isInProgress, isTrue);
 
         // loggingIn → filling
-        final filling =
-            loggingIn.copyWith(currentStep: SubmissionStep.filling);
+        final filling = loggingIn.copyWith(currentStep: SubmissionStep.filling);
         expect(filling.isInProgress, isTrue);
 
         // filling → otp
@@ -349,18 +348,22 @@ void main() {
         expect(otp.isInProgress, isTrue);
 
         // otp → reviewing
-        final reviewing =
-            otp.copyWith(currentStep: SubmissionStep.reviewing);
-        expect(reviewing.isInProgress, isFalse); // reviewing is NOT in progress set
+        final reviewing = otp.copyWith(currentStep: SubmissionStep.reviewing);
+        expect(
+          reviewing.isInProgress,
+          isFalse,
+        ); // reviewing is NOT in progress set
 
         // reviewing → submitting
-        final submitting =
-            reviewing.copyWith(currentStep: SubmissionStep.submitting);
+        final submitting = reviewing.copyWith(
+          currentStep: SubmissionStep.submitting,
+        );
         expect(submitting.isInProgress, isTrue);
 
         // submitting → downloading
-        final downloading =
-            submitting.copyWith(currentStep: SubmissionStep.downloading);
+        final downloading = submitting.copyWith(
+          currentStep: SubmissionStep.downloading,
+        );
         expect(downloading.isInProgress, isTrue);
 
         // downloading → done
@@ -431,7 +434,7 @@ void main() {
       const itdService = ItdAutosubmitService();
 
       test('login mock stream emits expected steps', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-001',
           portalType: PortalType.itd,
           username: 'ABCPS1234K',
@@ -504,7 +507,7 @@ void main() {
       });
 
       test('full automation sequence runs all phases', () async {
-        final credential = PortalCredential(
+        const credential = PortalCredential(
           id: 'cred-001',
           portalType: PortalType.itd,
           username: 'ABCPS1234K',
@@ -553,14 +556,17 @@ void main() {
 
         // Verify progression through all steps
         final steps = allLogs.map((l) => l.step).toSet();
-        expect(steps, containsAll([
-          SubmissionStep.loggingIn,
-          SubmissionStep.filling,
-          SubmissionStep.submitting,
-          SubmissionStep.otp,
-          SubmissionStep.downloading,
-          SubmissionStep.done,
-        ]));
+        expect(
+          steps,
+          containsAll([
+            SubmissionStep.loggingIn,
+            SubmissionStep.filling,
+            SubmissionStep.submitting,
+            SubmissionStep.otp,
+            SubmissionStep.downloading,
+            SubmissionStep.done,
+          ]),
+        );
 
         // Verify no errors in the stream
         expect(allLogs.where((l) => l.isError), isEmpty);
@@ -585,19 +591,31 @@ void main() {
 
         expect(restored.personalInfo.pan, formData.personalInfo.pan);
         expect(restored.personalInfo.fullName, formData.personalInfo.fullName);
-        expect(restored.salaryIncome.grossSalary,
-            formData.salaryIncome.grossSalary);
-        expect(restored.salaryIncome.netSalary,
-            formData.salaryIncome.netSalary);
-        expect(restored.housePropertyIncome.incomeFromHouseProperty,
-            formData.housePropertyIncome.incomeFromHouseProperty);
-        expect(restored.otherSourceIncome.total,
-            formData.otherSourceIncome.total);
-        expect(restored.deductions.totalDeductions,
-            formData.deductions.totalDeductions);
+        expect(
+          restored.salaryIncome.grossSalary,
+          formData.salaryIncome.grossSalary,
+        );
+        expect(
+          restored.salaryIncome.netSalary,
+          formData.salaryIncome.netSalary,
+        );
+        expect(
+          restored.housePropertyIncome.incomeFromHouseProperty,
+          formData.housePropertyIncome.incomeFromHouseProperty,
+        );
+        expect(
+          restored.otherSourceIncome.total,
+          formData.otherSourceIncome.total,
+        );
+        expect(
+          restored.deductions.totalDeductions,
+          formData.deductions.totalDeductions,
+        );
         expect(restored.selectedRegime, formData.selectedRegime);
-        expect(restored.tdsPaymentSummary.totalTaxesPaid,
-            formData.tdsPaymentSummary.totalTaxesPaid);
+        expect(
+          restored.tdsPaymentSummary.totalTaxesPaid,
+          formData.tdsPaymentSummary.totalTaxesPaid,
+        );
         expect(restored.grossTotalIncome, formData.grossTotalIncome);
         expect(restored.taxableIncome, formData.taxableIncome);
       });
@@ -634,8 +652,7 @@ void main() {
         expect(formData.grossTotalIncome, greaterThan(0));
 
         // Step 2: Export to ITD JSON
-        final exportResult =
-            Itr1ExportService.export(formData, assessmentYear);
+        final exportResult = Itr1ExportService.export(formData, assessmentYear);
         expect(exportResult.isValid, isTrue);
         expect(exportResult.jsonPayload, isNotEmpty);
 
@@ -649,7 +666,8 @@ void main() {
           currentStep: SubmissionStep.pending,
           retryCount: 0,
           createdAt: DateTime.now(),
-          itrJsonPath: 'ITR1_${formData.personalInfo.pan}_AY$assessmentYear.json',
+          itrJsonPath:
+              'ITR1_${formData.personalInfo.pan}_AY$assessmentYear.json',
           assessmentYear: assessmentYear,
         );
         expect(job.currentStep, SubmissionStep.pending);
@@ -696,8 +714,9 @@ void main() {
         }
 
         // Download ITR-V
-        updatedJob =
-            updatedJob.copyWith(currentStep: SubmissionStep.downloading);
+        updatedJob = updatedJob.copyWith(
+          currentStep: SubmissionStep.downloading,
+        );
         await for (final log in itdService.downloadItrV(
           clientPan: job.clientId,
           ackNumber: 'ACK-E2E-TEST',
@@ -724,12 +743,13 @@ void main() {
         );
 
         // Verify export checksum matches what would be filed
-        final verifyExport =
-            Itr1ExportService.export(formData, assessmentYear);
-        expect(verifyExport.checksum, exportResult.checksum,
-            reason: 'Export should be deterministic');
+        final verifyExport = Itr1ExportService.export(formData, assessmentYear);
+        expect(
+          verifyExport.checksum,
+          exportResult.checksum,
+          reason: 'Export should be deterministic',
+        );
       });
     });
   });
 }
-

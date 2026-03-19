@@ -31,7 +31,7 @@ void main() {
     late OtpInterceptService otpService;
 
     setUp(() {
-      credential = PortalCredential(
+      credential = const PortalCredential(
         id: 'mca-cred-001',
         portalType: PortalType.mca,
         username: 'testuser@example.com',
@@ -77,36 +77,38 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 2 -- e-Form Upload', () {
-      test('uploadEform mock stream for MGT-7 emits fill + submit steps',
-          () async {
-        final logs = <SubmissionLog>[];
-        await for (final log in mcaService.uploadEform(
-          cin: testCin,
-          formType: 'MGT-7',
-          formFilePath: '/tmp/MGT7_$testCin.pdf',
-          otpService: otpService,
-        )) {
-          logs.add(log);
-        }
+      test(
+        'uploadEform mock stream for MGT-7 emits fill + submit steps',
+        () async {
+          final logs = <SubmissionLog>[];
+          await for (final log in mcaService.uploadEform(
+            cin: testCin,
+            formType: 'MGT-7',
+            formFilePath: '/tmp/MGT7_$testCin.pdf',
+            otpService: otpService,
+          )) {
+            logs.add(log);
+          }
 
-        expect(logs, isNotEmpty);
-        expect(logs.length, 7);
+          expect(logs, isNotEmpty);
+          expect(logs.length, 7);
 
-        // Verify step progression
-        expect(logs[0].step, SubmissionStep.filling);
-        expect(logs[0].message, contains('MGT-7'));
-        expect(logs[1].step, SubmissionStep.filling);
-        expect(logs[1].message, contains('CIN'));
-        expect(logs[2].step, SubmissionStep.filling);
-        expect(logs[2].message, contains('Uploading'));
-        expect(logs[3].step, SubmissionStep.filling);
-        expect(logs[3].message, contains('Validating'));
-        expect(logs[4].step, SubmissionStep.otp);
-        expect(logs[4].message, contains('DSC'));
-        expect(logs[5].step, SubmissionStep.submitting);
-        expect(logs.last.step, SubmissionStep.done);
-        expect(logs.last.message, contains(testCin));
-      });
+          // Verify step progression
+          expect(logs[0].step, SubmissionStep.filling);
+          expect(logs[0].message, contains('MGT-7'));
+          expect(logs[1].step, SubmissionStep.filling);
+          expect(logs[1].message, contains('CIN'));
+          expect(logs[2].step, SubmissionStep.filling);
+          expect(logs[2].message, contains('Uploading'));
+          expect(logs[3].step, SubmissionStep.filling);
+          expect(logs[3].message, contains('Validating'));
+          expect(logs[4].step, SubmissionStep.otp);
+          expect(logs[4].message, contains('DSC'));
+          expect(logs[5].step, SubmissionStep.submitting);
+          expect(logs.last.step, SubmissionStep.done);
+          expect(logs.last.message, contains(testCin));
+        },
+      );
 
       test('uploadEform works for AOC-4 form type', () async {
         final logs = <SubmissionLog>[];
@@ -145,8 +147,7 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 3 -- DSC Signing', () {
-      test('signWithDsc mock stream emits otp + submit + done steps',
-          () async {
+      test('signWithDsc mock stream emits otp + submit + done steps', () async {
         final logs = <SubmissionLog>[];
         await for (final log in mcaService.signWithDsc(
           documentHash: testDocHash,
@@ -173,8 +174,7 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 4 -- Company Lookup', () {
-      test('lookupCompany mock stream emits search + download steps',
-          () async {
+      test('lookupCompany mock stream emits search + download steps', () async {
         final logs = <SubmissionLog>[];
         await for (final log in mcaService.lookupCompany(cin: testCin)) {
           logs.add(log);
@@ -196,28 +196,30 @@ void main() {
     // -----------------------------------------------------------------------
 
     group('Phase 5 -- Certificate Download', () {
-      test('downloadCertificate mock stream for CoI emits download steps',
-          () async {
-        final logs = <SubmissionLog>[];
-        await for (final log in mcaService.downloadCertificate(
-          cin: testCin,
-          certificateType: 'Certificate of Incorporation',
-          savePath: '/tmp/CoI_$testCin.pdf',
-        )) {
-          logs.add(log);
-        }
+      test(
+        'downloadCertificate mock stream for CoI emits download steps',
+        () async {
+          final logs = <SubmissionLog>[];
+          await for (final log in mcaService.downloadCertificate(
+            cin: testCin,
+            certificateType: 'Certificate of Incorporation',
+            savePath: '/tmp/CoI_$testCin.pdf',
+          )) {
+            logs.add(log);
+          }
 
-        expect(logs, isNotEmpty);
-        expect(logs.length, 4);
-        expect(logs[0].step, SubmissionStep.downloading);
-        expect(logs[0].message, contains('Navigating'));
-        expect(logs[1].step, SubmissionStep.downloading);
-        expect(logs[1].message, contains('Certificate of Incorporation'));
-        expect(logs[2].step, SubmissionStep.downloading);
-        expect(logs[2].message, contains('/tmp/'));
-        expect(logs.last.step, SubmissionStep.done);
-        expect(logs.last.message, contains(testCin));
-      });
+          expect(logs, isNotEmpty);
+          expect(logs.length, 4);
+          expect(logs[0].step, SubmissionStep.downloading);
+          expect(logs[0].message, contains('Navigating'));
+          expect(logs[1].step, SubmissionStep.downloading);
+          expect(logs[1].message, contains('Certificate of Incorporation'));
+          expect(logs[2].step, SubmissionStep.downloading);
+          expect(logs[2].message, contains('/tmp/'));
+          expect(logs.last.step, SubmissionStep.done);
+          expect(logs.last.message, contains(testCin));
+        },
+      );
 
       test('downloadCertificate works for charge certificate', () async {
         final logs = <SubmissionLog>[];
@@ -269,19 +271,18 @@ void main() {
           createdAt: DateTime.now(),
         );
 
-        final loggingIn =
-            pending.copyWith(currentStep: SubmissionStep.loggingIn);
+        final loggingIn = pending.copyWith(
+          currentStep: SubmissionStep.loggingIn,
+        );
         expect(loggingIn.isInProgress, isTrue);
 
-        final filling =
-            loggingIn.copyWith(currentStep: SubmissionStep.filling);
+        final filling = loggingIn.copyWith(currentStep: SubmissionStep.filling);
         expect(filling.isInProgress, isTrue);
 
         final otp = filling.copyWith(currentStep: SubmissionStep.otp);
         expect(otp.isInProgress, isTrue);
 
-        final submitting =
-            otp.copyWith(currentStep: SubmissionStep.submitting);
+        final submitting = otp.copyWith(currentStep: SubmissionStep.submitting);
         expect(submitting.isInProgress, isTrue);
 
         final done = submitting.copyWith(
@@ -318,154 +319,157 @@ void main() {
     // Phase 7: Full pipeline integration
     // -----------------------------------------------------------------------
 
-    group('Phase 7 -- Full pipeline: login -> upload -> sign -> lookup -> cert',
-        () {
-      test('complete MCA A-Z pipeline succeeds', () async {
-        final allLogs = <SubmissionLog>[];
+    group(
+      'Phase 7 -- Full pipeline: login -> upload -> sign -> lookup -> cert',
+      () {
+        test('complete MCA A-Z pipeline succeeds', () async {
+          final allLogs = <SubmissionLog>[];
 
-        // Step 1: Login
-        await for (final log in mcaService.login(
-          credential: credential,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('Login completed'));
+          // Step 1: Login
+          await for (final log in mcaService.login(
+            credential: credential,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('Login completed'));
 
-        // Step 2: Upload e-Form (MGT-7)
-        await for (final log in mcaService.uploadEform(
-          cin: testCin,
-          formType: 'MGT-7',
-          formFilePath: '/tmp/MGT7_$testCin.pdf',
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('submitted'));
+          // Step 2: Upload e-Form (MGT-7)
+          await for (final log in mcaService.uploadEform(
+            cin: testCin,
+            formType: 'MGT-7',
+            formFilePath: '/tmp/MGT7_$testCin.pdf',
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('submitted'));
 
-        // Step 3: DSC Signing (standalone)
-        await for (final log in mcaService.signWithDsc(
-          documentHash: testDocHash,
-          dscSerialNumber: testDscSerial,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('completed'));
+          // Step 3: DSC Signing (standalone)
+          await for (final log in mcaService.signWithDsc(
+            documentHash: testDocHash,
+            dscSerialNumber: testDscSerial,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('completed'));
 
-        // Step 4: Company Lookup
-        await for (final log in mcaService.lookupCompany(cin: testCin)) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('retrieved'));
+          // Step 4: Company Lookup
+          await for (final log in mcaService.lookupCompany(cin: testCin)) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('retrieved'));
 
-        // Step 5: Certificate Download
-        await for (final log in mcaService.downloadCertificate(
-          cin: testCin,
-          certificateType: 'Certificate of Incorporation',
-          savePath: '/tmp/CoI_$testCin.pdf',
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('downloaded'));
+          // Step 5: Certificate Download
+          await for (final log in mcaService.downloadCertificate(
+            cin: testCin,
+            certificateType: 'Certificate of Incorporation',
+            savePath: '/tmp/CoI_$testCin.pdf',
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('downloaded'));
 
-        // ---- ASSERTIONS: The full pipeline completed ----
-        expect(
-          allLogs.length,
-          greaterThanOrEqualTo(18),
-          reason: 'Full MCA pipeline should emit 18+ log entries '
-              '(4 login + 7 upload + 4 dsc + 3 lookup + 4 cert)',
-        );
+          // ---- ASSERTIONS: The full pipeline completed ----
+          expect(
+            allLogs.length,
+            greaterThanOrEqualTo(18),
+            reason:
+                'Full MCA pipeline should emit 18+ log entries '
+                '(4 login + 7 upload + 4 dsc + 3 lookup + 4 cert)',
+          );
 
-        // Verify progression through all steps
-        final steps = allLogs.map((l) => l.step).toSet();
-        expect(
-          steps,
-          containsAll([
-            SubmissionStep.loggingIn,
-            SubmissionStep.filling,
-            SubmissionStep.otp,
-            SubmissionStep.submitting,
-            SubmissionStep.downloading,
-            SubmissionStep.done,
-          ]),
-        );
+          // Verify progression through all steps
+          final steps = allLogs.map((l) => l.step).toSet();
+          expect(
+            steps,
+            containsAll([
+              SubmissionStep.loggingIn,
+              SubmissionStep.filling,
+              SubmissionStep.otp,
+              SubmissionStep.submitting,
+              SubmissionStep.downloading,
+              SubmissionStep.done,
+            ]),
+          );
 
-        // Verify no errors in the stream
-        expect(allLogs.where((l) => l.isError), isEmpty);
+          // Verify no errors in the stream
+          expect(allLogs.where((l) => l.isError), isEmpty);
 
-        // Verify all logs have valid timestamps and IDs
-        for (final log in allLogs) {
-          expect(log.timestamp, isNotNull);
-          expect(log.jobId, isNotEmpty);
-          expect(log.message, isNotEmpty);
-          expect(log.id, isNotEmpty);
-        }
-      });
+          // Verify all logs have valid timestamps and IDs
+          for (final log in allLogs) {
+            expect(log.timestamp, isNotNull);
+            expect(log.jobId, isNotEmpty);
+            expect(log.message, isNotEmpty);
+            expect(log.id, isNotEmpty);
+          }
+        });
 
-      test('full pipeline with SubmissionJob tracking', () async {
-        final allLogs = <SubmissionLog>[];
+        test('full pipeline with SubmissionJob tracking', () async {
+          final allLogs = <SubmissionLog>[];
 
-        // Create job
-        var job = SubmissionJob(
-          id: 'mca-e2e-job-001',
-          clientId: testCin,
-          clientName: 'Test Private Limited',
-          portalType: PortalType.mca,
-          returnType: 'MGT-7',
-          currentStep: SubmissionStep.pending,
-          retryCount: 0,
-          createdAt: DateTime.now(),
-        );
-        expect(job.currentStep, SubmissionStep.pending);
+          // Create job
+          var job = SubmissionJob(
+            id: 'mca-e2e-job-001',
+            clientId: testCin,
+            clientName: 'Test Private Limited',
+            portalType: PortalType.mca,
+            returnType: 'MGT-7',
+            currentStep: SubmissionStep.pending,
+            retryCount: 0,
+            createdAt: DateTime.now(),
+          );
+          expect(job.currentStep, SubmissionStep.pending);
 
-        // Login
-        job = job.copyWith(currentStep: SubmissionStep.loggingIn);
-        await for (final log in mcaService.login(
-          credential: credential,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
+          // Login
+          job = job.copyWith(currentStep: SubmissionStep.loggingIn);
+          await for (final log in mcaService.login(
+            credential: credential,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Upload e-Form
-        job = job.copyWith(currentStep: SubmissionStep.filling);
-        await for (final log in mcaService.uploadEform(
-          cin: testCin,
-          formType: 'MGT-7',
-          formFilePath: '/tmp/MGT7_$testCin.pdf',
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
+          // Upload e-Form
+          job = job.copyWith(currentStep: SubmissionStep.filling);
+          await for (final log in mcaService.uploadEform(
+            cin: testCin,
+            formType: 'MGT-7',
+            formFilePath: '/tmp/MGT7_$testCin.pdf',
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Company Lookup
-        job = job.copyWith(currentStep: SubmissionStep.downloading);
-        await for (final log in mcaService.lookupCompany(cin: testCin)) {
-          allLogs.add(log);
-        }
+          // Company Lookup
+          job = job.copyWith(currentStep: SubmissionStep.downloading);
+          await for (final log in mcaService.lookupCompany(cin: testCin)) {
+            allLogs.add(log);
+          }
 
-        // Certificate Download
-        await for (final log in mcaService.downloadCertificate(
-          cin: testCin,
-          certificateType: 'Certificate of Incorporation',
-          savePath: '/tmp/CoI_$testCin.pdf',
-        )) {
-          allLogs.add(log);
-        }
+          // Certificate Download
+          await for (final log in mcaService.downloadCertificate(
+            cin: testCin,
+            certificateType: 'Certificate of Incorporation',
+            savePath: '/tmp/CoI_$testCin.pdf',
+          )) {
+            allLogs.add(log);
+          }
 
-        // Mark done
-        job = job.copyWith(
-          currentStep: SubmissionStep.done,
-          ackNumber: 'SRN-MCA-E2E-001',
-          filedAt: DateTime.now(),
-        );
+          // Mark done
+          job = job.copyWith(
+            currentStep: SubmissionStep.done,
+            ackNumber: 'SRN-MCA-E2E-001',
+            filedAt: DateTime.now(),
+          );
 
-        expect(job.isCompleted, isTrue);
-        expect(job.ackNumber, 'SRN-MCA-E2E-001');
-        expect(allLogs.where((l) => l.isError), isEmpty);
-        expect(allLogs.length, greaterThanOrEqualTo(14));
-      });
-    });
+          expect(job.isCompleted, isTrue);
+          expect(job.ackNumber, 'SRN-MCA-E2E-001');
+          expect(allLogs.where((l) => l.isError), isEmpty);
+          expect(allLogs.length, greaterThanOrEqualTo(14));
+        });
+      },
+    );
 
     // -----------------------------------------------------------------------
     // Phase 8: Mock fallback behavior
@@ -524,10 +528,7 @@ void main() {
 
       test('each mock stream ends with SubmissionStep.done', () async {
         final streams = <Stream<SubmissionLog>>[
-          mcaService.login(
-            credential: credential,
-            otpService: otpService,
-          ),
+          mcaService.login(credential: credential, otpService: otpService),
           mcaService.uploadEform(
             cin: testCin,
             formType: 'MGT-7',
