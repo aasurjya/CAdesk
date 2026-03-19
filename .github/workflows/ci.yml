@@ -44,7 +44,8 @@ jobs:
             '*.freezed.dart' \
             '*/lib/core/database/app_database.g.dart' \
             '*/generated/*' \
-            -o coverage/lcov_filtered.info
+            -o coverage/lcov_filtered.info \
+            || cp coverage/lcov.info coverage/lcov_filtered.info
 
       - name: Check coverage thresholds
         run: |
