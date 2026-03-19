@@ -12,7 +12,7 @@ import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_screen.dart';
 import 'package:ca_app/features/today/presentation/today_screen.dart';
 import 'package:ca_app/features/clients/presentation/clients_screen.dart';
-import 'package:ca_app/features/clients/presentation/client_detail_screen.dart';
+import 'package:ca_app/features/clients/presentation/client_360_screen.dart';
 import 'package:ca_app/features/clients/presentation/client_form_screen.dart';
 import 'package:ca_app/features/more/presentation/more_screen.dart';
 
@@ -127,7 +127,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     name: 'clientDetail',
                     builder: (context, state) {
                       final clientId = state.pathParameters['clientId']!;
-                      return ClientDetailScreen(clientId: clientId);
+                      return Client360Screen(clientId: clientId);
                     },
                   ),
                   GoRoute(
