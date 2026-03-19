@@ -9,6 +9,18 @@ import 'package:ca_app/features/dashboard/presentation/widgets/activity_feed_wid
 import 'package:ca_app/features/dashboard/presentation/widgets/ai_insights_section.dart';
 import 'package:ca_app/features/dashboard/presentation/widgets/compliance_deadline_widget.dart';
 
+/// Formats a number into compact form (e.g. 1,23,456 → "1.2L", 15000 → "15K").
+String _formatCompact(double amount) {
+  if (amount >= 10000000) {
+    return '${(amount / 10000000).toStringAsFixed(1)}Cr';
+  } else if (amount >= 100000) {
+    return '${(amount / 100000).toStringAsFixed(1)}L';
+  } else if (amount >= 1000) {
+    return '${(amount / 1000).toStringAsFixed(1)}K';
+  }
+  return amount.toStringAsFixed(0);
+}
+
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
@@ -301,6 +313,16 @@ class _OverviewHeroCard extends ConsumerWidget {
                   value: kpi.gstReturnsPendingCount.toString().padLeft(2, '0'),
                   color: AppColors.secondary,
                 ),
+                _OverviewStat(
+                  label: 'TDS challans due',
+                  value: kpi.tdsChallansDue.toString().padLeft(2, '0'),
+                  color: AppColors.error,
+                ),
+                _OverviewStat(
+                  label: 'Revenue collected',
+                  value: '\u20B9${_formatCompact(kpi.totalTaxCollected)}',
+                  color: AppColors.success,
+                ),
               ],
             ),
           ],
@@ -368,7 +390,7 @@ class _QuickActionsGrid extends StatelessWidget {
       label: 'File ITR',
       subtitle: 'Prepare and submit returns',
       color: AppColors.primary,
-      route: '/',
+      route: '/filing',
     ),
     _QuickAction(
       icon: Icons.receipt_rounded,

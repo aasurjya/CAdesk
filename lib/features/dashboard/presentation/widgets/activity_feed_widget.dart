@@ -29,7 +29,7 @@ final dashboardActivitiesProvider = Provider<List<DashboardActivity>>((ref) {
               '${client.name} — ${client.assessmentYear} ${client.itrType.label}',
           timeAgo: _formatDate(client.filedDate),
           icon: Icons.check_circle_outline,
-          route: '/',
+          route: '/filing',
           sortDate: client.filedDate ?? DateTime(2025),
         ),
       );

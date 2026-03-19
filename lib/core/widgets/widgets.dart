@@ -23,3 +23,4 @@ export 'search_app_bar.dart';
 export 'section_header.dart';
 export 'status_badge.dart';
 export 'summary_card.dart';
+export 'urgency_border_card.dart';

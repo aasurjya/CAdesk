@@ -66,7 +66,7 @@ const kMoreMenuItems = <MoreMenuItem>[
     icon: Icons.dashboard_outlined,
     title: 'Dashboard',
     subtitle: 'Overview & KPIs',
-    route: '/dashboard',
+    route: '/',
     category: kCategoryQuickAccess,
   ),
   MoreMenuItem(

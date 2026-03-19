@@ -73,7 +73,7 @@ void main() {
         expect(signupRoute.name, 'signup');
       });
 
-      test('root path / is registered', () {
+      test('root path / is registered as dashboard', () {
         final container = createTestContainerWithDefaults();
         addTearDown(container.dispose);
 
@@ -86,7 +86,23 @@ void main() {
         );
 
         expect(rootRoute.path, '/');
-        expect(rootRoute.name, 'filing');
+        expect(rootRoute.name, 'dashboard');
+      });
+
+      test('filing route is registered at /filing', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final allRoutes = _flattenRoutes(router.configuration.routes);
+
+        final filingRoute = allRoutes.whereType<GoRoute>().firstWhere(
+          (r) => r.path == '/filing',
+          orElse: () => throw StateError('No /filing route'),
+        );
+
+        expect(filingRoute.path, '/filing');
+        expect(filingRoute.name, 'filing');
       });
 
       test('forgot-password route is registered', () {
@@ -102,6 +118,124 @@ void main() {
         );
 
         expect(forgotRoute.path, '/forgot-password');
+      });
+    });
+
+    group('shell branch ordering', () {
+      test('Dashboard is at branch index 0', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final firstBranch = shellRoute.branches[0];
+        final firstRoute =
+            firstBranch.routes.whereType<GoRoute>().first;
+
+        expect(firstRoute.path, '/');
+        expect(firstRoute.name, 'dashboard');
+      });
+
+      test('Filing is at branch index 1', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final secondBranch = shellRoute.branches[1];
+        final secondRoute =
+            secondBranch.routes.whereType<GoRoute>().first;
+
+        expect(secondRoute.path, '/filing');
+        expect(secondRoute.name, 'filing');
+      });
+
+      test('Clients is at branch index 2', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final branch = shellRoute.branches[2];
+        final route = branch.routes.whereType<GoRoute>().first;
+
+        expect(route.path, '/clients');
+        expect(route.name, 'clients');
+      });
+
+      test('Today is at branch index 3', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final branch = shellRoute.branches[3];
+        final route = branch.routes.whereType<GoRoute>().first;
+
+        expect(route.path, '/today');
+        expect(route.name, 'today');
+      });
+
+      test('More is at branch index 4', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final branch = shellRoute.branches[4];
+        final route = branch.routes.whereType<GoRoute>().first;
+
+        expect(route.path, '/more');
+        expect(route.name, 'more');
+      });
+
+      test('total of 5 branches exist', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        expect(shellRoute.branches.length, 5);
+      });
+
+      test('no Docs branch exists', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final shellRoute = _findShellRoute(router.configuration.routes);
+
+        final branchNames = shellRoute.branches
+            .expand((b) => b.routes.whereType<GoRoute>())
+            .map((r) => r.name)
+            .toList();
+
+        expect(branchNames, isNot(contains('docs')));
+      });
+    });
+
+    group('legacy /dashboard redirect', () {
+      test('/dashboard route exists as a redirect', () {
+        final container = createTestContainerWithDefaults();
+        addTearDown(container.dispose);
+
+        final router = container.read(appRouterProvider);
+        final allRoutes = _flattenRoutes(router.configuration.routes);
+
+        final dashboardRoute = allRoutes.whereType<GoRoute>().firstWhere(
+          (r) => r.path == '/dashboard',
+          orElse: () => throw StateError('No /dashboard redirect route'),
+        );
+
+        expect(dashboardRoute.path, '/dashboard');
+        // The route should have a redirect (no builder needed).
+        expect(dashboardRoute.redirect, isNotNull);
       });
     });
 
@@ -178,4 +312,12 @@ List<RouteBase> _flattenRoutes(List<RouteBase> routes) {
     }
   }
   return result;
+}
+
+/// Finds the [StatefulShellRoute] in the top-level route list.
+StatefulShellRoute _findShellRoute(List<RouteBase> routes) {
+  for (final route in routes) {
+    if (route is StatefulShellRoute) return route;
+  }
+  throw StateError('No StatefulShellRoute found in route configuration');
 }

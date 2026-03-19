@@ -31,7 +31,7 @@ const List<ModuleItem> allModules = [
     title: 'Dashboard',
     subtitle: 'Overview & KPIs',
     category: 'Quick Access',
-    route: '/dashboard',
+    route: '/',
   ),
   ModuleItem(
     icon: Icons.task_alt_outlined,

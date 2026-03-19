@@ -13,7 +13,6 @@ import 'package:ca_app/features/regulatory_intelligence/presentation/regulatory_
 import 'package:ca_app/features/practice_benchmarking/presentation/practice_benchmarking_screen.dart';
 import 'package:ca_app/features/data_pipelines/presentation/data_pipelines_screen.dart';
 import 'package:ca_app/features/ecosystem/presentation/ecosystem_screen.dart';
-import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:ca_app/features/roadmap_modules/presentation/roadmap_module_screen.dart';
 import 'package:ca_app/features/regulatory_intelligence/presentation/regulation_detail_screen.dart';
 import 'package:ca_app/features/esg_reporting/presentation/esg_report_screen.dart';
@@ -117,11 +116,11 @@ List<RouteBase> aiRoutes(GlobalKey<NavigatorState> rootNavigatorKey) => [
     parentNavigatorKey: rootNavigatorKey,
     builder: (context, state) => const EcosystemScreen(),
   ),
+  // Legacy /dashboard path redirects to home (Dashboard is now at /).
   GoRoute(
     path: '/dashboard',
-    name: 'dashboard',
     parentNavigatorKey: rootNavigatorKey,
-    builder: (context, state) => const DashboardScreen(),
+    redirect: (context, state) => '/',
   ),
   GoRoute(
     path: '/roadmap/:moduleId',

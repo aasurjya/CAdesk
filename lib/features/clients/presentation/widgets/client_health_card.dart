@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/core/widgets/urgency_border_card.dart';
 import 'package:ca_app/features/clients/data/providers/client_providers.dart';
 
 /// Displays the compliance health summary for a single client.
@@ -21,11 +22,13 @@ class ClientHealthCard extends ConsumerWidget {
     final theme = Theme.of(context);
     final gradeColor = _gradeColor(health.grade);
 
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+    return UrgencyBorderCard(
+      urgencyColor: gradeColor,
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header row
@@ -100,6 +103,7 @@ class ClientHealthCard extends ConsumerWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -8,12 +8,12 @@ import 'package:ca_app/core/widgets/adaptive_scaffold.dart';
 import 'package:ca_app/features/auth/presentation/login_screen.dart';
 import 'package:ca_app/features/auth/presentation/sign_up_screen.dart';
 import 'package:ca_app/features/auth/presentation/forgot_password_screen.dart';
+import 'package:ca_app/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:ca_app/features/filing/presentation/filing_screen.dart';
 import 'package:ca_app/features/today/presentation/today_screen.dart';
 import 'package:ca_app/features/clients/presentation/clients_screen.dart';
 import 'package:ca_app/features/clients/presentation/client_detail_screen.dart';
 import 'package:ca_app/features/clients/presentation/client_form_screen.dart';
-import 'package:ca_app/features/documents/presentation/documents_screen.dart';
 import 'package:ca_app/features/more/presentation/more_screen.dart';
 
 import 'package:ca_app/core/routing/filing_routes.dart';
@@ -22,10 +22,11 @@ import 'package:ca_app/core/routing/operations_routes.dart';
 import 'package:ca_app/core/routing/ai_routes.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final _dashboardNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'dashboard');
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
 final _clientsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'clients');
 final _todayNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'today');
-final _docsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'docs');
 final _moreNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'more');
 
 /// A [ChangeNotifier] that bridges [authProvider] to GoRouter's
@@ -90,16 +91,29 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return AdaptiveScaffold(navigationShell: navigationShell);
         },
         branches: [
+          // Index 0 — Dashboard (home tab)
+          StatefulShellBranch(
+            navigatorKey: _dashboardNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/',
+                name: 'dashboard',
+                builder: (context, state) => const DashboardScreen(),
+              ),
+            ],
+          ),
+          // Index 1 — Filing
           StatefulShellBranch(
             navigatorKey: _filingNavigatorKey,
             routes: [
               GoRoute(
-                path: '/',
+                path: '/filing',
                 name: 'filing',
                 builder: (context, state) => const FilingScreen(),
               ),
             ],
           ),
+          // Index 2 — Clients
           StatefulShellBranch(
             navigatorKey: _clientsNavigatorKey,
             routes: [
@@ -133,6 +147,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
+          // Index 3 — Today
           StatefulShellBranch(
             navigatorKey: _todayNavigatorKey,
             routes: [
@@ -143,16 +158,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          StatefulShellBranch(
-            navigatorKey: _docsNavigatorKey,
-            routes: [
-              GoRoute(
-                path: '/docs',
-                name: 'docs',
-                builder: (context, state) => const DocumentsScreen(),
-              ),
-            ],
-          ),
+          // Index 4 — More
           StatefulShellBranch(
             navigatorKey: _moreNavigatorKey,
             routes: [
