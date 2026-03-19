@@ -105,7 +105,7 @@ void main() {
 
     group('getSebiComplianceByClient', () {
       test('returns records for specific client', () async {
-        final clientId = 'sebi-by-client-x';
+        const clientId = 'sebi-by-client-x';
         final c1 = createTestCompliance(clientId: clientId);
         final c2 = createTestCompliance(clientId: clientId);
         await database.sebiDao.insertSebiCompliance(SebiMapper.toCompanion(c1));
@@ -125,8 +125,8 @@ void main() {
       });
 
       test('filters records by client correctly', () async {
-        final clientA = 'sebi-filter-a';
-        final clientB = 'sebi-filter-b';
+        const clientA = 'sebi-filter-a';
+        const clientB = 'sebi-filter-b';
         await database.sebiDao.insertSebiCompliance(
           SebiMapper.toCompanion(createTestCompliance(clientId: clientA)),
         );

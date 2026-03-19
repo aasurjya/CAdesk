@@ -158,7 +158,7 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _SectionHeader(
+                      const _SectionHeader(
                         title: 'Document Type',
                         subtitle: 'Select the type of document to process.',
                       ),
@@ -169,7 +169,7 @@ class _OcrUploadScreenState extends ConsumerState<OcrUploadScreen> {
                             setState(() => _selectedType = type),
                       ),
                       const SizedBox(height: 28),
-                      _SectionHeader(
+                      const _SectionHeader(
                         title: 'File Name',
                         subtitle:
                             'Enter the file name (demo — no real file picker).',

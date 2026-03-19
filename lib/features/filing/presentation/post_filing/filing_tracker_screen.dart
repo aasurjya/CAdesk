@@ -388,7 +388,7 @@ class _FiledReturnCard extends StatelessWidget {
             // Ack number
             Text(
               'Ack: ${filedReturn.ackNumber}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 11,
                 color: AppColors.neutral400,
                 fontFamily: 'monospace',
@@ -453,7 +453,7 @@ class _StatusBadge extends StatelessWidget {
           children: [
             Text(
               label,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 9,
                 color: AppColors.neutral400,
                 fontWeight: FontWeight.w500,
@@ -575,12 +575,12 @@ class _EmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             'No returns match the selected filter',
             style: TextStyle(color: AppColors.neutral400, fontSize: 14),

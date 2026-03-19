@@ -400,7 +400,7 @@ class _QuickActionsGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionTitle(
+        const _SectionTitle(
           title: 'Quick Actions',
           subtitle: 'Jump into the most-used workflows with fewer taps.',
         ),

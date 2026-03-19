@@ -36,7 +36,7 @@ final _testReport = CmaReport(
   preparedDate: DateTime(2025, 8, 10),
   requestedAmount: 50000000,
   projections: [
-    YearProjection(
+    const YearProjection(
       year: 2025,
       sales: 45000000,
       cogs: 32000000,

@@ -163,10 +163,10 @@ void main() {
 
   group('FundFlowStatement — model', () {
     test('copyWith returns updated instance', () {
-      final original = FundFlowStatement(
+      const original = FundFlowStatement(
         year: 2023,
-        sourcesOfFunds: const [],
-        usesOfFunds: const [],
+        sourcesOfFunds: [],
+        usesOfFunds: [],
         netChange: 0,
         openingWorkingCapital: 0,
         closingWorkingCapital: 0,
@@ -177,18 +177,18 @@ void main() {
     });
 
     test('equality and hashCode', () {
-      final a = FundFlowStatement(
+      const a = FundFlowStatement(
         year: 2023,
-        sourcesOfFunds: const [],
-        usesOfFunds: const [],
+        sourcesOfFunds: [],
+        usesOfFunds: [],
         netChange: 500,
         openingWorkingCapital: 1000,
         closingWorkingCapital: 1500,
       );
-      final b = FundFlowStatement(
+      const b = FundFlowStatement(
         year: 2023,
-        sourcesOfFunds: const [],
-        usesOfFunds: const [],
+        sourcesOfFunds: [],
+        usesOfFunds: [],
         netChange: 500,
         openingWorkingCapital: 1000,
         closingWorkingCapital: 1500,

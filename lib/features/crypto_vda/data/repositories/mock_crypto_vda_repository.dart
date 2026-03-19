@@ -61,7 +61,7 @@ class MockCryptoVdaRepository implements CryptoVdaRepository {
   ];
 
   static final List<VdaSummary> _seedSummaries = [
-    VdaSummary(
+    const VdaSummary(
       clientId: 'mock-client-001',
       clientName: 'Rahul Sharma',
       assessmentYear: '2025-26',

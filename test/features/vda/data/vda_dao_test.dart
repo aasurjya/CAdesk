@@ -129,7 +129,7 @@ void main() {
 
     group('getByClient', () {
       test('returns records for specified client', () async {
-        final clientId = 'vda-client-unique';
+        const clientId = 'vda-client-unique';
         final r1 = createRecord(clientId: clientId);
         final r2 = createRecord(clientId: clientId);
         await database.vdaDao.insertRecord(VdaRecordMapper.toCompanion(r1));
@@ -144,8 +144,8 @@ void main() {
       });
 
       test('filters by client correctly', () async {
-        final cA = 'vda-filter-a';
-        final cB = 'vda-filter-b';
+        const cA = 'vda-filter-a';
+        const cB = 'vda-filter-b';
         await database.vdaDao.insertRecord(
           VdaRecordMapper.toCompanion(createRecord(clientId: cA)),
         );
@@ -173,8 +173,8 @@ void main() {
 
     group('getTotalGainLoss', () {
       test('computes correct total gain/loss', () async {
-        final clientId = 'vda-gain-client';
-        final ay = '2024-25';
+        const clientId = 'vda-gain-client';
+        const ay = '2024-25';
         final r1 = createRecord(
           clientId: clientId,
           assessmentYear: ay,
@@ -202,8 +202,8 @@ void main() {
 
     group('getTdsDeducted', () {
       test('computes correct total TDS deducted', () async {
-        final clientId = 'vda-tds-client';
-        final ay = '2024-25';
+        const clientId = 'vda-tds-client';
+        const ay = '2024-25';
         final r1 = createRecord(
           clientId: clientId,
           assessmentYear: ay,

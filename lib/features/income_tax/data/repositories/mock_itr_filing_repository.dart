@@ -39,7 +39,7 @@ class MockItrFilingRepository implements ItrFilingRepository {
       filedDate: DateTime(2025, 7, 20),
       acknowledgementNumber: 'ACK2025072000002',
     ),
-    ItrClient(
+    const ItrClient(
       id: 'mock-itr-003',
       name: 'Amit Patel',
       pan: 'CFGPP9012M',
@@ -69,7 +69,7 @@ class MockItrFilingRepository implements ItrFilingRepository {
       filedDate: DateTime(2025, 6, 28),
       acknowledgementNumber: 'ACK2025062800004',
     ),
-    ItrClient(
+    const ItrClient(
       id: 'mock-itr-005',
       name: 'Vikram Singh Rathore',
       pan: 'EKRPV7890P',

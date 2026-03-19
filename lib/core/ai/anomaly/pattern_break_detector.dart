@@ -127,8 +127,9 @@ class PatternBreakDetector {
     final mean = stats.$1;
     final std = stats.$2;
 
-    if (std == 0)
+    if (std == 0) {
       return const []; // All values identical — no deviation possible.
+    }
 
     final breaks = <PatternBreak>[];
 

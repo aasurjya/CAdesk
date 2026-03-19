@@ -158,7 +158,7 @@ class _HeroHeader extends StatelessWidget {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -509,7 +509,11 @@ class _LeaveSection extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.beach_access_rounded, color: AppColors.accent, size: 24),
+            const Icon(
+              Icons.beach_access_rounded,
+              color: AppColors.accent,
+              size: 24,
+            ),
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

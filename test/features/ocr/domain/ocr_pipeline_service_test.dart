@@ -243,7 +243,7 @@ GST Amount: 1800.00
         pageCount: 1,
         processingStatus: ProcessingStatus.completed,
       );
-      final form16 = ExtractedForm16(
+      const form16 = ExtractedForm16(
         employeePan: 'ABCDE1234F',
         employerTan: 'AAATA1234X',
         employerName: 'ABC Corp',
@@ -270,7 +270,7 @@ GST Amount: 1800.00
         pageCount: 1,
         processingStatus: ProcessingStatus.completed,
       );
-      final form16 = ExtractedForm16(
+      const form16 = ExtractedForm16(
         employeePan: '',
         employerTan: 'AAATA1234X',
         employerName: 'ABC Corp',
@@ -285,7 +285,7 @@ GST Amount: 1800.00
       );
       final fullConfidence = service.computeConfidence(
         doc,
-        ExtractedForm16(
+        const ExtractedForm16(
           employeePan: 'ABCDE1234F',
           employerTan: 'AAATA1234X',
           employerName: 'ABC Corp',
@@ -313,7 +313,7 @@ GST Amount: 1800.00
         pageCount: 1,
         processingStatus: ProcessingStatus.failed,
       );
-      final form16 = ExtractedForm16(
+      const form16 = ExtractedForm16(
         employeePan: '',
         employerTan: '',
         employerName: '',

@@ -441,7 +441,7 @@ class _AiReconDemoCardState extends ConsumerState<AiReconDemoCard> {
                   color: AppColors.secondary.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.account_balance_rounded,
                   size: 20,
                   color: AppColors.secondary,
@@ -617,12 +617,12 @@ class _ReconStatRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: TextStyle(fontSize: 12, color: AppColors.neutral600),
+            style: const TextStyle(fontSize: 12, color: AppColors.neutral600),
           ),
         ),
         Text(
           '$value  ($pct%)',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: AppColors.neutral900,
@@ -741,7 +741,7 @@ class _AiAnomalyDemoCardState extends ConsumerState<AiAnomalyDemoCard> {
                   color: AppColors.accent.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.warning_amber_rounded,
                   size: 20,
                   color: AppColors.accent,

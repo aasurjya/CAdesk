@@ -241,7 +241,7 @@ class _HealthHeader extends StatelessWidget {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -426,7 +426,7 @@ class _ComplianceGrid extends StatelessWidget {
                             const SizedBox(height: 2),
                             Text(
                               item.dueDate,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 9,
                                 color: AppColors.neutral400,
                               ),
@@ -644,7 +644,7 @@ class _PendingDocsSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.pending_actions_rounded,
                   color: AppColors.warning,
                   size: 20,
@@ -665,7 +665,7 @@ class _PendingDocsSection extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 6),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.insert_drive_file_outlined,
                       size: 16,
                       color: AppColors.neutral400,
@@ -732,7 +732,7 @@ class _PaymentHistorySection extends StatelessWidget {
               (p) => ListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                leading: Icon(
+                leading: const Icon(
                   Icons.check_circle_outline,
                   color: AppColors.success,
                   size: 20,

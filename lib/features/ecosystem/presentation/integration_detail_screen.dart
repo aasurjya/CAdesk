@@ -165,7 +165,7 @@ class IntegrationDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Endpoint config
-          _SectionHeader(
+          const _SectionHeader(
             title: 'API Configuration',
             icon: Icons.settings_ethernet_rounded,
           ),
@@ -174,7 +174,7 @@ class IntegrationDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Auth settings
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Authentication',
             icon: Icons.lock_outline_rounded,
           ),
@@ -183,7 +183,10 @@ class IntegrationDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Sync frequency
-          _SectionHeader(title: 'Sync Settings', icon: Icons.sync_rounded),
+          const _SectionHeader(
+            title: 'Sync Settings',
+            icon: Icons.sync_rounded,
+          ),
           const SizedBox(height: 10),
           _SyncCard(frequency: detail.syncFrequency),
           const SizedBox(height: 16),
@@ -446,7 +449,7 @@ class _MappingTile extends StatelessWidget {
                 if (mapping.transform != null)
                   Text(
                     mapping.transform!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 9,
                       color: AppColors.secondary,
                       fontStyle: FontStyle.italic,

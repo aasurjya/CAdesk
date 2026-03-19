@@ -252,7 +252,11 @@ class _EmptyState extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 32),
       child: Column(
         children: [
-          Icon(Icons.search_off_rounded, size: 48, color: AppColors.neutral300),
+          const Icon(
+            Icons.search_off_rounded,
+            size: 48,
+            color: AppColors.neutral300,
+          ),
           const SizedBox(height: 12),
           Text(
             'Enter a GSTIN above to search',

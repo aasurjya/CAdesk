@@ -13,14 +13,14 @@ void main() {
 
     group('buildQuery — return type and structure', () {
       test('returns a RagQuery instance', () {
-        final context = FilingContext(assessmentYear: '2024-25');
+        const context = FilingContext(assessmentYear: '2024-25');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query, isA<RagQuery>());
       });
 
       test('RagQuery has enrichedPrompt, filterTags, and metadata', () {
-        final context = FilingContext(assessmentYear: '2024-25');
+        const context = FilingContext(assessmentYear: '2024-25');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.enrichedPrompt, isNotEmpty);
@@ -31,14 +31,14 @@ void main() {
 
     group('buildQuery — assessment year in prompt', () {
       test('enrichedPrompt contains the assessment year', () {
-        final context = FilingContext(assessmentYear: '2024-25');
+        const context = FilingContext(assessmentYear: '2024-25');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.enrichedPrompt, contains('2024-25'));
       });
 
       test('metadata contains ay key matching assessment year', () {
-        final context = FilingContext(assessmentYear: '2024-25');
+        const context = FilingContext(assessmentYear: '2024-25');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.metadata['ay'], equals('2024-25'));
@@ -47,7 +47,7 @@ void main() {
 
     group('buildQuery — income sources', () {
       test('enrichedPrompt includes income source labels', () {
-        final context = FilingContext(
+        const context = FilingContext(
           assessmentYear: '2024-25',
           incomeSources: ['salary', 'house_property'],
         );
@@ -58,7 +58,7 @@ void main() {
       });
 
       test('filterTags includes income sources', () {
-        final context = FilingContext(
+        const context = FilingContext(
           incomeSources: ['salary', 'capital_gains'],
         );
         final query = taxLawContext.buildQuery(question, context);
@@ -68,7 +68,7 @@ void main() {
       });
 
       test('metadata income_sources key contains comma-separated sources', () {
-        final context = FilingContext(
+        const context = FilingContext(
           incomeSources: ['salary', 'house_property'],
         );
         final query = taxLawContext.buildQuery(question, context);
@@ -80,14 +80,14 @@ void main() {
 
     group('buildQuery — active module', () {
       test('filterTags includes active module', () {
-        final context = FilingContext(activeModule: 'itr1');
+        const context = FilingContext(activeModule: 'itr1');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.filterTags, contains('itr1'));
       });
 
       test('ITR module adds income_tax_act and income_tax_rules tags', () {
-        final context = FilingContext(activeModule: 'itr1');
+        const context = FilingContext(activeModule: 'itr1');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.filterTags, contains('income_tax_act'));
@@ -95,7 +95,7 @@ void main() {
       });
 
       test('GSTR module adds cgst_act and igst_act tags', () {
-        final context = FilingContext(activeModule: 'gstr1');
+        const context = FilingContext(activeModule: 'gstr1');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.filterTags, contains('cgst_act'));
@@ -103,14 +103,14 @@ void main() {
       });
 
       test('enrichedPrompt includes form label for itr1', () {
-        final context = FilingContext(activeModule: 'itr1');
+        const context = FilingContext(activeModule: 'itr1');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.enrichedPrompt, contains('ITR-1'));
       });
 
       test('metadata module key matches active module', () {
-        final context = FilingContext(activeModule: 'itr2');
+        const context = FilingContext(activeModule: 'itr2');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.metadata['module'], equals('itr2'));
@@ -119,28 +119,28 @@ void main() {
 
     group('buildQuery — tax regime', () {
       test('filterTags includes regime_new for new regime', () {
-        final context = FilingContext(taxRegime: 'new');
+        const context = FilingContext(taxRegime: 'new');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.filterTags, contains('regime_new'));
       });
 
       test('filterTags includes regime_old for old regime', () {
-        final context = FilingContext(taxRegime: 'old');
+        const context = FilingContext(taxRegime: 'old');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.filterTags, contains('regime_old'));
       });
 
       test('enrichedPrompt contains New Regime label for new regime', () {
-        final context = FilingContext(taxRegime: 'new');
+        const context = FilingContext(taxRegime: 'new');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.enrichedPrompt, contains('New Regime'));
       });
 
       test('metadata regime key is set correctly', () {
-        final context = FilingContext(taxRegime: 'old');
+        const context = FilingContext(taxRegime: 'old');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.metadata['regime'], equals('old'));
@@ -176,7 +176,7 @@ void main() {
 
     group('buildQuery — PAN masking', () {
       test('enrichedPrompt masks PAN (does not expose full PAN)', () {
-        final context = FilingContext(clientPan: 'ABCDE1234F');
+        const context = FilingContext(clientPan: 'ABCDE1234F');
         final query = taxLawContext.buildQuery(question, context);
 
         // Full PAN should not appear; masked version should.
@@ -189,7 +189,7 @@ void main() {
       test(
         'enrichedPrompt includes [Context] header when context is present',
         () {
-          final context = FilingContext(assessmentYear: '2024-25');
+          const context = FilingContext(assessmentYear: '2024-25');
           final query = taxLawContext.buildQuery(question, context);
 
           expect(query.enrichedPrompt, contains('[Context]'));
@@ -199,7 +199,7 @@ void main() {
       test(
         'enrichedPrompt includes [Question] header when context is present',
         () {
-          final context = FilingContext(assessmentYear: '2024-25');
+          const context = FilingContext(assessmentYear: '2024-25');
           final query = taxLawContext.buildQuery(question, context);
 
           expect(query.enrichedPrompt, contains('[Question]'));
@@ -207,7 +207,7 @@ void main() {
       );
 
       test('original question text is included in enrichedPrompt', () {
-        final context = FilingContext(assessmentYear: '2024-25');
+        const context = FilingContext(assessmentYear: '2024-25');
         final query = taxLawContext.buildQuery(question, context);
 
         expect(query.enrichedPrompt, contains(question));

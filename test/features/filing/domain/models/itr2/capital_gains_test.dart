@@ -4,7 +4,7 @@ import 'package:ca_app/features/filing/domain/models/itr2/capital_gains.dart';
 void main() {
   group('CapitalGainEntry', () {
     test('gain = salePrice - purchasePrice - expenses', () {
-      final entry = CapitalGainEntry(
+      const entry = CapitalGainEntry(
         description: 'Equity shares',
         salePrice: 500000,
         purchasePrice: 300000,
@@ -16,7 +16,7 @@ void main() {
     });
 
     test('gain can be negative (loss)', () {
-      final loss = CapitalGainEntry(
+      const loss = CapitalGainEntry(
         description: 'MF units',
         salePrice: 80000,
         purchasePrice: 100000,
@@ -29,7 +29,7 @@ void main() {
   });
 
   group('CapitalGainsSummary', () {
-    final stcgEntry = CapitalGainEntry(
+    const stcgEntry = CapitalGainEntry(
       description: 'Stock A',
       salePrice: 200000,
       purchasePrice: 150000,
@@ -37,7 +37,7 @@ void main() {
       gainType: CapitalGainType.stcg111A,
       holdingPeriodMonths: 3,
     );
-    final ltcgEntry = CapitalGainEntry(
+    const ltcgEntry = CapitalGainEntry(
       description: 'Property',
       salePrice: 1000000,
       purchasePrice: 600000,
@@ -45,7 +45,7 @@ void main() {
       gainType: CapitalGainType.ltcg112,
       holdingPeriodMonths: 36,
     );
-    final summary = CapitalGainsSummary(entries: [stcgEntry, ltcgEntry]);
+    const summary = CapitalGainsSummary(entries: [stcgEntry, ltcgEntry]);
 
     test('totalSTCG sums short-term gains', () {
       expect(summary.totalSTCG, 48000.0); // 200000 - 150000 - 2000
@@ -61,7 +61,7 @@ void main() {
   });
 
   group('CapitalGainEntry equality', () {
-    final a = CapitalGainEntry(
+    const a = CapitalGainEntry(
       description: 'X',
       salePrice: 100,
       purchasePrice: 50,
@@ -69,7 +69,7 @@ void main() {
       gainType: CapitalGainType.stcgOther,
       holdingPeriodMonths: 1,
     );
-    final b = CapitalGainEntry(
+    const b = CapitalGainEntry(
       description: 'X',
       salePrice: 100,
       purchasePrice: 50,

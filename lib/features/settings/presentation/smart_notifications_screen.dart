@@ -172,7 +172,7 @@ class _SmartNotificationsScreenState
         padding: const EdgeInsets.all(16),
         children: [
           // Channel settings
-          SectionHeader(title: 'Channels', icon: Icons.tune_rounded),
+          const SectionHeader(title: 'Channels', icon: Icons.tune_rounded),
           const SizedBox(height: 10),
           Card(
             child: Padding(
@@ -203,7 +203,7 @@ class _SmartNotificationsScreenState
           const SizedBox(height: 24),
 
           // Notification rules
-          SectionHeader(title: 'Rules', icon: Icons.rule_rounded),
+          const SectionHeader(title: 'Rules', icon: Icons.rule_rounded),
           const SizedBox(height: 10),
           ...rules.asMap().entries.map(
             (entry) => Padding(
@@ -225,7 +225,7 @@ class _SmartNotificationsScreenState
           const SizedBox(height: 24),
 
           // Notification history
-          SectionHeader(title: 'History', icon: Icons.history_rounded),
+          const SectionHeader(title: 'History', icon: Icons.history_rounded),
           const SizedBox(height: 10),
           ..._mockHistory.map(
             (h) => Padding(

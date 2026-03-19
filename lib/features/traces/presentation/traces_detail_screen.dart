@@ -162,7 +162,7 @@ class TracesDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final t = _mockTraces;
+    const t = _mockTraces;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -185,7 +185,7 @@ class TracesDetailScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // PAN holder info
-          _PanInfoCard(traces: t),
+          const _PanInfoCard(traces: t),
           const SizedBox(height: 12),
 
           // Form 26AS summary
@@ -242,8 +242,9 @@ class TracesDetailScreen extends ConsumerWidget {
   }
 
   static String _fmt(double amount) {
-    if (amount >= 100000)
+    if (amount >= 100000) {
       return '\u20B9${(amount / 100000).toStringAsFixed(1)}L';
+    }
     if (amount >= 1000) return '\u20B9${(amount / 1000).toStringAsFixed(1)}K';
     return '\u20B9${amount.toStringAsFixed(0)}';
   }
@@ -334,7 +335,7 @@ class _TdsEntryCard extends StatelessWidget {
                   ),
                 ),
                 if (entry.hasMismatch)
-                  StatusBadge(label: 'Mismatch', color: AppColors.error),
+                  const StatusBadge(label: 'Mismatch', color: AppColors.error),
               ],
             ),
             const SizedBox(height: 6),
@@ -439,7 +440,7 @@ class _DownloadRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.description_outlined,
               size: 20,
               color: AppColors.primary,

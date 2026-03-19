@@ -80,7 +80,7 @@ class EProceedingTile extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(Icons.tag, size: 12, color: AppColors.neutral400),
+                  const Icon(Icons.tag, size: 12, color: AppColors.neutral400),
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(
@@ -98,7 +98,7 @@ class EProceedingTile extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today,
                     size: 12,
                     color: AppColors.neutral400,
@@ -224,7 +224,7 @@ class _TypeBadge extends StatelessWidget {
       ),
       child: Text(
         type.label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w600,
           color: AppColors.primary,

@@ -197,7 +197,7 @@ class InstallmentCard extends StatelessWidget {
               Row(
                 children: [
                   if (interestAmount > 0) ...[
-                    Icon(
+                    const Icon(
                       Icons.info_outline_rounded,
                       size: 14,
                       color: AppColors.warning,

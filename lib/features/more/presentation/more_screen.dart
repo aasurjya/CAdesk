@@ -461,10 +461,10 @@ class _ProfileCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 28,
                 backgroundColor: AppColors.primary,
-                child: const Text(
+                child: Text(
                   'CA',
                   style: TextStyle(
                     color: Colors.white,

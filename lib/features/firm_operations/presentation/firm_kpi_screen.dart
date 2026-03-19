@@ -105,7 +105,10 @@ class FirmKpiScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Revenue section
-          _SectionHeader(title: 'Revenue', icon: Icons.trending_up_rounded),
+          const _SectionHeader(
+            title: 'Revenue',
+            icon: Icons.trending_up_rounded,
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -140,7 +143,7 @@ class FirmKpiScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Operational metrics
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Operational Metrics',
             icon: Icons.speed_rounded,
           ),
@@ -169,7 +172,10 @@ class FirmKpiScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Client metrics
-          _SectionHeader(title: 'Client Portfolio', icon: Icons.people_rounded),
+          const _SectionHeader(
+            title: 'Client Portfolio',
+            icon: Icons.people_rounded,
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -198,7 +204,7 @@ class FirmKpiScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Health indicators
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Health Indicators',
             icon: Icons.health_and_safety_rounded,
           ),
@@ -288,7 +294,7 @@ class _KpiCard extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: AppColors.neutral200),
+          side: const BorderSide(color: AppColors.neutral200),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -432,7 +438,7 @@ class _RevenueTrendCard extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 m.month,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 10,
                                   color: AppColors.neutral400,
                                 ),
@@ -476,7 +482,7 @@ class _GaugeCard extends StatelessWidget {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: AppColors.neutral200),
+          side: const BorderSide(color: AppColors.neutral200),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -547,7 +553,7 @@ class _HealthCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(14),

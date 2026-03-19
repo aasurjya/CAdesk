@@ -193,7 +193,7 @@ class TrustScoreScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Score components
-          SectionHeader(
+          const SectionHeader(
             title: 'Score Components',
             icon: Icons.pie_chart_rounded,
           ),
@@ -207,7 +207,7 @@ class TrustScoreScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Improvement actions
-          SectionHeader(
+          const SectionHeader(
             title: 'Improvement Actions',
             icon: Icons.trending_up_rounded,
           ),

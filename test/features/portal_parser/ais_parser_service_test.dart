@@ -53,7 +53,7 @@ const _validPayload = <String, Object?>{
 
 void main() {
   group('AisParserService', () {
-    final service = AisParserService.instance;
+    const service = AisParserService.instance;
 
     // ── instance ─────────────────────────────────────────────────────────────
 

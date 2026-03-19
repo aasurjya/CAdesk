@@ -194,7 +194,7 @@ class _EntityInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -302,7 +302,7 @@ class _TaxBenefitsCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -403,7 +403,7 @@ class _InvestorRoundsCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -544,7 +544,7 @@ class _ComplianceCalendarCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

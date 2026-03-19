@@ -302,7 +302,7 @@ final List<AssessmentOrder> _mockOrders = [
 // ---------------------------------------------------------------------------
 
 final List<InterestCalculation> _mockInterest = [
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-001',
     orderId: 'ao-001',
     clientId: 'acc-001',
@@ -316,7 +316,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: -14000,
     isCorrect: false,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-002',
     orderId: 'ao-001',
     clientId: 'acc-001',
@@ -330,7 +330,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-003',
     orderId: 'ao-003',
     clientId: 'acc-009',
@@ -344,7 +344,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: -32000,
     isCorrect: false,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-004',
     orderId: 'ao-003',
     clientId: 'acc-009',
@@ -358,7 +358,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-005',
     orderId: 'ao-005',
     clientId: 'acc-005',
@@ -372,7 +372,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: -6200,
     isCorrect: false,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-006',
     orderId: 'ao-005',
     clientId: 'acc-005',
@@ -386,7 +386,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-007',
     orderId: 'ao-006',
     clientId: 'acc-004',
@@ -400,7 +400,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-008',
     orderId: 'ao-007',
     clientId: 'acc-007',
@@ -414,7 +414,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: -72000,
     isCorrect: false,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-009',
     orderId: 'ao-007',
     clientId: 'acc-007',
@@ -428,7 +428,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-010',
     orderId: 'ao-002',
     clientId: 'acc-006',
@@ -442,7 +442,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-011',
     orderId: 'ao-004',
     clientId: 'acc-002',
@@ -456,7 +456,7 @@ final List<InterestCalculation> _mockInterest = [
     variance: 0,
     isCorrect: true,
   ),
-  InterestCalculation(
+  const InterestCalculation(
     id: 'int-012',
     orderId: 'ao-003',
     clientId: 'acc-009',

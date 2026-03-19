@@ -299,16 +299,16 @@ class _LiveDemoSheetState extends ConsumerState<_LiveDemoSheet> {
           const Divider(height: 1),
 
           // ── Three panels ─────────────────────────────────────────────────
-          Flexible(
+          const Flexible(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 32),
               child: Column(
                 children: [
                   _OcrPanel(fields: _ocrFields),
-                  const SizedBox(height: 12),
-                  const _ReconPanel(),
-                  const SizedBox(height: 12),
-                  const _AnomalyPanel(),
+                  SizedBox(height: 12),
+                  _ReconPanel(),
+                  SizedBox(height: 12),
+                  _AnomalyPanel(),
                 ],
               ),
             ),
@@ -696,7 +696,7 @@ class _OcrStep extends StatelessWidget {
                       color: AppColors.primary,
                     ),
                   )
-                : Icon(
+                : const Icon(
                     Icons.radio_button_unchecked_rounded,
                     size: 18,
                     color: AppColors.neutral300,
@@ -850,7 +850,7 @@ class _ReconRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: TextStyle(fontSize: 12, color: AppColors.neutral600),
+            style: const TextStyle(fontSize: 12, color: AppColors.neutral600),
           ),
         ),
         Text(

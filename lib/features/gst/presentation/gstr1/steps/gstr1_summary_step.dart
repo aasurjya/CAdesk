@@ -90,7 +90,7 @@ class Gstr1SummaryStep extends ConsumerWidget {
         const SizedBox(height: 8),
 
         // EVC / DSC indicator
-        Center(
+        const Center(
           child: Text(
             'Verification: EVC / DSC',
             style: TextStyle(

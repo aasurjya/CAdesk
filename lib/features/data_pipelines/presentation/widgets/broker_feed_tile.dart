@@ -73,7 +73,7 @@ class BrokerFeedTile extends StatelessWidget {
                     color: AppColors.neutral600,
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.access_time_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -94,7 +94,7 @@ class BrokerFeedTile extends StatelessWidget {
                 Row(
                   children: [
                     if (feed.pan != null) ...[
-                      Icon(
+                      const Icon(
                         Icons.badge_rounded,
                         size: 12,
                         color: AppColors.neutral400,
@@ -112,7 +112,7 @@ class BrokerFeedTile extends StatelessWidget {
                     if (feed.pan != null && feed.accountId != null)
                       const SizedBox(width: 12),
                     if (feed.accountId != null) ...[
-                      Icon(
+                      const Icon(
                         Icons.tag_rounded,
                         size: 12,
                         color: AppColors.neutral400,

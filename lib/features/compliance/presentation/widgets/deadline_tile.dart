@@ -80,7 +80,7 @@ class DeadlineTile extends StatelessWidget {
                     const SizedBox(height: 3),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.calendar_today_rounded,
                           size: 12,
                           color: AppColors.neutral400,

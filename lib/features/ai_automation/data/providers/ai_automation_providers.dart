@@ -559,7 +559,7 @@ final _mockAnomalyAlerts = <AnomalyAlert>[
 ];
 
 final _mockAutomationInsights = <AutomationInsight>[
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-001',
     title: 'AI Notice Analyzer',
     clientName: 'Mehta & Sons',
@@ -570,10 +570,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '2 days',
     actionLabel: 'Review draft',
     icon: Icons.gavel_rounded,
-    color: const Color(0xFFC62828),
+    color: Color(0xFFC62828),
     status: AutomationInsightStatus.attentionNeeded,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-002',
     title: 'Agentic OTP Manager',
     clientName: '14 consented clients',
@@ -584,10 +584,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '14 OTPs',
     actionLabel: 'Open queue',
     icon: Icons.password_rounded,
-    color: const Color(0xFF1565C0),
+    color: Color(0xFF1565C0),
     status: AutomationInsightStatus.onTrack,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-003',
     title: 'Missing Data Identifier',
     clientName: 'Rajesh Kumar Sharma',
@@ -598,10 +598,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '2 files',
     actionLabel: 'Send reminder',
     icon: Icons.find_in_page_rounded,
-    color: const Color(0xFFEF6C00),
+    color: Color(0xFFEF6C00),
     status: AutomationInsightStatus.attentionNeeded,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-004',
     title: 'AI Workload Balancer',
     clientName: 'Tax season queue',
@@ -612,10 +612,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '8 today',
     actionLabel: 'View workload',
     icon: Icons.hub_rounded,
-    color: const Color(0xFF1A7A3A),
+    color: Color(0xFF1A7A3A),
     status: AutomationInsightStatus.onTrack,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-005',
     title: 'Smart Dependency Trigger',
     clientName: 'Bharat Electronics Ltd',
@@ -626,10 +626,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '5 created',
     actionLabel: 'Inspect chain',
     icon: Icons.account_tree_rounded,
-    color: const Color(0xFF6A1B9A),
+    color: Color(0xFF6A1B9A),
     status: AutomationInsightStatus.onTrack,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-006',
     title: 'Tax Advisory Opportunity Engine',
     clientName: '6 clients flagged this week',
@@ -640,10 +640,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '₹2.7L',
     actionLabel: 'Open pipeline',
     icon: Icons.trending_up_rounded,
-    color: const Color(0xFF00897B),
+    color: Color(0xFF00897B),
     status: AutomationInsightStatus.onTrack,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-007',
     title: 'NRI Tax Desk Trigger',
     clientName: 'Priya Mehta',
@@ -654,10 +654,10 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '4 days',
     actionLabel: 'Request docs',
     icon: Icons.public_rounded,
-    color: const Color(0xFF3949AB),
+    color: Color(0xFF3949AB),
     status: AutomationInsightStatus.attentionNeeded,
   ),
-  AutomationInsight(
+  const AutomationInsight(
     id: 'automation-008',
     title: 'SME CFO Retainer Upsell',
     clientName: 'Vikram Singh Rathore',
@@ -668,7 +668,7 @@ final _mockAutomationInsights = <AutomationInsight>[
     metricValue: '₹96K',
     actionLabel: 'Send proposal',
     icon: Icons.business_center_rounded,
-    color: const Color(0xFFEF6C00),
+    color: Color(0xFFEF6C00),
     status: AutomationInsightStatus.attentionNeeded,
   ),
 ];

@@ -76,7 +76,7 @@ class ItrUTile extends StatelessWidget {
                 ),
                 child: Text(
                   'Reason: ${filing.updateReason.label}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                     color: AppColors.secondary,
@@ -88,7 +88,7 @@ class ItrUTile extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today,
                     size: 12,
                     color: AppColors.neutral400,
@@ -102,7 +102,11 @@ class ItrUTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(Icons.timer, size: 12, color: AppColors.neutral400),
+                  const Icon(
+                    Icons.timer,
+                    size: 12,
+                    color: AppColors.neutral400,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     'Due: ${_dateFormat.format(filing.filingDeadline)}',
@@ -155,7 +159,7 @@ class _PenaltyBreakdown extends StatelessWidget {
             color: AppColors.primary,
           ),
           const SizedBox(width: 4),
-          Text('+', style: TextStyle(color: AppColors.neutral400)),
+          const Text('+', style: TextStyle(color: AppColors.neutral400)),
           const SizedBox(width: 4),
           _AmountColumn(
             label: 'Penalty (${filing.penaltyPercentage}%)',
@@ -163,7 +167,7 @@ class _PenaltyBreakdown extends StatelessWidget {
             color: AppColors.warning,
           ),
           const SizedBox(width: 4),
-          Text('=', style: TextStyle(color: AppColors.neutral400)),
+          const Text('=', style: TextStyle(color: AppColors.neutral400)),
           const SizedBox(width: 4),
           _AmountColumn(
             label: 'Total Payable',

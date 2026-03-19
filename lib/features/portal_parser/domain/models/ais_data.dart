@@ -57,10 +57,12 @@ enum AisIncomeCategory {
     }
     if (lower.contains('interest')) return AisIncomeCategory.interestOther;
     if (lower.contains('dividend')) return AisIncomeCategory.dividend;
-    if (lower.contains('securit'))
+    if (lower.contains('securit')) {
       return AisIncomeCategory.securitiesTransaction;
-    if (lower.contains('property'))
+    }
+    if (lower.contains('property')) {
       return AisIncomeCategory.propertyTransaction;
+    }
     if (lower.contains('foreign') || lower.contains('remittance')) {
       return AisIncomeCategory.foreignRemittance;
     }

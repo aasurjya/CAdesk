@@ -193,7 +193,7 @@ class EsgReportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final r = _mockReport;
+    const r = _mockReport;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -216,7 +216,7 @@ class EsgReportScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Header
-          _ReportHeader(report: r),
+          const _ReportHeader(report: r),
           const SizedBox(height: 12),
 
           // Score cards

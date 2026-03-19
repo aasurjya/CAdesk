@@ -113,7 +113,7 @@ void main() {
     });
 
     test('upsertSummary stores and retrieves summary', () async {
-      final summary = VdaSummary(
+      const summary = VdaSummary(
         clientId: 'mock-client-new',
         clientName: 'New Client',
         assessmentYear: '2025-26',
@@ -137,7 +137,7 @@ void main() {
     });
 
     test('upsertSummary replaces existing summary', () async {
-      final original = VdaSummary(
+      const original = VdaSummary(
         clientId: 'mock-client-upd',
         clientName: 'Update Client',
         assessmentYear: '2025-26',

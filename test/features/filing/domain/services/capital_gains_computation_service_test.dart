@@ -8,20 +8,20 @@ void main() {
   group('CapitalGainsComputationService', () {
     group('computeStcg111ATax (Section 111A — 20%)', () {
       test('→ 20% on net STCG after set-off for listed equity', () {
-        final entry = EquityStcgEntry(
+        const entry = EquityStcgEntry(
           description: 'Nifty ETF',
           salePrice: 500000,
           costOfAcquisition: 300000,
           transferExpenses: 2000,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [entry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -48,20 +48,20 @@ void main() {
       });
 
       test('→ zero tax when net STCG is negative (loss)', () {
-        final entry = EquityStcgEntry(
+        const entry = EquityStcgEntry(
           description: 'Loss trade',
           salePrice: 100000,
           costOfAcquisition: 150000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [entry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -156,13 +156,13 @@ void main() {
 
     group('computeTotalCapitalGainsTax', () {
       test('→ aggregates all CG tax components', () {
-        final stcgEntry = EquityStcgEntry(
+        const stcgEntry = EquityStcgEntry(
           description: 'STCG stock',
           salePrice: 300000,
           costOfAcquisition: 200000,
           transferExpenses: 0,
         );
-        final cg112aEntry = const Schedule112aEntry(
+        const cg112aEntry = Schedule112aEntry(
           isin: 'ISIN001',
           assetName: 'Index Fund',
           unitsOrShares: 500,
@@ -172,18 +172,18 @@ void main() {
           saleDate: '2025-01-01',
           acquisitionDate: '2015-01-01',
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [stcgEntry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
-        final schedule112a = Schedule112a(entries: [cg112aEntry]);
+        const schedule112a = Schedule112a(entries: [cg112aEntry]);
 
         final result =
             CapitalGainsComputationService.computeTotalCapitalGainsTax(
@@ -230,13 +230,13 @@ void main() {
           indexedCostOfAcquisition: 190000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
           otherLtcgEntries: [entry],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
@@ -261,13 +261,13 @@ void main() {
           indexedCostOfAcquisition: 100000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
           otherLtcgEntries: [entry],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
@@ -288,13 +288,13 @@ void main() {
         indexedCostOfAcquisition: 250000,
         transferExpenses: 0,
       );
-      final schedule = ScheduleCg(
-        equityStcgEntries: const [],
-        equityLtcgEntries: const [],
-        debtStcgEntries: const [],
-        debtLtcgEntries: const [],
-        propertyLtcgEntries: const [],
-        otherStcgEntries: const [],
+      const schedule = ScheduleCg(
+        equityStcgEntries: [],
+        equityLtcgEntries: [],
+        debtStcgEntries: [],
+        debtLtcgEntries: [],
+        propertyLtcgEntries: [],
+        otherStcgEntries: [],
         otherLtcgEntries: [entry],
         broughtForwardStcl: 0,
         broughtForwardLtcl: 0,
@@ -324,13 +324,13 @@ void main() {
           indexedCostOfAcquisition: 150000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
           otherLtcgEntries: [e1, e2],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
@@ -418,7 +418,7 @@ void main() {
     'computeTotalCapitalGainsTax — full aggregation with all components',
     () {
       test('→ includes property LTCG and other LTCG in total', () {
-        final stcgEntry = EquityStcgEntry(
+        const stcgEntry = EquityStcgEntry(
           description: 'Equity STCG',
           salePrice: 300000,
           costOfAcquisition: 200000,

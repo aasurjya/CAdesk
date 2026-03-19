@@ -108,7 +108,7 @@ class Gstr3bBuilderService {
       }
     }
 
-    final zero = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zero = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
 
     return Gstr3bTaxLiability(
       outwardTaxable: Gstr3bTaxRow(
@@ -166,7 +166,7 @@ class Gstr3bBuilderService {
       }
     }
 
-    final zero = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zero = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
     final rcmRow = ItcRow(
       igst: rcmIgst,
       cgst: rcmCgst,

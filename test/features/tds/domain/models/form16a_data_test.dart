@@ -8,7 +8,7 @@ void main() {
   // Shared test fixtures
   // ---------------------------------------------------------------------------
 
-  final testAddress = TdsAddress(
+  const testAddress = TdsAddress(
     line1: '456 Park Street',
     city: 'Delhi',
     state: 'Delhi',

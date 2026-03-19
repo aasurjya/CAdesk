@@ -285,7 +285,7 @@ class _HearingInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -350,7 +350,7 @@ class _DocumentsSection extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -445,7 +445,7 @@ class _NotesSection extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -562,7 +562,7 @@ class _AdjournmentCard extends StatelessWidget {
                 onPressed: onRequest,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppColors.warning,
-                  side: BorderSide(color: AppColors.warning),
+                  side: const BorderSide(color: AppColors.warning),
                 ),
                 child: const Text('Request Adjournment'),
               ),

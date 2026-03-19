@@ -207,7 +207,7 @@ final msmePaymentsByClientProvider =
 
 final _mockMsmePayments = <MsmeSupplierPayment>[
   // Client c1 — Arjun Enterprises
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp1',
     clientId: 'c1',
     clientName: 'Arjun Enterprises Pvt Ltd',
@@ -221,7 +221,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp2',
     clientId: 'c1',
     clientName: 'Arjun Enterprises Pvt Ltd',
@@ -235,7 +235,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp3',
     clientId: 'c1',
     clientName: 'Arjun Enterprises Pvt Ltd',
@@ -251,7 +251,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     financialYear: '2025-26',
   ),
   // Client c2 — Sunrise Industries
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp4',
     clientId: 'c2',
     clientName: 'Sunrise Industries Ltd',
@@ -265,7 +265,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp5',
     clientId: 'c2',
     clientName: 'Sunrise Industries Ltd',
@@ -279,7 +279,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp6',
     clientId: 'c2',
     clientName: 'Sunrise Industries Ltd',
@@ -295,7 +295,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     financialYear: '2025-26',
   ),
   // Client c3 — Deccan Traders
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp7',
     clientId: 'c3',
     clientName: 'Deccan Traders Co',
@@ -309,7 +309,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp8',
     clientId: 'c3',
     clientName: 'Deccan Traders Co',
@@ -325,7 +325,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     financialYear: '2025-26',
   ),
   // Client c4 — Northern Metals
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp9',
     clientId: 'c4',
     clientName: 'Northern Metals Pvt Ltd',
@@ -339,7 +339,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp10',
     clientId: 'c4',
     clientName: 'Northern Metals Pvt Ltd',
@@ -354,7 +354,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     financialYear: '2025-26',
   ),
   // Client c5 — Sagar Tech (overdue + paid)
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp11',
     clientId: 'c5',
     clientName: 'Sagar Technologies',
@@ -368,7 +368,7 @@ final _mockMsmePayments = <MsmeSupplierPayment>[
     isPaid: false,
     financialYear: '2025-26',
   ),
-  MsmeSupplierPayment(
+  const MsmeSupplierPayment(
     id: 'sp12',
     clientId: 'c5',
     clientName: 'Sagar Technologies',

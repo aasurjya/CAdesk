@@ -23,7 +23,7 @@ class DocumentJobCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       color: cs.surface,
       child: InkWell(

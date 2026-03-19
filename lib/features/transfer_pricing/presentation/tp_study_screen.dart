@@ -177,7 +177,7 @@ class _StudyOverviewCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -387,7 +387,7 @@ class _RelatedPartyList extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

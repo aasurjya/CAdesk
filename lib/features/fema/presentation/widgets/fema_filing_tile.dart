@@ -98,7 +98,7 @@ class FemaFilingTile extends StatelessWidget {
               // Bottom row: dates and AD bank
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -115,7 +115,7 @@ class FemaFilingTile extends StatelessWidget {
                   ),
                   const Spacer(),
                   if (filing.adBankName != null) ...[
-                    Icon(
+                    const Icon(
                       Icons.account_balance_rounded,
                       size: 12,
                       color: AppColors.neutral400,

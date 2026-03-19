@@ -99,7 +99,7 @@ void main() {
         // 3-year life, SLM rate = 36500000/3 = ~12166666 per year
         // Days remaining = Oct 15 to Mar 31 = 168 days
         // Pro-rata = 12166666 * 168 / 365
-        final fullYearDepr = 36500000 ~/ 3;
+        const fullYearDepr = 36500000 ~/ 3;
         final daysRemaining = DateTime(
           2025,
           3,
@@ -130,7 +130,7 @@ void main() {
         // Depreciation only till disposal date: Apr 1 to Sep 30 = 183 days
         // Full year depr on original: 30000000 / 3 = 10000000
         // Pro-rata: 10000000 * 183 / 365
-        final fullYearDepr = 30000000 ~/ 3;
+        const fullYearDepr = 30000000 ~/ 3;
         final daysUsed = DateTime(
           2024,
           9,

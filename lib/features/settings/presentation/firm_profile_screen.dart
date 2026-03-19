@@ -324,8 +324,8 @@ class _LogoSection extends StatelessWidget {
               border: Border.all(color: AppColors.neutral200),
             ),
             child: hasLogo
-                ? Icon(Icons.business, size: 36, color: AppColors.primary)
-                : Icon(
+                ? const Icon(Icons.business, size: 36, color: AppColors.primary)
+                : const Icon(
                     Icons.add_photo_alternate_outlined,
                     size: 36,
                     color: AppColors.neutral400,
@@ -425,7 +425,11 @@ class _PartnersSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.people_rounded, size: 20, color: AppColors.primary),
+                const Icon(
+                  Icons.people_rounded,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Partners',

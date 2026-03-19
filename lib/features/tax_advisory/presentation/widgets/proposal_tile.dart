@@ -59,7 +59,7 @@ class ProposalTile extends StatelessWidget {
               // Row 3: proposed fee + sent timeAgo
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.currency_rupee_rounded,
                     size: 13,
                     color: AppColors.success,
@@ -73,7 +73,7 @@ class ProposalTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.schedule_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -94,7 +94,7 @@ class ProposalTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle_outline_rounded,
                       size: 12,
                       color: AppColors.success,

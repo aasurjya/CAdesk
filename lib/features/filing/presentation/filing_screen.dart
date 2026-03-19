@@ -62,7 +62,7 @@ class FilingScreen extends ConsumerWidget {
             countColor: AppColors.error,
           ),
           if (urgentItems.isEmpty)
-            _EmptyState(
+            const _EmptyState(
               icon: Icons.check_circle_outline,
               message: 'No urgent filings. All caught up!',
               color: AppColors.success,
@@ -89,7 +89,7 @@ class FilingScreen extends ConsumerWidget {
             countColor: AppColors.primaryVariant,
           ),
           if (inProgressItems.isEmpty)
-            _EmptyState(
+            const _EmptyState(
               icon: Icons.inbox_outlined,
               message: 'No filings in progress.',
               color: AppColors.neutral400,
@@ -114,7 +114,7 @@ class FilingScreen extends ConsumerWidget {
             countColor: AppColors.success,
           ),
           if (recentItems.isEmpty)
-            _EmptyState(
+            const _EmptyState(
               icon: Icons.history_outlined,
               message: 'No recently filed returns.',
               color: AppColors.neutral400,
@@ -133,7 +133,7 @@ class FilingScreen extends ConsumerWidget {
               ],
             ),
           const SizedBox(height: 16),
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Tools',
             count: 0,
             countColor: AppColors.primary,

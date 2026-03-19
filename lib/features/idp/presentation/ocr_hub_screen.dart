@@ -193,11 +193,14 @@ class OcrHubScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Batch controls
-          _BatchControls(),
+          const _BatchControls(),
           const SizedBox(height: 20),
 
           // Upload queue
-          SectionHeader(title: 'Processing Queue', icon: Icons.queue_rounded),
+          const SectionHeader(
+            title: 'Processing Queue',
+            icon: Icons.queue_rounded,
+          ),
           const SizedBox(height: 10),
           ..._mockDocuments.map(
             (doc) => Padding(

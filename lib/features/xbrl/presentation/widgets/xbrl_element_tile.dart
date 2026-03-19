@@ -101,14 +101,14 @@ class XbrlElementTile extends StatelessWidget {
                     if (element.isCompleted && element.value != null)
                       _ValueDisplay(element: element)
                     else if (!element.isCompleted)
-                      Row(
+                      const Row(
                         children: [
                           Icon(
                             Icons.pending_outlined,
                             size: 13,
                             color: AppColors.neutral400,
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4),
                           Text(
                             'Not entered',
                             style: TextStyle(

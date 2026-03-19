@@ -200,7 +200,7 @@ void main() {
       await setTabletViewport(tester);
       // With no client in the default provider, allClientsProvider is loading
       await tester.pumpWidget(
-        ProviderScope(
+        const ProviderScope(
           child: MaterialApp(
             home: ClientFormScreen(clientId: 'nonexistent-id'),
           ),

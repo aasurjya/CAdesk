@@ -112,7 +112,7 @@ void main() {
 
     group('getByClient', () {
       test('returns imports for specific client', () async {
-        final clientId = 'portal-client-a';
+        const clientId = 'portal-client-a';
         final i1 = createTestImport(clientId: clientId);
         final i2 = createTestImport(clientId: clientId);
         await database.portalImportsDao.insertImport(
@@ -134,8 +134,8 @@ void main() {
       });
 
       test('filters imports by client correctly', () async {
-        final clientA = 'portal-filter-ca-1';
-        final clientB = 'portal-filter-cb-1';
+        const clientA = 'portal-filter-ca-1';
+        const clientB = 'portal-filter-cb-1';
         final i1 = createTestImport(clientId: clientA);
         final i2 = createTestImport(clientId: clientB);
         await database.portalImportsDao.insertImport(
@@ -185,7 +185,7 @@ void main() {
 
     group('getLatest', () {
       test('returns the most recent import for client and type', () async {
-        final clientId = 'portal-latest-client-1';
+        const clientId = 'portal-latest-client-1';
         final i1 = createTestImport(
           clientId: clientId,
           importType: ImportType.form26as,

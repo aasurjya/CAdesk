@@ -256,13 +256,17 @@ class _TaxComparisonSection extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.savings_rounded, color: AppColors.success, size: 20),
+              const Icon(
+                Icons.savings_rounded,
+                color: AppColors.success,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Save ${_currencyFmt.format(comparison.savings)} by switching '
                   'to ${comparison.recommendedRegime} Regime',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: AppColors.success,
@@ -333,7 +337,7 @@ class _RegimeCard extends StatelessWidget {
                 ),
               ),
               if (isRecommended)
-                Icon(
+                const Icon(
                   Icons.check_circle_rounded,
                   size: 16,
                   color: AppColors.success,
@@ -402,7 +406,7 @@ class _Row extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: AppColors.neutral400),
+            style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
           ),
           Text(
             value,
@@ -558,7 +562,7 @@ class _InstallmentRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : Border(bottom: BorderSide(color: AppColors.neutral200)),
+            : const Border(bottom: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
@@ -807,7 +811,7 @@ class _ActionBar extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(top: BorderSide(color: AppColors.neutral200)),
+        border: const Border(top: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [

@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 const _validTan = 'AAATA1234X';
 
-FvuBatchHeader _buildBatchHeader() => FvuBatchHeader(
+FvuBatchHeader _buildBatchHeader() => const FvuBatchHeader(
   tan: _validTan,
   pan: 'ABCDE1234F',
   deductorName: 'Acme Ltd',

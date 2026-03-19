@@ -332,7 +332,7 @@ class _TransactionList extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -479,7 +479,7 @@ class _TdsTrackerCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -559,7 +559,7 @@ class _ScheduleVdaCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Report all VDA transactions in Schedule VDA of your ITR. '
               'Each transaction must include date of transfer, head of income, '
               'cost of acquisition, and consideration received.',

@@ -79,7 +79,7 @@ void main() {
     test('computes 20% of annual sales', () {
       // Sales = ₹5,00,00,000 (5 Cr) → MPBF = ₹1,00,00,000 (1 Cr)
       // In paise: 500000000_00 paise → 20% = 100000000_00
-      final salesPaise = 50000000000; // ₹5Cr in paise
+      const salesPaise = 50000000000; // ₹5Cr in paise
       expect(
         MpbfCalculator.instance.computeTurnoverMethod(salesPaise),
         10000000000,

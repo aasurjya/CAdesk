@@ -269,7 +269,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.send_rounded, size: 56, color: AppColors.neutral200),
+          const Icon(Icons.send_rounded, size: 56, color: AppColors.neutral200),
           const SizedBox(height: 16),
           Text(
             'No submissions yet',

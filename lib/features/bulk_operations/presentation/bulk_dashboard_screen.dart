@@ -51,7 +51,7 @@ class BulkDashboardScreen extends ConsumerWidget {
           children: [
             _StatsRow(stats: stats),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Filing Batches',
               icon: Icons.batch_prediction_rounded,
             ),
@@ -228,7 +228,11 @@ class _EmptyState extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 48),
         child: Column(
           children: [
-            Icon(Icons.inbox_rounded, size: 56, color: AppColors.neutral300),
+            const Icon(
+              Icons.inbox_rounded,
+              size: 56,
+              color: AppColors.neutral300,
+            ),
             const SizedBox(height: 12),
             Text(
               'No batches yet',

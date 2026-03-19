@@ -81,7 +81,7 @@ class _KanbanColumnWidgetState extends State<KanbanColumnWidget> {
               ),
 
               // Divider
-              Divider(height: 1, color: AppColors.neutral200),
+              const Divider(height: 1, color: AppColors.neutral200),
 
               // Card list
               Expanded(

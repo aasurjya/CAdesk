@@ -103,7 +103,7 @@ void main() {
 
     group('getStartupRecordsByClient', () {
       test('returns records for specific client', () async {
-        final clientId = 'startup-by-client-x';
+        const clientId = 'startup-by-client-x';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
         await database.startupDao.insertStartupRecord(
@@ -127,8 +127,8 @@ void main() {
       });
 
       test('filters records by client correctly', () async {
-        final clientA = 'startup-filter-a';
-        final clientB = 'startup-filter-b';
+        const clientA = 'startup-filter-a';
+        const clientB = 'startup-filter-b';
         await database.startupDao.insertStartupRecord(
           StartupMapper.toCompanion(createTestRecord(clientId: clientA)),
         );

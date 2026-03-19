@@ -136,8 +136,8 @@ void main() {
         await pumpTestWidget(
           tester,
           _buildTrigger(
-            child: Column(
-              children: const [Text('Line 1'), Text('Line 2'), Text('Line 3')],
+            child: const Column(
+              children: [Text('Line 1'), Text('Line 2'), Text('Line 3')],
             ),
           ),
         );

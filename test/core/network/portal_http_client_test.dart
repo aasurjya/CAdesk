@@ -75,7 +75,6 @@ Dio _stubDio(int statusCode, {Map<String, dynamic>? data}) {
 Dio _stubDioThrowing({
   required int statusCode,
   Map<String, dynamic>? responseData,
-  Object? wrappedError,
   Map<String, List<String>>? headers,
 }) {
   final dio = Dio(BaseOptions(baseUrl: 'https://test.example.com'));

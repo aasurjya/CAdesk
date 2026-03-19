@@ -69,7 +69,7 @@ class OpportunityTile extends StatelessWidget {
                     // Row 3: fee + status chip + timeAgo
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.currency_rupee_rounded,
                           size: 12,
                           color: AppColors.success,
@@ -85,7 +85,7 @@ class OpportunityTile extends StatelessWidget {
                         const SizedBox(width: 8),
                         _StatusChip(status: opportunity.status),
                         const Spacer(),
-                        Icon(
+                        const Icon(
                           Icons.access_time_rounded,
                           size: 11,
                           color: AppColors.neutral400,
@@ -228,7 +228,7 @@ class _SignalChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.circle, size: 5, color: AppColors.neutral400),
+          const Icon(Icons.circle, size: 5, color: AppColors.neutral400),
           const SizedBox(width: 4),
           Text(
             signal,

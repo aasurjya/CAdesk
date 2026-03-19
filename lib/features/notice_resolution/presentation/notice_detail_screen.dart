@@ -255,7 +255,7 @@ class _NoticeInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -300,17 +300,23 @@ class _StatusTimeline extends StatelessWidget {
         title: 'Received',
         subtitle: _dateFmt.format(notice.receivedDate),
       ),
-      _TimelineStep(title: 'Under Review', subtitle: 'Analysis in progress'),
-      _TimelineStep(title: 'Response Drafted', subtitle: 'Draft prepared'),
-      _TimelineStep(title: 'Submitted', subtitle: 'Response filed'),
-      _TimelineStep(title: 'Resolved', subtitle: 'Notice resolved'),
+      const _TimelineStep(
+        title: 'Under Review',
+        subtitle: 'Analysis in progress',
+      ),
+      const _TimelineStep(
+        title: 'Response Drafted',
+        subtitle: 'Draft prepared',
+      ),
+      const _TimelineStep(title: 'Submitted', subtitle: 'Response filed'),
+      const _TimelineStep(title: 'Resolved', subtitle: 'Notice resolved'),
     ];
 
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -448,7 +454,7 @@ class _ResponseSection extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

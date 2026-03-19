@@ -64,14 +64,14 @@ class MockRegulatoryIntelligenceRepository
       penaltyIfMissed: '₹50/day + 18% interest',
       priority: AlertPriority.critical,
     ),
-    ComplianceAlert(
+    const ComplianceAlert(
       alertId: 'alert-002',
       title: 'TDS Rate Change — Section 194P',
       description: 'New TDS rate of 10% applicable from 1 April 2026.',
       alertType: AlertType.rateChange,
       dueDate: null,
       daysRemaining: null,
-      applicableTo: const ['Senior Citizens', 'Specified Persons'],
+      applicableTo: ['Senior Citizens', 'Specified Persons'],
       penaltyIfMissed: null,
       priority: AlertPriority.high,
     ),

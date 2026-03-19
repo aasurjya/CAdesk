@@ -48,7 +48,7 @@ void main() {
     });
 
     test('updateConnection changes connection info', () {
-      final updated = PortalConnectionInfo(
+      const updated = PortalConnectionInfo(
         portal: Portal.traces,
         status: PortalConnectionStatus.connected,
         hasCredentials: true,
@@ -77,7 +77,7 @@ void main() {
     });
 
     test('updateConfig changes portal config', () {
-      final newConfig = PortalConfig(
+      const newConfig = PortalConfig(
         portal: Portal.gstn,
         username: 'testuser@gstn.gov.in',
         hasPassword: true,

@@ -225,7 +225,7 @@ void main() {
   // ---------------------------------------------------------------------------
   group('AssessmentOrderVerification — model', () {
     test('copyWith returns new instance with changed field', () {
-      final original = AssessmentOrderVerification(
+      const original = AssessmentOrderVerification(
         panNumber: 'ABCDE1234F',
         assessmentYear: '2023-24',
         orderType: OrderType.intimation143_1,
@@ -235,7 +235,7 @@ void main() {
         interestCharged: 0,
         penaltyLeviable: 0,
         verificationResult: VerificationResult.correct,
-        discrepancies: const [],
+        discrepancies: [],
       );
       final updated = original.copyWith(taxDemand: 5_000);
       expect(updated.taxDemand, 5_000);

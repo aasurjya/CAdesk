@@ -98,7 +98,7 @@ class ChecklistProgress extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle_rounded,
                       size: 14,
                       color: AppColors.success,

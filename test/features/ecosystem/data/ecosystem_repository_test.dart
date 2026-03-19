@@ -35,7 +35,7 @@ void main() {
     });
 
     test('insertConnector adds entry and returns id', () async {
-      final connector = IntegrationConnector(
+      const connector = IntegrationConnector(
         id: 'conn-new-001',
         name: 'Test Connector',
         category: ConnectorCategory.payment,
@@ -114,7 +114,7 @@ void main() {
     });
 
     test('insertMarketplaceApp adds entry and returns id', () async {
-      final app = MarketplaceApp(
+      const app = MarketplaceApp(
         id: 'app-new-001',
         name: 'New App',
         vendor: 'Test Vendor',

@@ -84,7 +84,7 @@ class BatchDetailScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
             ],
-            _SectionHeader(title: 'Jobs', icon: Icons.list_alt_rounded),
+            const _SectionHeader(title: 'Jobs', icon: Icons.list_alt_rounded),
             const SizedBox(height: 10),
             ...batch.jobs.map(
               (job) => Padding(

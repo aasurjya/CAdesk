@@ -544,7 +544,7 @@ class _EmptyState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            const Icon(
               Icons.playlist_add_check_rounded,
               size: 48,
               color: AppColors.neutral200,

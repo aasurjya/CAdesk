@@ -93,20 +93,20 @@ class _MockNriTax {
       daysHistory.isNotEmpty ? daysHistory.first.days : 0;
 }
 
-final _mockData = _MockNriTax(
+const _mockData = _MockNriTax(
   clientName: 'Rajiv Kapoor',
   pan: 'ABCPK5678L',
   passportNo: 'Z1234567',
   countryOfResidence: 'United States',
   assessmentYear: 'AY 2026-27',
   residentialStatus: ResidentialStatus.nri,
-  daysHistory: const [
+  daysHistory: [
     _DaysInIndia(fy: 'FY 2025-26', days: 95),
     _DaysInIndia(fy: 'FY 2024-25', days: 110),
     _DaysInIndia(fy: 'FY 2023-24', days: 45),
     _DaysInIndia(fy: 'FY 2022-23', days: 80),
   ],
-  incomeItems: const [
+  incomeItems: [
     _IncomeItem(
       source: 'House Property — Mumbai flat',
       category: 'India-sourced',
@@ -132,7 +132,7 @@ final _mockData = _MockNriTax(
       isTaxable: false,
     ),
   ],
-  dtaaDetails: const [
+  dtaaDetails: [
     _DtaaDetail(
       country: 'United States',
       articleRef: 'Article 10 — Dividends',
@@ -172,7 +172,7 @@ class NriComputationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = _mockData;
+    const data = _mockData;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -190,7 +190,7 @@ class NriComputationScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _ResidentialStatusCard(data: data),
+            const _ResidentialStatusCard(data: data),
             const SizedBox(height: 16),
             _DaysInIndiaCard(days: data.daysHistory),
             const SizedBox(height: 16),
@@ -198,9 +198,9 @@ class NriComputationScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             _DtaaCard(details: data.dtaaDetails),
             const SizedBox(height: 16),
-            _TrcForm10fCard(data: data),
+            const _TrcForm10fCard(data: data),
             const SizedBox(height: 16),
-            _ReliefComputationCard(data: data),
+            const _ReliefComputationCard(data: data),
             const SizedBox(height: 24),
             _ActionButtons(),
             const SizedBox(height: 24),
@@ -317,7 +317,7 @@ class _DaysInIndiaCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -407,7 +407,7 @@ class _IncomeCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -491,7 +491,7 @@ class _DtaaCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -567,7 +567,7 @@ class _TrcForm10fCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

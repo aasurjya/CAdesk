@@ -206,9 +206,9 @@ void main() {
     group('identifyUnreportedIncome', () {
       test('→ returns empty when AIS entries all appear in ITR', () {
         final ais = _makeAisWithSources([
-          _AisSource('SBI Bank', 200000), // ₹2,000
+          const _AisSource('SBI Bank', 200000), // ₹2,000
         ]);
-        final itr = _makeItrWithSources([_ItrSource('SBI Bank', 200000)]);
+        final itr = _makeItrWithSources([const _ItrSource('SBI Bank', 200000)]);
         final items = ThreeWayReconciliationService.instance
             .identifyUnreportedIncome(ais, itr);
         expect(items, isEmpty);
@@ -216,7 +216,7 @@ void main() {
 
       test('→ flags AIS source not in ITR', () {
         final ais = _makeAisWithSources([
-          _AisSource('HDFC Bank', 500000), // ₹5,000
+          const _AisSource('HDFC Bank', 500000), // ₹5,000
         ]);
         final itr = _makeItrWithSources([]); // nothing declared
         final items = ThreeWayReconciliationService.instance
@@ -228,7 +228,7 @@ void main() {
 
       test('→ ignores amounts below ₹1,000 (100000 paise)', () {
         final ais = _makeAisWithSources([
-          _AisSource('Post Office', 50000), // ₹500 — ignored
+          const _AisSource('Post Office', 50000), // ₹500 — ignored
         ]);
         final itr = _makeItrWithSources([]);
         final items = ThreeWayReconciliationService.instance
@@ -238,8 +238,8 @@ void main() {
 
       test('→ returns multiple flagged items', () {
         final ais = _makeAisWithSources([
-          _AisSource('Axis Bank', 1500000), // ₹15,000
-          _AisSource('Zerodha', 3000000), // ₹30,000
+          const _AisSource('Axis Bank', 1500000), // ₹15,000
+          const _AisSource('Zerodha', 3000000), // ₹30,000
         ]);
         final itr = _makeItrWithSources([]);
         final items = ThreeWayReconciliationService.instance

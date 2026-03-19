@@ -127,7 +127,7 @@ class _EmptyFilterState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.filter_list_off_rounded,
             size: 48,
             color: AppColors.neutral300,

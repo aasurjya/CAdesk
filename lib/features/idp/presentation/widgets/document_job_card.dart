@@ -183,9 +183,9 @@ class _StatsRow extends StatelessWidget {
             flagged: job.flaggedFields,
           ),
         ] else ...[
-          Text(
+          const Text(
             'Waiting to start',
-            style: const TextStyle(fontSize: 12, color: AppColors.neutral400),
+            style: TextStyle(fontSize: 12, color: AppColors.neutral400),
           ),
         ],
       ],

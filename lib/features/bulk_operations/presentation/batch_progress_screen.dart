@@ -324,11 +324,17 @@ class _OverallProgressCard extends StatelessWidget {
               children: [
                 Text(
                   '$completedItems of $totalItems completed',
-                  style: TextStyle(fontSize: 12, color: AppColors.neutral400),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.neutral400,
+                  ),
                 ),
                 Text(
                   'ETA: ${estimatedMinutes}m',
-                  style: TextStyle(fontSize: 12, color: AppColors.neutral400),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.neutral400,
+                  ),
                 ),
               ],
             ),
@@ -417,7 +423,7 @@ class _BatchItemCard extends StatelessWidget {
                 ),
                 child: Text(
                   item.errorMessage!,
-                  style: TextStyle(fontSize: 11, color: AppColors.error),
+                  style: const TextStyle(fontSize: 11, color: AppColors.error),
                 ),
               ),
             ],

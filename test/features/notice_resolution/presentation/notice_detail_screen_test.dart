@@ -39,19 +39,7 @@ final _closedNotice = NoticeCase(
   description: 'Intimation with demand for AY 2023-24.',
 );
 
-final _draftReadyNotice = NoticeCase(
-  id: 'nc-test-003',
-  clientId: 'cl-003',
-  clientName: 'Wipro Technologies',
-  noticeType: NoticeType.tdsDefault,
-  section: '201(1A)',
-  receivedDate: DateTime(2026, 2, 3),
-  dueDate: DateTime(2026, 5, 15),
-  status: NoticeStatus.draftReady,
-  severity: NoticeSeverity.high,
-  amountInDispute: 8500000,
-  description: 'TDS short deduction demand.',
-);
+// _draftReadyNotice removed — unused in current tests.
 
 List<dynamic> _overrideWith(List<NoticeCase> notices) {
   return [

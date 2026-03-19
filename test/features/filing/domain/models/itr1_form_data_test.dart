@@ -28,9 +28,9 @@ void main() {
           savingsAccountInterest: 30000,
         ),
       );
-      final expectedSalary = 1000000 - 75000; // gross - std ded
-      final expectedHP = (200000 - 20000) - ((200000 - 20000) * 0.30) - 50000;
-      final expectedOther = 30000.0;
+      const expectedSalary = 1000000 - 75000; // gross - std ded
+      const expectedHP = (200000 - 20000) - ((200000 - 20000) * 0.30) - 50000;
+      const expectedOther = 30000.0;
       expect(
         form.grossTotalIncome,
         closeTo(expectedSalary + expectedHP + expectedOther, 0.01),

@@ -37,6 +37,7 @@ import 'package:ca_app/features/portal_autosubmit/presentation/autosubmit_queue_
 import 'package:ca_app/features/portal_autosubmit/presentation/pre_fill_review_screen.dart';
 import 'package:ca_app/features/portal_autosubmit/presentation/submission_flow_screen.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/confirmation_gate.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/file_upload_handler.dart';
 import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_screen.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 import 'package:ca_app/features/gstn_api/presentation/gstn_api_dashboard_screen.dart';
@@ -294,6 +295,7 @@ List<RouteBase> aiRoutes(GlobalKey<NavigatorState> rootNavigatorKey) => [
         credential: extra['credential'] as PortalCredential,
         automationRunner: extra['runner'] as AutomationRunner?,
         confirmationGate: extra['gate'] as ConfirmationGate?,
+        fileUploadHandler: extra['fileUploadHandler'] as FileUploadHandler?,
       );
     },
   ),

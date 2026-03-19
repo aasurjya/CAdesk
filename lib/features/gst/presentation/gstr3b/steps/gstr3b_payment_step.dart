@@ -75,7 +75,7 @@ class Gstr3bPaymentStep extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Center(
+        const Center(
           child: Text(
             'Payment via Challan (PMT-06) required before submission',
             style: TextStyle(
@@ -355,15 +355,15 @@ class _LateFeeCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.warning.withValues(alpha: 0.2)),
       ),
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.info_outline_rounded, size: 18, color: AppColors.warning),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Late Fee Information',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -371,7 +371,7 @@ class _LateFeeCard extends StatelessWidget {
                     color: AppColors.neutral900,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2),
                 Text(
                   'Regular: \u20B950/day (max \u20B910,000)\n'
                   'Nil return: \u20B920/day (max \u20B9500)\n'

@@ -114,7 +114,7 @@ class PayrollSummaryWidget extends ConsumerWidget {
               _SummaryChip(
                 label: 'ESI Liability',
                 value: _inr.format(summary.totalEsiContribution * 4.333),
-                color: Color(0xFF0D7C7C),
+                color: const Color(0xFF0D7C7C),
                 icon: Icons.health_and_safety_rounded,
               ),
             ],

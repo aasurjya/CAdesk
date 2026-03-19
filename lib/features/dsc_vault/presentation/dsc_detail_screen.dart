@@ -110,7 +110,11 @@ final _mockDsc = _MockDsc(
       isRegistered: true,
       lastUsed: DateTime(2026, 1, 15),
     ),
-    _PortalAssociation(portal: 'TRACES', isRegistered: false, lastUsed: null),
+    const _PortalAssociation(
+      portal: 'TRACES',
+      isRegistered: false,
+      lastUsed: null,
+    ),
   ],
   usageHistory: [
     _UsageEntry(
@@ -320,7 +324,7 @@ class _CertificateInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -360,7 +364,7 @@ class _PortalAssociationsCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -462,7 +466,7 @@ class _UsageHistoryCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

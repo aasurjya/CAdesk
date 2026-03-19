@@ -61,7 +61,7 @@ class AuditEngagementCard extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.person_outline,
                     size: 14,
                     color: AppColors.neutral400,
@@ -75,7 +75,7 @@ class AuditEngagementCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.group_outlined,
                     size: 14,
                     color: AppColors.neutral400,
@@ -182,7 +182,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: TextStyle(fontSize: 11, color: AppColors.neutral400),
+          style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
         ),
       ],
     );

@@ -97,8 +97,8 @@ class StatutoryFormLinkage extends StatelessWidget {
               ],
             ),
             const Divider(height: 14),
-            _LinkRow('Form 24Q', 'Quarterly TDS on Salary', true),
-            _LinkRow('Form 26Q', 'TDS on Non-Salary Payments', false),
+            const _LinkRow('Form 24Q', 'Quarterly TDS on Salary', true),
+            const _LinkRow('Form 26Q', 'TDS on Non-Salary Payments', false),
             _LinkRow(
               'Form 16',
               'Annual TDS Certificate (Part A & B)',

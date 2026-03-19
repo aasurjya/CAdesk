@@ -77,7 +77,7 @@ const _validPayload = <String, Object?>{
 
 void main() {
   group('Form26AsParserService', () {
-    final parser = Form26AsParserService.instance;
+    const parser = Form26AsParserService.instance;
 
     // ── instance ─────────────────────────────────────────────────────────────
 

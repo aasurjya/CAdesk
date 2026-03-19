@@ -136,8 +136,8 @@ class OcrPreprocessor {
   /// OCR service itself). This method focuses on analysis and routing.
   OcrPreprocessResult preprocess(List<int> imageBytes) {
     if (imageBytes.isEmpty) {
-      return OcrPreprocessResult(
-        processedBytes: const [],
+      return const OcrPreprocessResult(
+        processedBytes: [],
         estimatedSkewDegrees: 0.0,
         isLowResolution: true,
         recommendedOcrEngine: 'cloud',

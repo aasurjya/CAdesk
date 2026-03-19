@@ -113,7 +113,7 @@ class KnowledgeArticleTile extends StatelessWidget {
               // Footer: view count + last updated
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.visibility_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -126,7 +126,7 @@ class KnowledgeArticleTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Icon(
+                  const Icon(
                     Icons.update_rounded,
                     size: 12,
                     color: AppColors.neutral400,

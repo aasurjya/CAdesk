@@ -132,7 +132,7 @@ class SecurityAlertTile extends ConsumerWidget {
                   const SizedBox(height: 6),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.access_time,
                         size: 12,
                         color: AppColors.neutral400,

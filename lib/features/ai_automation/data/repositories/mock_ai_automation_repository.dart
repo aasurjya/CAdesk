@@ -53,7 +53,7 @@ class MockAiAutomationRepository implements AiAutomationRepository {
   ];
 
   static final List<AutomationInsight> _seedInsights = [
-    AutomationInsight(
+    const AutomationInsight(
       id: 'insight-001',
       title: 'GST Reconciliation Alert',
       clientName: 'Tata Steel Ltd',
@@ -62,10 +62,10 @@ class MockAiAutomationRepository implements AiAutomationRepository {
       metricValue: '3',
       actionLabel: 'Reconcile Now',
       icon: Icons.receipt_long_rounded,
-      color: const Color(0xFFC62828),
+      color: Color(0xFFC62828),
       status: AutomationInsightStatus.attentionNeeded,
     ),
-    AutomationInsight(
+    const AutomationInsight(
       id: 'insight-002',
       title: 'TDS Filing On Track',
       clientName: 'Infosys Ltd',
@@ -74,10 +74,10 @@ class MockAiAutomationRepository implements AiAutomationRepository {
       metricValue: '100%',
       actionLabel: 'View Report',
       icon: Icons.check_circle_rounded,
-      color: const Color(0xFF1A7A3A),
+      color: Color(0xFF1A7A3A),
       status: AutomationInsightStatus.onTrack,
     ),
-    AutomationInsight(
+    const AutomationInsight(
       id: 'insight-003',
       title: 'ITR Filing Blocked',
       clientName: 'Sharma & Associates',
@@ -87,7 +87,7 @@ class MockAiAutomationRepository implements AiAutomationRepository {
       metricValue: '₹85,000',
       actionLabel: 'Resolve Demand',
       icon: Icons.block_rounded,
-      color: const Color(0xFFD4890E),
+      color: Color(0xFFD4890E),
       status: AutomationInsightStatus.blocked,
     ),
   ];

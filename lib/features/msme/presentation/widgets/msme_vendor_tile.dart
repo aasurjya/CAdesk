@@ -104,7 +104,7 @@ class MsmeVendorTile extends StatelessWidget {
                         color: AppColors.warning.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Unverified',
                         style: TextStyle(
                           fontSize: 10,

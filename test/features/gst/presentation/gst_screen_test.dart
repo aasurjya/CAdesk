@@ -29,9 +29,9 @@ class _GstClientTileHarness extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: GstClientTile(client: _testGstClient, returns: const []),
+        body: GstClientTile(client: _testGstClient, returns: []),
       ),
     );
   }

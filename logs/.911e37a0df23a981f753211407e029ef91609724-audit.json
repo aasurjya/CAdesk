@@ -1,0 +1,30 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/ihub-devs/CA-app/logs/.911e37a0df23a981f753211407e029ef91609724-audit.json",
+    "files": [
+        {
+            "date": 1773666919731,
+            "name": "/Users/ihub-devs/CA-app/logs/mcp-puppeteer-2026-03-16.log",
+            "hash": "f05428135add76ee245fb4072718f22bd64b01d5e6ca2640c1c95b95a9120945"
+        },
+        {
+            "date": 1773743601831,
+            "name": "/Users/ihub-devs/CA-app/logs/mcp-puppeteer-2026-03-17.log",
+            "hash": "9b43b6b1490d64b054e18c2605ec3a6ec3f1225cce3b7a7050ad7b1eeef8fe4a"
+        },
+        {
+            "date": 1773775057350,
+            "name": "/Users/ihub-devs/CA-app/logs/mcp-puppeteer-2026-03-18.log",
+            "hash": "acf837f59a0405d43cdb1a7090fcab31ead510def63d5aeab89b2bef6dba3771"
+        },
+        {
+            "date": 1773902601690,
+            "name": "/Users/ihub-devs/CA-app/logs/mcp-puppeteer-2026-03-19.log",
+            "hash": "7788a2a259188162fb0f2e2ea4e3bef21485078310ff36ad63e4d8a01c39c1eb"
+        }
+    ],
+    "hashType": "sha256"
+}

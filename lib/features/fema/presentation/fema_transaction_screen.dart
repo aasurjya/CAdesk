@@ -237,7 +237,7 @@ class _TransactionInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -276,7 +276,7 @@ class _FormTrackingCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -290,22 +290,22 @@ class _FormTrackingCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _FormStep(
+            const _FormStep(
               title: 'Form prepared',
               isComplete: true,
               isActive: false,
             ),
-            _FormStep(
+            const _FormStep(
               title: 'CA certification',
               isComplete: true,
               isActive: false,
             ),
-            _FormStep(
+            const _FormStep(
               title: 'Filed with RBI/AD Bank',
               isComplete: false,
               isActive: true,
             ),
-            _FormStep(
+            const _FormStep(
               title: 'Acknowledgement received',
               isComplete: false,
               isActive: false,
@@ -387,7 +387,7 @@ class _RbiComplianceChecklist extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

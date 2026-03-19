@@ -304,7 +304,7 @@ class _MetaChip extends StatelessWidget {
         const SizedBox(width: 3),
         Text(
           label,
-          style: TextStyle(fontSize: 11, color: AppColors.neutral600),
+          style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
         ),
       ],
     );

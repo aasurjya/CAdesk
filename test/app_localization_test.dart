@@ -1,25 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:ca_app/core/auth/supabase_auth_provider.dart';
-import 'package:ca_app/core/auth/auth_state.dart';
 import 'package:ca_app/l10n/app_localizations.dart';
-
-/// Stub AuthNotifier that returns a loading state immediately.
-class _LoadingAuthNotifier extends AuthNotifier {
-  @override
-  Future<AuthState> build() async {
-    // Return loading by never completing
-    return Future<AuthState>.delayed(const Duration(days: 365));
-  }
-}
 
 void main() {
   group('CAApp l10n', () {
     test('supported locales includes all 4 languages', () {
-      final locales = AppLocalizations.supportedLocales;
+      const locales = AppLocalizations.supportedLocales;
       final codes = locales.map((l) => l.languageCode).toSet();
       expect(codes, containsAll(['en', 'hi', 'gu', 'mr']));
     });

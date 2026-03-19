@@ -313,9 +313,9 @@ class _VisualScale extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'vs Peer Range',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w500,
             color: AppColors.neutral400,

@@ -48,7 +48,7 @@ class TimeTrackingScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Filter chips
-          _SectionHeader(
+          const _SectionHeader(
             title: "Today's Entries",
             icon: Icons.list_alt_rounded,
           ),
@@ -73,7 +73,7 @@ class TimeTrackingScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Billing summaries
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Client Billing',
             icon: Icons.receipt_long_rounded,
           ),
@@ -130,7 +130,7 @@ class _RealizationCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.insights_rounded,
                   size: 18,
                   color: AppColors.primary,
@@ -433,7 +433,7 @@ class _EmptyState extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Icon(
+            const Icon(
               Icons.hourglass_empty_rounded,
               size: 48,
               color: AppColors.neutral400,

@@ -160,7 +160,7 @@ class _AdvanceTaxCalculatorScreenState
 
             const SizedBox(height: 20),
 
-            AdvanceTaxSectionHeader(
+            const AdvanceTaxSectionHeader(
               title: 'FY 2025-26 Installments',
               icon: Icons.calendar_month_rounded,
             ),
@@ -195,7 +195,7 @@ class _AdvanceTaxCalculatorScreenState
 
             const SizedBox(height: 16),
 
-            AdvanceTaxSectionHeader(
+            const AdvanceTaxSectionHeader(
               title: 'Interest Computation',
               icon: Icons.percent_rounded,
             ),

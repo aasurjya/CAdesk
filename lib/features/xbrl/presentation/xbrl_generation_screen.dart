@@ -83,7 +83,7 @@ class _XbrlGenerationScreenState extends ConsumerState<XbrlGenerationScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Configuration section
-            _SectionHeader(title: 'Configuration'),
+            const _SectionHeader(title: 'Configuration'),
             const SizedBox(height: 12),
             _ConfigCard(
               reportType: _reportType,
@@ -94,7 +94,7 @@ class _XbrlGenerationScreenState extends ConsumerState<XbrlGenerationScreen> {
             const SizedBox(height: 20),
 
             // Document type selector
-            _SectionHeader(title: 'Document Type'),
+            const _SectionHeader(title: 'Document Type'),
             const SizedBox(height: 12),
             _DocTypeSelector(
               selected: _selectedDocType,
@@ -103,7 +103,7 @@ class _XbrlGenerationScreenState extends ConsumerState<XbrlGenerationScreen> {
             const SizedBox(height: 20),
 
             // Element mapping
-            _SectionHeader(title: 'Taxonomy Element Mapping'),
+            const _SectionHeader(title: 'Taxonomy Element Mapping'),
             const SizedBox(height: 12),
             _ElementMappingTable(mappings: _mockMappings),
             const SizedBox(height: 20),
@@ -385,7 +385,7 @@ class _ConfigCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -499,7 +499,7 @@ class _ElementMappingTable extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Column(
         children: [
@@ -553,7 +553,7 @@ class _MappingRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.neutral100)),
       ),
       child: Row(

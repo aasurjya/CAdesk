@@ -42,6 +42,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
+  storage_client: any
+  archive: any
 flutter:
   uses-material-design: true
   generate: true

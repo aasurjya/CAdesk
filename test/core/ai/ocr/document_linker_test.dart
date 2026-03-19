@@ -17,7 +17,7 @@ void main() {
     // Test data helpers
     // ---------------------------------------------------------------------------
 
-    Client _client({
+    Client client({
       required String id,
       required String pan,
       String name = 'Test Client',
@@ -31,7 +31,7 @@ void main() {
       updatedAt: DateTime(2024, 1, 1),
     );
 
-    GstClient _gstClient({
+    GstClient gstClient({
       required String id,
       required String gstin,
       required String pan,
@@ -45,9 +45,9 @@ void main() {
       stateCode: '29',
     );
 
-    final client1 = _client(id: 'client_001', pan: 'ABCDE1234F');
-    final client2 = _client(id: 'client_002', pan: 'PQRST5678G');
-    final client3 = _client(id: 'client_003', pan: 'XYZWV9012H');
+    final client1 = client(id: 'client_001', pan: 'ABCDE1234F');
+    final client2 = client(id: 'client_002', pan: 'PQRST5678G');
+    final client3 = client(id: 'client_003', pan: 'XYZWV9012H');
 
     group('findClientByPan', () {
       test('matches client with exact PAN', () async {
@@ -107,12 +107,12 @@ void main() {
     });
 
     group('findGstClientByGstin', () {
-      final gstClient1 = _gstClient(
+      final gstClient1 = gstClient(
         id: 'gst_001',
         gstin: '29ABCDE1234F1Z5',
         pan: 'ABCDE1234F',
       );
-      final gstClient2 = _gstClient(
+      final gstClient2 = gstClient(
         id: 'gst_002',
         gstin: '07PQRST5678G1ZM',
         pan: 'PQRST5678G',

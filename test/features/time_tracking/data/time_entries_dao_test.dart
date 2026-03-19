@@ -144,7 +144,7 @@ void main() {
 
     group('getUnbilled', () {
       test('returns only non-billed entries for client', () async {
-        final clientId = 'client-unbilled-test';
+        const clientId = 'client-unbilled-test';
         final billed = makeEntry(
           clientId: clientId,
           status: TimeEntryStatus.billed,
@@ -169,7 +169,7 @@ void main() {
 
     group('getEntriesForMonth', () {
       test('returns entries matching client, month, year', () async {
-        final clientId = 'client-month-test';
+        const clientId = 'client-month-test';
         final march = makeEntry(
           clientId: clientId,
           startTime: DateTime(2026, 3, 15, 10),

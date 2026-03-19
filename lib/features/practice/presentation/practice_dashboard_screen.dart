@@ -49,7 +49,7 @@ class PracticeDashboardScreen extends ConsumerWidget {
           children: [
             _KpiRow(stats: stats),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Quick Links',
               icon: Icons.rocket_launch_rounded,
             ),

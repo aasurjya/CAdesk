@@ -161,7 +161,7 @@ class SmeAdvisoryScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final a = _mockAdvisory;
+    const a = _mockAdvisory;
     final totalSavings = a.taxSavings.fold<double>(
       0,
       (s, t) => s + t.potentialSaving,
@@ -180,7 +180,7 @@ class SmeAdvisoryScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _ClientHeader(advisory: a),
+          const _ClientHeader(advisory: a),
           const SizedBox(height: 12),
 
           // Summary KPIs
@@ -284,7 +284,7 @@ class _ClientHeader extends StatelessWidget {
             const SizedBox(height: 6),
             Row(
               children: [
-                StatusBadge(label: 'SME', color: AppColors.secondary),
+                const StatusBadge(label: 'SME', color: AppColors.secondary),
                 const SizedBox(width: 8),
                 StatusBadge(
                   label: 'Turnover: \u20B9${advisory.turnover}',

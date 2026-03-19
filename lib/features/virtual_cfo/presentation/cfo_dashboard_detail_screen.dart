@@ -168,7 +168,7 @@ class CfoDashboardDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final d = _mockDashboard;
+    const d = _mockDashboard;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -191,7 +191,7 @@ class CfoDashboardDetailScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Client header
-          _ClientHeader(dashboard: d),
+          const _ClientHeader(dashboard: d),
           const SizedBox(height: 12),
 
           // KPI cards

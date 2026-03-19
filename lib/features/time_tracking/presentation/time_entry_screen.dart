@@ -180,7 +180,10 @@ class _TimeEntryScreenState extends ConsumerState<TimeEntryScreen> {
             const SizedBox(height: 20),
 
             // Client selector
-            _SectionLabel(label: 'Client', icon: Icons.person_outline_rounded),
+            const _SectionLabel(
+              label: 'Client',
+              icon: Icons.person_outline_rounded,
+            ),
             const SizedBox(height: 8),
             _DropdownField(
               value: _form.client,
@@ -192,7 +195,7 @@ class _TimeEntryScreenState extends ConsumerState<TimeEntryScreen> {
             const SizedBox(height: 16),
 
             // Engagement selector
-            _SectionLabel(
+            const _SectionLabel(
               label: 'Engagement / Task',
               icon: Icons.work_outline_rounded,
             ),
@@ -207,7 +210,7 @@ class _TimeEntryScreenState extends ConsumerState<TimeEntryScreen> {
             const SizedBox(height: 16),
 
             // Date & time row
-            _SectionLabel(
+            const _SectionLabel(
               label: 'Date & Time',
               icon: Icons.calendar_today_rounded,
             ),
@@ -244,7 +247,7 @@ class _TimeEntryScreenState extends ConsumerState<TimeEntryScreen> {
             const SizedBox(height: 16),
 
             // Duration (manual)
-            _SectionLabel(
+            const _SectionLabel(
               label: 'Duration (minutes)',
               icon: Icons.timer_outlined,
             ),
@@ -306,7 +309,7 @@ class _TimeEntryScreenState extends ConsumerState<TimeEntryScreen> {
             const SizedBox(height: 16),
 
             // Description
-            _SectionLabel(
+            const _SectionLabel(
               label: 'Description / Notes',
               icon: Icons.notes_rounded,
             ),

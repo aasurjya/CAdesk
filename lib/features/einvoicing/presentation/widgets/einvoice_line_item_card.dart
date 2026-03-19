@@ -165,7 +165,7 @@ class _TaxBreakdownRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.account_balance_rounded,
             size: 12,
             color: AppColors.neutral400,

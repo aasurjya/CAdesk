@@ -690,13 +690,13 @@ class _AmountPill extends StatelessWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 48),
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 48),
       child: Center(
         child: Column(
           children: [
             Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral300),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Text(
               'No demands match the current filter',
               style: TextStyle(color: AppColors.neutral400, fontSize: 14),

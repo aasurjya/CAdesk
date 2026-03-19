@@ -260,7 +260,7 @@ class _DateInfoCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -350,7 +350,7 @@ class _ApplicableEntitiesCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -397,7 +397,7 @@ class _ComplianceTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isCompleted = status == ComplianceStatus.completed;
     final steps = [
-      _TimelineEntry(
+      const _TimelineEntry(
         title: 'Deadline Created',
         subtitle: 'Added to compliance calendar',
         isComplete: true,
@@ -423,7 +423,7 @@ class _ComplianceTimeline extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -560,7 +560,7 @@ class _RelatedDeadlinesCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

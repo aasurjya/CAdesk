@@ -290,7 +290,7 @@ class _DemandRefundCard extends StatelessWidget {
             ),
           ),
           if (hasDemand)
-            _Badge(label: 'Due: 30 days', color: AppColors.warning),
+            const _Badge(label: 'Due: 30 days', color: AppColors.warning),
         ],
       ),
     );

@@ -613,7 +613,7 @@ class _TimeEntriesSection extends StatelessWidget {
               (entry) => ListTile(
                 dense: true,
                 contentPadding: EdgeInsets.zero,
-                leading: Icon(
+                leading: const Icon(
                   Icons.schedule_rounded,
                   size: 20,
                   color: AppColors.neutral400,

@@ -206,7 +206,7 @@ class RpaDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Bot list
-          SectionHeader(title: 'Bots', icon: Icons.smart_toy_rounded),
+          const SectionHeader(title: 'Bots', icon: Icons.smart_toy_rounded),
           const SizedBox(height: 10),
           ..._mockBots.map(
             (bot) => Padding(
@@ -217,7 +217,10 @@ class RpaDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Execution logs
-          SectionHeader(title: 'Execution Logs', icon: Icons.terminal_rounded),
+          const SectionHeader(
+            title: 'Execution Logs',
+            icon: Icons.terminal_rounded,
+          ),
           const SizedBox(height: 10),
           ..._mockLogs.map(
             (log) => Padding(

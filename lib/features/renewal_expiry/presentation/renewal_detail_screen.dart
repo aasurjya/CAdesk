@@ -98,7 +98,7 @@ class RenewalDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final r = _mockRenewal;
+    const r = _mockRenewal;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -113,7 +113,7 @@ class RenewalDetailScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _HeaderCard(renewal: r),
+          const _HeaderCard(renewal: r),
           const SizedBox(height: 16),
 
           // Renewal process steps

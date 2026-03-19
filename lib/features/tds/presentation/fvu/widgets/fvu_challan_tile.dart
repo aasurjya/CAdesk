@@ -79,7 +79,11 @@ class FvuChallanTile extends StatelessWidget {
             // Row 2: Section + Date + Deductees
             Row(
               children: [
-                Icon(Icons.gavel_rounded, size: 13, color: AppColors.secondary),
+                const Icon(
+                  Icons.gavel_rounded,
+                  size: 13,
+                  color: AppColors.secondary,
+                ),
                 const SizedBox(width: 3),
                 Text(
                   'Sec ${record.sectionCode}',
@@ -89,7 +93,7 @@ class FvuChallanTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Icon(
+                const Icon(
                   Icons.calendar_today_rounded,
                   size: 13,
                   color: AppColors.neutral400,

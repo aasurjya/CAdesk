@@ -236,7 +236,7 @@ class Itr4FormValidator {
 
     if (income.numberOfVehicles > GoodsCarriageIncome44AE.maxVehicles) {
       errors.add(
-        ValidationError(
+        const ValidationError(
           field: 'numberOfVehicles',
           message:
               'Number of vehicles exceeds the Section 44AE limit of '

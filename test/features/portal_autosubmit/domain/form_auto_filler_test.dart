@@ -240,9 +240,9 @@ void main() {
       });
 
       test('screenshot step always returns success true', () async {
-        final script = AutoFillScript(
+        const script = AutoFillScript(
           formType: PortalFormType.itdPersonalInfo,
-          steps: const [
+          steps: [
             AutoFillStep(
               selector: '.any-class',
               action: AutoFillAction.screenshot,
@@ -260,9 +260,9 @@ void main() {
       test(
         'click step returns success true when jsExecutor returns "true"',
         () async {
-          final script = AutoFillScript(
+          const script = AutoFillScript(
             formType: PortalFormType.itdPersonalInfo,
-            steps: const [
+            steps: [
               AutoFillStep(
                 selector: '#submitBtn',
                 action: AutoFillAction.click,
@@ -281,9 +281,9 @@ void main() {
       );
 
       test('assert step returns failed result when assertion fails', () async {
-        final script = AutoFillScript(
+        const script = AutoFillScript(
           formType: PortalFormType.itdPersonalInfo,
-          steps: const [
+          steps: [
             AutoFillStep(
               selector: '#statusMsg',
               action: AutoFillAction.assert_,

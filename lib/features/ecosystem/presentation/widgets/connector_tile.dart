@@ -75,7 +75,7 @@ class ConnectorTile extends StatelessWidget {
                 children: [
                   if (connector.status == ConnectorStatus.connected &&
                       connector.latencyMs != null) ...[
-                    Icon(
+                    const Icon(
                       Icons.speed_outlined,
                       size: 12,
                       color: AppColors.neutral400,
@@ -90,7 +90,7 @@ class ConnectorTile extends StatelessWidget {
                     const SizedBox(width: 12),
                   ],
                   if (connector.lastHeartbeat != null) ...[
-                    Icon(
+                    const Icon(
                       Icons.access_time_outlined,
                       size: 12,
                       color: AppColors.neutral400,

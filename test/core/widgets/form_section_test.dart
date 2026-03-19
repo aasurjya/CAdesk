@@ -14,7 +14,7 @@ Widget _buildSubject({
   List<Widget> children = const [],
   IconData? icon,
 }) {
-  return FormSection(title: title, children: children, icon: icon);
+  return FormSection(title: title, icon: icon, children: children);
 }
 
 // ---------------------------------------------------------------------------

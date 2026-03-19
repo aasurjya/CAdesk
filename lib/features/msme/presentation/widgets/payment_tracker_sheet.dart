@@ -195,7 +195,7 @@ class _SheetHeader extends StatelessWidget {
                 color: AppColors.primaryVariant.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Text(
+              child: const Text(
                 '43B(h) Payment Tracker',
                 style: TextStyle(
                   fontSize: 11,
@@ -238,13 +238,17 @@ class _OverdueBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.warning_amber_rounded, color: AppColors.error, size: 18),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.error,
+            size: 18,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               '$count payment${count == 1 ? '' : 's'} overdue — '
               '${_fmt.format(disallowable)} disallowable under Sec 43B(h)',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: AppColors.error,
@@ -454,7 +458,7 @@ class _PaymentRow extends StatelessWidget {
                       color: AppColors.error.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Overdue',
                       style: TextStyle(
                         fontSize: 11,
@@ -635,7 +639,7 @@ class _FormMsme1Section extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.description_outlined,
                 color: AppColors.accent,
                 size: 18,

@@ -246,17 +246,17 @@ class _AmountRow extends StatelessWidget {
           Expanded(
             child: TextFormField(
               controller: controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
+                contentPadding: EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 10,
                 ),
-                border: const OutlineInputBorder(),
+                border: OutlineInputBorder(),
                 hintText: '0.00',
                 hintStyle: TextStyle(color: AppColors.neutral300, fontSize: 13),
                 prefixText: '\u20B9 ',
-                prefixStyle: const TextStyle(
+                prefixStyle: TextStyle(
                   fontSize: 13,
                   color: AppColors.neutral600,
                 ),

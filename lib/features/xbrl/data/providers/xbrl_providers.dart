@@ -92,7 +92,7 @@ final List<XbrlFiling> _mockFilings = [
     validationWarnings: 5,
     preparedBy: 'CA Sanjay Trivedi',
   ),
-  XbrlFiling(
+  const XbrlFiling(
     id: 'xbrl-006',
     companyId: 'co-008',
     companyName: 'Rajputana Foods & Beverages Private Limited',

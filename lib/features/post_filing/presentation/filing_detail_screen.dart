@@ -64,7 +64,7 @@ class FilingDetailScreen extends ConsumerWidget {
             const SizedBox(height: 16),
 
             // Status timeline
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Status Timeline',
               icon: Icons.timeline_rounded,
             ),
@@ -78,7 +78,7 @@ class FilingDetailScreen extends ConsumerWidget {
             const SizedBox(height: 16),
 
             // Key details
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Key Details',
               icon: Icons.info_outline_rounded,
             ),
@@ -88,7 +88,7 @@ class FilingDetailScreen extends ConsumerWidget {
 
             // Refund section
             if (refund.isNotEmpty) ...[
-              _SectionHeader(
+              const _SectionHeader(
                 title: 'Refund Details',
                 icon: Icons.account_balance_wallet_rounded,
               ),
@@ -111,7 +111,7 @@ class FilingDetailScreen extends ConsumerWidget {
 
             // Demand section
             if (demand.isNotEmpty) ...[
-              _SectionHeader(
+              const _SectionHeader(
                 title: 'Demand Notice',
                 icon: Icons.warning_rounded,
               ),
@@ -130,7 +130,7 @@ class FilingDetailScreen extends ConsumerWidget {
 
             // Intimation 143(1) card
             if (filing.currentState == FilingState.intimationIssued) ...[
-              _SectionHeader(
+              const _SectionHeader(
                 title: 'Intimation u/s 143(1)',
                 icon: Icons.mail_rounded,
               ),

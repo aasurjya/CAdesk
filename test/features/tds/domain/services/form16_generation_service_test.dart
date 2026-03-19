@@ -10,7 +10,7 @@ void main() {
   // Shared test fixtures
   // ---------------------------------------------------------------------------
 
-  final testAddress = TdsAddress(
+  const testAddress = TdsAddress(
     line1: '123 MG Road',
     city: 'Mumbai',
     state: 'Maharashtra',

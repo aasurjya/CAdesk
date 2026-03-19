@@ -111,7 +111,7 @@ class ScenarioTile extends StatelessWidget {
                   color: categoryColor,
                 ),
                 const SizedBox(width: 8),
-                Icon(
+                const Icon(
                   Icons.schedule_rounded,
                   size: 12,
                   color: AppColors.neutral400,

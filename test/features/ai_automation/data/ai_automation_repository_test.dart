@@ -101,7 +101,7 @@ void main() {
     });
 
     test('insertInsight adds entry and returns id', () async {
-      final insight = AutomationInsight(
+      const insight = AutomationInsight(
         id: 'insight-new-001',
         title: 'New Insight',
         clientName: 'Client X',
@@ -109,8 +109,8 @@ void main() {
         metricLabel: 'Accuracy',
         metricValue: '95%',
         actionLabel: 'Review',
-        icon: const IconData(0xe000),
-        color: const Color(0xFF1A7A3A),
+        icon: IconData(0xe000),
+        color: Color(0xFF1A7A3A),
         status: AutomationInsightStatus.onTrack,
       );
       final id = await repo.insertInsight(insight);
@@ -126,7 +126,7 @@ void main() {
     });
 
     test('updateInsight returns false for non-existent id', () async {
-      final ghost = AutomationInsight(
+      const ghost = AutomationInsight(
         id: 'non-existent-insight',
         title: 'Ghost',
         clientName: 'Nobody',
@@ -134,8 +134,8 @@ void main() {
         metricLabel: 'N/A',
         metricValue: '0',
         actionLabel: 'None',
-        icon: const IconData(0xe000),
-        color: const Color(0xFF000000),
+        icon: IconData(0xe000),
+        color: Color(0xFF000000),
         status: AutomationInsightStatus.blocked,
       );
       final success = await repo.updateInsight(ghost);

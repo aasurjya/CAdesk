@@ -155,7 +155,7 @@ void main() {
       });
 
       test('insertCircular adds circular', () async {
-        final circular = RegulatoryCircular(
+        const circular = RegulatoryCircular(
           id: 'circular-new-001',
           circularNumber: 'CBDT/2026/001',
           issuingBody: 'CBDT',
@@ -166,7 +166,7 @@ void main() {
           category: 'Income Tax',
           impactLevel: 'High',
           affectedClientsCount: 25,
-          keyChanges: const ['Change 1', 'Change 2'],
+          keyChanges: ['Change 1', 'Change 2'],
         );
         final id = await repo.insertCircular(circular);
         expect(id, circular.id);
@@ -198,7 +198,7 @@ void main() {
       });
 
       test('insertClientImpactAlert adds alert', () async {
-        final alert = ClientImpactAlert(
+        const alert = ClientImpactAlert(
           id: 'impact-new-001',
           circularId: 'circular-001',
           clientName: 'New Client',

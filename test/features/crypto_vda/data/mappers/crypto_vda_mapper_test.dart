@@ -246,7 +246,7 @@ void main() {
 
     group('summaryToJson', () {
       test('includes all fields and round-trips correctly', () {
-        final summary = const VdaSummary(
+        const summary = VdaSummary(
           clientId: 'c1',
           clientName: 'Test Client',
           assessmentYear: '2025-26',

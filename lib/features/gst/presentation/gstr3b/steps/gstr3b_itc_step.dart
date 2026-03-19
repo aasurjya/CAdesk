@@ -106,7 +106,7 @@ class _Gstr3bItcStepState extends ConsumerState<Gstr3bItcStep> {
   }
 
   void _save() {
-    final zero = const ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zero = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
 
     final importGoods = ItcRow(
       igst: _p(_importGoodsIgst),
@@ -351,14 +351,14 @@ class _Gstr3bItcStepState extends ConsumerState<Gstr3bItcStep> {
                 color: AppColors.secondary.withValues(alpha: 0.2),
               ),
             ),
-            child: Row(
+            child: const Row(
               children: [
                 Icon(
                   Icons.sync_alt_rounded,
                   size: 16,
                   color: AppColors.secondary,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     'ITC amounts should match your GSTR-2B reconciliation.',
@@ -452,17 +452,17 @@ class _TaxField extends StatelessWidget {
           Expanded(
             child: TextFormField(
               controller: controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
+                contentPadding: EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 10,
                 ),
-                border: const OutlineInputBorder(),
+                border: OutlineInputBorder(),
                 hintText: '0.00',
                 hintStyle: TextStyle(color: AppColors.neutral300, fontSize: 13),
                 prefixText: '\u20B9 ',
-                prefixStyle: const TextStyle(
+                prefixStyle: TextStyle(
                   fontSize: 13,
                   color: AppColors.neutral600,
                 ),

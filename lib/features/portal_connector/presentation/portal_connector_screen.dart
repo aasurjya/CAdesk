@@ -108,7 +108,7 @@ class _PortalConnectionsNotifier extends Notifier<List<PortalConnection>> {
       lastSync: DateTime.now().subtract(const Duration(hours: 3)),
       autoSync: true,
     ),
-    PortalConnection(
+    const PortalConnection(
       portal: PortalType.traces,
       status: ConnectionStatus.disconnected,
       userId: 'AAAPZ1234C',
@@ -122,7 +122,7 @@ class _PortalConnectionsNotifier extends Notifier<List<PortalConnection>> {
       lastSync: DateTime.now().subtract(const Duration(days: 2, hours: 6)),
       autoSync: true,
     ),
-    PortalConnection(
+    const PortalConnection(
       portal: PortalType.epfo,
       status: ConnectionStatus.disconnected,
       userId: '',

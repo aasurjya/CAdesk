@@ -72,13 +72,16 @@ class BalanceSheetScreen extends ConsumerWidget {
             const Divider(height: 1),
 
             // ========== ASSETS ==========
-            BalanceSheetSectionTitle(title: 'ASSETS', color: AppColors.primary),
+            const BalanceSheetSectionTitle(
+              title: 'ASSETS',
+              color: AppColors.primary,
+            ),
             ..._buildAssetsSection(bs, prev),
 
             const SizedBox(height: 16),
 
             // ========== EQUITY & LIABILITIES ==========
-            BalanceSheetSectionTitle(
+            const BalanceSheetSectionTitle(
               title: 'EQUITY & LIABILITIES',
               color: AppColors.secondary,
             ),

@@ -69,17 +69,17 @@ class Gstr1AdvanceStep extends ConsumerWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.payments_rounded, size: 48, color: AppColors.neutral200),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             'No advance payments recorded',
             style: TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             'Skip if no advances received this period',
             style: TextStyle(color: AppColors.neutral300, fontSize: 12),

@@ -301,10 +301,10 @@ CmaData _buildValidCmaData() {
     grossSales: 10000000,
   );
   final bs = CmaBalanceSheet.empty().copyWith(year: 2023);
-  final ff = FundFlowStatement(
+  const ff = FundFlowStatement(
     year: 2023,
-    sourcesOfFunds: const [],
-    usesOfFunds: const [],
+    sourcesOfFunds: [],
+    usesOfFunds: [],
     netChange: 0,
     openingWorkingCapital: 0,
     closingWorkingCapital: 0,

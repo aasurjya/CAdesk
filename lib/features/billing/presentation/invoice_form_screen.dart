@@ -186,7 +186,10 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             // Client selector
-            _SectionLabel(label: 'Client', icon: Icons.person_outline_rounded),
+            const _SectionLabel(
+              label: 'Client',
+              icon: Icons.person_outline_rounded,
+            ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               initialValue: _form.client,
@@ -224,7 +227,7 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
             const SizedBox(height: 20),
 
             // Line items
-            _SectionLabel(
+            const _SectionLabel(
               label: 'Line Items',
               icon: Icons.receipt_long_rounded,
             ),
@@ -290,7 +293,10 @@ class _InvoiceFormScreenState extends ConsumerState<InvoiceFormScreen> {
             const SizedBox(height: 16),
 
             // Notes
-            _SectionLabel(label: 'Notes & Terms', icon: Icons.notes_rounded),
+            const _SectionLabel(
+              label: 'Notes & Terms',
+              icon: Icons.notes_rounded,
+            ),
             const SizedBox(height: 8),
             TextFormField(
               controller: _notesController,

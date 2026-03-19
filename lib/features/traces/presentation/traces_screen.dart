@@ -75,7 +75,7 @@ class TracesScreen extends ConsumerWidget {
               unresolvedDemandPaise: unresolvedDemand,
             ),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Recent Requests',
               icon: Icons.history_rounded,
             ),
@@ -87,14 +87,14 @@ class TracesScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Challan Verification',
               icon: Icons.verified_rounded,
             ),
             const SizedBox(height: 10),
             _ChallanList(challans: challans),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'TDS Defaults',
               icon: Icons.warning_amber_rounded,
             ),

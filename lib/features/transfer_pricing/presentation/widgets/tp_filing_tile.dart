@@ -96,7 +96,7 @@ class TpFilingTile extends StatelessWidget {
               // Date row
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -110,7 +110,7 @@ class TpFilingTile extends StatelessWidget {
                   ),
                   if (filing.filingDate != null) ...[
                     const SizedBox(width: 12),
-                    Icon(
+                    const Icon(
                       Icons.check_rounded,
                       size: 12,
                       color: AppColors.success,
@@ -163,7 +163,7 @@ class _TransactionSummary extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.swap_horiz_rounded,
                 size: 14,
                 color: AppColors.neutral600,

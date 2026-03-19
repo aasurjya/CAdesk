@@ -25,13 +25,13 @@ class ClientTile extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(client.id),
-      background: _SwipeBackground(
+      background: const _SwipeBackground(
         alignment: Alignment.centerLeft,
         color: AppColors.success,
         icon: Icons.phone,
         label: 'Call',
       ),
-      secondaryBackground: _SwipeBackground(
+      secondaryBackground: const _SwipeBackground(
         alignment: Alignment.centerRight,
         color: AppColors.primary,
         icon: Icons.email,
@@ -101,7 +101,7 @@ class ClientTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.chevron_right,
                   color: AppColors.neutral400,
                   size: 20,

@@ -96,7 +96,7 @@ void main() {
         await setPhoneViewport(tester);
         await pumpTestWidget(
           tester,
-          Row(
+          const Row(
             children: [
               SummaryCard(
                 label: 'Clients',

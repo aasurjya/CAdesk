@@ -57,7 +57,7 @@ class RecentFilingTile extends StatelessWidget {
           const SizedBox(height: 4),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.check_circle_outline,
                 size: 12,
                 color: AppColors.neutral400,
@@ -72,7 +72,7 @@ class RecentFilingTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(
+              const Icon(
                 Icons.confirmation_number_outlined,
                 size: 12,
                 color: AppColors.neutral400,

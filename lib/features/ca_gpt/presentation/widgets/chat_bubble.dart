@@ -69,7 +69,7 @@ class _AssistantAvatar extends StatelessWidget {
     return Container(
       width: 32,
       height: 32,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.secondary,
         shape: BoxShape.circle,
       ),

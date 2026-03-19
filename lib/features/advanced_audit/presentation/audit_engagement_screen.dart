@@ -57,7 +57,7 @@ class _EngagementDetail {
   final String managementLetterDraft;
 }
 
-final _mockEngagement = _EngagementDetail(
+const _mockEngagement = _EngagementDetail(
   id: 'AE-2026-014',
   clientName: 'Meridian Steel Industries Ltd',
   auditType: 'Statutory Audit',
@@ -72,31 +72,19 @@ final _mockEngagement = _EngagementDetail(
       'Reporting to Audit Committee quarterly.',
   completionPct: 0.65,
   checklist: [
-    const _ChecklistItem(
-      title: 'Planning & risk assessment',
-      isCompleted: true,
-    ),
-    const _ChecklistItem(
-      title: 'Internal controls evaluation',
-      isCompleted: true,
-    ),
-    const _ChecklistItem(
-      title: 'Revenue recognition testing',
-      isCompleted: true,
-    ),
-    const _ChecklistItem(title: 'Fixed assets verification', isCompleted: true),
-    const _ChecklistItem(title: 'Inventory observation', isCompleted: false),
-    const _ChecklistItem(title: 'Debtors confirmation', isCompleted: false),
-    const _ChecklistItem(
-      title: 'Related party transactions',
-      isCompleted: false,
-    ),
-    const _ChecklistItem(title: 'Going concern assessment', isCompleted: false),
-    const _ChecklistItem(title: 'CARO 2020 reporting', isCompleted: false),
-    const _ChecklistItem(title: 'Final review & sign-off', isCompleted: false),
+    _ChecklistItem(title: 'Planning & risk assessment', isCompleted: true),
+    _ChecklistItem(title: 'Internal controls evaluation', isCompleted: true),
+    _ChecklistItem(title: 'Revenue recognition testing', isCompleted: true),
+    _ChecklistItem(title: 'Fixed assets verification', isCompleted: true),
+    _ChecklistItem(title: 'Inventory observation', isCompleted: false),
+    _ChecklistItem(title: 'Debtors confirmation', isCompleted: false),
+    _ChecklistItem(title: 'Related party transactions', isCompleted: false),
+    _ChecklistItem(title: 'Going concern assessment', isCompleted: false),
+    _ChecklistItem(title: 'CARO 2020 reporting', isCompleted: false),
+    _ChecklistItem(title: 'Final review & sign-off', isCompleted: false),
   ],
   findings: [
-    const _AuditFinding(
+    _AuditFinding(
       title: 'Inadequate provision for doubtful debts',
       severity: 'High',
       area: 'Trade Receivables',
@@ -104,7 +92,7 @@ final _mockEngagement = _EngagementDetail(
           'Provision of only 2% maintained against debtors outstanding > 180 days '
           'amounting to INR 1.2 Cr. ECL model not applied per Ind AS 109.',
     ),
-    const _AuditFinding(
+    _AuditFinding(
       title: 'Related party disclosure gaps',
       severity: 'Critical',
       area: 'Related Parties',
@@ -112,7 +100,7 @@ final _mockEngagement = _EngagementDetail(
           'Transactions with 3 related entities totalling INR 85L not disclosed '
           'in the draft financial statements. Violates Ind AS 24.',
     ),
-    const _AuditFinding(
+    _AuditFinding(
       title: 'Depreciation rate variance',
       severity: 'Medium',
       area: 'Fixed Assets',
@@ -120,7 +108,7 @@ final _mockEngagement = _EngagementDetail(
           'Plant & machinery depreciation at 10% SLM instead of 15% per '
           'Schedule II for continuous process plants.',
     ),
-    const _AuditFinding(
+    _AuditFinding(
       title: 'Minor GST input credit mismatch',
       severity: 'Low',
       area: 'GST Compliance',
@@ -155,7 +143,7 @@ class AuditEngagementScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final e = _mockEngagement;
+    const e = _mockEngagement;
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -172,7 +160,7 @@ class AuditEngagementScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Header
-          _EngagementHeader(engagement: e),
+          const _EngagementHeader(engagement: e),
           const SizedBox(height: 16),
 
           // Engagement terms

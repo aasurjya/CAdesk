@@ -93,7 +93,7 @@ class ItrClientTile extends StatelessWidget {
                     ),
                     child: Text(
                       client.itrType.label,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppColors.secondary,

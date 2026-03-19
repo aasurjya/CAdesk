@@ -245,7 +245,7 @@ class ParserResultScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Field comparison table
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Field Comparison',
             icon: Icons.compare_arrows_rounded,
           ),

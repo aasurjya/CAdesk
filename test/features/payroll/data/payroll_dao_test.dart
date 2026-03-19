@@ -81,7 +81,7 @@ void main() {
 
     group('getPayrollByClient', () {
       test('returns entries for specific client and year', () async {
-        final clientId = 'c-by-client';
+        const clientId = 'c-by-client';
         final e1 = buildEntry(clientId: clientId, year: 2025);
         final e2 = buildEntry(clientId: clientId, year: 2025, month: 4);
         await database.payrollDao.insertPayrollEntry(
@@ -99,7 +99,7 @@ void main() {
       });
 
       test('excludes entries for different year', () async {
-        final clientId = 'c-year-filter';
+        const clientId = 'c-year-filter';
         final e = buildEntry(clientId: clientId, year: 2020);
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(e),
@@ -123,7 +123,7 @@ void main() {
 
     group('getPayrollByEmployee', () {
       test('returns entries for specific employee and year', () async {
-        final empId = 'emp-by-emp';
+        const empId = 'emp-by-emp';
         final e = buildEntry(employeeId: empId, year: 2026);
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(e),
@@ -137,7 +137,7 @@ void main() {
       });
 
       test('excludes entries for different employee', () async {
-        final empId = 'emp-only-me';
+        const empId = 'emp-only-me';
         final e = buildEntry(employeeId: empId, year: 2026);
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(e),
@@ -224,7 +224,7 @@ void main() {
 
     group('getPayrollByMonth', () {
       test('returns entries for specific client, month and year', () async {
-        final clientId = 'c-by-month';
+        const clientId = 'c-by-month';
         final e = buildEntry(clientId: clientId, month: 6, year: 2025);
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(e),
@@ -239,7 +239,7 @@ void main() {
       });
 
       test('excludes entries from different month', () async {
-        final clientId = 'c-month-filter';
+        const clientId = 'c-month-filter';
         final e = buildEntry(clientId: clientId, month: 1, year: 2025);
         await database.payrollDao.insertPayrollEntry(
           PayrollMapper.toCompanion(e),

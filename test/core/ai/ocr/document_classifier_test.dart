@@ -104,8 +104,6 @@ void main() {
 
       test('single keyword below minScore classifies as unknown', () {
         // minScore = 2 by default; one keyword hit is not enough.
-        const text = 'Balance sheet for the year.';
-        // 'balance sheet' is only 1 keyword match — below minScore(2)? Actually
         // 'balance sheet' is one entry → score=1. With minScore=2 → unknown.
         // But there may be other matches; let's use truly isolated text.
         const isolated = 'The word balance appears once here.';

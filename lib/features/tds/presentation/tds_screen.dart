@@ -34,8 +34,8 @@ class TdsScreen extends ConsumerWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text('TDS / TCS'),
-              bottom: TabBar(
-                tabs: const [
+              bottom: const TabBar(
+                tabs: [
                   Tab(text: '24Q'),
                   Tab(text: '26Q'),
                   Tab(text: '27Q'),
@@ -138,7 +138,11 @@ class _ChallanSummaryRow extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.receipt_rounded, size: 16, color: AppColors.secondary),
+          const Icon(
+            Icons.receipt_rounded,
+            size: 16,
+            color: AppColors.secondary,
+          ),
           const SizedBox(width: 6),
           Text(
             'Challans: ',
@@ -310,7 +314,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.receipt_long_rounded,
             size: 64,
             color: AppColors.neutral200,

@@ -82,7 +82,7 @@ class ForeignAssetTile extends StatelessWidget {
               // Row 2: country + Schedule FA badge + reported indicator
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.public_rounded,
                     size: 13,
                     color: AppColors.neutral400,

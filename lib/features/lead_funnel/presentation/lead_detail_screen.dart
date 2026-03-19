@@ -174,7 +174,7 @@ class _LeadHeader extends StatelessWidget {
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -318,7 +318,7 @@ class _ValueCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.account_balance_wallet_rounded,
               color: AppColors.success,
               size: 28,
@@ -378,7 +378,11 @@ class _NextActionCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.next_plan_outlined, color: AppColors.warning, size: 24),
+            const Icon(
+              Icons.next_plan_outlined,
+              color: AppColors.warning,
+              size: 24,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

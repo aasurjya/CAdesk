@@ -40,7 +40,7 @@ class _McaFilingScreenState extends ConsumerState<McaFilingScreen> {
   int get _currentIndex => _McaWizardStep.values.indexOf(_currentStep);
 
   void _nextStep() {
-    final steps = _McaWizardStep.values;
+    const steps = _McaWizardStep.values;
     if (_currentIndex < steps.length - 1) {
       setState(() => _currentStep = steps[_currentIndex + 1]);
     }
@@ -623,7 +623,7 @@ class _SubmitStep extends StatelessWidget {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: AppColors.neutral200),
+            side: const BorderSide(color: AppColors.neutral200),
           ),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -635,8 +635,11 @@ class _SubmitStep extends StatelessWidget {
                   label: 'Form',
                   value: '${formType.label} — ${formType.description}',
                 ),
-                _ReviewRow(label: 'DSC', value: 'Signed'),
-                _ReviewRow(label: 'Validation', value: 'All checks passed'),
+                const _ReviewRow(label: 'DSC', value: 'Signed'),
+                const _ReviewRow(
+                  label: 'Validation',
+                  value: 'All checks passed',
+                ),
               ],
             ),
           ),

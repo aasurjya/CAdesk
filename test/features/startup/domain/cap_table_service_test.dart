@@ -107,10 +107,10 @@ void main() {
           amountRaisedPaise: 0,
           investors: const [],
         );
-        final table = CapTable(
+        const table = CapTable(
           companyName: 'Solo Startup',
           cin: 'U72900MH2020PTC999999',
-          rounds: const [],
+          rounds: [],
         );
         final dilution = service.computeDilution(table, round);
         expect(dilution, isEmpty);

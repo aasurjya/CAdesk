@@ -57,7 +57,7 @@ class HearingTile extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.videocam_outlined,
                     size: 14,
                     color: AppColors.neutral400,
@@ -71,7 +71,7 @@ class HearingTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Icon(
+                  const Icon(
                     Icons.person_outline,
                     size: 14,
                     color: AppColors.neutral400,
@@ -111,7 +111,7 @@ class HearingTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.info_outline,
                         size: 14,
                         color: AppColors.warning,
@@ -160,7 +160,7 @@ class _DateTimeRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.event, size: 16, color: AppColors.primary),
+          const Icon(Icons.event, size: 16, color: AppColors.primary),
           const SizedBox(width: 8),
           Text(
             _dateFormat.format(hearing.hearingDate),
@@ -170,7 +170,7 @@ class _DateTimeRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Icon(Icons.access_time, size: 14, color: AppColors.primary),
+          const Icon(Icons.access_time, size: 14, color: AppColors.primary),
           const SizedBox(width: 4),
           Text(
             hearing.hearingTime,
@@ -236,7 +236,7 @@ class _DocumentChecklist extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 2),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.description_outlined,
                       size: 12,
                       color: AppColors.neutral400,

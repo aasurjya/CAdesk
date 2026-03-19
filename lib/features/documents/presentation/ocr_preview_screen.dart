@@ -164,13 +164,13 @@ class _DocumentImagePane extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.neutral200),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   _LegendDot(color: AppColors.success, label: '>90%'),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10),
                   _LegendDot(color: AppColors.warning, label: '70-90%'),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10),
                   _LegendDot(color: AppColors.error, label: '<70%'),
                 ],
               ),

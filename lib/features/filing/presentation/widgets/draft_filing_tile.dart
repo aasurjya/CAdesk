@@ -61,7 +61,7 @@ class DraftFilingTile extends StatelessWidget {
           const SizedBox(height: 4),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.calendar_today_outlined,
                 size: 12,
                 color: AppColors.neutral400,
@@ -74,7 +74,7 @@ class DraftFilingTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Icon(
+              const Icon(
                 Icons.edit_note_outlined,
                 size: 12,
                 color: AppColors.neutral400,

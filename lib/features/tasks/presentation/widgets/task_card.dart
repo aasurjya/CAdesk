@@ -94,7 +94,7 @@ class TaskCard extends StatelessWidget {
                         // Client name
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.person_outline_rounded,
                               size: 14,
                               color: AppColors.neutral400,

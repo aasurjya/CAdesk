@@ -143,7 +143,7 @@ class _CardBody extends StatelessWidget {
             // Client name
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.business_rounded,
                   size: 14,
                   color: AppColors.neutral400,
@@ -195,7 +195,7 @@ class _CardBody extends StatelessWidget {
             if (card.subtasks.isNotEmpty) ...[
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.checklist_rounded,
                     size: 14,
                     color: AppColors.neutral400,

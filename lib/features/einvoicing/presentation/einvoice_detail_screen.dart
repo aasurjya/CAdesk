@@ -179,7 +179,9 @@ class EinvoiceDetailScreen extends ConsumerWidget {
             ),
           ),
           // Totals
-          SliverToBoxAdapter(child: _TotalsCard(lineItems: _mockLineItems)),
+          const SliverToBoxAdapter(
+            child: _TotalsCard(lineItems: _mockLineItems),
+          ),
           // Action buttons
           SliverToBoxAdapter(child: _ActionButtons(record: record)),
           const SliverToBoxAdapter(child: SizedBox(height: 32)),
@@ -241,7 +243,7 @@ class _InvoiceHeaderCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             _DetailRow(label: 'Date', value: record.invoiceDate),
-            _DetailRow(label: 'Type', value: 'Tax Invoice'),
+            const _DetailRow(label: 'Type', value: 'Tax Invoice'),
             _DetailRow(
               label: 'Value',
               value: CurrencyUtils.formatINR(record.invoiceValue),
@@ -423,7 +425,7 @@ class _IrnDetailsCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.fingerprint_rounded,
                   size: 16,
                   color: AppColors.success,
@@ -454,7 +456,7 @@ class _IrnDetailsCard extends StatelessWidget {
                       color: AppColors.success.withAlpha(15),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
@@ -462,7 +464,7 @@ class _IrnDetailsCard extends StatelessWidget {
                           size: 14,
                           color: AppColors.success,
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         Text(
                           'QR Code Generated',
                           style: TextStyle(

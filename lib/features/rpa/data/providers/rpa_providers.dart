@@ -106,12 +106,12 @@ final _mockTasks = <AutomationTask>[
     resultData: null,
     errorMessage: null,
   ),
-  AutomationTask(
+  const AutomationTask(
     taskId: 'task-mock-004',
     name: 'Challan Status Verification',
     taskType: AutomationTaskType.challanFetch,
     portal: AutomationPortal.traces,
-    parameters: const {'tan': 'AAATA1234X', 'bsrCode': '0002390'},
+    parameters: {'tan': 'AAATA1234X', 'bsrCode': '0002390'},
     status: AutomationTaskStatus.queued,
     startedAt: null,
     completedAt: null,

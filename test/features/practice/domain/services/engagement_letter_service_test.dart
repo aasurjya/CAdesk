@@ -5,14 +5,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final service = EngagementLetterService.instance;
 
-  final testClient = const ClientData(
+  const testClient = ClientData(
     clientId: 'C001',
     name: 'Ramesh Kumar',
     pan: 'ABCPK1234F',
     address: '123 MG Road, Bangalore - 560001',
   );
 
-  final testFirm = const CaFirmData(
+  const testFirm = CaFirmData(
     firmName: 'Shah & Associates',
     membershipNumber: '123456',
     firmRegistrationNumber: '001234N',

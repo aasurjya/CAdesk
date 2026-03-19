@@ -126,10 +126,10 @@ void main() {
       ) async {
         await pumpTestWidget(
           tester,
-          CustomScrollView(
+          const CustomScrollView(
             slivers: [
               SliverFillRemaining(
-                child: const EmptyState(
+                child: EmptyState(
                   message: 'No filings yet',
                   subtitle: 'Start a new filing job to see it here',
                   icon: Icons.description_outlined,

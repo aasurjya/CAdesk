@@ -206,7 +206,7 @@ class PlaybookDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pb = _mockPlaybook;
+    const pb = _mockPlaybook;
     final applicable = pb.complianceItems.where((c) => c.isApplicable).length;
 
     return Scaffold(

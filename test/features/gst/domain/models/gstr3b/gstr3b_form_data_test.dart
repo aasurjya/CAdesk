@@ -6,11 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Gstr3bFormData', () {
-    final zeroRow = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
-    final zeroItc = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zeroRow = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zeroItc = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
 
     Gstr3bTaxLiability createLiability() {
-      return Gstr3bTaxLiability(
+      return const Gstr3bTaxLiability(
         outwardTaxable: Gstr3bTaxRow(
           igst: 18000,
           cgst: 9000,
@@ -25,7 +25,7 @@ void main() {
     }
 
     Gstr3bItcClaimed createItcClaimed() {
-      return Gstr3bItcClaimed(
+      return const Gstr3bItcClaimed(
         importGoods: zeroItc,
         importServices: zeroItc,
         inwardRcm: ItcRow(igst: 0, cgst: 1800, sgst: 1800, cess: 0),

@@ -268,11 +268,11 @@ void main() {
     });
 
     test('copyWith → returns new instance with updated matchType', () {
-      final result = MatchResult(
+      const result = MatchResult(
         gstr2bEntry: null,
         booksEntry: null,
         matchType: MatchType.exactMatch,
-        discrepancies: const [],
+        discrepancies: [],
         suggestedAction: 'No action needed',
       );
 
@@ -288,11 +288,11 @@ void main() {
 
   group('Gstr2bReconciliationResult', () {
     test('creates with correct field values', () {
-      final result = Gstr2bReconciliationResult(
-        exactMatches: const [],
-        partialMatches: const [],
-        unmatchedIn2b: const [],
-        unmatchedInBooks: const [],
+      const result = Gstr2bReconciliationResult(
+        exactMatches: [],
+        partialMatches: [],
+        unmatchedIn2b: [],
+        unmatchedInBooks: [],
         totalItcIn2b: 50000.0,
         totalItcInBooks: 48000.0,
         reconciledItc: 45000.0,
@@ -312,11 +312,11 @@ void main() {
     });
 
     test('copyWith → returns new instance with updated fields', () {
-      final original = Gstr2bReconciliationResult(
-        exactMatches: const [],
-        partialMatches: const [],
-        unmatchedIn2b: const [],
-        unmatchedInBooks: const [],
+      const original = Gstr2bReconciliationResult(
+        exactMatches: [],
+        partialMatches: [],
+        unmatchedIn2b: [],
+        unmatchedInBooks: [],
         totalItcIn2b: 50000.0,
         totalItcInBooks: 48000.0,
         reconciledItc: 45000.0,

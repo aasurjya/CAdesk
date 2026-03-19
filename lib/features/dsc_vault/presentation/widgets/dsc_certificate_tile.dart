@@ -72,7 +72,7 @@ class DscCertificateTile extends StatelessWidget {
                     // Row 3: issuer + expiry + token type chip
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.business_rounded,
                           size: 12,
                           color: AppColors.neutral400,
@@ -86,7 +86,7 @@ class DscCertificateTile extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Icon(
+                        const Icon(
                           Icons.event_rounded,
                           size: 12,
                           color: AppColors.neutral400,

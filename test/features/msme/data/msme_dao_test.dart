@@ -84,7 +84,7 @@ void main() {
 
     group('getMsmeRecordsByClient', () {
       test('returns records for specific client', () async {
-        final clientId = 'msme-by-client-x';
+        const clientId = 'msme-by-client-x';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
         await database.msmeDao.insertMsmeRecord(MsmeMapper.toCompanion(r1));
@@ -102,8 +102,8 @@ void main() {
       });
 
       test('filters records by client correctly', () async {
-        final clientA = 'msme-filter-a';
-        final clientB = 'msme-filter-b';
+        const clientA = 'msme-filter-a';
+        const clientB = 'msme-filter-b';
         await database.msmeDao.insertMsmeRecord(
           MsmeMapper.toCompanion(createTestRecord(clientId: clientA)),
         );

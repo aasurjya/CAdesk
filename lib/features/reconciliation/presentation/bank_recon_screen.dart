@@ -73,7 +73,7 @@ class _NarrowLayout extends StatelessWidget {
         const SizedBox(height: 14),
         _DifferenceCard(recon: recon),
         const SizedBox(height: 18),
-        _SectionLabel(title: 'Unmatched Transactions'),
+        const _SectionLabel(title: 'Unmatched Transactions'),
         const SizedBox(height: 8),
         ...recon.unreconciledItems.map(
           (item) => Padding(
@@ -82,11 +82,11 @@ class _NarrowLayout extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 18),
-        _SectionLabel(title: 'Auto-Match Suggestions'),
+        const _SectionLabel(title: 'Auto-Match Suggestions'),
         const SizedBox(height: 8),
         _AutoMatchSuggestions(recon: recon),
         const SizedBox(height: 18),
-        _SectionLabel(title: 'Matched Transactions'),
+        const _SectionLabel(title: 'Matched Transactions'),
         const SizedBox(height: 8),
         ...recon.reconciledItems.map(
           (item) => Padding(
@@ -123,7 +123,7 @@ class _WideLayout extends StatelessWidget {
               const SizedBox(height: 14),
               _DifferenceCard(recon: recon),
               const SizedBox(height: 18),
-              _SectionLabel(title: 'Auto-Match Suggestions'),
+              const _SectionLabel(title: 'Auto-Match Suggestions'),
               const SizedBox(height: 8),
               _AutoMatchSuggestions(recon: recon),
             ],
@@ -134,7 +134,7 @@ class _WideLayout extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              _SectionLabel(title: 'Unmatched Transactions'),
+              const _SectionLabel(title: 'Unmatched Transactions'),
               const SizedBox(height: 8),
               ...recon.unreconciledItems.map(
                 (item) => Padding(
@@ -143,7 +143,7 @@ class _WideLayout extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 18),
-              _SectionLabel(title: 'Matched Transactions'),
+              const _SectionLabel(title: 'Matched Transactions'),
               const SizedBox(height: 8),
               ...recon.reconciledItems.map(
                 (item) => Padding(

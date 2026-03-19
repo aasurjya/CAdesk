@@ -8,7 +8,7 @@ void main() {
   // Shared test fixtures
   // ---------------------------------------------------------------------------
 
-  final testAddress = TdsAddress(
+  const testAddress = TdsAddress(
     line1: '123 MG Road',
     city: 'Mumbai',
     state: 'Maharashtra',
@@ -163,7 +163,7 @@ void main() {
     });
 
     test('empty quarterly details gives zero totals', () {
-      final partA = Form16PartA(quarterlyDetails: const []);
+      const partA = Form16PartA(quarterlyDetails: []);
       expect(partA.totalTaxDeducted, 0);
       expect(partA.totalTaxDeposited, 0);
     });

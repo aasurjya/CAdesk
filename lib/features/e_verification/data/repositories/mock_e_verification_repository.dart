@@ -43,7 +43,7 @@ class MockEVerificationRepository implements EVerificationRepository {
   ];
 
   static final List<SigningRequest> _seedSigningRequests = [
-    SigningRequest(
+    const SigningRequest(
       requestId: 'sreq-001',
       documentHash:
           'a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2',
@@ -62,7 +62,7 @@ class MockEVerificationRepository implements EVerificationRepository {
       status: SigningStatus.signed,
       signedAt: DateTime(2026, 3, 11, 14, 30),
     ),
-    SigningRequest(
+    const SigningRequest(
       requestId: 'sreq-003',
       documentHash:
           'c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4',

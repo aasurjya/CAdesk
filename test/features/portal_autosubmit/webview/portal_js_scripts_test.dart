@@ -115,7 +115,7 @@ void main() {
 
     test('fillFieldScript triggers input and change events', () {
       // The script uses either 'input'/'change' (single-quote) or "input"/"change"
-      final script = PortalJsScripts.fillFieldScript;
+      const script = PortalJsScripts.fillFieldScript;
       final hasInput = script.contains("'input'") || script.contains('"input"');
       final hasChange =
           script.contains("'change'") || script.contains('"change"');

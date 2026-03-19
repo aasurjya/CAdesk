@@ -13,7 +13,7 @@ void main() {
     // Helper factory
     // ---------------------------------------------------------------------------
 
-    Transaction _tx(
+    Transaction tx(
       String id,
       double amount,
       DateTime date,
@@ -31,8 +31,8 @@ void main() {
       test(
         'two identical transactions on same day are detected as duplicates',
         () {
-          final t1 = _tx('1', 5000.0, baseDate, 'NEFT transfer HDFC Bank');
-          final t2 = _tx('2', 5000.0, baseDate, 'NEFT transfer HDFC Bank');
+          final t1 = tx('1', 5000.0, baseDate, 'NEFT transfer HDFC Bank');
+          final t2 = tx('2', 5000.0, baseDate, 'NEFT transfer HDFC Bank');
 
           final groups = detector.findDuplicates([t1, t2]);
 
@@ -44,8 +44,8 @@ void main() {
       test(
         'duplicate group reason is exact_amount_same_day for same-day match',
         () {
-          final t1 = _tx('1', 5000.0, baseDate, 'NEFT payment');
-          final t2 = _tx('2', 5000.0, baseDate, 'NEFT payment');
+          final t1 = tx('1', 5000.0, baseDate, 'NEFT payment');
+          final t2 = tx('2', 5000.0, baseDate, 'NEFT payment');
 
           final groups = detector.findDuplicates([t1, t2]);
 
@@ -54,8 +54,8 @@ void main() {
       );
 
       test('similarity is close to 1.0 for identical transactions', () {
-        final t1 = _tx('1', 5000.0, baseDate, 'same description');
-        final t2 = _tx('2', 5000.0, baseDate, 'same description');
+        final t1 = tx('1', 5000.0, baseDate, 'same description');
+        final t2 = tx('2', 5000.0, baseDate, 'same description');
 
         final groups = detector.findDuplicates([t1, t2]);
 
@@ -68,8 +68,8 @@ void main() {
         'amounts within 0.1% and 3 days apart with similar description are duplicates',
         () {
           // 0.1% of 5000 = 5. So 5000 and 5004 are within tolerance.
-          final t1 = _tx('1', 5000.0, baseDate, 'salary payment employee');
-          final t2 = _tx(
+          final t1 = tx('1', 5000.0, baseDate, 'salary payment employee');
+          final t2 = tx(
             '2',
             5004.0,
             baseDate.add(const Duration(days: 2)),
@@ -83,8 +83,8 @@ void main() {
       );
 
       test('exact amount match across adjacent days gives correct reason', () {
-        final t1 = _tx('1', 3000.0, baseDate, 'vendor abc payment');
-        final t2 = _tx(
+        final t1 = tx('1', 3000.0, baseDate, 'vendor abc payment');
+        final t2 = tx(
           '2',
           3000.0,
           baseDate.add(const Duration(days: 1)),
@@ -106,8 +106,8 @@ void main() {
         // Per the detector logic: if descSim >= threshold AND withinWindow → match.
         // So identical descriptions within the day window will group regardless
         // of amount difference.
-        final t1 = _tx('1', 5000.0, baseDate, 'NEFT payment');
-        final t2 = _tx('2', 50000.0, baseDate, 'NEFT payment');
+        final t1 = tx('1', 5000.0, baseDate, 'NEFT payment');
+        final t2 = tx('2', 50000.0, baseDate, 'NEFT payment');
 
         final groups = detector.findDuplicates([t1, t2]);
 
@@ -127,8 +127,8 @@ void main() {
       test(
         'transactions with different amounts and different descriptions are not duplicates',
         () {
-          final t1 = _tx('1', 5000.0, baseDate, 'salary payment');
-          final t2 = _tx('2', 75000.0, baseDate, 'rent invoice office');
+          final t1 = tx('1', 5000.0, baseDate, 'salary payment');
+          final t2 = tx('2', 75000.0, baseDate, 'rent invoice office');
 
           final groups = detector.findDuplicates([t1, t2]);
 
@@ -139,8 +139,8 @@ void main() {
       test(
         'transactions 10 days apart are not duplicates even with same amount',
         () {
-          final t1 = _tx('1', 5000.0, baseDate, 'NEFT payment to vendor');
-          final t2 = _tx(
+          final t1 = tx('1', 5000.0, baseDate, 'NEFT payment to vendor');
+          final t2 = tx(
             '2',
             5000.0,
             baseDate.add(const Duration(days: 10)),
@@ -161,7 +161,7 @@ void main() {
       });
 
       test('single transaction has no duplicates', () {
-        final t1 = _tx('1', 5000.0, baseDate, 'NEFT payment');
+        final t1 = tx('1', 5000.0, baseDate, 'NEFT payment');
         final groups = detector.findDuplicates([t1]);
         expect(groups, isEmpty);
       });
@@ -169,8 +169,8 @@ void main() {
 
     group('findDuplicates — result structure', () {
       test('detectDuplicates returns list of DuplicateGroup objects', () {
-        final t1 = _tx('1', 5000.0, baseDate, 'salary credit');
-        final t2 = _tx('2', 5000.0, baseDate, 'salary credit');
+        final t1 = tx('1', 5000.0, baseDate, 'salary credit');
+        final t2 = tx('2', 5000.0, baseDate, 'salary credit');
 
         final groups = detector.findDuplicates([t1, t2]);
 
@@ -178,8 +178,8 @@ void main() {
       });
 
       test('DuplicateGroup has candidates, similarity, and reason', () {
-        final t1 = _tx('1', 5000.0, baseDate, 'salary credit');
-        final t2 = _tx('2', 5000.0, baseDate, 'salary credit');
+        final t1 = tx('1', 5000.0, baseDate, 'salary credit');
+        final t2 = tx('2', 5000.0, baseDate, 'salary credit');
 
         final group = detector.findDuplicates([t1, t2]).first;
 
@@ -190,15 +190,15 @@ void main() {
 
       test('results are sorted by descending similarity', () {
         // Create two separate duplicate pairs
-        final t1 = _tx('1', 5000.0, baseDate, 'identical description here');
-        final t2 = _tx('2', 5000.0, baseDate, 'identical description here');
-        final t3 = _tx(
+        final t1 = tx('1', 5000.0, baseDate, 'identical description here');
+        final t2 = tx('2', 5000.0, baseDate, 'identical description here');
+        final t3 = tx(
           '3',
           3000.0,
           baseDate.add(const Duration(days: 1)),
           'another desc',
         );
-        final t4 = _tx(
+        final t4 = tx(
           '4',
           3000.0,
           baseDate.add(const Duration(days: 2)),
@@ -218,8 +218,8 @@ void main() {
 
     group('DuplicateGroup — copyWith immutability', () {
       test('copyWith returns a new instance with updated fields', () {
-        final group = DuplicateGroup(
-          candidates: const [],
+        const group = DuplicateGroup(
+          candidates: [],
           similarity: 0.9,
           reason: 'exact_amount_same_day',
         );
@@ -233,8 +233,8 @@ void main() {
 
     group('Transaction — model properties', () {
       test('Transaction equality is based on id', () {
-        final t1 = _tx('abc', 1000.0, baseDate, 'desc');
-        final t2 = _tx(
+        final t1 = tx('abc', 1000.0, baseDate, 'desc');
+        final t2 = tx(
           'abc',
           9999.0,
           baseDate.add(const Duration(days: 5)),
@@ -245,7 +245,7 @@ void main() {
       });
 
       test('Transaction copyWith preserves unchanged fields', () {
-        final original = _tx('1', 1000.0, baseDate, 'description');
+        final original = tx('1', 1000.0, baseDate, 'description');
         final updated = original.copyWith(amount: 2000.0);
 
         expect(updated.id, equals(original.id));
@@ -260,8 +260,8 @@ void main() {
         () {
           const wideDetector = DuplicateDetector(amountTolerancePct: 5.0);
           // 5% of 5000 = 250, so 5000 and 5200 are within tolerance.
-          final t1 = _tx('1', 5000.0, baseDate, 'NEFT payment');
-          final t2 = _tx('2', 5200.0, baseDate, 'NEFT payment');
+          final t1 = tx('1', 5000.0, baseDate, 'NEFT payment');
+          final t2 = tx('2', 5200.0, baseDate, 'NEFT payment');
 
           final groups = wideDetector.findDuplicates([t1, t2]);
 
@@ -271,8 +271,8 @@ void main() {
 
       test('strict amountTolerancePct of 0% rejects minor differences', () {
         const strictDetector = DuplicateDetector(amountTolerancePct: 0.0);
-        final t1 = _tx('1', 5000.0, baseDate, 'same desc test');
-        final t2 = _tx('2', 5001.0, baseDate, 'same desc test');
+        final t1 = tx('1', 5000.0, baseDate, 'same desc test');
+        final t2 = tx('2', 5001.0, baseDate, 'same desc test');
 
         // Amount mismatch → only description match can group them.
         // Description is identical → Jaccard = 1.0 ≥ 0.5 threshold → grouped.

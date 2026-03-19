@@ -138,7 +138,7 @@ void main() {
     otpService.dispose();
   });
 
-  SubmissionJob _makeJob({
+  SubmissionJob makeJob({
     String id = 'job-1',
     PortalType portalType = PortalType.itd,
   }) {
@@ -156,7 +156,7 @@ void main() {
 
   group('prepare', () {
     test('throws when no credential is stored for the portal type', () async {
-      final job = _makeJob();
+      final job = makeJob();
 
       await expectLater(
         runner.prepare(job),
@@ -176,7 +176,7 @@ void main() {
           ),
         );
 
-        final job = _makeJob(portalType: PortalType.itd);
+        final job = makeJob(portalType: PortalType.itd);
         final prepared = await runner.prepare(job);
 
         expect(prepared.portalUrl, contains('incometax.gov.in'));
@@ -197,7 +197,7 @@ void main() {
         ),
       );
 
-      final job = _makeJob(portalType: PortalType.gstn);
+      final job = makeJob(portalType: PortalType.gstn);
       final prepared = await runner.prepare(job);
 
       expect(prepared.portalUrl, contains('gst.gov.in'));
@@ -214,7 +214,7 @@ void main() {
           ),
         );
 
-        final job = _makeJob(portalType: portal);
+        final job = makeJob(portalType: portal);
         final prepared = await runner.prepare(job);
         expect(prepared.portalUrl, isNotEmpty);
       }

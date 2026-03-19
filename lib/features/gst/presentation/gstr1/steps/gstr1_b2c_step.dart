@@ -111,12 +111,12 @@ class Gstr1B2cStep extends ConsumerWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.storefront_rounded, size: 48, color: AppColors.neutral200),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             'No B2C invoices added',
             style: TextStyle(color: AppColors.neutral400, fontSize: 14),

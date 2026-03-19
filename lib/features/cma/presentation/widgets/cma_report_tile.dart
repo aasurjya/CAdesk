@@ -95,7 +95,7 @@ class CmaReportTile extends StatelessWidget {
                 children: [
                   _DscrIndicator(dscr: report.latestDscr),
                   const SizedBox(width: 12),
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 13,
                     color: AppColors.neutral400,

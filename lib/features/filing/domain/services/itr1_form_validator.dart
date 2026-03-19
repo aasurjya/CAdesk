@@ -134,7 +134,7 @@ class Itr1FormValidator {
   ) {
     if (data.grossTotalIncome > maxGrossIncomeForItr1) {
       errors.add(
-        ValidationError(
+        const ValidationError(
           field: 'grossTotalIncome',
           message:
               'Gross total income exceeds ₹50 lakhs. '

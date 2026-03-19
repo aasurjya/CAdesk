@@ -57,7 +57,7 @@ class Gstr1B2bStep extends ConsumerWidget {
 class _EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -66,7 +66,7 @@ class _EmptyState extends StatelessWidget {
             size: 48,
             color: AppColors.neutral200,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Text(
             'No B2B invoices added',
             style: TextStyle(
@@ -75,7 +75,7 @@ class _EmptyState extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Text(
             'Tap the button below to add invoices',
             style: TextStyle(color: AppColors.neutral300, fontSize: 12),

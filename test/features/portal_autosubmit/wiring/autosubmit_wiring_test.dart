@@ -221,7 +221,7 @@ void main() {
   group('Mock login stream — falls back when webViewController is null', () {
     late OtpInterceptService otpService;
 
-    final credential = PortalCredential(
+    const credential = PortalCredential(
       id: 'cred-test',
       portalType: PortalType.itd,
       username: 'test_user',

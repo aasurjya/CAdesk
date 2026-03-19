@@ -193,7 +193,7 @@ class BenchmarkDetailScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Peer comparison
-          SectionHeader(
+          const SectionHeader(
             title: 'Peer Comparison',
             icon: Icons.compare_arrows_rounded,
           ),
@@ -207,7 +207,7 @@ class BenchmarkDetailScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Recommendations
-          SectionHeader(
+          const SectionHeader(
             title: 'Recommendations',
             icon: Icons.lightbulb_rounded,
           ),

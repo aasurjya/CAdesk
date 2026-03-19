@@ -15,7 +15,7 @@ void main() {
 
     /// Builds a minimal PNG byte sequence with given width and height.
     /// PNG header (8 bytes) + IHDR chunk offset: width at offset 16, height at 20.
-    List<int> _buildPngBytes({
+    List<int> buildPngBytes({
       int width = 1024,
       int height = 768,
       int totalLength = 2000,
@@ -44,7 +44,7 @@ void main() {
     }
 
     /// Builds a minimal JPEG byte sequence.
-    List<int> _buildJpegBytes({int totalLength = 2000}) {
+    List<int> buildJpegBytes({int totalLength = 2000}) {
       final bytes = List<int>.filled(totalLength, 128);
       bytes[0] = 0xFF;
       bytes[1] = 0xD8; // JPEG SOI marker
@@ -52,7 +52,7 @@ void main() {
     }
 
     /// Builds fake PDF bytes (starting with %PDF magic).
-    List<int> _buildPdfBytes({int totalLength = 2000}) {
+    List<int> buildPdfBytes({int totalLength = 2000}) {
       final bytes = List<int>.filled(totalLength, 32);
       // %PDF magic bytes
       bytes[0] = 0x25; // '%'
@@ -93,14 +93,14 @@ void main() {
 
     group('preprocess — PNG detection', () {
       test('PNG magic bytes produce result with non-null widthPx', () {
-        final pngBytes = _buildPngBytes(width: 1024, height: 768);
+        final pngBytes = buildPngBytes(width: 1024, height: 768);
         final result = preprocessor.preprocess(pngBytes);
 
         expect(result.widthPx, equals(1024));
       });
 
       test('PNG with sufficient resolution returns widthPx and heightPx', () {
-        final pngBytes = _buildPngBytes(width: 1200, height: 900);
+        final pngBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(pngBytes);
 
         expect(result.widthPx, equals(1200));
@@ -108,7 +108,7 @@ void main() {
       });
 
       test('PNG above minimum resolution is not marked low resolution', () {
-        final pngBytes = _buildPngBytes(width: 1200, height: 900);
+        final pngBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(pngBytes);
 
         // minWidthPx=800, minHeightPx=600 — 1200x900 should pass
@@ -116,7 +116,7 @@ void main() {
       });
 
       test('PNG below minimum resolution is marked low resolution', () {
-        final pngBytes = _buildPngBytes(width: 400, height: 300);
+        final pngBytes = buildPngBytes(width: 400, height: 300);
         final result = preprocessor.preprocess(pngBytes);
 
         expect(result.isLowResolution, isTrue);
@@ -125,7 +125,7 @@ void main() {
 
     group('preprocess — JPEG detection', () {
       test('JPEG magic bytes produce an OcrPreprocessResult', () {
-        final jpegBytes = _buildJpegBytes();
+        final jpegBytes = buildJpegBytes();
         final result = preprocessor.preprocess(jpegBytes);
 
         expect(result, isA<OcrPreprocessResult>());
@@ -136,7 +136,7 @@ void main() {
         () {
           // Our minimal JPEG doesn't have a SOF0 marker, so dimensions
           // cannot be parsed → treated as low resolution.
-          final jpegBytes = _buildJpegBytes();
+          final jpegBytes = buildJpegBytes();
           final result = preprocessor.preprocess(jpegBytes);
 
           expect(result.isLowResolution, isTrue);
@@ -144,7 +144,7 @@ void main() {
       );
 
       test('JPEG bytes return original bytes in processedBytes', () {
-        final jpegBytes = _buildJpegBytes(totalLength: 2000);
+        final jpegBytes = buildJpegBytes(totalLength: 2000);
         final result = preprocessor.preprocess(jpegBytes);
 
         expect(result.processedBytes, equals(jpegBytes));
@@ -153,14 +153,14 @@ void main() {
 
     group('preprocess — PDF handling', () {
       test('PDF magic bytes produce an OcrPreprocessResult without error', () {
-        final pdfBytes = _buildPdfBytes();
+        final pdfBytes = buildPdfBytes();
         final result = preprocessor.preprocess(pdfBytes);
 
         expect(result, isA<OcrPreprocessResult>());
       });
 
       test('PDF bytes return original bytes unchanged in processedBytes', () {
-        final pdfBytes = _buildPdfBytes(totalLength: 2000);
+        final pdfBytes = buildPdfBytes(totalLength: 2000);
         final result = preprocessor.preprocess(pdfBytes);
 
         expect(result.processedBytes, equals(pdfBytes));
@@ -190,14 +190,14 @@ void main() {
 
     group('OcrPreprocessResult — field types', () {
       test('recommendedOcrEngine is either cloud or local', () {
-        final pngBytes = _buildPngBytes(width: 1200, height: 900);
+        final pngBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(pngBytes);
 
         expect(result.recommendedOcrEngine, isIn(['cloud', 'local']));
       });
 
       test('estimatedNoiseLevel is in [0.0, 1.0] when present', () {
-        final pngBytes = _buildPngBytes(width: 1200, height: 900);
+        final pngBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(pngBytes);
 
         if (result.estimatedNoiseLevel != null) {
@@ -206,7 +206,7 @@ void main() {
       });
 
       test('estimatedSkewDegrees is non-negative', () {
-        final pngBytes = _buildPngBytes(width: 1200, height: 900);
+        final pngBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(pngBytes);
 
         expect(result.estimatedSkewDegrees, isNonNegative);
@@ -234,7 +234,7 @@ void main() {
 
     group('OcrPreprocessor — engine recommendation logic', () {
       test('low-resolution image recommends cloud', () {
-        final lowResBytes = _buildPngBytes(width: 400, height: 300);
+        final lowResBytes = buildPngBytes(width: 400, height: 300);
         final result = preprocessor.preprocess(lowResBytes);
 
         expect(result.recommendedOcrEngine, equals('cloud'));
@@ -243,7 +243,7 @@ void main() {
       test('good quality PNG can recommend local', () {
         // A PNG with sufficient resolution and low noise / no skew
         // (uniform medium-grey bytes → low variance → low skew → low noise).
-        final goodBytes = _buildPngBytes(width: 1200, height: 900);
+        final goodBytes = buildPngBytes(width: 1200, height: 900);
         final result = preprocessor.preprocess(goodBytes);
 
         // Uniform fill bytes → low noise, low skew → should be local.

@@ -180,7 +180,7 @@ class MockGstnRepository implements GstnRepository {
   String _generateAccessToken(String gstin) {
     final seed = gstin.codeUnits.fold(0, (a, b) => a + b);
     final rng = Random(seed);
-    final chars =
+    const chars =
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     return List.generate(64, (_) => chars[rng.nextInt(chars.length)]).join();
   }

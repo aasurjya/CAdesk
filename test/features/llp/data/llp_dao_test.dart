@@ -84,7 +84,7 @@ void main() {
 
     group('getLlpFilingsByClient', () {
       test('returns filings for specific client', () async {
-        final clientId = 'client-by-client-llp-a';
+        const clientId = 'client-by-client-llp-a';
         final f1 = createTestFiling(clientId: clientId);
         final f2 = createTestFiling(clientId: clientId);
         await database.llpDao.insertLlpFiling(LlpMapper.toCompanion(f1));
@@ -102,8 +102,8 @@ void main() {
       });
 
       test('filters filings by client correctly', () async {
-        final clientA = 'llp-filter-a';
-        final clientB = 'llp-filter-b';
+        const clientA = 'llp-filter-a';
+        const clientB = 'llp-filter-b';
         await database.llpDao.insertLlpFiling(
           LlpMapper.toCompanion(createTestFiling(clientId: clientA)),
         );
@@ -118,7 +118,7 @@ void main() {
 
     group('getLlpFilingsByYear', () {
       test('returns filings for matching client and year', () async {
-        final clientId = 'llp-year-client';
+        const clientId = 'llp-year-client';
         final f = createTestFiling(
           clientId: clientId,
           financialYear: '2024-25',
@@ -133,7 +133,7 @@ void main() {
       });
 
       test('excludes filings from different year', () async {
-        final clientId = 'llp-year-diff-client';
+        const clientId = 'llp-year-diff-client';
         final f = createTestFiling(
           clientId: clientId,
           financialYear: '2022-23',

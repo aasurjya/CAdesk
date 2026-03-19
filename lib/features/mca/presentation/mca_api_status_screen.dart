@@ -133,7 +133,7 @@ final _verificationsProvider = Provider<List<VerificationRequest>>((ref) {
       isVerified: true,
       verifiedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
-    VerificationRequest(
+    const VerificationRequest(
       type: 'DIN',
       value: '09876543',
       name: 'Pending Director',
@@ -212,7 +212,7 @@ class McaApiStatusScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // E-form uploads
-          _SectionHeader(
+          const _SectionHeader(
             title: 'E-Form Uploads',
             icon: Icons.upload_file_rounded,
           ),
@@ -226,7 +226,7 @@ class McaApiStatusScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // DIN/DPIN verification
-          _SectionHeader(
+          const _SectionHeader(
             title: 'DIN/DPIN Verification',
             icon: Icons.verified_user_rounded,
           ),
@@ -240,7 +240,7 @@ class McaApiStatusScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Name reservation
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Name Reservations (RUN)',
             icon: Icons.badge_rounded,
           ),
@@ -365,7 +365,7 @@ class _EformTile extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               'SRN: ${eform.srn}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 11,
                 color: AppColors.neutral400,
                 fontFamily: 'monospace',

@@ -88,7 +88,7 @@ class _PortalConfigScreenState extends ConsumerState<PortalConfigScreen> {
           children: [
             _ConnectionStatusBanner(connection: connection),
             const SizedBox(height: 20),
-            _SectionLabel(label: 'Credentials'),
+            const _SectionLabel(label: 'Credentials'),
             const SizedBox(height: 8),
             _StyledTextField(
               controller: _usernameController,
@@ -109,7 +109,7 @@ class _PortalConfigScreenState extends ConsumerState<PortalConfigScreen> {
               icon: Icons.vpn_key_rounded,
             ),
             const SizedBox(height: 20),
-            _SectionLabel(label: 'Sync Frequency'),
+            const _SectionLabel(label: 'Sync Frequency'),
             const SizedBox(height: 8),
             _SyncFrequencySelector(
               selected: config.syncFrequency,

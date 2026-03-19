@@ -51,7 +51,7 @@ Widget _buildEnumRow({
 void main() {
   group('FilterChipRow', () {
     const stringItems = ['All', 'Active', 'Inactive', 'Pending'];
-    final enumItems = _Status.values;
+    const enumItems = _Status.values;
 
     group('rendering', () {
       testWidgets('renders all provided string items as chips', (tester) async {

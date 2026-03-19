@@ -31,9 +31,9 @@ final ragPipelineProvider = Provider<RagPipeline>((ref) {
     // Keyword-only fallback
     return RagPipeline(
       gateway: gateway,
-      retriever: HybridRetriever(
-        vectorRetriever: const LocalKeywordRetriever(),
-        keywordRetriever: const LocalKeywordRetriever(),
+      retriever: const HybridRetriever(
+        vectorRetriever: LocalKeywordRetriever(),
+        keywordRetriever: LocalKeywordRetriever(),
         vectorWeight: 0.0,
         keywordWeight: 1.0,
       ),

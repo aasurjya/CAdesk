@@ -24,7 +24,7 @@ void main() {
   });
 
   group('TaxYearService.filingDueDate', () {
-    final fy2025 = TaxYear(startYear: 2025);
+    const fy2025 = TaxYear(startYear: 2025);
 
     test('non-audit due July 31', () {
       final due = TaxYearService.filingDueDate(taxYear: fy2025);
@@ -59,27 +59,27 @@ void main() {
 
   group('TaxYearService.belatedReturnDeadline', () {
     test('returns December 31 of AY year', () {
-      final ty = TaxYear(startYear: 2025);
+      const ty = TaxYear(startYear: 2025);
       expect(TaxYearService.belatedReturnDeadline(ty), DateTime(2026, 12, 31));
     });
   });
 
   group('TaxYearService.updatedReturnDeadline', () {
     test('returns 4 years from end of AY', () {
-      final ty = TaxYear(startYear: 2025);
+      const ty = TaxYear(startYear: 2025);
       expect(TaxYearService.updatedReturnDeadline(ty), DateTime(2030, 3, 31));
     });
   });
 
   group('TaxYearService.advanceTaxInstallments', () {
     test('returns 4 installments', () {
-      final ty = TaxYear(startYear: 2025);
+      const ty = TaxYear(startYear: 2025);
       final installments = TaxYearService.advanceTaxInstallments(ty);
       expect(installments.length, 4);
     });
 
     test('correct dates for FY 2025-26', () {
-      final ty = TaxYear(startYear: 2025);
+      const ty = TaxYear(startYear: 2025);
       final installments = TaxYearService.advanceTaxInstallments(ty);
       expect(installments[0].dueDate, DateTime(2025, 6, 15));
       expect(installments[1].dueDate, DateTime(2025, 9, 15));
@@ -88,7 +88,7 @@ void main() {
     });
 
     test('correct cumulative percentages', () {
-      final ty = TaxYear(startYear: 2025);
+      const ty = TaxYear(startYear: 2025);
       final installments = TaxYearService.advanceTaxInstallments(ty);
       expect(installments[0].cumulativePercent, 15);
       expect(installments[1].cumulativePercent, 45);

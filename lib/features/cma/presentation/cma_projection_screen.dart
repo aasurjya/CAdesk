@@ -122,7 +122,7 @@ class _CmaProjectionScreenState extends ConsumerState<CmaProjectionScreen> {
             const SizedBox(height: 16),
 
             // Input section
-            _SectionTitle(title: 'Projection Inputs'),
+            const _SectionTitle(title: 'Projection Inputs'),
             const SizedBox(height: 12),
             _InputCard(
               baseSales: _baseSales,
@@ -173,13 +173,13 @@ class _CmaProjectionScreenState extends ConsumerState<CmaProjectionScreen> {
             const SizedBox(height: 20),
 
             // Projected financials
-            _SectionTitle(title: 'Projected Financials'),
+            const _SectionTitle(title: 'Projected Financials'),
             const SizedBox(height: 12),
             _ProjectionTable(projections: projections),
             const SizedBox(height: 20),
 
             // Key ratios
-            _SectionTitle(title: 'Key Ratios'),
+            const _SectionTitle(title: 'Key Ratios'),
             const SizedBox(height: 12),
             _RatiosCard(projections: projections),
             const SizedBox(height: 24),
@@ -358,7 +358,7 @@ class _InputCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -493,7 +493,7 @@ class _ProjectionTable extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -606,7 +606,7 @@ class _RatiosCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

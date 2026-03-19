@@ -67,7 +67,7 @@ class PnlScreen extends ConsumerWidget {
             const Divider(height: 1),
 
             // Income
-            PnlSectionLabel(title: 'INCOME', color: AppColors.success),
+            const PnlSectionLabel(title: 'INCOME', color: AppColors.success),
             FinancialLineItem(
               label: 'Revenue from Operations',
               currentYear: pnl.revenueFromOperations,
@@ -91,7 +91,7 @@ class PnlScreen extends ConsumerWidget {
             const SizedBox(height: 8),
 
             // Expenses
-            PnlSectionLabel(title: 'EXPENSES', color: AppColors.error),
+            const PnlSectionLabel(title: 'EXPENSES', color: AppColors.error),
             FinancialLineItem(
               label: 'Cost of Materials Consumed',
               currentYear: pnl.costOfGoodsSold,
@@ -127,7 +127,7 @@ class PnlScreen extends ConsumerWidget {
             const SizedBox(height: 8),
 
             // Profit
-            PnlSectionLabel(title: 'PROFIT', color: AppColors.primary),
+            const PnlSectionLabel(title: 'PROFIT', color: AppColors.primary),
             FinancialLineItem(
               label: 'Profit Before Tax',
               currentYear: pnl.profitBeforeTax,

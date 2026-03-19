@@ -91,17 +91,17 @@ class BalanceSheetComparison {
 // ---------------------------------------------------------------------------
 
 final _mockBalanceSheets = <String, BalanceSheetComparison>{
-  'acc-001': BalanceSheetComparison(
+  'acc-001': const BalanceSheetComparison(
     current: ScheduleIIIBalanceSheet(
       financialYear: 2025,
-      equity: const ScheduleIIIEquity(
+      equity: ScheduleIIIEquity(
         shareCapital: 500000000,
         reservesAndSurplus: 350000000,
         longTermBorrowings: 220000000,
         tradePayables: 180000000,
         otherCurrentLiabilities: 62000000,
       ),
-      assets: const ScheduleIIIAssets(
+      assets: ScheduleIIIAssets(
         fixedAssets: 450000000,
         investments: 120000000,
         inventories: 280000000,
@@ -109,18 +109,18 @@ final _mockBalanceSheets = <String, BalanceSheetComparison>{
         cashAndCashEquivalents: 95000000,
         otherCurrentAssets: 57000000,
       ),
-      notes: const [],
+      notes: [],
     ),
     previous: ScheduleIIIBalanceSheet(
       financialYear: 2024,
-      equity: const ScheduleIIIEquity(
+      equity: ScheduleIIIEquity(
         shareCapital: 500000000,
         reservesAndSurplus: 280000000,
         longTermBorrowings: 250000000,
         tradePayables: 160000000,
         otherCurrentLiabilities: 55000000,
       ),
-      assets: const ScheduleIIIAssets(
+      assets: ScheduleIIIAssets(
         fixedAssets: 420000000,
         investments: 100000000,
         inventories: 260000000,
@@ -128,20 +128,20 @@ final _mockBalanceSheets = <String, BalanceSheetComparison>{
         cashAndCashEquivalents: 80000000,
         otherCurrentAssets: 95000000,
       ),
-      notes: const [],
+      notes: [],
     ),
   ),
-  'acc-006': BalanceSheetComparison(
+  'acc-006': const BalanceSheetComparison(
     current: ScheduleIIIBalanceSheet(
       financialYear: 2025,
-      equity: const ScheduleIIIEquity(
+      equity: ScheduleIIIEquity(
         shareCapital: 1000000000,
         reservesAndSurplus: 560000000,
         longTermBorrowings: 450000000,
         tradePayables: 890000000,
         otherCurrentLiabilities: 150000000,
       ),
-      assets: const ScheduleIIIAssets(
+      assets: ScheduleIIIAssets(
         fixedAssets: 980000000,
         investments: 340000000,
         inventories: 620000000,
@@ -149,7 +149,7 @@ final _mockBalanceSheets = <String, BalanceSheetComparison>{
         cashAndCashEquivalents: 180000000,
         otherCurrentAssets: 150000000,
       ),
-      notes: const [],
+      notes: [],
     ),
   ),
 };

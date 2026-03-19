@@ -9,7 +9,7 @@ void main() {
     // Helper factories
     // ---------------------------------------------------------------------------
 
-    SyncQueueItem _item({
+    SyncQueueItem item0({
       required String id,
       String tableName = 'clients',
       String recordId = 'rec_1',
@@ -56,7 +56,7 @@ void main() {
     group('processPendingItems — successful processing', () {
       test('single item is processed and yields isComplete true', () async {
         const processor = SyncQueueProcessor();
-        final item = _item(id: 'item_1');
+        final item = item0(id: 'item_1');
         final snapshots = await processor.processPendingItems([item]).toList();
 
         final final_ = snapshots.last;
@@ -72,9 +72,9 @@ void main() {
         );
 
         final items = [
-          _item(id: 'first'),
-          _item(id: 'second'),
-          _item(id: 'third'),
+          item0(id: 'first'),
+          item0(id: 'second'),
+          item0(id: 'third'),
         ];
         await processor.processPendingItems(items).toList();
 
@@ -83,7 +83,7 @@ void main() {
 
       test('processed count increments for each successful item', () async {
         const processor = SyncQueueProcessor();
-        final items = [_item(id: '1'), _item(id: '2'), _item(id: '3')];
+        final items = [item0(id: '1'), item0(id: '2'), item0(id: '3')];
 
         final snapshots = await processor.processPendingItems(items).toList();
         final last = snapshots.last;
@@ -94,7 +94,7 @@ void main() {
 
       test('progressFraction is 1.0 after all items processed', () async {
         const processor = SyncQueueProcessor();
-        final items = [_item(id: '1'), _item(id: '2')];
+        final items = [item0(id: '1'), item0(id: '2')];
         final snapshots = await processor.processPendingItems(items).toList();
 
         expect(snapshots.last.progressFraction, closeTo(1.0, 0.001));
@@ -110,7 +110,7 @@ void main() {
               throw Exception('Network error');
             },
           );
-          final items = [_item(id: 'bad_item')];
+          final items = [item0(id: 'bad_item')];
           final snapshots = await processor.processPendingItems(items).toList();
 
           final last = snapshots.last;
@@ -125,7 +125,7 @@ void main() {
             throw Exception('Timeout');
           },
         );
-        final items = [_item(id: 'bad')];
+        final items = [item0(id: 'bad')];
         final snapshots = await processor.processPendingItems(items).toList();
 
         final failedSnapshot = snapshots.firstWhere(
@@ -146,9 +146,9 @@ void main() {
             },
           );
           final items = [
-            _item(id: 'good_1'),
-            _item(id: 'bad'),
-            _item(id: 'good_2'),
+            item0(id: 'good_1'),
+            item0(id: 'bad'),
+            item0(id: 'good_2'),
           ];
           await processor.processPendingItems(items).toList();
 
@@ -164,7 +164,7 @@ void main() {
         final processor = SyncQueueProcessor(
           syncHandler: (_) async => throw Exception('Always fails'),
         );
-        final items = [_item(id: '1'), _item(id: '2')];
+        final items = [item0(id: '1'), item0(id: '2')];
         final snapshots = await processor.processPendingItems(items).toList();
 
         expect(snapshots.last.isComplete, isTrue);
@@ -279,7 +279,7 @@ void main() {
 
     group('SyncQueueItem — model properties', () {
       test('SyncQueueItem has all required fields', () {
-        final item = _item(id: 'test_id');
+        final item = item0(id: 'test_id');
 
         expect(item.id, equals('test_id'));
         expect(item.tableName, equals('clients'));
@@ -291,7 +291,7 @@ void main() {
       });
 
       test('SyncQueueItem copyWith creates new immutable instance', () {
-        final original = _item(id: '1', retryCount: 0);
+        final original = item0(id: '1', retryCount: 0);
         final updated = original.copyWith(retryCount: 3);
 
         expect(updated.retryCount, equals(3));
@@ -302,8 +302,8 @@ void main() {
       test(
         'SyncQueueItem equality is based on id, tableName, recordId, operation, localTimestamp',
         () {
-          final a = _item(id: 'x', retryCount: 0);
-          final b = _item(id: 'x', retryCount: 99);
+          final a = item0(id: 'x', retryCount: 0);
+          final b = item0(id: 'x', retryCount: 99);
 
           expect(a, equals(b));
         },

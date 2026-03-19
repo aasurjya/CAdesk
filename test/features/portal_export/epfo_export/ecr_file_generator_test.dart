@@ -19,7 +19,7 @@ void main() {
   );
 
   /// Employee A: wages at ceiling (₹15,000 gross, PF on full ₹15,000).
-  final runA = PayrollRun(
+  const runA = PayrollRun(
     runId: 'RUN-A',
     month: 3,
     year: 2024,
@@ -32,7 +32,7 @@ void main() {
     deductionsPaise: 180000,
     netPayPaise: 1320000,
     tdsDeductedPaise: 0,
-    pfContribution: const PfContribution(
+    pfContribution: PfContribution(
       pfWagePaise: 1500000, // ₹15,000
       employeeSharePaise: 180000, // 12% of 15,000
       employerEpsPaise:
@@ -44,7 +44,7 @@ void main() {
   );
 
   /// Employee B: wages above ceiling (₹20,000 gross, PF capped at ₹15,000), 2 LOP days.
-  final runB = PayrollRun(
+  const runB = PayrollRun(
     runId: 'RUN-B',
     month: 3,
     year: 2024,
@@ -57,7 +57,7 @@ void main() {
     deductionsPaise: 180000,
     netPayPaise: 1686667,
     tdsDeductedPaise: 0,
-    pfContribution: const PfContribution(
+    pfContribution: PfContribution(
       pfWagePaise: 1500000, // capped
       employeeSharePaise: 180000,
       employerEpsPaise: 125000, // min ₹1,250

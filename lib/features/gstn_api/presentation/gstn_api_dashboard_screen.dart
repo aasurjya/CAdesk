@@ -122,19 +122,19 @@ final _recentCallsProvider = Provider<List<ApiCallRecord>>((ref) {
 
 final _gstrFlowProvider = Provider<List<GstrFlowStatus>>((ref) {
   return [
-    GstrFlowStatus(
+    const GstrFlowStatus(
       returnType: 'GSTR-1',
       period: 'Feb 2026',
       stage: 'Filed',
       stageColor: AppColors.success,
     ),
-    GstrFlowStatus(
+    const GstrFlowStatus(
       returnType: 'GSTR-3B',
       period: 'Feb 2026',
       stage: 'Draft Saved',
       stageColor: AppColors.secondary,
     ),
-    GstrFlowStatus(
+    const GstrFlowStatus(
       returnType: 'GSTR-1',
       period: 'Mar 2026',
       stage: 'Not Started',
@@ -232,7 +232,10 @@ class GstnApiDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Rate limits
-          _SectionHeader(title: 'Rate Limit Usage', icon: Icons.speed_rounded),
+          const _SectionHeader(
+            title: 'Rate Limit Usage',
+            icon: Icons.speed_rounded,
+          ),
           const SizedBox(height: 10),
           ...limits.map(
             (l) => Padding(
@@ -243,7 +246,7 @@ class GstnApiDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // GSTR flow
-          _SectionHeader(
+          const _SectionHeader(
             title: 'GSTR Filing Status',
             icon: Icons.receipt_long_rounded,
           ),
@@ -257,7 +260,7 @@ class GstnApiDashboardScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Recent API calls
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Recent API Calls',
             icon: Icons.history_rounded,
           ),
@@ -485,7 +488,10 @@ class _ApiCallTile extends StatelessWidget {
                   ),
                   Text(
                     '${_timeAgo(call.timestamp)} - ${call.responseTime}ms - HTTP ${call.httpCode}',
-                    style: TextStyle(fontSize: 10, color: AppColors.neutral400),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: AppColors.neutral400,
+                    ),
                   ),
                 ],
               ),

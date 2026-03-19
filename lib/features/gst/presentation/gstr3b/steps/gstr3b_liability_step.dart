@@ -67,7 +67,7 @@ class _Gstr3bLiabilityStepState extends ConsumerState<Gstr3bLiabilityStep> {
   double _parse(TextEditingController c) => double.tryParse(c.text) ?? 0;
 
   void _save() {
-    final zero = const Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zero = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
     final liability = Gstr3bTaxLiability(
       outwardTaxable: Gstr3bTaxRow(
         igst: _parse(_outwardIgstCtrl),
@@ -270,17 +270,17 @@ class _TaxInputRow extends StatelessWidget {
           Expanded(
             child: TextFormField(
               controller: controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(
+                contentPadding: EdgeInsets.symmetric(
                   horizontal: 10,
                   vertical: 10,
                 ),
-                border: const OutlineInputBorder(),
+                border: OutlineInputBorder(),
                 hintText: '0.00',
                 hintStyle: TextStyle(color: AppColors.neutral300, fontSize: 13),
                 prefixText: '\u20B9 ',
-                prefixStyle: const TextStyle(
+                prefixStyle: TextStyle(
                   fontSize: 13,
                   color: AppColors.neutral600,
                 ),

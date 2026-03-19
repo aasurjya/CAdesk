@@ -9,12 +9,12 @@ void main() {
 
   group('MockPortalConnectorRepository.send', () {
     test('ITD /itr/v1/status returns processed status', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'r1',
         portal: Portal.itd,
         endpoint: '/itr/v1/status',
         method: HttpMethod.get,
-        headers: const {},
+        headers: {},
         body: '',
       );
       final response = await repo.send(request);
@@ -25,12 +25,12 @@ void main() {
     });
 
     test('GSTN /gst/returns/gstr1 returns ack', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'r2',
         portal: Portal.gstn,
         endpoint: '/gst/returns/gstr1',
         method: HttpMethod.post,
-        headers: const {},
+        headers: {},
         body: '{}',
       );
       final response = await repo.send(request);
@@ -40,12 +40,12 @@ void main() {
     });
 
     test('TRACES /api/v1/form16 returns download URL', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'r3',
         portal: Portal.traces,
         endpoint: '/api/v1/form16',
         method: HttpMethod.get,
-        headers: const {},
+        headers: {},
         body: '',
       );
       final response = await repo.send(request);
@@ -55,12 +55,12 @@ void main() {
     });
 
     test('unknown endpoint returns 200 with generic response', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'r4',
         portal: Portal.mca,
         endpoint: '/unknown/path',
         method: HttpMethod.get,
-        headers: const {},
+        headers: {},
         body: '',
       );
       final response = await repo.send(request);
@@ -68,12 +68,12 @@ void main() {
     });
 
     test('response requestId matches request requestId', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'my-request-id',
         portal: Portal.itd,
         endpoint: '/itr/v1/status',
         method: HttpMethod.get,
-        headers: const {},
+        headers: {},
         body: '',
       );
       final response = await repo.send(request);
@@ -81,12 +81,12 @@ void main() {
     });
 
     test('response has positive latencyMs', () async {
-      final request = PortalRequest(
+      const request = PortalRequest(
         requestId: 'r5',
         portal: Portal.gstn,
         endpoint: '/gst/returns/gstr1',
         method: HttpMethod.get,
-        headers: const {},
+        headers: {},
         body: '',
       );
       final response = await repo.send(request);
@@ -96,7 +96,7 @@ void main() {
 
   group('MockPortalConnectorRepository.authenticate', () {
     test('returns active session for valid credentials', () async {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'testuser',
         passwordHash: 'hash123',
@@ -109,7 +109,7 @@ void main() {
 
     test('session expires 8 hours from now for ITD', () async {
       final before = DateTime.now();
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',
@@ -131,7 +131,7 @@ void main() {
     });
 
     test('sessionId is non-empty', () async {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.gstn,
         userId: 'u2',
         passwordHash: 'hash',
@@ -143,7 +143,7 @@ void main() {
 
   group('MockPortalConnectorRepository.logout', () {
     test('completes without error', () async {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',
@@ -155,7 +155,7 @@ void main() {
 
   group('MockPortalConnectorRepository.isSessionValid', () {
     test('returns true for freshly created session', () async {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',
@@ -165,7 +165,7 @@ void main() {
     });
 
     test('returns false for inactive session', () async {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',
@@ -333,7 +333,7 @@ void main() {
 
   group('PortalCredentials model', () {
     test('isTokenValid false when no sessionToken', () {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',
@@ -364,7 +364,7 @@ void main() {
     });
 
     test('copyWith updates sessionToken', () {
-      final creds = PortalCredentials(
+      const creds = PortalCredentials(
         portal: Portal.itd,
         userId: 'u1',
         passwordHash: 'hash',

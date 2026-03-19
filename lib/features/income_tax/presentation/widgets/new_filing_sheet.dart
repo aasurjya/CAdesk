@@ -375,7 +375,11 @@ class _LiveTaxPreviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.calculate_rounded, size: 16, color: AppColors.primary),
+              const Icon(
+                Icons.calculate_rounded,
+                size: 16,
+                color: AppColors.primary,
+              ),
               const SizedBox(width: 6),
               Text(
                 'Live Tax Preview',
@@ -412,7 +416,7 @@ class _LiveTaxPreviewCard extends StatelessWidget {
           Text(
             'Recommended: ${comparison.recommendedRegime} Regime '
             '(save ${currencyFmt.format(comparison.savings)})',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: AppColors.success,

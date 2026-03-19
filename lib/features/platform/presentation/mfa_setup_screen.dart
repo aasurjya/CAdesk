@@ -262,7 +262,11 @@ class _QrCodePlaceholder extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.qr_code_2_rounded, size: 64, color: AppColors.neutral600),
+          const Icon(
+            Icons.qr_code_2_rounded,
+            size: 64,
+            color: AppColors.neutral600,
+          ),
           const SizedBox(height: 8),
           Text(
             'QR Code',

@@ -1,4 +1,3 @@
-import 'package:ca_app/features/portal_parser/domain/models/ais_data.dart';
 import 'package:ca_app/features/portal_parser/domain/models/tis_data.dart';
 import 'package:ca_app/features/portal_parser/domain/services/ais_parser_service.dart';
 import 'package:ca_app/features/portal_parser/domain/services/tis_parser_service.dart';
@@ -71,8 +70,8 @@ const _validAisPayload = <String, Object?>{
 
 void main() {
   group('TisParserService', () {
-    final tisService = TisParserService.instance;
-    final aisService = AisParserService.instance;
+    const tisService = TisParserService.instance;
+    const aisService = AisParserService.instance;
 
     // ── instance ─────────────────────────────────────────────────────────────
 

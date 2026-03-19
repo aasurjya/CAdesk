@@ -199,11 +199,11 @@ class PipelineDetailScreen extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // Schedule info
-          _ScheduleCard(),
+          const _ScheduleCard(),
           const SizedBox(height: 20),
 
           // Pipeline visualization
-          SectionHeader(
+          const SectionHeader(
             title: 'Pipeline Stages',
             icon: Icons.account_tree_rounded,
           ),
@@ -217,7 +217,10 @@ class PipelineDetailScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // Error logs
-          SectionHeader(title: 'Error Logs', icon: Icons.bug_report_rounded),
+          const SectionHeader(
+            title: 'Error Logs',
+            icon: Icons.bug_report_rounded,
+          ),
           const SizedBox(height: 10),
           if (_mockErrors.isEmpty)
             const Padding(
@@ -384,7 +387,7 @@ class _StageTile extends StatelessWidget {
                         _FlowMetric(label: 'Out', value: '${stage.recordsOut}'),
                         if (stage.errorMessage != null) ...[
                           const Spacer(),
-                          Icon(
+                          const Icon(
                             Icons.info_outline_rounded,
                             size: 14,
                             color: AppColors.error,

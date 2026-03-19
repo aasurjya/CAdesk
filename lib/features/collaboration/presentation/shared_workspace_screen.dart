@@ -100,19 +100,19 @@ final _workspaceProvider = Provider.family<WorkspaceDetail, String>((
     name: 'ITR Filing FY25-26',
     clientName: 'Rajesh Kumar',
     users: [
-      WorkspaceUser(
+      const WorkspaceUser(
         name: 'Amit Patel',
         role: 'CA Partner',
         isOnline: true,
         avatarColor: AppColors.primary,
       ),
-      WorkspaceUser(
+      const WorkspaceUser(
         name: 'Sneha Gupta',
         role: 'Tax Associate',
         isOnline: true,
         avatarColor: AppColors.secondary,
       ),
-      WorkspaceUser(
+      const WorkspaceUser(
         name: 'Vikram Singh',
         role: 'Article Clerk',
         isOnline: false,
@@ -261,7 +261,7 @@ class SharedWorkspaceScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Activity feed
-          _SectionHeader(title: 'Activity', icon: Icons.history_rounded),
+          const _SectionHeader(title: 'Activity', icon: Icons.history_rounded),
           const SizedBox(height: 10),
           ...workspace.activities.map(
             (a) => Padding(
@@ -459,7 +459,10 @@ class _ActivityTile extends StatelessWidget {
               ),
               Text(
                 _timeAgo(activity.timestamp),
-                style: TextStyle(fontSize: 11, color: AppColors.neutral400),
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: AppColors.neutral400,
+                ),
               ),
             ],
           ),

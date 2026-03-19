@@ -8,7 +8,7 @@ import 'package:ca_app/features/roadmap_modules/domain/repositories/roadmap_modu
 /// Seeded with sample roadmap data for development and testing.
 class MockRoadmapModulesRepository implements RoadmapModulesRepository {
   static final List<RoadmapModuleDefinition> _seed = [
-    RoadmapModuleDefinition(
+    const RoadmapModuleDefinition(
       id: 'gst',
       title: 'GST Module',
       subtitle: 'Returns & Reconciliation',
@@ -16,7 +16,7 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
       heroDescription: 'File GSTR-1, GSTR-3B, GSTR-9 and reconcile ITC.',
       icon: Icons.receipt_long_rounded,
       accentColor: AppColors.primary,
-      workItems: const [
+      workItems: [
         RoadmapWorkItem(
           id: 'gst-w-001',
           title: 'GSTR-1 monthly filing',
@@ -38,7 +38,7 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
           enabled: true,
         ),
       ],
-      metrics: const [
+      metrics: [
         RoadmapMetric(
           label: 'Filings this month',
           value: '24',
@@ -46,9 +46,9 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
           trend: RoadmapMetricTrend.up,
         ),
       ],
-      quickWins: const ['Enable auto-draft GSTR-3B from GSTR-1 data'],
+      quickWins: ['Enable auto-draft GSTR-3B from GSTR-1 data'],
     ),
-    RoadmapModuleDefinition(
+    const RoadmapModuleDefinition(
       id: 'tds',
       title: 'TDS Module',
       subtitle: 'Deduction & Returns',
@@ -56,7 +56,7 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
       heroDescription: 'Automate TDS computation, challan and returns.',
       icon: Icons.account_balance_rounded,
       accentColor: AppColors.secondary,
-      workItems: const [
+      workItems: [
         RoadmapWorkItem(
           id: 'tds-w-001',
           title: '24Q quarterly return',
@@ -78,7 +78,7 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
           enabled: false,
         ),
       ],
-      metrics: const [
+      metrics: [
         RoadmapMetric(
           label: 'Challans verified',
           value: '18',
@@ -86,7 +86,7 @@ class MockRoadmapModulesRepository implements RoadmapModulesRepository {
           trend: RoadmapMetricTrend.steady,
         ),
       ],
-      quickWins: const ['Enable TRACES integration for auto-download Form 16'],
+      quickWins: ['Enable TRACES integration for auto-download Form 16'],
     ),
   ];
 

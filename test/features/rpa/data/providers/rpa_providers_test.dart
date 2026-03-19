@@ -46,12 +46,12 @@ void main() {
 
     test('addTask prepends to list', () {
       final before = container.read(rpaTaskListProvider).length;
-      final newTask = AutomationTask(
+      const newTask = AutomationTask(
         taskId: 'task-test-001',
         name: 'Test Task',
         taskType: AutomationTaskType.tracesDownload,
         portal: AutomationPortal.traces,
-        parameters: const {},
+        parameters: {},
         status: AutomationTaskStatus.queued,
         startedAt: null,
         completedAt: null,

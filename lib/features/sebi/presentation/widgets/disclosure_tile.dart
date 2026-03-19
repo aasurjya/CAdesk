@@ -64,7 +64,7 @@ class DisclosureTile extends StatelessWidget {
               // Bottom row: dates and period
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -83,7 +83,7 @@ class DisclosureTile extends StatelessWidget {
                   ),
                   if (disclosure.filedDate != null) ...[
                     const SizedBox(width: 12),
-                    Icon(
+                    const Icon(
                       Icons.check_rounded,
                       size: 12,
                       color: AppColors.success,

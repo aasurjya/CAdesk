@@ -160,7 +160,7 @@ class RegulationDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final r = _mockRegulation;
+    const r = _mockRegulation;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -175,7 +175,7 @@ class RegulationDetailScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _HeaderCard(regulation: r),
+          const _HeaderCard(regulation: r),
           const SizedBox(height: 16),
 
           // Applicable sections

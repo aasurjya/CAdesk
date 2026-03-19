@@ -6,6 +6,7 @@ import 'package:ca_app/features/portal_autosubmit/data/providers/submission_repo
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/submission_job_runner.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/file_upload_handler.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 import 'package:go_router/go_router.dart';
 
@@ -340,6 +341,12 @@ class _StartFilingButtonState extends ConsumerState<_StartFilingButton> {
       );
       if (credential == null || !mounted) return;
 
+      // Build file upload handler from the job's file path (if any).
+      final filePath = widget.job.itrJsonPath;
+      final fileHandler = filePath != null
+          ? FileUploadHandler(filePath: filePath)
+          : null;
+
       // Navigate to the PortalWebViewScreen with the prepared run.
       context.push(
         '/portal-autosubmit/webview/${widget.job.id}',
@@ -348,6 +355,7 @@ class _StartFilingButtonState extends ConsumerState<_StartFilingButton> {
           'credential': credential,
           'runner': preparedRun.runner,
           'gate': preparedRun.confirmationGate,
+          'fileUploadHandler': fileHandler,
         },
       );
     } on SubmissionRunnerException catch (e) {

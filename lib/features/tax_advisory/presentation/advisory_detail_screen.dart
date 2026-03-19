@@ -36,7 +36,7 @@ class _AdvisoryDetail {
   final String assignedTo;
 }
 
-final _mockAdvisory = _AdvisoryDetail(
+const _mockAdvisory = _AdvisoryDetail(
   id: 'ADV-001',
   clientName: 'Sunrise Technologies Pvt Ltd',
   query:
@@ -86,7 +86,7 @@ class AdvisoryDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // In production, look up from provider by advisoryId.
-    final advisory = _mockAdvisory;
+    const advisory = _mockAdvisory;
 
     return Scaffold(
       backgroundColor: AppColors.neutral50,
@@ -109,7 +109,7 @@ class AdvisoryDetailScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // Header card
-          _HeaderCard(advisory: advisory),
+          const _HeaderCard(advisory: advisory),
           const SizedBox(height: 16),
 
           // Client query

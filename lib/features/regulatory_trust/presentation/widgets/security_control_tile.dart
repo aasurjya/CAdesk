@@ -75,7 +75,7 @@ class SecurityControlTile extends StatelessWidget {
                 children: [
                   _SeverityBadge(severity: control.severity),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -95,7 +95,7 @@ class SecurityControlTile extends StatelessWidget {
                 const SizedBox(height: 6),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.person_outline_rounded,
                       size: 12,
                       color: AppColors.neutral400,

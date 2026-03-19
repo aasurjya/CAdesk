@@ -132,7 +132,7 @@ void main() {
 
     group('getByClient', () {
       test('returns transactions for specified client', () async {
-        final clientId = 'tp-client-unique-b';
+        const clientId = 'tp-client-unique-b';
         final t1 = createTransaction(clientId: clientId);
         final t2 = createTransaction(clientId: clientId);
         await database.tpDao.insertTransaction(
@@ -151,8 +151,8 @@ void main() {
       });
 
       test('filters by client correctly', () async {
-        final cA = 'tp-filter-client-a';
-        final cB = 'tp-filter-client-b';
+        const cA = 'tp-filter-client-a';
+        const cB = 'tp-filter-client-b';
         await database.tpDao.insertTransaction(
           TpTransactionMapper.toCompanion(createTransaction(clientId: cA)),
         );

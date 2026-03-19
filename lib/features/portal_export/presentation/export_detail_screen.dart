@@ -242,7 +242,7 @@ class ExportDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
 
           // Schema checks
-          _SectionHeader(
+          const _SectionHeader(
             title: 'Schema Compliance',
             icon: Icons.verified_outlined,
           ),
@@ -257,7 +257,7 @@ class ExportDetailScreen extends ConsumerWidget {
 
           // Submission history
           if (detail.submissions.isNotEmpty) ...[
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Submission History',
               icon: Icons.history_rounded,
             ),
@@ -393,7 +393,7 @@ class _SubmissionTile extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.cloud_done_rounded,
                   size: 18,
                   color: AppColors.success,

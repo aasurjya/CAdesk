@@ -41,7 +41,7 @@ class CapacityScreen extends ConsumerWidget {
           children: [
             _TeamSummary(team: sorted),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Team Workload',
               icon: Icons.bar_chart_rounded,
             ),

@@ -13,17 +13,6 @@ Future<String> Function(String js) _alwaysReturn(String returnValue) =>
 Future<String> Function(String js) _alwaysThrow(Object exception) =>
     (_) async => throw exception;
 
-/// Returns values from [responses] in order; repeats the last value when
-/// the list is exhausted.
-Future<String> Function(String js) _sequential(List<String> responses) {
-  var index = 0;
-  return (_) async {
-    final value = responses[index.clamp(0, responses.length - 1)];
-    if (index < responses.length - 1) index++;
-    return value;
-  };
-}
-
 void main() {
   group('RpaScriptExecutor', () {
     const executor = RpaScriptExecutor();

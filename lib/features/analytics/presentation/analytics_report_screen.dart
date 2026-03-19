@@ -146,7 +146,7 @@ class _AnalyticsReportScreenState extends ConsumerState<AnalyticsReportScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           // -- Metric selector --
-          SectionHeader(title: 'Metrics', icon: Icons.tune_rounded),
+          const SectionHeader(title: 'Metrics', icon: Icons.tune_rounded),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -172,7 +172,10 @@ class _AnalyticsReportScreenState extends ConsumerState<AnalyticsReportScreen> {
           const SizedBox(height: 20),
 
           // -- Time period --
-          SectionHeader(title: 'Time Period', icon: Icons.date_range_rounded),
+          const SectionHeader(
+            title: 'Time Period',
+            icon: Icons.date_range_rounded,
+          ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -190,7 +193,10 @@ class _AnalyticsReportScreenState extends ConsumerState<AnalyticsReportScreen> {
           const SizedBox(height: 20),
 
           // -- Chart type --
-          SectionHeader(title: 'Visualization', icon: Icons.bar_chart_rounded),
+          const SectionHeader(
+            title: 'Visualization',
+            icon: Icons.bar_chart_rounded,
+          ),
           const SizedBox(height: 8),
           Row(
             children: _ChartType.values.map((ct) {
@@ -305,7 +311,7 @@ class _DataTable extends StatelessWidget {
         child: Column(
           children: [
             // Header
-            Row(
+            const Row(
               children: [
                 _ColHeader(label: 'Service', flex: 3),
                 _ColHeader(label: 'Value', flex: 2),

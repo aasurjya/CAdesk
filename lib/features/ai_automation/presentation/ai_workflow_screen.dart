@@ -186,7 +186,7 @@ class AiWorkflowScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // -- Steps --
-          SectionHeader(
+          const SectionHeader(
             title: 'Execution Steps',
             icon: Icons.account_tree_rounded,
           ),
@@ -201,7 +201,7 @@ class AiWorkflowScreen extends ConsumerWidget {
           const SizedBox(height: 24),
 
           // -- History --
-          SectionHeader(
+          const SectionHeader(
             title: 'Execution History',
             icon: Icons.history_rounded,
           ),

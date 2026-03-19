@@ -293,7 +293,7 @@ void main() {
       test(
         'has navigate, fill, click, extract, upload, download, assert_, wait, screenshot',
         () {
-          final actions = RpaAction.values;
+          const actions = RpaAction.values;
           expect(actions, contains(RpaAction.navigate));
           expect(actions, contains(RpaAction.fill));
           expect(actions, contains(RpaAction.click));
