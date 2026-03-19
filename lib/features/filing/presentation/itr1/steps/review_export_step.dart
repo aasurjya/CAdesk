@@ -1,12 +1,22 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/core/utils/currency_utils.dart';
+import 'package:ca_app/core/utils/file_saver.dart' as file_saver;
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
 import 'package:ca_app/features/filing/domain/models/filing_job.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
-import 'package:ca_app/features/filing/domain/services/itr1_json_export_service.dart';
+import 'package:ca_app/features/portal_autosubmit/data/providers/submission_repository_providers.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
+import 'package:ca_app/features/portal_export/itr_export/services/itr1_export_service.dart';
+import 'package:ca_app/features/portal_export/itr_export/services/itr_schema_validator.dart';
 
 class ReviewExportStep extends ConsumerWidget {
   const ReviewExportStep({super.key});
@@ -20,6 +30,9 @@ class ReviewExportStep extends ConsumerWidget {
     final selectedTax = formData.selectedRegime == TaxRegime.newRegime
         ? taxResult.newRegimeTax
         : taxResult.oldRegimeTax;
+
+    final tds = formData.tdsPaymentSummary;
+    final balancePayable = selectedTax - tds.totalTaxesPaid;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -111,6 +124,27 @@ class ReviewExportStep extends ConsumerWidget {
               ),
             ],
           ),
+          _SummarySection(
+            title: 'TDS & Taxes Paid',
+            icon: Icons.receipt_long_outlined,
+            rows: [
+              ('TDS on Salary', CurrencyUtils.formatINR(tds.tdsOnSalary)),
+              (
+                'TDS on Other Income',
+                CurrencyUtils.formatINR(tds.tdsOnOtherIncome),
+              ),
+              ('Advance Tax', CurrencyUtils.formatINR(tds.totalAdvanceTax)),
+              (
+                'Self-Assessment Tax',
+                CurrencyUtils.formatINR(tds.selfAssessmentTax),
+              ),
+              ('Total Taxes Paid', CurrencyUtils.formatINR(tds.totalTaxesPaid)),
+              (
+                balancePayable >= 0 ? 'Balance Tax Payable' : 'Refund Due',
+                CurrencyUtils.formatINR(balancePayable.abs()),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
           if (job != null) ...[
             _StatusTransitionButtons(job: job, ref: ref),
@@ -119,11 +153,25 @@ class ReviewExportStep extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
-              onPressed: () => _handleExport(context, formData, taxResult),
+              onPressed: () => _handleExport(context, formData),
               icon: const Icon(Icons.download_outlined),
-              label: const Text('Export JSON'),
+              label: const Text('Export & Save JSON'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.secondary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: () => _handleFileOnPortal(context, ref),
+              icon: const Icon(Icons.cloud_upload_outlined),
+              label: const Text('File on IT Portal'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
@@ -134,25 +182,91 @@ class ReviewExportStep extends ConsumerWidget {
     );
   }
 
-  void _handleExport(
+  Future<void> _handleExport(
     BuildContext context,
     Itr1FormData formData,
-    dynamic taxResult,
-  ) {
+  ) async {
     try {
-      Itr1JsonExportService.export(
-        formData: formData,
-        taxResult: taxResult,
-        assessmentYear: 'AY 2026-27',
-        filingType: 'Original',
-      );
+      // Derive AY from PAN-based naming (use "2026-27" format for ITD)
+      const assessmentYear = '2026-27';
+      final result = Itr1ExportService.export(formData, assessmentYear);
+
+      // Validate before saving
+      final errors = ItrSchemaValidator.validate(result);
+      if (errors.isNotEmpty) {
+        if (!context.mounted) return;
+        await showDialog<void>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Validation Errors'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (final error in errors)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.warning_amber_rounded,
+                            size: 16,
+                            color: AppColors.warning,
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: Text(
+                              error,
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      final pan = formData.personalInfo.pan.isNotEmpty
+          ? formData.personalInfo.pan
+          : 'UNKNOWN';
+      final fileName = 'ITR1_${pan}_AY$assessmentYear.json';
+
+      // Pretty-print the JSON for readability
+      final prettyJson = const JsonEncoder.withIndent(
+        '  ',
+      ).convert(jsonDecode(result.jsonPayload));
+
+      await file_saver.saveFile(prettyJson, fileName);
+
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('JSON exported successfully'),
+        SnackBar(
+          content: Text(
+            kIsWeb ? 'JSON downloaded: $fileName' : 'JSON saved: $fileName',
+          ),
           backgroundColor: AppColors.success,
+          action: SnackBarAction(
+            label: 'OK',
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
         ),
       );
     } catch (e) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Export failed: $e'),
@@ -160,6 +274,30 @@ class ReviewExportStep extends ConsumerWidget {
         ),
       );
     }
+  }
+
+  void _handleFileOnPortal(BuildContext context, WidgetRef ref) {
+    final formData = ref.read(itr1FormDataProvider);
+    final job = ref.read(activeFilingJobProvider);
+
+    // Create a submission job from the current ITR-1 form data.
+    final submissionJob = SubmissionJob(
+      id: 'sub_${DateTime.now().millisecondsSinceEpoch}',
+      clientId: job?.clientId ?? 'unknown',
+      clientName: job?.clientName ?? formData.personalInfo.fullName,
+      portalType: PortalType.itd,
+      returnType: 'ITR-1',
+      currentStep: SubmissionStep.pending,
+      retryCount: 0,
+      createdAt: DateTime.now(),
+    );
+
+    // Enqueue the job so the automation queue picks it up.
+    final orchestrator = ref.read(submissionOrchestratorProvider);
+    orchestrator.enqueue(submissionJob);
+
+    // Navigate to the queue screen where the job is now visible.
+    context.push('/portal-autosubmit');
   }
 }
 

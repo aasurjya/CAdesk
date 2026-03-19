@@ -18,6 +18,8 @@ class SubmissionJob {
     this.ackNumber,
     this.filedAt,
     this.errorMessage,
+    this.itrJsonPath,
+    this.assessmentYear,
   });
 
   /// Unique job identifier (UUID).
@@ -52,6 +54,12 @@ class SubmissionJob {
 
   /// When this job was enqueued.
   final DateTime createdAt;
+
+  /// Path to the ITR JSON file for upload (ITD portal only).
+  final String? itrJsonPath;
+
+  /// Assessment Year for filing (e.g. '2025-26'). Used by ITD portal.
+  final String? assessmentYear;
 
   // ---------------------------------------------------------------------------
   // Computed helpers
@@ -91,6 +99,8 @@ class SubmissionJob {
     String? errorMessage,
     int? retryCount,
     DateTime? createdAt,
+    String? itrJsonPath,
+    String? assessmentYear,
   }) {
     return SubmissionJob(
       id: id ?? this.id,
@@ -104,6 +114,8 @@ class SubmissionJob {
       errorMessage: errorMessage ?? this.errorMessage,
       retryCount: retryCount ?? this.retryCount,
       createdAt: createdAt ?? this.createdAt,
+      itrJsonPath: itrJsonPath ?? this.itrJsonPath,
+      assessmentYear: assessmentYear ?? this.assessmentYear,
     );
   }
 

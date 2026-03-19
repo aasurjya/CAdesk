@@ -132,10 +132,10 @@ class AdaptiveScaffold extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Column(
+                          const Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
+                            children: [
                               Text(
                                 'CADesk',
                                 style: TextStyle(

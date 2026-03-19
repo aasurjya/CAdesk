@@ -289,7 +289,7 @@ class _ThreadView extends ConsumerWidget {
         // Compose bar (non-functional placeholder)
         Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.surface,
             border: Border(top: BorderSide(color: AppColors.neutral200)),
           ),

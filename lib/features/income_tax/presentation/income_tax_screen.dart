@@ -193,7 +193,7 @@ class _IncomeTaxScreenState extends ConsumerState<IncomeTaxScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.assignment_outlined,
             size: 64,
             color: AppColors.neutral400,

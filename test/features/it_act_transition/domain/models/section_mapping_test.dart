@@ -4,7 +4,7 @@ import 'package:ca_app/features/it_act_transition/domain/models/section_mapping.
 void main() {
   group('SectionMapping', () {
     test('creates immutable mapping', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deduction for life insurance, provident fund, etc.',
@@ -20,13 +20,13 @@ void main() {
     });
 
     test('equality by section1961 and section2025', () {
-      final a = SectionMapping(
+      const a = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deductions',
         category: SectionCategory.deductions,
       );
-      final b = SectionMapping(
+      const b = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deductions',
@@ -37,13 +37,13 @@ void main() {
     });
 
     test('inequality for different sections', () {
-      final a = SectionMapping(
+      const a = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deductions',
         category: SectionCategory.deductions,
       );
-      final b = SectionMapping(
+      const b = SectionMapping(
         section1961: '80D',
         section2025: '126',
         description: 'Health',
@@ -53,7 +53,7 @@ void main() {
     });
 
     test('copyWith creates new instance', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Old desc',
@@ -66,7 +66,7 @@ void main() {
     });
 
     test('copyWith with no args returns equivalent', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '143',
         section2025: '270',
         description: 'Assessment',
@@ -77,7 +77,7 @@ void main() {
     });
 
     test('notes field is optional', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '194S',
         section2025: '393(Table)',
         description: 'TDS on VDA',
@@ -88,7 +88,7 @@ void main() {
     });
 
     test('notes defaults to null', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deductions',
@@ -131,7 +131,7 @@ void main() {
 
   group('SectionMapping.displaySection', () {
     test('returns 1961 section for act1961 mode', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '80C',
         section2025: '123',
         description: 'Deductions',
@@ -142,7 +142,7 @@ void main() {
     });
 
     test('dualDisplay shows both', () {
-      final mapping = SectionMapping(
+      const mapping = SectionMapping(
         section1961: '143(1)',
         section2025: '270(1)',
         description: 'Assessment',

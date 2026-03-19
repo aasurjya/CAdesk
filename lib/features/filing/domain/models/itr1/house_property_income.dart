@@ -83,4 +83,23 @@ class HousePropertyIncome {
     interestOnLoan,
     propertyType,
   );
+
+  Map<String, dynamic> toJson() => {
+    'annualLetableValue': annualLetableValue,
+    'municipalTaxesPaid': municipalTaxesPaid,
+    'interestOnLoan': interestOnLoan,
+    'propertyType': propertyType.name,
+  };
+
+  factory HousePropertyIncome.fromJson(
+    Map<String, dynamic> json,
+  ) => HousePropertyIncome(
+    annualLetableValue: (json['annualLetableValue'] as num?)?.toDouble() ?? 0,
+    municipalTaxesPaid: (json['municipalTaxesPaid'] as num?)?.toDouble() ?? 0,
+    interestOnLoan: (json['interestOnLoan'] as num?)?.toDouble() ?? 0,
+    propertyType: PropertyType.values.firstWhere(
+      (e) => e.name == json['propertyType'],
+      orElse: () => PropertyType.selfOccupied,
+    ),
+  );
 }

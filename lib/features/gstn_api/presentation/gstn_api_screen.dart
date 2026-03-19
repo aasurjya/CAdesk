@@ -53,7 +53,10 @@ class GstnApiScreen extends ConsumerWidget {
           children: [
             _ApiQuotaMeter(quota: quota),
             const SizedBox(height: 20),
-            _SectionHeader(title: 'GSTIN Lookup', icon: Icons.search_rounded),
+            const _SectionHeader(
+              title: 'GSTIN Lookup',
+              icon: Icons.search_rounded,
+            ),
             const SizedBox(height: 10),
             _GstinQuickSearch(onSearch: () => context.go('/gstn-api/search')),
             const SizedBox(height: 8),
@@ -71,14 +74,14 @@ class GstnApiScreen extends ConsumerWidget {
               error: (e, _) => _ErrorCard(message: e.toString()),
             ),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Filing Status',
               icon: Icons.fact_check_rounded,
             ),
             const SizedBox(height: 10),
             _FilingStatusCard(filingStatus: filingStatus),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'GSTR-2B ITC',
               icon: Icons.receipt_long_rounded,
             ),

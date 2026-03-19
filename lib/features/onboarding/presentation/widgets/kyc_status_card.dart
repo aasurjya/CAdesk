@@ -52,7 +52,7 @@ class KycStatusCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 if (record.ckycKin.isNotEmpty)
-                  _VerificationBadge(
+                  const _VerificationBadge(
                     label: 'CKYC',
                     isVerified: true,
                     icon: Icons.verified_rounded,
@@ -74,7 +74,7 @@ class KycStatusCard extends StatelessWidget {
             // Footer: dates
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.calendar_today_outlined,
                   size: 12,
                   color: AppColors.neutral400,
@@ -88,7 +88,7 @@ class KycStatusCard extends StatelessWidget {
                 ),
                 if (record.verifiedAt != null) ...[
                   const SizedBox(width: 12),
-                  Icon(
+                  const Icon(
                     Icons.check_circle_outline,
                     size: 12,
                     color: AppColors.success,
@@ -103,7 +103,7 @@ class KycStatusCard extends StatelessWidget {
                 ],
                 if (record.expiryDate != null) ...[
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.event_outlined,
                     size: 12,
                     color: AppColors.warning,

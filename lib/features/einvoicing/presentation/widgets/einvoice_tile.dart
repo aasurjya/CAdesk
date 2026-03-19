@@ -216,7 +216,11 @@ class EinvoiceTile extends StatelessWidget {
             style: textTheme.labelSmall?.copyWith(color: AppColors.success),
           ),
         ] else ...[
-          Icon(Icons.qr_code_2_rounded, size: 16, color: AppColors.neutral300),
+          const Icon(
+            Icons.qr_code_2_rounded,
+            size: 16,
+            color: AppColors.neutral300,
+          ),
           const SizedBox(width: 4),
           Text(
             'No QR',

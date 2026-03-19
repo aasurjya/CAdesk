@@ -149,7 +149,7 @@ void main() {
           ),
         );
 
-        final result = const AutomationResult(
+        const result = AutomationResult(
           taskId: 'test-id',
           success: true,
           executionTimeMs: 3500,
@@ -174,7 +174,7 @@ void main() {
           ),
         );
 
-        final result = const AutomationResult(
+        const result = AutomationResult(
           taskId: 'test-id',
           success: true,
           executionTimeMs: 1000,
@@ -195,7 +195,7 @@ void main() {
           AutomationTaskManager.createTask(AutomationTaskType.challanFetch, {}),
         );
 
-        final result = const AutomationResult(
+        const result = AutomationResult(
           taskId: 'test-id',
           success: true,
           executionTimeMs: 2000,
@@ -296,7 +296,7 @@ void main() {
       });
 
       test('returns false when retryCount > maxRetries', () {
-        final task = const AutomationTask(
+        const task = AutomationTask(
           taskId: 'x',
           name: 'test',
           taskType: AutomationTaskType.tracesDownload,

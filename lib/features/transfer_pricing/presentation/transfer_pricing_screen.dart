@@ -221,7 +221,7 @@ class _TpStudiesTab extends ConsumerWidget {
         // Studies list
         Expanded(
           child: studies.isEmpty
-              ? _EmptyState(message: 'No TP studies match the filter')
+              ? const _EmptyState(message: 'No TP studies match the filter')
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: studies.length,
@@ -286,7 +286,9 @@ class _TpFilingsTab extends ConsumerWidget {
         // Filings list
         Expanded(
           child: filings.isEmpty
-              ? _EmptyState(message: 'No Form 3CEB filings match the filter')
+              ? const _EmptyState(
+                  message: 'No Form 3CEB filings match the filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: filings.length,
@@ -314,11 +316,15 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,
-            style: TextStyle(color: AppColors.neutral400, fontSize: 14),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

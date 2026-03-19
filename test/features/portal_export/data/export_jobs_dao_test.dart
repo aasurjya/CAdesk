@@ -113,7 +113,7 @@ void main() {
 
     group('getByClient', () {
       test('returns jobs for specific client', () async {
-        final clientId = 'export-client-a';
+        const clientId = 'export-client-a';
         final j1 = createTestJob(clientId: clientId);
         final j2 = createTestJob(clientId: clientId);
         await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(j1));
@@ -131,8 +131,8 @@ void main() {
       });
 
       test('filters jobs by client correctly', () async {
-        final clientA = 'export-filter-a-1';
-        final clientB = 'export-filter-b-1';
+        const clientA = 'export-filter-a-1';
+        const clientB = 'export-filter-b-1';
         final j1 = createTestJob(clientId: clientA);
         final j2 = createTestJob(clientId: clientB);
         await database.exportJobsDao.insertJob(ExportJobMapper.toCompanion(j1));

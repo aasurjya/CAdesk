@@ -428,7 +428,7 @@ class StartupComplianceSummary {
 // ---------------------------------------------------------------------------
 
 final _mockStartupProfiles = <StartupProfile>[
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-001',
     name: 'NovaPay Fintech Pvt Ltd',
     cin: 'U74999MH2021PTC123456',
@@ -444,7 +444,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 35,
     status: StartupStatus.active,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-002',
     name: 'KisanMitra AgriTech Pvt Ltd',
     cin: 'U01400DL2022PTC234567',
@@ -460,7 +460,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 15,
     status: StartupStatus.fundingRound,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-003',
     name: 'MedVault HealthTech Pvt Ltd',
     cin: 'U85100KA2020PTC345678',
@@ -476,7 +476,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 53,
     status: StartupStatus.active,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-004',
     name: 'UrbanCraft D2C Pvt Ltd',
     cin: 'U52100MH2023PTC456789',
@@ -492,7 +492,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 0,
     status: StartupStatus.active,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-005',
     name: 'GreenGrid CleanTech Pvt Ltd',
     cin: 'U40100TN2019PTC567890',
@@ -508,7 +508,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 64,
     status: StartupStatus.exited,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-006',
     name: 'EduSpark EdTech Pvt Ltd',
     cin: 'U80301DL2021PTC678901',
@@ -524,7 +524,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 32,
     status: StartupStatus.active,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-007',
     name: 'SafeVault SaaS Pvt Ltd',
     cin: 'U72200KA2022PTC789012',
@@ -540,7 +540,7 @@ final _mockStartupProfiles = <StartupProfile>[
     investorPercent: 40,
     status: StartupStatus.fundingRound,
   ),
-  StartupProfile(
+  const StartupProfile(
     id: 'sp-008',
     name: 'LogiFlow Supply Pvt Ltd',
     cin: 'U63090MH2020PTC890123',

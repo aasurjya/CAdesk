@@ -49,27 +49,27 @@ class MockDashboardRepository implements DashboardRepository {
   ];
 
   static final List<TopClient> _seedTopClients = [
-    TopClient(
+    const TopClient(
       clientName: 'Bharat Electronics Ltd',
       filingCount: 12,
       billingAmount: 75000.0,
     ),
-    TopClient(
+    const TopClient(
       clientName: 'ABC Infra Pvt Ltd',
       filingCount: 10,
       billingAmount: 62000.0,
     ),
-    TopClient(
+    const TopClient(
       clientName: 'TechVista Solutions LLP',
       filingCount: 8,
       billingAmount: 48000.0,
     ),
-    TopClient(
+    const TopClient(
       clientName: 'Nirmala Textiles Pvt Ltd',
       filingCount: 7,
       billingAmount: 41000.0,
     ),
-    TopClient(
+    const TopClient(
       clientName: 'GreenLeaf Organics LLP',
       filingCount: 6,
       billingAmount: 32000.0,

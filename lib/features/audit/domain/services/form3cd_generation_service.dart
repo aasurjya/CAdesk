@@ -210,11 +210,11 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause02(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause02(BusinessData d) => const Form3CDClause(
     clauseNumber: 2,
     description: 'Address of the assessee',
     response: 'As per records',
-    disclosures: const [],
+    disclosures: [],
   );
 
   static Form3CDClause _clause03(BusinessData d) => Form3CDClause(
@@ -224,11 +224,11 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause04(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause04(BusinessData d) => const Form3CDClause(
     clauseNumber: 4,
     description: 'Whether the assessee is liable to pay indirect tax',
     response: 'Yes',
-    disclosures: const [],
+    disclosures: [],
   );
 
   static Form3CDClause _clause05(BusinessData d) => Form3CDClause(
@@ -238,19 +238,19 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause06(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause06(BusinessData d) => const Form3CDClause(
     clauseNumber: 6,
     description: 'Books of account and documents examined',
     response: 'Cash book, ledger, journal, bills, vouchers, bank statements',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause07(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause07(BusinessData d) => const Form3CDClause(
     clauseNumber: 7,
     description:
         'Whether the profit and loss account includes any profit or loss from speculation',
     response: 'No',
-    disclosures: const [],
+    disclosures: [],
   );
 
   static Form3CDClause _clause08(BusinessData d) => Form3CDClause(
@@ -268,27 +268,27 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause10(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause10(BusinessData d) => const Form3CDClause(
     clauseNumber: 10,
     description:
         'Whether the assessee maintains books of account prescribed under Sec 44AA',
     response: 'Yes',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause11(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause11(BusinessData d) => const Form3CDClause(
     clauseNumber: 11,
     description: 'List of books of account maintained and address where kept',
     response: 'All prescribed books maintained at principal place of business',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause12(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause12(BusinessData d) => const Form3CDClause(
     clauseNumber: 12,
     description:
         'Whether the profit and loss account is prepared on the basis of same method of accounting as in the preceding year',
     response: 'Yes',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clause 13: Accounting method ─────────────────────────────────────────
@@ -311,38 +311,38 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause15(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause15(BusinessData d) => const Form3CDClause(
     clauseNumber: 15,
     description:
         'Give the following particulars of the capital asset converted into stock-in-trade',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clauses 16–18: Loans & advances ──────────────────────────────────────
 
-  static Form3CDClause _clause16(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause16(BusinessData d) => const Form3CDClause(
     clauseNumber: 16,
     description:
         'Amounts not credited to the profit and loss account, being: (a) items falling within the scope of Section 28',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause17(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause17(BusinessData d) => const Form3CDClause(
     clauseNumber: 17,
     description:
         'Where any land or building or both is transferred during the previous year — circle rate vs actual consideration',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause18(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause18(BusinessData d) => const Form3CDClause(
     clauseNumber: 18,
     description:
         'Particulars of depreciation allowable as per the Income Tax Act, 1961',
     response: 'As per books and IT computation',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clause 19: Depreciation disclosures ──────────────────────────────────
@@ -369,20 +369,20 @@ class Form3CDGenerationService {
 
   // ── Clauses 20–25: Miscellaneous disallowances ────────────────────────────
 
-  static Form3CDClause _clause20(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause20(BusinessData d) => const Form3CDClause(
     clauseNumber: 20,
     description:
         'Amounts admissible under sections 33AB, 33ABA, 35, 35ABB, 35AC, 35CCA, 35CCB, 35D, 35DD, 35DDA, 35E',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause21(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause21(BusinessData d) => const Form3CDClause(
     clauseNumber: 21,
     description:
         'Amount of interest inadmissible under section 23 of MSME Act 2006',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
   static Form3CDClause _clause22(BusinessData d) => Form3CDClause(
@@ -393,27 +393,27 @@ class Form3CDGenerationService {
     disclosures: const [],
   );
 
-  static Form3CDClause _clause23(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause23(BusinessData d) => const Form3CDClause(
     clauseNumber: 23,
     description:
         'Amounts deemed to be profits and gains under section 32AC, 32AD, 33AB or 33ABA',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause24(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause24(BusinessData d) => const Form3CDClause(
     clauseNumber: 24,
     description: 'Any amount of profit chargeable to tax under section 41',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause25(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause25(BusinessData d) => const Form3CDClause(
     clauseNumber: 25,
     description:
         'Details of any amount borrowed on hundi or any amount due on hundi repaid',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clause 26: Related party payments — Sec 40A(2) ───────────────────────
@@ -450,71 +450,71 @@ class Form3CDGenerationService {
 
   // ── Clauses 27–35: Various disallowances ─────────────────────────────────
 
-  static Form3CDClause _clause27(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause27(BusinessData d) => const Form3CDClause(
     clauseNumber: 27,
     description:
         'Amounts deemed to be income under section 32AC, 32AD, 33AB, 33ABA',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause28(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause28(BusinessData d) => const Form3CDClause(
     clauseNumber: 28,
     description:
         'Whether the assessee has given or taken on hire any goods carriage',
     response: 'No',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause29(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause29(BusinessData d) => const Form3CDClause(
     clauseNumber: 29,
     description: 'Whether any deduction is admissible under section 32AC',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause30(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause30(BusinessData d) => const Form3CDClause(
     clauseNumber: 30,
     description:
         'Amount of income or expenditure of prior period credited or debited to P&L',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause31(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause31(BusinessData d) => const Form3CDClause(
     clauseNumber: 31,
     description: 'Details of any amount borrowed in cash or on demand drafts',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause32(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause32(BusinessData d) => const Form3CDClause(
     clauseNumber: 32,
     description: 'Details of brought forward losses or depreciation',
     response: 'As per IT computation',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause33(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause33(BusinessData d) => const Form3CDClause(
     clauseNumber: 33,
     description: 'Section 80-IB / 80-IC deductions claimed',
     response: 'Nil',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause34(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause34(BusinessData d) => const Form3CDClause(
     clauseNumber: 34,
     description: 'Whether the assessee has complied with TDS provisions',
     response: 'Yes, TDS complied with',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause35(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause35(BusinessData d) => const Form3CDClause(
     clauseNumber: 35,
     description:
         'Quantitative details of principal item of goods manufactured / traded',
     response: 'Refer books of account',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clause 36: MSME payments — Sec 43B(h) ────────────────────────────────
@@ -550,28 +550,28 @@ class Form3CDGenerationService {
 
   // ── Clauses 37–39: Inventory / misc ──────────────────────────────────────
 
-  static Form3CDClause _clause37(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause37(BusinessData d) => const Form3CDClause(
     clauseNumber: 37,
     description:
         'In the case of a domestic company — details of tax on distributed profits',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause38(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause38(BusinessData d) => const Form3CDClause(
     clauseNumber: 38,
     description:
         'Whether the assessee is required to furnish statement under section 206C',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause39(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause39(BusinessData d) => const Form3CDClause(
     clauseNumber: 39,
     description:
         'Where the assessee is a company — details of shares bought back',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Clause 40: Sec 269SS — cash loan receipts ────────────────────────────
@@ -648,26 +648,26 @@ class Form3CDGenerationService {
 
   // ── Clauses 42–44: GAAR / general reporting ──────────────────────────────
 
-  static Form3CDClause _clause42(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause42(BusinessData d) => const Form3CDClause(
     clauseNumber: 42,
     description: 'Details of brought forward loss or depreciation allowance',
     response: 'As per IT records',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause43(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause43(BusinessData d) => const Form3CDClause(
     clauseNumber: 43,
     description: 'Details of deductions under section 80P',
     response: 'N/A',
-    disclosures: const [],
+    disclosures: [],
   );
 
-  static Form3CDClause _clause44(BusinessData d) => Form3CDClause(
+  static Form3CDClause _clause44(BusinessData d) => const Form3CDClause(
     clauseNumber: 44,
     description:
         'Breakup of total expenditure into expenditure on entities registered and not registered under GST',
     response: 'Refer GST reconciliation statement',
-    disclosures: const [],
+    disclosures: [],
   );
 
   // ── Helpers ───────────────────────────────────────────────────────────────

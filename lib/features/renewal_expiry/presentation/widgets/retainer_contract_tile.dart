@@ -80,7 +80,7 @@ class RetainerContractTile extends StatelessWidget {
                         ),
                         const Spacer(),
                         if (contract.autoRenew) ...[
-                          Icon(
+                          const Icon(
                             Icons.autorenew_rounded,
                             size: 14,
                             color: AppColors.secondary,

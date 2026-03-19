@@ -63,7 +63,7 @@ void main() {
     test('selectedTaxYearProvider can be changed', () {
       container
           .read(selectedTaxYearProvider.notifier)
-          .select(TaxYear(startYear: 2024));
+          .select(const TaxYear(startYear: 2024));
       final selected = container.read(selectedTaxYearProvider);
       expect(selected.startYear, 2024);
     });
@@ -121,12 +121,12 @@ void main() {
     test('isNewActProvider reflects selected tax year', () {
       container
           .read(selectedTaxYearProvider.notifier)
-          .select(TaxYear(startYear: 2025));
+          .select(const TaxYear(startYear: 2025));
       expect(container.read(isNewActProvider), isFalse);
 
       container
           .read(selectedTaxYearProvider.notifier)
-          .select(TaxYear(startYear: 2026));
+          .select(const TaxYear(startYear: 2026));
       expect(container.read(isNewActProvider), isTrue);
     });
   });

@@ -166,7 +166,7 @@ void main() {
       buyerName: 'XYZ Enterprises',
       buyerGstin: '27FGHIJ5678K2A1',
       lineItems: [
-        ExtractedLineItem(
+        const ExtractedLineItem(
           description: 'Consulting Services',
           quantity: 1,
           unitPrice: 1000000,
@@ -211,7 +211,7 @@ void main() {
         buyerName: 'Small Buyer',
         buyerGstin: null,
         lineItems: [
-          ExtractedLineItem(
+          const ExtractedLineItem(
             description: 'Item',
             quantity: 1,
             unitPrice: 500000,
@@ -228,7 +228,7 @@ void main() {
     });
 
     test('no error when total matches line items with zero GST', () {
-      final invoice = ExtractedInvoice(
+      const invoice = ExtractedInvoice(
         invoiceNumber: 'INV-003',
         invoiceDate: null,
         sellerName: 'Seller',

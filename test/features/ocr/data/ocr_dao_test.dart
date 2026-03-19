@@ -77,7 +77,7 @@ void main() {
 
     group('getByClient', () {
       test('returns jobs for specific client', () async {
-        final clientId = 'client-by-client';
+        const clientId = 'client-by-client';
         final j1 = makeJob(clientId: clientId);
         final j2 = makeJob(clientId: clientId);
         await database.ocrDao.insert(OcrMapper.toCompanion(j1));
@@ -92,8 +92,8 @@ void main() {
       });
 
       test('filters by clientId correctly', () async {
-        final clientA = 'client-filter-ocr-a';
-        final clientB = 'client-filter-ocr-b';
+        const clientA = 'client-filter-ocr-a';
+        const clientB = 'client-filter-ocr-b';
         await database.ocrDao.insert(
           OcrMapper.toCompanion(makeJob(clientId: clientA)),
         );

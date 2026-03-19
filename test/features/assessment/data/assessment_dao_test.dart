@@ -95,7 +95,7 @@ void main() {
 
     group('getByClient', () {
       test('returns cases for specific client', () async {
-        final clientId = 'client-by-client-x';
+        const clientId = 'client-by-client-x';
         final c1 = makeCase(clientId: clientId);
         final c2 = makeCase(clientId: clientId);
         final other = makeCase(clientId: 'client-other');
@@ -119,7 +119,7 @@ void main() {
       });
 
       test('all returned rows have the matching clientId', () async {
-        final clientId = 'client-filter-check';
+        const clientId = 'client-filter-check';
         final c = makeCase(clientId: clientId);
         await database.assessmentDao.insertCase(
           AssessmentCaseMapper.toCompanion(c),

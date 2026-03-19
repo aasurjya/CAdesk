@@ -28,7 +28,7 @@ void main() {
         // Build a string whose ASCII sum exceeds 65536
         // 'A' = 65, so 65536/65 ≈ 1008 'A's → sum = 65520, 1009 'A's → 65585 mod 65536 = 49
         final str = 'A' * 1009;
-        final expected = (65 * 1009) % 65536;
+        const expected = (65 * 1009) % 65536;
         expect(
           FvuChecksumCalculator.computeChecksum(str),
           equals(expected.toString().padLeft(5, '0')),

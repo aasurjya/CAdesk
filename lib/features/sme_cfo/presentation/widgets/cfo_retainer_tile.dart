@@ -72,7 +72,7 @@ class CfoRetainerTile extends StatelessWidget {
               // Row 2: fee + annual value
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.currency_rupee_rounded,
                     size: 14,
                     color: AppColors.primary,
@@ -93,7 +93,7 @@ class CfoRetainerTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.person_outline_rounded,
                     size: 13,
                     color: AppColors.neutral400,
@@ -139,7 +139,7 @@ class CfoRetainerTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.checklist_rounded,
                     size: 13,
                     color: AppColors.neutral400,

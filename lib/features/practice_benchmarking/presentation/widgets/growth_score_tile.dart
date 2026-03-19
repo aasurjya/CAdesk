@@ -165,9 +165,9 @@ class _ScoreBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
+            const Text(
               'Your Score',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10,
                 color: AppColors.neutral400,
                 fontWeight: FontWeight.w500,

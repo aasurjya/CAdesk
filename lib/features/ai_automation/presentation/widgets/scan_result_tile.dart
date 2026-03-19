@@ -20,7 +20,7 @@ class ScanResultTile extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200, width: 1),
+        side: const BorderSide(color: AppColors.neutral200, width: 1),
       ),
       child: InkWell(
         onTap: onTap,

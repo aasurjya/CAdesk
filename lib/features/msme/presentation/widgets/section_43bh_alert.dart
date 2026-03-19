@@ -43,7 +43,7 @@ class Section43BhAlert extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.warning_amber_rounded,
                     color: AppColors.error,
                     size: 20,
@@ -69,7 +69,7 @@ class Section43BhAlert extends StatelessWidget {
                     ),
                     child: Text(
                       '${vendor.daysPastDue} days overdue',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: AppColors.error,

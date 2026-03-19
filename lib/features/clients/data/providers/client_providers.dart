@@ -75,36 +75,36 @@ class ClientHealthScore {
 
 final _mockHealthScores = <String, ClientHealthScore>{
   // Rajesh Kumar Sharma — individual, ITR+GST
-  '1': ClientHealthScore(
+  '1': const ClientHealthScore(
     clientId: '1',
     overallScore: 92,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Upload Form 16 for AY 2026-27'],
+    pendingActions: ['Upload Form 16 for AY 2026-27'],
     lastUpdated: 'Mar 2026',
   ),
   // Priya Mehta — individual, ITR only, capital gains pending
-  '2': ClientHealthScore(
+  '2': const ClientHealthScore(
     clientId: '2',
     overallScore: 78,
     itrStatus: 'Pending',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR filing due — AY 2026-27',
       'Collect capital gains statement',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // ABC Infra Pvt Ltd — company, multiple services, several items overdue
-  '3': ClientHealthScore(
+  '3': const ClientHealthScore(
     clientId: '3',
     overallScore: 61,
     itrStatus: 'Pending',
     gstStatus: 'Returns Pending',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'GSTR-3B Feb 2026 pending',
       'TDS challan due 07 Mar',
       'ITR-6 filing AY 2026-27',
@@ -113,56 +113,56 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Mehta & Sons — firm, ITR+GST+bookkeeping
-  '4': ClientHealthScore(
+  '4': const ClientHealthScore(
     clientId: '4',
     overallScore: 85,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Reconcile books for Feb 2026'],
+    pendingActions: ['Reconcile books for Feb 2026'],
     lastUpdated: 'Mar 2026',
   ),
   // Sunita Devi Agarwal — inactive individual, ITR only
-  '5': ClientHealthScore(
+  '5': const ClientHealthScore(
     clientId: '5',
     overallScore: 55,
     itrStatus: 'Overdue',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-1 AY 2025-26 not filed',
       'Collect bank interest certificates',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // TechVista Solutions LLP — ITR+GST+TDS+payroll
-  '6': ClientHealthScore(
+  '6': const ClientHealthScore(
     clientId: '6',
     overallScore: 88,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'Compliant',
-    pendingActions: const ['Process Mar 2026 payroll by 31 Mar'],
+    pendingActions: ['Process Mar 2026 payroll by 31 Mar'],
     lastUpdated: 'Mar 2026',
   ),
   // Anil Gupta HUF — ITR + bookkeeping
-  '7': ClientHealthScore(
+  '7': const ClientHealthScore(
     clientId: '7',
     overallScore: 80,
     itrStatus: 'Filed',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const ['Update FY 2025-26 books'],
+    pendingActions: ['Update FY 2025-26 books'],
     lastUpdated: 'Mar 2026',
   ),
   // Bharat Electronics Ltd — all services
-  '8': ClientHealthScore(
+  '8': const ClientHealthScore(
     clientId: '8',
     overallScore: 72,
     itrStatus: 'Pending',
     gstStatus: 'Returns Pending',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'GSTR-1 Mar 2026 due 11 Apr',
       'TDS Q4 challan due 30 Apr',
       'Finalise FY 2025-26 audit',
@@ -170,33 +170,33 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Deepak Patel — individual, ITR+GST
-  '9': ClientHealthScore(
+  '9': const ClientHealthScore(
     clientId: '9',
     overallScore: 83,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Collect FY 2025-26 P&L statement'],
+    pendingActions: ['Collect FY 2025-26 P&L statement'],
     lastUpdated: 'Mar 2026',
   ),
   // Sharma Charitable Trust — ITR + audit
-  '10': ClientHealthScore(
+  '10': const ClientHealthScore(
     clientId: '10',
     overallScore: 90,
     itrStatus: 'Filed',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const ['Renew 12A registration before Jun 2026'],
+    pendingActions: ['Renew 12A registration before Jun 2026'],
     lastUpdated: 'Mar 2026',
   ),
   // Kavita Reddy — prospect, ITR+TDS
-  '11': ClientHealthScore(
+  '11': const ClientHealthScore(
     clientId: '11',
     overallScore: 58,
     itrStatus: 'Pending',
     gstStatus: 'N/A',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'ITR-4 AY 2026-27 not filed',
       'TDS on professional fees pending',
       'Onboarding KYC documents required',
@@ -204,49 +204,49 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Hindustan Traders AOP — ITR+GST+bookkeeping
-  '12': ClientHealthScore(
+  '12': const ClientHealthScore(
     clientId: '12',
     overallScore: 76,
     itrStatus: 'Pending',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-5 AY 2026-27 pending',
       'Update partner capital accounts',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // GreenLeaf Organics LLP — ITR+GST+TDS
-  '13': ClientHealthScore(
+  '13': const ClientHealthScore(
     clientId: '13',
     overallScore: 81,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'Compliant',
-    pendingActions: const ['File GSTR-9 for FY 2024-25'],
+    pendingActions: ['File GSTR-9 for FY 2024-25'],
     lastUpdated: 'Mar 2026',
   ),
   // Vikram Singh Rathore — individual, ITR+GST+bookkeeping
-  '14': ClientHealthScore(
+  '14': const ClientHealthScore(
     clientId: '14',
     overallScore: 79,
     itrStatus: 'Pending',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-3 AY 2026-27 pending',
       'Reconcile hotel revenue for Mar 2026',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // Nirmala Textiles Pvt Ltd — inactive, all services
-  '15': ClientHealthScore(
+  '15': const ClientHealthScore(
     clientId: '15',
     overallScore: 42,
     itrStatus: 'Overdue',
     gstStatus: 'Late Filed',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'ITR-6 AY 2025-26 overdue',
       'GSTR-3B pending since Jan 2026',
       'TDS default — Q3 FY 2025-26',

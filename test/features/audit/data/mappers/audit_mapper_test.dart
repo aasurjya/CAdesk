@@ -247,7 +247,7 @@ void main() {
       });
 
       test('serializes null audit_findings as null', () {
-        final noFindings = AuditReport(
+        const noFindings = AuditReport(
           id: 'ar-nofindings',
           clientId: 'c1',
           year: 2025,

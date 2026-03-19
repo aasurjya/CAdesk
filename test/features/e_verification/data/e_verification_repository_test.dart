@@ -109,7 +109,7 @@ void main() {
     });
 
     test('insertSigningRequest adds entry and returns id', () async {
-      final request = SigningRequest(
+      const request = SigningRequest(
         requestId: 'sreq-new-001',
         documentHash: 'abc123hash',
         documentType: DocumentType.itrV,
@@ -130,7 +130,7 @@ void main() {
     });
 
     test('updateSigningRequest returns false for non-existent id', () async {
-      final ghost = SigningRequest(
+      const ghost = SigningRequest(
         requestId: 'non-existent-sreq',
         documentHash: 'deadbeef',
         documentType: DocumentType.auditReport,

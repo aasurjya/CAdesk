@@ -308,7 +308,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Already have an account? ',
           style: TextStyle(color: AppColors.neutral600, fontSize: 14),
         ),

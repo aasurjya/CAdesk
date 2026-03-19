@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TdsRateData.fy202526', () {
-    final rates = TdsRateData.fy202526;
+    const rates = TdsRateData.fy202526;
 
     test('list is non-empty', () {
       expect(rates, isNotEmpty);

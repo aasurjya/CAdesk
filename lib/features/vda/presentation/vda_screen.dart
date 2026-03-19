@@ -78,7 +78,7 @@ class VdaScreen extends ConsumerWidget {
               _LossWarning(lossPaise: schedule.totalLossPaise),
             ],
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Transactions',
               icon: Icons.swap_horiz_rounded,
             ),

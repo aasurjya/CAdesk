@@ -198,7 +198,9 @@ class _FilingsTab extends ConsumerWidget {
         // Filing list
         Expanded(
           child: filings.isEmpty
-              ? _EmptyState(message: 'No filings match the selected filter')
+              ? const _EmptyState(
+                  message: 'No filings match the selected filter',
+                )
               : ListView.builder(
                   padding: const EdgeInsets.only(top: 4, bottom: 80),
                   itemCount: filings.length,
@@ -241,7 +243,7 @@ class _FdiTrackerTab extends ConsumerWidget {
         // Transaction list
         Expanded(
           child: transactions.isEmpty
-              ? _EmptyState(
+              ? const _EmptyState(
                   message: 'No FDI transactions match the selected filter',
                 )
               : ListView.builder(
@@ -325,11 +327,15 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,
-            style: TextStyle(color: AppColors.neutral400, fontSize: 14),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

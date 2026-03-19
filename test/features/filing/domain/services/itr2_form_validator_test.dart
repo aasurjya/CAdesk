@@ -314,7 +314,7 @@ void main() {
     test(
       '→ equityStcgEntry with negative salePrice returns NEGATIVE_SALE_PRICE',
       () {
-        final entry = EquityStcgEntry(
+        const entry = EquityStcgEntry(
           description: 'Bad entry',
           salePrice: -100000,
           costOfAcquisition: 50000,
@@ -322,14 +322,14 @@ void main() {
         );
         final form = Itr2FormData.empty().copyWith(
           personalInfo: validPi(),
-          scheduleCg: ScheduleCg(
+          scheduleCg: const ScheduleCg(
             equityStcgEntries: [entry],
-            equityLtcgEntries: const [],
-            debtStcgEntries: const [],
-            debtLtcgEntries: const [],
-            propertyLtcgEntries: const [],
-            otherStcgEntries: const [],
-            otherLtcgEntries: const [],
+            equityLtcgEntries: [],
+            debtStcgEntries: [],
+            debtLtcgEntries: [],
+            propertyLtcgEntries: [],
+            otherStcgEntries: [],
+            otherLtcgEntries: [],
             broughtForwardStcl: 0,
             broughtForwardLtcl: 0,
           ),

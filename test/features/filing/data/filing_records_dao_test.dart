@@ -112,7 +112,7 @@ void main() {
 
     group('getByClient', () {
       test('returns records for specific client', () async {
-        final clientId = 'test-client-get-by-client-a';
+        const clientId = 'test-client-get-by-client-a';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
         await database.filingRecordsDao.insertRecord(
@@ -134,8 +134,8 @@ void main() {
       });
 
       test('filters records by client correctly', () async {
-        final clientA = 'client-filter-fa-1';
-        final clientB = 'client-filter-fb-1';
+        const clientA = 'client-filter-fa-1';
+        const clientB = 'client-filter-fb-1';
         final r1 = createTestRecord(clientId: clientA);
         final r2 = createTestRecord(clientId: clientB);
         await database.filingRecordsDao.insertRecord(

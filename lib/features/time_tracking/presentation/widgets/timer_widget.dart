@@ -141,7 +141,11 @@ class _IdleTimerCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.timer_outlined, size: 32, color: AppColors.neutral400),
+            const Icon(
+              Icons.timer_outlined,
+              size: 32,
+              color: AppColors.neutral400,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(

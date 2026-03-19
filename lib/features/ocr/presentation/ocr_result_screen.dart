@@ -131,7 +131,7 @@ class _DocumentHeader extends StatelessWidget {
               color: AppColors.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.description_outlined,
               color: AppColors.primary,
               size: 26,
@@ -287,7 +287,7 @@ class _ExtractedFieldsSection extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -449,7 +449,7 @@ class _ActionBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(top: BorderSide(color: AppColors.neutral200)),
+        border: const Border(top: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
@@ -460,7 +460,7 @@ class _ActionBar extends StatelessWidget {
               label: const Text('Re-process'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.primary,
-                side: BorderSide(color: AppColors.primary),
+                side: const BorderSide(color: AppColors.primary),
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

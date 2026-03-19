@@ -83,7 +83,7 @@ class _McaScreenState extends ConsumerState<McaScreen>
       body: Column(
         children: [
           // Upcoming deadlines banner
-          _UpcomingDeadlinesBanner(),
+          const _UpcomingDeadlinesBanner(),
 
           // Tab content
           Expanded(
@@ -174,19 +174,19 @@ class _UpcomingDeadlinesBanner extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 10, 16, 6),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.upcoming_rounded,
                   size: 16,
                   color: AppColors.warning,
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 Text(
                   'Upcoming Deadlines (next 30 days)',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: AppColors.neutral900,

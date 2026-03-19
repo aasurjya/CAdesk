@@ -261,7 +261,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           label,
-          style: TextStyle(color: AppColors.neutral600, fontSize: 12),
+          style: const TextStyle(color: AppColors.neutral600, fontSize: 12),
         ),
       ],
     );

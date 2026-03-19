@@ -303,11 +303,15 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,
-            style: TextStyle(color: AppColors.neutral400, fontSize: 14),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

@@ -250,7 +250,7 @@ class OpportunityScannerService {
     if (!profile.hasTdsDeductions) return const [];
 
     // 80TTB allows ₹50K for seniors vs ₹10K (80TTA) for others
-    final additionalDeduction = _section80ttbSenior - 1000000; // ₹40K gap
+    const additionalDeduction = _section80ttbSenior - 1000000; // ₹40K gap
     final marginalRate = _marginalRate(profile.annualIncome);
     final saving = (additionalDeduction * marginalRate).round();
 

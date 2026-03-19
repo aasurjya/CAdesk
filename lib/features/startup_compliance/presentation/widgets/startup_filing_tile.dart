@@ -59,7 +59,7 @@ class StartupFilingTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.calendar_today_rounded,
                         size: 12,
                         color: AppColors.neutral400,
@@ -73,7 +73,7 @@ class StartupFilingTile extends StatelessWidget {
                       ),
                       if (filing.filedDate != null) ...[
                         const SizedBox(width: 8),
-                        Icon(
+                        const Icon(
                           Icons.check_rounded,
                           size: 12,
                           color: AppColors.success,

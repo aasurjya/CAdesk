@@ -140,12 +140,12 @@ final _mockChecklists = <OnboardingChecklist>[
         isCompleted: true,
         completedAt: DateTime(2026, 2, 20),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Bank Statement / Cancelled Cheque',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Photograph of Signatory',
         isRequired: false,
         isCompleted: false,
@@ -166,22 +166,22 @@ final _mockChecklists = <OnboardingChecklist>[
         isCompleted: true,
         completedAt: DateTime(2026, 2, 28),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'PAN Card Copy',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Previous Year ITR Copies',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Bank Statements (All Accounts)',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'TDS Certificates (Form 16/16A)',
         isRequired: true,
         isCompleted: false,
@@ -196,32 +196,32 @@ final _mockChecklists = <OnboardingChecklist>[
     clientName: 'Nair Constructions LLP',
     serviceType: 'Statutory Audit',
     items: [
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Engagement Letter Signed',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'LLP Agreement Copy',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Certificate of Incorporation',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Previous Audit Report',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Trial Balance & Financials',
         isRequired: true,
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Bank Reconciliation Statements',
         isRequired: false,
         isCompleted: false,
@@ -266,7 +266,7 @@ final _mockChecklists = <OnboardingChecklist>[
         isCompleted: true,
         completedAt: DateTime(2026, 3, 1),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'SPICe+ Form Filed',
         isRequired: true,
         isCompleted: false,
@@ -328,7 +328,7 @@ final _mockChecklists = <OnboardingChecklist>[
         isCompleted: true,
         completedAt: DateTime(2026, 1, 10),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'PAN Card Copy',
         isRequired: true,
         isCompleted: false,
@@ -339,7 +339,7 @@ final _mockChecklists = <OnboardingChecklist>[
         isCompleted: true,
         completedAt: DateTime(2026, 1, 12),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         name: 'Bank Statements',
         isRequired: true,
         isCompleted: false,

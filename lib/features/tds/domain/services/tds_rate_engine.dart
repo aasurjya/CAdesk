@@ -157,7 +157,7 @@ class TdsRateEngine {
 
     // NRI payments (section 195) attract Health & Education Cess at 4%.
     final isNri = section == '195';
-    final surcharge = 0.0;
+    const surcharge = 0.0;
     final cess = isNri ? tdsAmount * 0.04 : 0.0;
     final totalTds = tdsAmount + surcharge + cess;
 

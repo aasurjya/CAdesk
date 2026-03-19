@@ -1,0 +1,145 @@
+{
+  "@@locale": "mr",
+
+  "appTitle": "CADesk",
+
+  "tabFiling": "फाइलिंग",
+  "tabClients": "क्लायंट",
+  "tabToday": "आज",
+  "tabDocuments": "दस्तऐवज",
+  "tabMore": "अधिक",
+
+  "addClient": "क्लायंट जोडा",
+  "searchHint": "शोधा…",
+  "searchClientsHint": "नाव, PAN, फोन शोधा…",
+  "searchDocumentsHint": "दस्तऐवज, क्लायंट शोधा…",
+
+  "clientCount": "{count, plural, =1{1 क्लायंट} other{{count} क्लायंट}}",
+  "@clientCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "statusAll": "सर्व",
+  "statusActive": "सक्रिय",
+  "statusInactive": "निष्क्रिय",
+  "statusProspect": "संभाव्य",
+
+  "clientTypeIndividual": "वैयक्तिक",
+  "clientTypeCompany": "कंपनी",
+  "clientTypeFirm": "फर्म",
+  "clientTypeLlp": "LLP",
+
+  "retry": "पुन्हा प्रयत्न",
+  "failedToLoadClients": "क्लायंट लोड करण्यात अयशस्वी",
+  "noClientsYet": "अद्याप कोणताही क्लायंट नाही",
+  "noClientsMatchFilter": "आपल्या फिल्टरशी जुळणारे क्लायंट नाहीत",
+  "addFirstClient": "सुरू करण्यासाठी आपला पहिला क्लायंट जोडा",
+  "adjustFilters": "आपली शोध किंवा फिल्टर समायोजित करा",
+
+  "documentCount": "{count, plural, =1{1 दस्तऐवज} other{{count} दस्तऐवज}}",
+  "@documentCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "uploadDocument": "अपलोड",
+  "allDocuments": "सर्व दस्तऐवज",
+  "folders": "फोल्डर",
+  "noDocumentsFound": "कोणताही दस्तऐवज आढळला नाही",
+  "noFoldersFound": "कोणताही फोल्डर आढळला नाही",
+
+  "sortBy": "यानुसार क्रमवारी",
+
+  "filingYear": "आर्थिक वर्ष {year}",
+  "@filingYear": {
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "assessmentYear": "मूल्यांकन वर्ष {year}",
+  "@assessmentYear": {
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "next": "पुढे",
+  "back": "मागे",
+  "save": "जतन करा",
+  "cancel": "रद्द करा",
+  "confirm": "पुष्टी करा",
+  "delete": "हटवा",
+  "edit": "संपादित करा",
+
+  "confirmDeleteTitle": "{name} हटवायचे?",
+  "@confirmDeleteTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "confirmDeleteMessage": "ही क्रिया पूर्वत करता येणार नाही.",
+
+  "itrFiling": "ITR फाइलिंग",
+  "gstFiling": "GST फाइलिंग",
+  "tdsFiling": "TDS फाइलिंग",
+
+  "personalInfo": "वैयक्तिक माहिती",
+  "salaryIncome": "वेतन उत्पन्न",
+  "houseProperty": "घर मालमत्ता",
+  "capitalGains": "भांडवली नफा",
+  "deductions": "वजावट",
+  "taxComputation": "कर गणना",
+  "reviewAndExport": "पुनरावलोकन आणि निर्यात",
+
+  "gstin": "GSTIN",
+  "pan": "PAN",
+  "tan": "TAN",
+  "invalidGstin": "अवैध GSTIN स्वरूप",
+  "invalidPan": "अवैध PAN स्वरूप",
+  "requiredField": "हे क्षेत्र आवश्यक आहे",
+
+  "caGptHint": "CA GPT ला विचारा…",
+
+  "deadlineDaysLeft": "{days, plural, =0{आज देय} =1{1 दिवस शिल्लक} other{{days} दिवस शिल्लक}}",
+  "@deadlineDaysLeft": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+
+  "penaltyWarning": "दंड: ₹{amount}",
+  "@penaltyWarning": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+
+  "riskHigh": "उच्च धोका",
+  "riskMedium": "मध्यम धोका",
+  "riskLow": "कमी धोका",
+
+  "portalConnected": "जोडलेले",
+  "portalDisconnected": "जोडलेले नाही",
+
+  "exportSuccess": "निर्यात यशस्वी",
+  "exportFailed": "निर्यात अयशस्वी: {reason}",
+  "@exportFailed": {
+    "placeholders": { "reason": { "type": "String" } }
+  },
+
+  "totalBilled": "एकूण बिल",
+  "outstanding": "थकबाकी",
+  "overdue": "विलंबित",
+
+  "complianceCalendar": "अनुपालन कॅलेंडर",
+  "upcomingDeadlines": "आगामी मुदती",
+  "noUpcomingDeadlines": "कोणत्याही आगामी मुदती नाहीत",
+
+  "practiceManagement": "प्रॅक्टिस व्यवस्थापन",
+  "kanbanBoard": "कानबान बोर्ड",
+  "addTask": "कार्य जोडा",
+  "taskTitle": "कार्य शीर्षक",
+  "assignee": "नियुक्त",
+  "dueDate": "देय तारीख",
+
+  "priorityHigh": "उच्च",
+  "priorityMedium": "मध्यम",
+  "priorityLow": "कमी",
+
+  "signIn": "साइन इन",
+  "signUp": "साइन अप",
+  "forgotPassword": "पासवर्ड विसरलात?",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "fullName": "पूर्ण नाव"
+}

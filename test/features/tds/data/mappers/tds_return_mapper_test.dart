@@ -216,7 +216,7 @@ void main() {
       });
 
       test('serializes null filed_date as null', () {
-        final pendingReturn = TdsReturn(
+        const pendingReturn = TdsReturn(
           id: 'tds-pending',
           deductorId: 'd1',
           tan: 'MUMR12345A',
@@ -249,7 +249,7 @@ void main() {
       });
 
       test('handles zero financial values', () {
-        final zeroReturn = TdsReturn(
+        const zeroReturn = TdsReturn(
           id: 'tds-zero',
           deductorId: 'd1',
           tan: 'MUMR12345A',

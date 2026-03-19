@@ -3,6 +3,7 @@ import 'package:ca_app/features/filing/domain/models/itr1/house_property_income.
 import 'package:ca_app/features/filing/domain/models/itr1/other_source_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/tds_payment_summary.dart';
 
 /// Tax regime election for the assessment year.
 enum TaxRegime {
@@ -30,6 +31,7 @@ class Itr1FormData {
     required this.otherSourceIncome,
     required this.deductions,
     required this.selectedRegime,
+    required this.tdsPaymentSummary,
   });
 
   factory Itr1FormData.empty() => Itr1FormData(
@@ -39,6 +41,7 @@ class Itr1FormData {
     otherSourceIncome: OtherSourceIncome.empty(),
     deductions: ChapterViaDeductions.empty(),
     selectedRegime: TaxRegime.newRegime,
+    tdsPaymentSummary: TdsPaymentSummary.empty(),
   );
 
   final PersonalInfo personalInfo;
@@ -47,6 +50,7 @@ class Itr1FormData {
   final OtherSourceIncome otherSourceIncome;
   final ChapterViaDeductions deductions;
   final TaxRegime selectedRegime;
+  final TdsPaymentSummary tdsPaymentSummary;
 
   /// Aggregate of all income heads before deductions.
   double get grossTotalIncome =>
@@ -76,6 +80,7 @@ class Itr1FormData {
     OtherSourceIncome? otherSourceIncome,
     ChapterViaDeductions? deductions,
     TaxRegime? selectedRegime,
+    TdsPaymentSummary? tdsPaymentSummary,
   }) {
     return Itr1FormData(
       personalInfo: personalInfo ?? this.personalInfo,
@@ -84,6 +89,7 @@ class Itr1FormData {
       otherSourceIncome: otherSourceIncome ?? this.otherSourceIncome,
       deductions: deductions ?? this.deductions,
       selectedRegime: selectedRegime ?? this.selectedRegime,
+      tdsPaymentSummary: tdsPaymentSummary ?? this.tdsPaymentSummary,
     );
   }
 
@@ -96,7 +102,8 @@ class Itr1FormData {
         other.housePropertyIncome == housePropertyIncome &&
         other.otherSourceIncome == otherSourceIncome &&
         other.deductions == deductions &&
-        other.selectedRegime == selectedRegime;
+        other.selectedRegime == selectedRegime &&
+        other.tdsPaymentSummary == tdsPaymentSummary;
   }
 
   @override
@@ -107,5 +114,41 @@ class Itr1FormData {
     otherSourceIncome,
     deductions,
     selectedRegime,
+    tdsPaymentSummary,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'personalInfo': personalInfo.toJson(),
+    'salaryIncome': salaryIncome.toJson(),
+    'housePropertyIncome': housePropertyIncome.toJson(),
+    'otherSourceIncome': otherSourceIncome.toJson(),
+    'deductions': deductions.toJson(),
+    'selectedRegime': selectedRegime.name,
+    'tdsPaymentSummary': tdsPaymentSummary.toJson(),
+  };
+
+  factory Itr1FormData.fromJson(Map<String, dynamic> json) => Itr1FormData(
+    personalInfo: PersonalInfo.fromJson(
+      json['personalInfo'] as Map<String, dynamic>? ?? {},
+    ),
+    salaryIncome: SalaryIncome.fromJson(
+      json['salaryIncome'] as Map<String, dynamic>? ?? {},
+    ),
+    housePropertyIncome: HousePropertyIncome.fromJson(
+      json['housePropertyIncome'] as Map<String, dynamic>? ?? {},
+    ),
+    otherSourceIncome: OtherSourceIncome.fromJson(
+      json['otherSourceIncome'] as Map<String, dynamic>? ?? {},
+    ),
+    deductions: ChapterViaDeductions.fromJson(
+      json['deductions'] as Map<String, dynamic>? ?? {},
+    ),
+    selectedRegime: TaxRegime.values.firstWhere(
+      (e) => e.name == json['selectedRegime'],
+      orElse: () => TaxRegime.newRegime,
+    ),
+    tdsPaymentSummary: TdsPaymentSummary.fromJson(
+      json['tdsPaymentSummary'] as Map<String, dynamic>? ?? {},
+    ),
   );
 }

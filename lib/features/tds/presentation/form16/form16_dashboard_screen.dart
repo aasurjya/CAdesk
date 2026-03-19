@@ -179,7 +179,7 @@ class _Form16ANonSalaryTab extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.receipt_long_rounded,
             size: 64,
             color: AppColors.neutral300,

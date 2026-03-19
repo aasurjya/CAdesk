@@ -8,7 +8,7 @@ void main() {
       test('MAT is 15% of book profit per Sec 115JB', () {
         // Book profit = net profit after standard adjustments
         // Scenario: Net profit = 1 crore, no adjustments
-        final pnl = PnlData(
+        const pnl = PnlData(
           netProfitPaise: 10000000000, // 1 crore in paise
           depreciationAsPerBooks: 500000000,
           provisionForTax: 300000000,
@@ -19,7 +19,7 @@ void main() {
           broughtForwardLosses: 0,
           broughtForwardUnabsorbedDepreciation: 0,
         );
-        final bs = BalanceSheetData(
+        const bs = BalanceSheetData(
           netWorthPaise: 50000000000,
           paidUpCapitalPaise: 10000000000,
           reservesAndSurplusPaise: 40000000000,
@@ -41,7 +41,7 @@ void main() {
       });
 
       test('book profit adds back income tax provision', () {
-        final pnl = PnlData(
+        const pnl = PnlData(
           netProfitPaise: 5000000000,
           depreciationAsPerBooks: 0,
           provisionForTax: 1000000000, // 10 lakh in paise
@@ -52,7 +52,7 @@ void main() {
           broughtForwardLosses: 0,
           broughtForwardUnabsorbedDepreciation: 0,
         );
-        final bs = BalanceSheetData(
+        const bs = BalanceSheetData(
           netWorthPaise: 20000000000,
           paidUpCapitalPaise: 5000000000,
           reservesAndSurplusPaise: 15000000000,
@@ -75,7 +75,7 @@ void main() {
       test(
         'brought forward losses reduce book profit (capped at book profit)',
         () {
-          final pnl = PnlData(
+          const pnl = PnlData(
             netProfitPaise: 2000000000, // 20 lakh in paise
             depreciationAsPerBooks: 0,
             provisionForTax: 0,
@@ -86,7 +86,7 @@ void main() {
             broughtForwardLosses: 1000000000, // 10 lakh in paise
             broughtForwardUnabsorbedDepreciation: 500000000, // 5 lakh in paise
           );
-          final bs = BalanceSheetData(
+          const bs = BalanceSheetData(
             netWorthPaise: 10000000000,
             paidUpCapitalPaise: 3000000000,
             reservesAndSurplusPaise: 7000000000,
@@ -105,7 +105,7 @@ void main() {
       );
 
       test('brought forward losses cannot make book profit negative', () {
-        final pnl = PnlData(
+        const pnl = PnlData(
           netProfitPaise: 1000000000,
           depreciationAsPerBooks: 0,
           provisionForTax: 0,
@@ -116,7 +116,7 @@ void main() {
           broughtForwardLosses: 5000000000, // larger than book profit
           broughtForwardUnabsorbedDepreciation: 0,
         );
-        final bs = BalanceSheetData(
+        const bs = BalanceSheetData(
           netWorthPaise: 5000000000,
           paidUpCapitalPaise: 2000000000,
           reservesAndSurplusPaise: 3000000000,
@@ -133,7 +133,7 @@ void main() {
       });
 
       test('MAT credit available is recorded for carry-forward', () {
-        final pnl = PnlData(
+        const pnl = PnlData(
           netProfitPaise: 3000000000,
           depreciationAsPerBooks: 0,
           provisionForTax: 500000000,
@@ -144,7 +144,7 @@ void main() {
           broughtForwardLosses: 0,
           broughtForwardUnabsorbedDepreciation: 0,
         );
-        final bs = BalanceSheetData(
+        const bs = BalanceSheetData(
           netWorthPaise: 15000000000,
           paidUpCapitalPaise: 5000000000,
           reservesAndSurplusPaise: 10000000000,
@@ -165,7 +165,7 @@ void main() {
       });
 
       test('stores the financial year', () {
-        final pnl = PnlData(
+        const pnl = PnlData(
           netProfitPaise: 1000000000,
           depreciationAsPerBooks: 0,
           provisionForTax: 0,
@@ -176,7 +176,7 @@ void main() {
           broughtForwardLosses: 0,
           broughtForwardUnabsorbedDepreciation: 0,
         );
-        final bs = BalanceSheetData(
+        const bs = BalanceSheetData(
           netWorthPaise: 5000000000,
           paidUpCapitalPaise: 2000000000,
           reservesAndSurplusPaise: 3000000000,

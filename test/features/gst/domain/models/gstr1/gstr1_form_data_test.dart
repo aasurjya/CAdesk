@@ -157,16 +157,16 @@ void main() {
     });
 
     test('empty form data → all totals are zero', () {
-      final data = Gstr1FormData(
+      const data = Gstr1FormData(
         gstin: '27AABCU9603R1ZM',
         periodMonth: 1,
         periodYear: 2026,
-        b2bInvoices: const [],
-        b2cInvoices: const [],
-        creditDebitNotes: const [],
-        creditDebitNotesUnregistered: const [],
-        exports: const [],
-        advanceTax: const [],
+        b2bInvoices: [],
+        b2cInvoices: [],
+        creditDebitNotes: [],
+        creditDebitNotesUnregistered: [],
+        exports: [],
+        advanceTax: [],
       );
       expect(data.totalTaxableValue, 0.0);
       expect(data.totalIgst, 0.0);

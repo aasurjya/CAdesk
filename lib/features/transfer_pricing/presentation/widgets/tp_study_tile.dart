@@ -80,7 +80,7 @@ class TpStudyTile extends StatelessWidget {
               // Bottom row: analyst, due date
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.person_outline_rounded,
                     size: 14,
                     color: AppColors.neutral400,
@@ -93,7 +93,7 @@ class TpStudyTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -113,7 +113,7 @@ class TpStudyTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle_rounded,
                       size: 14,
                       color: AppColors.success,

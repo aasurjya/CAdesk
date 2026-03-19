@@ -362,7 +362,7 @@ class _ChallanCard extends StatelessWidget {
             // Row 4: payment date + BSR
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.calendar_today_rounded,
                   size: 12,
                   color: AppColors.neutral400,
@@ -551,7 +551,7 @@ class _SectionCard extends StatelessWidget {
             // Row 4: deductee count + compliance %
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.people_outline_rounded,
                   size: 12,
                   color: AppColors.neutral400,
@@ -807,7 +807,11 @@ class _EmptyTabState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+          const Icon(
+            Icons.inbox_rounded,
+            size: 48,
+            color: AppColors.neutral200,
+          ),
           const SizedBox(height: 12),
           Text(
             message,

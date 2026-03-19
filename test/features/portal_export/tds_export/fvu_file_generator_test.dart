@@ -9,7 +9,7 @@ import 'package:ca_app/features/tds/domain/models/tds_return.dart';
 
 void main() {
   // Shared test fixtures
-  final batchHeader = FvuBatchHeader(
+  const batchHeader = FvuBatchHeader(
     tan: 'AAATA1234X',
     pan: 'ABCDE1234F',
     deductorName: 'Test Company Ltd',
@@ -22,7 +22,7 @@ void main() {
     totalTaxDeducted: 1500.0,
   );
 
-  final deductee1 = FvuDeducteeRecord(
+  const deductee1 = FvuDeducteeRecord(
     pan: 'ABCDE1234F',
     deducteeName: 'John Doe',
     amountPaid: 100000.0,
@@ -32,7 +32,7 @@ void main() {
     deducteeTypeCode: FvuDeducteeTypeCode.nonCompany,
   );
 
-  final deductee2 = FvuDeducteeRecord(
+  const deductee2 = FvuDeducteeRecord(
     pan: 'PANNOTAVBL',
     deducteeName: 'Jane Smith',
     amountPaid: 50000.0,
@@ -42,7 +42,7 @@ void main() {
     deducteeTypeCode: FvuDeducteeTypeCode.nonCompany,
   );
 
-  final challan = FvuChallanRecord(
+  const challan = FvuChallanRecord(
     bsrCode: '0012345',
     challanTenderDate: '10042024',
     challanSerialNumber: '0000000001',
@@ -51,7 +51,7 @@ void main() {
     sectionCode: '194C',
   );
 
-  final structure = FvuFileStructure(
+  const structure = FvuFileStructure(
     batchHeader: batchHeader,
     challans: [
       FvuChallanWithDeductees(
@@ -165,7 +165,7 @@ void main() {
   });
 
   group('FvuExportResult', () {
-    final sampleResult = FvuExportResult(
+    const sampleResult = FvuExportResult(
       formType: FvuExportFormType.form26Q,
       quarter: FvuExportQuarter.q1,
       financialYear: 2024,
@@ -174,11 +174,11 @@ void main() {
       fileName: 'TDS_26Q_Q1_2024_AAATA1234X.fvu',
       recordCount: 2,
       challanCount: 1,
-      validationErrors: const [],
+      validationErrors: [],
     );
 
     test('equality: two identical results are equal', () {
-      final other = FvuExportResult(
+      const other = FvuExportResult(
         formType: FvuExportFormType.form26Q,
         quarter: FvuExportQuarter.q1,
         financialYear: 2024,
@@ -187,7 +187,7 @@ void main() {
         fileName: 'TDS_26Q_Q1_2024_AAATA1234X.fvu',
         recordCount: 2,
         challanCount: 1,
-        validationErrors: const [],
+        validationErrors: [],
       );
       expect(sampleResult, equals(other));
     });

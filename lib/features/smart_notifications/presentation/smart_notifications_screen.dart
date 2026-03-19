@@ -55,7 +55,7 @@ class SmartNotificationsScreen extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.notifications_none_rounded,
                     size: 56,
                     color: AppColors.neutral300,

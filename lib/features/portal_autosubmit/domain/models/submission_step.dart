@@ -4,6 +4,7 @@ enum SubmissionStep {
   loggingIn('Logging In'),
   filling('Filling Form'),
   otp('OTP Required'),
+  reviewing('Review & Confirm'),
   submitting('Submitting'),
   downloading('Downloading Ack'),
   done('Done'),

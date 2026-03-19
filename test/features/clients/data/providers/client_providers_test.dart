@@ -19,52 +19,52 @@ ProviderContainer _makeContainer() {
 void main() {
   group('ClientHealthScore', () {
     test('grade is Healthy when overallScore >= 80', () {
-      final score = ClientHealthScore(
+      const score = ClientHealthScore(
         clientId: '1',
         overallScore: 92,
         itrStatus: 'Filed',
         gstStatus: 'Compliant',
         tdsStatus: 'N/A',
-        pendingActions: const [],
+        pendingActions: [],
         lastUpdated: 'Mar 2026',
       );
       expect(score.grade, 'Healthy');
     });
 
     test('grade is Attention when overallScore >= 60 and < 80', () {
-      final score = ClientHealthScore(
+      const score = ClientHealthScore(
         clientId: '2',
         overallScore: 70,
         itrStatus: 'Pending',
         gstStatus: 'N/A',
         tdsStatus: 'N/A',
-        pendingActions: const [],
+        pendingActions: [],
         lastUpdated: 'Mar 2026',
       );
       expect(score.grade, 'Attention');
     });
 
     test('grade is Critical when overallScore < 60', () {
-      final score = ClientHealthScore(
+      const score = ClientHealthScore(
         clientId: '3',
         overallScore: 42,
         itrStatus: 'Overdue',
         gstStatus: 'Late Filed',
         tdsStatus: 'Challan Due',
-        pendingActions: const ['Action 1'],
+        pendingActions: ['Action 1'],
         lastUpdated: 'Mar 2026',
       );
       expect(score.grade, 'Critical');
     });
 
     test('copyWith creates new object without mutating original', () {
-      final original = ClientHealthScore(
+      const original = ClientHealthScore(
         clientId: '1',
         overallScore: 80,
         itrStatus: 'Filed',
         gstStatus: 'Compliant',
         tdsStatus: 'N/A',
-        pendingActions: const [],
+        pendingActions: [],
         lastUpdated: 'Mar 2026',
       );
       final updated = original.copyWith(overallScore: 60);
@@ -73,13 +73,13 @@ void main() {
     });
 
     test('copyWith preserves all unmodified fields', () {
-      final original = ClientHealthScore(
+      const original = ClientHealthScore(
         clientId: 'abc',
         overallScore: 85,
         itrStatus: 'Filed',
         gstStatus: 'Compliant',
         tdsStatus: 'N/A',
-        pendingActions: const ['Action'],
+        pendingActions: ['Action'],
         lastUpdated: 'Feb 2026',
       );
       final updated = original.copyWith(lastUpdated: 'Mar 2026');

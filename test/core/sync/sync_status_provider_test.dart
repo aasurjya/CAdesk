@@ -35,7 +35,7 @@ void main() {
 
     group('copyWith', () {
       test('returns new object — does not mutate original', () {
-        final original = SyncState.initial;
+        const original = SyncState.initial;
         final updated = original.copyWith(status: SyncStatus.syncing);
 
         expect(original.status, SyncStatus.synced);
@@ -43,7 +43,7 @@ void main() {
       });
 
       test('preserves unspecified fields', () {
-        final original = SyncState(
+        const original = SyncState(
           status: SyncStatus.error,
           pendingCount: 5,
           errorMessage: 'network error',
@@ -63,7 +63,7 @@ void main() {
       });
 
       test('can clear errorMessage via explicit null', () {
-        final withError = SyncState(
+        const withError = SyncState(
           status: SyncStatus.error,
           errorMessage: 'some error',
         );

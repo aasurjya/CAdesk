@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
+import 'package:ca_app/features/filing/presentation/itr1/widgets/form16_upload_button.dart';
 
 class PersonalInfoStep extends ConsumerStatefulWidget {
   const PersonalInfoStep({super.key});
@@ -171,6 +172,8 @@ class _PersonalInfoStepState extends ConsumerState<PersonalInfoStep> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Form16UploadButton(),
+            const SizedBox(height: 16),
             _sectionHeader('Name'),
             _field('First Name', _firstNameCtrl, required: true),
             _field('Middle Name', _middleNameCtrl),

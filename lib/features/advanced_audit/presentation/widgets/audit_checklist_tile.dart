@@ -48,7 +48,7 @@ class AuditChecklistTile extends StatelessWidget {
                     ),
                   ),
                   if (isComplete)
-                    Icon(
+                    const Icon(
                       Icons.check_circle,
                       size: 20,
                       color: AppColors.success,
@@ -64,7 +64,7 @@ class AuditChecklistTile extends StatelessWidget {
                 ),
                 child: Text(
                   '${checklist.auditType.label} Audit',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: AppColors.secondary,
@@ -130,7 +130,11 @@ class _RecentItems extends StatelessWidget {
     if (incompleteItems.isEmpty) {
       return Row(
         children: [
-          Icon(Icons.check_circle_outline, size: 14, color: AppColors.success),
+          const Icon(
+            Icons.check_circle_outline,
+            size: 14,
+            color: AppColors.success,
+          ),
           const SizedBox(width: 6),
           Text(
             'All items completed',
@@ -160,7 +164,7 @@ class _RecentItems extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 2),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.radio_button_unchecked,
                   size: 12,
                   color: AppColors.neutral400,

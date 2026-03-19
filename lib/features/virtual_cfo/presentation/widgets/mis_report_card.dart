@@ -159,7 +159,7 @@ class MisReportCard extends StatelessWidget {
               children: [
                 _CashPill(cashBalance: report.cashBalance),
                 const Spacer(),
-                Icon(
+                const Icon(
                   Icons.calendar_today_rounded,
                   size: 12,
                   color: AppColors.neutral400,

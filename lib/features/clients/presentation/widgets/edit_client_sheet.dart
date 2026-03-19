@@ -179,7 +179,7 @@ class _EditClientSheetState extends ConsumerState<EditClientSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _SectionLabel(label: 'Basic Information'),
+                      const _SectionLabel(label: 'Basic Information'),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _nameCtrl,
@@ -226,7 +226,7 @@ class _EditClientSheetState extends ConsumerState<EditClientSheet> {
                         ),
                       ),
                       const SizedBox(height: 24),
-                      _SectionLabel(label: 'Location'),
+                      const _SectionLabel(label: 'Location'),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _cityCtrl,
@@ -259,7 +259,7 @@ class _EditClientSheetState extends ConsumerState<EditClientSheet> {
                         },
                       ),
                       const SizedBox(height: 24),
-                      _SectionLabel(label: 'Status'),
+                      const _SectionLabel(label: 'Status'),
                       const SizedBox(height: 12),
                       _StatusChoiceChips(
                         selected: _selectedStatus,
@@ -268,7 +268,7 @@ class _EditClientSheetState extends ConsumerState<EditClientSheet> {
                         },
                       ),
                       const SizedBox(height: 24),
-                      _SectionLabel(label: 'Notes'),
+                      const _SectionLabel(label: 'Notes'),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _notesCtrl,

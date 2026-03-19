@@ -111,7 +111,7 @@ void main() {
 
     group('getAuditsByClient', () {
       test('returns assignments for specific client', () async {
-        final clientId = 'test-client-by-client-a';
+        const clientId = 'test-client-by-client-a';
         final a1 = createTestAssignment(clientId: clientId);
         final a2 = createTestAssignment(clientId: clientId);
         await database.auditDao.insertAuditAssignment(
@@ -133,8 +133,8 @@ void main() {
       });
 
       test('filters assignments by client correctly', () async {
-        final clientA = 'client-filter-a';
-        final clientB = 'client-filter-b';
+        const clientA = 'client-filter-a';
+        const clientB = 'client-filter-b';
         final a1 = createTestAssignment(clientId: clientA);
         final a2 = createTestAssignment(clientId: clientB);
         await database.auditDao.insertAuditAssignment(
@@ -151,7 +151,7 @@ void main() {
 
     group('getAuditsByAuditor', () {
       test('returns assignments for specific auditor', () async {
-        final auditorId = 'auditor-unique-x1';
+        const auditorId = 'auditor-unique-x1';
         final a1 = createTestAssignment(auditorId: auditorId);
         final a2 = createTestAssignment(auditorId: auditorId);
         await database.auditDao.insertAuditAssignment(
@@ -173,8 +173,8 @@ void main() {
       });
 
       test('filters assignments by auditor correctly', () async {
-        final auditorA = 'auditor-filter-p1';
-        final auditorB = 'auditor-filter-p2';
+        const auditorA = 'auditor-filter-p1';
+        const auditorB = 'auditor-filter-p2';
         final a1 = createTestAssignment(auditorId: auditorA);
         final a2 = createTestAssignment(auditorId: auditorB);
         await database.auditDao.insertAuditAssignment(
@@ -305,7 +305,7 @@ void main() {
 
     group('getAuditReportByClient', () {
       test('returns report for matching client and year', () async {
-        final clientId = 'client-report-lookup';
+        const clientId = 'client-report-lookup';
         final report = createTestReport(clientId: clientId, year: 2024);
         await database.auditDao.insertAuditReport(
           AuditMapper.reportToCompanion(report),
@@ -329,7 +329,7 @@ void main() {
       });
 
       test('returns null for correct client but wrong year', () async {
-        final clientId = 'client-wrong-year';
+        const clientId = 'client-wrong-year';
         final report = createTestReport(clientId: clientId, year: 2024);
         await database.auditDao.insertAuditReport(
           AuditMapper.reportToCompanion(report),

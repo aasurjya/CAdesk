@@ -123,7 +123,7 @@ class McaResponseParser {
     final cin = _requireString(data, 'cin');
     final rawFilings = data['filings'];
     if (rawFilings == null) {
-      throw FormatException('Missing required field: filings');
+      throw const FormatException('Missing required field: filings');
     }
     final filings = (rawFilings as List<dynamic>)
         .map((item) => _parseFilingRecord(item as Map<String, dynamic>))

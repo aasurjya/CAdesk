@@ -112,7 +112,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 10, 14),
     tokenNumber: 'TKN202510002',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-003',
     deductorId: 'ded-001',
     tan: 'MUMS12345A',
@@ -124,7 +124,7 @@ final _mockReturns = <TdsReturn>[
     totalTaxDeducted: 510000,
     totalDeposited: 510000,
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-004',
     deductorId: 'ded-001',
     tan: 'MUMS12345A',
@@ -151,7 +151,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 7, 20),
     tokenNumber: 'TKN202507005',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-006',
     deductorId: 'ded-001',
     tan: 'MUMS12345A',
@@ -192,7 +192,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 10, 12),
     tokenNumber: 'TKN202510008',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-009',
     deductorId: 'ded-002',
     tan: 'BLRI98765B',
@@ -247,7 +247,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 10, 8),
     tokenNumber: 'TKN202510012',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-013',
     deductorId: 'ded-003',
     tan: 'DELG00001C',
@@ -274,7 +274,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 7, 25),
     tokenNumber: 'TKN202507014',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-015',
     deductorId: 'ded-004',
     tan: 'DELP44321D',
@@ -315,7 +315,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 7, 22),
     tokenNumber: 'TKN202507017',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-018',
     deductorId: 'ded-005',
     tan: 'MUMR67890E',
@@ -342,7 +342,7 @@ final _mockReturns = <TdsReturn>[
     filedDate: DateTime(2025, 7, 28),
     tokenNumber: 'TKN202507019',
   ),
-  TdsReturn(
+  const TdsReturn(
     id: 'ret-020',
     deductorId: 'ded-006',
     tan: 'CHNS11111F',

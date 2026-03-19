@@ -9,7 +9,7 @@ void main() {
   late MockMcaRepository repository;
 
   setUp(() {
-    repository = MockMcaRepository();
+    repository = const MockMcaRepository();
   });
 
   // -------------------------------------------------------------------------

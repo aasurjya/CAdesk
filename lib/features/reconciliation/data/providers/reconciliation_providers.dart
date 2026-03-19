@@ -316,13 +316,13 @@ class ThreeWayMatchResultNotifier extends Notifier<ThreeWayMatchResult> {
   ThreeWayMatchResult build() => _mockThreeWayResult;
 }
 
-final _mockThreeWayResult = ThreeWayMatchResult(
+const _mockThreeWayResult = ThreeWayMatchResult(
   pan: 'ABCDE1234F',
   assessmentYear: '2025-26',
   form26AsTotal: 217100000,
   aisTotalIncome: 268500000,
   itrTotalIncome: 262500000,
-  form26AsVsAis: const ReconciliationVariance(
+  form26AsVsAis: ReconciliationVariance(
     source1Label: 'Form 26AS',
     source2Label: 'AIS',
     source1Amount: 217100000,
@@ -332,7 +332,7 @@ final _mockThreeWayResult = ThreeWayMatchResult(
     status: VarianceStatus.majorVariance,
     threshold: 100000,
   ),
-  form26AsVsItr: const ReconciliationVariance(
+  form26AsVsItr: ReconciliationVariance(
     source1Label: 'Form 26AS',
     source2Label: 'ITR',
     source1Amount: 217100000,
@@ -342,7 +342,7 @@ final _mockThreeWayResult = ThreeWayMatchResult(
     status: VarianceStatus.majorVariance,
     threshold: 100000,
   ),
-  aisVsItr: const ReconciliationVariance(
+  aisVsItr: ReconciliationVariance(
     source1Label: 'AIS',
     source2Label: 'ITR',
     source1Amount: 268500000,
@@ -352,7 +352,7 @@ final _mockThreeWayResult = ThreeWayMatchResult(
     status: VarianceStatus.minorVariance,
     threshold: 100000,
   ),
-  unreportedIncome: const [
+  unreportedIncome: [
     UnreportedIncomeItem(
       sourceName: 'Groww Investments',
       category: 'Capital Gains',
@@ -364,7 +364,7 @@ final _mockThreeWayResult = ThreeWayMatchResult(
       aisAmount: 1200000,
     ),
   ],
-  recommendations: const [
+  recommendations: [
     'Large discrepancy between 26AS and AIS — capital gains and rent '
         'only appear in AIS. Verify all AIS entries.',
     'SBI Savings interest and Groww capital gains not declared in ITR.',

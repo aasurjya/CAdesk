@@ -128,8 +128,8 @@ class _TableHeaderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.primary.withValues(alpha: 0.06),
-      child: Row(
-        children: const [
+      child: const Row(
+        children: [
           _HeaderCell(
             label: 'Asset Block',
             width: _colAsset,
@@ -299,7 +299,11 @@ class _TableTotalRow extends StatelessWidget {
       color: AppColors.primary.withValues(alpha: 0.06),
       child: Row(
         children: [
-          _TotalCell(text: 'TOTAL', width: _colAsset, align: TextAlign.left),
+          const _TotalCell(
+            text: 'TOTAL',
+            width: _colAsset,
+            align: TextAlign.left,
+          ),
           _TotalCell(
             text: CurrencyUtils.formatINRCompact(openingWdv),
             width: _colAmount,

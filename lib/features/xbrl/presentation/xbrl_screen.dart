@@ -336,16 +336,12 @@ class _ElementsTab extends ConsumerWidget {
     final filing = filings.where((f) => f.id == selectedFilingId).firstOrNull;
 
     if (elements.isEmpty) {
-      return Center(
+      return const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.inbox_rounded,
-              size: 48,
-              color: AppColors.neutral200,
-            ),
-            const SizedBox(height: 12),
+            Icon(Icons.inbox_rounded, size: 48, color: AppColors.neutral200),
+            SizedBox(height: 12),
             Text(
               'No elements available for this filing',
               style: TextStyle(color: AppColors.neutral400, fontSize: 14),
@@ -358,7 +354,7 @@ class _ElementsTab extends ConsumerWidget {
     return Column(
       children: [
         if (filing != null) _ElementsHeader(filing: filing),
-        _TypeLegend(),
+        const _TypeLegend(),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.only(top: 4, bottom: 80),

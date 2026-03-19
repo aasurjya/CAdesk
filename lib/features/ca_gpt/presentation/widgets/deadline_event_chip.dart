@@ -95,7 +95,7 @@ class DeadlineListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final day = deadline.date.day.toString().padLeft(2, '0');
-    final months = const [
+    const months = [
       '',
       'Jan',
       'Feb',

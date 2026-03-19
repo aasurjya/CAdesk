@@ -105,7 +105,7 @@ class TodayScreen extends ConsumerWidget {
             count: dueToday.length,
           ),
           if (dueToday.isEmpty)
-            _EmptyState(message: 'Nothing due today.')
+            const _EmptyState(message: 'Nothing due today.')
           else
             for (int i = 0; i < dueToday.length; i++) ...[
               _DeadlineTile(deadline: dueToday[i]),
@@ -118,7 +118,7 @@ class TodayScreen extends ConsumerWidget {
             count: thisWeek.length,
           ),
           if (thisWeek.isEmpty)
-            _EmptyState(message: 'Nothing due this week.')
+            const _EmptyState(message: 'Nothing due this week.')
           else
             for (int i = 0; i < thisWeek.length; i++) ...[
               _DeadlineTile(deadline: thisWeek[i]),
@@ -131,7 +131,7 @@ class TodayScreen extends ConsumerWidget {
             count: later.length,
           ),
           if (later.isEmpty)
-            _EmptyState(message: 'Nothing scheduled further out.')
+            const _EmptyState(message: 'Nothing scheduled further out.')
           else
             for (int i = 0; i < later.length; i++) ...[
               _DeadlineTile(deadline: later[i]),

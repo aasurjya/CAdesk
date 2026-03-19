@@ -167,7 +167,7 @@ void main() {
       });
 
       test('serializes all boolean fields correctly', () {
-        final allFalse = const AppSettings(
+        const allFalse = AppSettings(
           notificationsEnabled: false,
           emailNotifications: false,
           smsNotifications: false,

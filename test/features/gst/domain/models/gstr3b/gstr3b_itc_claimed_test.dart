@@ -53,7 +53,7 @@ void main() {
   });
 
   group('Gstr3bItcClaimed', () {
-    final zeroRow = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zeroRow = ItcRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
 
     Gstr3bItcClaimed createItc({
       ItcRow? importGoods,
@@ -71,17 +71,18 @@ void main() {
         importGoods: importGoods ?? zeroRow,
         importServices: importServices ?? zeroRow,
         inwardRcm:
-            inwardRcm ?? ItcRow(igst: 0, cgst: 1800, sgst: 1800, cess: 0),
+            inwardRcm ?? const ItcRow(igst: 0, cgst: 1800, sgst: 1800, cess: 0),
         isd: isd ?? zeroRow,
         otherItc:
-            otherItc ?? ItcRow(igst: 18000, cgst: 9000, sgst: 9000, cess: 0),
+            otherItc ??
+            const ItcRow(igst: 18000, cgst: 9000, sgst: 9000, cess: 0),
         reversedSection17_5:
             reversedSection17_5 ??
-            ItcRow(igst: 0, cgst: 1000, sgst: 1000, cess: 0),
+            const ItcRow(igst: 0, cgst: 1000, sgst: 1000, cess: 0),
         reversedOthers: reversedOthers ?? zeroRow,
         netItcAvailable:
             netItcAvailable ??
-            ItcRow(igst: 18000, cgst: 9800, sgst: 9800, cess: 0),
+            const ItcRow(igst: 18000, cgst: 9800, sgst: 9800, cess: 0),
         ineligibleRule38: ineligibleRule38 ?? zeroRow,
         ineligibleOthers: ineligibleOthers ?? zeroRow,
       );
@@ -110,7 +111,7 @@ void main() {
 
     test('copyWith → updates selected rows', () {
       final original = createItc();
-      final newRow = ItcRow(igst: 36000, cgst: 18000, sgst: 18000, cess: 0);
+      const newRow = ItcRow(igst: 36000, cgst: 18000, sgst: 18000, cess: 0);
       final updated = original.copyWith(otherItc: newRow);
       expect(updated.otherItc.igst, 36000.0);
       expect(updated.inwardRcm, original.inwardRcm);

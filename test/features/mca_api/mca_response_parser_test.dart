@@ -5,7 +5,7 @@ import 'package:ca_app/features/mca_api/domain/models/mca_eform_status.dart';
 import 'package:ca_app/features/mca_api/domain/services/mca_response_parser.dart';
 
 void main() {
-  final parser = const McaResponseParser();
+  const parser = McaResponseParser();
 
   // -------------------------------------------------------------------------
   // validateCin

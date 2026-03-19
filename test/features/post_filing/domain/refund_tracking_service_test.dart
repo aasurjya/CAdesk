@@ -33,7 +33,7 @@ void main() {
   group('RefundTrackingService.updateRefundStatus', () {
     test('updates status to initiated', () {
       final tracker = makeTracker();
-      final update = RefundStatusUpdate(
+      const update = RefundStatusUpdate(
         newStatus: RefundTrackerStatus.initiated,
       );
       final result = RefundTrackingService.updateRefundStatus(tracker, update);
@@ -54,7 +54,7 @@ void main() {
 
     test('updates adjustedAgainstDemand flag', () {
       final tracker = makeTracker(status: RefundTrackerStatus.processing);
-      final update = RefundStatusUpdate(
+      const update = RefundStatusUpdate(
         newStatus: RefundTrackerStatus.adjusted,
         adjustedAgainstDemand: true,
       );
@@ -65,7 +65,7 @@ void main() {
 
     test('original tracker is not mutated', () {
       final tracker = makeTracker();
-      final update = RefundStatusUpdate(
+      const update = RefundStatusUpdate(
         newStatus: RefundTrackerStatus.initiated,
       );
       RefundTrackingService.updateRefundStatus(tracker, update);

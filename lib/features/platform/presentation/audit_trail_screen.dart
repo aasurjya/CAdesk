@@ -209,7 +209,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.history_toggle_off_rounded,
             size: 64,
             color: AppColors.neutral300,

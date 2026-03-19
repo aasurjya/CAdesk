@@ -42,7 +42,7 @@ final _testOrder = AssessmentOrder(
   hasErrors: false,
 );
 
-final _testCalc = InterestCalculation(
+const _testCalc = InterestCalculation(
   id: 'ic-001',
   orderId: 'ao-001',
   clientId: 'cli-001',
@@ -264,7 +264,7 @@ void main() {
     testWidgets('renders client name', (tester) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(body: InterestCalculationTile(calc: _testCalc)),
         ),
       );
@@ -276,7 +276,7 @@ void main() {
     testWidgets('renders section label', (tester) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(body: InterestCalculationTile(calc: _testCalc)),
         ),
       );
@@ -288,7 +288,7 @@ void main() {
     testWidgets('renders check icon when isCorrect is true', (tester) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(body: InterestCalculationTile(calc: _testCalc)),
         ),
       );
@@ -303,7 +303,7 @@ void main() {
     ) async {
       await _setPhoneDisplay(tester);
       await tester.pumpWidget(
-        MaterialApp(
+        const MaterialApp(
           home: Scaffold(body: InterestCalculationTile(calc: _testCalc)),
         ),
       );

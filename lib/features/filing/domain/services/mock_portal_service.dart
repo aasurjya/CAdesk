@@ -67,7 +67,7 @@ class MockPortalService {
   ) async {
     await Future<void>.delayed(const Duration(seconds: 1));
 
-    final statuses = VerificationStatus.values;
+    const statuses = VerificationStatus.values;
     return statuses[_random.nextInt(statuses.length)];
   }
 
@@ -80,7 +80,7 @@ class MockPortalService {
   ) async {
     await Future<void>.delayed(const Duration(seconds: 1));
 
-    final lifecycles = RefundLifecycle.values;
+    const lifecycles = RefundLifecycle.values;
     final status = lifecycles[_random.nextInt(lifecycles.length)];
 
     return RefundStatus(

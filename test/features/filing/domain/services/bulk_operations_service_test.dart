@@ -46,7 +46,7 @@ void main() {
 
   group('BulkOperationsService.applyAction', () {
     test('updateStatus changes status of selected jobs only', () {
-      final action = BulkAction(
+      const action = BulkAction(
         type: BulkActionType.updateStatus,
         targetStatus: FilingJobStatus.review,
       );

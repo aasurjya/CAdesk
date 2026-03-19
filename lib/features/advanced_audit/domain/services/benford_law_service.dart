@@ -153,7 +153,7 @@ class BenfordLawService {
     const k = 8.0;
     final x = chiSq / k;
     final cbrtX = math.pow(x, 1 / 3).toDouble();
-    final mu = 1 - 2 / (9 * k);
+    const mu = 1 - 2 / (9 * k);
     final sigma = math.sqrt(2 / (9 * k));
     final z = (cbrtX - mu) / sigma;
     // One-tailed upper: p ≈ 1 - Φ(z)

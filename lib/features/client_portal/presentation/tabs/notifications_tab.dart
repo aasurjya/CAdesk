@@ -271,7 +271,7 @@ class _NotificationTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Icon(
+                      const Icon(
                         Icons.access_time,
                         size: 12,
                         color: AppColors.neutral400,

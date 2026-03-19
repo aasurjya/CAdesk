@@ -270,7 +270,7 @@ class _SopDocumentTile extends StatelessWidget {
                   _VersionChip(version: sop.version),
                   if (sop.isActive) ...[
                     const SizedBox(width: 6),
-                    _ActiveChip(),
+                    const _ActiveChip(),
                   ],
                 ],
               ),
@@ -279,7 +279,7 @@ class _SopDocumentTile extends StatelessWidget {
               // Module tag
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.folder_rounded,
                     size: 12,
                     color: AppColors.secondary,
@@ -293,7 +293,7 @@ class _SopDocumentTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Icon(
+                  const Icon(
                     Icons.update_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -433,7 +433,7 @@ class _CategoryFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final categories = KnowledgeCategory.values;
+    const categories = KnowledgeCategory.values;
 
     return SizedBox(
       height: 44,

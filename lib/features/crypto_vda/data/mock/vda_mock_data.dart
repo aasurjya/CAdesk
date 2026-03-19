@@ -268,7 +268,7 @@ final List<VdaTransaction> mockVdaTransactions = <VdaTransaction>[
 
 /// Mock client summaries — manually computed from [mockVdaTransactions].
 final List<VdaSummary> mockVdaSummaries = <VdaSummary>[
-  VdaSummary(
+  const VdaSummary(
     clientId: 'cli-001',
     clientName: 'Rajesh Mehta',
     assessmentYear: '2026-27',
@@ -281,7 +281,7 @@ final List<VdaSummary> mockVdaSummaries = <VdaSummary>[
     tdsShortfall: 42140,
     hasLossRestrictionViolation: true,
   ),
-  VdaSummary(
+  const VdaSummary(
     clientId: 'cli-002',
     clientName: 'Priya Sharma',
     assessmentYear: '2026-27',
@@ -294,7 +294,7 @@ final List<VdaSummary> mockVdaSummaries = <VdaSummary>[
     tdsShortfall: 19400,
     hasLossRestrictionViolation: false,
   ),
-  VdaSummary(
+  const VdaSummary(
     clientId: 'cli-003',
     clientName: 'Anil Kapoor',
     assessmentYear: '2026-27',
@@ -307,7 +307,7 @@ final List<VdaSummary> mockVdaSummaries = <VdaSummary>[
     tdsShortfall: 0,
     hasLossRestrictionViolation: false,
   ),
-  VdaSummary(
+  const VdaSummary(
     clientId: 'cli-004',
     clientName: 'Meera Iyer',
     assessmentYear: '2026-27',
@@ -320,7 +320,7 @@ final List<VdaSummary> mockVdaSummaries = <VdaSummary>[
     tdsShortfall: 54964,
     hasLossRestrictionViolation: true,
   ),
-  VdaSummary(
+  const VdaSummary(
     clientId: 'cli-005',
     clientName: 'Vikram Nair',
     assessmentYear: '2026-27',

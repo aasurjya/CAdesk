@@ -66,7 +66,7 @@ class TimeEntryTile extends StatelessWidget {
                       // Client + staff
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.person_outline_rounded,
                             size: 13,
                             color: AppColors.neutral400,
@@ -104,7 +104,7 @@ class TimeEntryTile extends StatelessWidget {
                       // Bottom row: time range, duration, billed
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.access_time_rounded,
                             size: 13,
                             color: AppColors.neutral400,

@@ -50,7 +50,7 @@ void main() {
 
     group('insertFiling', () {
       test('inserts filing and returns its id', () async {
-        final filing = XbrlFiling(
+        const filing = XbrlFiling(
           id: 'xbrl-new-001',
           companyId: 'comp-new',
           companyName: 'New Corp',
@@ -86,7 +86,7 @@ void main() {
       });
 
       test('returns false for unknown filing', () async {
-        final filing = XbrlFiling(
+        const filing = XbrlFiling(
           id: 'xbrl-does-not-exist',
           companyId: 'c',
           companyName: 'C',

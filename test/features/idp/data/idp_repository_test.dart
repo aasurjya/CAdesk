@@ -60,7 +60,7 @@ void main() {
 
     group('insertDocumentJob', () {
       test('inserts and returns id', () async {
-        final job = DocumentJob(
+        const job = DocumentJob(
           id: 'test-job-001',
           clientName: 'Test Client',
           documentType: 'Form 16',
@@ -78,7 +78,7 @@ void main() {
       });
 
       test('inserted job is retrievable by id', () async {
-        final job = DocumentJob(
+        const job = DocumentJob(
           id: 'test-job-002',
           clientName: 'Another Client',
           documentType: '26AS',
@@ -110,7 +110,7 @@ void main() {
       });
 
       test('returns false for non-existent id', () async {
-        final ghost = DocumentJob(
+        const ghost = DocumentJob(
           id: 'no-such-job',
           clientName: 'Ghost',
           documentType: 'Unknown',
@@ -184,7 +184,7 @@ void main() {
       });
 
       test('returns false for non-existent id', () async {
-        final ghost = ExtractedField(
+        const ghost = ExtractedField(
           id: 'no-such-field',
           jobId: 'x',
           fieldName: 'Ghost Field',

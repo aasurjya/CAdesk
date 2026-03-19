@@ -71,7 +71,7 @@ void main() {
     final itemList = items ?? [createItem()];
     final invoiceTotals =
         totals ??
-        EInvoiceTotals(
+        const EInvoiceTotals(
           totalValue: 118000.0,
           totalTaxableValue: 100000.0,
           totalIgst: 18000.0,

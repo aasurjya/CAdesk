@@ -95,32 +95,35 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
           children: [
             const _AnalyticsBanner(),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Practice KPIs',
               icon: Icons.dashboard_customize_rounded,
             ),
             const SizedBox(height: 10),
             const KpiGridWidget(),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Revenue Trend',
               icon: Icons.bar_chart_rounded,
             ),
             const SizedBox(height: 10),
             const RevenueChartWidget(),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Client Health Overview',
               icon: Icons.health_and_safety_rounded,
             ),
             const SizedBox(height: 10),
             const ClientHealthChartWidget(),
             const SizedBox(height: 24),
-            _SectionHeader(title: 'Key Metrics', icon: Icons.insights_rounded),
+            const _SectionHeader(
+              title: 'Key Metrics',
+              icon: Icons.insights_rounded,
+            ),
             const SizedBox(height: 10),
             _KpiGrid(kpis: kpis),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Revenue by Service',
               icon: Icons.account_balance_wallet_rounded,
             ),
@@ -130,14 +133,14 @@ class AnalyticsDashboardScreen extends ConsumerWidget {
               totalRevenue: totalRevenue,
             ),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Aging Analysis',
               icon: Icons.schedule_rounded,
             ),
             const SizedBox(height: 10),
             AgingBar(bucketTotals: bucketTotals, grandTotal: totalReceivables),
             const SizedBox(height: 24),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Tax Practice Growth',
               icon: Icons.trending_up_rounded,
             ),

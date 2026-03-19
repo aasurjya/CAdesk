@@ -40,7 +40,7 @@ DirectorDetail _makeDirector() => DirectorDetail(
 );
 
 void main() {
-  final service = const McaEFormPrefillService();
+  const service = McaEFormPrefillService();
 
   // -------------------------------------------------------------------------
   // buildMgt7Prefill
@@ -110,17 +110,17 @@ void main() {
     });
 
     test('agm_date is empty string when agmDate is null', () {
-      final form = Mgt7Return(
+      const form = Mgt7Return(
         cin: 'L17110MH1973PLC019786',
         companyName: 'Test Co',
         registeredOffice: '123 Test',
         financialYear: 2024,
         agmDate: null,
-        shareholdingPattern: const [],
-        directors: const [],
-        keyManagerialPersonnel: const [],
-        meetings: const [],
-        penalties: const [],
+        shareholdingPattern: [],
+        directors: [],
+        keyManagerialPersonnel: [],
+        meetings: [],
+        penalties: [],
       );
       final result = service.buildMgt7Prefill(form);
       expect(result['agm_date'], '');

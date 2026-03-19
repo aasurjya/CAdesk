@@ -8,17 +8,17 @@ class IntimationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Mock — no intimation received yet
-    return Card(
+    return const Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Icon(Icons.mail_outline, size: 16, color: AppColors.neutral400),
-                const SizedBox(width: 8),
-                const Text(
+                SizedBox(width: 8),
+                Text(
                   'No Intimation Received',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -28,8 +28,8 @@ class IntimationCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            const Text(
+            SizedBox(height: 8),
+            Text(
               'Intimation u/s 143(1) is typically issued within 9 months '
               'of filing. Once received, it will appear here with the '
               'income comparison and demand/refund details.',

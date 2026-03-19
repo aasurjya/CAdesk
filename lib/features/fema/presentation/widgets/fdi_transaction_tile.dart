@@ -111,7 +111,7 @@ class FdiTransactionTile extends StatelessWidget {
               // Date row
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,

@@ -162,9 +162,9 @@ class IrnBatchCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'IRN Success Rate',
-              style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
+              style: TextStyle(fontSize: 11, color: AppColors.neutral600),
             ),
             Text(
               '${(_progressValue() * 100).toStringAsFixed(0)}%',

@@ -6,26 +6,26 @@ void main() {
   group('ScheduleCg', () {
     group('computeShortTermGains', () {
       test('→ sums 111A STCG from listed equity entries', () {
-        final entry1 = EquityStcgEntry(
+        const entry1 = EquityStcgEntry(
           description: 'HDFC Bank shares',
           salePrice: 300000,
           costOfAcquisition: 200000,
           transferExpenses: 1000,
         );
-        final entry2 = EquityStcgEntry(
+        const entry2 = EquityStcgEntry(
           description: 'Reliance shares',
           salePrice: 150000,
           costOfAcquisition: 120000,
           transferExpenses: 500,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [entry1, entry2],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -34,20 +34,20 @@ void main() {
       });
 
       test('→ sums STCG on other assets (slab rate)', () {
-        final entry = OtherStcgEntry(
+        const entry = OtherStcgEntry(
           description: 'Unlisted shares',
           salePrice: 500000,
           costOfAcquisition: 300000,
           transferExpenses: 2000,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
           otherStcgEntries: [entry],
-          otherLtcgEntries: const [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -55,26 +55,26 @@ void main() {
       });
 
       test('→ netStcg aggregates 111A and other STCG', () {
-        final equity = EquityStcgEntry(
+        const equity = EquityStcgEntry(
           description: 'Stock A',
           salePrice: 100000,
           costOfAcquisition: 60000,
           transferExpenses: 0,
         );
-        final other = OtherStcgEntry(
+        const other = OtherStcgEntry(
           description: 'Unlisted debenture',
           salePrice: 50000,
           costOfAcquisition: 30000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [equity],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
           otherStcgEntries: [other],
-          otherLtcgEntries: const [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -84,21 +84,21 @@ void main() {
 
     group('computeLongTermGains', () {
       test('→ sums 112A LTCG from listed equity', () {
-        final entry = EquityLtcgEntry(
+        const entry = EquityLtcgEntry(
           description: 'HDFC MF units',
           salePrice: 500000,
           costOfAcquisition: 200000,
           fmvOn31Jan2018: 250000,
           transferExpenses: 1000,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
           equityLtcgEntries: [entry],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -108,21 +108,21 @@ void main() {
       });
 
       test('→ grandfathering: uses actual cost when higher than FMV', () {
-        final entry = EquityLtcgEntry(
+        const entry = EquityLtcgEntry(
           description: 'Stock acquired at peak',
           salePrice: 400000,
           costOfAcquisition: 350000,
           fmvOn31Jan2018: 200000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
           equityLtcgEntries: [entry],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -158,26 +158,26 @@ void main() {
 
     group('set-off rules', () {
       test('→ STCL can set off against STCG', () {
-        final lossMaker = EquityStcgEntry(
+        const lossMaker = EquityStcgEntry(
           description: 'Loss stock',
           salePrice: 50000,
           costOfAcquisition: 100000,
           transferExpenses: 0,
         );
-        final gainer = OtherStcgEntry(
+        const gainer = OtherStcgEntry(
           description: 'Gain asset',
           salePrice: 200000,
           costOfAcquisition: 100000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [lossMaker],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
           otherStcgEntries: [gainer],
-          otherLtcgEntries: const [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         );
@@ -187,20 +187,20 @@ void main() {
       });
 
       test('→ broughtForwardStcl reduces netStcg', () {
-        final gainer = EquityStcgEntry(
+        const gainer = EquityStcgEntry(
           description: 'Profit stock',
           salePrice: 200000,
           costOfAcquisition: 100000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
+        const schedule = ScheduleCg(
           equityStcgEntries: [gainer],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 30000,
           broughtForwardLtcl: 0,
         );
@@ -209,21 +209,21 @@ void main() {
       });
 
       test('→ broughtForwardLtcl reduces netLtcg112A', () {
-        final entry = EquityLtcgEntry(
+        const entry = EquityLtcgEntry(
           description: 'MF units',
           salePrice: 300000,
           costOfAcquisition: 100000,
           fmvOn31Jan2018: 80000,
           transferExpenses: 0,
         );
-        final schedule = ScheduleCg(
-          equityStcgEntries: const [],
+        const schedule = ScheduleCg(
+          equityStcgEntries: [],
           equityLtcgEntries: [entry],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 50000,
         );
@@ -234,20 +234,20 @@ void main() {
       test(
         '→ netStcgAfterSetOff floors at zero (excess loss carried forward)',
         () {
-          final entry = EquityStcgEntry(
+          const entry = EquityStcgEntry(
             description: 'Small gain',
             salePrice: 110000,
             costOfAcquisition: 100000,
             transferExpenses: 0,
           );
-          final schedule = ScheduleCg(
+          const schedule = ScheduleCg(
             equityStcgEntries: [entry],
-            equityLtcgEntries: const [],
-            debtStcgEntries: const [],
-            debtLtcgEntries: const [],
-            propertyLtcgEntries: const [],
-            otherStcgEntries: const [],
-            otherLtcgEntries: const [],
+            equityLtcgEntries: [],
+            debtStcgEntries: [],
+            debtLtcgEntries: [],
+            propertyLtcgEntries: [],
+            otherStcgEntries: [],
+            otherLtcgEntries: [],
             broughtForwardStcl: 50000, // larger than gain
             broughtForwardLtcl: 0,
           );

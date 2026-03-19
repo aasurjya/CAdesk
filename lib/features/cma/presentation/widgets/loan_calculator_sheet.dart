@@ -134,13 +134,13 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
                     const SizedBox(height: 16),
                     _buildRatioBar(),
                     const SizedBox(height: 20),
-                    _SectionHeader(title: 'MPBF Calculator'),
+                    const _SectionHeader(title: 'MPBF Calculator'),
                     const SizedBox(height: 12),
                     _buildMpbfInputs(),
                     const SizedBox(height: 12),
                     _buildMpbfResult(),
                     const SizedBox(height: 20),
-                    _SectionHeader(title: 'DSCR Analysis'),
+                    const _SectionHeader(title: 'DSCR Analysis'),
                     const SizedBox(height: 12),
                     _buildDscrInput(),
                     const SizedBox(height: 12),
@@ -260,7 +260,7 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [AppColors.primary, AppColors.primaryVariant],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -269,9 +269,9 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Monthly EMI',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               color: Colors.white70,
               fontWeight: FontWeight.w500,
@@ -348,10 +348,10 @@ class _LoanCalculatorSheetState extends State<LoanCalculatorSheet> {
           ),
         ),
         const SizedBox(height: 6),
-        Row(
+        const Row(
           children: [
             _Legend(color: AppColors.primary, label: 'Principal'),
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
             _Legend(color: AppColors.error, label: 'Interest'),
           ],
         ),

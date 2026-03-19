@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
+import 'package:ca_app/features/filing/data/services/draft_storage_service.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/personal_info_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/salary_income_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/house_property_step.dart';
@@ -11,8 +12,9 @@ import 'package:ca_app/features/filing/presentation/itr1/steps/other_sources_ste
 import 'package:ca_app/features/filing/presentation/itr1/steps/deductions_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/tax_computation_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/review_export_step.dart';
+import 'package:ca_app/features/filing/presentation/itr1/steps/tds_taxes_paid_step.dart';
 
-const _kTotalSteps = 7;
+const _kTotalSteps = 8;
 
 const _kStepTitles = <String>[
   'Personal Info',
@@ -21,6 +23,7 @@ const _kStepTitles = <String>[
   'Other Sources',
   'Deductions',
   'Tax Computation',
+  'TDS & Taxes Paid',
   'Review & Export',
 ];
 
@@ -37,31 +40,41 @@ class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
   @override
   void initState() {
     super.initState();
-    // Activate the job in the provider.
+    // Activate the job and load any saved draft.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(activeFilingJobIdProvider.notifier).set(widget.jobId);
       ref.read(wizardStepProvider.notifier).reset();
+      ref.read(itr1FormDataProvider.notifier).loadDraft(widget.jobId);
     });
   }
 
   @override
   void dispose() {
     // Clear active job when leaving the wizard.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(activeFilingJobIdProvider.notifier).set(null);
-    });
+    ref.read(activeFilingJobIdProvider.notifier).set(null);
     super.dispose();
   }
 
-  void _saveDraft() {
-    final job = ref.read(activeFilingJobProvider);
-    if (job == null) return;
+  Future<void> _saveDraft() async {
     final formData = ref.read(itr1FormDataProvider);
-    final updated = job.copyWith(itr1Data: formData, updatedAt: DateTime.now());
-    ref.read(filingJobsProvider.notifier).update(updated);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Draft saved')));
+    // Persist to SharedPreferences
+    await DraftStorageService.saveDraft(widget.jobId, formData);
+    // Also update in-memory job if present
+    final job = ref.read(activeFilingJobProvider);
+    if (job != null) {
+      final updated = job.copyWith(
+        itr1Data: formData,
+        updatedAt: DateTime.now(),
+      );
+      ref.read(filingJobsProvider.notifier).update(updated);
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Draft saved'),
+        backgroundColor: AppColors.success,
+      ),
+    );
   }
 
   @override
@@ -174,7 +187,8 @@ class _StepBody extends StatelessWidget {
       3 => const OtherSourcesStep(),
       4 => const DeductionsStep(),
       5 => const TaxComputationStep(),
-      6 => const ReviewExportStep(),
+      6 => const TdsTaxesPaidStep(),
+      7 => const ReviewExportStep(),
       _ => const SizedBox.shrink(),
     };
   }

@@ -15,7 +15,7 @@ void main() {
   // ---------------------------------------------------------------------------
   group('PortalClient model', () {
     test('const constructor and field access', () {
-      final client = PortalClient(
+      const client = PortalClient(
         clientId: 'c1',
         pan: 'ABCDE1234F',
         name: 'Ravi Kumar',
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('copyWith returns new instance with updated fields', () {
-      final original = PortalClient(
+      const original = PortalClient(
         clientId: 'c1',
         pan: 'ABCDE1234F',
         name: 'Ravi Kumar',
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('equality is based on clientId', () {
-      final a = PortalClient(
+      const a = PortalClient(
         clientId: 'c1',
         pan: 'ABCDE1234F',
         name: 'Ravi Kumar',
@@ -68,7 +68,7 @@ void main() {
     });
 
     test('hashCode is consistent with clientId', () {
-      final a = PortalClient(
+      const a = PortalClient(
         clientId: 'c1',
         pan: 'ABCDE1234F',
         name: 'Ravi Kumar',

@@ -20,8 +20,8 @@ class FirmOperationsScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Firm Operations'),
-          bottom: TabBar(
-            tabs: const [
+          bottom: const TabBar(
+            tabs: [
               Tab(text: 'Staff'),
               Tab(text: 'KPIs'),
               Tab(text: 'Knowledge Base'),
@@ -93,11 +93,11 @@ class _StaffTab extends ConsumerWidget {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppColors.neutral200),
+                borderSide: const BorderSide(color: AppColors.neutral200),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppColors.neutral200),
+                borderSide: const BorderSide(color: AppColors.neutral200),
               ),
             ),
             onChanged: (value) {
@@ -245,11 +245,11 @@ class _KnowledgeBaseTab extends ConsumerWidget {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppColors.neutral200),
+                borderSide: const BorderSide(color: AppColors.neutral200),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: AppColors.neutral200),
+                borderSide: const BorderSide(color: AppColors.neutral200),
               ),
             ),
             onChanged: (value) {

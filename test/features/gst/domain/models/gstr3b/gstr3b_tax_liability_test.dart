@@ -54,7 +54,7 @@ void main() {
   });
 
   group('Gstr3bTaxLiability', () {
-    final zeroRow = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
+    const zeroRow = Gstr3bTaxRow(igst: 0, cgst: 0, sgst: 0, cess: 0);
 
     Gstr3bTaxLiability createLiability({
       Gstr3bTaxRow? outwardTaxable,
@@ -66,11 +66,12 @@ void main() {
       return Gstr3bTaxLiability(
         outwardTaxable:
             outwardTaxable ??
-            Gstr3bTaxRow(igst: 18000, cgst: 9000, sgst: 9000, cess: 0),
+            const Gstr3bTaxRow(igst: 18000, cgst: 9000, sgst: 9000, cess: 0),
         outwardZeroRated: outwardZeroRated ?? zeroRow,
         otherOutward: otherOutward ?? zeroRow,
         inwardRcm:
-            inwardRcm ?? Gstr3bTaxRow(igst: 0, cgst: 1800, sgst: 1800, cess: 0),
+            inwardRcm ??
+            const Gstr3bTaxRow(igst: 0, cgst: 1800, sgst: 1800, cess: 0),
         nonGstOutward: nonGstOutward ?? zeroRow,
       );
     }
@@ -112,7 +113,7 @@ void main() {
 
     test('copyWith → returns new instance with updated rows', () {
       final original = createLiability();
-      final newRow = Gstr3bTaxRow(
+      const newRow = Gstr3bTaxRow(
         igst: 36000,
         cgst: 18000,
         sgst: 18000,

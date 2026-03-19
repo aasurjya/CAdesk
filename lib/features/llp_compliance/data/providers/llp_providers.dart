@@ -586,7 +586,7 @@ class LLPComplianceSummary {
 // ---------------------------------------------------------------------------
 
 final _mockLlpFilingRecords = <LlpFilingRecord>[
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-001',
     llpName: 'Sharma & Gupta Associates LLP',
     llpin: 'AAB-4521',
@@ -599,7 +599,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 0,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-002',
     llpName: 'TechBridge Consulting LLP',
     llpin: 'AAC-7832',
@@ -612,7 +612,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 0,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-003',
     llpName: 'Bharat Infrastructure LLP',
     llpin: 'AAD-1245',
@@ -625,7 +625,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 0,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-004',
     llpName: 'Pinnacle Legal Advisors LLP',
     llpin: 'AAE-3367',
@@ -638,7 +638,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 1,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-005',
     llpName: 'Dakshin Exports LLP',
     llpin: 'AAF-5590',
@@ -651,7 +651,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 0,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-006',
     llpName: 'NorthStar Ventures LLP',
     llpin: 'AAG-8812',
@@ -664,7 +664,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 2,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-007',
     llpName: 'Sunrise Agro LLP',
     llpin: 'AAH-2234',
@@ -677,7 +677,7 @@ final _mockLlpFilingRecords = <LlpFilingRecord>[
     yearsSinceLastFiling: 3,
     assessmentYear: 'AY 2025-26',
   ),
-  LlpFilingRecord(
+  const LlpFilingRecord(
     id: 'lfr-008',
     llpName: 'Metro Logistics LLP',
     llpin: 'AAI-9901',

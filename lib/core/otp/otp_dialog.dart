@@ -218,7 +218,7 @@ class _OtpDialogState extends State<OtpDialog> {
             ),
             decoration: InputDecoration(
               hintText: '• • • • • •',
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 letterSpacing: 8,
                 color: AppColors.neutral200,
               ),
@@ -253,7 +253,10 @@ class _OtpDialogState extends State<OtpDialog> {
       actions: [
         TextButton(
           onPressed: _cancel,
-          child: Text('Cancel', style: TextStyle(color: AppColors.neutral400)),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(color: AppColors.neutral400),
+          ),
         ),
         FilledButton(
           onPressed: _submit,

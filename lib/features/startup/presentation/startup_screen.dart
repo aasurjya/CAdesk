@@ -63,7 +63,7 @@ class StartupScreen extends ConsumerWidget {
               iac80Approved: iac80Approved,
             ),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Startups',
               icon: Icons.rocket_launch_rounded,
             ),
@@ -81,7 +81,7 @@ class StartupScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: '80-IAC Eligibility Summary',
               icon: Icons.verified_rounded,
             ),
