@@ -430,10 +430,7 @@ List<MoreCategoryGroup> groupMenuItemsByCategory(List<MoreMenuItem> items) {
 }
 
 /// Filter menu items by search query (matches title or subtitle).
-List<MoreMenuItem> filterMenuItems(
-  List<MoreMenuItem> items,
-  String query,
-) {
+List<MoreMenuItem> filterMenuItems(List<MoreMenuItem> items, String query) {
   if (query.isEmpty) return items;
   final lower = query.toLowerCase();
   return items

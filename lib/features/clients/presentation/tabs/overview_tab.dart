@@ -96,11 +96,7 @@ class _ContactSection extends StatelessWidget {
                 value: client.gstin!,
               ),
             if (client.tan != null)
-              _ContactRow(
-                icon: Icons.badge,
-                label: 'TAN',
-                value: client.tan!,
-              ),
+              _ContactRow(icon: Icons.badge, label: 'TAN', value: client.tan!),
             if (client.aadhaar != null)
               _ContactRow(
                 icon: Icons.fingerprint,
@@ -156,8 +152,7 @@ class _ContactRow extends StatelessWidget {
                       value,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        color:
-                            onTap != null ? AppColors.primaryVariant : null,
+                        color: onTap != null ? AppColors.primaryVariant : null,
                       ),
                     ),
                   ],

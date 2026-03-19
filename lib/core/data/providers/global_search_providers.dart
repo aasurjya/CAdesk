@@ -147,10 +147,7 @@ List<SearchResult> _searchClients(Ref ref, String query) {
       .toList();
 }
 
-List<SearchResult> _searchDeadlines(
-  Ref ref,
-  String query,
-) {
+List<SearchResult> _searchDeadlines(Ref ref, String query) {
   final deadlines =
       ref.watch(allComplianceDeadlinesProvider).asData?.value ??
       <ComplianceDeadline>[];
@@ -175,10 +172,7 @@ List<SearchResult> _searchDeadlines(
       .toList();
 }
 
-List<SearchResult> _searchFilings(
-  Ref ref,
-  String query,
-) {
+List<SearchResult> _searchFilings(Ref ref, String query) {
   final filings = ref.watch(filingHubItemsProvider);
   return filings
       .where(

@@ -91,10 +91,7 @@ class BillingTab extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _OutstandingCard extends StatelessWidget {
-  const _OutstandingCard({
-    required this.amount,
-    required this.theme,
-  });
+  const _OutstandingCard({required this.amount, required this.theme});
 
   final double amount;
   final ThemeData theme;
@@ -141,10 +138,7 @@ class _OutstandingCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _InvoicesCard extends StatelessWidget {
-  const _InvoicesCard({
-    required this.invoices,
-    required this.theme,
-  });
+  const _InvoicesCard({required this.invoices, required this.theme});
 
   final List<_MockInvoice> invoices;
   final ThemeData theme;
@@ -238,10 +232,7 @@ class _InvoiceRow extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _PaymentSummaryCard extends StatelessWidget {
-  const _PaymentSummaryCard({
-    required this.totalPaid,
-    required this.theme,
-  });
+  const _PaymentSummaryCard({required this.totalPaid, required this.theme});
 
   final double totalPaid;
   final ThemeData theme;

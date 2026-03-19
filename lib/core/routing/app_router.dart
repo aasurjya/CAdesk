@@ -22,8 +22,9 @@ import 'package:ca_app/core/routing/operations_routes.dart';
 import 'package:ca_app/core/routing/ai_routes.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final _dashboardNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'dashboard');
+final _dashboardNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'dashboard',
+);
 final _filingNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'filing');
 final _clientsNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'clients');
 final _todayNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'today');

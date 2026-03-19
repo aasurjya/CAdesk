@@ -76,9 +76,7 @@ class DocumentsTab extends StatelessWidget {
               onPressed: () {},
               icon: const Icon(Icons.upload_file, size: 18),
               label: const Text('Upload Document'),
-              style: FilledButton.styleFrom(
-                backgroundColor: AppColors.primary,
-              ),
+              style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
             ),
           ],
         ),
@@ -99,9 +97,7 @@ class DocumentsTab extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSpacing.sm),
-                ..._mockDocuments.map(
-                  (doc) => _DocumentRow(document: doc),
-                ),
+                ..._mockDocuments.map((doc) => _DocumentRow(document: doc)),
               ],
             ),
           ),
@@ -170,11 +166,7 @@ class _DocumentRow extends StatelessWidget {
         ],
       ),
       trailing: IconButton(
-        icon: const Icon(
-          Icons.download,
-          size: 18,
-          color: AppColors.neutral400,
-        ),
+        icon: const Icon(Icons.download, size: 18, color: AppColors.neutral400),
         onPressed: () {},
         visualDensity: VisualDensity.compact,
       ),

@@ -70,9 +70,7 @@ void main() {
       expect(find.text('Sign Out'), findsOneWidget);
     });
 
-    testWidgets('renders CADesk version footer when scrolled', (
-      tester,
-    ) async {
+    testWidgets('renders CADesk version footer when scrolled', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -113,9 +111,7 @@ void main() {
       expect(find.byType(ExpansionTile), findsNWidgets(8));
     });
 
-    testWidgets('renders Quick Access and Core Filing headers', (
-      tester,
-    ) async {
+    testWidgets('renders Quick Access and Core Filing headers', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -248,9 +244,7 @@ void main() {
   // -------------------------------------------------------------------------
 
   group('MoreScreen - empty search state', () {
-    testWidgets('shows empty state when search has no matches', (
-      tester,
-    ) async {
+    testWidgets('shows empty state when search has no matches', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -330,9 +324,7 @@ void main() {
       expect(find.byType(Wrap), findsOneWidget);
     });
 
-    testWidgets('toggling view mode preserves search results', (
-      tester,
-    ) async {
+    testWidgets('toggling view mode preserves search results', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -370,10 +362,7 @@ void main() {
 
     test('filters by subtitle', () {
       final result = filterMenuItems(kMoreMenuItems, 'reconciliation');
-      expect(
-        result.any((item) => item.title == 'AI & Automation'),
-        isTrue,
-      );
+      expect(result.any((item) => item.title == 'AI & Automation'), isTrue);
     });
 
     test('returns empty list when no match', () {
@@ -397,8 +386,9 @@ void main() {
 
     test('Quick Access has 3 items', () {
       final groups = groupMenuItemsByCategory(kMoreMenuItems);
-      final quickAccess =
-          groups.firstWhere((g) => g.name == kCategoryQuickAccess);
+      final quickAccess = groups.firstWhere(
+        (g) => g.name == kCategoryQuickAccess,
+      );
       expect(quickAccess.items.length, 3);
     });
 

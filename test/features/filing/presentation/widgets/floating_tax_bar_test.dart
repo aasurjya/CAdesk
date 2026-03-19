@@ -7,8 +7,9 @@ import '../../../../helpers/widget_test_helpers.dart';
 
 void main() {
   group('FloatingTaxBar', () {
-    testWidgets('renders gross income, deductions, and tax payable labels',
-        (tester) async {
+    testWidgets('renders gross income, deductions, and tax payable labels', (
+      tester,
+    ) async {
       await pumpTestWidget(
         tester,
         const Scaffold(
@@ -47,11 +48,7 @@ void main() {
       await pumpTestWidget(
         tester,
         const Scaffold(
-          body: FloatingTaxBar(
-            grossIncome: 0,
-            deductions: 0,
-            taxPayable: 0,
-          ),
+          body: FloatingTaxBar(grossIncome: 0, deductions: 0, taxPayable: 0),
         ),
       );
 

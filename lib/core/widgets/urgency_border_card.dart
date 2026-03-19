@@ -74,9 +74,7 @@ class UrgencyBorderCard extends StatelessWidget {
           left: BorderSide(color: urgencyColor, width: borderWidth),
         ),
       ),
-      child: padding != null
-          ? Padding(padding: padding!, child: child)
-          : child,
+      child: padding != null ? Padding(padding: padding!, child: child) : child,
     );
 
     final content = Container(
@@ -93,10 +91,7 @@ class UrgencyBorderCard extends StatelessWidget {
               ]
             : null,
       ),
-      child: ClipRRect(
-        borderRadius: radius,
-        child: inner,
-      ),
+      child: ClipRRect(borderRadius: radius, child: inner),
     );
 
     if (onTap == null) return content;

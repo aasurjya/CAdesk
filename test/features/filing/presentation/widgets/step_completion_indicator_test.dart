@@ -25,8 +25,9 @@ void main() {
       }
     });
 
-    testWidgets('current step is highlighted with accent color',
-        (tester) async {
+    testWidgets('current step is highlighted with accent color', (
+      tester,
+    ) async {
       await pumpTestWidget(
         tester,
         const Scaffold(

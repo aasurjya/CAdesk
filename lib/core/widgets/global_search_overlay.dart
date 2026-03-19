@@ -300,10 +300,7 @@ class _EmptyQueryHint extends StatelessWidget {
           SizedBox(height: AppSpacing.sm),
           Text(
             'Search clients, modules, deadlines...',
-            style: TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),
@@ -332,10 +329,7 @@ class _NoResultsMessage extends StatelessWidget {
           Text(
             "No results for '$query'",
             key: const Key('no_results_text'),
-            style: const TextStyle(
-              color: AppColors.neutral400,
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: AppColors.neutral400, fontSize: 14),
           ),
         ],
       ),

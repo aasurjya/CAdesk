@@ -95,9 +95,7 @@ final _testFilings = <FilingHubItem>[
 List<dynamic> _testOverrides() {
   return [
     allClientsProvider.overrideWith(() => _TestClientsNotifier()),
-    allComplianceDeadlinesProvider.overrideWith(
-      () => _TestDeadlinesNotifier(),
-    ),
+    allComplianceDeadlinesProvider.overrideWith(() => _TestDeadlinesNotifier()),
     filingHubItemsProvider.overrideWith(() => _TestFilingsNotifier()),
   ];
 }
@@ -244,18 +242,14 @@ void main() {
       final results = container.read(globalSearchResultsProvider);
 
       expect(results.modules.isNotEmpty, isTrue);
-      expect(
-        results.modules.first.title,
-        equals('Income Tax'),
-      );
+      expect(results.modules.first.title, equals('Income Tax'));
     });
 
     test('module search filters by subtitle', () {
       final container = createTestContainer(overrides: _testOverrides());
       addTearDown(container.dispose);
 
-      container.read(globalSearchQueryProvider.notifier).update(
-          'itr filing');
+      container.read(globalSearchQueryProvider.notifier).update('itr filing');
       final results = container.read(globalSearchResultsProvider);
 
       expect(results.modules.isNotEmpty, isTrue);
@@ -328,8 +322,9 @@ void main() {
       final container = createTestContainer(overrides: _testOverrides());
       addTearDown(container.dispose);
 
-      container.read(globalSearchQueryProvider.notifier).update(
-          'zzz_nonexistent_zzz');
+      container
+          .read(globalSearchQueryProvider.notifier)
+          .update('zzz_nonexistent_zzz');
       final results = container.read(globalSearchResultsProvider);
 
       expect(results.isEmpty, isTrue);
@@ -337,22 +332,15 @@ void main() {
   });
 
   group('GlobalSearchOverlay widget', () {
-    testWidgets('shows hint text when opened with empty query', (
-      tester,
-    ) async {
+    testWidgets('shows hint text when opened with empty query', (tester) async {
       await setPhoneViewport(tester);
       await _pumpOverlayTrigger(tester, overrides: _testOverrides());
       await _openOverlay(tester);
 
-      expect(
-        find.text('Search clients, modules, deadlines...'),
-        findsWidgets,
-      );
+      expect(find.text('Search clients, modules, deadlines...'), findsWidgets);
     });
 
-    testWidgets('shows search TextField that is auto-focused', (
-      tester,
-    ) async {
+    testWidgets('shows search TextField that is auto-focused', (tester) async {
       await setPhoneViewport(tester);
       await _pumpOverlayTrigger(tester, overrides: _testOverrides());
       await _openOverlay(tester);
@@ -383,10 +371,7 @@ void main() {
 
       await _enterSearch(tester, 'zzz_nothing_matches_zzz');
 
-      expect(
-        find.textContaining('No results for'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('No results for'), findsOneWidget);
     });
 
     testWidgets('clear button clears search field', (tester) async {
@@ -449,9 +434,7 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('renders without overflow on tablet viewport', (
-      tester,
-    ) async {
+    testWidgets('renders without overflow on tablet viewport', (tester) async {
       await setTabletViewport(tester);
       await _pumpOverlayTrigger(tester, overrides: _testOverrides());
       await _openOverlay(tester);
@@ -466,24 +449,17 @@ void main() {
     testWidgets('renders an IconButton with search icon', (tester) async {
       await pumpTestWidget(
         tester,
-        Scaffold(
-          appBar: AppBar(actions: const [SearchAction()]),
-        ),
+        Scaffold(appBar: AppBar(actions: const [SearchAction()])),
       );
 
-      expect(
-        find.byKey(const Key('global_search_action')),
-        findsOneWidget,
-      );
+      expect(find.byKey(const Key('global_search_action')), findsOneWidget);
       expect(find.byIcon(Icons.search), findsOneWidget);
     });
 
     testWidgets('opens search overlay on tap', (tester) async {
       await pumpTestWidget(
         tester,
-        Scaffold(
-          appBar: AppBar(actions: const [SearchAction()]),
-        ),
+        Scaffold(appBar: AppBar(actions: const [SearchAction()])),
         overrides: _testOverrides(),
       );
 

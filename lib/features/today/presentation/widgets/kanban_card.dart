@@ -11,11 +11,7 @@ import 'package:ca_app/features/compliance/domain/models/compliance_deadline.dar
 /// Shows: category badge, title, due date, and days-remaining pill.
 /// Wraps content with [UrgencyBorderCard] for a colored left border.
 class KanbanCard extends StatelessWidget {
-  const KanbanCard({
-    super.key,
-    required this.deadline,
-    this.onTap,
-  });
+  const KanbanCard({super.key, required this.deadline, this.onTap});
 
   final ComplianceDeadline deadline;
   final VoidCallback? onTap;
@@ -53,10 +49,7 @@ class KanbanCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: AppSpacing.xs),
-            _DueDateRow(
-              deadline: deadline,
-              dateFormatter: dateFormatter,
-            ),
+            _DueDateRow(deadline: deadline, dateFormatter: dateFormatter),
           ],
         ),
       ),
@@ -96,10 +89,7 @@ class _CategoryBadgeRow extends StatelessWidget {
 }
 
 class _DueDateRow extends StatelessWidget {
-  const _DueDateRow({
-    required this.deadline,
-    required this.dateFormatter,
-  });
+  const _DueDateRow({required this.deadline, required this.dateFormatter});
 
   final ComplianceDeadline deadline;
   final DateFormat dateFormatter;
@@ -111,11 +101,7 @@ class _DueDateRow extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          Icons.calendar_today_outlined,
-          size: 12,
-          color: status.color,
-        ),
+        Icon(Icons.calendar_today_outlined, size: 12, color: status.color),
         const SizedBox(width: 4),
         Text(
           dateFormatter.format(deadline.dueDate),
@@ -133,10 +119,7 @@ class _DueDateRow extends StatelessWidget {
 }
 
 class _DaysRemainingPill extends StatelessWidget {
-  const _DaysRemainingPill({
-    required this.days,
-    required this.status,
-  });
+  const _DaysRemainingPill({required this.days, required this.status});
 
   final int days;
   final ComplianceStatus status;

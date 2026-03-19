@@ -63,16 +63,12 @@ Future<void> pumpClient360(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        clientByIdProvider(_testId).overrideWith(
-          (ref) => effectiveClient,
-        ),
-        clientHealthScoreProvider(_testId).overrideWith(
-          (ref) => effectiveHealth,
-        ),
+        clientByIdProvider(_testId).overrideWith((ref) => effectiveClient),
+        clientHealthScoreProvider(
+          _testId,
+        ).overrideWith((ref) => effectiveHealth),
       ],
-      child: const MaterialApp(
-        home: Client360Screen(clientId: _testId),
-      ),
+      child: const MaterialApp(home: Client360Screen(clientId: _testId)),
     ),
   );
   await tester.pumpAndSettle();
@@ -81,12 +77,8 @@ Future<void> pumpClient360(
 Future<void> pumpNotFound(WidgetTester tester) async {
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [
-        clientByIdProvider(_testId).overrideWith((ref) => null),
-      ],
-      child: const MaterialApp(
-        home: Client360Screen(clientId: _testId),
-      ),
+      overrides: [clientByIdProvider(_testId).overrideWith((ref) => null)],
+      child: const MaterialApp(home: Client360Screen(clientId: _testId)),
     ),
   );
   await tester.pumpAndSettle();
@@ -249,10 +241,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Pending Actions (1)'), findsOneWidget);
-      expect(
-        find.text('Upload Form 16 for AY 2026-27'),
-        findsOneWidget,
-      );
+      expect(find.text('Upload Form 16 for AY 2026-27'), findsOneWidget);
     });
 
     testWidgets('status badge shown in app bar', (tester) async {

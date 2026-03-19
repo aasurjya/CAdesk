@@ -68,10 +68,7 @@ class KanbanBoard extends StatelessWidget {
 }
 
 class _KanbanColumn extends StatelessWidget {
-  const _KanbanColumn({
-    required this.data,
-    this.onDeadlineTap,
-  });
+  const _KanbanColumn({required this.data, this.onDeadlineTap});
 
   final KanbanColumnData data;
   final ValueChanged<ComplianceDeadline>? onDeadlineTap;
@@ -81,7 +78,11 @@ class _KanbanColumn extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _ColumnHeader(title: data.title, color: data.color, count: data.deadlines.length),
+        _ColumnHeader(
+          title: data.title,
+          color: data.color,
+          count: data.deadlines.length,
+        ),
         const SizedBox(height: AppSpacing.xs),
         Flexible(
           child: Container(
@@ -179,10 +180,7 @@ class _EmptyColumn extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Text(
         'No items',
-        style: TextStyle(
-          fontSize: 12,
-          color: color.withAlpha(128),
-        ),
+        style: TextStyle(fontSize: 12, color: color.withAlpha(128)),
         textAlign: TextAlign.center,
       ),
     );

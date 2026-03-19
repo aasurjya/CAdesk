@@ -12,10 +12,7 @@ import 'package:ca_app/features/clients/domain/models/client.dart';
 /// button that opens a bottom sheet for editing. Updates are propagated
 /// through the [AllClientsNotifier] using immutable [Client.copyWith].
 class NotesTab extends ConsumerWidget {
-  const NotesTab({
-    super.key,
-    required this.clientId,
-  });
+  const NotesTab({super.key, required this.clientId});
 
   final String clientId;
 
@@ -50,11 +47,8 @@ class NotesTab extends ConsumerWidget {
                       ),
                     ),
                     FilledButton.tonalIcon(
-                      onPressed: () => _showEditNotesSheet(
-                        context,
-                        ref,
-                        client,
-                      ),
+                      onPressed: () =>
+                          _showEditNotesSheet(context, ref, client),
                       icon: const Icon(Icons.edit_note, size: 18),
                       label: const Text('Edit'),
                       style: FilledButton.styleFrom(
@@ -77,8 +71,7 @@ class NotesTab extends ConsumerWidget {
                       color: hasNotes
                           ? AppColors.neutral600
                           : AppColors.neutral400,
-                      fontStyle:
-                          hasNotes ? FontStyle.normal : FontStyle.italic,
+                      fontStyle: hasNotes ? FontStyle.normal : FontStyle.italic,
                       height: 1.5,
                     ),
                   ),
@@ -92,11 +85,7 @@ class NotesTab extends ConsumerWidget {
     );
   }
 
-  void _showEditNotesSheet(
-    BuildContext context,
-    WidgetRef ref,
-    Client client,
-  ) {
+  void _showEditNotesSheet(BuildContext context, WidgetRef ref, Client client) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -122,10 +111,7 @@ class NotesTab extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 
 class _EditNotesSheet extends StatefulWidget {
-  const _EditNotesSheet({
-    required this.initialNotes,
-    required this.onSave,
-  });
+  const _EditNotesSheet({required this.initialNotes, required this.onSave});
 
   final String initialNotes;
   final ValueChanged<String> onSave;

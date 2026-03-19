@@ -6,10 +6,8 @@ abstract final class Itr1HelpTexts {
   // ---- Personal Info ----
   static const pan =
       'Your 10-character Permanent Account Number (format: ABCDE1234F)';
-  static const aadhaar =
-      '12-digit unique identity number issued by UIDAI';
-  static const dob =
-      'Date of birth as per PAN card records';
+  static const aadhaar = '12-digit unique identity number issued by UIDAI';
+  static const dob = 'Date of birth as per PAN card records';
   static const employerTan =
       'Tax Deduction Account Number of your employer (format: MUMR12345A)';
 

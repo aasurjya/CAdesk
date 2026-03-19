@@ -40,24 +40,15 @@ class FloatingTaxBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: _TaxFigure(
-              label: 'Gross Income',
-              value: grossIncome,
-            ),
+            child: _TaxFigure(label: 'Gross Income', value: grossIncome),
           ),
           const _VerticalDivider(),
           Expanded(
-            child: _TaxFigure(
-              label: 'Deductions',
-              value: deductions,
-            ),
+            child: _TaxFigure(label: 'Deductions', value: deductions),
           ),
           const _VerticalDivider(),
           Expanded(
-            child: _TaxFigure(
-              label: 'Tax Payable',
-              value: taxPayable,
-            ),
+            child: _TaxFigure(label: 'Tax Payable', value: taxPayable),
           ),
         ],
       ),

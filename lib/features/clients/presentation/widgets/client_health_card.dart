@@ -29,81 +29,81 @@ class ClientHealthCard extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Compliance Health',
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.primary,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header row
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Compliance Health',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
+                    ),
                   ),
-                ),
-                _GradeBadge(grade: health.grade, color: gradeColor),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Score circle + status rows side by side
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _ScoreCircle(score: health.overallScore, color: gradeColor),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _StatusRow(
-                        label: 'ITR',
-                        status: health.itrStatus,
-                        icon: Icons.receipt_long,
-                      ),
-                      const SizedBox(height: 8),
-                      _StatusRow(
-                        label: 'GST',
-                        status: health.gstStatus,
-                        icon: Icons.receipt,
-                      ),
-                      const SizedBox(height: 8),
-                      _StatusRow(
-                        label: 'TDS',
-                        status: health.tdsStatus,
-                        icon: Icons.description,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if (health.pendingActions.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              const Divider(height: 1),
-              const SizedBox(height: 12),
-              Text(
-                'Pending Actions',
-                style: theme.textTheme.labelMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.neutral600,
-                ),
+                  _GradeBadge(grade: health.grade, color: gradeColor),
+                ],
               ),
+              const SizedBox(height: 16),
+              // Score circle + status rows side by side
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _ScoreCircle(score: health.overallScore, color: gradeColor),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _StatusRow(
+                          label: 'ITR',
+                          status: health.itrStatus,
+                          icon: Icons.receipt_long,
+                        ),
+                        const SizedBox(height: 8),
+                        _StatusRow(
+                          label: 'GST',
+                          status: health.gstStatus,
+                          icon: Icons.receipt,
+                        ),
+                        const SizedBox(height: 8),
+                        _StatusRow(
+                          label: 'TDS',
+                          status: health.tdsStatus,
+                          icon: Icons.description,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              if (health.pendingActions.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                const Divider(height: 1),
+                const SizedBox(height: 12),
+                Text(
+                  'Pending Actions',
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.neutral600,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...health.pendingActions.map(
+                  (action) => _PendingActionTile(action: action),
+                ),
+              ],
               const SizedBox(height: 8),
-              ...health.pendingActions.map(
-                (action) => _PendingActionTile(action: action),
+              Text(
+                'Last updated: ${health.lastUpdated}',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: AppColors.neutral400,
+                ),
               ),
             ],
-            const SizedBox(height: 8),
-            Text(
-              'Last updated: ${health.lastUpdated}',
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: AppColors.neutral400,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
       ),
     );
   }

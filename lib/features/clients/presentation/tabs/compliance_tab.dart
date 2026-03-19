@@ -46,10 +46,7 @@ class ComplianceTab extends ConsumerWidget {
           theme: theme,
         ),
         const SizedBox(height: AppSpacing.md),
-        _PendingActionsCard(
-          actions: health.pendingActions,
-          theme: theme,
-        ),
+        _PendingActionsCard(actions: health.pendingActions, theme: theme),
         const SizedBox(height: AppSpacing.md),
         _LastUpdatedLabel(lastUpdated: health.lastUpdated, theme: theme),
         const SizedBox(height: AppSpacing.xxl),
@@ -280,10 +277,7 @@ class _StatusTile extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _PendingActionsCard extends StatelessWidget {
-  const _PendingActionsCard({
-    required this.actions,
-    required this.theme,
-  });
+  const _PendingActionsCard({required this.actions, required this.theme});
 
   final List<String> actions;
   final ThemeData theme;
@@ -356,10 +350,7 @@ class _PendingActionsCard extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _LastUpdatedLabel extends StatelessWidget {
-  const _LastUpdatedLabel({
-    required this.lastUpdated,
-    required this.theme,
-  });
+  const _LastUpdatedLabel({required this.lastUpdated, required this.theme});
 
   final String lastUpdated;
   final ThemeData theme;

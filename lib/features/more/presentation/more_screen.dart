@@ -154,11 +154,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
       child: Center(
         child: Column(
           children: [
-            const Icon(
-              Icons.search_off,
-              size: 48,
-              color: AppColors.neutral400,
-            ),
+            const Icon(Icons.search_off, size: 48, color: AppColors.neutral400),
             const SizedBox(height: AppSpacing.sm),
             Text(
               'No modules found',
@@ -308,10 +304,7 @@ class _CategorySection extends StatelessWidget {
             ],
           ),
           children: [
-            if (isGridView)
-              _buildSectionGrid(context)
-            else
-              _buildSectionList(),
+            if (isGridView) _buildSectionGrid(context) else _buildSectionList(),
           ],
         ),
       ),
@@ -322,7 +315,9 @@ class _CategorySection extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth >= 600 ? 4 : 3;
     final availableWidth =
-        screenWidth - (AppSpacing.sm * 2) - (AppSpacing.xs * (crossAxisCount - 1));
+        screenWidth -
+        (AppSpacing.sm * 2) -
+        (AppSpacing.xs * (crossAxisCount - 1));
     final tileWidth = availableWidth / crossAxisCount;
     final tileHeight = tileWidth / 0.95; // match original aspect ratio
 
@@ -352,8 +347,7 @@ class _CategorySection extends StatelessWidget {
       children: [
         for (int i = 0; i < group.items.length; i++) ...[
           _MenuTile(item: group.items[i]),
-          if (i < group.items.length - 1)
-            const Divider(height: 1, indent: 72),
+          if (i < group.items.length - 1) const Divider(height: 1, indent: 72),
         ],
       ],
     );
@@ -448,13 +442,11 @@ class _MenuTile extends StatelessWidget {
       ),
       title: Text(
         item.title,
-        style:
-            theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+        style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
       ),
       subtitle: Text(
         item.subtitle,
-        style:
-            theme.textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
+        style: theme.textTheme.bodySmall?.copyWith(color: AppColors.neutral400),
       ),
       trailing: const Icon(Icons.chevron_right, color: AppColors.neutral400),
       onTap: () {

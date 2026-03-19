@@ -15,9 +15,7 @@ Future<void> _setViewport(WidgetTester tester) async {
 
 /// Builds the TodayScreen with default provider (mock data from provider).
 Widget _buildScreen() {
-  return const ProviderScope(
-    child: MaterialApp(home: TodayScreen()),
-  );
+  return const ProviderScope(child: MaterialApp(home: TodayScreen()));
 }
 
 /// Builds the TodayScreen with specific deadlines loaded synchronously.
@@ -226,9 +224,7 @@ void main() {
       expect(find.byIcon(Icons.view_kanban_outlined), findsOneWidget);
     });
 
-    testWidgets('tapping toggle switches to kanban/board view', (
-      tester,
-    ) async {
+    testWidgets('tapping toggle switches to kanban/board view', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
@@ -340,9 +336,7 @@ void main() {
       ];
     });
 
-    testWidgets('kanban shows 4 columns with correct headers', (
-      tester,
-    ) async {
+    testWidgets('kanban shows 4 columns with correct headers', (tester) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildWithDeadlines(testDeadlines));
       // Allow the post-frame callback to fire and set deadlines.

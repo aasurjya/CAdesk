@@ -28,10 +28,7 @@ void main() {
             urgencyColor: AppColors.success,
             child: const Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Title'),
-                Text('Subtitle'),
-              ],
+              children: [Text('Title'), Text('Subtitle')],
             ),
           ),
         );
@@ -246,22 +243,10 @@ void main() {
     });
 
     test('returns grey when isCompleted is true regardless of days', () {
-      expect(
-        urgencyColorFromDays(-5, isCompleted: true),
-        AppColors.neutral300,
-      );
-      expect(
-        urgencyColorFromDays(0, isCompleted: true),
-        AppColors.neutral300,
-      );
-      expect(
-        urgencyColorFromDays(3, isCompleted: true),
-        AppColors.neutral300,
-      );
-      expect(
-        urgencyColorFromDays(30, isCompleted: true),
-        AppColors.neutral300,
-      );
+      expect(urgencyColorFromDays(-5, isCompleted: true), AppColors.neutral300);
+      expect(urgencyColorFromDays(0, isCompleted: true), AppColors.neutral300);
+      expect(urgencyColorFromDays(3, isCompleted: true), AppColors.neutral300);
+      expect(urgencyColorFromDays(30, isCompleted: true), AppColors.neutral300);
     });
 
     test('boundary value: -1 is red', () {

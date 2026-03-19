@@ -130,8 +130,7 @@ void main() {
         final shellRoute = _findShellRoute(router.configuration.routes);
 
         final firstBranch = shellRoute.branches[0];
-        final firstRoute =
-            firstBranch.routes.whereType<GoRoute>().first;
+        final firstRoute = firstBranch.routes.whereType<GoRoute>().first;
 
         expect(firstRoute.path, '/');
         expect(firstRoute.name, 'dashboard');
@@ -145,8 +144,7 @@ void main() {
         final shellRoute = _findShellRoute(router.configuration.routes);
 
         final secondBranch = shellRoute.branches[1];
-        final secondRoute =
-            secondBranch.routes.whereType<GoRoute>().first;
+        final secondRoute = secondBranch.routes.whereType<GoRoute>().first;
 
         expect(secondRoute.path, '/filing');
         expect(secondRoute.name, 'filing');

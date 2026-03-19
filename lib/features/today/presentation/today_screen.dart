@@ -89,44 +89,48 @@ GroupedDeadlines groupDeadlines(List<ComplianceDeadline> allDeadlines) {
   final today = DateTime(now.year, now.month, now.day);
   final endOfWeek = today.add(Duration(days: 7 - today.weekday));
 
-  final overdue = allDeadlines
-      .where(
-        (d) =>
-            d.computedStatus != ComplianceStatus.completed &&
-            d.dueDate.isBefore(today),
-      )
-      .toList()
-    ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  final overdue =
+      allDeadlines
+          .where(
+            (d) =>
+                d.computedStatus != ComplianceStatus.completed &&
+                d.dueDate.isBefore(today),
+          )
+          .toList()
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 
-  final dueToday = allDeadlines
-      .where(
-        (d) =>
-            d.computedStatus != ComplianceStatus.completed &&
-            d.dueDate.year == today.year &&
-            d.dueDate.month == today.month &&
-            d.dueDate.day == today.day,
-      )
-      .toList()
-    ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  final dueToday =
+      allDeadlines
+          .where(
+            (d) =>
+                d.computedStatus != ComplianceStatus.completed &&
+                d.dueDate.year == today.year &&
+                d.dueDate.month == today.month &&
+                d.dueDate.day == today.day,
+          )
+          .toList()
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 
-  final thisWeek = allDeadlines
-      .where(
-        (d) =>
-            d.computedStatus != ComplianceStatus.completed &&
-            d.dueDate.isAfter(today) &&
-            !d.dueDate.isAfter(endOfWeek),
-      )
-      .toList()
-    ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  final thisWeek =
+      allDeadlines
+          .where(
+            (d) =>
+                d.computedStatus != ComplianceStatus.completed &&
+                d.dueDate.isAfter(today) &&
+                !d.dueDate.isAfter(endOfWeek),
+          )
+          .toList()
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 
-  final later = allDeadlines
-      .where(
-        (d) =>
-            d.computedStatus != ComplianceStatus.completed &&
-            d.dueDate.isAfter(endOfWeek),
-      )
-      .toList()
-    ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
+  final later =
+      allDeadlines
+          .where(
+            (d) =>
+                d.computedStatus != ComplianceStatus.completed &&
+                d.dueDate.isAfter(endOfWeek),
+          )
+          .toList()
+        ..sort((a, b) => a.dueDate.compareTo(b.dueDate));
 
   return GroupedDeadlines(
     overdue: overdue,
@@ -188,9 +192,7 @@ class _TodayBoardView extends StatelessWidget {
 
     return Column(
       children: [
-        Expanded(
-          child: KanbanBoard(columns: columns),
-        ),
+        Expanded(child: KanbanBoard(columns: columns)),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
           child: OutlinedButton.icon(
