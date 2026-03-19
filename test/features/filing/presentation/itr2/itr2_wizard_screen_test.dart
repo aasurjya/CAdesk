@@ -6,35 +6,8 @@ import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart'
 import 'package:ca_app/features/filing/data/providers/itr2_form_providers.dart';
 import 'package:ca_app/features/filing/presentation/itr2/itr2_wizard_screen.dart';
 
-// ---------------------------------------------------------------------------
-// Known lifecycle issue
-// ---------------------------------------------------------------------------
-//
-// Itr2WizardScreen.dispose() uses WidgetsBinding.addPostFrameCallback to
-// clear the activeFilingJobId. This callback fires on the next draw frame
-// after the widget is deactivated, at which point Riverpod rejects ref.read()
-// with "Using ref when a widget is about to or has been unmounted".
-//
-// This is a pre-existing implementation issue in the source widget; tests work
-// around it by installing a custom FlutterError handler that suppresses the
-// known dispose-callback error while still reporting all other errors.
-
-void _ignoreKnownDisposeError(FlutterErrorDetails details) {
-  if (details.exception.toString().contains(
-    'Using "ref" when a widget is about to or has been unmounted',
-  )) {
-    return; // suppress
-  }
-  FlutterError.dumpErrorToConsole(details);
-}
-
 /// Pumps a ProviderScope / MaterialApp wrapping [Itr2WizardScreen].
-///
-/// Installs the dispose-error suppressor so tests don't fail on teardown.
 Future<void> pumpWizard(WidgetTester tester, {String jobId = 'job-003'}) async {
-  FlutterError.onError = _ignoreKnownDisposeError;
-  addTearDown(() => FlutterError.onError = FlutterError.dumpErrorToConsole);
-
   await tester.pumpWidget(
     ProviderScope(
       child: MaterialApp(home: Itr2WizardScreen(jobId: jobId)),
