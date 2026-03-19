@@ -41,6 +41,9 @@ class Itr2WizardScreen extends ConsumerStatefulWidget {
 }
 
 class _Itr2WizardScreenState extends ConsumerState<Itr2WizardScreen> {
+  // Cache notifier reference so dispose() can call it safely after unmount.
+  late final _activeJobNotifier = ref.read(activeFilingJobIdProvider.notifier);
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +55,7 @@ class _Itr2WizardScreenState extends ConsumerState<Itr2WizardScreen> {
 
   @override
   void dispose() {
-    ref.read(activeFilingJobIdProvider.notifier).set(null);
+    _activeJobNotifier.set(null);
     super.dispose();
   }
 

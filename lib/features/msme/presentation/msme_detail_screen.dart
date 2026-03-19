@@ -105,7 +105,7 @@ final _mockMsme = _MockMsme(
     _VendorPayment(
       vendorName: 'Bolt & Nut Supplies',
       invoiceDate: DateTime(2026, 1, 20),
-      dueDate: DateTime(2026, 3, 6),
+      dueDate: DateTime(2026, 4, 30),
       amount: 125000,
       isPaid: false,
       paidDate: null,
@@ -113,7 +113,7 @@ final _mockMsme = _MockMsme(
     _VendorPayment(
       vendorName: 'ElectroCoat Pvt Ltd',
       invoiceDate: DateTime(2026, 2, 1),
-      dueDate: DateTime(2026, 3, 18),
+      dueDate: DateTime(2026, 5, 15),
       amount: 340000,
       isPaid: false,
       paidDate: null,

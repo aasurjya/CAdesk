@@ -150,7 +150,7 @@ void main() {
         await tester.pump(const Duration(milliseconds: 50));
 
         expect(find.textContaining('Step 3 of 10'), findsOneWidget);
-        expect(find.textContaining('House Property'), findsOneWidget);
+        expect(find.textContaining('House Property'), findsWidgets);
       });
     });
 

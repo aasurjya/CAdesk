@@ -30,6 +30,16 @@ Future<void> _openSheet(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+/// Scrolls the sheet's ListView until the submit button is visible.
+Future<void> _scrollToSubmit(WidgetTester tester) async {
+  await tester.scrollUntilVisible(
+    find.text('Create Filing'),
+    200,
+    scrollable: find.byType(Scrollable).last,
+  );
+  await tester.pumpAndSettle();
+}
+
 // The bottom sheet has side-by-side Row dropdowns with long text labels.
 // A desktop-width viewport prevents RenderFlex overflows in those rows.
 Future<void> _setViewport(WidgetTester tester) => setDesktopViewport(tester);
@@ -132,6 +142,7 @@ void main() {
       await tester.pumpAndSettle();
 
       await _openSheet(tester);
+      await _scrollToSubmit(tester);
 
       expect(find.text('Create Filing'), findsOneWidget);
     });
@@ -144,6 +155,7 @@ void main() {
       await tester.pumpAndSettle();
 
       await _openSheet(tester);
+      await _scrollToSubmit(tester);
 
       await tester.tap(find.text('Create Filing'));
       await tester.pumpAndSettle();
@@ -169,6 +181,8 @@ void main() {
         find.widgetWithText(TextFormField, 'PAN *'),
         'INVALID',
       );
+
+      await _scrollToSubmit(tester);
 
       await tester.tap(find.text('Create Filing'));
       await tester.pumpAndSettle();
