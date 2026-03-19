@@ -9,6 +9,7 @@ import 'package:ca_app/features/filing/domain/models/filing_hub_item.dart';
 import 'package:ca_app/features/filing/presentation/widgets/draft_filing_tile.dart';
 import 'package:ca_app/features/filing/presentation/widgets/new_filing_bottom_sheet.dart';
 import 'package:ca_app/features/filing/presentation/widgets/recent_filing_tile.dart';
+import 'package:ca_app/core/widgets/search_action.dart';
 import 'package:ca_app/features/filing/presentation/widgets/urgency_card.dart';
 
 const _assessmentYears = <String>[
@@ -39,6 +40,7 @@ class FilingScreen extends ConsumerWidget {
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
+          const SearchAction(),
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: _AssessmentYearDropdown(

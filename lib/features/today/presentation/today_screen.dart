@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/core/widgets/search_action.dart';
 import 'package:ca_app/features/compliance/data/providers/compliance_providers.dart';
 import 'package:ca_app/features/compliance/domain/models/compliance_deadline.dart';
 
@@ -83,6 +84,7 @@ class TodayScreen extends ConsumerWidget {
             ),
           ],
         ),
+        actions: const [SearchAction()],
       ),
       body: ListView(
         children: [
