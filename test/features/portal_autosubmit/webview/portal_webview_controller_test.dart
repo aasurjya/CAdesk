@@ -166,27 +166,32 @@ void main() {
       );
     });
 
-    test('resolves when element is initially present then disappears',
-        () async {
-      // Start with element present, then switch to absent after a brief delay
-      fakeWebController._responses.clear();
+    test(
+      'resolves when element is initially present then disappears',
+      () async {
+        // Start with element present, then switch to absent after a brief delay
+        fakeWebController._responses.clear();
 
-      // Use a custom approach: initially true, flip to false after delay
-      fakeWebController.setResponse('offsetParent', true);
-      Future.delayed(const Duration(milliseconds: 600), () {
-        fakeWebController.setResponse('offsetParent', false);
-      });
+        // Use a custom approach: initially true, flip to false after delay
+        fakeWebController.setResponse('offsetParent', true);
+        Future.delayed(const Duration(milliseconds: 600), () {
+          fakeWebController.setResponse('offsetParent', false);
+        });
 
-      await expectLater(
-        controller.waitForElementDisappearance(
-          '#captcha-input',
-          timeout: const Duration(seconds: 5),
-        ),
-        completes,
-      );
-      // Should have polled at least twice (once found, once not found)
-      expect(fakeWebController.evaluatedScripts.length, greaterThanOrEqualTo(2));
-    });
+        await expectLater(
+          controller.waitForElementDisappearance(
+            '#captcha-input',
+            timeout: const Duration(seconds: 5),
+          ),
+          completes,
+        );
+        // Should have polled at least twice (once found, once not found)
+        expect(
+          fakeWebController.evaluatedScripts.length,
+          greaterThanOrEqualTo(2),
+        );
+      },
+    );
 
     test(
       'throws WebViewElementNotFoundException when element never disappears',

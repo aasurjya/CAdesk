@@ -1,0 +1,145 @@
+{
+  "@@locale": "gu",
+
+  "appTitle": "CADesk",
+
+  "tabFiling": "ફાઇલિંગ",
+  "tabClients": "ક્લાયન્ટ",
+  "tabToday": "આજ",
+  "tabDocuments": "દસ્તાવેજ",
+  "tabMore": "વધુ",
+
+  "addClient": "ક્લાયન્ટ ઉમેરો",
+  "searchHint": "શોધો…",
+  "searchClientsHint": "નામ, PAN, ફોન શોધો…",
+  "searchDocumentsHint": "દસ્તાવેજ, ક્લાયન્ટ શોધો…",
+
+  "clientCount": "{count, plural, =1{1 ક્લાયન્ટ} other{{count} ક્લાયન્ટ}}",
+  "@clientCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "statusAll": "બધા",
+  "statusActive": "સક્રિય",
+  "statusInactive": "નિષ્ક્રિય",
+  "statusProspect": "સંભવિત",
+
+  "clientTypeIndividual": "વ્યક્તિગત",
+  "clientTypeCompany": "કંપની",
+  "clientTypeFirm": "ફર્મ",
+  "clientTypeLlp": "LLP",
+
+  "retry": "ફરી પ્રયાસ",
+  "failedToLoadClients": "ક્લાયન્ટ લોડ કરવામાં નિષ્ફળ",
+  "noClientsYet": "હજી સુધી કોઈ ક્લાયન્ટ નથી",
+  "noClientsMatchFilter": "આપના ફિલ્ટર સાથે કોઈ ક્લાયન્ટ મળ્યો નથી",
+  "addFirstClient": "શરૂ કરવા આપનો પ્રથમ ક્લાયન્ટ ઉમેરો",
+  "adjustFilters": "આપની શોધ અથવા ફિલ્ટર સમાયોજિત કરો",
+
+  "documentCount": "{count, plural, =1{1 દસ્તાવેજ} other{{count} દસ્તાવેજ}}",
+  "@documentCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "uploadDocument": "અપલોડ",
+  "allDocuments": "બધા દસ્તાવેજ",
+  "folders": "ફોલ્ડર",
+  "noDocumentsFound": "કોઈ દસ્તાવેજ મળ્યો નથી",
+  "noFoldersFound": "કોઈ ફોલ્ડર મળ્યો નથી",
+
+  "sortBy": "આ અનુસાર ગોઠવો",
+
+  "filingYear": "નાણાં વર્ષ {year}",
+  "@filingYear": {
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "assessmentYear": "મૂલ્યાંકન વર્ષ {year}",
+  "@assessmentYear": {
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "next": "આગળ",
+  "back": "પાછળ",
+  "save": "સાચવો",
+  "cancel": "રદ કરો",
+  "confirm": "પુષ્ટિ કરો",
+  "delete": "કાઢી નાખો",
+  "edit": "સંપાદિત કરો",
+
+  "confirmDeleteTitle": "{name} કાઢી નાખો?",
+  "@confirmDeleteTitle": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "confirmDeleteMessage": "આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી.",
+
+  "itrFiling": "ITR ફાઇલિંગ",
+  "gstFiling": "GST ફાઇલિંગ",
+  "tdsFiling": "TDS ફાઇલિંગ",
+
+  "personalInfo": "વ્યક્તિગત માહિતી",
+  "salaryIncome": "વેતન આવક",
+  "houseProperty": "ઘર મિલ્કત",
+  "capitalGains": "મૂડી લાભ",
+  "deductions": "કપાત",
+  "taxComputation": "કર ગણતરી",
+  "reviewAndExport": "સમીક્ષા અને નિકાસ",
+
+  "gstin": "GSTIN",
+  "pan": "PAN",
+  "tan": "TAN",
+  "invalidGstin": "અમાન્ય GSTIN ફોર્મેટ",
+  "invalidPan": "અમાન્ય PAN ફોર્મેટ",
+  "requiredField": "આ ક્ષેત્ર જરૂરી છે",
+
+  "caGptHint": "CA GPT ને પૂછો…",
+
+  "deadlineDaysLeft": "{days, plural, =0{આજ ચૂકવણી} =1{1 દિવસ બાકી} other{{days} દિવસ બાકી}}",
+  "@deadlineDaysLeft": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+
+  "penaltyWarning": "દંડ: ₹{amount}",
+  "@penaltyWarning": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+
+  "riskHigh": "ઊંચું જોખમ",
+  "riskMedium": "મધ્યમ જોખમ",
+  "riskLow": "ઓછું જોખમ",
+
+  "portalConnected": "જોડાયેલ",
+  "portalDisconnected": "જોડાયેલ નથી",
+
+  "exportSuccess": "નિકાસ સફળ",
+  "exportFailed": "નિકાસ નિષ્ફળ: {reason}",
+  "@exportFailed": {
+    "placeholders": { "reason": { "type": "String" } }
+  },
+
+  "totalBilled": "કુલ બિલ",
+  "outstanding": "બાકી",
+  "overdue": "વિલંબિત",
+
+  "complianceCalendar": "અનુપાલન કૅલેન્ડર",
+  "upcomingDeadlines": "આવનારી સમય-મર્યાદા",
+  "noUpcomingDeadlines": "કોઈ આવનારી સમય-મર્યાદા નથી",
+
+  "practiceManagement": "પ્રેક્ટિસ મેનેજમેન્ટ",
+  "kanbanBoard": "કાનબાન બોર્ડ",
+  "addTask": "કાર્ય ઉમેરો",
+  "taskTitle": "કાર્ય શીર્ષક",
+  "assignee": "સોંપાયેલ",
+  "dueDate": "ચૂકવણી તારીખ",
+
+  "priorityHigh": "ઊંચી",
+  "priorityMedium": "મધ્યમ",
+  "priorityLow": "ઓછી",
+
+  "signIn": "સાઇન ઇન",
+  "signUp": "સાઇન અપ",
+  "forgotPassword": "પાસવર્ડ ભૂલ્યા?",
+  "email": "ઇમેઇલ",
+  "password": "પાસવર્ડ",
+  "fullName": "પૂરું નામ"
+}

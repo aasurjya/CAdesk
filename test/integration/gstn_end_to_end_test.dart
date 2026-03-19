@@ -287,13 +287,13 @@ void main() {
         );
 
         // pending -> loggingIn
-        final loggingIn =
-            pending.copyWith(currentStep: SubmissionStep.loggingIn);
+        final loggingIn = pending.copyWith(
+          currentStep: SubmissionStep.loggingIn,
+        );
         expect(loggingIn.isInProgress, isTrue);
 
         // loggingIn -> filling
-        final filling =
-            loggingIn.copyWith(currentStep: SubmissionStep.filling);
+        final filling = loggingIn.copyWith(currentStep: SubmissionStep.filling);
         expect(filling.isInProgress, isTrue);
 
         // filling -> otp
@@ -301,13 +301,13 @@ void main() {
         expect(otp.isInProgress, isTrue);
 
         // otp -> reviewing
-        final reviewing =
-            otp.copyWith(currentStep: SubmissionStep.reviewing);
+        final reviewing = otp.copyWith(currentStep: SubmissionStep.reviewing);
         expect(reviewing.isInProgress, isFalse);
 
         // reviewing -> submitting
-        final submitting =
-            reviewing.copyWith(currentStep: SubmissionStep.submitting);
+        final submitting = reviewing.copyWith(
+          currentStep: SubmissionStep.submitting,
+        );
         expect(submitting.isInProgress, isTrue);
 
         // submitting -> done
@@ -367,180 +367,185 @@ void main() {
     // Phase 7: Full Pipeline Integration
     // -----------------------------------------------------------------------
 
-    group('Phase 7 — Full pipeline: login -> GSTR-1 -> 3B -> challan -> 2B',
-        () {
-      test('complete GSTN automation sequence runs all phases', () async {
-        final allLogs = <SubmissionLog>[];
+    group(
+      'Phase 7 — Full pipeline: login -> GSTR-1 -> 3B -> challan -> 2B',
+      () {
+        test('complete GSTN automation sequence runs all phases', () async {
+          final allLogs = <SubmissionLog>[];
 
-        // Phase 1: Login
-        await for (final log in gstnService.login(
-          credential: credential,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('Login completed'));
+          // Phase 1: Login
+          await for (final log in gstnService.login(
+            credential: credential,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('Login completed'));
 
-        // Phase 2: Upload GSTR-1
-        await for (final log in gstnService.uploadGstr1(
-          gstin: gstin,
-          jsonFilePath: '/tmp/GSTR1_$gstin.json',
-          taxPeriod: taxPeriod,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('GSTR-1 filed'));
+          // Phase 2: Upload GSTR-1
+          await for (final log in gstnService.uploadGstr1(
+            gstin: gstin,
+            jsonFilePath: '/tmp/GSTR1_$gstin.json',
+            taxPeriod: taxPeriod,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('GSTR-1 filed'));
 
-        // Phase 3: Fill GSTR-3B
-        await for (final log in gstnService.fillGstr3b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-          taxValues: const {
-            'taxableValue': 500000,
-            'igst': 0,
-            'cgst': 45000,
-            'sgst': 45000,
-            'itcIgst': 0,
-            'itcCgst': 20000,
-            'itcSgst': 20000,
-          },
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('GSTR-3B filed'));
+          // Phase 3: Fill GSTR-3B
+          await for (final log in gstnService.fillGstr3b(
+            gstin: gstin,
+            taxPeriod: taxPeriod,
+            taxValues: const {
+              'taxableValue': 500000,
+              'igst': 0,
+              'cgst': 45000,
+              'sgst': 45000,
+              'itcIgst': 0,
+              'itcCgst': 20000,
+              'itcSgst': 20000,
+            },
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('GSTR-3B filed'));
 
-        // Phase 4: Generate PMT-06 Challan
-        await for (final log in gstnService.generateChallan(
-          gstin: gstin,
-          taxAmount: 50000,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('PMT-06 challan'));
+          // Phase 4: Generate PMT-06 Challan
+          await for (final log in gstnService.generateChallan(
+            gstin: gstin,
+            taxAmount: 50000,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('PMT-06 challan'));
 
-        // Phase 5: Download GSTR-2B
-        await for (final log in gstnService.downloadGstr2b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-        )) {
-          allLogs.add(log);
-        }
-        expect(allLogs.last.message, contains('GSTR-2B downloaded'));
+          // Phase 5: Download GSTR-2B
+          await for (final log in gstnService.downloadGstr2b(
+            gstin: gstin,
+            taxPeriod: taxPeriod,
+          )) {
+            allLogs.add(log);
+          }
+          expect(allLogs.last.message, contains('GSTR-2B downloaded'));
 
-        // ---- ASSERTIONS: Full pipeline completed ----
-        // Login(4) + GSTR-1(7) + GSTR-3B(7) + Challan(4) + GSTR-2B(4) = 26
-        expect(allLogs.length, 26);
+          // ---- ASSERTIONS: Full pipeline completed ----
+          // Login(4) + GSTR-1(7) + GSTR-3B(7) + Challan(4) + GSTR-2B(4) = 26
+          expect(allLogs.length, 26);
 
-        // Verify progression through all step types
-        final steps = allLogs.map((l) => l.step).toSet();
-        expect(steps, containsAll([
-          SubmissionStep.loggingIn,
-          SubmissionStep.filling,
-          SubmissionStep.otp,
-          SubmissionStep.submitting,
-          SubmissionStep.downloading,
-          SubmissionStep.done,
-        ]));
+          // Verify progression through all step types
+          final steps = allLogs.map((l) => l.step).toSet();
+          expect(
+            steps,
+            containsAll([
+              SubmissionStep.loggingIn,
+              SubmissionStep.filling,
+              SubmissionStep.otp,
+              SubmissionStep.submitting,
+              SubmissionStep.downloading,
+              SubmissionStep.done,
+            ]),
+          );
 
-        // Verify no errors in the stream
-        expect(allLogs.where((l) => l.isError), isEmpty);
+          // Verify no errors in the stream
+          expect(allLogs.where((l) => l.isError), isEmpty);
 
-        // Verify all logs have valid timestamps and non-empty fields
-        for (final log in allLogs) {
-          expect(log.timestamp, isNotNull);
-          expect(log.jobId, isNotEmpty);
-          expect(log.message, isNotEmpty);
-          expect(log.id, isNotEmpty);
-        }
-      });
+          // Verify all logs have valid timestamps and non-empty fields
+          for (final log in allLogs) {
+            expect(log.timestamp, isNotNull);
+            expect(log.jobId, isNotEmpty);
+            expect(log.message, isNotEmpty);
+            expect(log.id, isNotEmpty);
+          }
+        });
 
-      test('full pipeline with job state tracking', () async {
-        final allLogs = <SubmissionLog>[];
+        test('full pipeline with job state tracking', () async {
+          final allLogs = <SubmissionLog>[];
 
-        // Create submission job
-        var job = SubmissionJob(
-          id: 'e2e-gstn-001',
-          clientId: gstin,
-          clientName: 'Test Pvt Ltd',
-          portalType: PortalType.gstn,
-          returnType: 'GSTR-1',
-          currentStep: SubmissionStep.pending,
-          retryCount: 0,
-          createdAt: DateTime.now(),
-        );
-        expect(job.currentStep, SubmissionStep.pending);
+          // Create submission job
+          var job = SubmissionJob(
+            id: 'e2e-gstn-001',
+            clientId: gstin,
+            clientName: 'Test Pvt Ltd',
+            portalType: PortalType.gstn,
+            returnType: 'GSTR-1',
+            currentStep: SubmissionStep.pending,
+            retryCount: 0,
+            createdAt: DateTime.now(),
+          );
+          expect(job.currentStep, SubmissionStep.pending);
 
-        // Login
-        job = job.copyWith(currentStep: SubmissionStep.loggingIn);
-        await for (final log in gstnService.login(
-          credential: credential,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
+          // Login
+          job = job.copyWith(currentStep: SubmissionStep.loggingIn);
+          await for (final log in gstnService.login(
+            credential: credential,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Upload GSTR-1
-        job = job.copyWith(currentStep: SubmissionStep.filling);
-        await for (final log in gstnService.uploadGstr1(
-          gstin: gstin,
-          jsonFilePath: '/tmp/GSTR1_$gstin.json',
-          taxPeriod: taxPeriod,
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
+          // Upload GSTR-1
+          job = job.copyWith(currentStep: SubmissionStep.filling);
+          await for (final log in gstnService.uploadGstr1(
+            gstin: gstin,
+            jsonFilePath: '/tmp/GSTR1_$gstin.json',
+            taxPeriod: taxPeriod,
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Fill GSTR-3B
-        await for (final log in gstnService.fillGstr3b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-          taxValues: const {
-            'taxableValue': 500000,
-            'cgst': 45000,
-            'sgst': 45000,
-          },
-          otpService: otpService,
-        )) {
-          allLogs.add(log);
-        }
+          // Fill GSTR-3B
+          await for (final log in gstnService.fillGstr3b(
+            gstin: gstin,
+            taxPeriod: taxPeriod,
+            taxValues: const {
+              'taxableValue': 500000,
+              'cgst': 45000,
+              'sgst': 45000,
+            },
+            otpService: otpService,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Challan
-        await for (final log in gstnService.generateChallan(
-          gstin: gstin,
-          taxAmount: 50000,
-        )) {
-          allLogs.add(log);
-        }
+          // Challan
+          await for (final log in gstnService.generateChallan(
+            gstin: gstin,
+            taxAmount: 50000,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Download GSTR-2B
-        job = job.copyWith(currentStep: SubmissionStep.downloading);
-        await for (final log in gstnService.downloadGstr2b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-        )) {
-          allLogs.add(log);
-        }
+          // Download GSTR-2B
+          job = job.copyWith(currentStep: SubmissionStep.downloading);
+          await for (final log in gstnService.downloadGstr2b(
+            gstin: gstin,
+            taxPeriod: taxPeriod,
+          )) {
+            allLogs.add(log);
+          }
 
-        // Mark done
-        job = job.copyWith(
-          currentStep: SubmissionStep.done,
-          ackNumber: 'ARN-E2E-GSTN-TEST',
-          filedAt: DateTime.now(),
-        );
+          // Mark done
+          job = job.copyWith(
+            currentStep: SubmissionStep.done,
+            ackNumber: 'ARN-E2E-GSTN-TEST',
+            filedAt: DateTime.now(),
+          );
 
-        // Final assertions
-        expect(job.isCompleted, isTrue);
-        expect(job.ackNumber, 'ARN-E2E-GSTN-TEST');
-        expect(allLogs.where((l) => l.isError), isEmpty);
-        expect(
-          allLogs.length,
-          greaterThanOrEqualTo(20),
-          reason: 'Full GSTN pipeline should emit 20+ log entries',
-        );
-      });
-    });
+          // Final assertions
+          expect(job.isCompleted, isTrue);
+          expect(job.ackNumber, 'ARN-E2E-GSTN-TEST');
+          expect(allLogs.where((l) => l.isError), isEmpty);
+          expect(
+            allLogs.length,
+            greaterThanOrEqualTo(20),
+            reason: 'Full GSTN pipeline should emit 20+ log entries',
+          );
+        });
+      },
+    );
 
     // -----------------------------------------------------------------------
     // Phase 8: Helper method tests
@@ -617,39 +622,40 @@ void main() {
           return last!;
         }
 
-        final loginLast = await lastLog(gstnService.login(
-          credential: credential,
-          otpService: otpService,
-        ));
+        final loginLast = await lastLog(
+          gstnService.login(credential: credential, otpService: otpService),
+        );
         expect(loginLast.step, SubmissionStep.loggingIn);
         // Login ends with 'Login completed' not done step
 
-        final gstr1Last = await lastLog(gstnService.uploadGstr1(
-          gstin: gstin,
-          jsonFilePath: '/tmp/test.json',
-          taxPeriod: taxPeriod,
-          otpService: otpService,
-        ));
+        final gstr1Last = await lastLog(
+          gstnService.uploadGstr1(
+            gstin: gstin,
+            jsonFilePath: '/tmp/test.json',
+            taxPeriod: taxPeriod,
+            otpService: otpService,
+          ),
+        );
         expect(gstr1Last.step, SubmissionStep.done);
 
-        final gstr3bLast = await lastLog(gstnService.fillGstr3b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-          taxValues: const {'taxableValue': 100000},
-          otpService: otpService,
-        ));
+        final gstr3bLast = await lastLog(
+          gstnService.fillGstr3b(
+            gstin: gstin,
+            taxPeriod: taxPeriod,
+            taxValues: const {'taxableValue': 100000},
+            otpService: otpService,
+          ),
+        );
         expect(gstr3bLast.step, SubmissionStep.done);
 
-        final challanLast = await lastLog(gstnService.generateChallan(
-          gstin: gstin,
-          taxAmount: 10000,
-        ));
+        final challanLast = await lastLog(
+          gstnService.generateChallan(gstin: gstin, taxAmount: 10000),
+        );
         expect(challanLast.step, SubmissionStep.done);
 
-        final gstr2bLast = await lastLog(gstnService.downloadGstr2b(
-          gstin: gstin,
-          taxPeriod: taxPeriod,
-        ));
+        final gstr2bLast = await lastLog(
+          gstnService.downloadGstr2b(gstin: gstin, taxPeriod: taxPeriod),
+        );
         expect(gstr2bLast.step, SubmissionStep.done);
       });
     });

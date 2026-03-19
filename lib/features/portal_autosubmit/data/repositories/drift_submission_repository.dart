@@ -82,10 +82,9 @@ class DriftSubmissionRepository implements SubmissionRepository {
   @override
   Future<void> insert(SubmissionJob job) async {
     // Check for duplicates to match the contract.
-    final existing = _db.select(
-      'SELECT id FROM submission_jobs WHERE id = ?',
-      [job.id],
-    );
+    final existing = _db.select('SELECT id FROM submission_jobs WHERE id = ?', [
+      job.id,
+    ]);
     if (existing.isNotEmpty) {
       throw StateError('Job with id "${job.id}" already exists');
     }
@@ -119,17 +118,16 @@ class DriftSubmissionRepository implements SubmissionRepository {
 
   @override
   Future<SubmissionJob?> getById(String id) async {
-    final rows = _db.select(
-      'SELECT * FROM submission_jobs WHERE id = ?',
-      [id],
-    );
+    final rows = _db.select('SELECT * FROM submission_jobs WHERE id = ?', [id]);
     if (rows.isEmpty) return null;
     return _rowToJob(rows.first);
   }
 
   @override
   Future<List<SubmissionJob>> getAll() async {
-    final rows = _db.select('SELECT * FROM submission_jobs ORDER BY created_at');
+    final rows = _db.select(
+      'SELECT * FROM submission_jobs ORDER BY created_at',
+    );
     return rows.map(_rowToJob).toList();
   }
 
@@ -162,10 +160,9 @@ class DriftSubmissionRepository implements SubmissionRepository {
 
   @override
   Future<void> update(SubmissionJob job) async {
-    final existing = _db.select(
-      'SELECT id FROM submission_jobs WHERE id = ?',
-      [job.id],
-    );
+    final existing = _db.select('SELECT id FROM submission_jobs WHERE id = ?', [
+      job.id,
+    ]);
     if (existing.isEmpty) return; // No-op per contract.
 
     _db.execute(
@@ -305,7 +302,9 @@ class DriftSubmissionRepository implements SubmissionRepository {
 
   void _notifyAllJobsChanged() {
     // Re-query to get the authoritative list from SQLite.
-    final rows = _db.select('SELECT * FROM submission_jobs ORDER BY created_at');
+    final rows = _db.select(
+      'SELECT * FROM submission_jobs ORDER BY created_at',
+    );
     _allJobsController.add(rows.map(_rowToJob).toList());
   }
 

@@ -1,14 +1,17 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> initializeSupabase() async {
-  await Supabase.initialize(
-    url: const String.fromEnvironment(
-      'SUPABASE_URL',
-      defaultValue: 'http://127.0.0.1:54321',
-    ),
-    anonKey: const String.fromEnvironment(
-      'SUPABASE_ANON_KEY',
-      defaultValue: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
-    ),
+  const url = String.fromEnvironment('SUPABASE_URL');
+  const anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+
+  assert(
+    url.isNotEmpty,
+    'SUPABASE_URL must be set via --dart-define=SUPABASE_URL=<value>',
   );
+  assert(
+    anonKey.isNotEmpty,
+    'SUPABASE_ANON_KEY must be set via --dart-define=SUPABASE_ANON_KEY=<value>',
+  );
+
+  await Supabase.initialize(url: url, anonKey: anonKey);
 }

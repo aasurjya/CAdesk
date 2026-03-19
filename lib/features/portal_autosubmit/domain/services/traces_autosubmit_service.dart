@@ -218,12 +218,9 @@ class TracesAutosubmitService {
     );
 
     // Extract token number
-    yield _log(
-      jobId,
-      SubmissionStep.submitting,
-      'Extracting token number...',
-    );
-    const tokenScript = '''
+    yield _log(jobId, SubmissionStep.submitting, 'Extracting token number...');
+    const tokenScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.tracesFvuTokenSelector}');
   return el ? el.textContent.trim() : '';
@@ -327,7 +324,8 @@ class TracesAutosubmitService {
       timeout: const Duration(seconds: 30),
     );
 
-    const statusScript = '''
+    const statusScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.tracesChallanStatusSelector}');
   return el ? el.textContent.trim() : 'Unknown';
@@ -445,9 +443,7 @@ class TracesAutosubmitService {
       SubmissionStep.downloading,
       'Navigating to justification report...',
     );
-    await webViewController.clickElement(
-      PortalJsScripts.tracesJrNavSelector,
-    );
+    await webViewController.clickElement(PortalJsScripts.tracesJrNavSelector);
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Enter token number
@@ -560,11 +556,7 @@ class TracesAutosubmitService {
       SubmissionStep.downloading,
       'Selecting FY $financialYear',
     );
-    yield _log(
-      jobId,
-      SubmissionStep.downloading,
-      'Triggering bulk download',
-    );
+    yield _log(jobId, SubmissionStep.downloading, 'Triggering bulk download');
     yield _log(jobId, SubmissionStep.downloading, 'Saving to: $savePath');
     yield _log(
       jobId,

@@ -57,21 +57,38 @@ class PracticeDashboardScreen extends ConsumerWidget {
             _QuickLinkGrid(
               links: [
                 _QuickLink(
+                  label: 'Kanban Board',
+                  icon: Icons.view_kanban_rounded,
+                  color: AppColors.primary,
+                  onTap: () => context.push('/practice/kanban'),
+                ),
+                _QuickLink(
+                  label: 'Deadlines',
+                  icon: Icons.schedule_rounded,
+                  color: AppColors.error,
+                  onTap: () => context.push('/practice/deadlines'),
+                ),
+                _QuickLink(
                   label: 'Workflows',
                   icon: Icons.account_tree_rounded,
-                  color: AppColors.primary,
+                  color: AppColors.secondary,
                   onTap: () => context.push('/practice/workflows'),
                 ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            _QuickLinkGrid(
+              links: [
                 _QuickLink(
                   label: 'Assignments',
                   icon: Icons.assignment_ind_rounded,
-                  color: AppColors.secondary,
+                  color: AppColors.accent,
                   onTap: () => context.push('/practice/assignments'),
                 ),
                 _QuickLink(
                   label: 'Capacity',
                   icon: Icons.bar_chart_rounded,
-                  color: AppColors.accent,
+                  color: AppColors.neutral600,
                   onTap: () => context.push('/practice/capacity'),
                 ),
               ],

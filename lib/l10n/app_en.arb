@@ -1,0 +1,297 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "CADesk",
+  "@appTitle": { "description": "Application title" },
+
+  "tabFiling": "Filing",
+  "@tabFiling": { "description": "Bottom nav: Filing tab" },
+
+  "tabClients": "Clients",
+  "@tabClients": { "description": "Bottom nav: Clients tab" },
+
+  "tabToday": "Today",
+  "@tabToday": { "description": "Bottom nav: Today tab" },
+
+  "tabDocuments": "Documents",
+  "@tabDocuments": { "description": "Bottom nav: Documents tab" },
+
+  "tabMore": "More",
+  "@tabMore": { "description": "Bottom nav: More tab" },
+
+  "addClient": "Add Client",
+  "@addClient": { "description": "FAB label on clients screen" },
+
+  "searchHint": "Search…",
+  "@searchHint": { "description": "Generic search hint text" },
+
+  "searchClientsHint": "Search name, PAN, phone…",
+  "@searchClientsHint": { "description": "Client search hint" },
+
+  "searchDocumentsHint": "Search documents, clients…",
+  "@searchDocumentsHint": { "description": "Documents search hint" },
+
+  "clientCount": "{count, plural, =1{1 client} other{{count} clients}}",
+  "@clientCount": {
+    "description": "Client list count",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "statusAll": "All",
+  "@statusAll": { "description": "Filter chip: All" },
+
+  "statusActive": "Active",
+  "@statusActive": { "description": "Filter chip: Active clients" },
+
+  "statusInactive": "Inactive",
+  "@statusInactive": { "description": "Filter chip: Inactive clients" },
+
+  "statusProspect": "Prospect",
+  "@statusProspect": { "description": "Filter chip: Prospect clients" },
+
+  "clientTypeIndividual": "Individual",
+  "@clientTypeIndividual": { "description": "Client type chip" },
+
+  "clientTypeCompany": "Company",
+  "@clientTypeCompany": { "description": "Client type chip" },
+
+  "clientTypeFirm": "Firm",
+  "@clientTypeFirm": { "description": "Client type chip" },
+
+  "clientTypeLlp": "LLP",
+  "@clientTypeLlp": { "description": "Client type chip" },
+
+  "retry": "Retry",
+  "@retry": { "description": "Retry button label" },
+
+  "failedToLoadClients": "Failed to load clients",
+  "@failedToLoadClients": { "description": "Error message on clients list" },
+
+  "noClientsYet": "No clients yet",
+  "@noClientsYet": { "description": "Empty state: no clients" },
+
+  "noClientsMatchFilter": "No clients match your filters",
+  "@noClientsMatchFilter": { "description": "Empty state: filter applied, no results" },
+
+  "addFirstClient": "Add your first client to get started",
+  "@addFirstClient": { "description": "Empty state subtitle" },
+
+  "adjustFilters": "Try adjusting your search or filters",
+  "@adjustFilters": { "description": "Empty state subtitle when filtering" },
+
+  "documentCount": "{count, plural, =1{1 document} other{{count} documents}}",
+  "@documentCount": {
+    "description": "Document list count",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "uploadDocument": "Upload",
+  "@uploadDocument": { "description": "Upload FAB label" },
+
+  "allDocuments": "All Documents",
+  "@allDocuments": { "description": "Documents tab label" },
+
+  "folders": "Folders",
+  "@folders": { "description": "Folders tab label" },
+
+  "noDocumentsFound": "No documents found",
+  "@noDocumentsFound": { "description": "Empty state for documents" },
+
+  "noFoldersFound": "No folders found",
+  "@noFoldersFound": { "description": "Empty state for folders" },
+
+  "sortBy": "Sort by",
+  "@sortBy": { "description": "Sort menu title" },
+
+  "filingYear": "FY {year}",
+  "@filingYear": {
+    "description": "Financial year label",
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "assessmentYear": "AY {year}",
+  "@assessmentYear": {
+    "description": "Assessment year label",
+    "placeholders": { "year": { "type": "String" } }
+  },
+
+  "next": "Next",
+  "@next": { "description": "Next button in wizards" },
+
+  "back": "Back",
+  "@back": { "description": "Back button in wizards" },
+
+  "save": "Save",
+  "@save": { "description": "Save button" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Cancel button" },
+
+  "confirm": "Confirm",
+  "@confirm": { "description": "Confirm button in dialogs" },
+
+  "delete": "Delete",
+  "@delete": { "description": "Delete action" },
+
+  "edit": "Edit",
+  "@edit": { "description": "Edit action" },
+
+  "confirmDeleteTitle": "Delete {name}?",
+  "@confirmDeleteTitle": {
+    "description": "Confirm delete dialog title",
+    "placeholders": { "name": { "type": "String" } }
+  },
+
+  "confirmDeleteMessage": "This action cannot be undone.",
+  "@confirmDeleteMessage": { "description": "Confirm delete dialog message" },
+
+  "itrFiling": "ITR Filing",
+  "@itrFiling": { "description": "ITR filing section title" },
+
+  "gstFiling": "GST Filing",
+  "@gstFiling": { "description": "GST filing section title" },
+
+  "tdsFiling": "TDS Filing",
+  "@tdsFiling": { "description": "TDS filing section title" },
+
+  "personalInfo": "Personal Info",
+  "@personalInfo": { "description": "Wizard step: Personal Info" },
+
+  "salaryIncome": "Salary Income",
+  "@salaryIncome": { "description": "Wizard step: Salary" },
+
+  "houseProperty": "House Property",
+  "@houseProperty": { "description": "Wizard step: House Property" },
+
+  "capitalGains": "Capital Gains",
+  "@capitalGains": { "description": "Wizard step: Capital Gains" },
+
+  "deductions": "Deductions",
+  "@deductions": { "description": "Wizard step: Deductions" },
+
+  "taxComputation": "Tax Computation",
+  "@taxComputation": { "description": "Wizard step: Tax Computation" },
+
+  "reviewAndExport": "Review & Export",
+  "@reviewAndExport": { "description": "Wizard step: Review & Export" },
+
+  "gstin": "GSTIN",
+  "@gstin": { "description": "GSTIN label" },
+
+  "pan": "PAN",
+  "@pan": { "description": "PAN label" },
+
+  "tan": "TAN",
+  "@tan": { "description": "TAN label" },
+
+  "invalidGstin": "Invalid GSTIN format",
+  "@invalidGstin": { "description": "GSTIN validation error" },
+
+  "invalidPan": "Invalid PAN format",
+  "@invalidPan": { "description": "PAN validation error" },
+
+  "requiredField": "This field is required",
+  "@requiredField": { "description": "Required field validation error" },
+
+  "caGptHint": "Ask CA GPT…",
+  "@caGptHint": { "description": "CA GPT input hint" },
+
+  "deadlineDaysLeft": "{days, plural, =0{Due today} =1{1 day left} other{{days} days left}}",
+  "@deadlineDaysLeft": {
+    "description": "Deadline urgency label",
+    "placeholders": { "days": { "type": "int" } }
+  },
+
+  "penaltyWarning": "Penalty: ₹{amount}",
+  "@penaltyWarning": {
+    "description": "Penalty amount warning on deadline card",
+    "placeholders": { "amount": { "type": "String" } }
+  },
+
+  "riskHigh": "High Risk",
+  "@riskHigh": { "description": "Risk level: High" },
+
+  "riskMedium": "Medium Risk",
+  "@riskMedium": { "description": "Risk level: Medium" },
+
+  "riskLow": "Low Risk",
+  "@riskLow": { "description": "Risk level: Low" },
+
+  "portalConnected": "Connected",
+  "@portalConnected": { "description": "Portal connection status" },
+
+  "portalDisconnected": "Not Connected",
+  "@portalDisconnected": { "description": "Portal disconnection status" },
+
+  "exportSuccess": "Export successful",
+  "@exportSuccess": { "description": "Export success message" },
+
+  "exportFailed": "Export failed: {reason}",
+  "@exportFailed": {
+    "description": "Export failure message",
+    "placeholders": { "reason": { "type": "String" } }
+  },
+
+  "totalBilled": "Total Billed",
+  "@totalBilled": { "description": "Billing KPI label" },
+
+  "outstanding": "Outstanding",
+  "@outstanding": { "description": "Outstanding amount label" },
+
+  "overdue": "Overdue",
+  "@overdue": { "description": "Overdue status label" },
+
+  "complianceCalendar": "Compliance Calendar",
+  "@complianceCalendar": { "description": "Compliance calendar section" },
+
+  "upcomingDeadlines": "Upcoming Deadlines",
+  "@upcomingDeadlines": { "description": "Upcoming deadlines section" },
+
+  "noUpcomingDeadlines": "No upcoming deadlines",
+  "@noUpcomingDeadlines": { "description": "Empty state for deadlines" },
+
+  "practiceManagement": "Practice Management",
+  "@practiceManagement": { "description": "Practice management section title" },
+
+  "kanbanBoard": "Kanban Board",
+  "@kanbanBoard": { "description": "Kanban board title" },
+
+  "addTask": "Add Task",
+  "@addTask": { "description": "Add task button" },
+
+  "taskTitle": "Task Title",
+  "@taskTitle": { "description": "Task title field label" },
+
+  "assignee": "Assignee",
+  "@assignee": { "description": "Assignee field label" },
+
+  "dueDate": "Due Date",
+  "@dueDate": { "description": "Due date field label" },
+
+  "priorityHigh": "High",
+  "@priorityHigh": { "description": "Priority: High" },
+
+  "priorityMedium": "Medium",
+  "@priorityMedium": { "description": "Priority: Medium" },
+
+  "priorityLow": "Low",
+  "@priorityLow": { "description": "Priority: Low" },
+
+  "signIn": "Sign In",
+  "@signIn": { "description": "Sign in button" },
+
+  "signUp": "Sign Up",
+  "@signUp": { "description": "Sign up button" },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": { "description": "Forgot password link" },
+
+  "email": "Email",
+  "@email": { "description": "Email field label" },
+
+  "password": "Password",
+  "@password": { "description": "Password field label" },
+
+  "fullName": "Full Name",
+  "@fullName": { "description": "Full name field label" }
+}

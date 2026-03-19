@@ -16,7 +16,7 @@ import 'package:ca_app/features/portal_connector/domain/repositories/portal_cred
 /// - Sync status → `portal_sync_{portalType.name}`
 class SecureCredentialRepository implements PortalCredentialRepository {
   SecureCredentialRepository({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
 

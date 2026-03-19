@@ -119,8 +119,7 @@ final submissionJobRunnerProvider = Provider<SubmissionJobRunner>((ref) {
 /// Emits the full list of [SubmissionJob]s whenever any job is added or
 /// updated.  Consumers (e.g. AutosubmitQueueScreen) watch this to get
 /// real-time queue state.
-final submissionJobsStreamProvider =
-    StreamProvider<List<SubmissionJob>>((ref) {
-      final repo = ref.watch(submissionRepositoryProvider);
-      return repo.watchAll();
-    });
+final submissionJobsStreamProvider = StreamProvider<List<SubmissionJob>>((ref) {
+  final repo = ref.watch(submissionRepositoryProvider);
+  return repo.watchAll();
+});

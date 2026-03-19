@@ -146,10 +146,7 @@ void main() {
 
     test('stores credential for each portal type', () async {
       for (final type in PortalType.values) {
-        final cred = _makeCredential(
-          id: 'id-${type.name}',
-          portalType: type,
-        );
+        final cred = _makeCredential(id: 'id-${type.name}', portalType: type);
         final id = await repository.storeCredential(cred);
         expect(id, cred.id);
       }
@@ -196,20 +193,22 @@ void main() {
       expect(result, isNull);
     });
 
-    test('retrieves credentials for all 5 portal types independently',
-        () async {
-      for (final type in PortalType.values) {
-        await repository.storeCredential(
-          _makeCredential(id: 'id-${type.name}', portalType: type),
-        );
-      }
-      for (final type in PortalType.values) {
-        final result = await repository.getCredential(type);
-        expect(result, isNotNull);
-        expect(result!.id, 'id-${type.name}');
-        expect(result.portalType, type);
-      }
-    });
+    test(
+      'retrieves credentials for all 5 portal types independently',
+      () async {
+        for (final type in PortalType.values) {
+          await repository.storeCredential(
+            _makeCredential(id: 'id-${type.name}', portalType: type),
+          );
+        }
+        for (final type in PortalType.values) {
+          final result = await repository.getCredential(type);
+          expect(result, isNotNull);
+          expect(result!.id, 'id-${type.name}');
+          expect(result.portalType, type);
+        }
+      },
+    );
 
     test('handles credential with only required fields', () async {
       const minimal = PortalCredential(id: 'min-1', portalType: PortalType.mca);
@@ -311,8 +310,10 @@ void main() {
   // -------------------------------------------------------------------------
   group('updateSyncStatus', () {
     test('returns false when credential does not exist', () async {
-      final result =
-          await repository.updateSyncStatus(PortalType.mca, 'synced');
+      final result = await repository.updateSyncStatus(
+        PortalType.mca,
+        'synced',
+      );
       expect(result, isFalse);
     });
 
@@ -320,8 +321,7 @@ void main() {
       await repository.storeCredential(
         _makeCredential(portalType: PortalType.mca),
       );
-      final result =
-          await repository.updateSyncStatus(PortalType.mca, 'error');
+      final result = await repository.updateSyncStatus(PortalType.mca, 'error');
       expect(result, isTrue);
 
       final status = await repository.getSyncStatus(PortalType.mca);

@@ -160,9 +160,13 @@ void main() {
       });
 
       test('returns jobs ordered by createdAt', () async {
-        await repo.insert(makeJob('job-b', createdAt: now.add(const Duration(hours: 2))));
+        await repo.insert(
+          makeJob('job-b', createdAt: now.add(const Duration(hours: 2))),
+        );
         await repo.insert(makeJob('job-a', createdAt: now));
-        await repo.insert(makeJob('job-c', createdAt: now.add(const Duration(hours: 1))));
+        await repo.insert(
+          makeJob('job-c', createdAt: now.add(const Duration(hours: 1))),
+        );
         final result = await repo.getAll();
         expect(result.map((j) => j.id).toList(), ['job-a', 'job-c', 'job-b']);
       });
@@ -207,9 +211,15 @@ void main() {
 
     group('getByClient', () {
       test('returns only jobs for the given client', () async {
-        await repo.insert(makeJob('job-c1a', clientId: 'client-A', clientName: 'A'));
-        await repo.insert(makeJob('job-c1b', clientId: 'client-A', clientName: 'A'));
-        await repo.insert(makeJob('job-c2', clientId: 'client-B', clientName: 'B'));
+        await repo.insert(
+          makeJob('job-c1a', clientId: 'client-A', clientName: 'A'),
+        );
+        await repo.insert(
+          makeJob('job-c1b', clientId: 'client-A', clientName: 'A'),
+        );
+        await repo.insert(
+          makeJob('job-c2', clientId: 'client-B', clientName: 'B'),
+        );
         final result = await repo.getByClient('client-A');
         expect(result, hasLength(2));
         expect(result.every((j) => j.clientId == 'client-A'), isTrue);
@@ -235,7 +245,10 @@ void main() {
         await repo.insert(makeJob('j-pending2', step: SubmissionStep.pending));
         final result = await repo.getPending();
         expect(result, hasLength(2));
-        expect(result.every((j) => j.currentStep == SubmissionStep.pending), isTrue);
+        expect(
+          result.every((j) => j.currentStep == SubmissionStep.pending),
+          isTrue,
+        );
       });
 
       test('returns empty list when no pending jobs', () async {
@@ -347,21 +360,27 @@ void main() {
 
       test('returns logs in chronological order', () async {
         await repo.insert(makeJob('job-001'));
-        await repo.insertLog(makeLog(
-          'log-3',
-          jobId: 'job-001',
-          timestamp: now.add(const Duration(seconds: 3)),
-        ));
-        await repo.insertLog(makeLog(
-          'log-1',
-          jobId: 'job-001',
-          timestamp: now.add(const Duration(seconds: 1)),
-        ));
-        await repo.insertLog(makeLog(
-          'log-2',
-          jobId: 'job-001',
-          timestamp: now.add(const Duration(seconds: 2)),
-        ));
+        await repo.insertLog(
+          makeLog(
+            'log-3',
+            jobId: 'job-001',
+            timestamp: now.add(const Duration(seconds: 3)),
+          ),
+        );
+        await repo.insertLog(
+          makeLog(
+            'log-1',
+            jobId: 'job-001',
+            timestamp: now.add(const Duration(seconds: 1)),
+          ),
+        );
+        await repo.insertLog(
+          makeLog(
+            'log-2',
+            jobId: 'job-001',
+            timestamp: now.add(const Duration(seconds: 2)),
+          ),
+        );
         final logs = await repo.getLogs('job-001');
         expect(logs, hasLength(3));
         expect(logs.map((l) => l.id).toList(), ['log-1', 'log-2', 'log-3']);
@@ -536,8 +555,11 @@ void main() {
           final id = 'job-step-${step.name}';
           await repo.insert(makeJob(id, step: step));
           final result = await repo.getById(id);
-          expect(result!.currentStep, equals(step),
-              reason: 'Step ${step.name} should roundtrip correctly');
+          expect(
+            result!.currentStep,
+            equals(step),
+            reason: 'Step ${step.name} should roundtrip correctly',
+          );
         }
       });
 
@@ -546,19 +568,20 @@ void main() {
           final id = 'job-portal-${portal.name}';
           await repo.insert(makeJob(id, portalType: portal));
           final result = await repo.getById(id);
-          expect(result!.portalType, equals(portal),
-              reason: 'Portal ${portal.name} should roundtrip correctly');
+          expect(
+            result!.portalType,
+            equals(portal),
+            reason: 'Portal ${portal.name} should roundtrip correctly',
+          );
         }
       });
 
       test('SubmissionStep in logs survives roundtrip', () async {
         await repo.insert(makeJob('job-001'));
         for (final step in SubmissionStep.values) {
-          await repo.insertLog(makeLog(
-            'log-${step.name}',
-            jobId: 'job-001',
-            step: step,
-          ));
+          await repo.insertLog(
+            makeLog('log-${step.name}', jobId: 'job-001', step: step),
+          );
         }
         final logs = await repo.getLogs('job-001');
         expect(logs, hasLength(SubmissionStep.values.length));
@@ -572,7 +595,9 @@ void main() {
     group('dispose', () {
       test('can be called without errors', () {
         // Create a fresh repo to dispose (setUp one will be disposed in tearDown).
-        final disposableRepo = DriftSubmissionRepository(sqlite3.openInMemory());
+        final disposableRepo = DriftSubmissionRepository(
+          sqlite3.openInMemory(),
+        );
         expect(() => disposableRepo.dispose(), returnsNormally);
       });
     });

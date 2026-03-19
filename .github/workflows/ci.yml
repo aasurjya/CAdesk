@@ -25,6 +25,9 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -33,3 +36,52 @@ jobs:
 
       - name: Run tests with coverage
         run: flutter test --coverage
+
+      - name: Remove generated files from coverage
+        run: |
+          lcov --remove coverage/lcov.info \
+            '*.g.dart' \
+            '*.freezed.dart' \
+            '*/lib/core/database/app_database.g.dart' \
+            '*/generated/*' \
+            -o coverage/lcov_filtered.info
+
+      - name: Check coverage thresholds
+        run: |
+          LINES=$(lcov --summary coverage/lcov_filtered.info 2>&1 | grep 'lines' | grep -oP '\d+\.\d+(?=%)' | head -1)
+          FUNCTIONS=$(lcov --summary coverage/lcov_filtered.info 2>&1 | grep 'functions' | grep -oP '\d+\.\d+(?=%)' | head -1)
+          BRANCHES=$(lcov --summary coverage/lcov_filtered.info 2>&1 | grep 'branches' | grep -oP '\d+\.\d+(?=%)' | head -1)
+
+          THRESHOLD_LINES=$(cat .coverage-thresholds.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['thresholds']['lines'])")
+          THRESHOLD_FUNCTIONS=$(cat .coverage-thresholds.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['thresholds']['functions'])")
+          THRESHOLD_BRANCHES=$(cat .coverage-thresholds.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['thresholds']['branches'])")
+
+          echo "Coverage: lines=${LINES}%, functions=${FUNCTIONS}%, branches=${BRANCHES}%"
+          echo "Thresholds: lines=${THRESHOLD_LINES}%, functions=${THRESHOLD_FUNCTIONS}%, branches=${THRESHOLD_BRANCHES}%"
+
+          FAILED=0
+          if (( $(echo "$LINES < $THRESHOLD_LINES" | bc -l) )); then
+            echo "::error::Line coverage ${LINES}% is below threshold ${THRESHOLD_LINES}%"
+            FAILED=1
+          fi
+          if (( $(echo "$FUNCTIONS < $THRESHOLD_FUNCTIONS" | bc -l) )); then
+            echo "::error::Function coverage ${FUNCTIONS}% is below threshold ${THRESHOLD_FUNCTIONS}%"
+            FAILED=1
+          fi
+          if (( $(echo "$BRANCHES < $THRESHOLD_BRANCHES" | bc -l) )); then
+            echo "::error::Branch coverage ${BRANCHES}% is below threshold ${THRESHOLD_BRANCHES}%"
+            FAILED=1
+          fi
+          exit $FAILED
+
+      - name: Generate HTML coverage report
+        if: always()
+        run: genhtml coverage/lcov_filtered.info -o coverage/html --quiet
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/html
+          retention-days: 7

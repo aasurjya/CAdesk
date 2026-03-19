@@ -126,10 +126,7 @@ class McaAutosubmitService {
 
     // Enter CIN
     yield _log(jobId, SubmissionStep.filling, 'Entering CIN: $cin...');
-    await webViewController.fillField(
-      PortalJsScripts.mcaCinInputSelector,
-      cin,
-    );
+    await webViewController.fillField(PortalJsScripts.mcaCinInputSelector, cin);
 
     // Upload form file via WebView file chooser callback
     yield _log(
@@ -167,9 +164,7 @@ class McaAutosubmitService {
 
     // DSC signing step (MCA requires DSC for most e-Forms)
     yield _log(jobId, SubmissionStep.otp, 'Awaiting DSC signing...');
-    await webViewController.clickElement(
-      PortalJsScripts.mcaDscSignBtnSelector,
-    );
+    await webViewController.clickElement(PortalJsScripts.mcaDscSignBtnSelector);
     await webViewController.waitForElement(
       PortalJsScripts.mcaDscSuccessSelector,
       timeout: const Duration(seconds: 60),
@@ -185,7 +180,8 @@ class McaAutosubmitService {
       SubmissionStep.submitting,
       'Extracting Service Request Number...',
     );
-    const srnScript = '''
+    const srnScript =
+        '''
 (function() {
   var el = document.querySelector('${PortalJsScripts.mcaSrnSelector}');
   return el ? el.textContent.trim() : '';
@@ -228,9 +224,7 @@ class McaAutosubmitService {
       SubmissionStep.otp,
       'Requesting PIN for DSC: $dscSerialNumber',
     );
-    await webViewController.clickElement(
-      PortalJsScripts.mcaDscSignBtnSelector,
-    );
+    await webViewController.clickElement(PortalJsScripts.mcaDscSignBtnSelector);
 
     // Wait for PIN dialog to appear
     await webViewController.waitForElement(
@@ -464,11 +458,7 @@ class McaAutosubmitService {
     String jobId,
     String cin,
   ) async* {
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Searching company by CIN: $cin',
-    );
+    yield _log(jobId, SubmissionStep.filling, 'Searching company by CIN: $cin');
     yield _log(
       jobId,
       SubmissionStep.downloading,

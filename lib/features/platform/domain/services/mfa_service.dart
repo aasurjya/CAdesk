@@ -1,11 +1,15 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:ca_app/features/platform/domain/models/mfa_setup.dart';
 
 /// Stateless singleton providing MFA (Multi-Factor Authentication) operations.
 ///
-/// TOTP generation uses a simplified mock algorithm suitable for testing.
-/// Production code should use HMAC-SHA1 per RFC 6238.
+/// **SECURITY WARNING**: [generateTotp] uses a non-cryptographic mock algorithm
+/// (`hashCode XOR counter`) that is NOT suitable for production authentication.
+/// Replace with HMAC-SHA1 per RFC 6238 before enabling real MFA flows.
+/// See: https://www.rfc-editor.org/rfc/rfc6238
 class MfaService {
   MfaService._();
 
@@ -31,8 +35,9 @@ class MfaService {
 
   /// Generates a 6-digit TOTP code for [secret] at [time].
   ///
-  /// Mock algorithm: `(secret.hashCode XOR counter) mod 1_000_000`
-  /// where counter = epoch-milliseconds / 30_000.
+  /// **NOT FOR PRODUCTION USE** — mock algorithm using `hashCode XOR counter`.
+  /// Replace with RFC 6238 HMAC-SHA1 implementation before shipping real MFA.
+  @visibleForTesting
   String generateTotp(String secret, DateTime time) {
     final counter = time.millisecondsSinceEpoch ~/ 30000;
     final code = (secret.hashCode ^ counter).abs() % 1000000;

@@ -37,9 +37,9 @@ class SubmissionJobRunner {
     required SubmissionOrchestrator orchestrator,
     required PortalCredentialRepository credentialRepo,
     required OtpInterceptService otpService,
-  })  : _orchestrator = orchestrator,
-        _credentialRepo = credentialRepo,
-        _otpService = otpService;
+  }) : _orchestrator = orchestrator,
+       _credentialRepo = credentialRepo,
+       _otpService = otpService;
 
   final SubmissionOrchestrator _orchestrator;
   final PortalCredentialRepository _credentialRepo;
@@ -111,11 +111,7 @@ class SubmissionJobRunner {
         message: 'Logged in. Starting ${job.returnType} automation...',
       );
 
-      yield* _fillAndSubmitFor(
-        job,
-        controller,
-        confirmationGate,
-      );
+      yield* _fillAndSubmitFor(job, controller, confirmationGate);
     } on Exception catch (e) {
       await _orchestrator.markFailed(job.id, e.toString());
       yield SubmissionLog(

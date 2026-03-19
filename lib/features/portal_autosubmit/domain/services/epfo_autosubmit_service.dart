@@ -71,9 +71,7 @@ class EpfoAutosubmitService {
       PortalJsScripts.epfoPasswordSelector,
       plainPassword,
     );
-    await webViewController.clickElement(
-      PortalJsScripts.epfoLoginBtnSelector,
-    );
+    await webViewController.clickElement(PortalJsScripts.epfoLoginBtnSelector);
 
     yield _log(jobId, SubmissionStep.otp, 'Awaiting OTP for EPFO login...');
     final otp = await webViewController.interceptOtp(
@@ -82,9 +80,7 @@ class EpfoAutosubmitService {
     );
 
     await webViewController.fillField(PortalJsScripts.epfoOtpSelector, otp);
-    await webViewController.clickElement(
-      PortalJsScripts.epfoLoginBtnSelector,
-    );
+    await webViewController.clickElement(PortalJsScripts.epfoLoginBtnSelector);
     await webViewController.waitForNavigation('/member/home');
 
     yield _log(jobId, SubmissionStep.loggingIn, 'Login completed successfully');
@@ -110,8 +106,12 @@ class EpfoAutosubmitService {
     final jobId = 'epfo_ecr_$establishmentId';
 
     if (webViewController == null) {
-      yield* _mockUploadEcrStream(jobId, establishmentId, ecrFilePath,
-          wageMonth);
+      yield* _mockUploadEcrStream(
+        jobId,
+        establishmentId,
+        ecrFilePath,
+        wageMonth,
+      );
       return;
     }
 
@@ -212,7 +212,12 @@ class EpfoAutosubmitService {
 
     if (webViewController == null) {
       yield* _mockGenerateChallanStream(
-        jobId, establishmentId, wageMonth, epfAmount, epsAmount, savePath,
+        jobId,
+        establishmentId,
+        wageMonth,
+        epfAmount,
+        epsAmount,
+        savePath,
       );
       return;
     }
@@ -325,11 +330,7 @@ class EpfoAutosubmitService {
     await Future<void>.delayed(const Duration(seconds: 2));
 
     // Enter UAN
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Entering UAN: $uan',
-    );
+    yield _log(jobId, SubmissionStep.filling, 'Entering UAN: $uan');
     await webViewController.waitForElement(
       PortalJsScripts.epfoUanInputSelector,
     );
@@ -383,7 +384,10 @@ class EpfoAutosubmitService {
 
     if (webViewController == null) {
       yield* _mockDownloadReceiptStream(
-        jobId, establishmentId, challanId, savePath,
+        jobId,
+        establishmentId,
+        challanId,
+        savePath,
       );
       return;
     }
@@ -419,11 +423,7 @@ class EpfoAutosubmitService {
     );
 
     // Wait for results and download
-    yield _log(
-      jobId,
-      SubmissionStep.downloading,
-      'Downloading receipt...',
-    );
+    yield _log(jobId, SubmissionStep.downloading, 'Downloading receipt...');
     await webViewController.waitForElement(
       PortalJsScripts.epfoReceiptDownloadSelector,
       timeout: const Duration(seconds: 30),
@@ -522,20 +522,9 @@ class EpfoAutosubmitService {
     );
   }
 
-  Stream<SubmissionLog> _mockCheckKycStream(
-    String jobId,
-    String uan,
-  ) async* {
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Navigating to KYC status page',
-    );
-    yield _log(
-      jobId,
-      SubmissionStep.filling,
-      'Entering UAN: $uan',
-    );
+  Stream<SubmissionLog> _mockCheckKycStream(String jobId, String uan) async* {
+    yield _log(jobId, SubmissionStep.filling, 'Navigating to KYC status page');
+    yield _log(jobId, SubmissionStep.filling, 'Entering UAN: $uan');
     yield _log(
       jobId,
       SubmissionStep.downloading,
