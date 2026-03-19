@@ -75,10 +75,7 @@ void main() {
       await pumpTestWidget(tester, const MsmeDetailScreen(msmeId: 'msme-001'));
       expect(find.text('Paid'), findsWidgets);
       // "Pending" badges may be off-screen on CI; check including off-stage.
-      expect(
-        find.text('Pending', skipOffstage: false),
-        findsWidgets,
-      );
+      expect(find.text('Pending', skipOffstage: false), findsWidgets);
     });
 
     testWidgets('shows Interest on Delayed Payments card', (tester) async {
