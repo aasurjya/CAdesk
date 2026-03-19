@@ -6,6 +6,7 @@ import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/other_source_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/tds_payment_summary.dart';
 import 'package:ca_app/features/portal_export/itr_export/models/itr_export_result.dart';
 import 'package:ca_app/features/portal_export/itr_export/services/itr1_export_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,6 +48,7 @@ void main() {
         otherSourceIncome: OtherSourceIncome.empty(),
         deductions: ChapterViaDeductions.empty(),
         selectedRegime: TaxRegime.newRegime,
+        tdsPaymentSummary: TdsPaymentSummary.empty(),
       );
     });
 

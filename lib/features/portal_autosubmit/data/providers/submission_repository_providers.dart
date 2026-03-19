@@ -2,11 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/features/portal_autosubmit/data/repositories/mock_submission_repository.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/repositories/submission_repository.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/epfo_autosubmit_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/gstn_autosubmit_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/itd_autosubmit_service.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/mca_autosubmit_service.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/submission_job_runner.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/submission_orchestrator.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/services/traces_autosubmit_service.dart';
 import 'package:ca_app/features/portal_connector/data/providers/portal_connector_repository_providers.dart';
@@ -94,4 +96,31 @@ final credentialForPortalProvider =
     FutureProvider.family<PortalCredential?, PortalType>((ref, portalType) {
       final repo = ref.watch(autosubmitCredentialRepositoryProvider);
       return repo.getCredential(portalType);
+    });
+
+// ---------------------------------------------------------------------------
+// Job runner
+// ---------------------------------------------------------------------------
+
+/// Provides a [SubmissionJobRunner] wired to the orchestrator, credential
+/// repository, and OTP service.
+final submissionJobRunnerProvider = Provider<SubmissionJobRunner>((ref) {
+  return SubmissionJobRunner(
+    orchestrator: ref.watch(submissionOrchestratorProvider),
+    credentialRepo: ref.watch(autosubmitCredentialRepositoryProvider),
+    otpService: ref.watch(otpInterceptServiceProvider),
+  );
+});
+
+// ---------------------------------------------------------------------------
+// Live job streams
+// ---------------------------------------------------------------------------
+
+/// Emits the full list of [SubmissionJob]s whenever any job is added or
+/// updated.  Consumers (e.g. AutosubmitQueueScreen) watch this to get
+/// real-time queue state.
+final submissionJobsStreamProvider =
+    StreamProvider<List<SubmissionJob>>((ref) {
+      final repo = ref.watch(submissionRepositoryProvider);
+      return repo.watchAll();
     });

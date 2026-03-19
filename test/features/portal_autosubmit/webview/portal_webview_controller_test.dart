@@ -153,6 +153,66 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // waitForElementDisappearance
+  // ---------------------------------------------------------------------------
+
+  group('waitForElementDisappearance', () {
+    test('resolves immediately when element is not present', () async {
+      // Element does NOT exist → disappearance detected immediately
+      fakeWebController.setResponse('offsetParent', false);
+      await expectLater(
+        controller.waitForElementDisappearance('#captcha-input'),
+        completes,
+      );
+    });
+
+    test('resolves when element is initially present then disappears',
+        () async {
+      // Start with element present, then switch to absent after a brief delay
+      var callCount = 0;
+      fakeWebController._responses.clear();
+      // Override: first 2 calls return true (present), then false (gone)
+      final original = fakeWebController.evaluateJavascript;
+      fakeWebController.setResponse('offsetParent', true);
+
+      // We'll track calls and flip the response after 2 polls
+      int pollCount = 0;
+      fakeWebController._responses.clear();
+
+      // Use a custom approach: initially true, flip to false after delay
+      fakeWebController.setResponse('offsetParent', true);
+      Future.delayed(const Duration(milliseconds: 600), () {
+        fakeWebController.setResponse('offsetParent', false);
+      });
+
+      await expectLater(
+        controller.waitForElementDisappearance(
+          '#captcha-input',
+          timeout: const Duration(seconds: 5),
+        ),
+        completes,
+      );
+      // Should have polled at least twice (once found, once not found)
+      expect(fakeWebController.evaluatedScripts.length, greaterThanOrEqualTo(2));
+    });
+
+    test(
+      'throws WebViewElementNotFoundException when element never disappears',
+      () async {
+        // Element always present → timeout
+        fakeWebController.setResponse('offsetParent', true);
+        await expectLater(
+          controller.waitForElementDisappearance(
+            '#stubborn-captcha',
+            timeout: const Duration(milliseconds: 100),
+          ),
+          throwsA(isA<WebViewElementNotFoundException>()),
+        );
+      },
+    );
+  });
+
+  // ---------------------------------------------------------------------------
   // fillField
   // ---------------------------------------------------------------------------
 
