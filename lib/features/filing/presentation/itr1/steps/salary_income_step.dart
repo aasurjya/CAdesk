@@ -6,9 +6,11 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/core/utils/currency_utils.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
 import 'package:ca_app/features/filing/data/providers/form16_prefill_provider.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/field_help_texts.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
 import 'package:ca_app/features/filing/presentation/itr1/widgets/form16_picker_sheet.dart';
+import 'package:ca_app/features/filing/presentation/widgets/field_help_tooltip.dart';
 import 'package:ca_app/features/ocr/domain/models/ocr_extracted_data.dart';
 import 'package:ca_app/features/ocr/data/providers/ocr_providers.dart';
 
@@ -155,7 +157,12 @@ class _SalaryIncomeStepState extends ConsumerState<SalaryIncomeStep> {
   // Shared field builder
   // -----------------------------------------------------------------------
 
-  Widget _numField(String label, TextEditingController ctrl, {String? hint}) {
+  Widget _numField(
+    String label,
+    TextEditingController ctrl, {
+    String? hint,
+    String? helpText,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: TextFormField(
@@ -168,6 +175,9 @@ class _SalaryIncomeStepState extends ConsumerState<SalaryIncomeStep> {
           prefixText: '\u20b9 ',
           border: const OutlineInputBorder(),
           isDense: true,
+          suffixIcon: helpText != null
+              ? FieldHelpTooltip(helpText: helpText)
+              : null,
         ),
         onChanged: (_) => _persist(),
       ),
@@ -257,8 +267,16 @@ class _SalaryIncomeStepState extends ConsumerState<SalaryIncomeStep> {
         children: [
           _buildPrefillSourceCard(),
           _buildPrefillChip(),
-          _numField('Gross Salary (as per Form 16)', _grossCtrl),
-          _numField('Allowances Exempt u/s 10 (HRA, LTA, etc.)', _exemptCtrl),
+          _numField(
+            'Gross Salary (as per Form 16)',
+            _grossCtrl,
+            helpText: Itr1HelpTexts.grossSalary,
+          ),
+          _numField(
+            'Allowances Exempt u/s 10 (HRA, LTA, etc.)',
+            _exemptCtrl,
+            helpText: Itr1HelpTexts.hraExemption,
+          ),
           _numField('Value of Perquisites', _perqCtrl),
           _numField('Profits in Lieu of Salary', _profitCtrl),
           Container(

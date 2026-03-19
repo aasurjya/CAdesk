@@ -13,6 +13,9 @@ import 'package:ca_app/features/filing/presentation/itr1/steps/deductions_step.d
 import 'package:ca_app/features/filing/presentation/itr1/steps/tax_computation_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/review_export_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/tds_taxes_paid_step.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/presentation/widgets/floating_tax_bar.dart';
+import 'package:ca_app/features/filing/presentation/widgets/step_completion_indicator.dart';
 
 const _kTotalSteps = 8;
 
@@ -37,6 +40,17 @@ class Itr1WizardScreen extends ConsumerStatefulWidget {
 }
 
 class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
+  /// Tracks which wizard steps the user has navigated past (completed).
+  Set<int> _completedSteps = const {};
+
+  void _markStepCompleted(int step) {
+    if (!_completedSteps.contains(step)) {
+      setState(() {
+        _completedSteps = {..._completedSteps, step};
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -81,6 +95,13 @@ class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
   Widget build(BuildContext context) {
     final step = ref.watch(wizardStepProvider);
     final job = ref.watch(activeFilingJobProvider);
+    final formData = ref.watch(itr1FormDataProvider);
+    final taxResult = ref.watch(liveTaxComputationProvider);
+
+    // Compute tax payable based on selected regime.
+    final taxPayable = formData.selectedRegime == TaxRegime.newRegime
+        ? taxResult.newRegimeTax
+        : taxResult.oldRegimeTax;
 
     return Scaffold(
       appBar: AppBar(
@@ -112,10 +133,24 @@ class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
       ),
       body: Column(
         children: [
+          StepCompletionIndicator(
+            totalSteps: _kTotalSteps,
+            currentStep: step,
+            completedSteps: _completedSteps,
+          ),
           _StepHeader(step: step),
           Expanded(child: _StepBody(step: step)),
+          FloatingTaxBar(
+            grossIncome: formData.grossTotalIncome,
+            deductions: formData.allowableDeductions,
+            taxPayable: taxPayable,
+          ),
           const Divider(height: 1),
-          _WizardNavBar(step: step, totalSteps: _kTotalSteps),
+          _WizardNavBar(
+            step: step,
+            totalSteps: _kTotalSteps,
+            onStepChange: _markStepCompleted,
+          ),
         ],
       ),
     );
@@ -199,10 +234,17 @@ class _StepBody extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _WizardNavBar extends ConsumerWidget {
-  const _WizardNavBar({required this.step, required this.totalSteps});
+  const _WizardNavBar({
+    required this.step,
+    required this.totalSteps,
+    required this.onStepChange,
+  });
 
   final int step;
   final int totalSteps;
+
+  /// Called with the current step index when the user navigates away from it.
+  final ValueChanged<int> onStepChange;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -217,7 +259,10 @@ class _WizardNavBar extends ConsumerWidget {
             OutlinedButton.icon(
               onPressed: isFirst
                   ? null
-                  : () => ref.read(wizardStepProvider.notifier).goTo(step - 1),
+                  : () {
+                      onStepChange(step);
+                      ref.read(wizardStepProvider.notifier).goTo(step - 1);
+                    },
               icon: const Icon(Icons.arrow_back, size: 16),
               label: const Text('Back'),
               style: OutlinedButton.styleFrom(
@@ -227,8 +272,10 @@ class _WizardNavBar extends ConsumerWidget {
             const Spacer(),
             if (!isLast)
               FilledButton.icon(
-                onPressed: () =>
-                    ref.read(wizardStepProvider.notifier).goTo(step + 1),
+                onPressed: () {
+                  onStepChange(step);
+                  ref.read(wizardStepProvider.notifier).goTo(step + 1);
+                },
                 icon: const Icon(Icons.arrow_forward, size: 16),
                 label: const Text('Next'),
                 style: FilledButton.styleFrom(
