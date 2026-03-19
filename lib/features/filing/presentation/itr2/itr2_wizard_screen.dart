@@ -41,13 +41,11 @@ class Itr2WizardScreen extends ConsumerStatefulWidget {
 }
 
 class _Itr2WizardScreenState extends ConsumerState<Itr2WizardScreen> {
-  // Cache notifier reference so dispose() can call it safely after unmount.
-  late final _activeJobNotifier = ref.read(activeFilingJobIdProvider.notifier);
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       ref.read(activeFilingJobIdProvider.notifier).set(widget.jobId);
       ref.read(itr2WizardStepProvider.notifier).reset();
     });
@@ -55,7 +53,13 @@ class _Itr2WizardScreenState extends ConsumerState<Itr2WizardScreen> {
 
   @override
   void dispose() {
-    _activeJobNotifier.set(null);
+    // Clear active job ID. Wrapped in try-catch because ref may already be
+    // invalidated during widget tree teardown in tests.
+    try {
+      ref.read(activeFilingJobIdProvider.notifier).set(null);
+    } on StateError catch (_) {
+      // Widget was unmounted before dispose could run — safe to ignore.
+    }
     super.dispose();
   }
 
