@@ -169,14 +169,6 @@ void main() {
     test('resolves when element is initially present then disappears',
         () async {
       // Start with element present, then switch to absent after a brief delay
-      var callCount = 0;
-      fakeWebController._responses.clear();
-      // Override: first 2 calls return true (present), then false (gone)
-      final original = fakeWebController.evaluateJavascript;
-      fakeWebController.setResponse('offsetParent', true);
-
-      // We'll track calls and flip the response after 2 polls
-      int pollCount = 0;
       fakeWebController._responses.clear();
 
       // Use a custom approach: initially true, flip to false after delay

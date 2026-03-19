@@ -26,7 +26,6 @@ void main() {
 
     const gstin = '27AABCU9603R1ZM';
     const taxPeriod = '032026';
-    const assessmentYear = '2025-26';
     const gstnService = GstnAutosubmitService();
 
     late PortalCredential credential;
