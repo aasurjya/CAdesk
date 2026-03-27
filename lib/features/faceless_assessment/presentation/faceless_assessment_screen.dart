@@ -170,7 +170,11 @@ class _UrgencyBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.warning_amber_rounded, size: 18, color: AppColors.error),
+          const Icon(
+            Icons.warning_amber_rounded,
+            size: 18,
+            color: AppColors.error,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
@@ -361,7 +365,7 @@ Widget _buildEmpty(BuildContext context, String message) {
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.inbox_rounded, size: 64, color: AppColors.neutral400),
+        const Icon(Icons.inbox_rounded, size: 64, color: AppColors.neutral400),
         const SizedBox(height: 12),
         Text(
           message,

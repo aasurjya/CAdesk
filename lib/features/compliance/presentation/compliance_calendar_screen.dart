@@ -326,7 +326,7 @@ class _ListView extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            const Icon(
               Icons.event_available_rounded,
               size: 80,
               color: AppColors.neutral200,
@@ -593,7 +593,7 @@ class _EmptyDeadlines extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            const Icon(
               Icons.event_available_rounded,
               size: 64,
               color: AppColors.neutral200,

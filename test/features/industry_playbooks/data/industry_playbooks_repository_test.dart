@@ -58,7 +58,7 @@ void main() {
 
     group('insertPlaybook', () {
       test('inserts and returns id', () async {
-        final playbook = VerticalPlaybook(
+        const playbook = VerticalPlaybook(
           id: 'test-pb-001',
           vertical: 'Startups',
           icon: '🚀',
@@ -75,7 +75,7 @@ void main() {
       });
 
       test('inserted playbook is retrievable', () async {
-        final playbook = VerticalPlaybook(
+        const playbook = VerticalPlaybook(
           id: 'test-pb-002',
           vertical: 'Textile',
           icon: '🧵',
@@ -106,7 +106,7 @@ void main() {
       });
 
       test('returns false for non-existent id', () async {
-        final ghost = VerticalPlaybook(
+        const ghost = VerticalPlaybook(
           id: 'no-such-id',
           vertical: 'Ghost',
           icon: '👻',
@@ -160,7 +160,7 @@ void main() {
 
     group('insertBundle', () {
       test('inserts and returns id', () async {
-        final bundle = ServiceBundle(
+        const bundle = ServiceBundle(
           id: 'test-bundle-001',
           verticalId: 'vp-001',
           name: 'Basic GST Bundle',
@@ -194,7 +194,7 @@ void main() {
       });
 
       test('returns false for non-existent id', () async {
-        final ghost = ServiceBundle(
+        const ghost = ServiceBundle(
           id: 'no-such-bundle',
           verticalId: 'x',
           name: 'Ghost',

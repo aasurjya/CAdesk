@@ -198,17 +198,17 @@ void main() {
   // -------------------------------------------------------------------------
   group('AisData model', () {
     test('totalIncome sums all income entries', () {
-      final data = AisData(
+      const data = AisData(
         pan: 'ABCDE1234F',
         assessmentYear: '2024-25',
         incomeDetails: [
-          const AisIncome(
+          AisIncome(
             sourceType: 'Salary',
             sourceName: 'Employer A',
             amount: 80000000,
             taxDeducted: 10000000,
           ),
-          const AisIncome(
+          AisIncome(
             sourceType: 'Interest',
             sourceName: 'Bank B',
             amount: 5000000,

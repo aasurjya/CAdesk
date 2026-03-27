@@ -144,7 +144,7 @@ class EsgScoreCard extends StatelessWidget {
     }
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.pending_actions_outlined,
           size: 14,
           color: AppColors.warning,

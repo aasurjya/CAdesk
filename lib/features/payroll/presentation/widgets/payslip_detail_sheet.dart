@@ -130,7 +130,7 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
                     const SizedBox(height: 20),
 
                     // Earnings
-                    _SectionHeader(title: 'Earnings'),
+                    const _SectionHeader(title: 'Earnings'),
                     const SizedBox(height: 8),
                     _PayslipRow(
                       label: 'Basic Salary',
@@ -155,7 +155,7 @@ class _PayslipDetailSheetState extends State<PayslipDetailSheet> {
                     const SizedBox(height: 20),
 
                     // Deductions
-                    _SectionHeader(title: 'Deductions'),
+                    const _SectionHeader(title: 'Deductions'),
                     const SizedBox(height: 8),
                     _PayslipRow(
                       label: 'Employee PF (12%)',

@@ -75,36 +75,36 @@ class ClientHealthScore {
 
 final _mockHealthScores = <String, ClientHealthScore>{
   // Rajesh Kumar Sharma — individual, ITR+GST
-  '1': ClientHealthScore(
+  '1': const ClientHealthScore(
     clientId: '1',
     overallScore: 92,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Upload Form 16 for AY 2026-27'],
+    pendingActions: ['Upload Form 16 for AY 2026-27'],
     lastUpdated: 'Mar 2026',
   ),
   // Priya Mehta — individual, ITR only, capital gains pending
-  '2': ClientHealthScore(
+  '2': const ClientHealthScore(
     clientId: '2',
     overallScore: 78,
     itrStatus: 'Pending',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR filing due — AY 2026-27',
       'Collect capital gains statement',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // ABC Infra Pvt Ltd — company, multiple services, several items overdue
-  '3': ClientHealthScore(
+  '3': const ClientHealthScore(
     clientId: '3',
     overallScore: 61,
     itrStatus: 'Pending',
     gstStatus: 'Returns Pending',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'GSTR-3B Feb 2026 pending',
       'TDS challan due 07 Mar',
       'ITR-6 filing AY 2026-27',
@@ -113,56 +113,56 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Mehta & Sons — firm, ITR+GST+bookkeeping
-  '4': ClientHealthScore(
+  '4': const ClientHealthScore(
     clientId: '4',
     overallScore: 85,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Reconcile books for Feb 2026'],
+    pendingActions: ['Reconcile books for Feb 2026'],
     lastUpdated: 'Mar 2026',
   ),
   // Sunita Devi Agarwal — inactive individual, ITR only
-  '5': ClientHealthScore(
+  '5': const ClientHealthScore(
     clientId: '5',
     overallScore: 55,
     itrStatus: 'Overdue',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-1 AY 2025-26 not filed',
       'Collect bank interest certificates',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // TechVista Solutions LLP — ITR+GST+TDS+payroll
-  '6': ClientHealthScore(
+  '6': const ClientHealthScore(
     clientId: '6',
     overallScore: 88,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'Compliant',
-    pendingActions: const ['Process Mar 2026 payroll by 31 Mar'],
+    pendingActions: ['Process Mar 2026 payroll by 31 Mar'],
     lastUpdated: 'Mar 2026',
   ),
   // Anil Gupta HUF — ITR + bookkeeping
-  '7': ClientHealthScore(
+  '7': const ClientHealthScore(
     clientId: '7',
     overallScore: 80,
     itrStatus: 'Filed',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const ['Update FY 2025-26 books'],
+    pendingActions: ['Update FY 2025-26 books'],
     lastUpdated: 'Mar 2026',
   ),
   // Bharat Electronics Ltd — all services
-  '8': ClientHealthScore(
+  '8': const ClientHealthScore(
     clientId: '8',
     overallScore: 72,
     itrStatus: 'Pending',
     gstStatus: 'Returns Pending',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'GSTR-1 Mar 2026 due 11 Apr',
       'TDS Q4 challan due 30 Apr',
       'Finalise FY 2025-26 audit',
@@ -170,33 +170,33 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Deepak Patel — individual, ITR+GST
-  '9': ClientHealthScore(
+  '9': const ClientHealthScore(
     clientId: '9',
     overallScore: 83,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const ['Collect FY 2025-26 P&L statement'],
+    pendingActions: ['Collect FY 2025-26 P&L statement'],
     lastUpdated: 'Mar 2026',
   ),
   // Sharma Charitable Trust — ITR + audit
-  '10': ClientHealthScore(
+  '10': const ClientHealthScore(
     clientId: '10',
     overallScore: 90,
     itrStatus: 'Filed',
     gstStatus: 'N/A',
     tdsStatus: 'N/A',
-    pendingActions: const ['Renew 12A registration before Jun 2026'],
+    pendingActions: ['Renew 12A registration before Jun 2026'],
     lastUpdated: 'Mar 2026',
   ),
   // Kavita Reddy — prospect, ITR+TDS
-  '11': ClientHealthScore(
+  '11': const ClientHealthScore(
     clientId: '11',
     overallScore: 58,
     itrStatus: 'Pending',
     gstStatus: 'N/A',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'ITR-4 AY 2026-27 not filed',
       'TDS on professional fees pending',
       'Onboarding KYC documents required',
@@ -204,49 +204,49 @@ final _mockHealthScores = <String, ClientHealthScore>{
     lastUpdated: 'Mar 2026',
   ),
   // Hindustan Traders AOP — ITR+GST+bookkeeping
-  '12': ClientHealthScore(
+  '12': const ClientHealthScore(
     clientId: '12',
     overallScore: 76,
     itrStatus: 'Pending',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-5 AY 2026-27 pending',
       'Update partner capital accounts',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // GreenLeaf Organics LLP — ITR+GST+TDS
-  '13': ClientHealthScore(
+  '13': const ClientHealthScore(
     clientId: '13',
     overallScore: 81,
     itrStatus: 'Filed',
     gstStatus: 'Compliant',
     tdsStatus: 'Compliant',
-    pendingActions: const ['File GSTR-9 for FY 2024-25'],
+    pendingActions: ['File GSTR-9 for FY 2024-25'],
     lastUpdated: 'Mar 2026',
   ),
   // Vikram Singh Rathore — individual, ITR+GST+bookkeeping
-  '14': ClientHealthScore(
+  '14': const ClientHealthScore(
     clientId: '14',
     overallScore: 79,
     itrStatus: 'Pending',
     gstStatus: 'Compliant',
     tdsStatus: 'N/A',
-    pendingActions: const [
+    pendingActions: [
       'ITR-3 AY 2026-27 pending',
       'Reconcile hotel revenue for Mar 2026',
     ],
     lastUpdated: 'Mar 2026',
   ),
   // Nirmala Textiles Pvt Ltd — inactive, all services
-  '15': ClientHealthScore(
+  '15': const ClientHealthScore(
     clientId: '15',
     overallScore: 42,
     itrStatus: 'Overdue',
     gstStatus: 'Late Filed',
     tdsStatus: 'Challan Due',
-    pendingActions: const [
+    pendingActions: [
       'ITR-6 AY 2025-26 overdue',
       'GSTR-3B pending since Jan 2026',
       'TDS default — Q3 FY 2025-26',
@@ -268,10 +268,10 @@ final mockClients = <Client>[
   Client(
     id: '1',
     name: 'Rajesh Kumar Sharma',
-    pan: 'ABCPS1234A',
-    aadhaar: '1234 5678 9012',
-    email: 'rajesh.sharma@gmail.com',
-    phone: '9876543210',
+    pan: 'MOCK-PAN-001',
+    aadhaar: 'MOCK-AADHAAR-001',
+    email: 'rajesh.sharma@example.invalid',
+    phone: '9000000001',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1975, 6, 15),
     address: '42, MG Road, Bandra West',
@@ -287,9 +287,9 @@ final mockClients = <Client>[
   Client(
     id: '2',
     name: 'Priya Mehta',
-    pan: 'BQKPM5678B',
-    email: 'priya.mehta@outlook.com',
-    phone: '9988776655',
+    pan: 'MOCK-PAN-002',
+    email: 'priya.mehta@example.invalid',
+    phone: '9000000002',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1988, 11, 22),
     address: '15, Jubilee Hills',
@@ -305,17 +305,17 @@ final mockClients = <Client>[
   Client(
     id: '3',
     name: 'ABC Infra Pvt Ltd',
-    pan: 'AABCA1234C',
-    email: 'accounts@abcinfra.in',
-    phone: '9111222333',
+    pan: 'MOCK-PAN-003',
+    email: 'accounts@abcinfra.example.invalid',
+    phone: '9000000003',
     clientType: ClientType.company,
     dateOfIncorporation: DateTime(2015, 3, 12),
     address: '201, Business Tower, Connaught Place',
     city: 'New Delhi',
     state: 'Delhi',
     pincode: '110001',
-    gstin: '07AABCA1234C1Z5',
-    tan: 'DELA12345B',
+    gstin: 'MOCK-GSTIN-003',
+    tan: 'MOCK-TAN-003',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -331,15 +331,15 @@ final mockClients = <Client>[
   Client(
     id: '4',
     name: 'Mehta & Sons',
-    pan: 'AAPFM5678D',
-    email: 'mehtasons@yahoo.com',
-    phone: '9444555666',
+    pan: 'MOCK-PAN-004',
+    email: 'mehtasons@example.invalid',
+    phone: '9000000004',
     clientType: ClientType.firm,
     address: '78, Ashram Road',
     city: 'Ahmedabad',
     state: 'Gujarat',
     pincode: '380009',
-    gstin: '24AAPFM5678D1Z8',
+    gstin: 'MOCK-GSTIN-004',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -353,8 +353,8 @@ final mockClients = <Client>[
   Client(
     id: '5',
     name: 'Sunita Devi Agarwal',
-    pan: 'CQAPA9012E',
-    phone: '9333444555',
+    pan: 'MOCK-PAN-005',
+    phone: '9000000005',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1965, 2, 3),
     address: '12, Civil Lines',
@@ -370,17 +370,17 @@ final mockClients = <Client>[
   Client(
     id: '6',
     name: 'TechVista Solutions LLP',
-    pan: 'AAFT1234F',
-    email: 'finance@techvista.co.in',
-    phone: '8055667788',
+    pan: 'MOCK-PAN-006',
+    email: 'finance@techvista.example.invalid',
+    phone: '9000000006',
     clientType: ClientType.llp,
     dateOfIncorporation: DateTime(2019, 8, 1),
     address: '504, Whitefield Tech Park',
     city: 'Bengaluru',
     state: 'Karnataka',
     pincode: '560066',
-    gstin: '29AAFT1234F1Z2',
-    tan: 'BLRT56789A',
+    gstin: 'MOCK-GSTIN-006',
+    tan: 'MOCK-TAN-006',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -395,8 +395,8 @@ final mockClients = <Client>[
   Client(
     id: '7',
     name: 'Anil Gupta HUF',
-    pan: 'AAHHA5678G',
-    phone: '9777888999',
+    pan: 'MOCK-PAN-007',
+    phone: '9000000007',
     clientType: ClientType.huf,
     address: '88, Model Town',
     city: 'Ludhiana',
@@ -411,17 +411,17 @@ final mockClients = <Client>[
   Client(
     id: '8',
     name: 'Bharat Electronics Ltd',
-    pan: 'AABCB9012H',
-    email: 'tax@bharatelec.com',
-    phone: '8022334455',
+    pan: 'MOCK-PAN-008',
+    email: 'tax@bharatelec.example.invalid',
+    phone: '9000000008',
     clientType: ClientType.company,
     dateOfIncorporation: DateTime(2008, 1, 20),
     address: '12, MIDC Industrial Area, Pimpri',
     city: 'Pune',
     state: 'Maharashtra',
     pincode: '411018',
-    gstin: '27AABCB9012H1Z1',
-    tan: 'PNEB34567C',
+    gstin: 'MOCK-GSTIN-008',
+    tan: 'MOCK-TAN-008',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -438,16 +438,16 @@ final mockClients = <Client>[
   Client(
     id: '9',
     name: 'Deepak Patel',
-    pan: 'DLKPP3456I',
-    email: 'deepak.patel@gmail.com',
-    phone: '9666777888',
+    pan: 'MOCK-PAN-009',
+    email: 'deepak.patel@example.invalid',
+    phone: '9000000009',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1992, 9, 8),
     address: '45, SG Highway',
     city: 'Ahmedabad',
     state: 'Gujarat',
     pincode: '380054',
-    gstin: '24DLKPP3456I1Z4',
+    gstin: 'MOCK-GSTIN-009',
     servicesAvailed: [ServiceType.itrFiling, ServiceType.gstFiling],
     status: ClientStatus.active,
     createdAt: DateTime(2024, 8, 12),
@@ -457,9 +457,9 @@ final mockClients = <Client>[
   Client(
     id: '10',
     name: 'Sharma Charitable Trust',
-    pan: 'AACTS7890J',
-    email: 'trust@sharmafoundation.org',
-    phone: '7055112233',
+    pan: 'MOCK-PAN-010',
+    email: 'trust@sharmafoundation.example.invalid',
+    phone: '9000000010',
     clientType: ClientType.trust,
     dateOfIncorporation: DateTime(2010, 4, 14),
     address: '1, Gandhi Nagar',
@@ -475,9 +475,9 @@ final mockClients = <Client>[
   Client(
     id: '11',
     name: 'Kavita Reddy',
-    pan: 'BNRPK1234K',
-    email: 'kavita.r@yahoo.com',
-    phone: '9222333444',
+    pan: 'MOCK-PAN-011',
+    email: 'kavita.r@example.invalid',
+    phone: '9000000011',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1980, 12, 1),
     address: '33, Banjara Hills',
@@ -493,14 +493,14 @@ final mockClients = <Client>[
   Client(
     id: '12',
     name: 'Hindustan Traders AOP',
-    pan: 'AAAHA5678L',
-    phone: '8111222333',
+    pan: 'MOCK-PAN-012',
+    phone: '9000000012',
     clientType: ClientType.aop,
     address: '22, Chandni Chowk',
     city: 'New Delhi',
     state: 'Delhi',
     pincode: '110006',
-    gstin: '07AAAHA5678L1Z9',
+    gstin: 'MOCK-GSTIN-012',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -514,16 +514,16 @@ final mockClients = <Client>[
   Client(
     id: '13',
     name: 'GreenLeaf Organics LLP',
-    pan: 'AAFG9012M',
-    email: 'accounts@greenleaf.in',
-    phone: '9555666777',
+    pan: 'MOCK-PAN-013',
+    email: 'accounts@greenleaf.example.invalid',
+    phone: '9000000013',
     clientType: ClientType.llp,
     dateOfIncorporation: DateTime(2021, 6, 15),
     address: '10, Electronic City Phase 2',
     city: 'Bengaluru',
     state: 'Karnataka',
     pincode: '560100',
-    gstin: '29AAFG9012M1Z7',
+    gstin: 'MOCK-GSTIN-013',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,
@@ -537,9 +537,9 @@ final mockClients = <Client>[
   Client(
     id: '14',
     name: 'Vikram Singh Rathore',
-    pan: 'EVQPS3456N',
-    email: 'vikram.rathore@gmail.com',
-    phone: '9888777666',
+    pan: 'MOCK-PAN-014',
+    email: 'vikram.rathore@example.invalid',
+    phone: '9000000014',
     clientType: ClientType.individual,
     dateOfBirth: DateTime(1970, 3, 25),
     address: '55, C-Scheme',
@@ -559,17 +559,17 @@ final mockClients = <Client>[
   Client(
     id: '15',
     name: 'Nirmala Textiles Pvt Ltd',
-    pan: 'AABCN7890P',
-    email: 'finance@nirmalatextiles.com',
-    phone: '8444555666',
+    pan: 'MOCK-PAN-015',
+    email: 'finance@nirmalatextiles.example.invalid',
+    phone: '9000000015',
     clientType: ClientType.company,
     dateOfIncorporation: DateTime(2000, 11, 5),
     address: '35, Ring Road, Surat Textile Market',
     city: 'Surat',
     state: 'Gujarat',
     pincode: '395002',
-    gstin: '24AABCN7890P1Z3',
-    tan: 'SRTN98765D',
+    gstin: 'MOCK-GSTIN-015',
+    tan: 'MOCK-TAN-015',
     servicesAvailed: [
       ServiceType.itrFiling,
       ServiceType.gstFiling,

@@ -320,6 +320,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
   Widget _buildItrTypeDropdown() {
     return DropdownButtonFormField<ItrType>(
       initialValue: _itrType,
+      isExpanded: true,
       decoration: const InputDecoration(
         labelText: 'ITR Type *',
         prefixIcon: Icon(Icons.description_outlined, size: 20),
@@ -343,6 +344,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
   Widget _buildAssessmentYearDropdown() {
     return DropdownButtonFormField<String>(
       initialValue: _assessmentYear,
+      isExpanded: true,
       decoration: const InputDecoration(
         labelText: 'Assessment Year *',
         prefixIcon: Icon(Icons.calendar_today_outlined, size: 20),
@@ -412,6 +414,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
   Widget _buildTaxRegimeDropdown() {
     return DropdownButtonFormField<TaxRegime>(
       initialValue: _taxRegime,
+      isExpanded: true,
       decoration: const InputDecoration(
         labelText: 'Tax Regime *',
         prefixIcon: Icon(Icons.account_balance_outlined, size: 20),
@@ -436,6 +439,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
   Widget _buildAssignedToDropdown() {
     return DropdownButtonFormField<String>(
       initialValue: _assignedTo,
+      isExpanded: true,
       decoration: const InputDecoration(
         labelText: 'Assigned To',
         prefixIcon: Icon(Icons.person_pin_outlined, size: 20),
@@ -452,6 +456,7 @@ class _NewFilingSheetState extends ConsumerState<_NewFilingSheet> {
   Widget _buildPriorityDropdown() {
     return DropdownButtonFormField<FilingPriority>(
       initialValue: _priority,
+      isExpanded: true,
       decoration: const InputDecoration(
         labelText: 'Priority',
         prefixIcon: Icon(Icons.flag_outlined, size: 20),

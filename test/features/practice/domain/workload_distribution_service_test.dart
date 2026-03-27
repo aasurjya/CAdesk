@@ -159,7 +159,7 @@ void main() {
       () {
         final engagements = List.generate(5, (i) {
           return _makeEngagement('eng-$i', [
-            StaffAssignment(
+            const StaffAssignment(
               staffId: 'staff-001',
               role: StaffRole.manager,
               tasks: ['t-review'],

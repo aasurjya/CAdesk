@@ -3,7 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/field_help_texts.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
+import 'package:ca_app/features/filing/presentation/itr1/widgets/form16_upload_button.dart';
+import 'package:ca_app/features/filing/presentation/widgets/field_help_tooltip.dart';
 
 class PersonalInfoStep extends ConsumerStatefulWidget {
   const PersonalInfoStep({super.key});
@@ -130,6 +133,7 @@ class _PersonalInfoStepState extends ConsumerState<PersonalInfoStep> {
     TextInputType keyboardType = TextInputType.text,
     bool required = false,
     String? hint,
+    String? helpText,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -141,6 +145,9 @@ class _PersonalInfoStepState extends ConsumerState<PersonalInfoStep> {
           hintText: hint,
           border: const OutlineInputBorder(),
           isDense: true,
+          suffixIcon: helpText != null
+              ? FieldHelpTooltip(helpText: helpText)
+              : null,
         ),
         onChanged: (_) => _persistToProvider(),
         validator: required
@@ -171,17 +178,26 @@ class _PersonalInfoStepState extends ConsumerState<PersonalInfoStep> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Form16UploadButton(),
+            const SizedBox(height: 16),
             _sectionHeader('Name'),
             _field('First Name', _firstNameCtrl, required: true),
             _field('Middle Name', _middleNameCtrl),
             _field('Last Name', _lastNameCtrl, required: true),
             _sectionHeader('Identity'),
-            _field('PAN', _panCtrl, required: true, hint: 'ABCDE1234F'),
+            _field(
+              'PAN',
+              _panCtrl,
+              required: true,
+              hint: 'ABCDE1234F',
+              helpText: Itr1HelpTexts.pan,
+            ),
             _field(
               'Aadhaar Number',
               _aadhaarCtrl,
               hint: '1234 5678 9012',
               keyboardType: TextInputType.number,
+              helpText: Itr1HelpTexts.aadhaar,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12),

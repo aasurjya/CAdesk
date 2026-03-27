@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/domain/models/tax_regime_result.dart';
+import 'package:ca_app/features/filing/domain/services/tax_computation_engine.dart';
 import 'package:ca_app/features/portal_export/itr_export/models/itr_export_result.dart';
 import 'package:ca_app/features/portal_export/itr_export/services/itr_checksum_service.dart';
 
@@ -53,13 +55,17 @@ class Itr1ExportService {
     Itr1FormData data,
     String assessmentYear,
   ) {
+    final taxResult = TaxComputationEngine.compare(data);
+
     return {
       'ITR': {
         'ITR1': {
           'PersonalInfo': _personalInfo(data, assessmentYear),
           'FilingStatus': _filingStatus(data),
           'ITR1_IncomeDeductions': _incomeDeductions(data),
-          'TaxComputation': _taxComputation(),
+          'TaxComputation': _taxComputation(data, taxResult),
+          'ScheduleTDS': _scheduleTds(data),
+          'ScheduleTaxPayment': _scheduleTaxPayment(data),
         },
       },
     };
@@ -120,21 +126,76 @@ class Itr1ExportService {
     };
   }
 
-  /// Returns a zeroed-out TaxComputation block.
-  ///
-  /// Full tax computation is handled by the [TaxComputationEngine]; this
-  /// service only structures the JSON skeleton for portal submission.
-  static Map<String, dynamic> _taxComputation() {
+  /// Populates the TaxComputation block from [TaxComputationEngine] results
+  /// and the TDS/taxes paid data from [Itr1FormData].
+  static Map<String, dynamic> _taxComputation(
+    Itr1FormData data,
+    TaxRegimeResult taxResult,
+  ) {
+    final isNewRegime = data.selectedRegime == TaxRegime.newRegime;
+    final baseTax = isNewRegime
+        ? taxResult.newRegimeTaxBeforeCess
+        : taxResult.oldRegimeTaxBeforeCess;
+    final surcharge = isNewRegime
+        ? taxResult.newRegimeSurcharge
+        : taxResult.oldRegimeSurcharge;
+    final cess = isNewRegime
+        ? taxResult.newRegimeCess
+        : taxResult.oldRegimeCess;
+    final totalTax = isNewRegime
+        ? taxResult.newRegimeTax
+        : taxResult.oldRegimeTax;
+
+    // Rebate u/s 87A: if base tax is zero but income > 0, rebate was applied.
+    final taxableIncome = isNewRegime
+        ? taxResult.newRegimeTaxableIncome
+        : taxResult.oldRegimeTaxableIncome;
+    final rebateThreshold = isNewRegime ? 1200000.0 : 500000.0;
+    final rebate87A = (taxableIncome > 0 && taxableIncome <= rebateThreshold)
+        ? baseTax
+        : 0.0;
+
+    final grossTaxLiability = _toRupees(totalTax);
+    final totalTaxPaid = _toRupees(data.tdsPaymentSummary.totalTaxesPaid);
+    final balance = grossTaxLiability - totalTaxPaid;
+
     return {
-      'TaxPayableOnTI': 0,
-      'Rebate87A': 0,
-      'TaxPayableAfterRebate': 0,
-      'EducationCess': 0,
-      'GrossTaxLiability': 0,
-      'TotalTaxAndInterest': 0,
-      'TotalTaxPaid': 0,
-      'BalTaxPayable': 0,
-      'Refund': 0,
+      'TaxPayableOnTI': _toRupees(baseTax),
+      'Surcharge': _toRupees(surcharge),
+      'Rebate87A': _toRupees(rebate87A),
+      'TaxPayableAfterRebate': _toRupees(baseTax - rebate87A),
+      'EducationCess': _toRupees(cess),
+      'GrossTaxLiability': grossTaxLiability,
+      'TotalTaxAndInterest': grossTaxLiability,
+      'TotalTaxPaid': totalTaxPaid,
+      'BalTaxPayable': balance > 0 ? balance : 0,
+      'Refund': balance < 0 ? -balance : 0,
+    };
+  }
+
+  /// Schedule TDS — TDS deducted on salary and other income.
+  static Map<String, dynamic> _scheduleTds(Itr1FormData data) {
+    final tds = data.tdsPaymentSummary;
+    return {
+      'TDSonSalary': _toRupees(tds.tdsOnSalary),
+      'TDSonOtherThanSalary': _toRupees(tds.tdsOnOtherIncome),
+      'TotalTDS': _toRupees(tds.totalTds),
+    };
+  }
+
+  /// Schedule Tax Payment — advance tax and self-assessment tax.
+  static Map<String, dynamic> _scheduleTaxPayment(Itr1FormData data) {
+    final tds = data.tdsPaymentSummary;
+    return {
+      'AdvanceTaxQ1': _toRupees(tds.advanceTaxQ1),
+      'AdvanceTaxQ2': _toRupees(tds.advanceTaxQ2),
+      'AdvanceTaxQ3': _toRupees(tds.advanceTaxQ3),
+      'AdvanceTaxQ4': _toRupees(tds.advanceTaxQ4),
+      'TotalAdvanceTax': _toRupees(tds.totalAdvanceTax),
+      'SelfAssessmentTax': _toRupees(tds.selfAssessmentTax),
+      'TotalTaxPayments': _toRupees(
+        tds.totalAdvanceTax + tds.selfAssessmentTax,
+      ),
     };
   }
 

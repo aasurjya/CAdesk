@@ -80,7 +80,7 @@ class GuestLinkTile extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.visibility_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -101,7 +101,7 @@ class GuestLinkTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.label_outline_rounded,
                       size: 12,
                       color: AppColors.neutral400,
@@ -116,7 +116,7 @@ class GuestLinkTile extends StatelessWidget {
                     ),
                     if (link.createdBy != null) ...[
                       const SizedBox(width: 8),
-                      Icon(
+                      const Icon(
                         Icons.person_outline_rounded,
                         size: 12,
                         color: AppColors.neutral400,

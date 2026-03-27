@@ -88,12 +88,12 @@ final _mockLlps = List<LlpEntity>.unmodifiable([
     form11FiledDate: DateTime(2025, 5, 28),
     financialYear: 2025,
   ),
-  LlpEntity(
+  const LlpEntity(
     id: 'llp-002',
     llpin: 'AAK-4567',
     name: 'TechVista Solutions LLP',
     registeredOffice: '101 Park Street, Mumbai 400001',
-    partners: const [
+    partners: [
       LlpPartnerDetail(
         dpin: '01234567',
         name: 'Vikram Singh',

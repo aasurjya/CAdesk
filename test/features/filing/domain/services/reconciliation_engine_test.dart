@@ -119,7 +119,7 @@ void main() {
   group('ReconciliationEngine.reconcileAIS', () {
     test('returns matched result when salary AIS matches declared', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.salary,
           informationSource: 'Employer A',
           reportedAmount: 500000,
@@ -135,7 +135,7 @@ void main() {
 
     test('detects discrepancy for interest category', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.interest,
           informationSource: 'SBI',
           reportedAmount: 50000, // declared = 10000+5000 = 15000
@@ -152,7 +152,7 @@ void main() {
 
     test('reconciles dividend category correctly', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.dividend,
           informationSource: 'Mutual Fund Co',
           reportedAmount: 8000,
@@ -174,7 +174,7 @@ void main() {
 
     test('maps saleOfSecurities category to otherSourceIncome.total', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.saleOfSecurities,
           informationSource: 'Broker X',
           reportedAmount: 23000, // same as total other source income
@@ -188,7 +188,7 @@ void main() {
 
     test('maps purchase category to otherSourceIncome.total', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.purchase,
           informationSource: 'Broker Y',
           reportedAmount: 23000,
@@ -202,7 +202,7 @@ void main() {
 
     test('maps otherIncome category to otherSourceIncome.total', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.otherIncome,
           informationSource: 'Platform Z',
           reportedAmount: 23000,
@@ -216,7 +216,7 @@ void main() {
 
     test('detects over-reported when declared > reported', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.salary,
           informationSource: 'Employer',
           reportedAmount: 400000, // declared = 500000
@@ -234,7 +234,7 @@ void main() {
         salaryIncome: SalaryIncome.empty().copyWith(grossSalary: 0),
       );
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.salary,
           informationSource: 'Employer',
           reportedAmount: 500000,
@@ -248,7 +248,7 @@ void main() {
 
     test('amounts within 1 rupee tolerance are matched', () {
       final entries = [
-        AisEntry(
+        const AisEntry(
           category: AisCategory.salary,
           informationSource: 'Employer',
           reportedAmount: 500001.0, // within Rs 1 of declared 500000

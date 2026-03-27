@@ -70,7 +70,7 @@ class PortalCredentialTile extends StatelessWidget {
                     // Row 3: masked user ID + consent + last updated
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.person_outline_rounded,
                           size: 12,
                           color: AppColors.neutral400,
@@ -87,7 +87,7 @@ class PortalCredentialTile extends StatelessWidget {
                         const SizedBox(width: 10),
                         _ConsentBadge(credential: credential),
                         const Spacer(),
-                        Icon(
+                        const Icon(
                           Icons.update_rounded,
                           size: 12,
                           color: AppColors.neutral400,

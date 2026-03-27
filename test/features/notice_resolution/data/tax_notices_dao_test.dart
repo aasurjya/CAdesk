@@ -134,7 +134,7 @@ void main() {
 
     group('getByClient', () {
       test('returns notices for specified client', () async {
-        final clientId = 'notice-client-unique';
+        const clientId = 'notice-client-unique';
         final n1 = createNotice(clientId: clientId);
         final n2 = createNotice(clientId: clientId);
         await database.taxNoticesDao.insertNotice(
@@ -153,8 +153,8 @@ void main() {
       });
 
       test('filters by client correctly', () async {
-        final cA = 'notice-filter-a';
-        final cB = 'notice-filter-b';
+        const cA = 'notice-filter-a';
+        const cB = 'notice-filter-b';
         await database.taxNoticesDao.insertNotice(
           TaxNoticeMapper.toCompanion(createNotice(clientId: cA)),
         );

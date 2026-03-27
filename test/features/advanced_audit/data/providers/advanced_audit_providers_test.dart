@@ -186,13 +186,13 @@ void main() {
 
       test('add() appends a new checklist', () {
         final before = container.read(auditChecklistsProvider).length;
-        final newChecklist = AuditChecklist(
+        const newChecklist = AuditChecklist(
           id: 'ac-test',
           auditType: AuditType.cost,
           title: 'Cost Audit Checklist',
           totalItems: 5,
           completedItems: 0,
-          items: const [],
+          items: [],
         );
         container.read(auditChecklistsProvider.notifier).add(newChecklist);
         final after = container.read(auditChecklistsProvider);

@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('EpfoEcrGenerator', () {
-    final sampleRun1 = PayrollRun(
+    const sampleRun1 = PayrollRun(
       runId: 'RUN-001',
       month: 3,
       year: 2025,
@@ -19,14 +19,14 @@ void main() {
       deductionsPaise: 230000,
       netPayPaise: 5005000,
       tdsDeductedPaise: 50000,
-      pfContribution: const PfContribution(
+      pfContribution: PfContribution(
         pfWagePaise: 1500000,
         employeeSharePaise: 180000,
         employerEpsPaise: 124950,
         employerEpfPaise: 55050,
         adminChargesPaise: 7500,
       ),
-      esiContribution: const EsiContribution(
+      esiContribution: EsiContribution(
         esiWagePaise: 0,
         employeeContributionPaise: 0,
         employerContributionPaise: 0,
@@ -34,7 +34,7 @@ void main() {
       ),
     );
 
-    final sampleRun2 = PayrollRun(
+    const sampleRun2 = PayrollRun(
       runId: 'RUN-002',
       month: 3,
       year: 2025,
@@ -47,14 +47,14 @@ void main() {
       deductionsPaise: 120000,
       netPayPaise: 2880000,
       tdsDeductedPaise: 0,
-      pfContribution: const PfContribution(
+      pfContribution: PfContribution(
         pfWagePaise: 1500000,
         employeeSharePaise: 180000,
         employerEpsPaise: 124950,
         employerEpfPaise: 55050,
         adminChargesPaise: 7500,
       ),
-      esiContribution: const EsiContribution(
+      esiContribution: EsiContribution(
         esiWagePaise: 0,
         employeeContributionPaise: 0,
         employerContributionPaise: 0,

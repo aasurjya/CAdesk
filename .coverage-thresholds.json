@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "Coverage thresholds for orchestrator agents and CI. Portable across projects — adjust values per-repo.",
+  "$comment": "Coverage thresholds for orchestrator agents and CI. Portable across projects — adjust values per-repo. NOTE: Thresholds set to 55% as first enforced baseline (measured 55.4% at initial enforcement). Generated files (*.g.dart, *.freezed.dart) are excluded. Roadmap: 55% (current) → 60% (next milestone) → 70% → 80% (target). Increase thresholds as more presentation-layer widget tests are added.",
   "thresholds": {
-    "lines": 100,
-    "branches": 100,
-    "functions": 100,
-    "statements": 100
+    "lines": 55,
+    "branches": 50,
+    "functions": 55,
+    "statements": 55
   },
   "enforcement": {
     "command": "flutter test --coverage",

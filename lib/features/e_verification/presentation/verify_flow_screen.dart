@@ -312,7 +312,7 @@ class _VerifyFlowScreenState extends ConsumerState<VerifyFlowScreen> {
             label: const Text('Check PAN-Aadhaar Link'),
           ),
         ] else if (!_otpSent) ...[
-          _SuccessMessage(text: 'PAN-Aadhaar link verified'),
+          const _SuccessMessage(text: 'PAN-Aadhaar link verified'),
           const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: _loading ? null : _sendAadhaarOtp,
@@ -320,7 +320,7 @@ class _VerifyFlowScreenState extends ConsumerState<VerifyFlowScreen> {
             label: const Text('Send OTP'),
           ),
         ] else ...[
-          _SuccessMessage(text: 'OTP sent to Aadhaar-linked mobile'),
+          const _SuccessMessage(text: 'OTP sent to Aadhaar-linked mobile'),
           const SizedBox(height: 12),
           TextField(
             controller: _otpController,

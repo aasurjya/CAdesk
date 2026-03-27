@@ -37,7 +37,7 @@ class TracesDownloadScreen extends ConsumerWidget {
           children: [
             _InfoBanner(),
             const SizedBox(height: 16),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Download Requests',
               icon: Icons.download_rounded,
             ),

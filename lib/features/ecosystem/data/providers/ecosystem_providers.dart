@@ -165,7 +165,7 @@ final List<MarketplaceApp> _mockApps = [
     installedAt: DateTime(2026, 2, 1),
     iconColor: const Color(0xFF0D7C7C),
   ),
-  MarketplaceApp(
+  const MarketplaceApp(
     id: 'app-003',
     name: 'PayRoll360',
     vendor: 'HRNext Pvt Ltd',
@@ -176,9 +176,9 @@ final List<MarketplaceApp> _mockApps = [
     reviewCount: 213,
     isFree: false,
     pricePerMonth: 799,
-    iconColor: const Color(0xFFE8890C),
+    iconColor: Color(0xFFE8890C),
   ),
-  MarketplaceApp(
+  const MarketplaceApp(
     id: 'app-004',
     name: 'BankConnect',
     vendor: 'Finvu Technologies',
@@ -188,9 +188,9 @@ final List<MarketplaceApp> _mockApps = [
     rating: 4.5,
     reviewCount: 56,
     isFree: true,
-    iconColor: const Color(0xFF1A7A3A),
+    iconColor: Color(0xFF1A7A3A),
   ),
-  MarketplaceApp(
+  const MarketplaceApp(
     id: 'app-005',
     name: 'InsureCalc',
     vendor: 'RiskSmart India',
@@ -200,9 +200,9 @@ final List<MarketplaceApp> _mockApps = [
     rating: 3.8,
     reviewCount: 34,
     isFree: true,
-    iconColor: const Color(0xFFC62828),
+    iconColor: Color(0xFFC62828),
   ),
-  MarketplaceApp(
+  const MarketplaceApp(
     id: 'app-006',
     name: 'HireRight',
     vendor: 'PeopleFirst HR',
@@ -213,7 +213,7 @@ final List<MarketplaceApp> _mockApps = [
     reviewCount: 19,
     isFree: false,
     pricePerMonth: 499,
-    iconColor: const Color(0xFF718096),
+    iconColor: Color(0xFF718096),
   ),
 ];
 

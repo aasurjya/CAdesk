@@ -41,7 +41,7 @@ void main() {
       });
 
       test('insertBenchmarkMetric adds metric and returns id', () async {
-        final metric = BenchmarkMetric(
+        const metric = BenchmarkMetric(
           id: 'metric-new-001',
           metricName: 'Revenue per Client',
           category: 'Financial',
@@ -71,7 +71,7 @@ void main() {
       });
 
       test('updateBenchmarkMetric returns false for non-existent', () async {
-        final ghost = BenchmarkMetric(
+        const ghost = BenchmarkMetric(
           id: 'ghost-id',
           metricName: 'Ghost',
           category: 'X',
@@ -125,14 +125,14 @@ void main() {
       });
 
       test('insertGrowthScore adds score', () async {
-        final score = GrowthScore(
+        const score = GrowthScore(
           id: 'score-new-001',
           dimension: 'Revenue Growth',
           score: 78.5,
           peerAverage: 65.0,
           grade: 'B+',
           insight: 'Above average revenue growth',
-          recommendations: const ['Expand services', 'Hire more staff'],
+          recommendations: ['Expand services', 'Hire more staff'],
         );
         final id = await repo.insertGrowthScore(score);
         expect(id, score.id);
@@ -147,14 +147,14 @@ void main() {
       });
 
       test('updateGrowthScore returns false for non-existent', () async {
-        final ghost = GrowthScore(
+        const ghost = GrowthScore(
           id: 'ghost-id',
           dimension: 'Ghost',
           score: 0,
           peerAverage: 0,
           grade: 'D',
           insight: '',
-          recommendations: const [],
+          recommendations: [],
         );
         final success = await repo.updateGrowthScore(ghost);
         expect(success, isFalse);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/domain/models/itr2/itr2_form_data.dart';
 import 'package:ca_app/features/income_tax/domain/models/itr_type.dart';
 
 /// Lifecycle status of a filing job managed by the CA.
@@ -115,6 +116,7 @@ class FilingJob {
     this.feeQuoted,
     this.feeReceived,
     this.itr1Data,
+    this.itr2Data,
     this.acknowledgementNumber,
     this.filingDate,
     this.eVerificationStatus,
@@ -142,6 +144,7 @@ class FilingJob {
   final double? feeQuoted;
   final double? feeReceived;
   final Itr1FormData? itr1Data;
+  final Itr2FormData? itr2Data;
   final String? acknowledgementNumber;
   final String? eVerificationStatus;
 
@@ -168,6 +171,7 @@ class FilingJob {
     double? feeQuoted,
     double? feeReceived,
     Itr1FormData? itr1Data,
+    Itr2FormData? itr2Data,
     String? acknowledgementNumber,
     String? eVerificationStatus,
   }) {
@@ -194,6 +198,7 @@ class FilingJob {
       feeQuoted: feeQuoted ?? this.feeQuoted,
       feeReceived: feeReceived ?? this.feeReceived,
       itr1Data: itr1Data ?? this.itr1Data,
+      itr2Data: itr2Data ?? this.itr2Data,
       acknowledgementNumber:
           acknowledgementNumber ?? this.acknowledgementNumber,
       eVerificationStatus: eVerificationStatus ?? this.eVerificationStatus,

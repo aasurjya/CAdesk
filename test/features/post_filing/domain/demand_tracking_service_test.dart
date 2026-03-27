@@ -32,7 +32,7 @@ void main() {
   group('DemandTrackingService.updateDemandStatus', () {
     test('updates status to partiallyPaid with reduced outstanding', () {
       final tracker = makeTracker();
-      final update = DemandStatusUpdate(
+      const update = DemandStatusUpdate(
         newStatus: DemandTrackerStatus.partiallyPaid,
         newOutstandingAmount: 500000,
       );
@@ -43,7 +43,7 @@ void main() {
 
     test('updates status to fullPaid with zero outstanding', () {
       final tracker = makeTracker();
-      final update = DemandStatusUpdate(
+      const update = DemandStatusUpdate(
         newStatus: DemandTrackerStatus.fullPaid,
         newOutstandingAmount: 0,
       );
@@ -54,7 +54,7 @@ void main() {
 
     test('updates to stayGranted stops interest accruing', () {
       final tracker = makeTracker();
-      final update = DemandStatusUpdate(
+      const update = DemandStatusUpdate(
         newStatus: DemandTrackerStatus.stayGranted,
         interestAccruing: false,
       );
@@ -65,7 +65,7 @@ void main() {
 
     test('original tracker is not mutated', () {
       final tracker = makeTracker();
-      final update = DemandStatusUpdate(
+      const update = DemandStatusUpdate(
         newStatus: DemandTrackerStatus.fullPaid,
         newOutstandingAmount: 0,
       );

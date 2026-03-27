@@ -519,12 +519,12 @@ final _mockChecklists = <AuditChecklist>[
         completedBy: 'CA Rajesh Agarwal',
         completedAt: DateTime(2026, 1, 23),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Send PBC (Prepared by Client) list',
         isCompleted: false,
         notes: 'Pending client confirmation',
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Schedule opening meeting with management',
         isCompleted: false,
       ),
@@ -573,12 +573,12 @@ final _mockChecklists = <AuditChecklist>[
         completedBy: 'Sunita Rao',
         completedAt: DateTime(2025, 12, 15),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Review third-party vendor access',
         isCompleted: false,
         notes: 'Waiting for vendor list from IT department',
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Assess data encryption standards',
         isCompleted: false,
       ),
@@ -645,16 +645,16 @@ final _mockChecklists = <AuditChecklist>[
         completedBy: 'Deepak Kumar',
         completedAt: DateTime(2026, 1, 5),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Prepare quantification of loss estimate',
         isCompleted: false,
         notes: 'In progress, awaiting final bank confirmations',
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Draft forensic audit report',
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Present findings to Board Audit Committee',
         isCompleted: false,
       ),
@@ -697,16 +697,16 @@ final _mockChecklists = <AuditChecklist>[
         completedBy: 'Neha Gupta',
         completedAt: DateTime(2025, 11, 10),
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Review restructured accounts classification',
         isCompleted: false,
         notes: 'Data extraction pending from CBS',
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Verify interest income recognition on NPAs',
         isCompleted: false,
       ),
-      ChecklistItem(
+      const ChecklistItem(
         description: 'Test CRILC reporting compliance',
         isCompleted: false,
       ),

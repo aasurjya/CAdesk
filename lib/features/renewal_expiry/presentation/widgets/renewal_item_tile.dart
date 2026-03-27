@@ -105,7 +105,7 @@ class RenewalItemTile extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.notes_rounded,
                             size: 12,
                             color: AppColors.neutral400,

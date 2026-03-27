@@ -36,7 +36,7 @@ class GstClientTile extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
@@ -207,7 +207,7 @@ class _ComplianceBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
+        const Text(
           'Compliance',
           style: TextStyle(
             fontSize: 11,

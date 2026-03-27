@@ -313,7 +313,7 @@ void main() {
         incorporationDate: DateTime(2000, 1, 1),
         roc: 'RoC-Mumbai',
       );
-      final newDir = Director(din: '00000001', name: 'John', designation: 'MD');
+      const newDir = Director(din: '00000001', name: 'John', designation: 'MD');
       final copy = original.copyWith(directors: [newDir]);
       expect(copy.directors, hasLength(1));
       expect(original.directors, isEmpty);
@@ -339,13 +339,13 @@ void main() {
     });
 
     test('equality on same values', () {
-      final a = DinDetails(
+      const a = DinDetails(
         din: _kValidDin,
         name: 'Ram Kumar',
         nationality: 'Indian',
         status: McaDirectorStatus.approved,
       );
-      final b = DinDetails(
+      const b = DinDetails(
         din: _kValidDin,
         name: 'Ram Kumar',
         nationality: 'Indian',
@@ -432,12 +432,12 @@ void main() {
   // -------------------------------------------------------------------------
   group('DirectorDetails model', () {
     test('copyWith associatedCompanies is immutable copy', () {
-      final original = DirectorDetails(
+      const original = DirectorDetails(
         din: _kValidDin,
         name: 'John Doe',
         nationality: 'Indian',
         status: McaDirectorStatus.approved,
-        associatedCompanies: const [_kValidCin],
+        associatedCompanies: [_kValidCin],
       );
       final copy = original.copyWith(
         associatedCompanies: [_kValidCin, 'L12345AB2000PLC000001'],
@@ -447,19 +447,19 @@ void main() {
     });
 
     test('equality on same values', () {
-      final a = DirectorDetails(
+      const a = DirectorDetails(
         din: _kValidDin,
         name: 'John Doe',
         nationality: 'Indian',
         status: McaDirectorStatus.approved,
-        associatedCompanies: const [],
+        associatedCompanies: [],
       );
-      final b = DirectorDetails(
+      const b = DirectorDetails(
         din: _kValidDin,
         name: 'John Doe',
         nationality: 'Indian',
         status: McaDirectorStatus.approved,
-        associatedCompanies: const [],
+        associatedCompanies: [],
       );
       expect(a, equals(b));
     });

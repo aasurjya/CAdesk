@@ -31,7 +31,7 @@ void main() {
     });
 
     test('insertDisclosure adds entry and returns id', () async {
-      final disclosure = EsgDisclosure(
+      const disclosure = EsgDisclosure(
         id: 'esg-new-001',
         clientName: 'New Corp Ltd',
         clientPan: 'ABCDE1234F',
@@ -65,7 +65,7 @@ void main() {
     });
 
     test('updateDisclosure returns false for non-existent id', () async {
-      final ghost = EsgDisclosure(
+      const ghost = EsgDisclosure(
         id: 'non-existent-esg',
         clientName: 'Ghost Corp',
         clientPan: 'ZZZZZ9999Z',
@@ -120,7 +120,7 @@ void main() {
     });
 
     test('insertCarbonMetric adds entry and returns id', () async {
-      final metric = CarbonMetric(
+      const metric = CarbonMetric(
         id: 'carbon-new-001',
         clientName: 'New Corp Ltd',
         scope: 'Scope 1',
@@ -143,7 +143,7 @@ void main() {
     });
 
     test('updateCarbonMetric returns false for non-existent id', () async {
-      final ghost = CarbonMetric(
+      const ghost = CarbonMetric(
         id: 'non-existent-carbon',
         clientName: 'Ghost',
         scope: 'Scope 3',

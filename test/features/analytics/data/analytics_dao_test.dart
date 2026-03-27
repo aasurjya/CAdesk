@@ -134,8 +134,8 @@ void main() {
 
     group('getByPeriod', () {
       test('returns snapshots for matching firmId and period', () async {
-        final firmId = 'firm-period-test';
-        final period = '2026-01';
+        const firmId = 'firm-period-test';
+        const period = '2026-01';
         final snap = makeSnapshot(firmId: firmId, period: period);
         await database.analyticsDao.insertSnapshot(
           AnalyticsMapper.snapshotToCompanion(snap),
@@ -153,9 +153,9 @@ void main() {
       });
 
       test('filters by firmId correctly', () async {
-        final firmA = 'firm-filter-a';
-        final firmB = 'firm-filter-b';
-        final period = '2026-02';
+        const firmA = 'firm-filter-a';
+        const firmB = 'firm-filter-b';
+        const period = '2026-02';
         final snapA = makeSnapshot(firmId: firmA, period: period);
         final snapB = makeSnapshot(firmId: firmB, period: period);
         await database.analyticsDao.insertSnapshot(
@@ -171,7 +171,7 @@ void main() {
 
     group('getLatest', () {
       test('returns most recently created snapshot', () async {
-        final firmId = 'firm-latest-test';
+        const firmId = 'firm-latest-test';
         final older = AnalyticsSnapshot(
           id: 'older-snap',
           firmId: firmId,
@@ -262,7 +262,7 @@ void main() {
 
     group('getClientMetrics', () {
       test('returns metrics for specific client', () async {
-        final clientId = 'client-metrics-q1';
+        const clientId = 'client-metrics-q1';
         final m1 = makeMetric(clientId: clientId, period: '2026-01');
         final m2 = makeMetric(clientId: clientId, period: '2026-02');
         await database.analyticsDao.insertClientMetric(
@@ -283,8 +283,8 @@ void main() {
       });
 
       test('filters metrics by clientId correctly', () async {
-        final clientA = 'client-metric-a';
-        final clientB = 'client-metric-b';
+        const clientA = 'client-metric-a';
+        const clientB = 'client-metric-b';
         await database.analyticsDao.insertClientMetric(
           AnalyticsMapper.metricToCompanion(makeMetric(clientId: clientA)),
         );
@@ -300,7 +300,7 @@ void main() {
       test(
         'returns metrics for matching period ordered by revenue desc',
         () async {
-          final period = '2026-rev-period';
+          const period = '2026-rev-period';
           final low = makeMetric(period: period, revenue: 5000);
           final high = makeMetric(period: period, revenue: 50000);
           await database.analyticsDao.insertClientMetric(

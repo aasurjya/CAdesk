@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
@@ -58,7 +59,7 @@ class DocumentTile extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: () {},
+        onTap: () => context.push('/documents/view/${document.id}'),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(

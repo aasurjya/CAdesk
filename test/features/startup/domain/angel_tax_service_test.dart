@@ -20,7 +20,7 @@ void main() {
         // Issue price Rs 1500, FMV Rs 1000, raise Rs 15L
         // Excess = 15L - 10L = 5L = 50000000 paise
         // Tax = 30% of 50000000 = 15000000 paise
-        final input = AngelTaxInput(
+        const input = AngelTaxInput(
           issuePricePaise: 150000, // Rs 1500 per share
           fairMarketValuePaise: 100000, // Rs 1000 FMV
           amountRaisedPaise: 15000000, // Rs 15L total raised
@@ -33,7 +33,7 @@ void main() {
       });
 
       test('zero tax when DPIIT exempt', () {
-        final input = AngelTaxInput(
+        const input = AngelTaxInput(
           issuePricePaise: 150000,
           fairMarketValuePaise: 100000,
           amountRaisedPaise: 15000000,
@@ -45,7 +45,7 @@ void main() {
       });
 
       test('zero tax when issue price does not exceed FMV', () {
-        final input = AngelTaxInput(
+        const input = AngelTaxInput(
           issuePricePaise: 100000, // equal to FMV
           fairMarketValuePaise: 100000,
           amountRaisedPaise: 10000000,
@@ -57,7 +57,7 @@ void main() {
       });
 
       test('zero excess when issue price below FMV', () {
-        final input = AngelTaxInput(
+        const input = AngelTaxInput(
           issuePricePaise: 80000, // below FMV
           fairMarketValuePaise: 100000,
           amountRaisedPaise: 8000000,

@@ -152,7 +152,7 @@ class _HeroAppBar extends StatelessWidget {
       ],
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -373,7 +373,11 @@ class _ContactRow extends StatelessWidget {
                 ),
               ),
               if (onTap != null)
-                Icon(Icons.open_in_new, size: 14, color: AppColors.neutral400),
+                const Icon(
+                  Icons.open_in_new,
+                  size: 14,
+                  color: AppColors.neutral400,
+                ),
             ],
           ),
         ),
@@ -615,7 +619,7 @@ class _DocumentsSection extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.download,
                   size: 18,
                   color: AppColors.neutral400,

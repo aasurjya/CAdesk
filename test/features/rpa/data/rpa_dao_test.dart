@@ -77,7 +77,7 @@ void main() {
 
     group('getByClient', () {
       test('returns tasks for specific client', () async {
-        final clientId = 'client-rpa-q';
+        const clientId = 'client-rpa-q';
         final t1 = makeTask(clientId: clientId);
         final t2 = makeTask(clientId: clientId);
         await database.rpaDao.insert(RpaMapper.toCompanion(t1));
@@ -92,8 +92,8 @@ void main() {
       });
 
       test('filters by clientId correctly', () async {
-        final clientA = 'rpa-filter-a';
-        final clientB = 'rpa-filter-b';
+        const clientA = 'rpa-filter-a';
+        const clientB = 'rpa-filter-b';
         await database.rpaDao.insert(
           RpaMapper.toCompanion(makeTask(clientId: clientA)),
         );

@@ -114,7 +114,7 @@ void main() {
 
     group('getByClient', () {
       test('returns records for specified client', () async {
-        final clientId = 'client-by-client-unique';
+        const clientId = 'client-by-client-unique';
         final r1 = createRecord(clientId: clientId);
         final r2 = createRecord(clientId: clientId);
         await database.nriTaxDao.insertRecord(NriTaxMapper.toCompanion(r1));
@@ -129,8 +129,8 @@ void main() {
       });
 
       test('filters by client correctly', () async {
-        final clientA = 'nri-client-filter-a';
-        final clientB = 'nri-client-filter-b';
+        const clientA = 'nri-client-filter-a';
+        const clientB = 'nri-client-filter-b';
         await database.nriTaxDao.insertRecord(
           NriTaxMapper.toCompanion(createRecord(clientId: clientA)),
         );

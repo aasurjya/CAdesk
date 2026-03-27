@@ -57,7 +57,7 @@ class RefundTrackerScreen extends ConsumerWidget {
             const SizedBox(height: 20),
 
             // Per-refund timelines
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Refund Status',
               icon: Icons.account_balance_wallet_rounded,
             ),
@@ -352,7 +352,7 @@ class _EmptyRefunds extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            Icon(
+            const Icon(
               Icons.account_balance_wallet_outlined,
               size: 48,
               color: AppColors.neutral300,

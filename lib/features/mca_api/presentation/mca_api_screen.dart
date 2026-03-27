@@ -52,7 +52,7 @@ class McaApiScreen extends ConsumerWidget {
           children: [
             _McaBanner(),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'CIN / Company Search',
               icon: Icons.business_rounded,
             ),
@@ -73,21 +73,21 @@ class McaApiScreen extends ConsumerWidget {
               error: (e, _) => _ErrorCard(message: e.toString()),
             ),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Director DIN Lookup',
               icon: Icons.person_search_rounded,
             ),
             const SizedBox(height: 10),
             _DirectorLookupCard(directorResult: directorResult, ref: ref),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Filing History',
               icon: Icons.history_rounded,
             ),
             const SizedBox(height: 10),
             _FilingHistoryCard(filingHistory: filingHistory, ref: ref),
             const SizedBox(height: 20),
-            _SectionHeader(
+            const _SectionHeader(
               title: 'Annual Return Compliance',
               icon: Icons.verified_rounded,
             ),
@@ -475,7 +475,7 @@ class _ComplianceCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.check_circle_rounded,
                   color: AppColors.success,
                   size: 20,
@@ -491,14 +491,14 @@ class _ComplianceCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            _ComplianceRow(form: 'MGT-7', status: 'Filed', isFiled: true),
-            _ComplianceRow(form: 'AOC-4', status: 'Filed', isFiled: true),
-            _ComplianceRow(
+            const _ComplianceRow(form: 'MGT-7', status: 'Filed', isFiled: true),
+            const _ComplianceRow(form: 'AOC-4', status: 'Filed', isFiled: true),
+            const _ComplianceRow(
               form: 'DIR-3 KYC',
               status: 'Pending',
               isFiled: false,
             ),
-            _ComplianceRow(form: 'ADT-1', status: 'Filed', isFiled: true),
+            const _ComplianceRow(form: 'ADT-1', status: 'Filed', isFiled: true),
           ],
         ),
       ),

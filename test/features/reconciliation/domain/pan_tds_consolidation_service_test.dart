@@ -34,9 +34,9 @@ void main() {
     group('groupByDeductor', () {
       test('→ groups entries by TAN', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('ABC Ltd', 'TAN001', 500000, 50000, 50000),
-          _DeductorEntry('ABC Ltd', 'TAN001', 300000, 30000, 30000),
-          _DeductorEntry('XYZ Ltd', 'TAN002', 1000000, 100000, 100000),
+          const _DeductorEntry('ABC Ltd', 'TAN001', 500000, 50000, 50000),
+          const _DeductorEntry('ABC Ltd', 'TAN001', 300000, 30000, 30000),
+          const _DeductorEntry('XYZ Ltd', 'TAN002', 1000000, 100000, 100000),
         ]);
         final grouped = service.groupByDeductor(data);
         expect(grouped.keys, containsAll(['TAN001', 'TAN002']));
@@ -46,7 +46,7 @@ void main() {
 
       test('→ single entry per TAN', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Only Co', 'TAN999', 200000, 20000, 20000),
+          const _DeductorEntry('Only Co', 'TAN999', 200000, 20000, 20000),
         ]);
         final grouped = service.groupByDeductor(data);
         expect(grouped.length, 1);
@@ -54,7 +54,7 @@ void main() {
       });
 
       test('→ empty data returns empty map', () {
-        final data = Form26AsData(totalIncome: 0, entries: const []);
+        const data = Form26AsData(totalIncome: 0, entries: []);
         final grouped = service.groupByDeductor(data);
         expect(grouped, isEmpty);
       });
@@ -65,7 +65,7 @@ void main() {
     // -----------------------------------------------------------------------
     group('consolidate', () {
       test('→ returns correct pan and assessmentYear', () {
-        final data = Form26AsData(totalIncome: 0, entries: const []);
+        const data = Form26AsData(totalIncome: 0, entries: []);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.pan, 'ABCDE1234F');
         expect(result.assessmentYear, '2025-26');
@@ -73,8 +73,8 @@ void main() {
 
       test('→ totalTdsDeducted sums across all deductors', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
-          _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
+          const _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
+          const _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.totalTdsDeducted, 150000);
@@ -82,14 +82,14 @@ void main() {
 
       test('→ totalTdsCredited sums across all deductors', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry(
+          const _DeductorEntry(
             'Co A',
             'TAN001',
             500000,
             50000,
             40000,
           ), // ₹100 short credit
-          _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
+          const _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.totalTdsCredited, 140000);
@@ -97,14 +97,14 @@ void main() {
 
       test('→ shortfall = deducted - credited', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry(
+          const _DeductorEntry(
             'Co A',
             'TAN001',
             500000,
             50000,
             30000,
           ), // shortfall 20000
-          _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
+          const _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.shortfall, 20000);
@@ -112,8 +112,8 @@ void main() {
 
       test('→ zero shortfall when all TDS is credited', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
-          _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
+          const _DeductorEntry('Co A', 'TAN001', 500000, 50000, 50000),
+          const _DeductorEntry('Co B', 'TAN002', 1000000, 100000, 100000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.shortfall, 0);
@@ -121,9 +121,15 @@ void main() {
 
       test('→ deductorWiseSummary has one entry per unique TAN', () {
         final data = makeForm26AsWithEntries([
-          _DeductorEntry('Co A', 'TAN001', 100000, 10000, 10000),
-          _DeductorEntry('Co A', 'TAN001', 200000, 20000, 20000), // same TAN
-          _DeductorEntry('Co B', 'TAN002', 500000, 50000, 50000),
+          const _DeductorEntry('Co A', 'TAN001', 100000, 10000, 10000),
+          const _DeductorEntry(
+            'Co A',
+            'TAN001',
+            200000,
+            20000,
+            20000,
+          ), // same TAN
+          const _DeductorEntry('Co B', 'TAN002', 500000, 50000, 50000),
         ]);
         final result = service.consolidate(data, 'ABCDE1234F', '2025-26');
         expect(result.deductorWiseSummary, hasLength(2));

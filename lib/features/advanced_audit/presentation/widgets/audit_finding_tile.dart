@@ -85,7 +85,11 @@ class AuditFindingTile extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.reply, size: 14, color: AppColors.neutral400),
+                      const Icon(
+                        Icons.reply,
+                        size: 14,
+                        color: AppColors.neutral400,
+                      ),
                       const SizedBox(width: 6),
                       Expanded(
                         child: Text(
@@ -176,7 +180,7 @@ class _CategoryChip extends StatelessWidget {
       ),
       child: Text(
         category.label,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w500,
           color: AppColors.secondary,

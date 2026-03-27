@@ -6,7 +6,7 @@ void main() {
   group('Form3CDGenerationService', () {
     group('generateForm3CD', () {
       test('generates a form with clauses 1 through 44', () {
-        final data = BusinessData(
+        const data = BusinessData(
           clientName: 'Test Pvt Ltd',
           pan: 'AAAPL1234C',
           assessmentYear: '2025-26',
@@ -14,11 +14,11 @@ void main() {
           businessNature: 'Manufacturing',
           accountingMethod: AccountingMethod.mercantile,
           totalTurnover: 50000000000, // 50 crore in paise
-          relatedPartyPayments: const [],
-          msmePaymentsBeyond45Days: const [],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
+          relatedPartyPayments: [],
+          msmePaymentsBeyond45Days: [],
+          cashLoanReceipts: [],
+          cashLoanRepayments: [],
+          depreciationEntries: [],
           valuationMethod: InventoryValuationMethod.fifo,
         );
 
@@ -35,7 +35,7 @@ void main() {
       });
 
       test('clause 13 reflects the accounting method (mercantile)', () {
-        final data = BusinessData(
+        const data = BusinessData(
           clientName: 'ABC Ltd',
           pan: 'AAACL1234D',
           assessmentYear: '2025-26',
@@ -43,11 +43,11 @@ void main() {
           businessNature: 'Trading',
           accountingMethod: AccountingMethod.mercantile,
           totalTurnover: 10000000000,
-          relatedPartyPayments: const [],
-          msmePaymentsBeyond45Days: const [],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
+          relatedPartyPayments: [],
+          msmePaymentsBeyond45Days: [],
+          cashLoanReceipts: [],
+          cashLoanRepayments: [],
+          depreciationEntries: [],
           valuationMethod: InventoryValuationMethod.fifo,
         );
 
@@ -61,7 +61,7 @@ void main() {
       test(
         'clause 26 flags related party payments for disallowance under Sec 40A(2)',
         () {
-          final data = BusinessData(
+          const data = BusinessData(
             clientName: 'XYZ Ltd',
             pan: 'AAAXL5678B',
             assessmentYear: '2025-26',
@@ -78,10 +78,10 @@ void main() {
                 excessPaymentPaise: 50000000,
               ),
             ],
-            msmePaymentsBeyond45Days: const [],
-            cashLoanReceipts: const [],
-            cashLoanRepayments: const [],
-            depreciationEntries: const [],
+            msmePaymentsBeyond45Days: [],
+            cashLoanReceipts: [],
+            cashLoanRepayments: [],
+            depreciationEntries: [],
             valuationMethod: InventoryValuationMethod.fifo,
           );
 
@@ -95,7 +95,7 @@ void main() {
       );
 
       test('clause 36 flags MSME payments beyond 45 days under Sec 43B(h)', () {
-        final data = BusinessData(
+        const data = BusinessData(
           clientName: 'PQR Ltd',
           pan: 'AAAPQ9012E',
           assessmentYear: '2025-26',
@@ -103,7 +103,7 @@ void main() {
           businessNature: 'Manufacturing',
           accountingMethod: AccountingMethod.mercantile,
           totalTurnover: 8000000000,
-          relatedPartyPayments: const [],
+          relatedPartyPayments: [],
           msmePaymentsBeyond45Days: [
             MsmePayment(
               supplierName: 'Small Supplier',
@@ -111,9 +111,9 @@ void main() {
               dueDateExceededBy: 20,
             ),
           ],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
+          cashLoanReceipts: [],
+          cashLoanRepayments: [],
+          depreciationEntries: [],
           valuationMethod: InventoryValuationMethod.fifo,
         );
 
@@ -185,7 +185,7 @@ void main() {
       });
 
       test('no related party payments means clause 26 has no disclosures', () {
-        final data = BusinessData(
+        const data = BusinessData(
           clientName: 'Clean Ltd',
           pan: 'AAACL9999H',
           assessmentYear: '2025-26',
@@ -193,11 +193,11 @@ void main() {
           businessNature: 'IT Services',
           accountingMethod: AccountingMethod.mercantile,
           totalTurnover: 3000000000,
-          relatedPartyPayments: const [],
-          msmePaymentsBeyond45Days: const [],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
+          relatedPartyPayments: [],
+          msmePaymentsBeyond45Days: [],
+          cashLoanReceipts: [],
+          cashLoanRepayments: [],
+          depreciationEntries: [],
           valuationMethod: InventoryValuationMethod.fifo,
         );
 
@@ -208,7 +208,7 @@ void main() {
       });
 
       test('Form3CD is immutable — copyWith preserves other fields', () {
-        final data = BusinessData(
+        const data = BusinessData(
           clientName: 'Test Ltd',
           pan: 'AAATL1111I',
           assessmentYear: '2025-26',
@@ -216,11 +216,11 @@ void main() {
           businessNature: 'Trading',
           accountingMethod: AccountingMethod.mercantile,
           totalTurnover: 1000000000,
-          relatedPartyPayments: const [],
-          msmePaymentsBeyond45Days: const [],
-          cashLoanReceipts: const [],
-          cashLoanRepayments: const [],
-          depreciationEntries: const [],
+          relatedPartyPayments: [],
+          msmePaymentsBeyond45Days: [],
+          cashLoanReceipts: [],
+          cashLoanRepayments: [],
+          depreciationEntries: [],
           valuationMethod: InventoryValuationMethod.fifo,
         );
 

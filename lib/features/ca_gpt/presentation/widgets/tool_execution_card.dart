@@ -35,7 +35,7 @@ class _ToolExecutionCardState extends State<ToolExecutionCard> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.build_circle_outlined,
                     size: 16,
                     color: AppColors.neutral600,
@@ -103,7 +103,11 @@ class _ToolCallRow extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               if (call.result != null)
-                Icon(Icons.check_circle, size: 14, color: AppColors.success),
+                const Icon(
+                  Icons.check_circle,
+                  size: 14,
+                  color: AppColors.success,
+                ),
             ],
           ),
           if (call.result != null) ...[

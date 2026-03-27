@@ -124,6 +124,33 @@ class PortalWebViewController {
   }
 
   // ---------------------------------------------------------------------------
+  // Wait for element disappearance
+  // ---------------------------------------------------------------------------
+
+  /// Polls the page every 500 ms until the element matching [cssSelector]
+  /// is no longer present, or until [timeout] elapses.
+  ///
+  /// Used for CAPTCHA handling: waits until the CA has solved the CAPTCHA
+  /// and the CAPTCHA element is removed from the DOM.
+  ///
+  /// Returns normally when the element disappears. Throws
+  /// [WebViewElementNotFoundException] if the element is still present after
+  /// [timeout].
+  Future<void> waitForElementDisappearance(
+    String cssSelector, {
+    Duration timeout = const Duration(minutes: 5),
+  }) async {
+    final deadline = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(deadline)) {
+      final script = PortalJsScripts.buildElementExistsScript(cssSelector);
+      final exists = await evalJs(script);
+      if (exists != true) return;
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    }
+    throw WebViewElementNotFoundException(cssSelector, timeout);
+  }
+
+  // ---------------------------------------------------------------------------
   // Fill field
   // ---------------------------------------------------------------------------
 

@@ -170,7 +170,7 @@ class ComplianceAlertService {
       // ------------------------------------------------------------------
       // Finance Act 2024 — STCG/LTCG Rate Change
       // ------------------------------------------------------------------
-      ComplianceAlert(
+      const ComplianceAlert(
         alertId: 'alert-cgrates-2024',
         title: 'Finance Act 2024: New STCG (20%) and LTCG (12.5%) Rates',
         description:
@@ -182,14 +182,7 @@ class ComplianceAlertService {
         alertType: AlertType.rateChange,
         dueDate: null,
         daysRemaining: null,
-        applicableTo: const [
-          'Individual',
-          'HUF',
-          'Firm',
-          'LLP',
-          'Company',
-          'NRI',
-        ],
+        applicableTo: ['Individual', 'HUF', 'Firm', 'LLP', 'Company', 'NRI'],
         penaltyIfMissed:
             'Underpayment of advance tax; interest under 234B/234C',
         priority: AlertPriority.critical,

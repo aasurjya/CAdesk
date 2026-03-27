@@ -119,7 +119,7 @@ void main() {
 
     group('getByFiling', () {
       test('returns records for specific filing', () async {
-        final filingId = 'post-filing-test-filing-1';
+        const filingId = 'post-filing-test-filing-1';
         final r1 = createTestRecord(filingId: filingId);
         final r2 = createTestRecord(filingId: filingId);
         await database.postFilingRecordsDao.insertRecord(
@@ -143,8 +143,8 @@ void main() {
       });
 
       test('filters records by filing correctly', () async {
-        final filingA = 'post-filing-fa-1';
-        final filingB = 'post-filing-fb-1';
+        const filingA = 'post-filing-fa-1';
+        const filingB = 'post-filing-fb-1';
         final r1 = createTestRecord(filingId: filingA);
         final r2 = createTestRecord(filingId: filingB);
         await database.postFilingRecordsDao.insertRecord(
@@ -163,7 +163,7 @@ void main() {
 
     group('getByClient', () {
       test('returns records for specific client', () async {
-        final clientId = 'post-filing-client-a';
+        const clientId = 'post-filing-client-a';
         final r1 = createTestRecord(clientId: clientId);
         final r2 = createTestRecord(clientId: clientId);
         await database.postFilingRecordsDao.insertRecord(
@@ -371,13 +371,13 @@ void main() {
       });
 
       test('all PostFilingActivity values are distinct', () {
-        final activities = PostFilingActivity.values;
+        const activities = PostFilingActivity.values;
         final names = activities.map((a) => a.name).toSet();
         expect(names.length, activities.length);
       });
 
       test('all PostFilingStatus values are distinct', () {
-        final statuses = PostFilingStatus.values;
+        const statuses = PostFilingStatus.values;
         final names = statuses.map((s) => s.name).toSet();
         expect(names.length, statuses.length);
       });

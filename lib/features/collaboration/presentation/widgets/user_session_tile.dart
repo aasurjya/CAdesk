@@ -69,7 +69,7 @@ class UserSessionTile extends StatelessWidget {
                       Row(
                         children: [
                           if (session.currentModule != null) ...[
-                            Icon(
+                            const Icon(
                               Icons.grid_view_rounded,
                               size: 12,
                               color: AppColors.neutral400,
@@ -87,7 +87,7 @@ class UserSessionTile extends StatelessWidget {
                               session.location != null)
                             const SizedBox(width: 8),
                           if (session.location != null) ...[
-                            Icon(
+                            const Icon(
                               Icons.location_on_rounded,
                               size: 12,
                               color: AppColors.neutral400,
@@ -102,7 +102,7 @@ class UserSessionTile extends StatelessWidget {
                             ),
                           ],
                           const Spacer(),
-                          Icon(
+                          const Icon(
                             Icons.access_time_rounded,
                             size: 12,
                             color: AppColors.neutral400,

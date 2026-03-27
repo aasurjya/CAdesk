@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/filing/data/services/draft_storage_service.dart';
 import 'package:ca_app/features/filing/domain/models/filing_job.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/personal_info.dart';
@@ -7,6 +10,7 @@ import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/house_property_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/other_source_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/chapter_via_deductions.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/tds_payment_summary.dart';
 import 'package:ca_app/features/filing/domain/models/tax_regime_result.dart';
 import 'package:ca_app/features/filing/domain/models/interest_result.dart';
 import 'package:ca_app/features/filing/domain/services/tax_computation_engine.dart';
@@ -19,6 +23,68 @@ import 'package:ca_app/features/income_tax/domain/models/itr_type.dart';
 
 final _kNow = DateTime(2026, 3, 11);
 
+final _kSampleItr1 = Itr1FormData(
+  personalInfo: PersonalInfo(
+    firstName: 'Ramesh',
+    middleName: '',
+    lastName: 'Kumar',
+    pan: 'ABCPK1234F',
+    aadhaarNumber: '9876 5432 1012',
+    dateOfBirth: DateTime(1985, 6, 15),
+    email: 'ramesh.kumar@example.com',
+    mobile: '9876543210',
+    flatDoorBlock: '12-A, Sunrise Apartments',
+    street: 'MG Road',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    pincode: '560001',
+    employerName: 'TechCorp India Pvt Ltd',
+    employerTan: 'BLRT01234A',
+    bankAccountNumber: '50100012345678',
+    bankIfsc: 'HDFC0001234',
+    bankName: 'HDFC Bank',
+  ),
+  salaryIncome: const SalaryIncome(
+    grossSalary: 2400000,
+    allowancesExemptUnderSection10: 120000,
+    valueOfPerquisites: 0,
+    profitsInLieuOfSalary: 0,
+    standardDeduction: 75000,
+  ),
+  housePropertyIncome: const HousePropertyIncome(
+    annualLetableValue: 0,
+    municipalTaxesPaid: 0,
+    interestOnLoan: 0,
+  ),
+  otherSourceIncome: const OtherSourceIncome(
+    savingsAccountInterest: 18000,
+    fixedDepositInterest: 55000,
+    dividendIncome: 12000,
+    familyPension: 0,
+    otherIncome: 0,
+  ),
+  deductions: const ChapterViaDeductions(
+    section80C: 150000,
+    section80CCD1B: 50000,
+    section80DSelf: 25000,
+    section80DParents: 0,
+    section80E: 0,
+    section80G: 5000,
+    section80TTA: 10000,
+    section80TTB: 0,
+  ),
+  selectedRegime: TaxRegime.newRegime,
+  tdsPaymentSummary: const TdsPaymentSummary(
+    tdsOnSalary: 180000,
+    tdsOnOtherIncome: 5500,
+    advanceTaxQ1: 0,
+    advanceTaxQ2: 0,
+    advanceTaxQ3: 0,
+    advanceTaxQ4: 0,
+    selfAssessmentTax: 0,
+  ),
+);
+
 final _mockJobs = <FilingJob>[
   FilingJob(
     id: 'job-001',
@@ -30,6 +96,7 @@ final _mockJobs = <FilingJob>[
     status: FilingJobStatus.draft,
     createdAt: _kNow.subtract(const Duration(days: 5)),
     updatedAt: _kNow.subtract(const Duration(days: 1)),
+    itr1Data: _kSampleItr1,
   ),
   FilingJob(
     id: 'job-002',
@@ -132,35 +199,75 @@ final activeFilingJobProvider = Provider<FilingJob?>((ref) {
 // ---------------------------------------------------------------------------
 
 class Itr1FormDataNotifier extends Notifier<Itr1FormData> {
+  Timer? _debounce;
+
   @override
   Itr1FormData build() => Itr1FormData.empty();
 
+  /// Load a previously saved draft from local storage, falling back to
+  /// the in-memory [FilingJob.itr1Data] if no persisted draft exists.
+  Future<void> loadDraft(String jobId) async {
+    final saved = await DraftStorageService.loadDraft(jobId);
+    if (saved != null) {
+      state = saved;
+      return;
+    }
+    // Fall back to form data attached to the in-memory job.
+    final job = ref.read(activeFilingJobProvider);
+    if (job?.itr1Data != null) {
+      state = job!.itr1Data!;
+    }
+  }
+
   void reset() {
+    _debounce?.cancel();
     state = Itr1FormData.empty();
   }
 
   void updatePersonalInfo(PersonalInfo info) {
     state = state.copyWith(personalInfo: info);
+    _scheduleSave();
   }
 
   void updateSalaryIncome(SalaryIncome income) {
     state = state.copyWith(salaryIncome: income);
+    _scheduleSave();
   }
 
   void updateHouseProperty(HousePropertyIncome hp) {
     state = state.copyWith(housePropertyIncome: hp);
+    _scheduleSave();
   }
 
   void updateOtherSources(OtherSourceIncome os) {
     state = state.copyWith(otherSourceIncome: os);
+    _scheduleSave();
   }
 
   void updateDeductions(ChapterViaDeductions d) {
     state = state.copyWith(deductions: d);
+    _scheduleSave();
   }
 
   void updateRegime(TaxRegime regime) {
     state = state.copyWith(selectedRegime: regime);
+    _scheduleSave();
+  }
+
+  void updateTdsPaymentSummary(TdsPaymentSummary tds) {
+    state = state.copyWith(tdsPaymentSummary: tds);
+    _scheduleSave();
+  }
+
+  /// Debounced auto-save: waits 500ms after last change before persisting.
+  void _scheduleSave() {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final jobId = ref.read(activeFilingJobIdProvider);
+      if (jobId != null) {
+        DraftStorageService.saveDraft(jobId, state);
+      }
+    });
   }
 }
 
@@ -183,17 +290,20 @@ final liveTaxComputationProvider = Provider<TaxRegimeResult>((ref) {
 // Derived: live interest computation
 // ---------------------------------------------------------------------------
 
-/// Computes Sections 234A/B/C interest based on the recommended regime tax.
+/// Computes Sections 234A/B/C interest based on the selected regime tax and
+/// TDS/advance tax actually paid.
 final liveInterestProvider = Provider<InterestResult>((ref) {
+  final formData = ref.watch(itr1FormDataProvider);
   final taxResult = ref.watch(liveTaxComputationProvider);
-  final taxPayable = taxResult.recommendedRegime == TaxRegime.newRegime
+  final selectedTax = formData.selectedRegime == TaxRegime.newRegime
       ? taxResult.newRegimeTax
       : taxResult.oldRegimeTax;
+  final tds = formData.tdsPaymentSummary;
 
   return InterestComputationService.compute(
-    taxPayable: taxPayable,
-    advanceTaxPaid: 0,
-    advanceTaxByQuarter: [0, 0, 0, 0],
+    taxPayable: selectedTax,
+    advanceTaxPaid: tds.totalAdvanceTax,
+    advanceTaxByQuarter: tds.advanceTaxByQuarter,
     filingDate: DateTime(2026, 7, 31),
     dueDate: DateTime(2026, 7, 31),
     assessmentYearStart: DateTime(2026, 4, 1),
@@ -213,7 +323,7 @@ class _WizardStepNotifier extends Notifier<int> {
   void goTo(int step) => state = step;
 }
 
-/// Zero-based index of the currently visible wizard step (0..6).
+/// Zero-based index of the currently visible wizard step (0..7).
 final wizardStepProvider = NotifierProvider<_WizardStepNotifier, int>(
   _WizardStepNotifier.new,
 );

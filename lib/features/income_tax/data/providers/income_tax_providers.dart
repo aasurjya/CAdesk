@@ -119,8 +119,8 @@ final itrSummaryProvider = Provider<ItrSummary>((ref) {
 
   // Overdue: pending/inProgress and past the typical July 31 deadline.
   final now = DateTime.now();
-  final deadlineMonth = 7;
-  final deadlineDay = 31;
+  const deadlineMonth = 7;
+  const deadlineDay = 31;
   final deadline = DateTime(now.year, deadlineMonth, deadlineDay);
   final overdue = clients
       .where(
@@ -191,7 +191,7 @@ final _mockClients = <ItrClient>[
     filedDate: DateTime(2025, 7, 20),
     acknowledgementNumber: 'ACK2025072000002',
   ),
-  ItrClient(
+  const ItrClient(
     id: '3',
     name: 'Amit Patel',
     pan: 'CFGPP9012M',
@@ -221,7 +221,7 @@ final _mockClients = <ItrClient>[
     filedDate: DateTime(2025, 6, 28),
     acknowledgementNumber: 'ACK2025062800004',
   ),
-  ItrClient(
+  const ItrClient(
     id: '5',
     name: 'Vikram Singh Rathore',
     pan: 'EKRPV7890P',
@@ -267,7 +267,7 @@ final _mockClients = <ItrClient>[
     filedDate: DateTime(2025, 7, 10),
     acknowledgementNumber: 'ACK2025071000007',
   ),
-  ItrClient(
+  const ItrClient(
     id: '8',
     name: 'Deepika Iyer',
     pan: 'HQIPD1234S',

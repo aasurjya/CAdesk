@@ -84,4 +84,22 @@ class SalaryIncome {
     profitsInLieuOfSalary,
     standardDeduction,
   );
+
+  Map<String, dynamic> toJson() => {
+    'grossSalary': grossSalary,
+    'allowancesExemptUnderSection10': allowancesExemptUnderSection10,
+    'valueOfPerquisites': valueOfPerquisites,
+    'profitsInLieuOfSalary': profitsInLieuOfSalary,
+    'standardDeduction': standardDeduction,
+  };
+
+  factory SalaryIncome.fromJson(Map<String, dynamic> json) => SalaryIncome(
+    grossSalary: (json['grossSalary'] as num?)?.toDouble() ?? 0,
+    allowancesExemptUnderSection10:
+        (json['allowancesExemptUnderSection10'] as num?)?.toDouble() ?? 0,
+    valueOfPerquisites: (json['valueOfPerquisites'] as num?)?.toDouble() ?? 0,
+    profitsInLieuOfSalary:
+        (json['profitsInLieuOfSalary'] as num?)?.toDouble() ?? 0,
+    standardDeduction: (json['standardDeduction'] as num?)?.toDouble() ?? 75000,
+  );
 }

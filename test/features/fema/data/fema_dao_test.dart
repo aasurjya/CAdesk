@@ -97,7 +97,7 @@ void main() {
 
     group('getFemaFilingsByClient', () {
       test('returns filings for specific client', () async {
-        final clientId = 'fema-by-client-x';
+        const clientId = 'fema-by-client-x';
         final f1 = createTestFiling(clientId: clientId);
         final f2 = createTestFiling(clientId: clientId);
         await database.femaDao.insertFemaFiling(FemaMapper.toCompanion(f1));
@@ -115,8 +115,8 @@ void main() {
       });
 
       test('filters filings by client correctly', () async {
-        final clientA = 'fema-filter-a';
-        final clientB = 'fema-filter-b';
+        const clientA = 'fema-filter-a';
+        const clientB = 'fema-filter-b';
         await database.femaDao.insertFemaFiling(
           FemaMapper.toCompanion(createTestFiling(clientId: clientA)),
         );

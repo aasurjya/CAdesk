@@ -297,10 +297,10 @@ class _ScopeItemTile extends StatelessWidget {
                       _InScopeChip(isInScope: item.isInScope),
                       if (item.billedExtra) ...[
                         const SizedBox(width: 8),
-                        _BilledExtraChip(),
+                        const _BilledExtraChip(),
                       ],
                       const Spacer(),
-                      Icon(
+                      const Icon(
                         Icons.calendar_today_rounded,
                         size: 11,
                         color: AppColors.neutral400,

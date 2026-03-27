@@ -95,7 +95,7 @@ class VaptScanTile extends StatelessWidget {
               // Bottom row: scan date, remediation deadline, vendor
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_today_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -109,7 +109,7 @@ class VaptScanTile extends StatelessWidget {
                   ),
                   if (scan.remediationDeadline != null) ...[
                     const SizedBox(width: 12),
-                    Icon(
+                    const Icon(
                       Icons.warning_amber_rounded,
                       size: 12,
                       color: AppColors.error,
@@ -125,7 +125,7 @@ class VaptScanTile extends StatelessWidget {
                   ],
                   const Spacer(),
                   if (scan.vendor != null && scan.scope != null) ...[
-                    Icon(
+                    const Icon(
                       Icons.business_outlined,
                       size: 12,
                       color: AppColors.neutral400,

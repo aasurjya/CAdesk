@@ -195,15 +195,15 @@ class _InvoiceDetailSheetState extends ConsumerState<InvoiceDetailSheet> {
     return Container(
       color: AppColors.neutral50,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      child: Row(
+      child: const Row(
         children: [
-          const Expanded(flex: 3, child: Text('Description', style: style)),
-          const _HeaderCell('Taxable'),
-          const _HeaderCell('GST%'),
-          const _HeaderCell('CGST'),
-          const _HeaderCell('SGST'),
-          const _HeaderCell('IGST'),
-          const _HeaderCell('Total'),
+          Expanded(flex: 3, child: Text('Description', style: style)),
+          _HeaderCell('Taxable'),
+          _HeaderCell('GST%'),
+          _HeaderCell('CGST'),
+          _HeaderCell('SGST'),
+          _HeaderCell('IGST'),
+          _HeaderCell('Total'),
         ],
       ),
     );

@@ -164,7 +164,7 @@ void main() {
     });
 
     test('preserves itemId, clientName, pan, payload', () {
-      final item = BatchJobItem(
+      const item = BatchJobItem(
         itemId: 'i-99',
         clientName: 'Sharma',
         pan: 'ABCSH9999X',

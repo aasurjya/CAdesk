@@ -88,7 +88,7 @@ class ArticleTile extends StatelessWidget {
                           .toList(),
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.person_outline,
                     size: 14,
                     color: AppColors.neutral400,

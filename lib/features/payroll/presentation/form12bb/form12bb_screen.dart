@@ -243,18 +243,12 @@ class _Form12bbScreenState extends ConsumerState<Form12bbScreen> {
         TextFormField(
           controller: _landlordPanCtrl,
           textCapitalization: TextCapitalization.characters,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Landlord PAN',
             helperText: 'Required if rent > ₹1,00,000/year',
-            helperStyle: const TextStyle(
-              fontSize: 11,
-              color: AppColors.neutral400,
-            ),
-            border: const OutlineInputBorder(),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 12,
-            ),
+            helperStyle: TextStyle(fontSize: 11, color: AppColors.neutral400),
+            border: OutlineInputBorder(),
+            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
           validator: (value) {
             final rent = _toPaise(_rentCtrl.text);
@@ -539,7 +533,7 @@ class _SectionTile extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: AppColors.neutral200),
+        side: const BorderSide(color: AppColors.neutral200),
       ),
       child: ExpansionTile(
         leading: Icon(icon, size: 20, color: AppColors.primary),

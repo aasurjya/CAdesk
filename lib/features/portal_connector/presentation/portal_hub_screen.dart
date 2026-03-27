@@ -56,7 +56,10 @@ class PortalHubScreen extends ConsumerWidget {
               allHealthy: allHealthy,
             ),
             const SizedBox(height: 16),
-            _SectionHeader(title: 'Connected Portals', icon: Icons.hub_rounded),
+            const _SectionHeader(
+              title: 'Connected Portals',
+              icon: Icons.hub_rounded,
+            ),
             const SizedBox(height: 10),
             _PortalGrid(connections: connections),
             const SizedBox(height: 24),

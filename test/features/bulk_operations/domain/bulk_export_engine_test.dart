@@ -97,7 +97,7 @@ void main() {
   group('BulkExportEngine.processExportItem', () {
     test('returns item with completed status on success', () {
       final engine = BulkExportEngine();
-      final item = BatchJobItem(
+      const item = BatchJobItem(
         itemId: 'i-1',
         clientName: 'Test',
         pan: 'ABCDE1234F',
@@ -111,7 +111,7 @@ void main() {
 
     test('returns new item object — original not mutated', () {
       final engine = BulkExportEngine();
-      final item = BatchJobItem(
+      const item = BatchJobItem(
         itemId: 'i-1',
         clientName: 'Test',
         pan: 'ABCDE1234F',
@@ -125,7 +125,7 @@ void main() {
 
     test('completed item has non-null completedAt', () {
       final engine = BulkExportEngine();
-      final item = BatchJobItem(
+      const item = BatchJobItem(
         itemId: 'i-1',
         clientName: 'Test',
         pan: 'ABCDE1234F',

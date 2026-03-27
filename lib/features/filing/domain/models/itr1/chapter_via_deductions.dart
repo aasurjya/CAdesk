@@ -178,4 +178,27 @@ class ChapterViaDeductions {
     section80TTA,
     section80TTB,
   );
+
+  Map<String, dynamic> toJson() => {
+    'section80C': section80C,
+    'section80CCD1B': section80CCD1B,
+    'section80DSelf': section80DSelf,
+    'section80DParents': section80DParents,
+    'section80E': section80E,
+    'section80G': section80G,
+    'section80TTA': section80TTA,
+    'section80TTB': section80TTB,
+  };
+
+  factory ChapterViaDeductions.fromJson(Map<String, dynamic> json) =>
+      ChapterViaDeductions(
+        section80C: (json['section80C'] as num?)?.toDouble() ?? 0,
+        section80CCD1B: (json['section80CCD1B'] as num?)?.toDouble() ?? 0,
+        section80DSelf: (json['section80DSelf'] as num?)?.toDouble() ?? 0,
+        section80DParents: (json['section80DParents'] as num?)?.toDouble() ?? 0,
+        section80E: (json['section80E'] as num?)?.toDouble() ?? 0,
+        section80G: (json['section80G'] as num?)?.toDouble() ?? 0,
+        section80TTA: (json['section80TTA'] as num?)?.toDouble() ?? 0,
+        section80TTB: (json['section80TTB'] as num?)?.toDouble() ?? 0,
+      );
 }

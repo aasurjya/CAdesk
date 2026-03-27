@@ -8,7 +8,7 @@ import 'package:ca_app/features/esg_reporting/domain/models/esg_disclosure.dart'
 // ---------------------------------------------------------------------------
 
 final List<EsgDisclosure> _mockDisclosures = [
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-001',
     clientName: 'Tata Consultancy Services Ltd',
     clientPan: 'AAACT2727Q',
@@ -20,12 +20,12 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 87,
     status: 'Filed',
     sebiCategory: 'BRSR Core',
-    pendingItems: const [
+    pendingItems: [
       'Supplier ESG questionnaire responses pending',
       'Biodiversity impact assessment to be attached',
     ],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-002',
     clientName: 'Infosys Ltd',
     clientPan: 'AAACI1680H',
@@ -37,9 +37,9 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 84.67,
     status: 'Published',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const ['Third-party assurance certificate upload'],
+    pendingItems: ['Third-party assurance certificate upload'],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-003',
     clientName: 'Reliance Industries Ltd',
     clientPan: 'AAACR5055K',
@@ -51,13 +51,13 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 77,
     status: 'Under Review',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const [
+    pendingItems: [
       'Water consumption data for Jamnagar complex',
       'Community development spend reconciliation',
       'Board diversity disclosure update',
     ],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-004',
     clientName: 'Mahindra & Mahindra Ltd',
     clientPan: 'AABCM5716D',
@@ -69,14 +69,14 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 81,
     status: 'Draft',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const [
+    pendingItems: [
       'EV fleet transition metrics to be validated',
       'Supply chain Scope 3 data collection in progress',
       'Stakeholder grievance redressal report pending',
       'Independent director ESG training records',
     ],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-005',
     clientName: 'HDFC Bank Ltd',
     clientPan: 'AAACH2702H',
@@ -88,12 +88,12 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 81.67,
     status: 'Filed',
     sebiCategory: 'Voluntary',
-    pendingItems: const [
+    pendingItems: [
       'Green finance portfolio classification update',
       'Financed emissions methodology note',
     ],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-006',
     clientName: 'Wipro Ltd',
     clientPan: 'AAACW0325H',
@@ -105,9 +105,9 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 83,
     status: 'Published',
     sebiCategory: 'BRSR Core',
-    pendingItems: const [],
+    pendingItems: [],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-007',
     clientName: 'Sun Pharmaceutical Industries Ltd',
     clientPan: 'AAECS8712C',
@@ -119,13 +119,13 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 73.33,
     status: 'Under Review',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const [
+    pendingItems: [
       'Hazardous waste disposal audit report',
       'API manufacturing effluent treatment data',
       'Employee health & safety incident log reconciliation',
     ],
   ),
-  EsgDisclosure(
+  const EsgDisclosure(
     id: 'esg-008',
     clientName: 'Larsen & Toubro Construction',
     clientPan: 'AAACL0582H',
@@ -137,7 +137,7 @@ final List<EsgDisclosure> _mockDisclosures = [
     overallScore: 73.67,
     status: 'Draft',
     sebiCategory: 'Listed Top 1000',
-    pendingItems: const [
+    pendingItems: [
       'Site-level energy consumption data consolidation',
       'Cement & steel embodied carbon calculation',
       'Migrant worker welfare compliance certificates',

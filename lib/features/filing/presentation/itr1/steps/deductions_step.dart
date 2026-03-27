@@ -6,7 +6,9 @@ import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/core/utils/currency_utils.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/chapter_via_deductions.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/field_help_texts.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/presentation/widgets/field_help_tooltip.dart';
 
 class DeductionsStep extends ConsumerStatefulWidget {
   const DeductionsStep({super.key});
@@ -79,8 +81,9 @@ class _DeductionsStepState extends ConsumerState<DeductionsStep> {
   Widget _deductionField(
     String label,
     TextEditingController ctrl,
-    String maxHint,
-  ) {
+    String maxHint, {
+    String? helpText,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: TextFormField(
@@ -91,9 +94,12 @@ class _DeductionsStepState extends ConsumerState<DeductionsStep> {
           labelText: label,
           hintText: '0',
           helperText: maxHint,
-          prefixText: '₹ ',
+          prefixText: '\u20b9 ',
           border: const OutlineInputBorder(),
           isDense: true,
+          suffixIcon: helpText != null
+              ? FieldHelpTooltip(helpText: helpText)
+              : null,
         ),
         onChanged: (_) => _persist(),
       ),
@@ -156,7 +162,8 @@ class _DeductionsStepState extends ConsumerState<DeductionsStep> {
           _deductionField(
             '80C — PPF, ELSS, LIC, NSC, etc.',
             _c80CCtrl,
-            'Max ₹1,50,000',
+            'Max \u20b91,50,000',
+            helpText: Itr1HelpTexts.section80C,
           ),
           _deductionField(
             '80CCD(1B) — NPS Contribution (additional)',
@@ -167,7 +174,8 @@ class _DeductionsStepState extends ConsumerState<DeductionsStep> {
           _deductionField(
             '80D — Self & Family',
             _c80DSelfCtrl,
-            'Max ₹25,000 (₹50,000 if senior citizen)',
+            'Max \u20b925,000 (\u20b950,000 if senior citizen)',
+            helpText: Itr1HelpTexts.section80DSelf,
           ),
           _deductionField(
             '80D — Parents',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/core/widgets/urgency_border_card.dart';
 import 'package:ca_app/features/filing/domain/models/filing_hub_item.dart';
 
 /// A card widget showing an urgent filing item (overdue or due this week).
@@ -38,25 +39,19 @@ class UrgencyCard extends StatelessWidget {
     final theme = Theme.of(context);
     final dateFormatter = DateFormat('d MMM');
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
+    return UrgencyBorderCard(
+      urgencyColor: _borderColor,
+      margin: const EdgeInsets.only(right: 12),
+      elevation: 2,
+      onTap: onTap,
+      child: Material(
+        color: Colors.transparent,
         child: Container(
           width: 200,
-          margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: _borderColor, width: 1.5),
-            boxShadow: const [
-              BoxShadow(
-                color: AppColors.shadow,
-                blurRadius: 8,
-                offset: Offset(0, 2),
-              ),
-            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(14),

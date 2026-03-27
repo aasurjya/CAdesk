@@ -120,6 +120,14 @@ final _mockFilingItems = <FilingHubItem>[
 
   // --- In Progress ---
   FilingHubItem(
+    id: 'job-001',
+    clientName: 'Ramesh Kumar',
+    filingType: FilingCategory.itr,
+    subType: 'ITR-1',
+    status: FilingHubStatus.inProgress,
+    dueDate: DateTime(_year, 7, 31),
+  ),
+  FilingHubItem(
     id: 'fh-005',
     clientName: 'Gupta Enterprises',
     filingType: FilingCategory.itr,

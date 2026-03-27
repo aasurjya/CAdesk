@@ -254,7 +254,11 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              Icon(Icons.info_outline, color: AppColors.warning, size: 32),
+              const Icon(
+                Icons.info_outline,
+                color: AppColors.warning,
+                size: 32,
+              ),
               const SizedBox(height: 8),
               Text(
                 'No payroll records found for this period',
@@ -284,7 +288,7 @@ class _PayrollPickerSheetState extends ConsumerState<_PayrollPickerSheet> {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.preview_outlined,
                   size: 18,
                   color: AppColors.primary,

@@ -69,7 +69,7 @@ class _NewBatchScreenState extends ConsumerState<NewBatchScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             // Batch type selector
-            _SectionLabel(label: 'Batch Type'),
+            const _SectionLabel(label: 'Batch Type'),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -93,7 +93,7 @@ class _NewBatchScreenState extends ConsumerState<NewBatchScreen> {
             const SizedBox(height: 20),
 
             // FY / period selector
-            _SectionLabel(label: 'Financial Year / Period'),
+            const _SectionLabel(label: 'Financial Year / Period'),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),

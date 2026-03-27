@@ -99,7 +99,7 @@ class StaffCard extends ConsumerWidget {
             // Contact row
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.email_outlined,
                   size: 14,
                   color: AppColors.neutral400,
@@ -115,7 +115,7 @@ class StaffCard extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Icon(
+                const Icon(
                   Icons.phone_outlined,
                   size: 14,
                   color: AppColors.neutral400,

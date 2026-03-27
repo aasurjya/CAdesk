@@ -123,7 +123,7 @@ class _SegmentLabels extends StatelessWidget {
     final theme = Theme.of(context);
     return Row(
       children: [
-        _LegendDot(color: AppColors.success),
+        const _LegendDot(color: AppColors.success),
         const SizedBox(width: 4),
         Text(
           'Healthy (${distribution.healthy})',
@@ -133,7 +133,7 @@ class _SegmentLabels extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        _LegendDot(color: AppColors.warning),
+        const _LegendDot(color: AppColors.warning),
         const SizedBox(width: 4),
         Text(
           'Attention (${distribution.attention})',
@@ -143,7 +143,7 @@ class _SegmentLabels extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 12),
-        _LegendDot(color: AppColors.error),
+        const _LegendDot(color: AppColors.error),
         const SizedBox(width: 4),
         Text(
           'Critical (${distribution.critical})',

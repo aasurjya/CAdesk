@@ -53,7 +53,7 @@ void main() {
 
     group('insertEngagement', () {
       test('inserts and returns id', () async {
-        final engagement = Engagement(
+        const engagement = Engagement(
           id: 'test-eng-001',
           clientId: 'new-client',
           clientName: 'Test Client',
@@ -69,7 +69,7 @@ void main() {
       });
 
       test('inserted engagement is retrievable', () async {
-        final engagement = Engagement(
+        const engagement = Engagement(
           id: 'test-eng-002',
           clientId: 'insert-client',
           clientName: 'Insert Client',
@@ -100,7 +100,7 @@ void main() {
       });
 
       test('returns false for non-existent id', () async {
-        final ghost = Engagement(
+        const ghost = Engagement(
           id: 'no-such-id',
           clientId: 'x',
           clientName: 'X',

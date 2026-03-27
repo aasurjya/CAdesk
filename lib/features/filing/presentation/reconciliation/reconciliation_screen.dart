@@ -18,12 +18,12 @@ class ReconciliationScreen extends StatelessWidget {
         ),
         leading: BackButton(onPressed: () => context.pop()),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Import Tax Data',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
@@ -31,20 +31,20 @@ class ReconciliationScreen extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-            const SizedBox(height: 12),
-            const _ImportCard(
+            SizedBox(height: 12),
+            _ImportCard(
               title: 'Form 26AS',
               subtitle: 'TDS/TCS credits, advance tax, refunds',
               icon: Icons.description_outlined,
             ),
-            const SizedBox(height: 8),
-            const _ImportCard(
+            SizedBox(height: 8),
+            _ImportCard(
               title: 'Annual Information Statement (AIS)',
               subtitle: 'Salary, interest, dividends, securities, purchases',
               icon: Icons.analytics_outlined,
             ),
-            const SizedBox(height: 24),
-            const Text(
+            SizedBox(height: 24),
+            Text(
               'Reconciliation Results',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
@@ -52,21 +52,21 @@ class ReconciliationScreen extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Card(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    const ExcludeSemantics(
+                    ExcludeSemantics(
                       child: Icon(
                         Icons.compare_arrows,
                         size: 48,
                         color: AppColors.neutral300,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    const Text(
+                    SizedBox(height: 12),
+                    Text(
                       'Import 26AS or AIS data to begin reconciliation',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -74,8 +74,8 @@ class ReconciliationScreen extends StatelessWidget {
                         fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
+                    SizedBox(height: 8),
+                    Text(
                       'The engine will automatically match income entries, '
                       'identify discrepancies, and highlight under-reported '
                       'or over-reported amounts.',

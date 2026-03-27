@@ -69,7 +69,7 @@ class MaterialEventTile extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.check_circle_rounded,
                             size: 12,
                             color: AppColors.success,
@@ -139,7 +139,7 @@ class MaterialEventTile extends StatelessWidget {
               // Dates row
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.event_rounded,
                     size: 12,
                     color: AppColors.neutral400,

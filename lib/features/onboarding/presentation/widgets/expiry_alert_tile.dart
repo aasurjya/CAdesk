@@ -62,7 +62,7 @@ class ExpiryAlertTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.event_outlined,
                         size: 12,
                         color: AppColors.neutral400,
@@ -76,7 +76,7 @@ class ExpiryAlertTile extends StatelessWidget {
                       ),
                       if (expiry.reminderSentAt != null) ...[
                         const SizedBox(width: 10),
-                        Icon(
+                        const Icon(
                           Icons.notifications_outlined,
                           size: 12,
                           color: AppColors.accent,

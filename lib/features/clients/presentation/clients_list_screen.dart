@@ -351,7 +351,7 @@ class _StatusSegment extends StatelessWidget {
           onChanged(selection.first);
         },
         showSelectedIcon: false,
-        style: ButtonStyle(
+        style: const ButtonStyle(
           visualDensity: VisualDensity.compact,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),

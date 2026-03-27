@@ -60,7 +60,7 @@ class LeadTile extends StatelessWidget {
               Row(
                 children: [
                   // Estimated value
-                  Icon(
+                  const Icon(
                     Icons.currency_rupee_rounded,
                     size: 13,
                     color: AppColors.primary,
@@ -77,7 +77,7 @@ class LeadTile extends StatelessWidget {
                   const SizedBox(width: 12),
 
                   // Assigned to
-                  Icon(
+                  const Icon(
                     Icons.person_outline_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -98,7 +98,7 @@ class LeadTile extends StatelessWidget {
                   // Contact warning
                   if (overdue) ...[
                     const SizedBox(width: 8),
-                    Icon(
+                    const Icon(
                       Icons.warning_amber_rounded,
                       size: 13,
                       color: AppColors.warning,
@@ -113,7 +113,7 @@ class LeadTile extends StatelessWidget {
                     ),
                   ] else if (days != null) ...[
                     const SizedBox(width: 8),
-                    Icon(
+                    const Icon(
                       Icons.access_time_rounded,
                       size: 12,
                       color: AppColors.neutral400,

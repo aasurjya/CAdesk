@@ -8,7 +8,7 @@ import '../../domain/models/foreign_asset.dart';
 // ---------------------------------------------------------------------------
 
 final List<NriClient> _mockNriClients = [
-  NriClient(
+  const NriClient(
     id: 'nri-001',
     name: 'Suresh Krishnamurthy',
     pan: 'ABCPK1234A',
@@ -20,7 +20,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.filingDue,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-002',
     name: 'Ananya Patel',
     pan: 'DEFPA5678B',
@@ -32,7 +32,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.pendingDocuments,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-003',
     name: 'Rajiv Malhotra',
     pan: 'GHIMR9012C',
@@ -44,7 +44,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: false,
     status: NriClientStatus.active,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-004',
     name: 'Preethi Subramanian',
     pan: 'JKLPS3456D',
@@ -56,7 +56,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.completed,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-005',
     name: 'Vikram Chandra',
     pan: 'MNOVC7890E',
@@ -68,7 +68,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.filingDue,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-006',
     name: 'Meenakshi Rajan',
     pan: 'PQRMR2345F',
@@ -80,7 +80,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.pendingDocuments,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-007',
     name: 'Deepak Iyer',
     pan: 'STUDI6789G',
@@ -92,7 +92,7 @@ final List<NriClient> _mockNriClients = [
     dtaaApplicable: true,
     status: NriClientStatus.active,
   ),
-  NriClient(
+  const NriClient(
     id: 'nri-008',
     name: 'Kavitha Nambiar',
     pan: 'VWXKN0123H',
@@ -111,7 +111,7 @@ final List<NriClient> _mockNriClients = [
 // ---------------------------------------------------------------------------
 
 final List<ForeignAsset> _mockForeignAssets = [
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-001',
     clientId: 'nri-001',
     clientName: 'Suresh Krishnamurthy',
@@ -122,7 +122,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: false,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-002',
     clientId: 'nri-001',
     clientName: 'Suresh Krishnamurthy',
@@ -133,7 +133,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: true,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-003',
     clientId: 'nri-002',
     clientName: 'Ananya Patel',
@@ -144,7 +144,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: false,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-004',
     clientId: 'nri-003',
     clientName: 'Rajiv Malhotra',
@@ -154,7 +154,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: true,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-005',
     clientId: 'nri-004',
     clientName: 'Preethi Subramanian',
@@ -165,7 +165,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: true,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-006',
     clientId: 'nri-005',
     clientName: 'Vikram Chandra',
@@ -176,7 +176,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: false,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-007',
     clientId: 'nri-005',
     clientName: 'Vikram Chandra',
@@ -187,7 +187,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: true,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-008',
     clientId: 'nri-006',
     clientName: 'Meenakshi Rajan',
@@ -198,7 +198,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: true,
     reportedInItr: false,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-009',
     clientId: 'nri-007',
     clientName: 'Deepak Iyer',
@@ -208,7 +208,7 @@ final List<ForeignAsset> _mockForeignAssets = [
     scheduleFARequired: false,
     reportedInItr: true,
   ),
-  ForeignAsset(
+  const ForeignAsset(
     id: 'fa-010',
     clientId: 'nri-008',
     clientName: 'Kavitha Nambiar',

@@ -56,7 +56,7 @@ class MockEcosystemRepository implements EcosystemRepository {
       installedAt: DateTime(2025, 11, 1),
       iconColor: const Color(0xFF1565C0),
     ),
-    MarketplaceApp(
+    const MarketplaceApp(
       id: 'app-002',
       name: 'PayMaster HRMS',
       vendor: 'PayMaster Solutions',
@@ -67,7 +67,7 @@ class MockEcosystemRepository implements EcosystemRepository {
       reviewCount: 188,
       isFree: false,
       pricePerMonth: 1499,
-      iconColor: const Color(0xFF2E7D32),
+      iconColor: Color(0xFF2E7D32),
     ),
     MarketplaceApp(
       id: 'app-003',

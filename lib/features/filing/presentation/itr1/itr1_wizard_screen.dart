@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/filing/data/providers/filing_job_providers.dart';
+import 'package:ca_app/features/filing/data/services/draft_storage_service.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/personal_info_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/salary_income_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/house_property_step.dart';
@@ -11,8 +12,12 @@ import 'package:ca_app/features/filing/presentation/itr1/steps/other_sources_ste
 import 'package:ca_app/features/filing/presentation/itr1/steps/deductions_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/tax_computation_step.dart';
 import 'package:ca_app/features/filing/presentation/itr1/steps/review_export_step.dart';
+import 'package:ca_app/features/filing/presentation/itr1/steps/tds_taxes_paid_step.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/presentation/widgets/floating_tax_bar.dart';
+import 'package:ca_app/features/filing/presentation/widgets/step_completion_indicator.dart';
 
-const _kTotalSteps = 7;
+const _kTotalSteps = 8;
 
 const _kStepTitles = <String>[
   'Personal Info',
@@ -21,6 +26,7 @@ const _kStepTitles = <String>[
   'Other Sources',
   'Deductions',
   'Tax Computation',
+  'TDS & Taxes Paid',
   'Review & Export',
 ];
 
@@ -34,40 +40,68 @@ class Itr1WizardScreen extends ConsumerStatefulWidget {
 }
 
 class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
+  /// Tracks which wizard steps the user has navigated past (completed).
+  Set<int> _completedSteps = const {};
+
+  void _markStepCompleted(int step) {
+    if (!_completedSteps.contains(step)) {
+      setState(() {
+        _completedSteps = {..._completedSteps, step};
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    // Activate the job in the provider.
+    // Activate the job and load any saved draft.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(activeFilingJobIdProvider.notifier).set(widget.jobId);
       ref.read(wizardStepProvider.notifier).reset();
+      ref.read(itr1FormDataProvider.notifier).loadDraft(widget.jobId);
     });
   }
 
   @override
   void dispose() {
     // Clear active job when leaving the wizard.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(activeFilingJobIdProvider.notifier).set(null);
-    });
+    ref.read(activeFilingJobIdProvider.notifier).set(null);
     super.dispose();
   }
 
-  void _saveDraft() {
-    final job = ref.read(activeFilingJobProvider);
-    if (job == null) return;
+  Future<void> _saveDraft() async {
     final formData = ref.read(itr1FormDataProvider);
-    final updated = job.copyWith(itr1Data: formData, updatedAt: DateTime.now());
-    ref.read(filingJobsProvider.notifier).update(updated);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Draft saved')));
+    // Persist to SharedPreferences
+    await DraftStorageService.saveDraft(widget.jobId, formData);
+    // Also update in-memory job if present
+    final job = ref.read(activeFilingJobProvider);
+    if (job != null) {
+      final updated = job.copyWith(
+        itr1Data: formData,
+        updatedAt: DateTime.now(),
+      );
+      ref.read(filingJobsProvider.notifier).update(updated);
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Draft saved'),
+        backgroundColor: AppColors.success,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final step = ref.watch(wizardStepProvider);
     final job = ref.watch(activeFilingJobProvider);
+    final formData = ref.watch(itr1FormDataProvider);
+    final taxResult = ref.watch(liveTaxComputationProvider);
+
+    // Compute tax payable based on selected regime.
+    final taxPayable = formData.selectedRegime == TaxRegime.newRegime
+        ? taxResult.newRegimeTax
+        : taxResult.oldRegimeTax;
 
     return Scaffold(
       appBar: AppBar(
@@ -99,10 +133,24 @@ class _Itr1WizardScreenState extends ConsumerState<Itr1WizardScreen> {
       ),
       body: Column(
         children: [
+          StepCompletionIndicator(
+            totalSteps: _kTotalSteps,
+            currentStep: step,
+            completedSteps: _completedSteps,
+          ),
           _StepHeader(step: step),
           Expanded(child: _StepBody(step: step)),
+          FloatingTaxBar(
+            grossIncome: formData.grossTotalIncome,
+            deductions: formData.allowableDeductions,
+            taxPayable: taxPayable,
+          ),
           const Divider(height: 1),
-          _WizardNavBar(step: step, totalSteps: _kTotalSteps),
+          _WizardNavBar(
+            step: step,
+            totalSteps: _kTotalSteps,
+            onStepChange: _markStepCompleted,
+          ),
         ],
       ),
     );
@@ -174,7 +222,8 @@ class _StepBody extends StatelessWidget {
       3 => const OtherSourcesStep(),
       4 => const DeductionsStep(),
       5 => const TaxComputationStep(),
-      6 => const ReviewExportStep(),
+      6 => const TdsTaxesPaidStep(),
+      7 => const ReviewExportStep(),
       _ => const SizedBox.shrink(),
     };
   }
@@ -185,10 +234,17 @@ class _StepBody extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _WizardNavBar extends ConsumerWidget {
-  const _WizardNavBar({required this.step, required this.totalSteps});
+  const _WizardNavBar({
+    required this.step,
+    required this.totalSteps,
+    required this.onStepChange,
+  });
 
   final int step;
   final int totalSteps;
+
+  /// Called with the current step index when the user navigates away from it.
+  final ValueChanged<int> onStepChange;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -203,7 +259,10 @@ class _WizardNavBar extends ConsumerWidget {
             OutlinedButton.icon(
               onPressed: isFirst
                   ? null
-                  : () => ref.read(wizardStepProvider.notifier).goTo(step - 1),
+                  : () {
+                      onStepChange(step);
+                      ref.read(wizardStepProvider.notifier).goTo(step - 1);
+                    },
               icon: const Icon(Icons.arrow_back, size: 16),
               label: const Text('Back'),
               style: OutlinedButton.styleFrom(
@@ -213,8 +272,10 @@ class _WizardNavBar extends ConsumerWidget {
             const Spacer(),
             if (!isLast)
               FilledButton.icon(
-                onPressed: () =>
-                    ref.read(wizardStepProvider.notifier).goTo(step + 1),
+                onPressed: () {
+                  onStepChange(step);
+                  ref.read(wizardStepProvider.notifier).goTo(step + 1);
+                },
                 icon: const Icon(Icons.arrow_forward, size: 16),
                 label: const Text('Next'),
                 style: FilledButton.styleFrom(

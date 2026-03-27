@@ -82,7 +82,7 @@ class VerificationTile extends StatelessWidget {
                     ),
                   ),
                 ] else ...[
-                  Icon(
+                  const Icon(
                     Icons.check_circle_outline,
                     size: 16,
                     color: AppColors.success,

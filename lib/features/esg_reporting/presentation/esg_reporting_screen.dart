@@ -73,7 +73,7 @@ class _EsgReportingScreenState extends ConsumerState<EsgReportingScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          _DisclosuresTab(
+          const _DisclosuresTab(
             statusFilters: _statusFilters,
             statusLabels: _statusLabels,
           ),
@@ -484,7 +484,11 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.inbox_outlined, size: 48, color: AppColors.neutral300),
+          const Icon(
+            Icons.inbox_outlined,
+            size: 48,
+            color: AppColors.neutral300,
+          ),
           const SizedBox(height: 12),
           Text(
             message,

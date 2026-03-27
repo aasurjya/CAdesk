@@ -206,7 +206,7 @@ class _OrdersTab extends ConsumerWidget {
     final orders = ref.watch(filteredOrdersProvider);
     final allOrders = ref.watch(assessmentOrdersProvider);
 
-    final currentAY = 'AY 2023-24';
+    const currentAY = 'AY 2023-24';
     final ordersThisAY = allOrders
         .where((o) => o.assessmentYear == currentAY)
         .length;

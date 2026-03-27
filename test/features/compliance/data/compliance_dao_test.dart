@@ -104,8 +104,8 @@ void main() {
       });
 
       test('filters events by client correctly', () async {
-        final client1Id = 'client-filter-1';
-        final client2Id = 'client-filter-2';
+        const client1Id = 'client-filter-1';
+        const client2Id = 'client-filter-2';
         final event1 = createTestEvent(clientId: client1Id);
         final event2 = createTestEvent(clientId: client2Id);
 
@@ -146,9 +146,9 @@ void main() {
     group('getUpcomingEvents', () {
       test('returns events due within specified days', () async {
         final today = DateTime.now();
-        final inThreeDays = today.add(Duration(days: 3));
-        final inFiveDays = today.add(Duration(days: 5));
-        final inTenDays = today.add(Duration(days: 10));
+        final inThreeDays = today.add(const Duration(days: 3));
+        final inFiveDays = today.add(const Duration(days: 5));
+        final inTenDays = today.add(const Duration(days: 10));
 
         final event1 = createTestEvent(dueDate: inThreeDays);
         final event2 = createTestEvent(dueDate: inFiveDays);
@@ -169,7 +169,7 @@ void main() {
       });
 
       test('returns empty list when no upcoming events', () async {
-        final pastDate = DateTime.now().subtract(Duration(days: 10));
+        final pastDate = DateTime.now().subtract(const Duration(days: 10));
         final event = createTestEvent(
           dueDate: pastDate,
           status: ComplianceEventStatus.completed,
@@ -186,7 +186,7 @@ void main() {
 
     group('getOverdueEvents', () {
       test('returns overdue events', () async {
-        final yesterday = DateTime.now().subtract(Duration(days: 1));
+        final yesterday = DateTime.now().subtract(const Duration(days: 1));
         final event = createTestEvent(
           dueDate: yesterday,
           status: ComplianceEventStatus.pending,
@@ -200,7 +200,7 @@ void main() {
       });
 
       test('excludes completed overdue events', () async {
-        final yesterday = DateTime.now().subtract(Duration(days: 1));
+        final yesterday = DateTime.now().subtract(const Duration(days: 1));
         final event = createTestEvent(
           dueDate: yesterday,
           status: ComplianceEventStatus.completed,
@@ -214,7 +214,7 @@ void main() {
       });
 
       test('excludes future events', () async {
-        final tomorrow = DateTime.now().add(Duration(days: 1));
+        final tomorrow = DateTime.now().add(const Duration(days: 1));
         final event = createTestEvent(dueDate: tomorrow);
         await database.complianceDao.insertEvent(
           ComplianceMapper.toCompanion(event),

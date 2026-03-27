@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:ca_app/core/otp/otp_channel.dart';
 import 'package:ca_app/core/otp/otp_dialog.dart';
@@ -10,6 +12,9 @@ import 'package:ca_app/core/otp/otp_intercept_service.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_job.dart';
 import 'package:ca_app/features/portal_autosubmit/domain/models/submission_log.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/models/submission_step.dart';
+import 'package:ca_app/features/portal_autosubmit/domain/services/confirmation_gate.dart';
+import 'package:ca_app/features/portal_autosubmit/webview/file_upload_handler.dart';
 import 'package:ca_app/features/portal_autosubmit/webview/portal_webview_controller.dart';
 import 'package:ca_app/features/portal_connector/domain/models/portal_credential.dart';
 
@@ -53,6 +58,8 @@ class PortalWebViewScreen extends StatefulWidget {
     required this.job,
     required this.credential,
     this.automationRunner,
+    this.confirmationGate,
+    this.fileUploadHandler,
     this.onLog,
   });
 
@@ -67,6 +74,21 @@ class PortalWebViewScreen extends StatefulWidget {
   ///
   /// When `null`, the WebView opens in manual/preview mode with no banner.
   final AutomationRunner? automationRunner;
+
+  /// Optional confirmation gate shared with the automation service.
+  ///
+  /// When the automation pauses for review ([SubmissionStep.reviewing]),
+  /// the UI shows "Confirm & Submit" / "Cancel" buttons. Tapping confirm
+  /// calls [ConfirmationGate.confirm]; tapping cancel calls
+  /// [ConfirmationGate.reject].
+  final ConfirmationGate? confirmationGate;
+
+  /// Optional file upload handler for providing files to `<input type="file">`
+  /// elements on government portals (e.g., ITR JSON upload, FVU file, ECR).
+  ///
+  /// When the portal triggers the native file chooser, the WebView delegates
+  /// to this handler instead of showing the system picker.
+  final FileUploadHandler? fileUploadHandler;
 
   /// Optional callback receiving each [SubmissionLog] emitted by the runner.
   ///
@@ -93,6 +115,9 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   /// Whether automation is actively running.
   bool _isRunning = false;
 
+  /// Whether automation is paused for CA review before submission.
+  bool _isReviewing = false;
+
   /// Whether the page is loading (shows linear progress indicator).
   bool _isPageLoading = false;
 
@@ -107,6 +132,7 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
   void dispose() {
     _automationSub?.cancel();
     _otpService.dispose();
+    widget.confirmationGate?.dispose();
     super.dispose();
   }
 
@@ -116,7 +142,10 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
 
   void _onAutomationLog(SubmissionLog log) {
     if (!mounted) return;
-    setState(() => _bannerMessage = log.message);
+    setState(() {
+      _bannerMessage = log.message;
+      _isReviewing = log.step == SubmissionStep.reviewing;
+    });
     widget.onLog?.call(log);
   }
 
@@ -146,6 +175,24 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
     setState(() {
       _isRunning = false;
       _bannerMessage = 'Automation stopped by user';
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Review confirmation
+  // ---------------------------------------------------------------------------
+
+  void _confirmSubmission() {
+    widget.confirmationGate?.confirm();
+    setState(() => _isReviewing = false);
+  }
+
+  void _cancelSubmission() {
+    widget.confirmationGate?.reject();
+    setState(() {
+      _isReviewing = false;
+      _isRunning = false;
+      _bannerMessage = 'Submission cancelled by user';
     });
   }
 
@@ -208,7 +255,13 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
       body: Column(
         children: [
           if (_isPageLoading) const LinearProgressIndicator(minHeight: 2),
-          if (_bannerMessage != null)
+          if (_isReviewing && widget.confirmationGate != null)
+            _ReviewBanner(
+              message: _bannerMessage ?? 'Please review the filled form.',
+              onConfirm: _confirmSubmission,
+              onCancel: _cancelSubmission,
+            )
+          else if (_bannerMessage != null)
             _AutomationBanner(
               message: _bannerMessage!,
               isRunning: _isRunning,
@@ -257,12 +310,59 @@ class _PortalWebViewScreenState extends State<PortalWebViewScreen> {
         domStorageEnabled: true,
         allowsInlineMediaPlayback: true,
         mediaPlaybackRequiresUserGesture: false,
+        useOnDownloadStart: true,
       ),
       onWebViewCreated: _onWebViewCreated,
       onLoadStart: _onLoadStart,
       onLoadStop: _onLoadStop,
       onProgressChanged: _onProgressChanged,
+      onDownloadStartRequest: _onDownloadStartRequest,
     );
+  }
+
+  // ---------------------------------------------------------------------------
+  // Download handler
+  // ---------------------------------------------------------------------------
+
+  Future<void> _onDownloadStartRequest(
+    InAppWebViewController controller,
+    DownloadStartRequest downloadStartRequest,
+  ) async {
+    try {
+      final url = downloadStartRequest.url.toString();
+      final suggestedFilename =
+          downloadStartRequest.suggestedFilename ?? 'download';
+
+      // Save to app documents: downloads/{clientId}/{filename}
+      final appDir = await getApplicationDocumentsDirectory();
+      final downloadDir = Directory(
+        '${appDir.path}/CADesk/downloads/${widget.job.clientId}',
+      );
+      if (!downloadDir.existsSync()) {
+        downloadDir.createSync(recursive: true);
+      }
+
+      final filePath = '${downloadDir.path}/$suggestedFilename';
+
+      // Download using HttpClient (avoids Dio dependency in presentation)
+      final httpClient = HttpClient();
+      final request = await httpClient.getUrl(Uri.parse(url));
+      final response = await request.close();
+      final file = File(filePath);
+      final sink = file.openWrite();
+      await response.pipe(sink);
+      httpClient.close();
+
+      if (!mounted) return;
+      setState(() {
+        _bannerMessage = 'Downloaded: $suggestedFilename';
+      });
+    } on Exception catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _bannerMessage = 'Download failed: $e';
+      });
+    }
   }
 
   String _portalInitialUrl() {
@@ -377,6 +477,106 @@ class _AddressBar extends StatelessWidget {
     return url
         .replaceFirst(RegExp(r'^https?://'), '')
         .replaceFirst(RegExp(r'^www\.'), '');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Automation banner
+// ---------------------------------------------------------------------------
+
+/// Banner shown when automation pauses for CA review before submission.
+///
+/// Displays a prominent message with "Confirm & Submit" and "Cancel" buttons.
+/// The CA can scroll the WebView below to inspect the filled form on the portal.
+class _ReviewBanner extends StatelessWidget {
+  const _ReviewBanner({
+    required this.message,
+    required this.onConfirm,
+    required this.onCancel,
+  });
+
+  final String message;
+  final VoidCallback onConfirm;
+  final VoidCallback onCancel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      color: AppColors.warning.withValues(alpha: 0.20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              const Icon(
+                Icons.rate_review_rounded,
+                size: 16,
+                color: AppColors.warning,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.neutral900,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: onCancel,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.error,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              ElevatedButton.icon(
+                onPressed: onConfirm,
+                icon: const Icon(Icons.check_rounded, size: 16),
+                label: const Text('Confirm & Submit'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.success,
+                  foregroundColor: AppColors.surface,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

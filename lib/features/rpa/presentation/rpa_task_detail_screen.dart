@@ -355,10 +355,10 @@ class _StepIcon extends StatelessWidget {
     final theme = Theme.of(context);
     switch (state) {
       case _MockStepState.done:
-        return CircleAvatar(
+        return const CircleAvatar(
           radius: 12,
-          backgroundColor: const Color(0xFF2E7D32),
-          child: const Icon(Icons.check_rounded, color: Colors.white, size: 14),
+          backgroundColor: Color(0xFF2E7D32),
+          child: Icon(Icons.check_rounded, color: Colors.white, size: 14),
         );
       case _MockStepState.active:
         return SizedBox(

@@ -473,7 +473,7 @@ class _RatioSnapshotTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 6),
-                  Icon(
+                  const Icon(
                     Icons.chevron_right_rounded,
                     size: 20,
                     color: AppColors.neutral400,

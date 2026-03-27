@@ -57,7 +57,7 @@ class GenUiCard extends StatelessWidget {
                     ),
                   ),
                   if (directive.actionRoute != null)
-                    Icon(
+                    const Icon(
                       Icons.chevron_right_rounded,
                       color: AppColors.neutral400,
                       size: 20,

@@ -18,13 +18,22 @@ class _Form29bScreenState extends ConsumerState<Form29bScreen> {
   // All amounts in paise internally, displayed as rupees
   int _netProfitPaise = 0;
   final List<_AdjustmentEntry> _additions = [
-    _AdjustmentEntry(description: 'Provision for income tax', amountPaise: 0),
-    _AdjustmentEntry(description: 'Net deferred tax liability', amountPaise: 0),
-    _AdjustmentEntry(description: 'Donations and charities', amountPaise: 0),
+    const _AdjustmentEntry(
+      description: 'Provision for income tax',
+      amountPaise: 0,
+    ),
+    const _AdjustmentEntry(
+      description: 'Net deferred tax liability',
+      amountPaise: 0,
+    ),
+    const _AdjustmentEntry(
+      description: 'Donations and charities',
+      amountPaise: 0,
+    ),
   ];
   final List<_AdjustmentEntry> _deductions = [
-    _AdjustmentEntry(description: 'Exempt capital gains', amountPaise: 0),
-    _AdjustmentEntry(
+    const _AdjustmentEntry(description: 'Exempt capital gains', amountPaise: 0),
+    const _AdjustmentEntry(
       description: 'Brought forward losses & depreciation',
       amountPaise: 0,
     ),
@@ -63,7 +72,7 @@ class _Form29bScreenState extends ConsumerState<Form29bScreen> {
           const SizedBox(height: 16),
 
           // Net profit
-          _SectionLabel(label: 'Net Profit as per P&L'),
+          const _SectionLabel(label: 'Net Profit as per P&L'),
           const SizedBox(height: 8),
           _AmountField(
             label: 'Net Profit',
@@ -72,7 +81,7 @@ class _Form29bScreenState extends ConsumerState<Form29bScreen> {
           const SizedBox(height: 20),
 
           // Additions
-          _SectionLabel(label: 'Add-backs (Additions to Book Profit)'),
+          const _SectionLabel(label: 'Add-backs (Additions to Book Profit)'),
           const SizedBox(height: 8),
           ..._additions.asMap().entries.map(
             (entry) => Padding(
@@ -91,7 +100,7 @@ class _Form29bScreenState extends ConsumerState<Form29bScreen> {
           const SizedBox(height: 12),
 
           // Deductions
-          _SectionLabel(label: 'Deductions from Book Profit'),
+          const _SectionLabel(label: 'Deductions from Book Profit'),
           const SizedBox(height: 8),
           ..._deductions.asMap().entries.map(
             (entry) => Padding(

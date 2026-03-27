@@ -256,13 +256,17 @@ class _TaxComparisonSection extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.savings_rounded, color: AppColors.success, size: 20),
+              const Icon(
+                Icons.savings_rounded,
+                color: AppColors.success,
+                size: 20,
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   'Save ${_currencyFmt.format(comparison.savings)} by switching '
                   'to ${comparison.recommendedRegime} Regime',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: AppColors.success,
@@ -333,7 +337,7 @@ class _RegimeCard extends StatelessWidget {
                 ),
               ),
               if (isRecommended)
-                Icon(
+                const Icon(
                   Icons.check_circle_rounded,
                   size: 16,
                   color: AppColors.success,
@@ -402,7 +406,7 @@ class _Row extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 11, color: AppColors.neutral400),
+            style: const TextStyle(fontSize: 11, color: AppColors.neutral400),
           ),
           Text(
             value,
@@ -558,7 +562,7 @@ class _InstallmentRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : Border(bottom: BorderSide(color: AppColors.neutral200)),
+            : const Border(bottom: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
@@ -769,67 +773,112 @@ class _ActionBar extends ConsumerWidget {
 
   final ItrClient client;
 
+  /// Whether to show the "Check Status on Portal" button.
+  /// Shown for filed or verified statuses.
+  bool get _shouldShowStatusCheck {
+    return client.filingStatus == FilingStatus.filed ||
+        client.filingStatus == FilingStatus.verified;
+  }
+
+  /// Returns the next filing status and its action label, or null if the
+  /// filing is already at the terminal state (processed / defective).
+  ({FilingStatus next, String label, IconData icon})? get _nextAction {
+    return switch (client.filingStatus) {
+      FilingStatus.pending || FilingStatus.inProgress => (
+        next: FilingStatus.filed,
+        label: 'Mark as Filed',
+        icon: Icons.upload_file_rounded,
+      ),
+      FilingStatus.filed => (
+        next: FilingStatus.verified,
+        label: 'Mark as Verified',
+        icon: Icons.verified_rounded,
+      ),
+      FilingStatus.verified => (
+        next: FilingStatus.processed,
+        label: 'Mark as Processed',
+        icon: Icons.check_circle_rounded,
+      ),
+      FilingStatus.processed || FilingStatus.defective => null,
+    };
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final canMarkFiled =
-        client.filingStatus == FilingStatus.pending ||
-        client.filingStatus == FilingStatus.inProgress;
+    final action = _nextAction;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
-        border: Border(top: BorderSide(color: AppColors.neutral200)),
+        border: const Border(top: BorderSide(color: AppColors.neutral200)),
       ),
       child: Row(
         children: [
-          if (canMarkFiled)
+          if (action != null)
             Expanded(
               child: FilledButton.icon(
-                onPressed: () => _markAsFiled(context, ref),
-                icon: const Icon(Icons.upload_file_rounded, size: 18),
-                label: const Text('Mark as Filed'),
+                onPressed: () => _advanceStatus(context, ref, action),
+                icon: Icon(action.icon, size: 18),
+                label: Text(action.label),
                 style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.success,
+                  backgroundColor: action.next.color,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
               ),
             ),
-          if (canMarkFiled) const SizedBox(width: 8),
+          if (action != null) const SizedBox(width: 8),
           Expanded(
             child: OutlinedButton.icon(
               onPressed: () => _downloadItrV(context),
               icon: const Icon(Icons.download_rounded, size: 18),
-              label: const Text('Download ITR-V'),
+              label: const Text('ITR-V'),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
             ),
           ),
           const SizedBox(width: 8),
-          Expanded(
-            child: OutlinedButton.icon(
-              onPressed: () => _sendToClient(context),
-              icon: const Icon(Icons.send_rounded, size: 18),
-              label: const Text('Send to Client'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
+          if (_shouldShowStatusCheck)
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => _checkStatusOnPortal(context),
+                icon: const Icon(Icons.sync_rounded, size: 18),
+                label: const Text('Check Status'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  foregroundColor: AppColors.secondary,
+                ),
+              ),
+            )
+          else
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () => _sendToClient(context),
+                icon: const Icon(Icons.send_rounded, size: 18),
+                label: const Text('Send'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
-  void _markAsFiled(BuildContext context, WidgetRef ref) {
-    final updated = client.copyWith(filingStatus: FilingStatus.filed);
+  void _advanceStatus(
+    BuildContext context,
+    WidgetRef ref,
+    ({FilingStatus next, String label, IconData icon}) action,
+  ) {
+    final updated = client.copyWith(filingStatus: action.next);
     ref.read(itrClientsProvider.notifier).updateClient(updated);
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${client.name} marked as Filed'),
-        backgroundColor: AppColors.success,
+        content: Text('${client.name} marked as ${action.next.label}'),
+        backgroundColor: action.next.color,
       ),
     );
   }
@@ -843,6 +892,15 @@ class _ActionBar extends ConsumerWidget {
   void _sendToClient(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Sending filing details to ${client.email}')),
+    );
+  }
+
+  void _checkStatusOnPortal(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Checking filing status on ITD portal...'),
+        duration: Duration(seconds: 2),
+      ),
     );
   }
 }

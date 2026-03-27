@@ -115,7 +115,7 @@ void main() {
 
     group('getByStaff', () {
       test('returns activities for specific staff', () async {
-        final staffId = 'staff-by-staff';
+        const staffId = 'staff-by-staff';
         final a1 = makeActivity(staffId: staffId);
         final a2 = makeActivity(staffId: staffId);
         await database.staffMonitoringDao.insertActivity(
@@ -136,8 +136,8 @@ void main() {
       });
 
       test('filters by staffId correctly', () async {
-        final staffA = 'staff-filter-a';
-        final staffB = 'staff-filter-b';
+        const staffA = 'staff-filter-a';
+        const staffB = 'staff-filter-b';
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(
             makeActivity(staffId: staffA),
@@ -191,7 +191,7 @@ void main() {
 
     group('getByClient', () {
       test('returns activities for specific client', () async {
-        final clientId = 'client-staff-act';
+        const clientId = 'client-staff-act';
         final activity = makeActivity(clientId: clientId);
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(activity),
@@ -208,8 +208,8 @@ void main() {
       });
 
       test('filters by clientId correctly', () async {
-        final clientA = 'sm-client-a';
-        final clientB = 'sm-client-b';
+        const clientA = 'sm-client-a';
+        const clientB = 'sm-client-b';
         await database.staffMonitoringDao.insertActivity(
           StaffMonitoringMapper.activityToCompanion(
             makeActivity(clientId: clientA),
@@ -266,8 +266,8 @@ void main() {
 
     group('getPerformance', () {
       test('returns performance for matching staffId and period', () async {
-        final staffId = 'staff-perf-q';
-        final period = '2026-02';
+        const staffId = 'staff-perf-q';
+        const period = '2026-02';
         final perf = makePerformance(staffId: staffId, period: period);
         await database.staffMonitoringDao.insertPerformance(
           StaffMonitoringMapper.performanceToCompanion(perf),
@@ -290,7 +290,7 @@ void main() {
       });
 
       test('returns null for correct staff but wrong period', () async {
-        final staffId = 'staff-wrong-period';
+        const staffId = 'staff-wrong-period';
         final perf = makePerformance(staffId: staffId, period: '2026-01');
         await database.staffMonitoringDao.insertPerformance(
           StaffMonitoringMapper.performanceToCompanion(perf),

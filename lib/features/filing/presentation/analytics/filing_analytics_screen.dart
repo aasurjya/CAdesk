@@ -117,22 +117,22 @@ class FilingAnalyticsScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _DeadlineRow(
+            const _DeadlineRow(
               'ITR-1/ITR-4 Due Date',
               'July 31, 2026',
               Icons.calendar_today,
             ),
-            _DeadlineRow(
+            const _DeadlineRow(
               'ITR-2/ITR-3 Due Date',
               'July 31, 2026',
               Icons.calendar_today,
             ),
-            _DeadlineRow(
+            const _DeadlineRow(
               'Audit Cases (44AB)',
               'October 31, 2026',
               Icons.calendar_today,
             ),
-            _DeadlineRow(
+            const _DeadlineRow(
               'Belated/Revised Return',
               'December 31, 2026',
               Icons.warning_amber,

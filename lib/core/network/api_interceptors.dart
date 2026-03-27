@@ -11,10 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 /// Attaches the Supabase JWT access token and API key to every request.
 /// On a 401 response the session is refreshed once and the request is retried.
 class AuthInterceptor extends Interceptor {
-  static const String _anonKey = String.fromEnvironment(
-    'SUPABASE_ANON_KEY',
-    defaultValue: 'sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH',
-  );
+  static const String _anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {

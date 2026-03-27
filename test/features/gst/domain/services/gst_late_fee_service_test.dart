@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('GstLateFeeResult', () {
     test('creates with correct field values', () {
-      final result = GstLateFeeResult(
+      const result = GstLateFeeResult(
         cgstLateFee: 250.0,
         sgstLateFee: 250.0,
         totalLateFee: 500.0,
@@ -205,7 +205,7 @@ void main() {
       expect(penalty.lateFee.totalLateFee, 500.0);
 
       // Interest: 100000 * 18/100 * 10/365
-      final expectedInterest = 100000.0 * 0.18 * 10 / 365;
+      const expectedInterest = 100000.0 * 0.18 * 10 / 365;
       expect(penalty.interest, closeTo(expectedInterest, 0.01));
 
       // Total = late fee + interest
@@ -290,8 +290,8 @@ void main() {
 
   group('GstPenaltyResult.copyWith', () {
     test('creates new instance with updated interest', () {
-      final original = GstPenaltyResult(
-        lateFee: const GstLateFeeResult(
+      const original = GstPenaltyResult(
+        lateFee: GstLateFeeResult(
           cgstLateFee: 250.0,
           sgstLateFee: 250.0,
           totalLateFee: 500.0,
@@ -315,12 +315,12 @@ void main() {
         maxCapApplied: false,
         daysLate: 10,
       );
-      final a = GstPenaltyResult(
+      const a = GstPenaltyResult(
         lateFee: lateFee,
         interest: 1000.0,
         totalPenalty: 1500.0,
       );
-      final b = GstPenaltyResult(
+      const b = GstPenaltyResult(
         lateFee: lateFee,
         interest: 1000.0,
         totalPenalty: 1500.0,

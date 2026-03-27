@@ -195,7 +195,7 @@ class _VarianceRow extends StatelessWidget {
           if (!isCorrect) ...[
             Text(
               'As per order: ${CurrencyUtils.formatINRCompact(calc.actualInterest)}',
-              style: TextStyle(fontSize: 11, color: AppColors.neutral600),
+              style: const TextStyle(fontSize: 11, color: AppColors.neutral600),
             ),
             const SizedBox(width: 8),
             Text(

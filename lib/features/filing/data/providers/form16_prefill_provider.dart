@@ -1,23 +1,35 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ca_app/features/filing/domain/models/itr1/chapter_via_deductions.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/house_property_income.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/itr1_form_data.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/other_source_income.dart';
 import 'package:ca_app/features/filing/domain/models/itr1/salary_income.dart';
+import 'package:ca_app/features/filing/domain/models/itr1/tds_payment_summary.dart';
 import 'package:ca_app/features/ocr/domain/models/extracted_form16.dart';
 import 'package:ca_app/features/ocr/domain/services/ocr_data_mapper_service.dart';
 import 'package:ca_app/features/tds/domain/models/form16_data.dart';
 import 'package:ca_app/features/tds/domain/models/tds_return_form.dart';
 
 // ---------------------------------------------------------------------------
-// Form16PrefillResult — immutable result of mapping Form 16 to SalaryIncome
+// Form16PrefillResult — immutable result of mapping Form 16 to ITR-1 data
 // ---------------------------------------------------------------------------
 
-/// Immutable result of pre-filling salary income fields from a Form 16 source.
+/// Immutable result of pre-filling ITR-1 fields from a Form 16 source.
+///
+/// Maps salary, deductions, house property, other sources, TDS, and regime.
 @immutable
 class Form16PrefillResult {
   const Form16PrefillResult({
     required this.salaryIncome,
     required this.source,
     required this.tdsDeducted,
+    this.deductions,
+    this.housePropertyIncome,
+    this.otherSourceIncome,
+    this.tdsPaymentSummary,
+    this.selectedRegime,
   });
 
   /// Pre-filled salary income model ready to apply to the ITR-1 form.
@@ -28,6 +40,21 @@ class Form16PrefillResult {
 
   /// Total TDS deducted as reported on the Form 16 (in rupees, not paise).
   final double tdsDeducted;
+
+  /// Chapter VI-A deductions extracted from Form 16 Part B (if available).
+  final ChapterViaDeductions? deductions;
+
+  /// House property income from Form 16 Part B (if available).
+  final HousePropertyIncome? housePropertyIncome;
+
+  /// Other source income from Form 16 Part B (if available).
+  final OtherSourceIncome? otherSourceIncome;
+
+  /// TDS payment summary pre-populated from Form 16 Part A.
+  final TdsPaymentSummary? tdsPaymentSummary;
+
+  /// Tax regime indicated in Form 16 (if available).
+  final TaxRegime? selectedRegime;
 
   @override
   bool operator ==(Object other) =>
@@ -95,11 +122,12 @@ final prefillFromOcrProvider =
 /// Maps a [Form16Data] (from the TDS module) to a [Form16PrefillResult].
 ///
 /// [Form16Data] stores amounts as **doubles in rupees**, so no unit
-/// conversion is needed. The Part B [SalaryBreakup] provides a detailed
-/// breakdown that maps directly to [SalaryIncome] fields.
+/// conversion is needed. The Part B provides detailed breakdowns that map
+/// to salary, deductions, house property, other sources, TDS, and regime.
 Form16PrefillResult prefillFromForm16Data(Form16Data form16) {
   final breakup = form16.partB.salaryBreakup;
 
+  // Salary income mapping
   final salaryIncome = SalaryIncome(
     grossSalary: breakup.grossSalary,
     allowancesExemptUnderSection10: breakup.exemptAllowances,
@@ -108,10 +136,73 @@ Form16PrefillResult prefillFromForm16Data(Form16Data form16) {
     standardDeduction: breakup.standardDeduction,
   );
 
+  // Chapter VI-A deductions mapping
+  final f16Deductions = form16.partB.deductions;
+  final deductions = ChapterViaDeductions(
+    section80C:
+        f16Deductions.section80C +
+        f16Deductions.section80CCC +
+        f16Deductions.section80CCD1,
+    section80CCD1B: f16Deductions.section80CCD1B,
+    section80DSelf: f16Deductions.section80D,
+    section80DParents: 0, // Not available in Form 16
+    section80E: f16Deductions.section80E,
+    section80G: f16Deductions.section80G,
+    section80TTA: f16Deductions.section80TTA,
+    section80TTB: f16Deductions.section80TTB,
+  );
+
+  // House property income mapping (negative means loss)
+  final hpIncome = form16.partB.incomeFromHouseProperty;
+  final housePropertyIncome = hpIncome != 0
+      ? HousePropertyIncome(
+          annualLetableValue: hpIncome > 0 ? hpIncome : 0,
+          municipalTaxesPaid: 0,
+          interestOnLoan: hpIncome < 0 ? -hpIncome : 0,
+          propertyType: hpIncome <= 0
+              ? PropertyType.selfOccupied
+              : PropertyType.letOut,
+        )
+      : null;
+
+  // Other source income mapping
+  final osIncome = form16.partB.incomeFromOtherSources;
+  final otherSourceIncome = osIncome != 0
+      ? OtherSourceIncome(
+          savingsAccountInterest: 0,
+          fixedDepositInterest: 0,
+          dividendIncome: 0,
+          familyPension: 0,
+          otherIncome: osIncome,
+        )
+      : null;
+
+  // TDS payment summary from Part A
+  final tdsPaymentSummary = TdsPaymentSummary(
+    tdsOnSalary: form16.partA.totalTaxDeducted,
+    tdsOnOtherIncome: 0,
+    advanceTaxQ1: 0,
+    advanceTaxQ2: 0,
+    advanceTaxQ3: 0,
+    advanceTaxQ4: 0,
+    selfAssessmentTax: 0,
+  );
+
+  // Tax regime from Form 16 computation
+  final regimeStr = form16.partB.taxComputation.taxRegime.toLowerCase();
+  final selectedRegime = regimeStr.contains('old')
+      ? TaxRegime.oldRegime
+      : TaxRegime.newRegime;
+
   return Form16PrefillResult(
     salaryIncome: salaryIncome,
     source: '${form16.employerName} (Form 16)',
     tdsDeducted: form16.partA.totalTaxDeducted,
+    deductions: deductions,
+    housePropertyIncome: housePropertyIncome,
+    otherSourceIncome: otherSourceIncome,
+    tdsPaymentSummary: tdsPaymentSummary,
+    selectedRegime: selectedRegime,
   );
 }
 

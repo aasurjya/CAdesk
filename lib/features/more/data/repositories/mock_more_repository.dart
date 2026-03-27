@@ -8,7 +8,7 @@ class MockMoreRepository implements MoreRepository {
       id: 'menu-dashboard',
       title: 'Dashboard',
       subtitle: 'Overview & KPIs',
-      route: '/dashboard',
+      route: '/',
       isPinned: true,
       sortOrder: 0,
     ),

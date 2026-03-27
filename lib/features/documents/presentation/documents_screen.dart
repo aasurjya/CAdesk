@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/features/documents/data/providers/documents_providers.dart';
@@ -159,7 +160,7 @@ class _DocumentsScreenState extends ConsumerState<DocumentsScreen>
       ),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'documents_fab',
-        onPressed: () {},
+        onPressed: () => context.push('/documents/upload'),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         icon: const Icon(Icons.upload_file_rounded),

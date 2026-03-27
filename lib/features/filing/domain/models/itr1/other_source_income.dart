@@ -78,4 +78,23 @@ class OtherSourceIncome {
     familyPension,
     otherIncome,
   );
+
+  Map<String, dynamic> toJson() => {
+    'savingsAccountInterest': savingsAccountInterest,
+    'fixedDepositInterest': fixedDepositInterest,
+    'dividendIncome': dividendIncome,
+    'familyPension': familyPension,
+    'otherIncome': otherIncome,
+  };
+
+  factory OtherSourceIncome.fromJson(Map<String, dynamic> json) =>
+      OtherSourceIncome(
+        savingsAccountInterest:
+            (json['savingsAccountInterest'] as num?)?.toDouble() ?? 0,
+        fixedDepositInterest:
+            (json['fixedDepositInterest'] as num?)?.toDouble() ?? 0,
+        dividendIncome: (json['dividendIncome'] as num?)?.toDouble() ?? 0,
+        familyPension: (json['familyPension'] as num?)?.toDouble() ?? 0,
+        otherIncome: (json['otherIncome'] as num?)?.toDouble() ?? 0,
+      );
 }

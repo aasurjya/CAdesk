@@ -374,11 +374,11 @@ void main() {
   group('Staff', () {
     test('equality by staffId and name and role', () {
       final a = makeStaff(id: 'S1', role: StaffRole.manager);
-      final b = Staff(
+      const b = Staff(
         staffId: 'S1',
         name: 'Staff S1',
         role: StaffRole.manager,
-        skills: const [],
+        skills: [],
         currentEngagements: ['E1', 'E2'],
       );
 

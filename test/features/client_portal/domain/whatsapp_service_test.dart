@@ -8,7 +8,7 @@ import 'package:ca_app/features/client_portal/domain/services/whatsapp_service.d
 void main() {
   late WhatsAppService service;
 
-  final testClient = PortalClient(
+  const testClient = PortalClient(
     clientId: 'c1',
     pan: 'ABCDE1234F',
     name: 'Ravi Kumar',
@@ -53,7 +53,7 @@ void main() {
   // ---------------------------------------------------------------------------
   group('WhatsAppMessage model', () {
     test('const constructor and field defaults', () {
-      final msg = WhatsAppMessage(
+      const msg = WhatsAppMessage(
         messageId: 'm1',
         to: '919876543210',
         messageType: MessageType.text,
@@ -69,7 +69,7 @@ void main() {
     });
 
     test('copyWith returns new instance with updated fields', () {
-      final msg = WhatsAppMessage(
+      const msg = WhatsAppMessage(
         messageId: 'm1',
         to: '919876543210',
         messageType: MessageType.text,
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('equality based on messageId', () {
-      final a = WhatsAppMessage(
+      const a = WhatsAppMessage(
         messageId: 'm1',
         to: '919876543210',
         messageType: MessageType.text,

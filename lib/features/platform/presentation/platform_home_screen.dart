@@ -189,7 +189,7 @@ class _PlatformCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.chevron_right_rounded,
                 color: AppColors.neutral300,
                 size: 20,

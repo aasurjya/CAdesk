@@ -38,21 +38,21 @@ void main() {
     });
 
     test('→ capitalGainsTotal includes both STCG and LTCG', () {
-      final entry = EquityStcgEntry(
+      const entry = EquityStcgEntry(
         description: 'Stock gain',
         salePrice: 300000,
         costOfAcquisition: 200000,
         transferExpenses: 0,
       );
       final form = Itr2FormData.empty().copyWith(
-        scheduleCg: ScheduleCg(
+        scheduleCg: const ScheduleCg(
           equityStcgEntries: [entry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         ),

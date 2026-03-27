@@ -69,21 +69,21 @@ void main() {
     });
 
     test('→ exported JSON contains ScheduleCG section', () {
-      final stcgEntry = EquityStcgEntry(
+      const stcgEntry = EquityStcgEntry(
         description: 'HDFC shares',
         salePrice: 500000,
         costOfAcquisition: 300000,
         transferExpenses: 5000,
       );
       final form = buildMinimalForm().copyWith(
-        scheduleCg: ScheduleCg(
+        scheduleCg: const ScheduleCg(
           equityStcgEntries: [stcgEntry],
-          equityLtcgEntries: const [],
-          debtStcgEntries: const [],
-          debtLtcgEntries: const [],
-          propertyLtcgEntries: const [],
-          otherStcgEntries: const [],
-          otherLtcgEntries: const [],
+          equityLtcgEntries: [],
+          debtStcgEntries: [],
+          debtLtcgEntries: [],
+          propertyLtcgEntries: [],
+          otherStcgEntries: [],
+          otherLtcgEntries: [],
           broughtForwardStcl: 0,
           broughtForwardLtcl: 0,
         ),

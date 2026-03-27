@@ -113,7 +113,7 @@ void main() {
     });
 
     test('insertBatch adds entry and returns id', () async {
-      final batch = IrnBatch(
+      const batch = IrnBatch(
         id: 'batch-new-001',
         clientName: 'New Client',
         totalInvoices: 10,
@@ -137,7 +137,7 @@ void main() {
     });
 
     test('updateBatch returns false for non-existent id', () async {
-      final ghost = IrnBatch(
+      const ghost = IrnBatch(
         id: 'non-existent-batch',
         clientName: 'Ghost',
         totalInvoices: 0,

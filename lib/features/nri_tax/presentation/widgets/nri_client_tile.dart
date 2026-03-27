@@ -54,7 +54,7 @@ class NriClientTile extends StatelessWidget {
                 children: [
                   _ResidentialBadge(status: client.residentialStatus),
                   const SizedBox(width: 8),
-                  Icon(
+                  const Icon(
                     Icons.public_rounded,
                     size: 13,
                     color: AppColors.neutral400,
@@ -73,7 +73,7 @@ class NriClientTile extends StatelessWidget {
               // Row 3: stay days + DTAA badge
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_month_rounded,
                     size: 13,
                     color: AppColors.neutral400,
@@ -87,7 +87,7 @@ class NriClientTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Icon(
+                  const Icon(
                     Icons.currency_rupee_rounded,
                     size: 13,
                     color: AppColors.neutral400,

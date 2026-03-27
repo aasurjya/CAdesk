@@ -73,7 +73,11 @@ class MarketplaceAppTile extends StatelessWidget {
               // Bottom row: rating + review count + price + category chip
               Row(
                 children: [
-                  Icon(Icons.star_rounded, size: 14, color: AppColors.accent),
+                  const Icon(
+                    Icons.star_rounded,
+                    size: 14,
+                    color: AppColors.accent,
+                  ),
                   const SizedBox(width: 3),
                   Text(
                     app.rating.toStringAsFixed(1),

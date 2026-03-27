@@ -176,7 +176,7 @@ void main() {
   group('TdsDeductorTile', () {
     testWidgets('renders deductor name', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
+        const ProviderScope(
           child: MaterialApp(
             home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),
@@ -189,7 +189,7 @@ void main() {
 
     testWidgets('renders TAN', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
+        const ProviderScope(
           child: MaterialApp(
             home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),
@@ -202,7 +202,7 @@ void main() {
 
     testWidgets('renders quarter status dots', (tester) async {
       await tester.pumpWidget(
-        ProviderScope(
+        const ProviderScope(
           child: MaterialApp(
             home: Scaffold(body: TdsDeductorTile(deductor: _testDeductor)),
           ),

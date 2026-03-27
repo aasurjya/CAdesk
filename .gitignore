@@ -21,6 +21,7 @@ coverage/
 # OS
 .DS_Store
 *.log
+logs/
 
 # Node (metaswarm)
 node_modules/

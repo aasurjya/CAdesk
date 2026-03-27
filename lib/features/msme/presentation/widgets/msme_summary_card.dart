@@ -45,7 +45,7 @@ class MsmeSummaryCard extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.account_balance_outlined,
                   color: AppColors.primary,
                   size: 18,
@@ -140,7 +140,11 @@ class _AlertBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.warning_amber_rounded, color: AppColors.error, size: 12),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: AppColors.error,
+            size: 12,
+          ),
           const SizedBox(width: 4),
           Text(
             '$count overdue',

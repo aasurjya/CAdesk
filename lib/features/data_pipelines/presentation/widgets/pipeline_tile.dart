@@ -75,7 +75,7 @@ class PipelineTile extends StatelessWidget {
                         : AppColors.neutral400,
                   ),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.access_time_rounded,
                     size: 12,
                     color: AppColors.neutral400,
@@ -104,7 +104,7 @@ class PipelineTile extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.warning_amber_rounded,
                         size: 12,
                         color: AppColors.error,

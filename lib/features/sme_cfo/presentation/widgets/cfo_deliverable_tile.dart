@@ -83,7 +83,7 @@ class CfoDeliverableTile extends StatelessWidget {
 
                   // Due date with overdue highlighting
                   if (isOverdue) ...[
-                    Icon(
+                    const Icon(
                       Icons.warning_amber_rounded,
                       size: 13,
                       color: AppColors.error,
@@ -124,7 +124,7 @@ class CfoDeliverableTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle_outline_rounded,
                       size: 13,
                       color: AppColors.success,

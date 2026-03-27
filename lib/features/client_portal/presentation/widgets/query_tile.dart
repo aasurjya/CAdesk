@@ -57,7 +57,7 @@ class QueryTile extends StatelessWidget {
                   const SizedBox(width: 8),
                   _CategoryChip(category: query.category),
                   const Spacer(),
-                  Icon(
+                  const Icon(
                     Icons.person_outline,
                     size: 12,
                     color: AppColors.neutral400,
@@ -77,7 +77,7 @@ class QueryTile extends StatelessWidget {
               const SizedBox(height: 6),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.access_time,
                     size: 12,
                     color: AppColors.neutral400,
@@ -92,7 +92,7 @@ class QueryTile extends StatelessWidget {
                   ),
                   if (query.assignedTo != null) ...[
                     const SizedBox(width: 12),
-                    Icon(
+                    const Icon(
                       Icons.assignment_ind,
                       size: 12,
                       color: AppColors.neutral400,
@@ -108,7 +108,7 @@ class QueryTile extends StatelessWidget {
                   ],
                   if (query.messages.isNotEmpty) ...[
                     const Spacer(),
-                    Icon(
+                    const Icon(
                       Icons.chat_bubble_outline,
                       size: 12,
                       color: AppColors.neutral400,

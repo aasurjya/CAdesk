@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ca_app/core/auth/auth_state.dart';
 import 'package:ca_app/core/auth/supabase_auth_provider.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
+import 'package:ca_app/core/theme/app_spacing.dart';
+import 'package:ca_app/core/widgets/search_action.dart';
+import 'package:ca_app/features/more/presentation/more_menu_data.dart';
+
+const _kSearchBorderRadius = 16.0;
+const _kCardBorderRadius = 20.0;
+
+// ---------------------------------------------------------------------------
+// MoreScreen
+// ---------------------------------------------------------------------------
 
 class MoreScreen extends ConsumerStatefulWidget {
   const MoreScreen({super.key});
@@ -15,314 +26,31 @@ class MoreScreen extends ConsumerStatefulWidget {
 class _MoreScreenState extends ConsumerState<MoreScreen> {
   bool _isGridView = true;
   bool _isSigningOut = false;
+  String _searchQuery = '';
+  late final TextEditingController _searchController;
 
-  static const _menuItems = <_MenuItem>[
-    // Quick Access
-    _MenuItem(
-      icon: Icons.dashboard_outlined,
-      title: 'Dashboard',
-      subtitle: 'Overview & KPIs',
-      route: '/dashboard',
-    ),
-    _MenuItem(
-      icon: Icons.task_alt_outlined,
-      title: 'Tasks',
-      subtitle: 'Task management',
-      route: '/tasks',
-    ),
-    _MenuItem(
-      icon: Icons.verified_user_outlined,
-      title: 'Compliance Calendar',
-      subtitle: 'Statutory deadlines & calendar',
-      route: '/compliance',
-    ),
-    // Core Filing Modules
-    _MenuItem(
-      icon: Icons.account_balance_outlined,
-      title: 'Income Tax',
-      subtitle: 'ITR filing & tracking',
-      route: '/income-tax',
-    ),
-    _MenuItem(
-      icon: Icons.receipt_outlined,
-      title: 'GST',
-      subtitle: 'Returns & compliance',
-      route: '/gst',
-    ),
-    _MenuItem(
-      icon: Icons.percent_outlined,
-      title: 'TDS/TCS',
-      subtitle: 'Deduction & collection',
-      route: '/tds',
-    ),
-    _MenuItem(
-      icon: Icons.auto_awesome_outlined,
-      title: 'TDS.AI',
-      subtitle: 'AI-assisted extraction, sectioning & return prep',
-      route: '/roadmap/4',
-    ),
-    _MenuItem(
-      icon: Icons.corporate_fare_outlined,
-      title: 'MCA / ROC Compliance',
-      subtitle: 'Company filings, Directors Act 2013',
-      route: '/mca',
-    ),
-    _MenuItem(
-      icon: Icons.qr_code_scanner_outlined,
-      title: 'E-Invoicing',
-      subtitle: 'IRP API, 30-day/3-day window & bulk generation',
-      route: '/einvoicing',
-    ),
-    // Other Modules
-    _MenuItem(
-      icon: Icons.data_object_outlined,
-      title: 'XBRL Filing',
-      subtitle: 'XBRL tagging & MCA submission',
-      route: '/xbrl',
-    ),
-    _MenuItem(
-      icon: Icons.balance_outlined,
-      title: 'Accounts & Balance Sheet',
-      subtitle: 'Financials, P&L, depreciation',
-      route: '/accounts',
-    ),
-    _MenuItem(
-      icon: Icons.show_chart_outlined,
-      title: 'CMA / Financial Projections',
-      subtitle: 'CMA data, loan calc, EMI & DSCR',
-      route: '/cma',
-    ),
-    _MenuItem(
-      icon: Icons.people_outline,
-      title: 'Payroll',
-      subtitle: 'Salary, PF/ESI challans & TDS',
-      route: '/payroll',
-    ),
-    _MenuItem(
-      icon: Icons.policy_outlined,
-      title: 'Assessment Orders',
-      subtitle: 'Verify 143(1)/143(3), interest checks',
-      route: '/assessment',
-    ),
-    _MenuItem(
-      icon: Icons.folder_copy_outlined,
-      title: 'Documents',
-      subtitle: 'Client documents, cloud access & sharing',
-      route: '/documents',
-    ),
-    _MenuItem(
-      icon: Icons.cloud_outlined,
-      title: 'Cloud & Remote Access',
-      subtitle: 'Cloud app, backup health & remote controls',
-      route: '/roadmap/13',
-    ),
-    _MenuItem(
-      icon: Icons.receipt_long_outlined,
-      title: 'Billing',
-      subtitle: 'GST invoicing, payments & receivables',
-      route: '/billing',
-    ),
-    // Modern Practice
-    _MenuItem(
-      icon: Icons.language_outlined,
-      title: 'Client Portal',
-      subtitle: 'Messages, documents & queries',
-      route: '/client-portal',
-    ),
-    _MenuItem(
-      icon: Icons.smart_toy_outlined,
-      title: 'AI & Automation',
-      subtitle: 'OCR, reconciliation & anomalies',
-      route: '/ai-automation',
-    ),
-    _MenuItem(
-      icon: Icons.insights_outlined,
-      title: 'Analytics',
-      subtitle: 'KPIs, revenue & receivables',
-      route: '/analytics',
-    ),
-    _MenuItem(
-      icon: Icons.timer_outlined,
-      title: 'Time Tracking',
-      subtitle: 'Billable hours & billing',
-      route: '/time-tracking',
-    ),
-    _MenuItem(
-      icon: Icons.business_outlined,
-      title: 'Firm Operations',
-      subtitle: 'Staff, KPIs & knowledge base',
-      route: '/firm-operations',
-    ),
-    _MenuItem(
-      icon: Icons.person_add_outlined,
-      title: 'Onboarding & KYC',
-      subtitle: 'Client verification & checklists',
-      route: '/onboarding',
-    ),
-    // Specialized Compliance
-    _MenuItem(
-      icon: Icons.currency_exchange_outlined,
-      title: 'FEMA & RBI',
-      subtitle: 'Foreign exchange compliance',
-      route: '/fema',
-    ),
-    _MenuItem(
-      icon: Icons.trending_up_outlined,
-      title: 'SEBI',
-      subtitle: 'Capital market disclosures',
-      route: '/sebi',
-    ),
-    _MenuItem(
-      icon: Icons.swap_horiz_outlined,
-      title: 'Transfer Pricing',
-      subtitle: 'TP studies & Form 3CEB',
-      route: '/transfer-pricing',
-    ),
-    _MenuItem(
-      icon: Icons.currency_bitcoin_outlined,
-      title: 'Crypto / VDA',
-      subtitle: 'Virtual digital asset tax',
-      route: '/crypto-vda',
-    ),
-    _MenuItem(
-      icon: Icons.rocket_launch_outlined,
-      title: 'Startups',
-      subtitle: 'DPIIT, 80-IAC & compliance',
-      route: '/startup-compliance',
-    ),
-    _MenuItem(
-      icon: Icons.handshake_outlined,
-      title: 'LLP Compliance',
-      subtitle: 'Form 11, Form 8 & penalties',
-      route: '/llp-compliance',
-    ),
-    _MenuItem(
-      icon: Icons.factory_outlined,
-      title: 'MSME',
-      subtitle: '45-day payments & 43B(h)',
-      route: '/msme',
-    ),
-    _MenuItem(
-      icon: Icons.verified_user_outlined,
-      title: 'Advanced Audits',
-      subtitle: 'Statutory, internal & forensic',
-      route: '/advanced-audit',
-    ),
-    _MenuItem(
-      icon: Icons.gavel_outlined,
-      title: 'Faceless Assessment',
-      subtitle: 'E-proceedings & ITR-U',
-      route: '/faceless-assessment',
-    ),
-    _MenuItem(
-      icon: Icons.balance_outlined,
-      title: 'Notice Resolution Center',
-      subtitle: 'Notice triage, replies & appeals',
-      route: '/notice-resolution',
-    ),
-    _MenuItem(
-      icon: Icons.key_outlined,
-      title: 'DSC & Credential Vault',
-      subtitle: 'DSC expiry, masked access & consent',
-      route: '/dsc-vault',
-    ),
-    _MenuItem(
-      icon: Icons.event_repeat_outlined,
-      title: 'Renewal & Expiry Control',
-      subtitle: 'Renewals, retainers & SLA countdowns',
-      route: '/renewal-expiry',
-    ),
-    _MenuItem(
-      icon: Icons.currency_rupee_outlined,
-      title: 'Fee Leakage & Scope Control',
-      subtitle: 'Scope creep, disputes & recovery',
-      route: '/fee-leakage',
-    ),
-    _MenuItem(
-      icon: Icons.menu_book_outlined,
-      title: 'Knowledge Engine',
-      subtitle: 'Precedents, drafting memory & SOPs',
-      route: '/knowledge-engine',
-    ),
-    _MenuItem(
-      icon: Icons.lightbulb_outline,
-      title: 'Tax Advisory Opportunities',
-      subtitle: 'Upsell signals, scoring & proposals',
-      route: '/tax-advisory',
-    ),
-    _MenuItem(
-      icon: Icons.campaign_outlined,
-      title: 'Lead Funnel & Campaigns',
-      subtitle: 'Lead intake, campaigns & ROI',
-      route: '/lead-funnel',
-    ),
-    _MenuItem(
-      icon: Icons.public_outlined,
-      title: 'NRI & Cross-Border Tax Desk',
-      subtitle: 'DTAA, FTC & foreign asset workflows',
-      route: '/nri-tax',
-    ),
-    _MenuItem(
-      icon: Icons.business_center_outlined,
-      title: 'SME Tax CFO Retainers',
-      subtitle: 'Forecasting, board packs & advisory',
-      route: '/sme-cfo',
-    ),
-    _MenuItem(
-      icon: Icons.domain_add_outlined,
-      title: 'Industry Vertical Playbooks',
-      subtitle: 'Sector playbooks & bundled services',
-      route: '/industry-playbooks',
-    ),
-    // AI-First & Future-Ready
-    _MenuItem(
-      icon: Icons.eco_outlined,
-      title: 'ESG Reporting',
-      subtitle: 'BRSR, carbon tax & SEBI sustainability',
-      route: '/esg-reporting',
-    ),
-    _MenuItem(
-      icon: Icons.account_balance_wallet_outlined,
-      title: 'Virtual CFO Platform',
-      subtitle: 'MIS dashboards, scenario planning & board packs',
-      route: '/virtual-cfo',
-    ),
-    _MenuItem(
-      icon: Icons.document_scanner_outlined,
-      title: 'Intelligent Document Processing',
-      subtitle: 'AI OCR for Form 16, 26AS & bank statements',
-      route: '/idp',
-    ),
-    _MenuItem(
-      icon: Icons.notifications_active_outlined,
-      title: 'Regulatory Intelligence',
-      subtitle: 'Daily circular digest & client-impact analysis',
-      route: '/regulatory-intelligence',
-    ),
-    _MenuItem(
-      icon: Icons.leaderboard_outlined,
-      title: 'Practice Benchmarking',
-      subtitle: 'Peer comparison, pricing & growth scoring',
-      route: '/practice-benchmarking',
-    ),
-    // General
-    _MenuItem(
-      icon: Icons.monitor_heart_outlined,
-      title: 'Staff Monitoring',
-      subtitle: 'Activity logs, restrictions & alerts',
-      route: '/staff-monitoring',
-    ),
-    _MenuItem(
-      icon: Icons.settings_outlined,
-      title: 'Settings',
-      subtitle: 'App preferences and account',
-      route: '/settings',
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // -----------------------------------------------------------------------
+  // Build
+  // -----------------------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final filtered = filterMenuItems(kMoreMenuItems, _searchQuery);
+    final groups = groupMenuItemsByCategory(filtered);
+    final isSearching = _searchQuery.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -331,6 +59,7 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
         actions: [
+          const SearchAction(),
           IconButton(
             icon: Icon(_isGridView ? Icons.view_list : Icons.grid_view),
             tooltip: _isGridView ? 'List view' : 'Grid view',
@@ -342,59 +71,114 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
           ),
         ],
       ),
-      body: _isGridView ? _buildGridView(theme) : _buildListView(theme),
-    );
-  }
-
-  Widget _buildListView(ThemeData theme) {
-    return ListView(
-      children: [
-        _ProfileCard(theme: theme),
-        const SizedBox(height: 8),
-        for (int i = 0; i < _menuItems.length; i++) ...[
-          _MenuTile(item: _menuItems[i]),
-          if (i < _menuItems.length - 1) const Divider(height: 1, indent: 72),
+      body: ListView(
+        children: [
+          _ProfileCard(theme: theme),
+          _buildSearchBar(),
+          const SizedBox(height: AppSpacing.xs),
+          if (groups.isEmpty)
+            _buildEmptySearch(theme)
+          else
+            for (final group in groups)
+              _CategorySection(
+                group: group,
+                isGridView: _isGridView,
+                initiallyExpanded: isSearching,
+              ),
+          _buildFooter(theme),
         ],
-        _buildFooter(theme),
-      ],
+      ),
     );
   }
 
-  Widget _buildGridView(ThemeData theme) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = screenWidth >= 600 ? 4 : 3;
+  // -----------------------------------------------------------------------
+  // Search bar
+  // -----------------------------------------------------------------------
 
-    return ListView(
-      children: [
-        _ProfileCard(theme: theme),
-        const SizedBox(height: 8),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8,
-            childAspectRatio: 0.95,
+  Widget _buildSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs,
+      ),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          hintText: 'Search modules...',
+          prefixIcon: const Icon(Icons.search, color: AppColors.neutral400),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear, color: AppColors.neutral400),
+                  onPressed: () {
+                    setState(() {
+                      _searchController.clear();
+                      _searchQuery = '';
+                    });
+                  },
+                )
+              : null,
+          filled: true,
+          fillColor: AppColors.surface,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
           ),
-          itemCount: _menuItems.length,
-          itemBuilder: (context, index) {
-            final item = _menuItems[index];
-            return _GridCard(item: item);
-          },
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(_kSearchBorderRadius),
+            borderSide: const BorderSide(color: AppColors.neutral100),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(_kSearchBorderRadius),
+            borderSide: const BorderSide(color: AppColors.neutral100),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(_kSearchBorderRadius),
+            borderSide: const BorderSide(color: AppColors.primary),
+          ),
         ),
-        _buildFooter(theme),
-      ],
+        onChanged: (value) {
+          setState(() {
+            _searchQuery = value;
+          });
+        },
+      ),
     );
   }
+
+  // -----------------------------------------------------------------------
+  // Empty search state
+  // -----------------------------------------------------------------------
+
+  Widget _buildEmptySearch(ThemeData theme) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+      child: Center(
+        child: Column(
+          children: [
+            const Icon(Icons.search_off, size: 48, color: AppColors.neutral400),
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              'No modules found',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.neutral400,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // -----------------------------------------------------------------------
+  // Footer
+  // -----------------------------------------------------------------------
 
   Widget _buildFooter(ThemeData theme) {
     return Column(
       children: [
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.lg),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
           child: OutlinedButton.icon(
             onPressed: _isSigningOut ? null : _signOut,
             icon: _isSigningOut
@@ -410,11 +194,11 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             ),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: AppColors.error),
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.md),
         Center(
           child: Text(
             'CADesk v0.1.0',
@@ -423,21 +207,25 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: AppSpacing.xl),
       ],
     );
   }
+
+  // -----------------------------------------------------------------------
+  // Sign out
+  // -----------------------------------------------------------------------
 
   Future<void> _signOut() async {
     setState(() => _isSigningOut = true);
     try {
       await ref.read(authProvider.notifier).signOut();
-      // Router's auth redirect will navigate to /login automatically.
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('Sign out error: $e\n$st');
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Sign out failed: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sign out failed. Please try again.')),
+        );
       }
     } finally {
       if (mounted) {
@@ -447,50 +235,190 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
   }
 }
 
-class _ProfileCard extends StatelessWidget {
+// ---------------------------------------------------------------------------
+// _CategorySection — one collapsible group
+// ---------------------------------------------------------------------------
+
+class _CategorySection extends StatelessWidget {
+  const _CategorySection({
+    required this.group,
+    required this.isGridView,
+    required this.initiallyExpanded,
+  });
+
+  final MoreCategoryGroup group;
+  final bool isGridView;
+  final bool initiallyExpanded;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.sm,
+        vertical: AppSpacing.xxs,
+      ),
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_kCardBorderRadius),
+          side: const BorderSide(color: AppColors.neutral100),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: ExpansionTile(
+          key: PageStorageKey<String>(group.name),
+          initiallyExpanded: initiallyExpanded,
+          tilePadding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.xxs,
+          ),
+          shape: const Border(),
+          collapsedShape: const Border(),
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  group.name,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.xs,
+                  vertical: AppSpacing.xxs,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withAlpha(26),
+                  borderRadius: BorderRadius.circular(AppSpacing.sm),
+                ),
+                child: Text(
+                  '${group.items.length}',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          children: [
+            if (isGridView) _buildSectionGrid(context) else _buildSectionList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionGrid(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth >= 600 ? 4 : 3;
+    final availableWidth =
+        screenWidth -
+        (AppSpacing.sm * 2) -
+        (AppSpacing.xs * (crossAxisCount - 1));
+    final tileWidth = availableWidth / crossAxisCount;
+    final tileHeight = tileWidth / 0.95; // match original aspect ratio
+
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: AppSpacing.sm,
+        right: AppSpacing.sm,
+        bottom: AppSpacing.sm,
+      ),
+      child: Wrap(
+        spacing: AppSpacing.xs,
+        runSpacing: AppSpacing.xs,
+        children: [
+          for (final item in group.items)
+            SizedBox(
+              width: tileWidth,
+              height: tileHeight,
+              child: _GridCard(item: item),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionList() {
+    return Column(
+      children: [
+        for (int i = 0; i < group.items.length; i++) ...[
+          _MenuTile(item: group.items[i]),
+          if (i < group.items.length - 1) const Divider(height: 1, indent: 72),
+        ],
+      ],
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// _ProfileCard
+// ---------------------------------------------------------------------------
+
+class _ProfileCard extends ConsumerWidget {
   const _ProfileCard({required this.theme});
 
   final ThemeData theme;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider).asData?.value;
+    final user = authState is AuthAuthenticated ? authState.user : null;
+    final displayName =
+        (user?.userMetadata?['display_name'] as String?)?.trim() ??
+        user?.email?.split('@').first ??
+        'CA Professional';
+    final email = user?.email ?? '';
+
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.md),
       child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(_kCardBorderRadius),
+          side: const BorderSide(color: AppColors.neutral100),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSpacing.md),
           child: Row(
             children: [
               CircleAvatar(
                 radius: 28,
                 backgroundColor: AppColors.primary,
-                child: const Text(
-                  'CA',
-                  style: TextStyle(
+                child: Text(
+                  displayName.isNotEmpty ? displayName[0].toUpperCase() : 'CA',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'CA Professional',
+                      displayName,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'ca@example.com',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral400,
+                    if (email.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        email,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.neutral400,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),
@@ -506,10 +434,14 @@ class _ProfileCard extends StatelessWidget {
   }
 }
 
+// ---------------------------------------------------------------------------
+// _MenuTile — list-view item
+// ---------------------------------------------------------------------------
+
 class _MenuTile extends StatelessWidget {
   const _MenuTile({required this.item});
 
-  final _MenuItem item;
+  final MoreMenuItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -538,16 +470,25 @@ class _MenuTile extends StatelessWidget {
   }
 }
 
+// ---------------------------------------------------------------------------
+// _GridCard — grid-view item
+// ---------------------------------------------------------------------------
+
 class _GridCard extends StatelessWidget {
   const _GridCard({required this.item});
 
-  final _MenuItem item;
+  final MoreMenuItem item;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(_kCardBorderRadius),
+        side: const BorderSide(color: AppColors.neutral100),
+      ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
@@ -556,7 +497,10 @@ class _GridCard extends StatelessWidget {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xs,
+            vertical: AppSpacing.sm,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -565,7 +509,7 @@ class _GridCard extends StatelessWidget {
                 backgroundColor: AppColors.primary.withAlpha(26),
                 child: Icon(item.icon, color: AppColors.primary, size: 22),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.xs),
               Text(
                 item.title,
                 textAlign: TextAlign.center,
@@ -581,18 +525,4 @@ class _GridCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class _MenuItem {
-  const _MenuItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    this.route,
-  });
-
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final String? route;
 }
