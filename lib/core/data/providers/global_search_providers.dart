@@ -139,7 +139,8 @@ List<SearchResult> _searchClients(Ref ref, String query) {
         (c) => SearchResult(
           icon: Icons.person_outline,
           title: c.name,
-          subtitle: '${c.clientType.label} - ${c.pan}',
+          subtitle:
+              '${c.clientType.label} - ***${c.pan.substring(c.pan.length > 4 ? c.pan.length - 4 : 0)}',
           category: SearchResultCategory.clients,
           route: '/clients/${c.id}',
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:ca_app/core/auth/auth_state.dart';
 import 'package:ca_app/core/auth/supabase_auth_provider.dart';
 import 'package:ca_app/core/theme/app_colors.dart';
 import 'package:ca_app/core/theme/app_spacing.dart';
@@ -219,11 +220,12 @@ class _MoreScreenState extends ConsumerState<MoreScreen> {
     setState(() => _isSigningOut = true);
     try {
       await ref.read(authProvider.notifier).signOut();
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('Sign out error: $e\n$st');
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Sign out failed: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sign out failed. Please try again.')),
+        );
       }
     } finally {
       if (mounted) {
@@ -358,13 +360,21 @@ class _CategorySection extends StatelessWidget {
 // _ProfileCard
 // ---------------------------------------------------------------------------
 
-class _ProfileCard extends StatelessWidget {
+class _ProfileCard extends ConsumerWidget {
   const _ProfileCard({required this.theme});
 
   final ThemeData theme;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider).asData?.value;
+    final user = authState is AuthAuthenticated ? authState.user : null;
+    final displayName =
+        (user?.userMetadata?['display_name'] as String?)?.trim() ??
+        user?.email?.split('@').first ??
+        'CA Professional';
+    final email = user?.email ?? '';
+
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Card(
@@ -377,12 +387,12 @@ class _ProfileCard extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.md),
           child: Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 28,
                 backgroundColor: AppColors.primary,
                 child: Text(
-                  'CA',
-                  style: TextStyle(
+                  displayName.isNotEmpty ? displayName[0].toUpperCase() : 'CA',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -395,18 +405,20 @@ class _ProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'CA Professional',
+                      displayName,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'ca@example.com',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.neutral400,
+                    if (email.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        email,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.neutral400,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),

@@ -308,11 +308,13 @@ final filteredKanbanCardsProvider = Provider<Map<String, List<KanbanCardData>>>(
 /// Unique assignee names for filter dropdown.
 final kanbanAssigneesProvider = Provider<List<String>>((ref) {
   final cards = ref.watch(kanbanCardsProvider);
-  return cards.map((c) => c.assignee).toSet().toList()..sort();
+  final sorted = (cards.map((c) => c.assignee).toSet().toList())..sort();
+  return List.unmodifiable(sorted);
 });
 
 /// Unique client names for filter dropdown.
 final kanbanClientsProvider = Provider<List<String>>((ref) {
   final cards = ref.watch(kanbanCardsProvider);
-  return cards.map((c) => c.clientName).toSet().toList()..sort();
+  final sorted = (cards.map((c) => c.clientName).toSet().toList())..sort();
+  return List.unmodifiable(sorted);
 });

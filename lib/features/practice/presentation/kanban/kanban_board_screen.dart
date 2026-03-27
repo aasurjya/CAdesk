@@ -27,11 +27,13 @@ class _KanbanBoardScreenState extends ConsumerState<KanbanBoardScreen> {
     final targetColumn = columnId ?? columns.first.id;
     final newId = 'kb-${DateTime.now().millisecondsSinceEpoch}';
 
+    final assignees = ref.read(kanbanAssigneesProvider);
+    final defaultAssignee = assignees.isNotEmpty ? assignees.first : '';
     final newCard = KanbanCardData(
       id: newId,
       title: 'New Task',
       description: '',
-      assignee: ref.read(kanbanAssigneesProvider).first,
+      assignee: defaultAssignee,
       priority: KanbanPriority.medium,
       dueDate: DateTime.now().add(const Duration(days: 7)),
       clientName: 'Unassigned',

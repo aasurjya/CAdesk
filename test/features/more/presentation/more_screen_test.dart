@@ -43,20 +43,26 @@ void main() {
       expect(find.text('CA Professional'), findsOneWidget);
     });
 
-    testWidgets('renders ca@example.com email in profile', (tester) async {
+    testWidgets('does not render placeholder email when unauthenticated', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(find.text('ca@example.com'), findsOneWidget);
+      // When unauthenticated, no email is shown (email field is hidden)
+      expect(find.text('ca@example.com'), findsNothing);
     });
 
-    testWidgets('renders CA avatar initials', (tester) async {
+    testWidgets('renders profile avatar initial from display name', (
+      tester,
+    ) async {
       await _setViewport(tester);
       await tester.pumpWidget(_buildScreen());
       await tester.pumpAndSettle();
 
-      expect(find.text('CA'), findsOneWidget);
+      // Unauthenticated fallback: 'CA Professional' → first letter 'C'
+      expect(find.text('C'), findsOneWidget);
     });
 
     testWidgets('renders Sign Out button when scrolled', (tester) async {

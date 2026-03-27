@@ -86,11 +86,12 @@ class _Client360ScreenState extends ConsumerState<Client360Screen>
         SnackBar(content: Text('"${client.name}" has been deleted.')),
       );
       context.pop();
-    } catch (e) {
+    } catch (e, st) {
+      debugPrint('Delete client error: $e\n$st');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to delete client: $e'),
+          content: const Text('Failed to delete client. Please try again.'),
           backgroundColor: Theme.of(context).colorScheme.error,
         ),
       );

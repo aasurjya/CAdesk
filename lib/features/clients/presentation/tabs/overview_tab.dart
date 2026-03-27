@@ -33,6 +33,13 @@ class OverviewTab extends StatelessWidget {
   }
 }
 
+/// Returns a masked Aadhaar string showing only the last 4 digits.
+String _maskAadhaar(String aadhaar) {
+  final digits = aadhaar.replaceAll(' ', '');
+  if (digits.length < 4) return '****';
+  return 'XXXX XXXX ${digits.substring(digits.length - 4)}';
+}
+
 // ---------------------------------------------------------------------------
 // Contact information card
 // ---------------------------------------------------------------------------
@@ -101,7 +108,7 @@ class _ContactSection extends StatelessWidget {
               _ContactRow(
                 icon: Icons.fingerprint,
                 label: 'Aadhaar',
-                value: client.aadhaar!,
+                value: _maskAadhaar(client.aadhaar!),
               ),
           ],
         ),

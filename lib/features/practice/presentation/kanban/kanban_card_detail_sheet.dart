@@ -95,9 +95,13 @@ class _KanbanCardDetailSheetState
 
   void _toggleSubtask(int index) {
     setState(() {
-      final current = _subtasks[index];
-      _subtasks = List.of(_subtasks);
-      _subtasks[index] = current.copyWith(isCompleted: !current.isCompleted);
+      _subtasks = [
+        for (int i = 0; i < _subtasks.length; i++)
+          if (i == index)
+            _subtasks[i].copyWith(isCompleted: !_subtasks[i].isCompleted)
+          else
+            _subtasks[i],
+      ];
     });
   }
 

@@ -151,9 +151,9 @@ class DashboardScreen extends StatelessWidget {
   }
 
   int _crossAxisCount(double width) {
-    if (width >= 1200) return 4;
+    if (width >= 1200) return 6;
     if (width >= 720) return 4;
-    if (width >= 560) return 2;
+    if (width >= 560) return 3;
     return 2;
   }
 }
