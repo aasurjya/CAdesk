@@ -94,7 +94,11 @@ class FakeStorageFileApi extends StorageFileApi {
   }
 
   @override
-  Future<Uint8List> download(String path, {TransformOptions? transform}) async {
+  Future<Uint8List> download(
+    String path, {
+    Map<String, String>? queryParams,
+    TransformOptions? transform,
+  }) async {
     _state.downloadCalls.add(path);
     if (_state.downloadError != null) {
       throw _state.downloadError!; // ignore: only_throw_errors

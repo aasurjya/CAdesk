@@ -12,9 +12,9 @@ void main() {
       testWidgets('renders child content', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.error,
-            child: const Text('Child Content'),
+            child: Text('Child Content'),
           ),
         );
 
@@ -24,9 +24,9 @@ void main() {
       testWidgets('renders nested widget tree as child', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.success,
-            child: const Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [Text('Title'), Text('Subtitle')],
             ),
@@ -42,9 +42,9 @@ void main() {
       testWidgets('shows red left border for overdue', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.error,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -60,9 +60,9 @@ void main() {
       testWidgets('shows amber left border for due soon', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.warning,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -77,9 +77,9 @@ void main() {
       testWidgets('shows green left border for safe', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.success,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -94,9 +94,9 @@ void main() {
       testWidgets('shows grey left border for completed', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.neutral300,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -113,10 +113,10 @@ void main() {
       testWidgets('applies custom border width', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.error,
             borderWidth: 6.0,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -131,9 +131,9 @@ void main() {
       testWidgets('default border width is 4.0', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.success,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -169,9 +169,9 @@ void main() {
       testWidgets('no GestureDetector when onTap is null', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.success,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -183,10 +183,10 @@ void main() {
       testWidgets('applies box shadow when elevation is set', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.error,
             elevation: 2,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 
@@ -201,9 +201,9 @@ void main() {
       testWidgets('no shadow when elevation is null', (tester) async {
         await pumpTestWidget(
           tester,
-          UrgencyBorderCard(
+          const UrgencyBorderCard(
             urgencyColor: AppColors.error,
-            child: const SizedBox(width: 100, height: 50),
+            child: SizedBox(width: 100, height: 50),
           ),
         );
 

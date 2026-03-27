@@ -38,7 +38,7 @@ final _testClient = Client(
   dateOfBirth: DateTime(1975, 6, 15),
 );
 
-final _testHealthScore = ClientHealthScore(
+const _testHealthScore = ClientHealthScore(
   clientId: _testId,
   overallScore: 85,
   itrStatus: 'Filed',
